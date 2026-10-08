@@ -1,0 +1,206 @@
+{
+  "schema": "synapse-lie.q2-core-model-flow-2k8k-plan.v1",
+  "label": "q2-core-model-flow-2k8k-r1",
+  "prepared_at": "2026-10-08T15:28:40.829785+00:00",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "previous_release": "halo-r70-build-20261008-r1/release.json",
+  "previous_release_sha256": "77a0bad7cd21c8c6b8100dbbb3dc0487ee3a66a4482131f4ddf9396a6f651b17",
+  "previous_closure_sha256": "58df4ebb2a884c180b0766f8d078b7003db4c0792e2796411443acc5451eba53",
+  "foundation_release_sha256": "1a3c604be032ead8b02f8ff46e36738f20e135a8f11524022a0c2a90386c81ed",
+  "source_manifest_sha256": "5ee33be5673438e93922d3ba8997229282da8231923076d1945d7f5e84e69f4b",
+  "binary_sha256": "54b1493fa7d34ba9fca3c11240da9a8e21d1f8bd1381479cd04e6a9f02ec3ea4",
+  "runner_sha256": "7e3fa9271955ea06f0e54feebc644e46508d8f4739c43050cfd0758bd97c7dd7",
+  "input_manifest_sha256": "dc564ebac5cf930fc85d1ec16cdcaa5a156acd3a9cf6b8b2c0a9eb6bd0b47572",
+  "model_stats": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 53,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 53,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 53,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 53,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 53,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 53,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 53,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "inputs": [
+    {
+      "tokens": 2048,
+      "file": "tokens-2048.json",
+      "physical_ids_sha256": "d2e8f5496d51449ab4e252db3993ff7de6837f0cf47fc85dfe26a8e4ec97e168",
+      "file_sha256": "fb62daf7efee03c6dc4b39d2569e982b6d9b555967f323a0f71251ee30fe6a24",
+      "bytes": 10138
+    },
+    {
+      "tokens": 4096,
+      "file": "tokens-4096.json",
+      "physical_ids_sha256": "59c531017506c6d4c10c7c7a828ff9d78617457fedbe44f51d0b323352846311",
+      "file_sha256": "d4bde681505e5939887b0fa327f00fdad2c863837df94b4dc4bbd7d42bcd5da1",
+      "bytes": 20185
+    },
+    {
+      "tokens": 6144,
+      "file": "tokens-6144.json",
+      "physical_ids_sha256": "c338898f9fff9643cd97f22e94975dd609dc1bc8cf9896ddf46593c17ea1bd76",
+      "file_sha256": "3dbe9e567c00e2eeb6025f69a1915dc9b688e647bad258bfb76f766ae1ffaa1f",
+      "bytes": 30297
+    },
+    {
+      "tokens": 8192,
+      "file": "tokens-8192.json",
+      "physical_ids_sha256": "07a9854e4b2cf412c63c1338679c20e2b8bbcf555aefb8baccdd22a3d31a900f",
+      "file_sha256": "02ec0cee87f77f902b957f1afc178b4c7db723580de75b9159a0ec09b61e7b29",
+      "bytes": 40458
+    }
+  ],
+  "order": [
+    {
+      "tokens": 2048,
+      "users": 1
+    },
+    {
+      "tokens": 2048,
+      "users": 2
+    },
+    {
+      "tokens": 2048,
+      "users": 4
+    },
+    {
+      "tokens": 2048,
+      "users": 6
+    },
+    {
+      "tokens": 2048,
+      "users": 8
+    },
+    {
+      "tokens": 4096,
+      "users": 1
+    },
+    {
+      "tokens": 4096,
+      "users": 2
+    },
+    {
+      "tokens": 4096,
+      "users": 4
+    },
+    {
+      "tokens": 4096,
+      "users": 6
+    },
+    {
+      "tokens": 4096,
+      "users": 8
+    },
+    {
+      "tokens": 6144,
+      "users": 1
+    },
+    {
+      "tokens": 6144,
+      "users": 2
+    },
+    {
+      "tokens": 6144,
+      "users": 4
+    },
+    {
+      "tokens": 6144,
+      "users": 6
+    },
+    {
+      "tokens": 6144,
+      "users": 8
+    },
+    {
+      "tokens": 8192,
+      "users": 1
+    },
+    {
+      "tokens": 8192,
+      "users": 2
+    },
+    {
+      "tokens": 8192,
+      "users": 4
+    },
+    {
+      "tokens": 8192,
+      "users": 6
+    },
+    {
+      "tokens": 8192,
+      "users": 8
+    }
+  ],
+  "prefill_chunk": 2048,
+  "output_tokens": 128,
+  "context_capacity": 133760,
+  "warmups": 0,
+  "repetitions": 1,
+  "arm_timeout_seconds": 900,
+  "gpu_admitted": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "service_or_tuning_change": false,
+  "iommu": "off",
+  "staged_sha256": {
+    "synapse-lie-bench": "54b1493fa7d34ba9fca3c11240da9a8e21d1f8bd1381479cd04e6a9f02ec3ea4",
+    "q2-core-model-flow-window.py": "7e3fa9271955ea06f0e54feebc644e46508d8f4739c43050cfd0758bd97c7dd7",
+    "cpu-tests.json": "0e004450a4dfe09e8f408ee59a57e487af7487fe2fec8d703dc8b19fb814ebbe",
+    "input-manifest.json": "dc564ebac5cf930fc85d1ec16cdcaa5a156acd3a9cf6b8b2c0a9eb6bd0b47572",
+    "tokens-2048.json": "fb62daf7efee03c6dc4b39d2569e982b6d9b555967f323a0f71251ee30fe6a24",
+    "tokens-4096.json": "d4bde681505e5939887b0fa327f00fdad2c863837df94b4dc4bbd7d42bcd5da1",
+    "tokens-6144.json": "3dbe9e567c00e2eeb6025f69a1915dc9b688e647bad258bfb76f766ae1ffaa1f",
+    "tokens-8192.json": "02ec0cee87f77f902b957f1afc178b4c7db723580de75b9159a0ec09b61e7b29"
+  },
+  "scope": "Q2 original-weight LIE --suite core; 20 independent fresh processes with exact Promessi physical prefixes 2048/4096/6144/8192, C1/C2/C4/C6/C8; each user has full prompt; model-owned serial prefill and native reactive decode; chunk2048/TG128/capacity133760/greedy/cacheOFF/warm0/reps1. CPU temperature gate <=98 C. No model/DS4 source, build, service, tune, reboot, cleanup or dependency mutation."
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-select-score-group4-static.v1",
+  "at": "2026-10-07T05:35:07.639950+00:00",
+  "provider_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "provider_source_changed": false,
+  "control": {
+    "vgpr": 115,
+    "private_bytes": 0
+  },
+  "group4": {
+    "vgpr": 185,
+    "private_bytes": 0
+  },
+  "assembly_sha256": "107cc7abf242bc3ca309f78b9a0891ccfe41b403e19338c4d38971262bbdd818",
+  "local_fixture_binary_sha256": "7c5c13092e5a6db7f49dd0323f027b6847779298e629e8a60f33a427a431bd84",
+  "experiment_sha256": "032b392785c87a70e6db83721263ae9e23cff015be78feff848b7599a0800599",
+  "fixture_sha256": "6b7f71e206ace4459c2ebbaa3284614a301b088c1a628da56b06a4852038a56d",
+  "local_hip_target_built": true,
+  "GPU_run": false,
+  "model_inference": false,
+  "performance_claim": false
+}

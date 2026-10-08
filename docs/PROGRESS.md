@@ -1,6 +1,4578 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+The current r70 `.161` recall ladder passes both cold turns through near-1M
+physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
+passes complete capture, independent bank reconstruction and strong closure.
+The first held-out steering run saves 68/70 responses before HTTP429. After
+correcting response retention, the unchanged complete cohort finishes: all
+seventy wire responses and stored policies independently verify, but quality
+fails. Baseline arithmetic is 6/10; twenty negative-scale outputs truncate.
+Collection, whole-container retirement, four-peer release and portable evidence
+verification pass. The separate `.161` 786K cohort now also passes both exact
+answers, independent saved-wire review, collection and complete retirement.
+The near-1M cohort now passes complete independent saved-wire review and
+whole-container retirement. Root owns no remote window; no future window is reserved.
+All six root tasks remain open; Terminal Bench stays last.
+
+## Current Q2/walk original-weight integration gate passed — 2026-10-08 UTC
+
+The combined `9e95e4c4` source, with production code unchanged from
+`f902ad45`, passes all fourteen native commands in
+`halo-develop-q2-functional-20261008-r2`, manifest `49cea499`.
+Four specific declarations and the 20:12:17.829905 UTC fresh observation
+precede original five-FD admission. Controller31728 and supervisor17633 finish0.
+The prepared r1 is superseded before staging or GPU work; its files remain.
+
+Independent offline review passes0: original Q2 and UD-Q4 walks at
+2K/4K/6K/8K have identical physical inputs, PP/TG logits hashes and output IDs
+under snapshot/replay and matched original sampling. All twenty samples
+produce TG128. Restores use pristine sequences and remain outside timed PP/TG.
+Current Q2 core C2 at 8K matches the walk C1 continuation with 128 real batch
+calls. UD-Q4 direct/core C1/C2 output parity also passes; greedy MTP emits the
+same 32 IDs with 28 draft and 12 accepted tokens. The held-output peer-progress
+and cancellation probe and thirteen generated GPU component cases pass.
+
+Original lease descriptors close at 20:20:37.061544 UTC. Collection and strong
+closure at 20:21:09.657704 UTC verify 104 artifacts, 27 identity records,
+15 whole groups in two scans, empty KFD, eight unchanged model stats and all
+five original leases free and released. All four final notices are delivered.
+CPU/GPU/NVMe peaks are 87.75/89/72.85 C; no CPU or SSD guard trips.
+The [receipt and independently rehashed 176-member archive](development/validation/develop-q2-halo-functional-2026-10-08.json)
+preserve the complete commands, raw corpus, outputs, phase measurements,
+build bindings and actual exits.
+
+This passes the selected current-provider format/walk gate required for the
+final `develop` integration. It does not promote the optimized historical Q2
+capsule or erase its C2+ failure. Matched performance and the six broader
+roadmap tasks remain open. Root owns no remote job, handle, GPU client, lease,
+waiter, reservation or future grant.
+
+## Combined Q2/walk Halo HIP build verified and closed — 2026-10-08 UTC
+
+The exact compile-only window `halo-develop-q2-build-20261008-r1`, manifest
+`2e08ae71`, uses source `9e95e4c4` after four new specific non-use declarations
+and fresh global/original-FD admission on `.157`. Existing native ROCm7.2.4
+targets gfx1151 with one compiler job. Both primary C17 sampling ON and its
+matched OFF provider include the original Q2/IQ2 format recipe; all four
+compiler commands and seven linked consumers finish with exit0. Product
+configuration disables Python discovery and historical Python oracles.
+
+Controller34966 retires0 and the five original lease descriptors close at
+19:23:23.742237 UTC. Collection/strong closure at 19:24:50.182704 UTC verifies
+24 artifacts, all 3,015 frozen sources, seven binaries, six provider archives,
+eight unchanged model stats, two complete process/group scans, empty KFD and
+all five original leases free. All four peers receive final release. CPU/NVMe/
+GPU peaks are 76.125/47.85/39 C; no guard trips. No model payload/hash/conversion,
+GPU kernel, service, installation, tuning or Terminal Bench runs.
+
+The [receipt and 59-member portable archive](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
+bind actual commands and selections. Root holds no job, lease, waiter or future
+grant. Original-weight walk/Q2 and UD-Q4 regression gates still precede the
+final `develop` merge; the separate `develop-integration` worktree is prepared
+at `30598a3` without merging. Broader roadmap acceptance remains open.
+
+## Source branch consolidation — 2026-10-08 UTC
+
+Checkpoint `78e5833e` includes the complete OpenAI/reactive `db2031a0`,
+million-context `f7879b34`, C17 sampling `43239127`, native Gufo curve `b598e4c1`
+and Q2 handoff `6d0098a0` histories. Current timeout, walk, prefill and source
+verification corrections are preserved. Historical Q2 numerical experiments
+are explicitly labeled and remain outside canonical product inputs; their
+C2+ output mismatch is retained. DGX/CUDA and GLM remain separate owned branches.
+
+An exact Git comparison verifies that canonical build, core, provider, native
+benchmark and test sources are unchanged from `f902ad45`; the walk and Q2 HOST
+receipts retain their qualified scope. No new GPU or remote operation occurs.
+`develop` remains at `30598a3`. Combined HIP compilation and original-weight
+walk/Q2 regression gates precede the final integration merge and push. Broader
+context/feature acceptance and matched performance remain open; Terminal Bench
+stays last.
+
+## Historical Q2 model-owned matrix — 2026-10-08 UTC
+
+These observations belong to the isolated Q2 capsule. They do not qualify
+the current provider composition; its C2+ continuation mismatch remains open.
+
+2026-10-08 15:47 UTC: Q2 model-owned core 2K/4K/6K/8K × C1/C2/C4/C6/C8
+completes on .157 (20/20 original-weight arms, 128 output tokens/user,
+exact Promessi physical prompts, chunk2048/cache off/IOMMU off). Serial PP
+at8K is1508.53 tok/s C1 and1472.41 C8; native TG grows27.95→91.33,
+while whole-cohort wall output grows12.70→18.22. All C2+ arms issue128
+native batches of full cohort width. Crucially, C1 outputs match the saved
+DS4 walk at all four depths, but C2+ continuations differ from C1 (first
+difference at output token14/7/10/15 for2K/4K/6K/8K); no batch output-parity
+claim. All205 result files/1,750,372bytes hash-verify on both hosts. Release
+SHA3b8764a6, independent strong closure15:47:47 SHA53cb819e:32 identities/
+31 groups retired, KFDempty, five free original leases, unchanged seven
+reference and GLM model stats. Four peer notices delivered. Q2 owns no host,
+job, lease, waiter or next reservation. [Full table, graph and limits](Q2-CORE-MULTI-2K8K.md).
+
+2026-10-08 15:21 UTC: prepare a model-owned core benchmark of exact
+Promessi 2K/4K/6K/8K physical prompts at C1/C2/C4/C6/C8. The benchmark
+submits jobs only; `src/worker.c` serializes prefill and sends ready rows to
+native reactive decode. Add unique model-owner phase counters and physical
+PP/TG rates to avoid summing overlapping per-job decode time. Focused Debug
+and ASan/UBSan CTests both pass 2/2; their synthetic fixture is not GPU
+evidence. The earlier `ds4-walk-multi` prefix-cloning prototype was reverted
+as a59f7228; its measurements must not represent independent users. GPU
+coordination and original-weight results remain pending.
+[Contract and planned matrix](CORE-MODEL-FLOW.md).
+
+
+## Original Qwen IQ2/Q2 format source transfer — 2026-10-08 UTC
+
+The current provider recipe now applies the selected `patches/gufo-q2.patch`
+through 38 exact JSON replacements in 15 official-Gufo files. Default-ON
+`LIE_QWEN_Q2_FORMATS` selects original IQ2_XXS AR experts, padded Q2_K down
+storage and exact F16 HC injection widening. The unused MXFP4 predictor has
+descriptor recognition only. Existing C17 core/state/sampling/reactive source
+remains unchanged; historical optimized provider/core capsules are excluded
+from canonical build inputs. Source/patch provenance and boolean selection
+are checked in both provider and client receipts, including coherent OFF
+controls and the Point build route. Older receipts require an explicit rebuild.
+
+The independent patch application matches every selected file in pristine and
+current-feature composition; unrelated provider hashes stay identical with
+the format option OFF/ON. Synthetic metadata checks preserve logical640 and
+physical768 widths, recognize only the pinned legacy RoPE profile and refuse
+malformed metadata. The [HOST receipt](development/validation/qwen-q2-formats-native-host-2026-10-08.json)
+records 5/5 Debug and 5/5 unsuppressed ASan/UBSan/LeakSanitizer checks, no skips.
+The initial relative-path test failure is retained; correcting test path
+normalization changes no numerical code or acceptance threshold. Peak CPU is
+89.625 C, below CPU98; no GPU/model or remote work occurs. Coherent HIP build
+and original-weight qualification of this new composition remain pending.
+
+## Native C17 advancing walk — 2026-10-08 UTC
+
+The current `synapse-lie-bench` now selects `--suite ds4-walk` explicitly.
+It tokenizes one raw UTF-8 corpus, records the used physical IDs once and
+advances contiguous frontiers with appended-token PP accounting. Prefix state
+is captured before TG within 1 GiB; larger/unsupported state uses replay.
+Checkpoint and pristine-sequence restore/replay have separate monotonic
+durations outside PP/TG. Mutating transfer failures terminate the run.
+The report verifies prefix hashes, phase bounds and restore chronology;
+CSV/JSON summarize phase durations and SVG/PNG use separate PP/TG scales.
+The [usage guide](guides/BENCHMARKS.md#incremental-raw-corpus-walk) has current
+options. The earlier Q2 page now labels its distinct historical CLI and binary.
+
+Focused Debug and unsuppressed ASan/UBSan/LeakSanitizer groups pass 3/3 each:
+the new walk contract, existing native benchmark and state components.
+Snapshot/replay, warmups, EOS, bounded replay, capture/restore failures,
+malformed evidence and incompatible RoPE/measurement comparisons are covered.
+The 511-frontier/1M boundary is synthetic accounting, not inference.
+Direct reference header syntax also passes against independently fetched
+pinned Gufo; it refuses scaled RoPE. The [HOST receipt and portable logs](development/validation/ds4-walk-native-host-2026-10-08.json)
+preserve actual failures and final exits. Peak CPU across these builds/checks
+is 74 C; no thermal guard trips. No GPU/model or remote operation runs.
+The selected Q2/IQ2 format port, coherent HIP build and current-weight walk
+qualification remain pending before consolidation into `develop`.
+
+## Single-command native GPU build — 2026-10-08 UTC
+
+`make strix-halo` and `make strix-point` select gfx1151 and gfx1150 and drive
+the existing pinned-source, provider and product CMake recipes without Python.
+The standard build emits six user programs in `build/<target>/`, keeps the
+separate Gufo OFF control in the advanced recipe, and reuses a provider only
+after independent source/archive/options and target checks. A changed provider
+gets a new immutable build directory; original failure logs and exit codes
+remain under `evidence/<target>-build/`. README and usage commands use the
+actual standard output paths.
+
+The HOST build-entry fixture runs the actual Makefile and CMake driver with
+isolated synthetic provider scripts and a no-language Ninja project. It checks
+first build, reuse, preserved drift rebuilds, both architecture selections,
+wrong-target and invalid parallelism refusals, and retained configure failures.
+The standalone HIP target verifier now invokes its check in script mode;
+matching and mismatching target receipts are tested. This is orchestration
+evidence, not a new coherent HIP compile or original-weight GPU qualification.
+Focused CTest passes 4/4: build entry, source paths, provider verification and
+HIP target verification. Debug configuration disables Python discovery.
+No GPU window is opened. The separate incremental DS4 walk port remains in
+progress and is excluded from this build-entry checkpoint.
+
+## Current r70 Strix Halo functional qualification closed — 2026-10-08 UTC
+
+The owner's `.157` authorization is used for one new exact window,
+`halo-r70-functional-20261008-r2`, manifest `5be81479`, after all four specific
+non-use declarations and fresh global/original-lease checks. The prior r1 is
+superseded before GPU admission after local metadata exposes an insufficient
+binary-size bound. Both preparations remain in portable evidence.
+
+All seven native commands and controller91074 exit0: HIP/rocBLAS, thirteen
+generated WMMA cases, original UD-Q4 C1 primary/reference, production core C1/C2
+and a direct-core output-loan/backpressure/cancellation probe. Physical2048,
+TG32, context4096, chunk256, greedy and cache-off settings are fixed. Complete
+frontier hashes and all output IDs match the reference; both C2 jobs also match
+C1. The core records 32 real decode batches and 64 rows. Independent raw-byte
+and output review exits0.
+
+Original five descriptors close at 16:28:42.084904 UTC. Collection and independent
+strong closure at 16:29:35.677619 UTC verify 88 files, eight actual PID/start
+identities/eight whole groups absent in two complete scans, empty KFD, unchanged
+seven reference model stats plus GLM stats, and all five original leases free.
+All four peers receive final release. CPU/GPU/NVMe peaks are 82.5/84/71.85 C;
+no guard trips. Root owns no remote job, handle, lease, waiter or reservation.
+
+The [receipt and full portable archive](development/validation/halo-r70-functional-2026-10-08.json)
+contain 137 members. The first local archive recipe exits1 on a wrong guard
+record path before publication; corrected sealing exits0 without GPU replay.
+This selected short UD-Q4 qualification is distinct from Q2's numerical lineage,
+model long-context acceptance, feature/task quality and matched performance.
+All six roadmap tasks remain open; Terminal Bench remains last.
+
+## Current r70 YaRN4 near-1M recall verified and retired — 2026-10-08 UTC
+
+Both cold answers pass at physical 1,048,062/1,048,170 inputs and natural outputs
+38/74. Completed-call rates are PP 187.678/187.413 tok/s and TG 8.007/7.960 tok/s;
+TTFT is 5,586.228/5,594.716 s. Chunk/scratch 256, seed 77, YaRN4, capacity
+1,048,576 and RAM/SSD prefix cache off remain frozen. These are quality-workload
+timings, not repeated fixed-output performance comparisons.
+
+Original controller87744 and watcher55234 retire with exit0. Explicit HTTP
+collection verifies 18 files. Strong closure at 16:08:53.519479 UTC proves all
+five actual PID/start identities and the complete container/cgroup absent in
+two complete scans, ports8000/46787/60465 empty, four model stats unchanged,
+router391245 restored and original lease66308/105946405 free and released.
+Lease release is 16:07:24.373711 UTC. All four peers receive actual release.
+Independent full-SSE sealing and complete archive postcheck exit0.
+
+The [receipt and complete raw data](development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)
+retain the original review refusal and clarified fresh admission. The 8,965
+native thermal samples peak CPU83/GPU82/NVMe68.85 C without a guard trip.
+Read-only core progress and sampled thread counts do not establish reactive
+speedup. Six of 39 current-r70 AR profile/size/seed cohorts are now qualified;
+33 remain prepared and unadmitted. All six root tasks remain open.
+
+## Isolated Q2 source integration — 2026-10-08 UTC
+
+Branch `feature/integrate-antirez-qwen`, created from `develop`, combines the
+root checkpoint `8a857fe5` with the Q2 qualification lineage `3a6d3095`.
+The canonical C17 build and runtime sources remain unchanged. Historical Q2
+targets are isolated behind `LIE_Q2_QUALIFICATION_ONLY=ON`; their Python test
+oracles require the separate, default-off `Q2_LEGACY_PYTHON_TESTS` option.
+Both compositions configure with Python discovery disabled. The standard
+native benchmark fixture passes; its initial sandbox loopback failure remains
+in local evidence. These HOST checks do not qualify Q2 original-weight serving.
+
+The [Q2 handoff](Q2-MAIN-HANDOFF.md) identifies the selected numerical patches
+and the advancing DS4 walk to port into the current provider and native bench.
+Neither port is complete here; no historical binary or qualification is
+substituted for a new current-core build. The owner now authorizes `.157`
+tests. Read-only discovery finds existing native ROCm 7.2.4 and a ROCm 10
+toolchain image, without installing dependencies or starting a build/GPU job.
+The original `.161` near-1M window continues independently.
+
+The separate `.157` `gfx1151` build, manifest `ab718484`, now completes using
+the existing native ROCm 7.2.4 packages. Primary C17-sampling ON and matched
+OFF providers, product configuration with Python discovery disabled, and seven
+linked consumers all exit 0. CPU peaks at 72.375 C; no guard trips or model
+load occurs. Controller53221 retires 0; original lease descriptors close at
+15:07:48.726704 UTC. Independent collection/closure at 15:14:32.948099 UTC
+verifies 24 artifacts, 3,000 unchanged input source files, seven binary and six
+archive hashes, two complete process/group scans, unchanged model stats,
+empty KFD and all five original leases free. All four peers receive final
+verified release. Root holds no `.157` job, lease, waiter, reservation or
+future grant. Compilation alone qualifies neither original-weight inference
+nor numerical/performance parity; the selected Q2 ports remain pending.
+
+## Current r70 YaRN4 near-1M recall admitted — 2026-10-08 UTC
+
+After the 786K cohort is fully collected, closed, released, independently
+verified and checkpointed at `bddff391`, four new specific declarations cover
+one `.161` near-1M window. Manifest `57e76ff82` retains the r70/`4c703b3d`
+runtime, seed 77, YaRN4, capacity 1,048,576, physical target 1,048,064 and
+chunk/scratch 256. It runs three unscored calibrations and two cold natural
+TG128 turns, with RAM/SSD prefix caching disabled.
+
+Automatic review rejects the initial launch by applying another agent's
+`.157` stop request to this `.161` task. The user explicitly clarifies that
+the request concerned the other agent. The same action is then reviewed and
+accepted after new global checks at 12:57:41 UTC and original in-lease checks.
+Both the initial rejection and fresh admission records are retained; no
+launcher or GPU process was created by the rejected attempt.
+
+Controller87744 is live. At 12:59:07 UTC, supervisor282037/start8037304 holds
+original lease66308/105946405 on FD3, and init282267/start8037442 belongs to
+the full recorded container. GPU loading has not started at that observation;
+no native GPU identity or completed inference is inferred. All four peers
+receive actual admission identities. CPU98/NVMe85 guards and GPU-only
+observation remain unchanged. Root owns this window through collection,
+independent wire review, whole-container closure and all four release notices.
+
+At 13:01:15 UTC, GPU server PID 283788 (start ticks 8047083) belongs to the same
+full container, using private API port 46787 and management port 60465. Three
+calibration replies complete. The 13:02:35 read-only native view then observes
+active scored prefill, with 115 calls started and 114 returned. The GET takes
+1.441 ms; CPU, GPU and NVMe readings are 76.875, 76 and 46.85 C respectively.
+Two exact own-process snapshots later count 28 OS threads over 10.002 seconds;
+one TID consumes 9.99 CPU seconds. These observations establish neither thread
+roles, a bottleneck nor reactive speedup. All four peers receive the actual
+GPU identity. Source/runtime and frozen quality criteria remain unchanged.
+
+## Current r70 YaRN4 786K recall verified and retired — 2026-10-08 UTC
+
+After full steering collection, closure, four-peer release and checkpoint
+`0fd741e6`, four new specific declarations and the 10:26:17 UTC global check
+admit manifest `4fc4b1e5` on `.161`. Original controller92498 runs one server:
+capacity1048576, physical target786432, YaRN4/seed77/chunk256/C1, three unscored
+calibrations and two cold natural-TG128 turns, with prefix caching off.
+
+The 10:28:17 witness verifies supervisor203585/start7125960, init203816/start7126087
+and actual GPU owner205318/start7135478 in the full recorded container cgroup.
+At 10:30:36 the read-only C-core view reports three completed calibrations and
+active prefill, with 128 calls started and 127 returned. The GET takes 5.397 ms;
+CPU/GPU/NVMe readings are 76.75/76/47.85 C. This is a discrete progress and
+responsiveness witness, not matched performance, completed recall or reactive
+speedup. Source and native runtime remain unchanged. Root owns only this `.161`
+scope through collection/oracle/strong closure and four-peer release; Terminal
+Bench and future windows remain unadmitted.
+
+At 11:35:06 UTC the first complete saved response matches its exact oracle at
+786,430 physical prompt tokens and stops naturally after 38 output tokens.
+Its completed-call rates are PP 198.139 tok/s and TG 8.409 tok/s; observed TTFT
+is 3,970.928 s and total request time is 3,975.378 s. The second cold turn was
+still running at that observation. The original controller and its read-only
+observer subsequently retire with exit0. Both responses stop naturally and pass
+independently reconstructed saved-SSE answers:
+
+| Turn | Physical input | Output | Prefill tok/s | Decode tok/s | TTFT s | Wall s |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Middle binding | 786,430 | 38 | 198.139 | 8.409 | 3,970.928 | 3,975.378 |
+| Start/end bindings, full history | 786,538 | 74 | 197.833 | 8.436 | 3,977.603 | 3,986.305 |
+
+These are single-request quality-workload timings, with chunk/scratch 256 and
+zero cached tokens. They are not repeated fixed-output performance comparisons.
+The [receipt and complete raw data](development/validation/recall-yarn4-786k-ar-point-2026-10-08.json)
+retain 18 verified remote artifacts, all five actual process identities, full
+container retirement, restored router and original lease release. All four peers
+receive the verified release. The 6,450 thermal observations peak CPU 80.75,
+GPU 82 and NVMe 68.85 C; CPU/NVMe guards do not trip.
+
+The initial generic collector saves seven files and exits0; a subsequent local
+closure check exits1 before remote execution because the HTTP helper file is
+missing locally. Recollection with explicit `--kind http-recall` saves all 18
+files. Both initial records are retained in the portable archive; no inference
+is repeated. Complete wire/archive review and postcheck exit0.
+
+Read-only progress observes 235 native views and a maximum observed loopback
+GET time of 5.397 ms. Two own-process snapshots count 28 OS threads and one busy
+TID over ten seconds; source has one model owner. This establishes neither
+thread roles nor an inference bottleneck or reactive speedup.
+
+Before completing this 786K window, the near-1M target 1,048,064 receives locally
+prepared frozen inputs, admission, closure and offline-review recipes. Both
+local preparation guards exit0 at CPU 48.125 C. Preparation performs no remote
+staging or next-window admission. After verified 786K collection, strong
+closure, four releases and archive postcheck, the separate near-1M window is
+admitted as recorded above.
+
+The complete frozen r70 AR matrix has 39 profile/size/seed combinations:
+six verified YaRN4/seed77 cohorts, including the completed near1M run, and
+33 locally prepared but unadmitted cohorts. All remaining
+33 sets of inputs and staging recipes are prepared without remote operations
+or a job queue; their local guard exits0. Historical native-RoPE r68 controls
+remain reference evidence and do not count as current-r70 qualification.
+
+## Complete steering cohort fails quality; retention and closure pass — 2026-10-08 UTC
+
+Checkpoint `6deadec6` retains the failed first run and its HOST-qualified
+response-storage correction. The new manifest `bfdb4a39` freezes the same r70
+model, 100-pair FFN bank, questions, scales, seed and output budget. Only the
+optional supervisor's response store changes from 64 to 256 MiB.
+
+Four current specific non-use declarations and the 09:59:16 UTC global check
+admit `steering-conciseness-quality-point-20261008-r2`. Original controller32304
+finishes with exit1 and `QUALITY_FAILED`. Both native clients and owned server
+retirements exit0. All seventy responses and actual stored application policies
+independently verify; 31 arithmetic answers are correct and fifty outputs stop
+naturally. Absent-bank/zero text and physical-count parity passes 10/10. Both
+negative scales truncate all ten outputs. The frozen length-effect gate is not
+evaluated after failed arithmetic/natural-stop prerequisites.
+
+The [complete failed-quality receipt](development/validation/steering-conciseness-quality-point-2026-10-08.json)
+retains 82 verified portable members, separate from the earlier incomplete run.
+Collection, independent review, strong closure and archive postcheck exit0.
+Release at 10:17:42 UTC and closure at 10:18:37 retire all seven actual identities,
+the complete container/cgroup and five ports. All 38 collected hashes and four
+model stats match; original lease is free, router202966 restored and all four
+peers receive release. Native CPU/GPU/NVMe peaks are 69.875/75/66.85 C across 872
+samples. Local review/seal CPU peaks at 52.25 C. Source, quality criteria and
+bank are unchanged. No matched performance, general quality or reactive speedup
+is inferred. Separate 786K recall preparation performs no remote operation or
+future reservation. Terminal Bench stays last.
+
+## Response storage corrected for the frozen steering cohort — 2026-10-08 UTC
+
+The optional supervisor now gives retained responses 256 MiB instead of 64 MiB.
+The actual C17 synthetic server reproduces `response_store_full` after 58 records
+at the old bound. The new bound retains all seventy records at both 256- and
+512-token output budgets, without evicting early snapshots. Thirteen supervision
+and seventeen profile checks, plus one focused CTest, pass in Debug and
+unsuppressed ASan/UBSan modes
+([receipt](development/validation/steering-quality-response-capacity-host-2026-10-08.json)).
+This is HOST fixture evidence. Native source, ABI/state/metrics, the Python-free
+default products and original quality criteria remain unchanged. Two existing
+builds are reused; local CPU peaks at 62.625 C. Sandbox socket/LeakSanitizer refusals
+and the stale fixture-server option refusal remain recorded with actual exits.
+The first archive includes its own still-changing guard; postcheck detects this,
+retains the complete attempt and seals only closed artifacts. Independent
+verification passes without repeating tests. A new original cohort still needs
+fresh helper/model/admission bindings.
+
+## Held-out steering failure retained and machine released — 2026-10-08 UTC
+
+The unchanged original r70 runtime and 100-pair FFN bank produce ten absent-bank
+and 58/60 bank replies before HTTP429. Independent partial review checks every
+saved SSE, actual request and available absent-policy snapshot. Six of ten
+baseline arithmetic answers are correct; absent and zero outputs match 10/10.
+Twenty negative-scale outputs reach the 256-token limit. Bank applied-policy
+snapshots are unavailable after the client failure, so neither the full effect
+nor bank application is qualified. Questions, scales and thresholds are unchanged.
+
+The [failed receipt](development/validation/steering-conciseness-quality-failed-point-2026-10-08.json)
+retains 97 independently verified portable members. Original control/container
+exits are 1; collection, partial review and strong closure are 0. All seven
+process identities, the complete container/cgroup and five ports retire; 37
+hashes/four model stats match, original lease is free and router191210 restored.
+Four peers receive verified release. Native CPU/GPU/NVMe peaks are
+69.625/75/67.85 C. A separate local 786K recall plan is prepared only; it grants
+no subsequent admission.
+
+## Complete steering response collection prepared — 2026-10-08 UTC
+
+The optional response collector now retains both serial phases' native wire,
+requests, logs, stored snapshots and execution identities. It binds the frozen
+manifest/helpers/training inputs, uses the existing streamed transfer primitives
+and rechecks every local content identity. Quality failures retain all available
+scores and wire; infrastructure failures retain partial files and actual exits.
+Twelve local HOST checks pass, including nested transfer, source drift,
+symlink/FIFO/foreign-file refusal, receipt replay and timeout without restart
+([receipt](development/validation/steering-quality-collection-host-r2-2026-10-08.json)).
+This runs no model or remote operation and changes no native runtime, default
+build dependency or build directory. Local CPU peaks at 48.375 C. The complete
+remote relative path is validated before creating a local parent or transferring
+bytes; the earlier eleven-check receipt and source remain in the portable evidence.
+
+Private offline review and full closure recipes are prepared for the frozen
+70-response cohort. Both serial GPU server identities must match actual host
+telemetry; both clients, supervisor, launcher, init and entire cgroup must retire.
+Four exact-scope non-use renewals and the 05:58:56 UTC global observation pass,
+but automatic approval review again rejects the launch as conflicting with an
+earlier test deferral. No process, handle or lease is created. The owner has
+subsequently confirmed proceeding with this specific launch; current peer/global
+admission must be renewed, and expired observations grant no run.
+All six tasks stay open and Terminal Bench stays last.
+
+## Original 100-pair FFN bank independently verified — 2026-10-08 UTC
+
+Two hundred original-weight prefills on `.161` yield 9,600 FFN rows from four
+branches, 393,216,000 raw bytes and one 491,520-byte DS4-format bank. Independent
+reconstruction matches every coordinate; maximum layer norm error is 2.820e-9.
+Inputs contain 8,168 physical tokens, 36–51 per prompt, with native RoPE,
+context 8192/chat/chunk256. Generated response quality remains unqualified.
+
+All control/native/collection/review/closure exits are 0; 19 hashes and four
+model stats verify. Release at 05:19:29 and strong closure at 05:27:11 retire
+the exact identities and entire container/cgroup. Lease is unchanged/free,
+router restored and all four peers receive release. The
+[receipt](development/validation/steering-conciseness-original100-point-2026-10-08.json)
+retains 67 independently verified portable members in five ordered gzip parts,
+each at most 80 MiB. No duplicate combined archive, model copy, new build directory
+or GPU repeat is created. Native source remains `4c703b3d`/r70.
+
+Native telemetry records 169 samples with CPU 68.375/GPU 69/NVMe 65.85 C. A saved
+live observation sees CPU 86.375 C during the post-native oracle; continuous
+sampling is not claimed for that phase. Local offline review peaks at 87.125 C.
+The native GPU owner has 27/43 observed OS threads; this establishes neither
+worker count nor reactive speedup. The completed receipt satisfies the held-out
+profile's full model/runtime/corpus/bank provenance checks. Its 70 original
+responses still require a separately coordinated GPU window.
+
+## Steering response campaign dispatch integrated — 2026-10-08 UTC
+
+After the near-512K recall seal, the coordinator now dispatches the existing
+steering response body through its ordinary owned campaign. The entry checks
+bounded regular source through one stable descriptor and executes the exact
+admitted bytes. Hash/type/symlink/FIFO/directory failures and a post-hash source
+swap refuse before model opening; complete training provenance and independent
+saved-wire checks stay in the shared qualification body.
+
+Eight dispatch checks pass per Debug/native unsuppressed sanitizer mode,
+including two actual C clients and 70 synthetic replies per mode; all 89
+existing ownership/restore checks pass. The
+[receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)
+retains the candidate and actual-source checks. Source r70/`4c703b3d`, native
+runtime/ABI/state/metrics and Python-free default products remain unchanged.
+No GPU model, new build directory or second window is opened. Original
+100-pair learning and response quality remain pending. All six root tasks
+stay open; Terminal Bench stays last.
+
+## Current r70 YaRN4 near-512K recall passes — 2026-10-08 UTC
+
+Both exact answers pass at physical inputs 523774/523882, with complete history,
+chunk 256, C1, RAM/SSD caching off and natural outputs 38/74. Prefill is
+210.096/209.716 tok/s and decode 9.026/9.027 tok/s. The
+[same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+contains all eight current-runtime rows with full PP/TG durations, TTFT and wall
+time; this quality workload is separate from matched fixed-output benchmarks.
+
+All controller/native/collector/review/strong-closure exits are 0. Eighteen
+artifact hashes and four model stats reverify. The lease releases at 04:31:38
+UTC; strong closure at 04:34:42 retires supervisor 128106, launcher 128206,
+init 128334 and GPU 129537 by their exact start identities and proves the full
+container/cgroup absent in two complete 381-process scans. Router 175797 is
+restored, original lease 66308/105946405 free and all four peers receive verified
+release. The [receipt](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)
+retains 53 portable members and 4104 thermal samples: CPU 80.5/GPU 81/NVMe
+65.85 C. Source remains `4c703b3d`/r70. Physical 786K/1M, other seeds/profiles,
+MTP and matched comparisons remain pending. All six root tasks stay open;
+Terminal Bench stays last. This completed window grants no subsequent run.
+The standalone postseal first expects `tg` inside the settings object and exits
+1; the corrected check uses the unchanged seven settings fields and both actual
+`max_tokens:128` requests. All 53 members, closure and table values then verify
+with exit 0, without repeating inference or changing qualified artifacts.
+
+## Bounded steering training collection passes HOST checks — 2026-10-08 UTC
+
+The optional `.161` transfer helper now supports FFN-only training and raw files
+up to 512 MiB/640 MiB aggregate. It hashes in 1 MiB blocks through stable owned
+regular descriptors, retains failed native/staging files, publishes without
+overwrite and rechecks every local content identity. Terminal/released state
+and the admitted manifest are required. Collection remains separate from the
+learning oracle, response quality and strong container closure.
+
+Sixteen HOST checks pass per Debug/native unsuppressed sanitizer mode, including
+65 MiB synthetic streaming, mutation/copy/replay failures and actual 100-pair
+FFN-only C17 fixture construction; two focused CTests pass per mode. The
+[receipt](development/validation/steering-build-collection-host-2026-10-08.json)
+preserves the first command's wrong CTest-driver selection, actual native -6
+and test exit 1, then the unchanged corrected fourteen-case runs and final
+sixteen-case CLI/local-recheck coverage. No model, GPU, remote collector,
+runtime/ABI/state/metrics change or new build directory is involved. The original
+100-pair inputs remain prepared only; the separate near-512K recall window
+continues on `.161`. All six root tasks remain open; Terminal Bench stays last.
+
+## Steering campaign body and supervision bounds pass HOST checks — 2026-10-08 UTC
+
+The optional campaign body now binds all five helpers before staged imports,
+the corpus, complete original 100-pair training provenance, model/runtime and
+the FFN bank. It independently reconstructs all 70 saved responses and checks
+actual exits, serial lifetimes and unchanged input identities. Quality failures
+retain complete scores; partial-read failures still preserve model postflight.
+Geometry comes from the model receipt, without fixed Qwen dimensions.
+
+Seventeen profile and twelve supervision checks pass per normal/sanitizer mode;
+two focused native CTests pass per mode. Across both suites four actual C
+clients consume 140 synthetic HTTP responses per mode. The deadline now reserves
+600 seconds for snapshots, client margins, owned retirement and setup, replacing
+the incomplete 180-second allowance. The
+[receipt](development/validation/steering-quality-profile-host-2026-10-08.json)
+retains both source versions and all actual commands. Model servers, snapshots
+and training metadata are simulated: original learning and response quality
+remain unqualified. The coordinator stays frozen until the active near-512K
+recall window is sealed; its new dispatch hook remains pending. Native runtime,
+ABI/state/metrics and Python-free product dependencies are unchanged. No new
+build directory or second GPU window is created. All six root tasks remain
+open and Terminal Bench stays last.
+
+## Current r70 YaRN4 near-256K recall passes — 2026-10-08 UTC
+
+Both cold Chat SSE turns pass at physical inputs 261630/261738 on `.161`,
+with full history retained, seed 77, chunk 256, C1, cache off and natural
+outputs 38/74. Independent saved-wire reconstruction confirms both exact
+answers and actual executor phases. Prefill is 224.678/223.663 tok/s; decode
+is 9.670/9.684 tok/s. The [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+includes PP/TG durations, TTFT and complete wall time.
+
+Controller/native/collector/strong-closure/review exits are 0. All 18 artifact
+hashes and four model stats verify. The lease releases at 02:55:35 UTC; strong
+closure at 02:56:25 proves all four observed identities and the whole container
+retired, router restored and unchanged original lease free. All four peers
+receive verified release. The [receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+retains 55 portable members and 2028 thermal samples: CPU 82.875/GPU 83/NVMe
+65.85 C. Capacity 1048576 is configured; physical 512K–1M, other seeds/profiles,
+MTP and matched comparisons remain pending. All six root tasks stay open;
+Terminal Bench stays last. Root has no remote job or standing reservation.
+
+## Steering response supervision passes HOST checks — 2026-10-08 UTC
+
+The optional qualification helper runs absent-bank and admitted-bank servers
+serially with the existing native HTTP benchmark. It records actual child
+identities/exits, complete request/SSE files and raw stored-steering HTTP replies;
+checks exact applied plans and arithmetic/length criteria independently; and
+requires unchanged bank SHA/size/inode/timestamps. Deadline-sized record retention
+prevents early observations expiring. Failures preserve partial evidence and
+retire only owned children before another model opens.
+
+Eleven HOST checks per normal/sanitizer mode pass, including two real C clients
+and 70 synthetic responses per mode, timeout/load/snapshot/retirement failures,
+same-byte bank replacement, actual self-interruption and replay refusal. One
+focused native CTest per mode passes. The
+[receipt](development/validation/steering-quality-supervision-host-2026-10-08.json)
+keeps sources, commands and thermal observations. No new build directory,
+product dependency or native runtime/ABI/state/metrics change is introduced.
+Model servers and steering snapshots are simulated; original response quality
+and outer campaign integration remain pending. All six root tasks stay open,
+with Terminal Bench last. The separate `.161` near-256K recall cohort remains
+active on the frozen r70 runtime; no second GPU window is admitted.
+
+## YaRN4 8K/128K recall and streamed steering review pass — 2026-10-08 UTC
+
+The current `4c703b3d`/r70 runtime passes both cold Chat SSE turns with YaRN4,
+capacity 1048576, seed 77, chunk 256, C1, cache off and actual inputs 8190/8298.
+Independent saved-wire reconstruction verifies the middle and start/end answers
+with the full ledger retained. All process, collector and strong-closure exits
+are 0; 18 artifact hashes and four model stats verify. CPU/GPU/NVMe peaks are
+74.125/74/63.85 C. Lease release at 01:10:00 and strong closure at 01:12:52 retire all
+four observed identities and the full container/cgroup; router restored and
+original lease free. The [receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
+and [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+retain complete PP/TG/TTFT/wall values. The separate
+[128K cohort](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+also passes both exact answers with physical inputs 131070/131178, prefill
+236.240/235.401 tok/s and natural outputs 38/74. Its 18 collected hashes, saved
+SSE/full continuation and strong closure verify; CPU/GPU/NVMe peaks are 79.5/80/65.85 C.
+Lease release at 01:47:02 and strong closure at 01:50:48 retire all four observed
+identities and the entire container/cgroup. All four peers receive verified
+release. The same platform table contains all four current-runtime rows;
+larger inputs, other seeds and profiles remain pending.
+
+The optional steering reviewer now admits 128 pairs/512 MiB and streams hashed
+raw rows through one stable descriptor. Twenty-one checks per Debug/sanitizer
+mode include analytic 100-pair native construction and mutation/refusal lifetimes;
+focused CTest passes in both modes and 89 supervisor checks pass. Both saved
+original cohorts re-review exactly, without repeating inference. The
+[HOST receipt](development/validation/steering-build-scaled-review-host-2026-10-08.json)
+preserves an initial sealer exit 1 caused by a different CTest summary spelling;
+the actual CTests pass with exit 0 and the corrected sealer uses the same results.
+Native products/source, ABI/state/metrics and Python-free default build remain
+unchanged. All six root tasks stay open; Terminal Bench remains last. Root owns
+no remote job/handle/lease/reservation; longer inputs and learned quality remain open.
+
+The [held-out steering protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
+now has a bounded saved-SSE checker and native HTTP request cohorts: 100 unique
+paired training questions, ten disjoint evaluation questions, absent/zero
+controls and six FFN scales. Thirteen HOST tests per Debug/sanitizer mode include
+70 complete synthetic responses through the real C client, actual-plan schema
+refusals and quality failures distinct from missing evidence. The
+[HOST receipt](development/validation/steering-quality-checker-host-2026-10-08.json)
+retains the initial duplicate-dataset/sandbox failure. Original learned-bank
+execution and supervised campaign integration remain pending; these fixtures
+qualify checking code, not response quality on a model.
+
+## Original multi-chunk and one-token-tail capture passes — 2026-10-08 UTC
+
+The frozen `4c703b3d`/r70 C17 builder passes the same eight prompt pairs with
+chunk16 on `.161`. All sixteen physical inputs match the qualified chunk256
+cohort: 500 total tokens, 28–35 per prompt. Four final chunks contain one token.
+All 1536 raw attention/FFN rows and both normalized banks are byte-identical
+to the parent; independent local and remote reconstruction pass. Native,
+controller, collector, review and strong closure all exit 0; 19 artifacts
+hash-verify and four model stats remain unchanged. CPU/GPU/NVMe peaks are
+58.625/57/64.85 C.
+
+The first frontend status read occurs after retirement. That absence is retained;
+actual supervisor-recorded init PID/start, 57 live Docker state records and the
+original GPU cgroup corroborate complete closure. All four identities and the
+whole container/cgroup are absent, two scans are empty, router restored and
+original lease unchanged/free. The
+[receipt](development/validation/steering-build-tail16-point-2026-10-08.json)
+stores new control proof and references byte-identical raw/bank payloads in the
+unchanged parent archive, avoiding another 38.4 MiB copy. No generation, learned
+response quality or performance is qualified. All six root tasks remain open;
+Terminal Bench stays last. Root owns no remote job/handle/lease/reservation.
+
+## First original steering banks pass independent reconstruction — 2026-10-08 UTC
+
+The frozen `4c703b3d`/r70 C17 builder completes eight formal/casual prompt pairs
+on `.161`: sixteen fresh prefills, 1536 attention/FFN rows, 48 layers, width 2560
+and four FFN branches. Both local and remote independent reconstruction match
+all serialized bank coordinates; maximum observed absolute error is 0 and layer
+norm error is below 3.6e-9. Each DS4-format bank is 480 KiB. Actual prompts are
+28–35 physical tokens, with capacity 8192/chunk 256; this qualifies original
+single-chunk capture and construction, not steering response quality or speed.
+
+Controller/native/collector/closure/review pass with actual exits 0; 19 artifacts
+hash-verify and four model stats stay unchanged. CPU/GPU/NVMe peaks are
+59/56/69.85 C. Exact identities and the whole container/cgroup are retired, two
+complete scans are empty, the router is restored and the original lease is free.
+An initial local review supplies a relative path and exits 1; the canonical-path
+correction passes on the same artifacts without a GPU repeat. The
+[receipt and portable raw archive](development/validation/steering-build-original-point-2026-10-08.json)
+preserve that failure, all rows and acceptance/closure proofs. Multiple chunks,
+one-token tails, learned quality, parity/fault/vision and matched cost stay open.
+All six root tasks remain open; Terminal Bench stays last. Root owns no remote
+job, handle, lease, window, waiter or reservation.
+
+## Native steering capture qualification path prepared — 2026-10-07 UTC
+
+`modern-steering-build` now runs the native builder directly through the owned
+`.161` campaign path. Admission binds settings, prompt bytes, reviewer and runtime;
+predictors, helper/data drift and existing outputs refuse. Actual process success
+and complete prefill/row metadata are required. An independent raw-row oracle
+recomputes branch means, target-minus-contrast and unit-L2 directions, rejecting
+self-consistent forged banks. Model stats and partial hashes remain recorded on
+failure; no retry, HTTP server or extra inference owner is added.
+
+Eighteen checking-code tests pass with each Debug and unsuppressed ASan/UBSan/LSan
+C17 fixture; 89 supervisor checks pass. The initial fixture omits its required
+authorization field; actual exit 1 and original source are retained before fixing
+that setup. The [HOST receipt](development/validation/steering-build-gate-host-2026-10-07.json)
+and [bounded protocol](development/STEERING.md#original-weight-capture-gate) separate
+these synthetic fixtures from original inference. Existing C17/numerical/ABI and
+state sources remain unchanged; runtime `4c703b3d`/r70 remains the frozen build.
+No new GPU/model window is admitted. Original captures and held-out learned
+quality remain required. All six root tasks stay open; Terminal Bench remains
+last. Root owns no remote job, handle, lease, window, waiter or reservation.
+
+## Native C17 paired-prompt steering builder integrated — 2026-10-07 UTC
+
+`lie-steering-build` composes the existing model-neutral observer, collector and
+learner. It validates both prompt lists before model admission, retains source
+hashes/physical IDs/raw borrowed rows, uses fresh unsteered sequences and observes
+only the last cumulative prefill chunk. Callback failures cannot veto or retry
+inference. Complete successful pairs accumulate target-minus-contrast in FP64;
+unit-L2 layer banks are written as DS4-compatible headerless little-endian F32.
+Exclusive staged output requires actual exit 0 and a final `complete` event.
+Input/host/output bounds preserve partial failure evidence without publishing an
+accepted incomplete bank. No extra threads, HTTP dependency or Python product
+dependency is introduced. The [usage command](guides/USAGE.md#directional-steering)
+and [artifact contract](development/STEERING.md#native-bank-builder) are documented.
+
+Four focused native CTest checks pass normally and with unsuppressed ASan/UBSan/
+LSan, including 32 owned CLI fixture executions per mode. Twelve mocked modern
+build-coordination checks pass, including missing/drifted seventh-consumer
+refusals. Initial fixture compile warnings and its attention-only row-budget
+mistake are corrected without weakening checks. A sanitizer run under the
+sandbox fails because LSan cannot operate under its tracing restriction; the
+same binaries/tests pass outside that restriction with leak detection enabled.
+All failed command exits remain in the
+[HOST receipt](development/validation/steering-build-host-2026-10-07.json).
+Only the two routine local build directories are reused. The matching
+`4c703b3d`/r70 device-hidden ROCm10 build now passes both complete providers and
+all seven consumers. Collected commands bind the native builder, learner and
+collector to C17 objects and the primary provider. All 32 collected artifacts
+verify; independent reconstruction checks 43 recipes, 342 replacements, 1019
+pinned files and ten owned steering files per provider. CPU/NVMe peaks are
+75.125/50.85 C. The original lease releases at 23:01:02 UTC; strong closure at
+23:06:24 verifies exact process identities, the whole container/cgroup absent,
+two complete scans, restored router and unchanged original lease free. The
+[HIP build receipt](development/validation/steering-build-point-build-2026-10-07.json)
+binds the seven binaries and portable raw evidence. No GPU/model executable runs.
+Original captures, learned quality, wider runtime/fault/resource and matched
+cost remain open. All six root tasks remain open; Terminal Bench remains last.
+Root owns no remote job, GPU handle, lease, window, waiter or reservation.
+
+## Steering capture and direction learning prepared in C17 — 2026-10-07 UTC
+
+Model-neutral bounded C17 collectors now validate unique component/layer rows at
+one physical prompt token, average FFN branches and require complete successful
+prefill before publication. The learner accumulates paired target-minus-contrast
+with compensated FP64 sums and normalizes each layer to immutable binary32.
+The opt-in provider recipe captures trunk attention/FFN rows at the last prompt
+token, including one-token tails, without predictor or decode contamination.
+It preserves the existing owner and reactive scheduler; diagnostic device copies
+and waits are excluded from performance comparisons.
+
+Nine CTest checks plus the borrowed-row fixture pass in both normal and
+unsuppressed ASan/UBSan/LSan builds. Exact pinned recipe composition and ON/OFF
+adapter syntax checks pass. Four initial syntax commands fail because their
+include path and then feature macros are incomplete; corrected commands pass
+without changing source or weakening checks. The
+[HOST receipt](development/validation/steering-capture-host-2026-10-07.json)
+binds source, commands and failures. Existing ABI layouts/cache framing are
+unchanged. Native builder, coherent HIP build, original-weight captures and
+learned quality/cost remain pending; all six tasks stay open and Terminal Bench
+remains last. No new GPU window or remote build is admitted.
+
+## Original-weight native near-256K recall passes — 2026-10-07 UTC
+
+The frozen `90a88455`/r68 runtime passes both cold native Chat SSE turns on
+`.161`, seed 77, capacity 262144/chunk 256/C1/cache off. Physical inputs are
+261630/261738 tokens, outputs 38/74 with natural stops. Saved SSE independently
+retrieves the middle binding, then both original start/end bindings with the
+full ledger and actual first answer retained. PP is 227.420/226.864 tok/s,
+TG 9.655/9.661; the [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-128k-and-near-256k)
+lists all phase durations, TTFT and wall time beside 8K/128K.
+
+All actual job/client/server/collector/closure/review exits 0 and 18 collected
+artifact hashes verify; four model stats stay unchanged. 1937 thermal samples
+peak CPU 80/GPU 81/NVMe 67.85 C. Release 21:35:07 UTC and strong closure 21:39:49
+verify all four actual PID/start identities, entire container, two complete
+process scans, restored router 75008 and original lease free. All four peers
+receive verified release. The [receipt](development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+binds 47 portable members, including an interim-reader exit 1 after supervisor
+retirement, with no repeated GPU work. It does not qualify new steering code,
+other seeds, YaRN/MTP or 512K–1M quality. Root remote state is empty; all six
+tasks stay open and Terminal Bench remains last.
+
+## Original-weight native 128K recall passes — 2026-10-07 UTC
+
+The same `90a88455`/r68 runtime passes both cold native Chat SSE turns on `.161`,
+seed 77, capacity 262144, chunk 256 and C1 with caching off. Actual inputs are
+131070/131178 tokens, outputs 38/74 with natural stops. Independently assembled saved SSE
+retrieves the middle binding, then both original start/end bindings with the
+full ledger and actual first answer retained. PP is 238.781/238.027 tok/s,
+TG is 10.018/10.033 tok/s; the [platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#original-weight-recall-8k-128k-and-near-256k)
+also lists full phase durations, TTFT and wall time alongside the 8K control.
+
+Controller, supervisor, helper, client, server, collector, closure and review
+exit 0. All 18 artifacts hash-verify and four original model stat identities stay
+unchanged. 1000 thermal samples peak CPU 78.75 / GPU 80 / NVMe 64.85 C.
+Lease releases at 20:41:34 UTC; strong closure at 20:43:14 verifies all four
+actual PID/start identities and whole
+container absent, two complete scans without members/unreadable entries, router
+51500 restored and original lease free. All four peers receive verified release.
+The [receipt](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+binds 49 portable raw members. No GPU work repeats or acceptance changes.
+
+A contemporaneous prefill snapshot records 28 OS threads, one active sequence,
+and management GETs completed in 4.877/0.316 ms while owner dispatch is in prefill.
+This is one read-only responsiveness observation, not a thread-role census,
+latency distribution, internal-forward or concurrency speedup. Other seeds,
+near 256K–1M, YaRN/MTP, faults/resources, steering and matched cost remain open.
+All six tasks remain open; Terminal Bench stays last. Root has no remote job,
+handle, lease, window, waiter or reservation after verified closure.
+
+## Original-weight native 8K recall control passes — 2026-10-07 UTC
+
+The current `90a88455`/r68 runtime and checkpoint `2b157729` coordinator pass
+both cold Chat SSE turns on `.161`, seed 77, native RoPE, capacity 262144,
+chunk 256 and C1.
+Actual inputs are 8,190 and 8,298 tokens, outputs 38 and 74 with natural stops.
+The second answer correctly retrieves the two original bindings absent from
+the first reply. Three small calibrations are unscored. This qualifies one
+8K control, not other seeds, YaRN, MTP, longer inputs or matched performance.
+
+All actual controller/supervisor/helper/native-client/server/collector/closure
+exits 0; all 18 artifacts and separately assembled SSE answers verify. Peaks are
+CPU 72.625 / GPU 73 / NVMe 63.85 C across 124 samples. Original model stats remain
+unchanged. Lease releases at 19:50:16 UTC; strong closure at 19:53:59 verifies
+all four actual PID/start identities and whole container absent, two complete
+383-process scans empty, router 38612 restored and original lease free.
+All four peers receive the verified release. The
+[receipt](development/validation/recall-native-8k-ar-point-2026-10-07.json) retains
+42 portable raw members, an initial bookkeeping correction and a local sealing
+exit 1: its reviewer incorrectly expected EOS after one-token budget-limited
+calibrations. The corrected saved-wire review passes 0 without repeating GPU
+work. Root has no remote job/handle/lease/window/waiter/reservation; all six
+items stay open and Terminal Bench remains last.
+
+## Native recall campaign prepared; original weights pending — 2026-10-07 UTC
+
+The optional `modern-http-recall` route starts a separately bound server and
+native C benchmark for one cold, two-turn corpus. It records actual server
+context/RoPE/chunk, complete request history, physical calibration, independent
+seeded answer checks and partial/final artifacts. Quality misses retain both
+turns and actual exit1; transport/timeouts and cleanup failures stay separate.
+Explicit GTT/RAM budgets are required for 512K/1M-capacity windows. The
+[protocol](development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md) defines the
+ladder and three distinct seeds, with short controls for each RoPE profile.
+
+HOST checks use mocked ownership and synthetic loopback responses, including
+the real native C client: 18 grouped checks pass normally and with unsuppressed
+ASan/UBSan/LSan; the native recall CTest passes in both builds and 87 existing
+supervisor checks pass. The [HOST receipt](development/validation/recall-campaign-host-2026-10-07.json)
+binds 67 portable raw members. These do not qualify GPU/model behavior. The initial
+stale-build target exit2 and coordinator/native metadata mismatch exit1 are
+preserved. No production C/C++/HIP source, ABI, scheduling, state format or
+metrics contract changes; no remote window is admitted or reserved. All six
+tasks remain open and Terminal Bench remains last.
+
+## Complete MTP tool-transition gate passes on original weights — 2026-10-07 UTC
+
+The same `90a88455`/r68 runtime passes 71 frozen new checks and five baseline
+controls with original Q4/Q8 MTP on `.161`. Independent complete-wire review
+verifies 48 ordinary requests, twelve reversed-result continuations, eight
+refusals before executor work and three exact stored-stream replays. Actual Chat
+counters record 362 drafted and 230 accepted tokens. No fast GPU greedy claim
+or performance conclusion follows from this functional workload.
+
+Controller/supervisor/helper/server/collector/closure exit0; all 15 artifacts
+verify and all five original-model stat identities remain unchanged. Peaks:
+CPU73.5/GPU75/NVMe65.85 C. Lease releases at 18:38:51 UTC; strong closure at
+18:44:36 verifies all four actual process identities and entire container cgroup
+absent, two complete scans empty, router35665 restored and the original lease
+free. All four peers receive the release. The
+[MTP receipt](development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+retains portable raw evidence and a local checking-order exit1: the review
+started before the closure receipt existed, then passed unchanged after closure.
+No GPU test repeats. Wider quality/fault/resource gates and matched comparisons
+remain required; all six tasks stay open and Terminal Bench stays last.
+
+## Complete AR tool-transition gate passes on original weights — 2026-10-07 UTC
+
+The `90a88455`/r68 runtime passes all 71 frozen new HTTP checks and five baseline
+controls on `.161`. Greedy, DS4 and filtered profiles pass Chat/Responses JSON
+and SSE, twelve reversed-result continuations, eight refusals without executor
+work and three byte-identical stored stream replays. Independent collected-wire
+review also verifies retained Response seed/filters and actual AR counters.
+
+Controller/supervisor/helper/server/collector/closure exit0; all 15 artifacts
+verify and four original-model stat identities remain unchanged. Peaks are
+CPU73.125/GPU74/NVMe64.85 C. Original lease releases at 18:08:46 UTC; strong closure
+at 18:10:40 verifies all four actual identities and the whole container cgroup
+absent, two complete process scans empty, router31873 restored and lease free.
+All four peers receive the verified release. The
+[AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
+preserves complete wire and portable raw evidence. MTP is prepared but unadmitted;
+its equivalent gate, wider quality/fault/resources, comparisons and Terminal Bench
+remain required. All six tasks stay open; Terminal Bench stays last.
+
+## Responses generation controls compiled on Point — 2026-10-07 UTC
+
+The `90a88455`/r68 ROCm10 build passes both full private providers and all six
+consumers with controller/supervisor/child exit0. All 32 collected artifacts
+verify. Independent reconstruction checks the pinned upstream and owned
+recipes; actual compiler/link commands bind `chat.c`, `responses.c` and
+`server.c` as C17 into the primary server. No model or GPU executable runs.
+
+Peaks are CPU73.5/GPU46/NVMe55.85 C. The original lease releases at 17:51:33 UTC;
+strong closure at 17:53:36 verifies the observed process identities, container
+and whole cgroup absent, two complete process scans empty, router27938 restored,
+port8000 empty and the unchanged lease free. All four peers receive the release.
+The [build receipt](development/validation/responses-generation-controls-point-build-2026-10-07.json)
+binds source, binaries and portable raw evidence. Original-weight AR/MTP checks
+remain required; all six tasks stay open and Terminal Bench stays last.
+
+## Responses generation controls pass local parser and HTTP checks — 2026-10-07 UTC
+
+Responses now admits and normalizes seed and frequency/presence penalties
+through the existing C17 Chat parser and shared generation configuration.
+Completed/stored response objects retain the supplied controls. Both APIs
+refuse supplied seeds outside signed 64-bit nonnegative range, preventing
+unsigned JSON integers from silently saturating. Defaults and all numerical
+algorithms, reactive threads, public layouts and state formats stay unchanged.
+
+Eight grouped Release and eight unsuppressed ASan/UBSan/LSan checks pass.
+Coverage includes the exact r66 HTTP400 request, both Responses input forms,
+seed zero/INT64_MAX, penalty bounds, explicit-null/type/range refusals and native
+HTTP AR/MTP fixture retention. These CPU fixtures use private loopback ports
+and owned children; they do not qualify model inference. An initial checking
+fixture incorrectly reads `strict` outside the nested function definition;
+its actual CTest exit8, original source and binary are preserved before fixing
+that check. The [HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)
+binds commands, source and all outcomes. New coherent HIP compilation and
+unchanged original-weight AR/MTP checks remain required. The r66 MTP preparation
+is stale and unlaunched. No root remote job or reservation remains; all six
+tasks stay open, comparative benchmarks follow and Terminal Bench stays last.
+
+## Original Chat correlation passes; Responses seed refusal blocks the gate — 2026-10-07 UTC
+
+The `64fa7c2a`/r65 runtime passes 14 new original-weight AR checks and five
+baseline controls. Both unchanged reversed-results questions now return
+alpha137/beta941 in Chat JSON and SSE; parallel calls and all four pre-forward
+Chat refusals also pass. The next `greedy_responses_auto-text_json` receives
+HTTP400/`invalid_responses_request`. Source diagnosis finds `seed` absent from
+the Responses field allowlist and normalization. The checking request, seed123,
+profiles, question, output budget and acceptance remain unchanged. One check
+fails and 56 remain unexecuted; this is a protocol refusal, not model quality.
+
+Controller/supervisor/helper exit1 and owned server exit0. All 15 files collect
+and hash-verify. Peaks are CPU63.75/GPU66/NVMe65.85 C. Original lease66308/
+105946405 releases at 17:12:05 UTC. Strong closure at 17:13:21 verifies actual
+supervisor/launcher/init/GPU identities and the entire container cgroup absent,
+two complete process scans empty, original lease free and router21757 restored.
+Peers receive the verified release. The [receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+preserves partial wire and all actual outcomes. MTP stays prepared but unadmitted;
+the parser correction needs local checks and a new coherent runtime before
+unchanged AR/MTP requalification. No root remote job or reservation remains.
+All six tasks stay open; matched comparisons follow and Terminal Bench stays last.
+
+## Correlation correction compiled on Point and build closed — 2026-10-07 UTC
+
+The `64fa7c2a`/r65 coherent `.161` ROCm10 build finishes both complete private
+providers and all six consumers with controller/supervisor/child exit0.
+Independent reconstruction verifies 1,019 pinned upstream files, 42 recipes,
+338 replacements and 122 owned provider inputs per variant. All 32 collected
+compile/control/coherence artifacts verify. The actual compiler commands show
+`src/chat_history.c` built as C17 and its shared library linked into server,
+bench and capture. No numerical source, reactive threads or state formats change;
+no model or GPU executable runs during compilation.
+
+Fresh Point/DGX/Q2 declarations and global/in-lease checks precede the build.
+CPU/GPU/NVMe peaks are 74.375/46/49.85 C. The original lease66308/105946405
+releases at 16:49:06 UTC. Strong closure at 16:54:50 verifies the actual
+supervisor/init identities, container and entire recorded cgroup absent; two
+complete process scans find no members or unreadable entries. The lease is
+unchanged/free/released, router18900 restored and HTTP8000 empty. Peers receive
+the verified release. The [build receipt](development/validation/tool-result-correlation-point-build-2026-10-07.json)
+binds source, all six binary hashes, actual exits and portable raw evidence.
+The unchanged original-weight AR/MTP workload remains required; the r63 failure
+is not relabeled as fixed. Its prepared MTP manifest stays stale and unlaunched.
+Root has no remote job or reservation. All six tasks remain open; matched
+comparisons follow functional acceptance and Terminal Bench stays last.
+
+## Shared C17 tool-result correlation passes locally — 2026-10-07 UTC
+
+`lie_chat_tool_result_order` builds a bounded, allocation-free render index from
+actual call IDs. Complete contiguous tool-result groups follow their assistant
+call order; borrowed input and all other message positions remain unchanged.
+Invalid, incomplete, duplicate or mismatched groups leave the output untouched.
+The text/vision model binding moves complete owned messages only after validation
+and reserve, after attaching images at their original indices and before guidance.
+The pinned Qwen renderer, numerical source, reactive threads and state formats
+are unchanged. Full rendered bytes remain the text-prefix cache identity.
+
+Six focused Release and six unsuppressed ASan/UBSan/LSan checks pass. A separate
+protocol-free, ICU-OFF C17 core build and correlation check also pass. The
+formatter regression demonstrates the former collision between different valid
+ID/value associations and verifies its removal, equivalent arrival-order
+rendering, unchanged ordinary formatting and preserved image storage/offsets.
+These are HOST fixtures, not model inference. The
+[HOST receipt](development/validation/tool-result-correlation-host-2026-10-07.json)
+preserves commands, exits and source identities. A new coherent HIP build and
+unchanged original-weight AR/MTP workload are required. The r63 failure remains
+unresolved on GPU; its prepared MTP manifest is now stale and remains unlaunched.
+No root remote job or reservation is created. All six tasks remain open;
+matched comparisons follow functional acceptance and Terminal Bench stays last.
+
+## Parallel calls pass; reversed result correlation fails on Point — 2026-10-07 UTC
+
+The corrected `acfb9d26`/r62 runtime passes the unchanged original-weight greedy
+Chat JSON question requesting `alpha` and `beta` together. Both valid function
+calls finish naturally. The next fixed question sends beta941 then alpha137,
+using the actual call IDs, and asks for their mapping. The valid HTTP200 answer
+is alpha941/beta137. Five new checks pass, one fails and 65 remain unexecuted;
+five baseline controls pass. The client retains its `model_quality` failure.
+Source review identifies a loss of correlation: the pinned Qwen renderer emits
+tool contents in received order and omits call IDs. A correction is pending;
+no changed question, expected answer or weakened acceptance is introduced.
+
+Controller/supervisor/helper exit1, owned server exit0. All 15 files collect and
+hash-verify; model stat identities stay unchanged. Peaks are CPU59.5/GPU62/
+NVMe63.85 C. Lease66308/105946405 releases at 15:29:28 UTC. Strong closure at
+15:32:52 verifies actual supervisor/launcher/init/GPU identities, container and
+its full cgroup absent, two complete process scans empty, original lease free
+and router12606 restored. The [receipt](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+preserves both outcomes and raw evidence. A local preparation guard initially
+refuses a provenance-only README change; its failure and explicit correction
+remain evidence. MTP is prepared but unadmitted. No root remote job or
+reservation remains; all six tasks stay open and Terminal Bench stays last.
+
+## Corrected tool prompt compiled on Point and build closed — 2026-10-07 UTC
+
+The coherent `.161` ROCm10 build of `acfb9d26` passes both complete private
+providers and all six consumers. Independent reconstruction verifies 1,019
+pinned upstream files, 42 recipes and 338 replacements; collected compiler
+commands verify C17 ON/OFF flags and consumer linkage. All 32 compile/control/
+coherence files verify. The model-layer correction is compiled, with no model
+or GPU executable run and no performance or quality acceptance claimed.
+
+The initial read-only preflight refuses a changed mount device after reboot.
+The same filesystem UUID and original lock inode are preserved; fresh peer
+declarations and boot-bound global/in-lease checks precede the build. Peaks are
+CPU74.5/GPU46/NVMe55.85 C. The lease releases at 15:12:21 UTC; 15:14:50 closure
+verifies actual supervisor/init identities, container and recorded cgroup absent,
+two complete process scans empty, original lease free/released and router restored.
+The [build receipt](development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+retains source, exits, initial refusal and portable raw evidence. The original
+two-call quality miss remains unresolved. All six items stay open; no root
+remote job or reservation remains and Terminal Bench stays last.
+
+## Constrained tool prompt alignment passed on HOST — 2026-10-07 UTC
+
+Diagnosis finds a concrete missing upstream behavior: the sampler accepts JSON
+tool frames, while LIE's pinned Qwen template still instructs XML. The model
+binding now adds syntax-only JSON guidance for strict functions, following
+upstream `ConstrainChatRequest`. Both text and vision use it; images attach by
+original message index before a system message can be inserted. Ordinary text
+and non-strict tool formatting remain unchanged. Public ABI, C17 reactive
+scheduling, worker counts, numerical algorithms and cache formats do not change.
+
+Six focused native CTests pass in Release and unsuppressed ASan/UBSan/LSan.
+The exact failed-run argument schema permits a second call when parallel is
+enabled and natural EOS after the first. All eight grammar modes and 848
+prefix masks agree across original/C17/OFF in both configurations. A checking
+fixture initially lacks byte continuation pieces and fails with CTest exit8;
+its source/logs remain evidence before correction. A sanitizer approval-review
+deadline precedes execution; the explicitly permitted retry passes. CPU peak is
+78.5 C without a guard stop. The
+[HOST receipt](development/validation/tool-prompt-guidance-host-2026-10-07.json)
+preserves source, actual exits and portable witnesses. No model, GPU or remote
+operation runs. A new coherent HIP build and the unchanged original-weight
+question are required; the r60 quality miss remains unresolved. All six items
+stay open; Terminal Bench is last.
+
+## Wider original-weight AR tool gate failed on Point — 2026-10-07 UTC
+
+The unchanged r56 native runtime with the qualified r59 HTTP client fails
+`greedy_chat_parallel_json`: the fixed question requests `get_value` for both
+`alpha` and `beta`, but the valid HTTP200 response contains only `alpha`.
+Four new checks pass, including prose before a function in JSON/SSE; five
+baseline controls pass. One new check fails and 66 are unexecuted. The client
+classifies this as `model_quality`; the model/template/grammar cause is still
+unresolved. `parallel_tool_calls:true` permits multiple calls; it does not itself
+require two. The question and acceptance criteria remain unchanged.
+
+Controller/supervisor/helper exit1, while the owned server exits0. All 15 remote
+files collect and hash-verify. CPU/GPU/NVMe peaks are 56.75/61/62.85 C without a
+guard stop. At 13:59:00 UTC, exact supervisor/launcher/observed-init/GPU identities,
+the container and its entire cgroup are absent; two complete process scans find
+no members. The original lease is free and router restored. MTP is prepared but
+never admitted or run. The [failed receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
+preserves the wire, provenance, actual exits and closure. No native source
+changes, benchmark, Terminal Bench or repeated GPU run. All six items stay open.
+
+## Wider function transition client prepared on HOST — 2026-10-07 UTC
+
+The optional final-phase HTTP client now declares 71 checks across Chat/Responses,
+JSON/SSE and greedy/DS4/filtered seeded profiles. It covers text-only automatic
+choice, prose plus calls, two independent calls, parallel-disabled single calls,
+distinct reversed results and full/retained continuation. Eight malformed
+histories require HTTP400 with unchanged actual executor counters. Independent
+stream assembly validates complete indexed call identities and JSON/SSE equality;
+model-quality misses remain failures distinct from protocol errors.
+
+Grouped offline tests pass 8 transition oracles, 87 ownership/supervisor controls,
+18 capture regressions and 8 existing OpenAI controls. An initially misplaced
+fixture assertion fails with exit1, is corrected and remains evidence. All are
+HOST mock checks, not original-weight inference. No native/core/ABI/numerical
+source changes; no new HIP build is required for these optional client scripts.
+The supervisor also records the observed live Distrobox init PID/start ticks
+and refuses replacement rather than inventing a missing identity. Further
+original-weight AR/MTP runs require fresh coordination and admission.
+See the [frozen workload](development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md).
+All six roadmap items remain open; comparative benchmarks and Terminal Bench
+follow functional qualification, with Terminal Bench last.
+
+## Original-weight required-tool MTP replay passed on Point — 2026-10-07 UTC
+
+The same r56 Q4/Q8 runtime completes six strict `describe_stack` calls with
+natural EOS; all select the requested `LIFO` and 3. Original/C17/OFF Release
+and unsuppressed ASan/UBSan/LSan agree on all 226 observations, 169 complete
+target masks (41,966,080 bits per program), probabilities, compact proposals,
+acceptance/residual/deferred RNG and complete output frontiers. There are 57
+proposals, 14 accepted verifications, 21 rejections and 21 deferred draws.
+Proposal samplers intentionally have no grammar mask; target/verification
+masks enforce the constraint. Greedy covers the host head only.
+
+All 407 files collect and verify. The initial collection started before batch
+prefetch finished and refused a partial file; it is retained, then succeeds
+after both handles retire. The first closure refuses the missing init PID.
+The completed 12:46:43 UTC closure instead proves the exact GPU, launcher and
+supervisor identities absent, the entire recorded container cgroup absent and
+two complete process scans empty. Init PID remains explicitly unknown; no
+missing-PID success is claimed and the GPU run is not repeated. Router and
+unchanged original lease are restored/free. CPU/GPU/NVMe peaks are
+58.875/62/62.85 C; local sanitizer CPU peak is 83.75 C. Native GPU process
+thread counts are 27 and 43; this direct diagnostic adds no HTTP/core worker.
+The [numerical receipt](development/validation/sampling-mtp-tools-point-2026-10-07.json)
+preserves failures and portable raw proof. Wider tool transitions, steering,
+long-context quality, faults/resources and matched cost remain open. All six
+items stay open; Terminal Bench is last.
+
+## Original-weight MTP numerical replay passed on Point — 2026-10-07 UTC
+
+The r56 runtime captures six frozen original Q4/Q8 text profiles on `.161`,
+with 16 confirmed tokens each. All 192 target/proposal/verification observations
+replay identically in original/C17/OFF Release and unsuppressed ASan/UBSan/LSan:
+78 proposals, 43 accepted verifications, 18 rejections and 18 deferred draws.
+Independent mass, integer proposal, acceptance/residual RNG and full committed
+frontier checks pass. Greedy covers the host head only; capture I/O is outside
+performance measurement. Required-tool MTP masks, wider quality/fault/resources,
+long-context recall and matched cost remain open.
+
+All 203 files collect and verify. Strict closure at 12:08:08 UTC binds the
+observed init identity, retires the exact processes/container, verifies the
+unchanged original lease free and restores the router. Sampled CPU/GPU/NVMe
+peaks are 58.375/56/62.85 C; local sanitizer replay peaks at CPU 88.375 C,
+without a guard stop. A failed source-path lookup and a supplementary review's
+incorrect role spelling are retained; native capture/replay pass without reruns.
+The [numerical receipt](development/validation/sampling-mtp-text-point-2026-10-07.json)
+includes portable raw evidence. All six items remain open; Terminal Bench last.
+
+## Native MTP capture client compiled on Point — 2026-10-07 UTC
+
+The device-hidden `.161` ROCm 10 build of `c6625f09` completes both coherent
+C17 ON/OFF providers and all six consumers with exit 0. Collection verifies
+25 compile files, four control logs and three linkage witnesses. Independent
+reconstruction matches both 1,019-file variants, all 42 recipes and the 122
+owned sampling files. No model or GPU executable runs. Sampled CPU/GPU/NVMe
+peaks are 73/46/55.85 C, without a guard stop.
+
+Strict closure at 11:53:58 UTC verifies the exact supervisor/init/container
+retired, the unchanged original lease free, port 8000 empty and the router
+active. Fresh Point/DGX/Q2 replies report their own non-use; no future window
+is reserved. The [build receipt](development/validation/mtp-capture-point-build-2026-10-07.json)
+binds source, artifacts and portable raw evidence. Original-weight MTP
+probability/controller observations and independent replay remain required.
+All six roadmap items stay open; matched comparisons follow functional
+qualification and Terminal Bench is last.
+
+## Native MTP capture and independent replay passed locally — 2026-10-07 UTC
+
+The C17 capture client now accepts explicit `--mtp-model` and `--draft-tokens`
+controls. Schema v3 records actual target/proposal/verification observations,
+exact RNG frontiers, borrowed history/penalties, checksummed raw rows and grammar
+masks, and complete committed cycles. Existing AR v1/v2 field sets remain intact.
+Positive-temperature profiles exercise MTP; greedy reserves one output and is
+explicitly a host-head baseline, not GPU greedy-verification coverage.
+
+Original/C17/OFF offline replay agrees on every saved probability, proposal,
+acceptance, residual/deferred correction, RNG and output frontier. Independent
+long-double mass, integer proposal, residual-draw and byte-walk grammar oracles
+also pass. Focused Release and unsuppressed ASan/UBSan/LSan pass 11 controls
+each; text/tools/128-token fixtures and 22 MTP refusals are included. Eighteen
+optional mocked supervisor/collector controls pass. Two initial fixture failures
+are retained: disabled penalties were reported incorrectly, then a mutation
+targeted an empty array. Neither numerical algorithms nor sampling policy change.
+
+The final local group peaks at CPU 80.5 C and NVMe 32.85 C without a guard stop.
+The [HOST receipt](development/validation/mtp-capture-host-2026-10-07.json)
+binds current source and portable raw witnesses. No model, GPU or remote job
+runs. A newly coherent HIP build and original-weight MTP probability/controller
+qualification on `.161` remain required. All six roadmap items stay open;
+matched comparisons follow functional qualification and Terminal Bench is last.
+
+## MTP numerical observation prepared locally — 2026-10-07 UTC
+
+The additive C17 `lie/sampling_observer.h` contract exposes a synchronous,
+owner-only observed MTP call. Private adapter glue projects completed target
+draws, compact proposals and target verification, including exact RNG frontiers,
+penalties, history and the current grammar mask. Callbacks borrow data only for
+their duration, cannot veto numerical work and are removed on every return.
+The ordinary call has no installed observer; no thread or HTTP option is added.
+
+Release and unsuppressed ASan/UBSan/LSan pass six focused controls each for
+ON/OFF draw equivalence, borrowed lifetimes, masks, proposal/residual/deferred
+draws, ABI linkage and provider provenance. The initial sandboxed sanitizer
+run exits 8 because LeakSanitizer cannot inspect processes under ptrace; that
+failure is retained. This is HOST-NOT-INFERENCE preparation. The AR capture
+client remains unchanged; its MTP writer/replay and a new coherent HIP build
+are still required before original-weight probability/controller acceptance.
+The [HOST receipt](development/validation/sampling-observer-host-2026-10-07.json)
+binds exact source, actual exits, completed witnesses and portable raw evidence.
+
+## MTP live prefill and RAM/SSD parity passed on Point — 2026-10-07 UTC
+
+The current r50 runtime passes original Q4/Q8 MTP probes with 8,192 input
+tokens, 32 output tokens, context 16,384 and reserved prefill capacity 8,192.
+The C2 live probe verifies an in-flight chunk change, immutable admitted choices,
+peer progress while output credit is withheld, borrowed-output stability and
+zero-output prefill cancellation with recovery. Separate C1 RAM/SSD probes pass
+five cold/hot namespace stages each, with prefill calls 4/0/1/0/0. Every complete
+output matches the same-runtime serial AR reference. Each cache probe accepts
+117 of 123 speculative proposals; this is selected greedy correctness evidence.
+
+SSD reads the full 8,192-token prefix with RAM cache disabled; two writes drain
+without errors. Controller, supervisor, native client, all 33 collected files
+and independent reviews pass. Strict closures verify the exact processes and
+containers absent, original lease free, port 8000 empty and router restored.
+Combined sampled CPU/GPU/NVMe peaks are 75/80/69.85 C. The
+[functional receipt](development/validation/prefill-mtp-original-point-2026-10-07.json)
+includes portable raw evidence. Exact DS4 cache payloads remain raw in both
+storage modes. Broader MTP probability/filter/grammar, steering and 1M quality,
+fault/resource and comparative performance gates remain open. Terminal Bench
+follows those gates; all six roadmap items remain open.
+
+## Original RAM/SSD prefill cache passed on Point — 2026-10-07 UTC
+
+The r50 runtime passes separate native AR RAM and SSD probes with 8,192 input
+tokens, 32 output tokens, C1, context 16,384 and reserved capacity 8,192. Each
+probe runs initial cold/hot, changed cold/hot and initial-restored hot. All ten
+complete outputs match; prefill calls are 4/0/1/0/0 in each mode. Every hot run
+restores the complete 8,192-token prefix. SSD uses RAM cache zero and records
+two completed writes, real reads, no errors and no pending work.
+
+Controller, supervisor, native client, collection and independent review exit 0.
+Strict closures at 09:44:10 and 09:49:51 UTC verify the exact processes and
+containers absent, original lease free, port 8000 empty and the router restored.
+Combined sampled CPU/GPU/NVMe peaks are 75.125/80/65.85 C. The
+[functional receipt](development/validation/prefill-cache-original-point-2026-10-07.json)
+retains all 22 collected artifacts and portable raw proof. DS4 payloads remain
+raw; compression capability being enabled does not imply actual packing.
+MTP, broader quality/fault/resources and performance remain open. All six
+roadmap items remain open; matched benchmarks and Terminal Bench follow those gates.
+
+## Original-weight live prefill passed on Point — 2026-10-07 UTC
+
+The r50 runtime passes the native AR probe with a 32,768-token prompt, 32-token
+output, two concurrent requests, context 65,536 and reserved capacity 32,768.
+An actual in-flight prefill call keeps the active request's chunk 2,048 and the
+queued peer's chunk 32,768 while the core selection changes twice. The active
+and peer requests complete 16 and one prefill calls respectively. All 32 peer
+output IDs match the cold baseline and the fresh request after cancellation.
+The peer finishes while the other request holds a borrowed output and has no
+credit. Cancellation during prefill retires without output or failed requests.
+
+Controller, supervisor and native client exit 0. Independent saved-data review
+and collection of all 11 remote artifacts pass. Sampled CPU/GPU/NVMe peaks are
+79/85/62.85 C; peak GTT is 110,823,370,752 bytes. Strict closure at 09:32:55 UTC
+verifies all owned process/container identities absent, the original lease free,
+port 8000 empty and router 280054 restored. The
+[functional receipt](development/validation/prefill-live-original-point-2026-10-07.json)
+binds the complete witnesses and portable raw evidence. RAM/SSD, MTP and broader
+quality/fault/resource/performance gates remain open. All six roadmap items
+remain open; matched benchmarks follow qualification and Terminal Bench is last.
+
+## Prefill qualification client compiled on Point — 2026-10-07 UTC
+
+The device-hidden `.161` ROCm 10 build of `cb75a48f` completes both coherent
+C17 ON/OFF providers and all six consumers with exit 0. The new native prefill
+probe is now in the compiled benchmark. All 25 compile files, four control logs
+and three linkage witnesses are collected and verified. Independent reconstruction
+matches both 1,019-file provider variants and all 41 source recipes. No model or
+GPU executable runs. CPU/GPU/NVMe peaks are 74/44/47.85 C, without a guard stop.
+
+Strict closure at 09:09:03 UTC verifies the exact supervisor/container identities
+retired, the unchanged original lease free, port 8000 empty and router 277870
+restored. An initial closure check ran before bundle sealing and refused; its
+actual exit 1 is retained. The build was not repeated. Fresh Point/DGX own-state
+replies are explicit; Q2 non-use on `.161` is inferred from its current local/
+`.157` scope, with that limitation preserved. No future machine window is reserved.
+
+The qualification supervisor now uses existing cache controls to isolate one
+complete input checkpoint in RAM/SSD probes. Intermediate/continued/final
+checkpoints can otherwise add prefill calls or evict the input snapshot. The
+DS4 format, compression and utility remain enabled; engine/server defaults and
+native code are unchanged. All 83 optional mocked controls pass locally, CPU
+peak 65 C. This later host-only runner change is separate from the frozen
+compiled source. The [build receipt](development/validation/prefill-probe-point-build-2026-10-07.json)
+binds both identities and the collected failures. Original-weight live/RAM/SSD,
+quality/fault/resources and matched performance remain open. All six roadmap
+items remain open; Terminal Bench stays last.
+
+## Native live-prefill and cache qualification clients — 2026-10-07 UTC
+
+The C17 benchmark adds explicit functional `--prefill-probe live|ram|ssd` modes.
+Live qualification binds an actual in-flight call, immutable active/queued
+choices, complete peer output against a greedy baseline, withheld-credit peer
+progress, borrowed-output stability, prefill cancellation and fresh inference
+after retirement. RAM/SSD modes require five cold/hot trials across a selection
+change and restoration, with identical complete outputs and full-prefix reuse.
+SSD has RAM disabled and requires drained writes without errors.
+
+Native Release and unsuppressed ASan/UBSan/LSan checks pass 5/5 each, with six
+AR/MTP synthetic probes, fourteen CLI refusals and a deliberately failed prefill.
+The optional Point supervisor passes 82 mocked controls, binding complete token
+arrays, typed counters, queue choices and cache stages. Native/historical report
+readers refuse functional probe files as throughput input. Default CTest and the
+benchmark remain native; no Python product dependency is added.
+
+The [HOST receipt](development/validation/prefill-probe-host-r2-2026-10-07.json)
+retains actual failures and their corrections, all native outputs and source
+bindings. Initial local failures were a negative-case fixture argument error
+and sandbox loopback access. Supervisor checks then corrected an invalid AR
+batch requirement for MTP and rejected duplicate completion records. Final CPU
+peaks are 75.125 C (Release), 76.25 C (sanitizers) and 48.5 C (mocked supervisor).
+No GPU/model/remote run occurs in this client-preparation phase.
+
+Provider, numerical engine, public ABI and reactive scheduler remain unchanged.
+A newly bound `.161` client build and original-weight live/RAM/SSD gates remain
+open. All six roadmap items stay open; matched benchmarks follow functional
+qualification and Terminal Bench remains last.
+
+## Original-weight prefill chunk parity through 32K — 2026-10-07 UTC
+
+The current r45 runtime passes three original-weight `.161` arms on the same
+32,768 physical input tokens and 32 confirmed greedy output tokens. Selected
+chunks 2,048/16,384/32,768 use a fixed 32,768 scratch reservation, 64K context
+and one active sequence. Every output ID matches; completed prefill calls are
+16/2/1. Native admission and completed attention-dispatch accounting agree,
+with no geometry or mask-pitch refusals. RAM/SSD cache, MTP and vision are off.
+
+All controller, supervisor and native exits are 0; all 33 remote files verify
+and four model stat witnesses remain unchanged across all three windows.
+Maximum sampled GTT is 108,574,511,104 bytes. Combined supervisor and additional
+live observations reach CPU/GPU/NVMe peaks of 79/84/64.85 C without a guard stop.
+These are sampled observations, not exact allocator accounting or general fit.
+The final strict closure at 08:01:37 UTC verifies retired own processes/container,
+the original lease unchanged/free, port 8000 empty and the named router restored.
+
+The [32K functional receipt](development/validation/prefill-original-32k-point-2026-10-07.json)
+preserves complete input/output IDs, progress, dispatch, thermal observations,
+actual exits, retained preparation failures and source/runtime bindings. The preceding
+[8K receipt](development/validation/prefill-original-point-2026-10-07.json)
+retains its original, narrower scope. No numerical, ABI or scheduler code changes.
+
+This qualifies selected static chunk configurations, not matched performance,
+long-recall quality or full runtime acceptance. Original-weight live setter and
+queued/active immutability, cache identity, cancellation/fairness, faults and
+broader resources remain open. All six roadmap items stay open; matched
+benchmarks follow those gates and Terminal Bench stays last.
+
+## Larger-chunk qualification supervisor — 2026-10-07 UTC
+
+The optional Point campaign supervisor now admits the engine's complete
+1–32,768 chunk range and a separate explicit `prefill_capacity`. It refuses
+invalid types and reservations smaller than the selected chunk before model
+access. Explicit capacity and larger chunks require matching native identity
+and per-job chunk/capacity/revision witnesses; old frozen small-chunk receipts
+retain their original interpretation. No engine, ABI, scheduler or numerical
+code changes. Server and native benchmark dependencies remain unchanged.
+
+All 74 mocked campaign controls pass locally, including reservation forwarding,
+admission refusal and rejection of false or mismatched completed witnesses.
+The [HOST receipt](development/validation/prefill-supervisor-host-2026-10-07.json)
+binds those source changes and actual exit 0. This qualifies the development
+supervisor only. Original-weight larger-chunk parity/cache/cancellation/fairness
+and performance remain open and require fresh `.161` admission.
+
+## Current-runtime MTP HTTP controls — 2026-10-07 UTC
+
+The coherent r45 runtime now passes **37 OpenAI controls and 66 bounded-integer
+controls** on an MTP-enabled `.161` server with the original Q4 weights and Q8
+predictor. Tools, JSON/SSE, output budgets and retained Responses lifecycle pass.
+Independent saved-wire checks verify 60 integer outputs, six HTTP400 refusals
+and 30 JSON/SSE pairs. All 19 collected remote files match their recorded hashes;
+controller, supervisor, HTTP helper and server each exit 0. Five model stat
+witnesses remain unchanged.
+
+Saved counters confirm actual drafted and accepted tokens. Requests with stop
+strings, logprobs or logit bias use the existing per-request AR fallback; this
+qualification does not imply that every check executes MTP. The
+[functional receipt](development/validation/integrated-point-mtp-2026-10-07.json)
+records the exact runtime, complete wire data, scoped counters and portable raw
+evidence. A local counter reviewer initially counted a stored metadata update
+twice; the corrected review counts creation endpoints only. Its actual failure
+is retained, and no GPU test is repeated.
+
+CPU/GPU/NVMe peaks are 66.75/70/63.85 C. Strict closure verifies retired own
+processes/container, the original lease free, port 8000 empty and the named
+router restored. This run uses the default 2,048-token chunk and capacity; it
+does not qualify larger chunks, full MTP target-distribution/controller behavior,
+faults, quality or comparative cost. All six roadmap items remain open.
+Comparative benchmarks follow the remaining functional acceptance gates;
+Terminal Bench stays last.
+
+## Required-function AR numerical qualification — 2026-10-07 UTC
+
+The current coherent r45 runtime completes six original-weight required-function
+profiles on `.161`: greedy, DS4 temperature/min-p, top-k, nucleus/min-p and positive
+and negative generated-token penalties. All six calls choose the requested
+`LIFO`/3 arguments and finish with natural EOS. The 152 full logit rows and
+248,320-token vocabulary are collected and hash-verified.
+
+Original Gufo, C17 and OFF samplers produce identical complete replay outputs
+in Release and unsuppressed ASan/UBSan/LSan, with all six native commands exiting
+0. Independent byte membership checks cover every mask bit; long-double mass,
+history, RNG and unit-proposal residual checks pass. An additional saved-data
+review agrees within `6.7e-16` absolute mass error. Its initial entry-order and
+F32-input assumptions are corrected and retained alongside their actual failures;
+no GPU capture or native replay is repeated.
+The [numerical receipt](development/validation/sampling-required-tools-ar-point-2026-10-07.json)
+binds the new runtime, unchanged host-sampler sources, complete outputs and portable
+raw data. GPU-run CPU/GPU/NVMe peaks are 58/61/60.85 C; offline sanitizer CPU peaks
+at 84.625 C. Strict closure verifies retired processes/container, the original
+lease free and router restored. Larger prefill chunks, MTP controller, wider tool
+behavior, faults, resources, long-context quality and comparative cost remain open.
+All six roadmap items stay open; benchmarks and Terminal Bench follow qualification.
+
+## Live shared-engine prefill chunk — 2026-10-07 UTC
+
+The C17 core separates its selected chunk from scratch capacity reserved at model
+load, bounded at 32,768. An additive setter changes future admissions while
+queued/active jobs retain their immutable choice. It performs no allocation or
+numerical call and adds no thread. Typed core/job snapshots expose both values
+and revision without changing existing public structure layouts. RAM/SSD scope
+composition binds selected chunks, preserving the historical capacity-equals-
+chunk identity. The verified provider uses its reserved capacity; an unmodified
+provider refuses above 2,048. HTTP management only projects the shared API.
+Native benchmarks and comparative reports carry chunk/capacity consistently.
+
+Focused native lifetime, live-owner/queued-job, both cache formats, HTTP parser
+controls, MTP/vision composition and report consistency pass 26/26 in Release
+and 26/26 with unsuppressed ASan/UBSan/LSan. Both changed public headers compile
+as strict C17/C++17, existing core layouts remain identical, and all 41 guarded
+recipes compose from 1,019 independently verified pinned source files. Local CPU
+peaks at 77.5 C under the 98 C guard; no model or GPU executable runs. That local
+increment created no remote job, lease, window or reservation. The preceding r43 build and r44
+generated GPU attention receipt retain their exact scope; neither qualifies
+larger chunks. Current-source GPU numerical/resource/fairness acceptance remains
+in the final integrated phase; comparative performance and Terminal Bench follow.
+
+Both complete sampler ON/OFF providers compile locally with HIP 7.2 for `gfx1150`;
+server, bench, reference bench, probe, sampling capture and attention client all
+link with devices hidden and actual exit 0. The native unavailable-backend product
+targets also build. HIP compilation peaks at CPU 82.875 C without a thermal stop.
+The [local validation receipt](development/validation/prefill-runtime-local-2026-10-07.json)
+binds checkpoint `d6431db8`, exact sources and independently verified archive
+members, retains the two initial test failures and records the remaining GPU gates.
+
+Matching `.161` ROCm 10 compilation now passes for both coherent providers and
+all six consumers. The [Point build receipt](development/validation/prefill-runtime-point-build-2026-10-07.json)
+binds `2ec9798b` to the unchanged `d6431db8` code, complete recipe reconstruction,
+actual exits and verified process/container/lease closure. CPU peaks at 73.875 C;
+the container has no GPU devices and no model executes. Larger-chunk numerical,
+memory, cache, cancellation, fairness and performance acceptance remains open.
+
+## Long sparse-prefill workspace implemented — 2026-10-07 UTC
+
+The owned attention recipe adds a separate 8,192-word sparse WMMA specialization
+through 1M visible tokens. Default-ON `LIE_LONG_CONTEXT_WMMA` keeps the original
+2,048-word kernel for short spans; OFF preserves its scalar fallback at deeper
+frontiers. Full allocation pitch, compact-list threshold, selected-key order and
+WMMA/softmax arithmetic are retained. Provider and Point build receipts require
+a matching typed boolean selection, including the coherent OFF-sampler control.
+Public ABI/state layouts and the reactive scheduler remain unchanged; no thread,
+stream or extra global buffer is added.
+
+Local device-hidden HIP 7.2 compilation for `gfx1150` completes the ON sampler,
+OFF sampler and disabled-feature providers. Emitted instruction sequences and
+resource fields for all three original kernels match the preceding local build.
+Both long specializations declare 54,304 shared bytes and zero private-stack or
+register-spill counts. These are compiler observations, not runtime performance.
+All five enabled consumers and four disabled-feature consumers link coherently;
+the [source and local compilation receipt](development/validation/prefill-long-wmma-local-hip-2026-10-07.json)
+preserves their identities, emitted device code and actual exits. Local CPU peaks
+at 84.5 C under the 98 C guard; no thermal stop occurs.
+Focused checks cover 25 extent boundaries, provider receipt refusals and eight
+mocked development-controller controls; Release and unsuppressed sanitizers pass.
+Matching `.161` ROCm10 compilation now passes in the
+[coherent build receipt](development/validation/integrated-point-attention-hip-build-2026-10-07.json);
+original-weight numerical/quality/resource acceptance remains pending.
+Final campaigns follow functional integration;
+comparative benchmarks and Terminal Bench remain last. No GPU/model run is launched
+in this source increment. Constant prefill throughput is not established.
+
+## Sparse prefill admission correction — 2026-10-07 UTC
+
+The shared C17 dispatch policy now separates visible mask words from allocated
+row pitch. A 1M allocation can therefore admit the unchanged sparse WMMA kernel
+while the visible frontier stays within 262,144 tokens; deeper frontiers retain
+the existing fallback. The policy also rejects a short row pitch and arithmetic
+overflow. It adds no worker, allocation or change to reactive scheduling.
+Seventeen boundary cases and existing dispatch controls pass 1/1 in both Release
+and unsuppressed ASan/UBSan/LSan; local CPU peaks at 51.125 C, with GPU masked.
+Composition of all 41 pinned recipes confirms that only the host WMMA guard
+changes; kernel bodies, full mask stride and workspace limits are unchanged.
+[Focused host receipt](development/validation/prefill-visible-mask-host-2026-10-07.json)
+preserves sources, executable identities, actual exits and all 36 verified
+portable archive members.
+The first source check guessed the base recipe count incorrectly and retains
+actual exit1; the corrected check binds the full recorded set, including KVC.
+Local HIP 7.2 cross-compilation for `gfx1150` now builds both complete providers
+and links all five consumers, with all four stage exits0 and CPU peak80 C.
+Devices are hidden and no resulting executable or model is run.
+The [local compilation receipt](development/validation/prefill-visible-mask-local-hip-2026-10-07.json)
+binds the source, libraries, artifacts and 88 archived log/source members.
+Matching `.161` ROCm10 compilation now passes; original-weight/quality/performance
+acceptance remains pending. Preserve the frozen r38 original-policy comparator;
+rebuilding both comparison arms with this guard cannot measure its benefit.
+
+The prepared r40 required-tool GPU capture was rejected by automatic approval
+review before process creation, citing a newer decode/prefill optimization
+priority with qualification on standby. No model, GPU job, lease, router change
+or remote handle was started. r40/r41 plans are local and now also predate this
+guard correction; they must not be launched as current-runtime qualification.
+The owner's visible instruction now confirms implementation before further test
+campaigns, resolving the sequencing question. No rejection bypass or retry
+occurs. The already sealed r39 receipt remains historical evidence for its exact binary.
+All six acceptance items remain open; benchmarks and Terminal Bench stay last.
+
+## Current sequence: implementation, qualification, benchmarks, eval
+
+The owner's latest instruction defers further tests until all remaining functional
+implementation and integration are complete. Compile the source first; group
+required focused local CTest and ASan/UBSan checks at the end of integration,
+then qualify the integrated runtime on `.161`, run matched benchmarks and run
+Terminal Bench last. No intermediate test campaign or qualification-only client
+expansion is queued. The native numerical attention fixture client is now
+integrated into the final validation phase, after functional source completion.
+Its [usage and scope](development/PREFILL-ANALYSIS.md#long-workspace-component-qualification)
+cover 13 generated cases and full saved outputs through 1M, exact long/short
+comparison, an independent uniform-softmax sanity bound and explicit disabled-
+feature refusals. The canonical Point build requires its sixth consumer artifact;
+the model-free supervisor and bounded collector preserve failures and partial
+data. Core/model numerics, public ABI, HTTP and reactive scheduling are unchanged.
+Focused native Release and unsuppressed sanitizer checks pass with the feature
+ON and OFF. Local device-hidden HIP consumers link against their exact existing
+ON/OFF providers; neither executable is run. Matching `.161` ROCm10 compilation
+now passes in the corrected r43 build below; original-weight GPU acceptance
+remains pending. The generated attention component passes in r44 below.
+No remote job, lease or reservation is held.
+The final device-free `.161` build of `c2a9697f` compiles both providers and
+configures with exit0, then fails the native HIP client link with exit1 because
+the Fedora HIP driver defaults to PIE and the static provider contains non-PIC
+objects. Strict closure verifies both owned identities retired, original lease
+released and router restored. `60370fc3` selects the compatible private link mode
+and pins the package GPU target before discovery. Corrected local HIP7.2 ON/OFF
+configure/link checks pass without executing either binary. The following r43
+build completes matching ROCm10 linkage; GPU gates remain open.
+The [closed failure and correction receipt](development/validation/point-attention-link-2026-10-07.json)
+preserves stage exits, collection/packaging failures, complete source bindings,
+telemetry and raw logs. No inference or benchmark was run.
+The corrected device-free `.161` r43 build of `120e2fce` now completes both
+providers, configure and all six consumer links with exit0. Independent offline
+verification reconstructs all 41 recipes and binds both complete provider
+inventories, C17 ON/OFF linkage and the native HIP attention client. Collection
+and fresh strict closure pass; original lease66307/105946405 releases at
+04:13:45 UTC and closure at 04:18:03 verifies the owned identities/container
+retired, HTTP8000 empty and router248523 restored. Remote CPU peaks at 73.75 C.
+The [coherent ROCm10 build receipt](development/validation/integrated-point-attention-hip-build-2026-10-07.json)
+preserves actual exits, raw logs, telemetry and artifact hashes. Matching
+compilation is complete; GPU numerical, quality, fault, resource and performance
+gates remain open. No model or LIE GPU program is executed by this build.
+The same compiled native attention client then passes all 13 generated `.161`
+r44 cases through 1M: 270,336 finite values match the unchanged short kernel
+bit for bit. All 73 collected files verify; independent offline review checks
+full masks/key order and 86,016 zero-query output values against exact rational
+uniform means under the predeclared bound. CPU/GPU peaks are 37.125/36 C.
+The [component GPU receipt](development/validation/attention-fixture-point-2026-10-07.json)
+retains 107 verified archive members. Lease release at 04:22:36 UTC and strict
+closure at 04:23:11 verify both owned identities/container retired, original
+lease free and unchanged, HTTP8000 empty and router249393 restored. The first
+observer preparation exits1 locally before SSH; its corrected read-only check
+passes. No GPU test is repeated and no model is loaded. This completes generated
+component parity only; indexer, original-weight, disabled-feature GPU, fault,
+resource, quality and comparative performance gates remain open.
+The [portable HOST and compilation receipt](development/validation/attention-fixture-host-2026-10-07.json)
+retains the exact source checkpoint, actual stage exits, raw outputs and archive
+hashes. It is component tooling evidence, not original-weight qualification.
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-08-utc)
+separates integrated source from open acceptance gates. The owned functional
+source is integrated; at that checkpoint all 650 files match the final HOST receipt.
+Open validation items are not missing implementations. The prepared r37 MTP
+manifest is not admitted or launched. No new remote campaign, lease or machine
+reservation is queued; existing coordination does not schedule a future run.
+
+The already finished r37 AR run passes 37 OpenAI and 66 bounded-integer checks
+on the coherent current runtime. All 19 collected artifacts verify; independent
+exact-rational review of its saved wire verifies 60 integer outputs, six HTTP400
+refusals and 30 JSON/SSE replay pairs without inference. CPU/GPU peaks are
+65.25/69 C. Lease release at 23:30:59 UTC and strict closure at 23:32:40 verify
+owned processes/container retired, HTTP8000 unbound and the router restored.
+The [AR receipt](development/validation/integrated-point-ar-2026-10-06.json)
+preserves actual exits and the local observer/packaging failures. Saving these
+records repeats no test. Current MTP and broader numerical, fault, quality,
+long-context and performance gates remain open; none of the six items closes.
+
+## Native numerical qualification tooling — 2026-10-07 UTC
+
+The unavailable backend now exports `lie_model_token_is_stop`, matching the
+public C contract. It returns `LIE_UNSUPPORTED`, preserves caller output and
+accepts omitted output/error pointers. The existing ABI fixture checks linkage
+and behavior in Release as well as unsuppressed ASan/UBSan/LSan: 1/1 each,
+without model or GPU execution. The first standalone link omitted its existing
+dispatch dependency; actual build1 and consequent CTest8 remain preserved.
+Corrected checks pass; peak local CPU52.75 C.
+[Focused receipt](development/validation/executor-stop-host-2026-10-07.json).
+This closes a source gap before further campaigns; all six acceptance items
+remain open and the implementation-first sequence remains in force.
+
+The r39 AR capture is finished, collected and strictly closed. Its 96
+original-weight rows pass full probability/history/RNG comparison in original/
+C17/OFF Release and unsuppressed sanitizer replay, with independent mass and
+forced unit-proposal residual oracles. All six complete 1,442-line witnesses
+match. [Original-weight AR receipt](development/validation/sampling-original-ar-point-2026-10-07.json)
+binds all raw rows, six replay executables, exact source snapshots and 191
+verified archive members. It preserves both local provenance/log-label failures;
+the Release wrapper exit1 remains distinct from its three native exits0 and
+saved-output verification0. No capture or Release replay is repeated.
+GPU-run CPU/GPU/NVMe peaks are 56.875/56/61.85 C; offline sanitizer CPU peaks
+at 91.875 C. Required tools, actual MTP controller, faults, quality, resources
+and cost remain separate open gates. Functional source is complete for the
+owned queue after the unavailable accessor fix; subsequent runs belong to the
+final integrated phase and require fresh admission. There is no active remote
+job, lease or reservation. Benchmarks and Terminal Bench stay afterward.
+
+The optional Point supervisor now routes the C17 capture client directly and
+collects native raw data, including partial/uncommitted failure rows. Its bounded
+receipt checks bind all six profiles, row hashes, committed frontiers, natural
+tool stops and complete call arguments. The actual probability/mask replay stays
+a separate numerical gate. Fifteen focused local transport/receipt controls and
+seven existing ownership/build regressions pass, with commands mocked and GPU
+masked; peak local CPU53.75 C. [Supervisor preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
+The twelve native client/replay source files remain unchanged from their earlier
+sanitizer-qualified receipt and matching final HIP build. Only optional development
+orchestration changes; no native/core ABI, HTTP, reactive or numerical code changes.
+No remote operation, model load, test campaign or machine reservation is started.
+
+The canonical Point build now links and hashes `lie-sampling-capture` alongside
+the server, native benchmark, coherent OFF reference and probe. The optional
+legacy compile helper uses the same target/hash list. This closes a packaging
+integration gap before the final build; the historical four-binary r37 receipt
+is unchanged. The supervisor also requires all five artifacts and checks their
+hashes; three mocked local controls accept the complete bundle and refuse a
+missing or altered capture executable. The already admitted device-free r38
+build of `df0780dd` now passes all four compilation stages and links all five
+consumers. Independent verification binds 41 recipes, both complete provider
+variants and the C17 capture's primary-provider linkage. All 126 portable archive
+members verify. [Build receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json).
+No model is loaded or test campaign started. CPU peaks at 74 C; the original
+lease releases at 00:55:11 UTC and fresh strict closure at 00:56:41 verifies
+owned identities/container retired, HTTP8000 unbound and router232427 restored.
+No machine is reserved. Further campaigns follow completion of functional work.
+
+The native client additionally accepts `--tools` for six strict required-function
+sessions, preserving raw vocabulary bytes and model-neutral stop metadata.
+The shared C17 output validator admits only the entire completed call; it executes
+no function. Offline original/C17/OFF replay compares every grammar-mask bit,
+full probability mass, history/draws, natural-stop frontiers and saved call
+arguments, using independent byte membership and long-double mass oracles.
+The sampled live EOS ID is not exposed by the executor: replay checks the stop
+class and exact unadvanced frontier, not a recorded live EOS identity.
+
+Focused Release and unsuppressed ASan/UBSan/LSan controls pass 3/3 each, plus
+1/1 main-project linkage/format control. All 36 synthetic tool rows have identical
+304-line witnesses across arms/builds; the 48 unconstrained rows keep their
+preceding complete witness unchanged. Ten additional refusals cover policy,
+premature stop, saved arguments, vocabulary hash/length/FIFO/symlink/stop flag/
+piece bounds and missing completion. Two initial focused link failures remain
+preserved; corrected dependencies link the exact integer/transform helpers and
+the main client uses the full core. CPU peaks at 79 C, GPU masked/observed only.
+The [required-tool receipt](development/validation/sampling-tools-host-2026-10-07.json)
+and portable raw archive verify all 2,339 members without another test/build.
+The additive owner-only accessor changes no executor ABI layout, numerical
+algorithm, HTTP behavior or reactive scheduling. Matching final HIP compilation
+is now verified; original-weight tool probabilities, MTP branches, wider
+transitions and quality/fault/resource/cost gates remain open. No GPU campaign
+or lease is queued.
+
+The C17 `lie-sampling-capture` development client now records full raw logits
+before the ordinary AR draw, binding their binary hashes to committed outputs
+and fixed generation profiles. Offline pristine/C17/OFF replay emits every
+probability and draw, checks live tokens/history/RNG, compares mass with an
+independent long-double oracle and exercises forced residual correction.
+[Usage and scope](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md#complete-row-capture-and-offline-probability-replay).
+
+Focused native Release and unsuppressed ASan/UBSan/LSan checks pass 2/2 each:
+48 synthetic rows have identical complete witnesses across all three samplers;
+nine corruption/incomplete-data refusals retain actual exit 1, including named
+pipes that must refuse before any blocking read. Main-project capture linkage
+and its one focused native control also pass. The initial
+configure/build failures remain preserved: the read-only host provider is an
+overlay, and the compiler requires an explicit file deleter type. Corrected
+configuration/linking and checks exit 0. This is tooling preparation, not a
+GPU probability, MTP-controller, model-quality or performance result. Runtime
+numerics, core ABI, HTTP and reactive scheduling are unchanged. No GPU/remote
+build/run, lease or reservation is created; all six acceptance items stay open.
+[Tooling receipt](development/validation/sampling-capture-host-2026-10-07.json)
+binds source, commands, full witnesses and CPU78.25 C; all 2,307 members of the
+portable archive verify without repeating a build or test.
+
+## Current integrated HIP build collected and closed — 2026-10-06 UTC
+
+The `.161` build of source `d63b9b7b` / code `88d4c4e5` completes both private
+sampler ON/OFF120 providers, the two-file default-ON observer and server/native
+bench/reference/probe consumers. All four stages and supervisor/container/
+controller exit 0. Independent verification reconstructs all 41 recipes and
+1,019 variant files per provider, with matching private consumer flags.
+The [build receipt](development/validation/integrated-point-hip-build-2026-10-06.json)
+and [portable evidence](development/validation/raw/integrated-point-hip-build-2026-10-06.tar.gz)
+bind six base, 25 compilation and three coherence artifacts; all 128 archive
+members verify. No build or test is repeated for collection.
+
+The compiler has no GPU devices and loads no model. CPU peaks at 72.625 C
+under CPU98/NVMe85/lower guards. The original lease releases at 23:12:47 UTC;
+fresh closure at 23:13:53 verifies owned identities retired, container removed,
+HTTP8000 unbound and router224255 restored as the only KFD client. No subsequent
+window is admitted or reserved. Original-weight functional/quality/fault gates,
+matched benchmarks and Terminal Bench last remain open in that order.
+
+## Integrated final HOST checkpoint — 2026-10-06 UTC
+
+The current functional source is integrated at `88d4c4e5`. Final local checks
+pass 101/101 native controls and 67/67 complete provider controls in both Release
+and unsuppressed ASan/UBSan/LSan, plus 69/69 headless ICU-OFF controls. All 68
+public headers compile strictly as C17 and C++17. The 30 full witness groups
+agree across builds; all 267 preceding captures remain unchanged.
+
+The [current HOST receipt](development/validation/integrated-final-host-2026-10-06.json)
+and [portable evidence](development/validation/raw/integrated-final-host-2026-10-06.tar.gz)
+bind 650 source files, 120 sampler-provider files, two observer files and 1,019
+pinned Gufo files. Independent archive verification covers 534 witness captures
+and 1,823 members. Four earlier link attempts retain their actual exit 1;
+explicit dispatch dependencies fix all five standalone fixture consumers and
+the transitional runtime. Corrected builds and final checks exit 0.
+
+Peak local CPU is 94.625 C under CPU98/NVMe85/lower guards; GPU is masked.
+Collection repeats no tests and starts no remote operation. All six items remain
+open for GPU/quality/fault/performance acceptance. Implementation precedes those
+campaigns, benchmarks follow functional qualification and Terminal Bench is last.
+
+## Build coherence and source readiness — 2026-10-06 UTC
+
+The observer's build identity now requires a JSON boolean. Native provider
+controls cover ON/OFF matching, missing/type-invalid identities, source/header
+changes, short/extra/missing inventories and recipe hash/missing/drift refusals.
+The initial control failed with CTest exit 8 because its synthetic receipt still
+omitted the new observer identity; that failure is preserved. Corrected source,
+receipt and HIP-target controls pass 3/3 in each Release/sanitizer configuration.
+These are CMake/manifest controls, not sanitized numerical execution.
+
+The Point build coordinator now selects complete canonical CMake ON/OFF provider
+recipes, with identical state/cache/observer options, before linking the runtime.
+Its command-routing fixture passes with every compiler/subprocess mocked; no HIP
+compilation or inference is claimed. Peak local CPU is 78.625 C. No remote build,
+GPU/model run, lease, window or reservation is prepared or started.
+[Receipt](development/validation/dispatch-build-coherence-host-2026-10-06.json)
+binds this correction and its source-only fixture scope.
+
+Source review maps every current functional requirement to integrated code:
+1M/RoPE/recall, native matched-workload/report/graph/dispatch methods, steering
+bank/live/planned/cache semantics, generation filters and the three owned C17
+sampler responsibilities. No additional model/controller/kernel replacement is
+added to item 7. The implementation phase is ready for final combined local
+qualification and a coherent `.161` build after fresh coordination, followed by
+original-weight functional/quality/fault gates, comparative benchmarks and
+Terminal Bench last. Source readiness does not close any of the six root items.
+
+## Shared C17 prefill-dispatch observer — 2026-10-06 UTC
+
+The model-neutral inline observer stages actual matrix/scalar, dense/sparse
+attention selections, classifies geometry/mask-pitch refusals and distinguishes
+confirmed numerical completion from unconfirmed work. The owner publishes copied
+snapshots to shared-core clients; native benchmark sample/progress JSONL reports
+cohort deltas/cumulative counts with explicit unavailable values. It adds no heap,
+device work, worker, HTTP meter, cache framing or scheduling change. Production
+instrumentation is default ON and can be disabled at compilation.
+
+Focused Release and unsuppressed ASan/UBSan/LSan controls pass 3/3 each, covering
+staging/refusal/overflow, copied publication while the owner is held, cancel,
+poison/shutdown and native report unavailability. Public headers compile as C17
+and C++17. Exact variants derive with and without KVC from all 1,019 pinned files;
+the numerical kernel prefix is unchanged by this new recipe. Initial exit 8
+records preserve a fixture admission hook error and the sandbox LSan restriction;
+initial source-checker exit 1 preserves an incorrect pristine-prefix comparison
+that omitted preceding valid sampler recipes. Corrected checks pass. Peak local
+CPU is 83.125 C; no GPU, model or remote build is run.
+[Receipt](development/validation/attention-dispatch-host-2026-10-06.json) and
+[portable evidence](development/validation/raw/attention-dispatch-host-2026-10-06.tar.gz)
+bind the source and actual results. Coherent HIP compilation, actual GPU dispatch,
+observer cost and final integrated qualification remain deferred. This provides
+observability for the high-context hypothesis, not an optimized attention kernel
+or a measured performance improvement. All six root items remain open.
+
+## Native associative recall and continuation client — 2026-10-06 UTC
+
+`synapse-lie-bench --suite http --preset long-context-recall` prepares three
+seeded key/value bindings among numeric distractors at start/middle/end.
+Two-turn mode asks for the middle key first, then retrieves previously unanswered
+keys from the original ledger. Exact C17 JSON oracles, physical-count calibration,
+copied requests/positions and separate quality/infrastructure outcomes are wired.
+Quality misses retain every remaining turn and repetition. No model/HTTP/core
+ABI, cache policy, reactive scheduling or inference thread is changed.
+
+Focused Release controls pass 2/2. The HTTP fixture passes ASan/UBSan/LSan and
+the corrected standalone recall fixture passes its subsequent sanitizer run;
+earlier CTest exit 8 records retain the invalid NUL-fixture construction and
+Release loopback sandbox refusal. Peak local CPU is 80.625 C under CPU98/NVMe85
+guards; GPU is masked. These are client/algorithm fixtures, not inference.
+[Receipt](development/validation/native-recall-host-2026-10-06.json) and
+[portable evidence](development/validation/raw/native-recall-host-2026-10-06.tar.gz)
+record exact source scope and actual results.
+Original-weight recall through 1M and full integrated qualification remain open.
+No remote run, lease or reservation is prepared; Terminal Bench stays last.
+
+## Combined final HOST qualification passes — 2026-10-06 UTC
+
+For code checkpoint `77bcdc1c`, all 98 native functional controls pass in both
+Release and ASan/UBSan/LeakSanitizer, all 67 complete provider controls pass in
+both builds, and all 68 headless controls pass with ICU disabled. Public headers
+compile strictly as C17 and C++17. HTTP/core/reactive/cache/events/metrics and
+native benchmark controls use isolated synthetic executors, not model inference.
+
+[The HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
+and [portable evidence](development/validation/raw/c17-final-functional-host-2026-10-06.tar.gz)
+bind 642 owned source files, the 120-file private provider inventory and 1,019
+independently pinned Gufo files. All 30 complete witness groups are byte-identical
+between Release and sanitizer builds; all 267 preceding captures remain unchanged.
+Independent archive verification covers 534 witness captures and 1,833 members.
+The earlier null parity failure, strict build/ptrace refusals and packaging
+count/coverage corrections remain preserved. No test is repeated for packaging.
+
+Peak local CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards. In this HOST
+phase GPU is masked and observed only; no model forward, remote build, lease or
+service change occurs. The subsequent matching r36 HIP provider ON/OFF120 and
+private consumers build with exit 0; all 25 collected artifacts and both complete
+1,019-file variant maps verify locally. The first collection checker exit 1 is
+preserved: it assumed three individual recipe fields that the authoritative
+receipt instead binds through the complete variant map. Corrected offline
+verification passes without repeating a build or starting inference.
+The owned build processes/container are retired, the original lease is released
+and the router is restored. Original-weight `.161` AR/MTP,
+branch/fault/quality/resources/cost gates remain deferred, pending fresh admission.
+All six owned tasks remain open; Terminal Bench stays last and unreserved.
+
+## Finish source corrections before further tests — 2026-10-06 UTC
+
+The remaining context/client limits, benchmark methods, steering/sampling paths
+and three sampler extractions have source integration at `a4bc6a8a`. An initial
+combined local qualification attempt found a missing schema/Unicode static link
+dependency and a strict indentation failure; both have source corrections.
+The subsequent selected C17 Release and unsuppressed ASan/UBSan/LSan runs pass
+13/13 each. The complete host provider run passes 66/67, with actual CTest exit 8:
+`schema-values-reference-parity` rejects lazy JSON null inputs while pristine and
+OFF witnesses agree. Logs, temperature observations and failures remain preserved
+under local `evidence/final-*`; this partial result is not final acceptance.
+
+The native schema arena now accepts a NULL copied source as JSON null for direct
+clone/member/array operations, matching the underlying JSON-value contract.
+Typed const inputs retain lazy, immutable ownership; schema-node readers/writers,
+mutation targets and root transfer still require actual nodes. Native/typed
+regressions are prepared for null copies, duplicate/NUL keys, scope retirement,
+allocation and admission refusal. This correction is **unverified**: no subsequent
+configure, build, test or model execution is started.
+
+Per the owner's sequencing, finish remaining source corrections before resuming
+the combined functional/CTest/sanitizer phase. Matching `.161` original-weight,
+fault, quality and performance gates follow with fresh coordination. Terminal
+Bench remains last. All six root items remain open. There is no root remote job,
+build, lease, window, waiter or reservation; earlier receipts remain immutable.
+
+## Sampler history and probability buffers owned by C17 — 2026-10-06 UTC
+
+The shared `lie/sampling_storage.h` contract owns bounded token/penalty and
+probability buffers, growth, accounting, transactional logical clones and exact
+move transfer. Inline initialized owners allocate no initial heap; moving a
+history rebinds its native callback context. Growth preserves unpublished C
+algorithm staging, charges simultaneous old/new buffer bytes and refuses before
+publishing logical state. Default requested heap limits are 64 MiB per owner.
+
+The default-ON private sampler now holds native history and distribution owners.
+Dense/ranked/residual/proposal paths write directly into C workspaces; production
+results transfer into distributions without a C++ row copy. Span, exception,
+config, RNG and handle projections remain private. Public vector constructors
+are compatibility input boundaries; original OFF algorithms/layouts stay guarded.
+Matching complete provider/core/numerical/client rebuilds are required because
+private sampler/distribution layouts change. Existing public C engine/HTTP/state/
+cache/event/metric contracts and reactive scheduling remain unchanged by design.
+
+**Implemented, unverified:** 20 exact source edits and 120 provider files are
+recorded. Native and private integration fixtures cover FIFO/count oracles,
+independent clones, move identity, callback rebinding, staging growth, requested
+memory limits, allocation refusal, copied pending draws and MTP calls. No new
+configure/build/test/GPU campaign is started. Final qualification combines every
+unverified increment, complete ON/OFF witnesses, unsuppressed sanitizers and
+matching `.161` original-weight faults/quality/resources/cost. Earlier receipts
+remain frozen. Current item 7 is limited to grammar/masking, sampler history and
+compact speculative distributions; complete model/controller/kernel replacement
+is an architectural boundary, not an added root task. All six items remain open
+until their acceptance gates pass; Terminal Bench stays last, without reservation.
+
+## Production schema frontend implemented in C17 — 2026-10-06 UTC
+
+`lie_schema_frontend` connects native JSON readers, compiler state, body/visit/
+reference/container/enum policies, exact numeric/string leaves and publication.
+It registers and owns predicate tables, retains diagnostic details before staging
+retires and publishes independently owned program/prompt/table results. Programs
+borrow the sealed predicate table, whose owner must outlive all programs/states.
+The default-ON production `Compile`/`Object` paths use this frontend; private C++
+glue projects error classes and shared handles. Original OFF and retained helper
+probes remain available. Unrestricted string programs reuse within a compilation,
+with an optional caller-owned reusable program; no C global cache/thread is added.
+
+**Implemented, unverified:** source/recipe inventories contain 117 files. Native/
+typed fixtures are written for complete languages, retained helper comparisons,
+cache identity, references, enum filtering, output/error lifetime and allocation
+refusals. No configure/build/test/GPU campaign is started. Matching strict build,
+unsuppressed sanitizers, complete ON/OFF witnesses and `.161` original-weight
+AR/MTP, faults, quality/resources/cost remain final gates. Earlier receipts retain
+their frozen sources. Remaining sampler buffer ownership and broader acceptance
+keep all six tasks open; Terminal Bench stays last, without a reservation.
+
+## Native C17 string-schema construction — 2026-10-06 UTC
+
+`lie_schema_string` admits ordered length/pattern/format fields, narrows hostname
+length, composes the C17 Unicode/regex compiler and publishes independently owned
+lexemes. A bounded allocation-free plan borrows pattern bytes and owns expanded
+format bytes. The adapter retains its lazy unrestricted-program reuse and typed
+error projection; original OFF construction remains guarded. This completes
+native string leaf construction, with full frontend/model-controller work still open.
+
+**Implemented, unverified:** native/typed fixtures are written for finite-language
+oracles, Unicode/NUL spans, pattern/format intersection, error order, independent
+lifetime, reuse, callback/allocation/work refusals. Planned provider inventories
+contain 114 files. No configure/build/test/GPU run is started. Final qualification
+must combine this source with all earlier unverified increments and complete
+ON/OFF witnesses, then matching `.161` original-weight AR/MTP, faults, quality and
+cost. Earlier receipts remain unchanged. All six tasks stay open; Terminal Bench
+stays last, without a machine reservation.
+
+## Native C17 schema construction replaces typed staging — 2026-10-06 UTC
+
+The reusable `lie_schema_arena` owns temporary native JSON roots and implements
+scalar/container creation, copied trees, member/array mutation and exact root
+transfer. Native readers expose ordered raw nodes and length-delimited strings/
+keys without C++ projections. Format expansion and combined `multipleOf` reuse
+the C17 policy/codec modules. Underlying refusal reasons remain available to C
+clients; the private adapter retains typed views and exception projection.
+Default-ON schema transformation and normalization staging use this binding;
+original OFF construction remains guarded. The source inventory now includes
+111 owned provider files. Existing model/HTTP/cache/event/metric layouts remain.
+
+**Unverified:** no configure, build, CTest, sanitizer or GPU run is started.
+Native and typed construction/transfer/refusal fixtures are written, including
+NUL spans, ordered/duplicate members, immutable sources, surviving taken roots,
+allocation refusals and cumulative admission bounds. Complete schema/body/
+normalization/format witnesses and matching `.161` original-weight AR/MTP,
+fault/resource/quality and cost gates remain for the final phase. Earlier receipts
+remain frozen and do not qualify these changes. All six tasks remain open;
+Terminal Bench stays last.
+
+## Compilation bootstrap and temporary ownership move into C17 — 2026-10-06 UTC
+
+The model-neutral `lie_schema_compiler` owns the builder, reference/predicate
+memos, derived-root store, primitive IDs and counters. C17 handles partial
+creation, ordered whitespace/JSON bootstrap, one-shot publication and retirement.
+Explicit phases reject reuse after failure/publication. Program and prompt keep
+independent ownership; their predicates and allocator hooks retain their required
+lifetimes. The private adapter projects callbacks, errors and borrowed fields.
+Original OFF algorithms remain guarded. Provider source inventories include
+the three added files; no HTTP or model-specific contract is introduced.
+
+**Unverified:** no configure, build, test or GPU run is started. Native lifecycle/
+allocation/phase/publication fixtures and typed callback/root/prompt controls
+are written for final qualification. New-source core/provider/sanitizer, complete
+ON/OFF parity, original-weight AR/MTP, fault and cost gates remain pending.
+Reactive/worker/cache/event/metric behavior is unchanged by the source design;
+preservation still needs final regression checks. All six tasks remain open,
+GPU tests stay on `.161` in the final phase and Terminal Bench stays last.
+
+## Final decimal schema validation implemented; tests deferred — 2026-10-06 UTC
+
+The shared core uses exact output spans for fractional min/max/exclusive
+constraints, numeric enum/const equality (including nested objects/arrays) and
+`multipleOf`. It removes rounded output comparisons and the floating quotient
+tolerance. Additive model-neutral C17 comparison/divisibility APIs reuse the
+existing bounded decimal implementation. Comparison uses bounded stack storage;
+divisibility retires one caller-allocator workspace without constructing a policy.
+
+Schema numbers retain the transitional compiler's binary64 admission/shortest
+decimal domain. Integer intervals retain exact represented binary64 boundaries.
+Output digits are preserved; invalid/nonpositive divisors and resource/work
+refusals reject the final value. API refusal preserves its result. Reactive,
+worker, model, cache, event and metric contracts are unchanged.
+
+**Unverified:** no build, CTest, sanitizer or GPU run is started for this increment.
+Independent integer/rational, close-boundary, underflow/overflow, nested-value,
+allocator/work/resource and alias fixtures are written for the final phase.
+Earlier HOST/GPU receipts qualify their frozen sources only. Final acceptance
+must cover numeric grammar/final-validation agreement, original-weight AR/MTP,
+faults and cost; no complete schema or performance claim is made.
+
+## Implement remaining functionality before final tests — 2026-10-06 UTC
+
+The owner defers new CPU and GPU test campaigns until the remaining functional
+implementation is ready. Source changes after a qualified checkpoint remain
+explicitly unverified. Focused CTest and sanitizer gates stay required in the
+final phase, alongside GPU, quality and performance qualification; GPU work uses
+`.161` with fresh coordination. Terminal Bench runs last. Completed receipts
+remain immutable and do not qualify subsequent changes. All six owned tasks
+stay open, with no intermediate remote job or machine reservation queued.
+
+## Default schema-number conversion stays inside C17 — 2026-10-06 UTC
+
+Initialized numeric descriptions now call the owned C17 binary64 codec directly;
+serialization and parse hooks are independent optional overrides. C17 owns the
+native conversion error record and preserves refused outputs. Arithmetic and
+number spelling are unchanged. The private adapter retains borrowed typed views,
+final exception projection and custom-hook capture, with no standard C++ codec
+trampoline. Existing public layouts, reactive scheduling, workers and RAM/SSD
+payloads remain unchanged.
+
+[HOST receipt](development/validation/c17-schema-codec-host-2026-10-06.json)
+and [complete portable evidence](development/validation/raw/c17-schema-codec-host-2026-10-06.tar.gz)
+record five Release, five ASan/UBSan/LSan, 58 provider and three contract checks,
+all passing. The independent C fixture has 1,581 grid/LCM/literal/control oracles,
+37 callback and 18 allocation refusals with no remaining allocations. All 30
+preceding witness groups and 267 files remain byte-identical. Four custom C++
+exceptions and the native overflow diagnostic remain exact; the selected
+numeric bridge retains zero C++ allocations. Read-discovery failures and the
+initial packaging recipe-name assertion exit 1 remain preserved. Packaging is
+corrected without repeating build or inference.
+
+Peak local Strix Halo395 CPU temperature is 92.25 C, under CPU98/NVMe85/lower
+guards; GPU is masked and observed only. These checks finished before the owner
+deferred further campaigns. Matching new-source HIP ON/OFF and original-weight
+AR37+66/MTP37+66 on `.161` remain pending in the final qualification phase and
+require fresh admission. Root holds no remote job, lease, waiter or reservation on `.161`, does
+not use `.157/.158`, and keeps all six owned tasks open. Terminal Bench stays last.
+
+## JSON ownership passes selected original-weight GPU gates — 2026-10-06 UTC
+
+The sealed `dbdac28d` source builds coherent 105-file HIP ON/OFF providers and
+private LIE/model/reference consumers on `.161`. Both original-weight modes
+pass **37 general OpenAI controls and 66 separate integer checks**, including
+60 exact JSON/SSE outputs and six expected HTTP400 refusals per mode.
+[GPU receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json)
+and [portable complete evidence](development/validation/raw/c17-json-slot-point-gpu-2026-10-06.tar.gz)
+bind source, binaries, fresh admissions, outputs, exit codes and closure.
+All three runs and their collections exit 0 against the matching HOST105
+inventory. The preceding HOST receipt retains its original scope; its lifetime
+fault checks do not become GPU fault qualification. Initial read-discovery
+exit 2 remains retained; no build or inference rerun occurs.
+
+Peak CPU temperatures are 73.625 C for the device-free build, 66.25 C for AR and
+68.25 C for MTP. Both inference windows observe 44 whole-process threads;
+the JSON ownership port adds no inference worker or measured speedup. CPU98,
+NVMe85/lower guards and GPU observation remain unchanged. Fresh closure at
+18:43:45.687731 UTC verifies all three exact supervisor/init/container identities
+absent, HTTP port 8000 unbound, the original lease (device 66307 / inode 105946405)
+free and released, and router PID 208314 restored. Root holds no remote job, lease, waiter or reservation
+and does not use `.157/.158`. All six owned tasks remain open; Terminal Bench
+stays last. Typed schema/grammar construction/bootstrap/callback errors and
+model/controller ownership, broader numerical/branch/fault/resource/quality and
+matched-cost gates remain open.
+
+## JSON ownership and lazy state move into C17 — 2026-10-06 UTC
+
+The model-neutral `lie_json_value_slot` API owns root/borrowed admission, lazy
+initialization, copy/move construction and assignment, scalar moved state, root
+transfer and getters. The default-ON Gufo facade delegates these policies to C17;
+typed references, synchronized string projections and exception translation
+remain private C++. The complete original OFF Value class is unchanged.
+
+[HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json) and
+[portable complete evidence](development/validation/raw/c17-json-slot-host-2026-10-06.tar.gz)
+record five Release, five ASan/UBSan/LSan, 58 provider and three contract checks,
+all passing. The new C fixture has 27,395 checks, 78 allocator and 37 view
+refusals, with zero remaining allocations. All 30 complete preceding witness
+groups and 267 files are byte-identical; private Value/Array/Object sizes remain
+152/168/8 bytes. Source105 changes only the JSON header, C implementation and
+private facade. The initial CTest exit8 incorrectly expects nonfinite setter
+refusal; corrected tests preserve the original internal-value/dump policy. The
+failure, initial packaging drafts and read-discovery errors remain retained.
+
+Maximum local Strix Halo395 CPU temperature is 91.875 C with CPU98/NVMe85/lower
+guards and masked/observe-only GPU. No dependency, model forward, worker or
+reactive-policy change occurs. Matching new-source HIP ON/OFF builds and
+original-weight AR37+66/MTP37+66 on `.161` require fresh admission and remain
+pending. Root holds no remote job, lease, waiter or reservation and does not
+use `.157/.158`. All six owned tasks stay open; Terminal Bench remains last.
+
+## Exact integer correction passes original-weight AR and MTP — 2026-10-06 UTC
+
+The sealed `050ae826` source rebuilds coherent 105-file HIP ON/OFF providers
+and private LIE/model/reference consumers on `.161`. Both original-weight modes
+pass **37 general OpenAI controls and 66 separate integer checks**, including
+60 exact JSON/SSE outputs and six expected HTTP400 refusals per mode.
+[GPU receipt](development/validation/output-schema-integer-point-gpu-2026-10-06.json)
+and [portable wire/build/telemetry evidence](development/validation/raw/output-schema-integer-point-gpu-2026-10-06.tar.gz)
+bind source, binaries, admissions, outputs and actual exits0. The earlier r33
+HTTP502 and its HOST reproducer remain preserved. A collector inventory mismatch
+exits1 after 25 successful transfers; corrected local validation passes without
+rebuilding, retransferring or repeating inference.
+
+Peak CPU temperatures are 74.875 C for the device-free build, 65.5 C for AR and
+68 C for MTP. Both inference windows observe 44 whole-process threads. Guards
+remain CPU98/NVMe85/lower exposed limits, with GPU observation only. Fresh
+16:59:57.826465 UTC closure verifies all three exact supervisor/init/container
+identities absent, HTTP8000 unbound, original lease free/released and router198758
+restored. Root has no remote job, lease, waiter or reservation and does not use
+`.157/.158`. All six owned roadmap items remain open; Terminal Bench stays last.
+General fractional-number bounds, numeric enum/const, `multipleOf`, broader
+quality/fault/resource/performance qualification and model/controller ownership
+remain open. README now presents setup, usage and model/platform benchmark links;
+the build examples select matching ON/OFF providers and target architecture.
+
+## Exact final integer validation passes HOST regression — 2026-10-06 UTC
+
+The original r33 rejection is reproduced locally with CTest exit8, preserving
+its complete log. The shared C17 core now compares mathematical integer output
+spans to exact represented binary64 bounds instead of rounded output doubles.
+Integral decimal/exponent forms and signed zero remain supported; fractions
+hidden by rounding or underflow are rejected for integer schemas. The comparator
+borrows input, uses constant stack/no heap and preserves results on refusal.
+General fractional-number bounds, numeric enum/const equality and `multipleOf`
+retain their prior implementation and broader precision gates remain open.
+
+[HOST receipt](development/validation/output-schema-integer-host-2026-10-06.json)
+records 9,855 independent numeric checks, four Release, seven ASan/UBSan/LSan
+and three provider contract tests, all passing. Sanitizers run outside ptrace,
+with options unset and no suppression. Maximum local CPU is 75.5 C; CPU98,
+NVMe85/lower guards and masked/observe-only GPU remain active. The initial
+expanded build mistakenly requests a nonregistered core-only target and exits1;
+its log and read-discovery failures remain retained. No dependency is added.
+Reactive scheduling, workers, engine/state/cache/event/metric layouts stay intact.
+Matching new-source HIP ON/OFF builds and complete AR66/MTP66 qualification
+are still pending. Root has no GPU job/lease/waiter/reservation or `.157/.158`
+activity. All six owned tasks remain open; Terminal Bench stays deferred last.
+
+## Bounded-integer GPU gate exposes final-validation error — 2026-10-06 UTC
+
+The freshly admitted `.161` AR session reuses the qualified `9a4f45b1` runtime
+with the `7fb62c5a` protocol. It passes 26 of 66 integer checks, including exact
+binary64-maximum output in JSON and SSE, then returns HTTP502 for the interval
+`exclusiveMinimum: 1e18, maximum: 1.0000000000000001e18`. The final shared-core
+validator compares rounded doubles, which cannot distinguish the allowed integer
+`1000000000000000001` from the excluded lower endpoint. The original-weight
+failure remains retained; HOST reproduction and a shared C validator correction
+are next. This result does not qualify the complete integer protocol. MTP was
+not started. The earlier general AR37/MTP37 result retains its original scope.
+
+Collection exits 0; server exit is 0 and child/controller/supervisor exits are 1.
+Closure at 2026-10-06T15:52:14.222826 UTC verifies the exact owned processes gone,
+container removed, HTTP8000 unbound, original lease free then released and the
+preexisting router restored. No root GPU job or reservation remains. Closure is
+a dated observation, not admission for a later run. All six [owned roadmap
+items](BACKEND.md#current-roadmap--2026-10-08-utc) remain open; Terminal Bench
+stays stopped, collected, closed and deferred until modifications are finished.
+
+## Bounded-integer original-weight protocol prepared — 2026-10-06 UTC
+
+The optional developer campaign adds 66 separate checks, using bounded integer
+schemas without enum/const shortcuts. Fifteen cases cover signs, zero, inclusive/
+exclusive and fractional endpoints, prefix transitions, exact magnitudes beyond
+int64 and through binary64 maximum. Both APIs use JSON and SSE; three invalid
+schemas require HTTP400 per API. Independent integer oracles preserve all digits.
+The 37 general GPU controls keep their existing count and scope.
+
+Three focused HOST CTest groups pass (63 supervisor, five existing output-budget
+and five new oracle tests). The initial mock omitted its bundle path and exits8;
+the corrected fixture and frozen failed log are retained. Atomic-patch and
+read-discovery failures remain local evidence. All105 provider files stay
+hash-identical to qualified `9a4f45b1`; no C lifetime/parser/metric or model
+source changes occur. Prior HOST sanitizer evidence retains its original scope.
+[Protocol receipt](development/validation/schema-integer-gpu-protocol-host-2026-10-06.json).
+Original-weight `.161` runs still need fresh admission. No GPU job/lease/waiter/
+reservation is created by these HOST fixtures; `.157/.158` stay unused and no
+dependency is installed. Python remains optional developer supervision only.
+All six tasks stay open; Terminal Bench remains stopped/collected/closed/deferred last.
+
+## Signed integer-bound source passes matching GPU controls — 2026-10-06 UTC
+
+The sealed `9a4f45b1` source builds coherent 105-file HIP ON/OFF providers and
+private LIE/model/reference consumers on `.161`. Actual compiler blocks verify
+the model/frontend flags and the complete OFF archive linkage. Unchanged
+original-weight AR37/MTP37 pass under separate fresh admissions; all server,
+child, controller and supervisor exits are 0. The official Gufo HTTP frontend
+is retained source only. [GPU receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json)
+binds the source, binaries, complete logs and retirement. Independent HOST58,
+focused C1, Release4 and 30 complete witnesses retain their separate scope.
+The existing enum-based GPU schemas do not independently exercise each new
+bounded-integer branch; broader branches, faults, quality, resources and cost
+remain open. No inference worker is added.
+
+AR CPU 62.875 C, GPU 65.0 C, NVMe 64.85 C / MTP CPU 66.375 C, GPU 68.0 C, NVMe 66.85 C. Whole-process thread maxima are 44/44.
+CPU98/NVMe85/lower guards and GPU observation remain intact. Fresh closure at
+2026-10-06T15:22:54.143956+00:00 verifies all three supervisor/container-init identities gone,
+containers removed, HTTP8000 unbound, original lease free then released and
+router 187232 restored/only KFD. Model stat identities stay unchanged.
+No remote job/client/build/lease/waiter/reservation or live local handle remains;
+`.157/.158` stay unused. No tuning, dependency installation or push occurs.
+
+Independent pinned-source analysis identifies the 2,048-word sparse-WMMA
+dispatch guard and 8,192-word pitch at configured 1M capacity. This is a
+source finding, not a measured cause of the frozen prefill decline or proof
+of a speedup. Actual dispatch/quality/resource profiling remains in item 4.
+All six owned tasks stay open; Terminal Bench remains stopped, collected,
+closed and deferred last until functional changes and qualification finish.
+
+## Signed integer-bound compilation passes HOST controls — 2026-10-06 UTC
+
+The shared C17 integer compiler now owns ordered bounds, rounding, exact
+represented binary64 magnitudes, exclusivity, empty intervals and signed
+grammar alternatives. The default-ON adapter retains only native views/error
+translation; three exact recipe edits preserve the original OFF algorithm.
+All previous 102 provider files retain their identities; three new files make
+the coherent inventory 105. The identical test-only compiler exposure is now
+compiled once per arm and shared by its five consumers, with no skipped fixture.
+
+[HOST receipt](development/validation/c17-schema-integer-host-2026-10-06.json)
+records 58/58 ASan/UBSan/LSan checks, one focused C check and four Release checks.
+Independent C controls cover 16,383 formats, 4,716 language decisions, 20 callback
+refusals and 38 allocator failures. The new complete original/ON/OFF witness
+agrees for 283 cases, 9,226 magnitude calls, 4,927 states and 574 masks. All 29
+earlier complete groups (258 files) stay byte-identical. Initial test setup
+misused the whitespace bootstrap symbol and exits 8; its log and the corrected
+standalone integer fixture are retained. Read-discovery errors are also retained.
+The first receipt generator exits 1 after counting three generated C++ files
+as binaries; the corrected generator binds 119 executables/archives without
+rerunning tests, and retains both metadata outcomes.
+Sanitizers run outside ptrace with options unset and no suppression. CPU maximum
+is 94.625 C under CPU98/NVMe85/lower guards; GPU remains masked/observe-only.
+
+Matching new-source HIP ON/OFF/private consumers and original weights on `.161`
+remain pending. The `33d12a02`/r31 GPU receipt excludes this increment. Typed
+construction/bootstrap/errors and model/controller remain transitional; broader
+quality, faults, private resources and matched cost remain open. No remote
+job/lease/waiter/reservation is created, `.157/.158` stay unused and no push occurs.
+All six owned tasks remain open. Terminal Bench stays stopped, collected,
+closed and deferred last until functional changes and their qualification finish.
+
+## Native HTTP deadlines cover the recorded 1M duration — 2026-10-06 UTC
+
+The shared C HTTP transport, ordinary workload, canonical Gufo curve and
+prepared multi-user client now accept deadlines up to 86,400 seconds. The
+long-context preset defaults to 14,400 seconds; ordinary, curve and multi-user
+defaults stay unchanged. The frozen physical 1M run took 7,478.56 seconds,
+exceeding the former 7,200-second client maximum. Client declarations do not
+configure the server or campaign supervisor.
+
+[HOST validation](development/validation/native-http-deadlines-host-2026-10-06.json)
+records three Release and three ASan/UBSan/LSan CTest contracts, all passing.
+Tests cover the maximum in every client, ordinary/long-context defaults,
+invalid values, exact report identity and existing HTTP/report/graph behavior.
+Synthetic children use private ephemeral loopback ports and a PATH without
+Python. The long-context fixture intentionally refuses nonlinear synthetic
+calibration; it is not original-weight recall or performance evidence.
+Sanitizers run outside sandbox ptrace with options unset and no suppression.
+Maximum local build/test CPU is 76.75 C under the existing guards; GPU is
+masked/observe-only. No new remote job, lease or reservation is created.
+The capability matrix is corrected to retain current AR37/MTP37 and fixed
+physical PP1,048,448/TG128 scope. All six owned tasks remain open; Terminal
+Bench stays stopped, collected, closed and deferred last. No push occurs.
+
+## C17 schema publication passes matching GPU controls — 2026-10-06 UTC
+
+The sealed `33d12a02` source builds coherent 102-file HIP ON/OFF providers and
+private LIE/model/reference consumers. Actual Ninja compiler/linker blocks
+verify the complete OFF reference selection. The unchanged 37 original-weight
+OpenAI controls pass in each AR/MTP mode on `.161`, with server/child/controller/
+supervisor exits 0. [GPU receipt](development/validation/c17-schema-compile-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-compile-openai-r31.tar.gz)
+retain source identity, telemetry and actual closure. HOST56 and all 29 previous
+complete witness groups keep their separate scope. The official Gufo HTTP
+frontend is retained source only, not built or qualified by this gate.
+Typed construction/bootstrap/callback-error and model/controller remain
+transitional. Integer-bound interval construction is a remaining C++ algorithm.
+Broader branch/fault/probability/quality/private-resource/matched-cost and 1M
+recall gates remain open. No new performance or reactive C1 gain is claimed.
+
+AR/MTP CPU maxima are 60.25/65.25 C; GPU 62.0/67.0 C; NVMe 62.85/64.85 C. Whole-process thread maxima are 44/44; the source adds no inference worker.
+CPU98/NVMe85/lower guards and GPU observation remain unchanged. The local
+read-location failure exits 2; the initial closure observer exits 1 because it
+expected bundle absence after bundle creation. Both are retained; corrected
+fresh closure passes, with no build/inference restart.
+Fresh 2026-10-06T13:54:18.806004+00:00 closure verifies all three exact supervisor/container-init
+identities retired, owned containers removed, HTTP8000 unbound, original lease
+free then released, and router 177938 active/only KFD. Model/
+predictor stats stay unchanged. All actual handles are collected. Root has no
+remote job/client/build/lease/waiter/reservation; `.157/.158` remain unused.
+No tuning, install, deployment or push occurs. All six owned tasks remain open;
+Terminal Bench stays stopped/collected/closed/deferred last.
+
+## C17 compilation and prompt publication pass HOST controls — 2026-10-06 UTC
+
+The shared C17 workflow now owns root/Visit sequencing, native prompt
+serialization, finalization, predicate binding, program creation, initial-state
+validation and atomic output publication. Independent immutable prompt bytes
+are shared by reasoning/tool facades. Typed construction/bootstrap/errors and
+model/controller remain transitional; the autonomous C executor is unfinished.
+
+[HOST evidence](development/validation/c17-schema-compile-host-2026-10-06.json)
+records 56/56 ASan/UBSan/LSan checks, one final focused C check, three Release
+provider gates and 29 complete unchanged original/ON/OFF witnesses (258 files).
+Four publications, 15 refusals, 15 allocation faults and four typed exception
+categories pass. Eight exact edits preserve original OFF behavior; 102 provider
+files include 90 first-party and 12 vendor/provenance files. Original upstream
+and all 99 previous provider files retain their identities. The source-wiring
+failure exits 1; the first sandbox-ptrace LSan execution exits 8. Both are
+retained. Final sanitizers run outside ptrace with options unset, no suppression
+and no source workaround. Maximum build/test CPU is 88.625 C; existing CPU98,
+NVMe85/lower guards and masked/observe-only GPU remain unchanged.
+
+Matching `.161` HIP ON/OFF providers and frontend consumers must be rebuilt and
+qualified; the earlier `72e9e831`/r30 receipt excludes this new source. No new
+GPU, quality, performance or C1/reactive gain is claimed. All six owned tasks
+remain open. All local test handles are collected; no root remote job/client/
+build/lease/waiter/reservation is created. Terminal Bench remains stopped,
+collected, closed and deferred last. Assigned DGX/weight-format/Point work stays
+outside this queue. No push, deployment or tuning occurs.
+
+## C17 derived schema roots pass matching GPU controls — 2026-10-06 UTC
+
+The sealed `72e9e831` source compiles coherent 99-file HIP ON/OFF providers and
+matching private model/frontend consumers. Actual Ninja commands verify the
+whole OFF reference linkage. The new build passes the unchanged 37
+original-weight OpenAI controls in each AR/MTP mode on `.161`, with all
+server/child/controller/supervisor exits 0. The
+[GPU receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json) and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-store-openai-r30.tar.gz) retain actual runs,
+source identities and closure. These selected controls complement the frozen
+HOST54 and 29 complete unchanged witness groups; they do not prove every
+compiler branch, quality, faults, private resources or performance. Remaining
+compiler orchestration, typed construction/errors/prompt and model/controller
+are transitional.
+
+AR/MTP CPU maxima are 60.75/65.875 C, GPU 66.0/66.0 C and NVMe 64.85/62.85 C. Whole-process thread maxima are 44/44; no inference worker is added.
+CPU98/NVMe85/lower guards and GPU observation remain intact. The initial
+build-log collector selected the wrong kind and exits 1; its metadata is
+retained and the corrected collection exits 0. No build or inference rerun
+results from that collection error.
+
+Fresh 2026-10-06T12:41:26.066915+00:00 closure verifies all three exact supervisor/container-init
+identities retired, owned containers removed, HTTP8000 unbound, original lease
+free then released and router 168702 active/only KFD.
+Model/predictor stats remain unchanged. Root has no remote job/client/build/
+lease/waiter/reservation or live local handle; `.157/.158` remain unused.
+No tuning, install, deployment or push occurs. All six owned tasks remain open;
+Terminal Bench stays stopped/collected/closed/deferred last until functional
+modifications and matching qualification finish.
+
+## C17 derived schema root ownership passes HOST controls — 2026-10-06 UTC
+
+Per-compilation derived values and transformation/normalization staging now
+share the C17 root collection. Adoption and result extraction preserve native
+root/child/view identities without cloning; C17 owns cumulative admission,
+bounded collection heap and retirement. Typed views/errors and the remaining
+compiler orchestration/model controller are still transitional. Two exact guards
+preserve original OFF compiler storage and algorithms; provider identity binds
+99 files and the new recipe. Reactive scheduling, workers, request/KV formats
+and default dependencies remain unchanged.
+
+The [HOST receipt](development/validation/c17-schema-store-host-2026-10-06.json)
+records 54/54 ASan/UBSan/LSan tests in one complete run, two final focused C
+checks and three corrected Release provenance gates. All 29 complete previous
+original/ON/OFF witness groups (258 files) remain byte-for-byte unchanged.
+The C fixture covers 32,810 checks and ten refusals, including growth overlap;
+1,025 native roots and 2,049 typed insertions retain stable identities. The
+initial provenance run exits 8 because its strict count remained 96; the
+corrected 99-file run passes and both outcomes are retained. CPU maximum is
+94.625 C under CPU98/NVMe85/lower guards; GPU remains masked/observed only.
+This source has no matching GPU or performance qualification yet; `ad53e681`/r29
+remains separate. All local handles are collected. No remote job, client, build,
+lease, waiter, reservation or publication is created. All six owned tasks remain
+open; Terminal Bench stays stopped/collected/closed/deferred last until functional
+modifications and matching qualification finish.
+
+## Immutable C17 grammar storage passes selected GPU controls — 2026-10-06 UTC
+
+The matching sealed `ad53e681` source compiles complete 96-file HIP ON/OFF
+providers and all matching private model/frontend consumers. Both providers
+bind the six-edit storage recipe, and the reference links whole OFF archives.
+It passes the unchanged 37 original-weight OpenAI controls in each AR/MTP mode
+on `.161`; every server/child/controller/supervisor exits 0. The
+[GPU receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-grammar-storage-openai-r29.tar.gz)
+preserve these selected integrated controls separately from the frozen HOST52,
+29 complete language/state/mask witnesses and nine untimed handoff probes.
+There is no new direct or throughput comparison. Remaining typed construction/
+value/error/prompt facades and model/controller are transitional.
+
+AR/MTP CPU maxima are 61.625/66.75 C, GPU 63/68 C, and NVMe
+67.85/66.85 C. Whole-process thread maxima are 44/44;
+no inference thread is added. CPU98/NVMe85/lower guards and GPU observation
+remain intact. Fresh 11:37:22 UTC closure verifies all three exact
+supervisor/container-init identities retired, owned containers removed,
+original lease free then released, router 159528 active/only KFD and
+HTTP8000 unbound. Model/predictor stats are unchanged. Root has no remaining
+remote job/client/build/lease/waiter/reservation or live local handle;
+`.157/.158` remain unused. No tuning/install/deployment/push occurs. Broader
+branch/fault/probability/quality/private-resource and matched-cost gates
+stay open. All six owned tasks remain open; Terminal Bench stays stopped,
+collected and deferred last until functional changes and qualification finish.
+
+## Duplicate C++ grammar tables removed; HOST checks pass — 2026-10-06 UTC
+
+Default-ON finalization/composition now publish the finished C program without
+copying rules, sequences or classes into private C++ vectors/bitsets. Six exact
+guards preserve original OFF storage and algorithms. Provider receipts bind the
+new recipe and reject missing, changed or drifted identities. The private layout
+changes, so providers and consumers must rebuild together; public C ABI, request/
+KV state, reactive scheduling, metrics, workers and dependencies do not change.
+Remaining typed construction/value/error/prompt facades and model/controller
+are transitional.
+
+The [HOST receipt](development/validation/c17-grammar-storage-host-2026-10-06.json)
+records 52/52 ASan/UBSan/LSan tests in one complete run, three focused Release
+provider checks and all 29 preceding complete original/ON/OFF witness hashes
+unchanged. Nine matched final-handoff probes compare exact prior C17 helper/
+library/header bindings with the corrected current fixture. At 4,096 extra
+rules, previous builder/reasoning/tool C++ calls are 8,201/8,232/8,212; every new
+handoff uses one 32-byte shared-pointer control allocation. Private object size
+is 120/72 bytes before/after on the tested host. These are untimed C++ heap
+observations, excluding C buffers, whole construction/model costs and GPU speed.
+Six owner refusals in each control preserve unpublished data; source owners retire
+before language checks and every traced predicate retires finally.
+
+The initial new fixture passes an allocator instead of its description (build
+exit 2), then incorrectly requires whitespace while its tool text omits it
+(two test exits 8). Failed sources/binaries/logs remain; the fixture now checks
+empty/nonempty JSON whitespace and production source is unchanged by correction.
+Sanitizers run outside ptrace with options unset and no suppression. Peak local
+CPU is 91.625 C under CPU98/NVMe85/lower guards; GPUs are masked. The no-model
+server and native bench link; these are not original-weight serving results.
+
+This source needs its own sealed HIP ON/OFF build and original-weight gates on
+`.161`; `3c4cac56`/r28 excludes it. Broader branches, faults, probabilities,
+quality, private resources and matched cost stay open. All six owned tasks stay
+open. Terminal Bench remains stopped/collected/closed/deferred until functional
+modifications and matching qualification finish. No remote run/build/lease/waiter/
+reservation/restart, push or deployment occurs in this HOST increment.
+
+## Root schema admission passes host and selected GPU checks — 2026-10-06 UTC
+
+The default-ON compiler now uses shared C17 for root reference traversal,
+cycle identities, resolved object-root validation, original-schema Visit
+admission and whitespace/body root construction. A lazy bounded C memo retires
+before Visit/return; one work budget covers the whole chain. JSON-object mode
+skips schema readers/visitors and reuses the C generic builder. Two exact guarded
+edits retain original OFF behavior. Private prompt/value/exception views,
+construction facades/template projections and model/controller remain
+transitional. No reactive worker, RNG, request/KV payload or dependency changes.
+
+The [host receipt](development/validation/c17-schema-root-host-2026-10-06.json)
+binds 47 independent C oracles, 24 callback refusals, six allocation refusals
+and chains through 129 identities. Three focused ASan/UBSan/LSan C contracts
+pass. The complete host run passes 50/51 checks; its sole failure is a new
+fixture that omitted the original dead-prefix mask exception. Correcting only
+that fixture and rerunning its comparison passes, giving 51 unique host checks
+cumulatively, without a second complete run. The new original/ON/OFF witness
+has 86 cases, 29 successful compilations, 78 accepted values, 3,870 transitions
+and 4,410 mask queries, including 2,693 identical refusals. All 28 prior complete
+witness hashes are unchanged; the total is now 29 groups.
+
+Four focused Release checks pass, including provider/target refusal gates.
+All 59 public headers compile strictly as C17/C++17; the new C object has no
+C++ imports. The no-model server and native bench link. The provider binds
+96 files (84 first-party and 12 vendor/provenance), preserving all 93 prior
+file hashes. Peak local CPU is 88.125 C under CPU98/NVMe85/lower guards, with
+GPUs masked. The failed exact-edit ordering, its follow-on empty build,
+sandbox/ptrace LSan refusals, initial root witness and offline QA assertions
+retain their actual exits; no sanitizer is suppressed.
+
+The matching sealed `3c4cac56` build on `.161` verifies both complete 96-file
+HIP providers, ON primary/OFF reference private consumers and all three OFF
+numerical/core archives. It passes the unchanged 37 original-weight OpenAI
+controls in each AR/MTP mode. The
+[GPU receipt](development/validation/c17-schema-root-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-root-openai-r28.tar.gz)
+retain this qualification separately from the unchanged host receipt and r27.
+No new direct C1 or performance measurement is recorded. The host root witness
+is not coverage of every root branch on GPU.
+
+AR/MTP CPU peaks are 62/66.5 C, GPU peaks 63/68 C and NVMe peaks
+65.85/64.85 C. Recorded whole-process thread maxima are
+44/44; no inference worker is added. Fresh 10:31:42 UTC closure verifies
+all three exact supervisors/container-init identities retired, owned containers
+removed, the original lease free then released, router 150313 active/only KFD
+and HTTP8000 unbound. All server/child/supervisor/controller exits are 0; model
+and predictor stats are unchanged. An observer's exclusive local output-name
+refusal is preserved with actual exit 1; its correction never restarts inference.
+Two offline verifier errors retain exits 1: ignored HOST fixtures require their
+frozen hashes, and a removed Ninja reader helper needs restoration. The corrected
+verifier passes; its sources and refusals have a separate portable supplement.
+Broader branches, faults, probabilities, quality, private resources and matched
+cost remain open. All six owned roadmap tasks remain open. Root has no remote
+job/client/CPU/GPU/build/lease/waiter/reservation or live local handle.
+Terminal Bench remains stopped/collected/closed/deferred until functional
+modifications and matching qualification finish. No push or deployment occurs.
+
+## Request grammar state ownership passes host and selected GPU checks — 2026-10-06 UTC
+
+Default-ON byte/token transitions, completion, canonicalization and mask queries
+now borrow owned C snapshots directly; results transfer an owned C handle.
+Repeated vector/string import/export is removed from this runtime path.
+Sampler/MTP copies use independent C17 deep duplication with saved allocator
+and limits. Copy assignment publishes after success; move/clear retire only
+their owned snapshot. Explicit legacy-vector transfer remains available outside
+the default-ON runtime. Private C++ value/error/view glue remains, alongside
+schema/regex/template construction and the model/controller. This does not
+complete the autonomous C executor or establish a speedup.
+
+The [host receipt](development/validation/c17-request-state-host-2026-10-06.json)
+binds 2,080 independent frame-copy oracles, 68 C copy allocator refusals, three
+private assignment refusals, 306 pristine/ON/OFF complete-state copy witnesses
+and four joined readers completing 256 iterations each. The selected state
+borrow/copy/move/advance path performs zero C++ allocations. All 50 sanitizer
+host checks pass and all 27 preceding complete witness hashes remain unchanged;
+the new complete-state group brings the total to 28. Three focused C sanitizer
+checks pass. Release checks pass cumulatively at 87 unique: the first full run
+passes 86, then the corrected provider verifier passes its focused rerun.
+The 58 public headers compile as C17/C++17 and the no-model server/bench link.
+Peak observed local CPU is 93.125 C under CPU98/NVMe85/lower guards; GPUs are
+masked and observe-only.
+
+Three exact guarded edits preserve the original OFF state/algorithms. The
+provider inventory now binds 93 files (81 first-party and 12 vendor/provenance).
+Private C++ request types require the provider's selected flag; the independent
+vocabulary header-view fixture retains its narrower size/layout scope. Initial
+alias, stale generated variant, mixed-private-type fixture and inventory-count
+failures retain their actual exits. Recipe dependencies now trigger exact
+variant regeneration. A lost detailed test log and its offline writer failure
+are retained; a single C test rerun binds the missing allocation/lifetime detail.
+No sanitizer suppression, foreign process action or new dependency occurs.
+The benchmark control now builds/links a complete OFF provider instead of
+interposing an OFF sampler over ON numerical/controller objects. Host receipt
+gates accept OFF and reject ON or mismatched-target archives. Build instructions identify the
+second provider and the option to omit this comparison executable.
+
+The matching sealed `117cbae6` build on `.161` compiles both complete HIP
+providers and passes 37 original-weight OpenAI controls in each AR/MTP mode.
+Collected Ninja commands verify ON primary/OFF reference private consumers and
+all three OFF numerical/core archives. Two direct C1 controls at prefix depths
+0/4,096 have identical complete physical inputs, 128 output IDs and full prefill/
+final-decode frontier hashes between LIE and Gufo. Warmup0/rep1 controls qualify
+these selected paths; they do not establish a speedup. The
+[GPU receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-request-state-openai-r27.tar.gz)
+retain source, options, complete witnesses and actual exits separately from the
+unchanged host receipt and the earlier `688b74c5` evidence.
+
+AR/MTP CPU peaks are 61/65.625 C, GPU peaks 63/66 C and NVMe peaks
+62.85/67.85 C. HTTP modes observe 44 whole-process threads; direct controls
+observe 43. No inference worker is added. Fresh 09:24:11 UTC closure verifies
+all five exact supervisors/container-init identities retired, owned containers
+removed, the original lease free then released, router 140911 active/only KFD
+and HTTP8000 unbound. All server/child/supervisor/controller exits are 0 and
+model/predictor stats are unchanged. An observer's mistaken terminal-phase
+assertion and an offline closure-script syntax failure are retained; corrected
+observations and validation never restart inference. Broader correction/fault/
+probability/quality/private resource/matched-cost gates and all six owned tasks
+stay open. Root has no remote job/client/CPU/GPU/build/lease/waiter/reservation
+or admitted restart and preserves `.157/.158` non-use. Terminal Bench stays
+stopped/collected/closed/deferred until modifications and qualification finish.
+
+## Primitive ownership passes host and selected GPU checks — 2026-10-06 UTC
+
+`lie/grammar_lexeme.h` now owns immutable whitespace/number/string predicates,
+ordered retained tables, construction-only schema identity memo and C-only hot
+runtime dispatch. Numeric/DFA policies have additive atomic retains; final
+release retires dependencies. Table growth, self-import, clone and memo
+first-publication semantics preserve pinned order/identity. Sealing refuses
+mutations. Refusals preserve logical contents and outputs, with documented
+capacity/accounting exclusions. No inference thread, RNG, reactive frontier,
+KV payload format or production dependency changes. Six guarded edits retain
+complete original OFF classes/vector/map. C++ facades/errors, schema/regex
+compilation, template projections, request-state vectors and model/controller
+remain transitional; this does not complete the autonomous C executor.
+
+The [host receipt](development/validation/c17-lexeme-host-2026-10-06.json) binds
+34,889 C assertions, eight ownership allocator and two numeric-query refusals,
+16 joined readers completing 1,024 iterations, all 27 earlier complete witness
+hashes and the new 92-file inventory (80 first-party + 12 vendor/provenance).
+All 87 native Release, 60 core ASan/UBSan/LSan and 48 full host checks pass.
+Three additional optional allocation-retirement checks also pass; the actual
+focused selection runs four including a repeated numeric check, for 51 unique
+host checks. Local CPU peaks at 94.75 C under CPU98/NVMe85/lower guards,
+with GPU masked and observe-only. The 58 public
+headers compile together as C17/C++17 and the no-model server/bench link.
+Initial host build exit 2 is retained: the compiler's predicate-map field needed
+the same guarded C memo type as its normalized-value bridge. Corrected builds
+pass. No sanitizer suppression or foreign process action occurs.
+
+The matching sealed `688b74c5` HIP build on `.161` binds all 92 provider files,
+followed by 37 selected original-weight OpenAI controls in each AR/MTP mode.
+All server/child/supervisor/controller exits are 0 and model/predictor stats
+remain unchanged. The
+[GPU receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json) and
+[portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-lexeme-openai-r26.tar.gz)
+bind this increment separately from the preceding `5227bf4f` evidence. The host
+receipt retains its original host-only scope.
+
+AR/MTP CPU peaks are 60.25/64.875 C, GPU peaks 63/64 C and NVMe peaks
+61.85/64.85 C. Both modes observe 44 whole-process threads, including runtime
+helpers; there is still one device-owner worker. Fresh 08:10:48 UTC closure
+verifies all three exact supervisor and container-init identities retired,
+owned containers removed, the original lease free then released, router 128711
+active/only KFD and HTTP8000 unbound. All handles are collected with exit 0.
+Broader branches, faults, independent probabilities, private resource,
+quality and matched-cost gates stay open; all six owned roadmap tasks remain
+open. Root has no remote job/client/build/lease/waiter/reservation and keeps
+`.157` non-use. Terminal Bench stays stopped/collected/closed/deferred until
+functional modifications and matching qualification finish. No performance
+gain is claimed.
+
+## Typed JSON ownership passes host and GPU checks — 2026-10-06 UTC
+
+`lie/json_value.h` now owns scalar/string/key bytes, ordered object/array child
+storage, clone/move/replacement, typed parsing and serialization. Refusals retain
+content and output handles; child identity survives sibling insertion. Copies
+stage before replacement, moves retire sources after success, and destruction
+is iterative through the 512-level bound. The private C++ facade translates
+references/errors and locks lazy string projections; immutable reads never mutate
+or create a C tree. No inference worker, reactive/event/RNG/cache-format or
+production dependency changes. The full original OFF Value/parser remain.
+
+The [host receipt](development/validation/c17-json-value-host-2026-10-06.json)
+binds 18,499 C assertions, 113 allocator, 11 view and 54 output refusals, 11
+private projection allocation refusals, and 2,007 complete pristine/ON/OFF value
+witnesses. All 26 prior complete hashes, including 34,071 JSON parser cases,
+remain unchanged. All 86 Release, 59 ASan/UBSan/LSan core and 51 final host checks
+pass. Each arm's eight immutable readers completes 512 iterations and joins all
+fixture threads. The 57 public headers compile together as C17/C++17; the no-model
+server and bench link. Peak observed local CPU is 94.25 C with CPU98/NVMe85/lower
+guards, GPU masked and observe-only. Initial ptrace/socket/inventory/build/test
+selection failures retain actual exits; the empty exit0 selection is not a pass.
+
+The provider binds 89 files: 77 first-party and 12 vendor/provenance; 84 earlier
+bindings and all 1,019 official Gufo/11 Ryu files are unchanged. The matching
+sealed `5227bf4f` HIP build passes on `.161`, followed by 37 selected
+original-weight OpenAI controls in each AR/MTP mode. All server/child/supervisor/
+controller exits are 0, and target/predictor stats remain unchanged. The
+[GPU receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-json-value-openai-r25.tar.gz)
+bind the exact provider/application, collected results and retired processes.
+Host-only checks keep their original scope; these selected GPU controls do not
+qualify every typed-value branch or private projection cost.
+
+AR/MTP CPU peaks are 61/66.375 C, GPU peaks 66/67 C and NVMe peaks both 64.85 C.
+Both modes observe 44 whole-process threads, including runtime helpers; no new
+inference worker or performance gain is claimed. Fresh 06:55:39 UTC closure
+verifies all three exact supervisors retired, owned containers removed, the
+original lease free then released, router 121639 active/only KFD and HTTP8000
+unbound. Unrecorded AR/MTP init identities remain unknown. Predicate/model/
+controller ownership and broader numerical/fault/private-resource/quality/
+matched-cost gates stay open. All six owned tasks remain open. Root has no remote
+job/client/build/lease/waiter/reservation and preserves `.157` non-use. Terminal
+Bench remains stopped/deferred until modifications and qualification finish.
+
+## Complete JSON parser passes matching GPU controls — 2026-10-06 UTC
+
+The sealed `904774da` source builds on `.161` in the pinned ROCm 10 image,
+with all 86 provider bindings exact: 74 first-party and 12 vendor/provenance.
+Separate original-lease windows pass the unchanged 37 OpenAI controls in each
+AR/MTP mode, including functions, strict JSON output, choices, probabilities,
+Responses lifecycle and automatic output budgets. All native/server/controller
+exits are 0 and target/predictor stats are unchanged. The
+[GPU receipt](development/validation/c17-json-parser-point-gpu-2026-10-06.json)
+and [portable raw evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-json-parser-openai-r24.tar.gz)
+bind the new parser recipe, build, actual processes and all collected results.
+The [host receipt](development/validation/c17-json-parser-host-2026-10-06.json)
+retains its original scope.
+
+AR/MTP CPU peaks are 64.5/66.25 C, GPU peaks 65/66 C and NVMe peaks 61.85/64.85 C.
+Both modes observe 44 whole-process threads, including runtime helpers; the C
+parser adds no thread. CPU98/NVMe85/lower guards and GPU observation remain active.
+Fresh 05:37:41 UTC closure verifies the three exact supervisors retired,
+containers removed, original lease free then released, router 114617 active/only
+KFD and HTTP8000 unbound. Unrecorded AR/MTP container-init identities remain
+explicitly unknown. The initial observer hash mismatch, local summary error and
+corrected stale peer status remain retained; no inference is replayed for them.
+
+Selected integrated paths qualify; typed JSON/key/value/predicate containers,
+model/controller ownership and broader branch/fault/probability/private-resource/
+quality/matched-cost gates remain open. All six owned tasks remain open. Root has
+no standing remote job/client/build/lease/waiter/reservation and keeps `.157`
+non-use. Terminal Bench stays stopped/deferred until functional modifications
+and matching qualification finish. No performance gain is claimed.
+
+## Complete JSON parser passes host checks — 2026-10-06 UTC
+
+Complete single-root syntax, iterative traversal, UTF-8/escape/surrogate decoding
+and decoded duplicate-key detection now use the shared C17 core. The private
+adapter constructs typed trees and translates exceptions. The public events
+contract defines borrowed spans, complete staging discard on refusal, allocator
+cleanup and bounded input/work/storage. It preserves the existing tools API,
+default-ON selection, original OFF parser and current worker/event/RNG contracts.
+
+The [source-bound host receipt](development/validation/c17-json-parser-host-2026-10-06.json)
+records 1,301 independent C checks, 368 allocator and 602 callback refusals,
+34,071 complete pristine/ON/OFF tree/bit/dump/error witnesses, and all 25 earlier
+unchanged witness groups. Eighteen focused Release checks, 18 sanitizer checks
+and 43 full host comparisons pass. All 56 public headers compile together in
+C17/C++17; the no-model server and bench link. Initial provider-fixture omission,
+fixture buffer overflow and public-name conflict retain their actual failures.
+
+The provider now binds 86 files: 74 first-party and 12 unchanged vendor/provenance
+files. All 1,019 pinned official Gufo files remain unchanged. This is host
+qualification only; the existing `20777005` GPU receipts do not qualify the new
+parser. Matching sealed HIP build and original-weight AR/MTP controls remain
+pending. Peak local CPU is 90.125 C with CPU98/NVMe85/lower guards; GPU is masked and
+observe-only. No new dependency, cache-format change, inference thread, speedup,
+remote GPU build/run or root `.157` activity is claimed. All six owned tasks
+remain open. Terminal Bench stays stopped and deferred until modifications and
+matching qualification finish; root creates no standing remote reservation.
+
+## Bank refusal and zero-scale controls qualified — 2026-10-06 UTC
+
+On the unchanged `20777005` runtime, separate `.161` AR/MTP windows each pass
+three original-weight successes and twelve exact admission refusals. Absent
+bank, admitted sparse nonzero bank at zero scales, and fresh core after refusals
+retain identical 272 physical inputs and 32 outputs, also equal across modes
+([receipt](development/validation/steering-admission-point-gpu-2026-10-06.json)).
+Malformed geometry/nonfinite/nonregular/missing files retain actual native exit
+1 before readiness or a numerical job. MTP drafts six and accepts zero in each
+positive case; this qualifies drafting/output parity, with no accepted-burst
+claim. The original MTP QA exit 1 remains preserved and collected.
+
+AR/MTP CPU peaks are 56.625/57.875 C, NVMe 69.85/70.85 C, whole-process threads
+44/44, including runtime helpers. Sixteen host and 61 campaign checks pass.
+The portable archive retains 176 members, without model/KV payloads. All three
+windows are collected/retired; fresh 04:33:39 UTC closure verifies original lease
+free/released, HTTP8000 unbound and router 107144 active/only KFD. Unrecorded
+container-init identities remain explicit; exact supervisor retirement and owned
+container removal are verified. CPU98/NVMe85/lower guards remain active.
+
+No runtime/ABI/format/dependency/thread change, GPU rebuild/conversion/heavy hash
+or `.157` activity occurs. Learned-bank quality, independent graph/correction/GPU
+fault oracles, vision and matched cost remain open. All six owned tasks remain
+open; Terminal Bench stays stopped/deferred, with no standing reservation.
+
+## MTP admission oracle corrected; raw failure retained — 2026-10-06 UTC
+
+The first original-model AR admission window passes all three successes and
+twelve native refusals. Its MTP counterpart completes the absent-bank native
+process with exit 0, drafts six tokens and accepts zero. The QA wrapper exits 1
+because it incorrectly demands positive acceptance for this equivalence test.
+All raw exits/logs are collected; fresh 04:29:00 UTC closure verifies both windows
+retired and the original lease free/released with router 105618 active/only KFD.
+
+The corrected oracle requires actual drafting and valid acceptance counters,
+including zero accepted; exact confirmed output equality remains mandatory.
+Sixteen host checks and the unchanged 61 campaign checks pass
+([receipt](development/validation/steering-admission-draft-host-2026-10-06.json)).
+This does not qualify an accepted MTP burst. Original scheduled steering already
+retains its independent three accepted proposals. A new MTP campaign requires
+fresh admission. Runtime/ABI/cache/dependencies/threads remain unchanged and
+Terminal Bench remains stopped/deferred.
+
+## Steering bank admission gate prepared — 2026-10-06 UTC
+
+Fifteen host refusal/equivalence checks and 61 campaign checks pass
+([receipt](development/validation/steering-admission-host-2026-10-06.json)).
+The optional `modern-core-steering-admission` profile requires three original-weight
+successes per mode: absent bank, admitted nonzero bank at zero scales, and a fresh
+core after twelve exact loader refusals. Successful physical inputs and all 32
+confirmed output IDs must match. Truncation, oversized/empty files, NaN/infinities,
+directory, symlink, FIFO and missing file must each retain native exit 1 before
+readiness or a numerical job. Host fixtures are not GPU qualification.
+
+The `20777005` runtime's 83 provider bindings remain unchanged. No product/default
+CTest Python dependency, ABI, cache format or inference thread is added. CPU peak
+is 46 C. Original-weight execution requires fresh `.161` admission; no standing
+lease or remote job is created. All six tasks remain open and Terminal Bench
+stays stopped/deferred until modifications and matching qualification finish.
+
+## Scheduled steering/cache passes selected GPU cases — 2026-10-06 UTC
+
+The unchanged qualified `20777005` runtime passes separate original-weight AR/MTP
+windows on `.161`, with six independent native processes per mode. A sparse
+nonzero 48-by-2560 fixture exercises FFN/attention changes at physical indices
+128, 273 and 279. Plans retain the fresh 272-token history, reject a divergent
+2,064-token saved spelling, and restore exactly 128 compatible SSD tokens before
+the first unapplied step. All three scheduled requests per mode produce the
+same 32 output IDs and final policy history, also equal across AR/MTP. MTP drafts
+14 and accepts 3 in every scheduled case. All twelve native processes and both
+supervisors exit 0 ([receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json)).
+Eighteen host gate and 60 campaign tests pass; the
+[host receipt](development/validation/steering-restart-host-2026-10-06.json)
+retains its original host-only scope.
+
+Both windows are collected and retired. Fresh 04:04:00 UTC closure verifies
+their exact identities absent, the original lease free then released,
+HTTP8000 unbound and router 101740 active/only KFD. CPU peaks are 64/65.5 C,
+NVMe peaks 71.85/75.85 C and whole-process thread maxima 44/44, including runtime
+helpers. CPU98/NVMe85/lower guards remain active. No new runtime, ABI, format,
+dependency, inference thread, GPU build or `.157` activity occurs. Learned DS4
+direction quality, independent graph/correction/fault oracles, vision, later
+mixed-history lookup and matched cost remain open. All six owned tasks remain
+open; Terminal Bench stays stopped/deferred and root has no standing reservation.
+
+## SSD text reconstruction passes selected original-weight cases — 2026-10-06 UTC
+
+On `.161`, distinct cold/hot core processes recover the exact saved physical
+history from identical visible text: 2,048 tokens in AR and 2,064 in MTP,
+versus 256/272 tokens from fresh BPE. Both hot requests have zero prefill and
+32 output IDs identical to their cold counterparts. MTP drafts 28 and accepts
+21 in each process. The [receipt](development/validation/ssd-text-restart-point-gpu-2026-10-06.json)
+binds the unchanged qualified `20777005` runtime, all raw exits and the
+[portable report](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-text-reconstruction-across-processes).
+
+AR passes with exit 0. Two earlier MTP attempts retain their missing-predictor
+mount failure and refusal of a plain repeated-character case with no accepted
+draft. All four processes in the final MTP case exit 0, but its wrapper exits 1:
+the test expected the early 2,048-token checkpoint instead of the full 2,064-token
+prompt already captured before decode. Corrected strict offline validation
+passes; raw failures remain unchanged and no GPU replay occurs. Twelve parser
+and 59 campaign host tests pass. Product dependencies, runtime/ABI/format and
+inference thread count are unchanged.
+
+All four windows are retired and collected. Fresh 03:26:37 UTC closure verifies
+the original lease free then released, HTTP8000 unbound and router 97498 active
+as the only KFD owner. Selected AR/MTP CPU peaks are 63.875/65.125 C; the earlier
+rejected MTP case peaks at 70.75 C. Whole-process thread maxima are 44, including
+runtime helpers. CPU98/NVMe85/lower guards remain active. Root has no standing
+job, client, build, lease, waiter or reservation and retains `.157` non-use.
+Scheduled physical-index steering, broader quality/fault/probability and matched
+cost gates remain open. All six owned tasks remain open; Terminal Bench stays
+stopped and deferred until modifications and matching qualification finish.
+
+## Matching composition/codec GPU controls pass — 2026-10-06 UTC
+
+The sealed `20777005` source builds on `.161` in the pinned ROCm 10 image,
+with 83 exact provider bindings: 71 first-party files and 12 vendor/provenance
+files. Separate fresh original-lease windows pass 37 unchanged OpenAI controls
+in each AR/MTP mode, including strict schemas/functions, choices, logprobs,
+seeded replay, stored/background Responses and automatic output budgets.
+The [receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json)
+binds all source/binaries and actual exits. The build and both servers exit 0;
+target/predictor stats stay unchanged. CPU peaks are 71.5 C
+for the build, 61.5 C for AR and 66.25 C for MTP.
+Whole-process thread maxima are 44/44, including runtime helpers;
+no new inference thread or speedup is claimed.
+
+All three supervisors/container identities and their leases are retired and
+collected. Fresh 2026-10-06T02:25:58.888806+00:00 closure verifies the original lease free
+then released, HTTP8000 unbound and restored router 91291 active/only KFD,
+with no foreign client or hot guard. CPU98/NVMe85/lower guards stay active and
+GPU temperature is observed only. No tuning, installation, deployment or `.157`
+activity occurs. A failed read-only AR observer and receipt-only filename
+errors retain their actual exits; observation is corrected on the same owner,
+with no inference restart or gate change. The portable archive retains all 97
+members and preserves the previous archive-index bytes.
+
+This qualifies selected integrated paths in the newer composition/codec source.
+Typed containers/lexer/predicate/model/controller ownership, individual branches,
+independent probability/fault/quality/allocation-exact/matched-cost and SSD BPE
+gates remain open. All six owned roadmap tasks stay open; Terminal Bench remains
+stopped and deferred until modifications and matching qualification finish.
+
+The dedicated `modern-core-ssd-text-restart` qualification profile now has ten
+passing host rejection/comparison checks
+([receipt](development/validation/ssd-text-restart-host-2026-10-06.json)). Four
+independent core processes calibrate a character token, measure fresh BPE,
+persist 2,048 separated physical tokens, then restore that longer history from
+the same visible text. Cold/hot confirmed output IDs must match; RAM retention
+is off and SSD drain/hit counters must confirm actual persistence/reuse.
+This is optional developer tooling, with no new product/default-CTest dependency,
+runtime code, ABI or format change. Original-weight execution and scheduled
+physical-index qualification remain pending.
+
+
+## JSON binary64 conversion uses the shared C17 core — 2026-10-06 UTC
+
+The model-neutral `lie/binary64.h` ABI now supplies shortest JSON number spelling
+and full-span nearest-even parsing to the schema adapter and provider JSON
+conversion. Pinned bundled Ryu supplies the C shortest formatter and short
+parser; first-party C code owns spelling, strict JSON syntax and exact long
+decimal conversion. The latter keeps 800 significant digits and a sticky tail,
+so later nonzero digits still affect midpoint decisions. Caller text/work bounds
+and refusal preserve outputs. No locale, floating environment, heap allocation,
+mutable cache or inference thread is introduced by these public codec calls.
+
+The [source-bound host receipt](development/validation/c17-binary64-host-2026-10-06.json)
+records 17 focused Release, 17 ASan/UBSan/LSan and
+42 pristine/default-ON/OFF host checks. The 106,273 complete
+JSON witnesses agree; all 24 earlier witness hashes remain unchanged.
+Independent C fixtures cover 77 bit/rounding oracles and 122 refusals,
+including normal/subnormal midpoints and a nonzero digit beyond 17,000 zeros.
+The MPFR decimal and independent shortest/bit QA probe reports
+1,013,356 combined checks; allocator hooks observe
+zero heap calls during the selected public C calls only. All 55 public
+headers compile as C17/C++17. Provider binding grows to 83 files: 71 first-party
+files and 12 vendor/provenance files. Ryu's eleven unchanged files retain their
+upstream licenses, with BSL-1.0 selected; they are not first-party MIT source.
+Default products and default CTest remain Python/MPFR-free.
+
+The initial fixture build exits 1 on a strict indentation warning; it is fixed
+without relaxing warnings, and the actual failure is retained. An initial
+official-source DNS failure also retains curl exit 6. Final sanitizer checks
+run outside ptrace with overrides unset and no disabled checks. CPU peaks
+92.625 C under the CPU98/NVMe85/lower exposed guards. No GPU run,
+remote build, lease or reservation is added. The latest matching original-weight
+source remains `a24875f` (66 files); it does not qualify this composition/codec
+increment. Typed containers/lexer/predicate storage and model/controller
+ownership, matching provider/application and original-weight gates, individual
+branches/faults/resources/cost and SSD BPE remain open. All six owned tasks stay
+open; Terminal Bench remains stopped and deferred until modifications and their
+qualification finish.
+
+
+## Immutable reasoning/tool composition uses C17 — 2026-10-06 UTC
+
+The shared `lie/grammar_composition.h` contract now owns marker automata,
+ordered alternatives, JSON tool-name quoting, argument-program identity reuse,
+rule/class/lexeme remapping and completion/parallel policy. The private adapter
+copies typed templates and retains immutable predicates; construction policy
+is C17. Three exact recipe edits retain both original OFF algorithms. The
+additive program-description API exports borrowed immutable tables without
+calling predicates or changing the existing grammar ABI.
+
+The [host receipt](development/validation/c17-composition-host-2026-10-06.json)
+records 16 Release/16 sanitizer/40 pristine-ON-OFF checks.
+All 23 earlier complete witness hashes stay unchanged. New comparisons
+cover 327 cases and 19002 complete prefix states/masks, including all 256
+name bytes, repeated predicate imports, nested reasoning and strict/parallel/plain
+modes. Independent C checks cover 582 oracles and 43 refusals, every observed
+construction allocation failure and exact requested-byte accounting. Sealed
+runtime tables survive composition retirement. All 54 headers compile as C17/C++17;
+provider source/header/glue inventory now has 69 files.
+
+The first sanitizer test exits 8 because LeakSanitizer refuses ptrace; its actual
+log is retained. Two new comparison-fixture attempts also retain their explicit
+root-object and no-valid-token diagnostics; only the fixture was corrected.
+The same tests pass outside ptrace with ASan/UBSan/LSan enabled
+and overrides unset. CPU peaks 90.125 C under CPU98/NVMe85/lower exposed guards;
+GPUs remain masked. No new remote build/run/lease/reservation, worker or speed
+claim is added. The latest matching original-weight evidence remains `a24875f`
+(66 files); it does not qualify this newer increment. Binary64 codec, opaque
+private containers/model/controller and independent GPU branch/resource/cost
+and SSD BPE gates remain open. All six owned tasks remain open; Terminal Bench
+stays stopped and deferred until functional modifications and gates finish.
+
+
+## Matching 66-file GPU build and AR/MTP controls pass — 2026-10-06 UTC
+
+The sealed `a24875f` provider/application includes the later C17 numeric,
+format and reasoning/tool cache modules. Its independently admitted device-free
+build and original-weight AR/MTP windows on `.161` pass, with 37 OpenAI controls
+per mode ([receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
+All 66 compiled owned files agree with the host inventory. Six build run files,
+17 compile files and 17 files per inference mode are collected; the portable
+archive contains 90 source/receipt/log members, without models or binaries.
+
+The build releases at 00:47:27 UTC, AR at 00:54:27 and MTP at 00:58:42.
+Fresh 00:59:10 closure verifies all three exact supervisor/container identities
+retired, HTTP8000 unbound, original lease device 66307/inode 105946405 free then
+released and router 84458 active/only KFD. The initial build-closure observer
+failed reading a retired PID; the initial AR observer assumed only ADMITTED
+instead of RUNNING_DISTROBOX. Both actual failures are retained and corrected
+read-only observations pass; neither job was restarted.
+
+AR peaks CPU 61.25 / GPU 65 / NVMe 62.85 C, MTP CPU 66.375 / GPU 70 / NVMe 63.85 C. Build CPU
+peaks 69.75 C. CPU 98 / NVMe 85/lower guards remain active; GPU is observed only.
+Both inference modes observe at most 44 whole-process threads, including runtime
+helpers; no inference worker is added. GTT peaks are recorded, without a matched
+resource or speed claim. Model/predictor stats remain unchanged. Selected
+integrated paths now have matching GPU evidence; individual numeric/format
+branches, SSD BPE, independent probability/fault/resource/cost/quality remain
+open. All six owned tasks remain open. Terminal Bench stays stopped/deferred;
+root retains `.157` non-use and no standing reservation after closure.
+
+## Reasoning/tool cache policy uses C17 — 2026-10-06 UTC
+
+Ordered lookup, duplicate reuse before eviction, synchronization and smallest-key
+eviction for reasoning/tool grammars now use the shared C17 core. The
+[host receipt](development/validation/c17-composition-cache-host-2026-10-06.json)
+records 15 Release/15 sanitizer/39 pristine-ON-OFF checks. All 22 previous
+complete witnesses retain their hashes. Actual entry-point comparisons cover
+200 reasoning cases, 240 tool cases, 16950 prefix decisions and 1600 concurrent
+reuse calls. Independent C tests cover 12029 ownership/policy oracles, 32
+refusals and 1600 concurrent put/get pairs; all handles retire. The provider
+binds 66 owned files, and all 53 public headers compile as C17/C++17.
+
+The first host configuration refused an exact include replacement aimed at a
+lexeme-only header; it was corrected to the actual unique body include. Two
+initial builds refused guessed target names before compilation; the qualified
+target names were read and corrected. Actual failures/logs remain preserved.
+CPU peaks at 94.5 C below CPU98/NVMe85/lower exposed guards; GPUs remain masked.
+Opaque typed key/value storage/comparisons and immutable grammar composition
+stay private. Binary64 codec/model/controller and private resource/cost gates
+remain open. Matching original-weight GPU qualification for this 66-file
+increment is pending; the older `6a48da3` runtime includes none of the later
+numeric, format or composition-cache ports. All six owned tasks remain open;
+Terminal Bench stays stopped and deferred until modifications and gates finish.
+
+## Pinned format expansion uses C17 — 2026-10-06 UTC
+
+The nine existing JSON Schema format patterns, ordered IPv6 alternatives and
+hostname bound now use the shared C17 core. The
+[host receipt](development/validation/c17-schema-format-host-2026-10-06.json)
+records 14 Release/14 sanitizer/38 pristine-ON-OFF checks. Patterns, 45 language
+examples, 616 prefix decisions and 81 intersections agree. All 21 earlier
+complete witness hashes remain unchanged; 89 independent C publication/capacity
+oracles and 29 writer refusals pass. The provider binds 63 owned files, and all
+52 public headers compile as C17/C++17.
+
+The synthetic selected-provider fixture initially omitted the newly required
+recipe/digest. Both actual CTest failures are retained; corrected hash/missing/
+drift controls pass without weakening verification. CPU peaks at 95 C below
+CPU98/NVMe85/lower exposed guards; GPUs stay masked for these host fixtures.
+The old original-weight runtime `6a48da3` includes neither this format port nor
+the later numeric port. Their sealed provider/application GPU qualification is
+still pending. Binary64 codec, private composition/model/controller and broader
+resources/cost/quality remain open. All six owned items remain open; Terminal
+Bench stays stopped and deferred until functional changes and qualification finish.
+
+## Numeric schema leaf control uses C17 — 2026-10-06 UTC
+
+Ordered numeric constraint preparation, scalar acceptance, exact LCM
+representability and numeric literal publication now use the shared C17 core.
+The [host receipt](development/validation/c17-schema-number-host-2026-10-06.json)
+records 13 Release/13 sanitizer checks and 37 pristine/ON/OFF checks, including
+578 new complete numeric cases. All 20 earlier complete witness hashes remain
+unchanged. The bridge keeps the existing binary64 codec and typed exceptions;
+an untimed selected-path probe verifies zero added C++ heap allocations.
+The provider binds 60 files; all 51 public headers compile as C17/C++17.
+
+Initial strict Release warning and stale provider inventory-count failures are
+retained and corrected without disabling gates. Host fixtures use CPU98/NVMe85
+or lower exposed guards with GPUs masked; CPU peaks at 94.875 C with no guard
+breach. These are not model inference or
+performance evidence. The matching original-weight runtime remains `6a48da3`;
+the new numeric increment still needs its own sealed build/GPU gates. Binary64
+codec, format/composition/model/controller ownership and broader qualification
+remain open. All six owned roadmap items stay open, and Terminal Bench remains
+deferred until functional modifications and qualification finish.
+
+## Matching C17 schema GPU controls pass — 2026-10-05 UTC
+
+Source `6a48da3` now has a successful device-free gfx1150 provider/application
+build and **37 original-weight OpenAI controls in each AR/MTP mode** on `.161`.
+The [receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)
+binds all 57 owned sampling/schema files to the host-qualified source and
+records actual collection and retirement of all three windows. The
+[78-file portable evidence](benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-schema-body-openai-r18.tar.gz)
+retains commands, wire results, telemetry, model-stat and lease/service closure.
+Earlier failed r17 remains retained; corrected optimized compilation passes.
+
+Inference-window maxima are CPU66.25/GPU69/NVMe65.85 C. Both modes observe 44
+whole-process threads, including runtime helpers; the extraction adds no
+inference thread and makes no performance claim. Original weights/predictor
+stay unchanged. Fresh final observation verifies the original lease free,
+HTTP8000 unbound and restored router77726 as the only current KFD client.
+Root continues `.157` non-use and holds no standing reservation.
+
+These gates qualify selected tool/grammar/output/lifecycle paths. Individual
+GPU branches/faults, independent probabilities, allocation-exact resources,
+matched cost and new original-weight SSD BPE regression remain open. Numeric
+leaves and private composition/model/controller extraction continue. All six
+owned roadmap tasks remain open; Terminal Bench stays deferred until functional
+modifications and matching qualification finish. No publication occurs.
+
+## Release validation and SSD text-prefix correction — 2026-10-05 UTC
+
+The [host receipt](development/validation/release-cache-host-2026-10-05.json)
+records 79 Release, 79 ASan/UBSan/LSan and 35 pristine/ON/OFF checks passing.
+All 20 earlier complete witness hashes remain unchanged. Schema-body locals
+are explicitly initialized for strict optimized compilation. Test targets retain
+assertions in Release, including core-only builds; production flags are unchanged.
+
+The full suites exposed a real SSD restore ordering bug: a saved five-token
+spelling was rejected against a fresh four-token spelling before reconstruction.
+Scope validation now precedes reconstruction; the physical frontier is checked
+against the rebuilt history. Existing RAM/SSD cache expectations pass unchanged.
+New aligned/KVC fixtures verify this with a direction bank, then verify that
+scheduled steering preserves its original physical token indices and rejects
+the changed spelling without uploading state. The worker's stale zero-output
+rejection oracle now checks the implemented automatic budget. No ABI, payload
+format, reactive ownership or thread count changes.
+
+CPU peak is 90.25 C under CPU98/NVMe85/lower guards, with GPUs masked and all
+sanitizers enabled outside ptrace. Failed checks and fixture/generator corrections
+are retained; passing current native-bench checks do not diagnose the earlier
+closed-stderr SIGABRT.
+
+The device-free `.161` r17 HIP provider builds, but the application fails at
+strict optimized C compilation on the uninitialized-local warning. Its actual
+exit is 1; no model is attempted. The build is collected and freshly verified
+closed, with the original lease released and router restored. A corrected sealed
+build and matching original-weight gates remain pending. Terminal Bench stays
+deferred until functional modifications and qualification finish; all six owned
+tasks remain open. No publication occurs.
+
+## C17 schema body host qualification — 2026-10-05 UTC
+
+The [body receipt](development/validation/c17-schema-body-host-2026-10-05.json)
+records full `VisitBody` control in shared C17: ordered definitions, local
+reference/anyOf distribution, enum/const base validation and counts/filters,
+declared canonicalization and rule composition. Two exact default-ON/OFF edits
+join the 57-file provider inventory. Private JSON staging/retention, scalar
+leaves and exceptions remain translation; binary-double leaf policy and private
+composition/model/controller ownership remain pending.
+
+Ten Debug/ten sanitizer/35 pristine-ON-OFF checks pass: 72 independent C oracles,
+2,204 callback refusals, all 279 selected construction allocation sites, 16
+private exception controls and 106 complete cases / 10,660 transitions. All 19
+prior full hashes remain unchanged. Fifty public headers and strict C17 checks
+pass. CPU peak is 94.375 C with GPU devices masked, CPU98/NVMe85/lower bounds
+active. Fixture/generator failures and actual nonzero exits are retained; the
+older closed-stderr native SIGABRT is not diagnosed by these passing checks.
+
+The frozen GPU checkpoint `2359488` excludes memo/dispatch/Visit/body changes.
+New sealed GPU provider/application build and matching original-weight AR/MTP,
+branch/fault/resource/cost gates remain open on freshly admitted `.161` windows.
+No root `.157` or `.161` build/run/client/lease/waiter/reservation is started for
+this host slice. Terminal Bench remains deferred until the functional work and
+qualification finish; all six owned roadmap tasks remain open.
+
+## Recursive schema Visit sequencing moves to C17 — 2026-10-05 UTC
+
+The C17 core now owns identity-first Visit lookup, rule reservation, recursive
+placeholder publication, body invocation, successful/empty rule commitment and
+result publication. The body retains schema-specific recursion and diagnostics;
+private glue translates borrowed JSON views and exceptions. Failure retires
+the whole compilation pair. Remaining VisitBody definitions/reference/anyOf/
+finite-choice policy, binary-double leaves and model/controller/composition
+remain C++. Default-ON retains the exact original OFF body; reactive worker,
+event/RNG and DS4 RAM/SSD contracts are unchanged. No thread is added.
+
+The [host receipt](development/validation/c17-schema-visit-host-2026-10-05.json)
+records 9 focused Debug, 9 ASan/UBSan/LeakSanitizer and 34 pristine/ON/OFF checks.
+Independent C fixtures cover 1,376 oracles, 68 body refusals and all 28 selected
+construction-allocation sites. Four C++ callback exception paths are checked.
+The 112 three-arm cases produce 61 compilations, 156 accepted values and 7,503
+identical transitions; all eighteen prior complete witness hashes stay unchanged.
+The provider binds 54 owned files and two exact recipe edits; 49 public headers
+compile as C17/C++17. The visitor adds no separate allocator. Local CPU peak
+is 94.125 C under CPU98/NVMe85/lower guards with GPUs masked; no tuning occurs.
+The first focused selection omitted the standalone builder contract; the
+corrected selection includes it and both 9-test suites pass. Upstream fixture
+warnings remain recorded; no new/changed owned source emits a warning. The
+older native-bench SIGABRT remains undiagnosed.
+
+This source has no matching GPU rebuild or original-weight qualification.
+The owner-stopped Core-19 run used frozen `2359488` and includes none of this
+Visit, dispatch or memo code. Terminal Bench stays deferred until functional
+modifications and qualification finish; there is no restart or reservation.
+All six owned roadmap tasks remain open. No publication occurs.
+
+## Terminal Bench stopped and deferred — 2026-10-05 UTC
+
+The owner stops the full Core-19 evaluation at 21:42 UTC and defers it until
+the functional modifications are finished. No task completed; there is no
+qualified full score. The earlier first-attempt smoke **1/1** is unchanged.
+The [stop receipt](development/validation/terminal-full-stopped-point-2026-10-05.json)
+binds fifty collected files and actual closure: `.157` client/children/groups/
+task container and original CPU lease, `.161` model/supervisor/HTTP8000 listener/
+original GPU lease, temporary HTTP rule and restored router. Exit codes are
+preserved as cancellation: runner 130, CPU supervisor 1, GPU child 137/supervisor 1;
+both collectors exit 0. The stale endpoint READY file is retained and does not
+describe the stopped process. Models and the foreign `.157` GPU register are
+unchanged; Q2 receives the fresh CPU handover. No evaluation restart, migration
+or standing reservation is scheduled. Remaining functional work continues.
+
+## Schema type and ordered branch dispatch moves to C17 — 2026-10-05 UTC
+
+The shared C17 core now validates type/nullable arrays, keyword/type
+compatibility and selects ordered object/array/integer/number/string/primitive
+routes. It invokes opaque leaf/child callbacks and composes IDs through the
+shared builder. Classification allocates nothing; refusal preserves published
+plans/results. Earlier private child/builder changes retire after failure.
+Definitions/reference/anyOf/finite-choice orchestration, binary-double leaf
+and model/controller/composition state remain transitional C++.
+The default-ON selection retains exact original OFF bodies; worker/events/RNG
+and DS4 RAM/SSD payloads are unchanged. There is no new inference thread.
+
+The [host receipt](development/validation/c17-schema-dispatch-host-2026-10-05.json)
+records 7 focused Debug and 7 ASan/UBSan/LeakSanitizer checks, 33 complete host
+checks followed by the corrected dispatch-only comparison. Independent C
+fixtures cover 12,936 oracles, 14 reader/work refusals, 10 leaf refusals and
+all 11 selected builder allocation sites. Four hundred nested schema cases
+yield 13,904 identical transitions, 88 successful compilations and 212 accepted
+values. All seventeen earlier complete witness hashes remain unchanged.
+Forty-eight public headers compile as C17/C++17, and the provider inventory
+binds 51 owned files plus three exact dispatch recipe edits. Local CPU peak
+is 91.375 C, with GPUs masked and every sanitizer enabled outside ptrace.
+
+The first new comparison had inadequate coverage: most primitive roots were
+refused before dispatch, yielding only 248 transitions despite exit zero.
+Its source, binaries and outputs are retained. The corrected fixture nests
+types beneath a valid object root and requires actual compilation/acceptance.
+Only three fixture executables rebuild; all 64 runtime-library/other-probe
+hashes and the other 32 checks remain applicable. A new fixture indentation
+warning is also fixed; the initial successful log is preserved. An initial
+documentation patch mismatch makes no mutation and is corrected from the
+actual NOTICE. The older native-bench SIGABRT remains undiagnosed.
+
+Core-19 stays frozen at `2359488`, code `5bdd405`; it includes neither this
+dispatch nor the newer reference memo. Read-only observation at 21:06 UTC
+confirms actual CPU client/runner/Harbor and GPU supervisor/model/permit
+identities alive, both original leases held by their own descriptor 3,
+first task running / eighteen pending / zero infrastructure errors and no
+final aggregate. No second GPU build/run is admitted. All six roadmap tasks
+remain open; matching new source GPU qualification needs a later fresh window.
+
+## Per-compilation schema reference memo moves to C17 — 2026-10-05 UTC
+
+The shared C17 memo owns opaque node identity lookup, rule-ID assignment,
+bounded geometric storage and live-byte accounting. Recursive placeholders
+retain the original visitor order. It adds no worker or inference thread and
+changes no RNG, reactive event, model state or DS4 RAM/SSD payload. The default
+`LIE_C17_SAMPLING=ON` selection retains the exact original OFF implementation.
+Visit/VisitBody dispatch and private model/controller/composition remain C++.
+
+The [host receipt](development/validation/c17-schema-memo-host-2026-10-05.json)
+records 7 focused Debug, 7 focused ASan/UBSan/LeakSanitizer and 32 pristine/ON/OFF
+checks, outside ptrace. Independent C fixtures cover 1,085,705 identity/value
+comparisons and allocation refusal at all 14 selected sites. Thirty-two
+recursive/reference cases produce 1,706 identical transitions; all sixteen
+earlier complete witness hashes remain unchanged. Forty-seven public headers
+compile as both C17 and C++17; the provider inventory now binds 48 owned files.
+Local CPU maximum is 90.75 C, with GPU devices masked and no tuning. Failed
+pre-regeneration build exit 2 and incomplete mock-recipe test exit 8 are
+preserved; corrected focused suites pass without weakening verification.
+The older native-bench closed-stderr SIGABRT remains unresolved.
+
+This source is host-qualified only. The running Core-19 endpoint stays frozen
+at `2359488`, code `5bdd405`, and includes no new memo code. At 20:42 UTC its
+actual CPU supervisor/runner/Harbor and GPU supervisor/model are alive; the
+first task is still running, eighteen are pending and infrastructure errors
+are zero. Harbor's aggregate file has no finish timestamp and is not a final
+score. GPU-host CPU/GPU readings are 76.75/77 C. Both owned windows remain
+active until actual closure. All six owned roadmap tasks remain open.
+
+## Terminal smoke closes; unchanged Core-19 full starts — 2026-10-05 UTC
+
+The `2359488` original-weight smoke now passes **1/1, first attempt, zero
+errors**, with unchanged `git-leak-recovery` instructions/verifier. It records
+26,497 input / 1,907 output tokens and 401.330 s task duration.
+The [receipt](development/validation/terminal-smoke-point-gpu-2026-10-05.json)
+binds 65 portable files, original benchmark pin/source, normalized reward and
+transcript, actual CPU/GPU process/container/lease closure, unchanged models,
+router restoration and retirement of the own scoped HTTP permit. Client closes
+at 19:19:25 UTC; fresh actual CPU closure verifies at 19:30:42; GPU lease releases
+at 19:35:47.787692 UTC. GPU-host CPU/GPU/NVMe maxima are 76.75/77/66.85 C;
+client CPU maximum is 65.5 C. Previous HTTP timeout failures stay retained.
+
+After Q2 release `b9e05fd2` at 19:46:56 and fresh non-use confirmations, root
+verifies 1,099 retired identities / 876 groups, empty `.157` KFD, four unchanged
+briefly free original locks, seven unchanged model stats and existing
+Harbor/Docker/Compose without installation. The own full client uses a separate
+232-file verified official source copy, job, cache and persistent CPU lease.
+The full **19-task** run starts at 20:08:35.909805 UTC: supervisor `20794`
+(start ticks `179631020`), runner `20860` (start ticks `179631128`) and actual
+Harbor `20925` (start ticks `179631192`). Doctor passes all 19 selected tasks.
+GPU inference is `.161` only: supervisor `65159` (start ticks `9972757`), model
+`65982` (start ticks `9978951`), original lease device 66307 / inode 105946405.
+The [startup receipt](development/validation/terminal-full-point-start-2026-10-05.json)
+binds these observations. Context 262,144, output ceiling 4,096, AR/C1,
+two conditional attempts and three hours per attempt stay unchanged. The outer
+supervisor budget covers the source-defined worst case plus cleanup, rather
+than imposing a shorter benchmark timeout. HTTP port 8000 is direct, with only
+the own client-specific temporary permit. No full score or release is claimed.
+
+All six roadmap tasks remain open. The physical1M PP/TG gate is closed but
+recall remains pending; comparisons, nonzero steering, independent sampling
+probabilities and further C17 branch/fault/cost coverage remain queued. Separate
+agent assignments stay excluded. No push or implicit publication occurs.
+
+## Finite-value/cache GPU controls and real Terminal smoke — 2026-10-05 UTC
+
+The newly sealed `2359488` runtime, code checkpoint `5bdd405`, compiles on
+`.161` and passes **37 original-weight OpenAI checks in AR and 37 in MTP**.
+The [receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)
+binds the new binaries, actual 45-file C17 provider inventory, host oracles and
+three independently admitted/closed windows. Forty collected files match SHA;
+CPU/GPU/NVMe maxima are 74.125/68/67.85 C. Original models stay unchanged and
+all owned processes, named service and original lease close correctly.
+These checks qualify selected wire/grammar/tool/lifecycle paths for this
+source; per-branch quality/fault/allocations and matched cost remain pending.
+The older closed-stderr native benchmark abort is not diagnosed by these runs.
+
+Actual Core-19 smoke `lie-point-r16-core19-smoke-r1` starts at 19:12:36 UTC.
+Its persistent CPU supervisor on `.157` is `4191489` (start ticks `179295094`); Harbor 0.20
+actually runs the unchanged `git-leak-recovery` task after doctor passes source,
+runtime, model and context checks. GPU inference is exclusively the `.161`
+HTTP port 8000 endpoint, supervisor `63047` (start ticks `9598139`), model process `63857` (start ticks `9601616`).
+Context 262,144 / output ceiling 4,096, AR, C1 and the benchmark's default two
+conditional attempts/three hours per attempt are preserved. The server observes
+44 whole-process threads including runtime helpers, not a reactive-worker count
+or proof of speedup. No task reward or final closure is available yet.
+
+Initial direct HTTP GETs fail because UFW lacks port 8000. The own temporary permit
+allows only `.157` to `.161:8000`, with exact supervisor identity and automatic
+retirement; foreign rules stay intact. Retried direct GET succeeds without a
+tunnel. The CPU client uses an existing read-only Harbor environment and its
+own source/cache/job/lease/thermal supervisor; no installation or Q2 mutation
+occurs. All six roadmap tasks remain active. No publication occurs.
+
+## Physical 1M prefill and fixed TG128 pass — 2026-10-05 UTC
+
+The newly declared `.161` `1bff953` C1 AR run completes **1,048,448 physical
+prefill tokens and 128 output tokens** at YaRN4 capacity 1,048,576, chunk256,
+zero warmups, one repetition and no retained prefix cache. Explicit
+`--ignore-eos` implements the declared fixed-output policy. Prefill is
+140.642 tok/s over 7,454.744 s; decode is 7.741 tok/s over 16.535 s.
+The older natural-EOS43 failure remains unchanged.
+
+The [receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+binds eleven SHA-verified artifacts and the portable raw archive. Supervisor,
+child and controller exit zero; the GPU process/kernel KFD retire before
+restoring the initially active router. Original lease device 66307 / inode 105946405
+releases at 18:42:53.125145 UTC; four original shard stats remain unchanged.
+CPU/GPU/NVMe peaks are 78/79/66.85 C, GTT peaks at 109.183 GiB and available
+RAM bottoms at 5.379 GiB. Process thread counts are not recorded for this run.
+The live progress client has a confirmed final snapshot, distinct from actual
+process and lease closure. Full timings and instructions are in the
+[model/platform benchmark page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#physical-1m-context-and-fixed-generation).
+
+This closes physical capacity plus fixed generation for the frozen source;
+1M recall quality and matched repeated comparisons remain open. All six
+owned roadmap tasks remain active. The newer finite-value/cache C17 source
+`2359488` (code checkpoint `5bdd405`) is independently sealed for a fresh
+device-free `.161` build after this window; no GPU qualification is inherited.
+Terminal Bench's CPU client has fresh Q2 release/non-use coordination and
+read-only existing prerequisites on `.157`; no task reward exists yet.
+
+## Compiled-schema cache in C17 — 2026-10-05
+
+The core now owns copied-key ordering, bounded insertion/eviction, synchronized
+lookup and opaque value retirement. Schema compilation remains outside the
+lock; shared-pointer/error translation stays private in the adapter. This cache
+holds compiled grammars and is separate from model KV/prefix caching.
+
+The [host receipt](development/validation/c17-grammar-cache-host-2026-10-05.json)
+binds 28,822 independent lookup/policy oracles, 23 refusal checks, 24,000
+concurrent C operations, actual private-holder allocation failure and 360
+pristine/C17/OFF compilation witnesses plus 1,600 concurrent identity checks.
+Six Debug, six sanitizer, 31 reference-project and five minimal C/ICU-OFF checks
+pass; all 15 earlier complete witnesses remain unchanged. The minimal-build
+C++ test-registration failure is preserved and corrected by registering private
+glue only after a composition enables C++. All sanitizers stay enabled.
+
+Two exact source edits, the current 45-file inventory and named cache recipe
+hash require a matching new provider/application build. The 46 public headers
+and strict C17/import checks pass; host CPU peaks at 90.875 C. The live `.161`
+1M gate remains frozen at `1bff953`, without new workers or a reactive speedup
+claim. Dispatch/reference memo, private composition/model/controller ownership
+and all six roadmap tasks remain open. No publication occurs.
+
+## Finite values and container construction in C17 — 2026-10-05
+
+The previously preserved draft now executes finite JSON type/filter/reference/
+branch normalization, ordered canonicalization, JSON string/key quoting,
+object suffix/array bound rule construction and iterative character accounting
+in shared C17. One property/character state includes nested child visitor work;
+private staging and scratch retire on refusal. The provider retains cached leaf
+predicates, binary-double serialization, dispatch/reference memo and compile
+cache. No worker, HTTP/event/RNG ABI or DS4 RAM/SSD layout changes.
+
+The [host receipt](development/validation/c17-schema-values-host-2026-10-05.json)
+records 258 independent tree/language/boundary oracles, 115 callback refusals,
+16 C allocation refusal points and 628 complete pristine/C17/OFF witnesses.
+All 14 earlier full witness hashes remain unchanged. Four Debug, four
+ASan/UBSan/LeakSanitizer, 30 reference-project and four ICU-OFF checks pass;
+45 public headers and strict C17/symbol checks pass. Local CPU maximum is
+93.125 C, below the existing 98 C guard; no tuning occurs.
+
+The preparation-script indent failure, ambiguous unsigned test-value build
+and sandbox/LeakSanitizer `ptrace` failures remain recorded. Corrected fixture
+casts and reruns outside `ptrace` preserve assertions and every sanitizer.
+Nine exact source edits, the 42-file private inventory and named recipe hash
+require new matching sealed provider/application builds. The active `.161`
+physical1M test and earlier AR37/MTP37/profile results remain bound to frozen
+`1bff953`; they do not cover this new slice. All six owned roadmap tasks remain
+open, including Terminal Bench rewards, TG128/recall, matched depth/concurrency,
+nonzero steering and broader original-weight grammar/sampling/resources/cost.
+
+## Integrated C17 runtime on Strix Point — 2026-10-05
+
+Checkpoint `1bff953` builds and passes **37 original-weight OpenAI controls in
+AR and 37 in MTP** on `.161`. Six native sessions also complete PP1500/TG128:
+greedy AR and the DS4 temperature-1/min-p-0.05 profile in AR/MTP, two sessions
+per profile with exact same-seed token replay. MTP drafts 228 tokens and accepts
+124 across its two profile sessions. These are functional controls and short
+generation samples, not matched Gufo cost or independent model-quality proof.
+
+The [GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json)
+binds source/binaries, all five collected runs, temperatures and closure.
+Their CPU/GPU/NVMe maxima are 71.125/71/67.85 C. The observed model process has
+up to 44 threads, including runtime helpers; this is not the number of reactive
+workers or evidence of a scheduling speedup. The earlier two build failures
+remain collected: missing private adapter include path, then GCC's rejection
+of partial live-steering snapshot initialization. Both fixes preserve strict
+warnings, and the fixed device-free build succeeds. No dependency installation,
+tuning or publication occurs. The unfinished finite-value extraction is saved
+separately in Git and is excluded from this checkpoint.
+
+The physical PP1,048,448/TG128 gate is now running with explicit YaRN4,
+`--ignore-eos` and progress snapshots under fresh `.161` admission. Completion,
+recall, matched long-context benchmarks, nonzero steering and broader sampling/
+grammar faults/resources/cost remain open. Terminal Bench source and existing
+client prerequisites are checked; no task reward or task run exists yet.
+
+
+## JSON Schema transformation C17 host slice — 2026-10-05
+
+From `7f385c3`, structural JSON equality, local reference resolution,
+supported-key validation and complete conjunction traversal/distribution/merging
+now use the shared C17 contract. The provider supplies borrowed views, private
+staging and error translation, plus format/binary-double multipleOf leaf policy.
+Schema visiting, finite-value normalization, compile cache and model/controller
+storage remain transitional. Default ON keeps explicit original OFF bodies.
+Reactive worker/events/RNG, engine ABIs and DS4 framing do not change.
+
+The [source-bound host receipt](development/validation/c17-schema-transform-host-2026-10-05.json)
+records 29 Debug, 29 sanitizer, 29 pristine/ON/OFF and five minimal ICU-OFF checks,
+plus strict C17 and 44 public C++ headers. Independent fixtures cover 1645
+tree/boundary oracles, all 192 callbacks in the declared composite path, six
+owned allocation refusals and a 4096-level iterative equality chain. Complete
+transformation witnesses match in 1996 cases; all thirteen earlier complete
+witness hashes remain unchanged. Fixture hooks do not qualify private provider/
+ICU/GPU allocation faults or whole-process resources/cost. CPU maximum is 92 C.
+Initial Debug and sanitizer builds refused six misleading-indentation warnings
+in the new test fixture; logs/exits are retained and the fixture formatting is
+corrected without weakening checks. No test command fails in this slice.
+
+Five exact source edits and the 38-file private inventory require matching new
+sealed provider/application builds. Fresh `.161` observation finds the Gemma
+training process gone, but `llama-router` still holds the GPU devices. No root
+GPU build/run/hash/conversion, service mutation, foreign signal, standing lease
+or waiter occurs. All six owned tasks remain open; original-weight continuation,
+allocation-exact resources and matched cost still require fresh GPU admission.
+
+
+## Grammar construction C17 host slice — 2026-10-05
+
+From `2bbb2e6`, the shared C17 builder owns concrete rule/class/literal and
+repetition construction, JSON byte primitives, depth-bounded generic values,
+shared-prefix unsigned intervals, productive/nullable fixed points, iterative
+non-consuming-cycle checks and dead-alternative pruning. The selected provider
+compiler calls these operations; its original bodies remain the explicit OFF
+reference. Base runtime tables come directly from C. The adapter still copies
+private templates for reasoning/tool composition. Schema traversal, reference
+resolution, conjunction, finite-value normalization, binary-double normalization,
+compile cache and model/controller storage remain transitional.
+
+The [host receipt](development/validation/c17-grammar-builder-host-2026-10-05.json)
+records 28 Debug, 28 sanitizer and 28 pristine/ON/OFF checks. All thirteen prior
+complete witness hashes remain unchanged. Independent fixtures cover 11,169
+language/boundary oracles, the 512/513-digit boundary, a 4096-rule chain and all
+113 owned allocation refusal points. Requested fixture payload peaks at 38,090
+bytes, excluding headers/provider/ICU/process/GPU costs. No new original-weight
+GPU correctness, fault, fit, allocation-exact cost or performance is claimed.
+Four minimal-core ICU-OFF checks, 43 public headers and strict C17/symbol checks
+also pass. Local CPU maximum is 91.5 C without tuning.
+
+The private inventory grows from 32 to 35 files, with 21 additional exact
+runtime edits; matching sealed provider/application rebuilds are required.
+No inference worker, event/RNG/engine ABI or DS4 framing changes. All six root
+tasks remain open. `.161` still runs foreign Gemma/router processes, so root
+performs no GPU build/run/model hash/conversion or foreign mutation. One initial
+recipe-preparation assertion guessed the old edit count incorrectly and refused
+before any writes; the preserved failure is corrected against the actual HEAD.
+
+
+## Snapshot read/write bridge C17 host slice — 2026-10-05
+
+From `2514938`, C17 now owns snapshot import construction, export planning,
+capacity/overlap validation and payload copies. Synchronous reader/writer hooks
+expose typed views and private staging buffers without retaining input/context.
+Partial imports/plans retire on all failures; payload export starts only after
+all destinations pass validation. Provider glue keeps container access/growth
+and exception translation. Its original vector/string State layout remains;
+JSON Schema compilation and model/controller/container storage are transitional.
+
+The [host receipt](development/validation/c17-grammar-snapshot-host-2026-10-05.json)
+records 27 Debug, 27 sanitizer and 28 pristine/ON/OFF checks, plus final 2 Debug/
+2 sanitizer contracts. There are 2080 frame oracles, 8192 maximum-frame copies,
+36 C allocation refusals, 17 callback refusals and four overlap/capacity cases.
+All 84 actual C++ staging allocation points refuse in both fixtures, preserving
+source hashes. Complete 65-snapshot/2080-frame witnesses match; all twelve prior
+full witness hashes are unchanged. Three minimal-core checks with ICU OFF,
+42 public headers and strict C17/symbol checks pass. Local CPU maximum is 90.5 C.
+
+The 32-file source-bound inventory/runtime recipe requires new matching
+provider/application builds. Shared reactive ownership/events, worker count,
+RNG, engine ABIs and DS4 framing are unchanged. No GPU build/run/hash/conversion,
+service mutation, foreign signal or reservation occurs. The `.161` foreign
+Gemma/router workload still occupies the GPU. All six root tasks remain open;
+original-weight continuation/fault/fit/cost and JSON Schema extraction are pending.
+
+## Unicode-set registry/input C17 host slice — 2026-10-05
+
+From `65d7edb`, the reusable C17 Unicode context owns full-set identity, private
+copies, scalar-range translations, handles and replacement UTF8/UTF16 input
+buffers through ICU C APIs. ICU remains the property/set/conversion dependency,
+including its C/C++ implementation. Provider glue is context RAII, borrowed input
+and enum/error translation. JSON Schema compilation and snapshot marshalling
+remain open; this does not complete the autonomous model executor.
+
+The [source-bound host receipt](development/validation/c17-grammar-uset-host-2026-10-05.json)
+records 26 Debug, 26 sanitizer, 25 pristine/ON/OFF and 5 minimal-core OFF checks,
+42 public headers and strict C17/symbol checks. There are 84 language oracles,
+123 owned allocation refusals, 1,181,953 complete decodings and 38 set operations.
+All eleven prior complete witness hashes are unchanged. ICU internal allocation
+faults are unqualified. Two initial surrogate-fixture failures are retained and
+corrected without weakening implementation checks. Local CPU maximum is 89.875 C.
+
+The 32-file private inventory and changed recipes require matching provider/
+application rebuilds. A previously combined compiler/parser source filename is
+fixed and covered by source-path validation; no GPU build is claimed. Worker/
+events and DS4 framing are unchanged. Fresh `.161` still has Gemma/router in
+actual/kernel KFD, GPU 100%; no root GPU build/run/hash/conversion, service change,
+foreign signal, waiter or reservation occurs. All six owned queue items remain
+open. The next local slice is JSON Schema compilation or snapshot marshalling.
+
+## Regex syntax/assertion-expansion C17 host slice — 2026-10-05
+
+From checkpoint `57a551c`, C17 now owns regex syntax parsing, bounded AST
+lifetimes and iterative assertion expansion into the owned expression compiler.
+Groups, alternatives, repeats, anchors, lookaheads, word boundaries, character
+classes and escapes retain the pinned behavior. Input/group bounds remain
+16,384 bytes/32 levels; AST/work budgets are 65,536 nodes/32 million units.
+UTF8 decoding and Unicode-set storage/property/full-set identity remain provider
+glue, along with JSON Schema compilation and snapshot marshalling.
+
+The [source-bound host receipt](development/validation/c17-grammar-parser-host-2026-10-05.json)
+records 24 Debug, 24 ASan/UBSan/LeakSanitizer and 24 pristine/ON/OFF tests,
+41 public headers and strict C17/symbol checks. Independent C tests cover
+10,930 finite-language queries and 55 allocation refusal points, with all
+temporary handles/AST/expansion memory retired. The source-pinned comparison
+covers 2,138 patterns at three bounds, 1,155 compilations, 5,259 exact syntax
+refusals, 139,755 full prefix states and 2,515,590 scalar transitions.
+All ten earlier complete witness hashes remain unchanged. Local CPU maximum
+is 91.875 C. These are synthetic host checks, not numerical GPU or cost evidence.
+
+Two exact edits and the 30-file provider inventory require matching sealed
+provider/application rebuilds. Worker/events and DS4 framing remain unchanged.
+Fresh `.161` observation still finds Gemma training/router in actual/kernel KFD
+with GPU 100%; no root GPU build/run/hash/conversion, service change, foreign
+signal, waiter or standing lease occurs. All six owned queue items remain open;
+remaining Unicode/input/schema/marshalling work can proceed locally.
+
+## Regex expression/derivative/DFA compiler C17 host slice — 2026-10-05
+
+From checkpoint `afdeaea`, C17 now owns normalized expression DAGs, minimum
+widths/eight nullable contexts, memoized iterative derivatives, Unicode membership
+partitioning and BFS state construction. Sealing copies an immutable runtime
+program and retires temporary graph storage. Regex syntax/assertion expansion,
+ICU property/full-set identity, JSON Schema compilation and provider snapshot
+marshalling remain transitional; this is not the full autonomous C executor.
+
+The [source-bound host receipt](development/validation/c17-grammar-compiler-host-2026-10-05.json)
+records 23 Debug, 23 ASan/UBSan/LeakSanitizer and 23 pristine/ON/OFF tests,
+40 public headers and strict C17/symbol checks. Independent tests cover 66,540
+finite-language queries, all 1,112,064 scalars, 91 allocation refusal points,
+budgets and a 4,096-edge expression DAG. The new complete comparison covers
+104 compilations, 20 syntax refusals, 242 reachable states, 81,180,672 scalar
+transitions and 4,356 finish queries. All nine earlier witness hashes remain
+unchanged. Local CPU maximum is 90.125 C. No numerical GPU or performance
+qualification is added; no inference worker, reactive event or DS4 format changes.
+
+Three exact edits and the 27-file provider inventory require matching sealed
+provider/application rebuilds. `.161` remains occupied by external Gemma LoRA
+training and llama-router in actual/kernel KFD; the latest read-only observation
+still shows GPU 100%. No root GPU build/run/hash/conversion, service change,
+foreign signal, reservation or standing lease occurs. All six owned queue items
+remain open; further schema/syntax/property extraction can proceed locally.
+
+## Vocabulary trie/transition/mask-cache C17 host slice — 2026-10-05
+
+From clean checkpoint `c803cd2`, C17 now owns copied vocabulary bytes/trie,
+iterative traversal, exact state interning, token acceptance and canonical-key
+mask-cache lookup/eviction/publication. Storage is model-neutral; the adapter
+retains vector/shared_ptr, mutex and exception translation. Hash buckets grow
+with occupancy, and full/noncacheable state caches use the direct path without
+changing the language. Provider temporary Piece/trie vectors retire after seal.
+Ten exact edits and the 24-file private inventory require matching provider and
+application rebuild. The inline vocabulary getter is option-independent;
+two opposite-option header-consumer controls pass.
+
+[Source-bound commands and complete witnesses](development/validation/c17-grammar-vocabulary-host-2026-10-05.json)
+retain 22/22 Debug, 22/22 ASan/UBSan/LeakSanitizer and 22/22 pristine/ON/OFF
+reference-project checks, plus final two Debug/two sanitizer provider/cache
+rechecks, 39 public headers and strict C17/symbol checks. Independent token
+oracles cover 1,718,772 cases; all 52 vocabulary allocation-refusal points and
+separate cache constructor/key-clone faults preserve outputs/ownership. The
+small fixture's requested-payload peak is 3676 bytes, excluding allocator helper
+headers and real provider/process/GPU cost. A 4096-byte copied path uses bounded
+iterative depth; no inference thread is added.
+
+Complete witnesses retain 11 grammars, 283 pieces, 950 masks, 84,352 accepted
+encoded states and 260,360 token-by-token checks. Four host caller threads
+exercise 384 cache queries and 24 retained snapshots. Eight previous complete
+witness hashes are unchanged. Initial source-location `rg` failure (exit 2) is
+retained; no failed build/test command occurs. Upstream initializer warnings and
+the older unresolved closed-stderr benchmark abort remain recorded.
+
+Local CPU maximum is 92.125 C; no thermal trip/tuning occurs. Fresh readonly
+`.161` at 10:32:59.150260 UTC still observes training PID 29223/start 2470351
+and router PID 29377/start 2474081 in actual/kernel KFD, GPU 100%, CPU 89.25 C.
+Lease, boot/filesystem and original four model stat identities are unchanged.
+There is no root GPU build/run/hash/conversion, service mutation, foreign signal,
+waiter or reservation. GPU work remains `.161` only after fresh admission.
+All six root tasks remain open. Regex derivative/schema/Unicode partition
+compilers, provider snapshot marshalling and new original-weight continuation,
+fault/fit/actual resources/matched cost remain unqualified; no GPU speedup or
+complete autonomous C executor is claimed.
+
+The [current roadmap](BACKEND.md#current-roadmap--2026-10-08-utc) records completed
+r11 OpenAI AR/MTP controls and six open tasks: Terminal Bench, full 1M acceptance, requested
+benchmark methods, DS4 directional steering and sampling temperatures, and the
+identified C17 sampling extractions. Assigned platform/weight-format work and
+undefined future features are excluded. Earlier platform and long-context
+matrices remain explicitly historical; raw receipts and failures are unchanged.
+
+## C17 string and Unicode-DFA runtime; host parity — 2026-10-05 UTC
+
+Root continues task 7 from `4aa7478` in the persistent context/OpenAI worktree.
+`lie/grammar_regex.h` and `src/grammar_regex.c` own copied scalar classes/raw DFA
+tables, unique successor/predecessor construction, shortest accepting distances,
+edge pruning, range lookup, bounded length reachability and Brent cycle skipping.
+`lie/grammar_string.h` and `src/grammar_string.c` own UTF8, JSON escapes,
+surrogate pairs, pending ranges, decoded lengths, completion, copied mask-key
+canonicalization and the 32-byte formatting-whitespace predicate.
+
+Eleven exact regex and three string edits route the pinned provider through
+storage/JSON/error glue under the existing default-ON/OFF selection. After C
+sealing the adapter retires temporary C++ state/alphabet vectors. The strict
+receipt binds 21 owned source/header/glue files and both new recipes. The direct
+legacy reference now compiles regex methods too; its original-weight build/link
+and continuation remain unqualified. Regex derivative/schema compilation and
+vocabulary trie/transition/cache still need extraction in the same grammar task.
+
+Independent C checks cover 5,832 automata, 507,384 finite-language queries and
+all 1,112,064 scalar codepoints in patterned/scalar modes with literal and escaped
+spellings: 4,448,256 full quoted-string checks. Constructor/query/work/capacity
+faults, malformed phases/shift states, copied tables and mask-key isolation pass.
+Complete pristine/ON/OFF witnesses match 14 admitted string policies, 2,018 byte
+steps, 10,090 canonical keys, 423,424 byte branches and 756 DFA query pairs.
+All seven prior probability/history/byte/numeric witnesses keep their exact hashes.
+Final 21 Debug, 21 ASan/UBSan/LeakSanitizer and 19 sanitizer reference-project
+tests, 38 public C++ headers and strict C17/symbol checks pass. No failed build
+or test command occurs in this slice; the older closed-stderr abort remains open.
+[Commands, sources, witnesses and limits](development/validation/c17-grammar-unicode-host-2026-10-05.json).
+
+Local Strix Halo CPU peak is 90.625 C, with no guard trip or tuning. Regex queries
+allocate at most 12 bytes per state only when their minimum requires reachability
+scratch; scalar decoding needs no additional allocator. This is not provider
+allocation-exact cost, memory-fit or a speedup measurement. One inference device
+owner remains, and no model operation, runtime thread, RNG or DS4 format changes.
+
+Fresh `.161` read-only witness at 09:34:11.650086 UTC still observes foreign Gemma
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel KFD;
+GPU 100%, remote CPU 91.875 C. Original lease/boot/filesystem/four model stats
+remain unchanged. No root GPU build/run/hash/conversion, service mutation,
+foreign signal, waiter or standing lease follows. All six owned tasks remain open.
+
+## C17 exact-decimal numeric grammar; host parity — 2026-10-05 UTC
+
+Root continues task 7 in `feature/context-million-openai` from `39b237e`.
+`lie/grammar_number.h` and `src/grammar_number.c` now own canonical decimal
+parsing/comparison, exact division/product, strongest bounds, empty interval/grid
+refusal, integer `multipleOf` reduction, prefix interval intersection and exact
+LCM. Four source-bound edits route the pinned provider through storage/JSON/error
+glue with the existing default-ON selection; OFF retains the numerical reference.
+Schema-number representability remains a JSON-adapter responsibility.
+
+Independent C checks pass 7,413 fixed-point/integer value oracles and 1,600 LCM
+pairs, allocator/work/buffer refusal, copied policy and 4096-byte scalar limits.
+Complete pristine/ON/OFF witnesses agree for 49 admitted policies, 16,954 prefix
+checks, 539 values and 196 intersections. All six previous complete
+probability/history/byte-state/mask witness hashes remain unchanged. Final
+20 Debug, 20 ASan/UBSan/LeakSanitizer and 18 sanitizer reference-project checks
+pass, plus 36 public C++ headers and strict C17/symbol checks. Matching final
+provider/number contract rechecks pass 2 Debug and 2 sanitizer tests.
+
+CPU peak is 91.875 C, with no guard trip or tuning. The measured host policy is
+24,680 bytes; each numeric call owns/retires 114,856 bytes of scratch, copying
+only live digits. Original-weight allocation/cost remains unqualified. The first
+strict compiler warning and sandbox-only socket failures are retained with their
+actual exits in the [source-bound receipt](development/validation/c17-grammar-number-host-2026-10-05.json).
+The older closed-stderr abort remains unresolved; no numerical/GPU speedup is claimed.
+
+The read-only `.161` witness at 08:51:41.633432 UTC still observes foreign Gemma
+PID 29223 and router PID 29377 in actual/kernel KFD, GPU 100%, CPU 89.25 C.
+Original lease, boot/filesystem and four model stats remain unchanged. No root
+GPU build/run/hash/conversion, service mutation, foreign signal, waiter or standing
+lease follows. All six owned tasks remain open. String/Unicode-DFA/regex
+predicates, schema compilation and vocabulary trie/transition/cache extraction
+remain within the same grammar task, alongside its original-weight gates.
+
+## C17 byte-grammar runtime; complete host state/mask checks — 2026-10-05 UTC
+
+Rule expansion, byte branching, stack/lexeme ordering, canonical snapshots and
+completion now use C17, together with dense/compact logit mask application.
+Programs deep-copy immutable tables; snapshots own bounded state, and allocation
+refusals preserve input/output ownership. Provider glue seals independent
+programs after schema/reasoning/tool composition. ON/OFF layouts agree; matched
+source/archive/application rebuilds are required. Reactive owner, request/RNG
+semantics and DS4 RAM/SSD framing remain unchanged.
+
+Final 19 Debug, 19 ASan/UBSan/LeakSanitizer and 17 pristine/ON/OFF host checks pass,
+with 35 public headers and strict C17/symbol checks. Independent C fixtures cover
+134,402 transitions. Full witnesses compare 13,700 byte states and 7,089 masks
+across 20 grammars/23 texts; older probability/history witness hashes agree.
+CPU peak is 90.75 C, without guard trips. [Source-bound commands and limits](development/validation/c17-grammar-runtime-host-2026-10-05.json)
+retain the older unresolved closed-stderr abort without claiming a fix.
+
+Schema compiler, primitive exact-decimal/string/Unicode-DFA predicates and
+vocabulary trie/cache algorithms still need extraction within the same grammar
+task. New original-weight continuation/resources/cost remain unqualified. At 08:12:22.016655 UTC,
+the read-only `.161` witness still observes foreign Gemma PID 29223 and router
+PID 29377 in KFD. No root GPU build/run/hash, service mutation, foreign signal,
+waiter or standing lease occurs. All six owned tasks remain open.
+
+## C17 compact distributions and host MTP arithmetic — 2026-10-05 UTC
+
+Ordered/compact normalization, mapped penalties, p-q residual correction and
+exact host proposal/verification arithmetic now belong to the shared C17
+sampler. Caller-owned storage and refusal checks preserve published results and
+RNG. The default-ON provider recipe uses storage/options/error glue; OFF retains
+Gufo numerical behavior and the same layouts. Reactive device/controller
+ownership and DS4 RAM/SSD framing are unchanged.
+
+Final 18 Debug, 18 ASan/UBSan/LeakSanitizer and 16 pristine/ON/OFF host checks pass,
+with 34 public C++ headers and strict C17/symbol checks. Complete 1,728-profile /
+6,912-decision witnesses agree byte-exactly. CPU peak is 88.375 C; no guard trips.
+[Source-bound commands, full witnesses and limits](development/validation/c17-distribution-host-2026-10-05.json)
+retain the tooling failure and the older unexplained closed-stderr abort.
+
+Original-weight continuation/resources/cost remain unqualified. Grammar/masking
+is still the remaining source extraction in the identified three-component task;
+model/controller and GPU-resident numerical kernels remain transitional. The
+fresh `.161` witness at 07:28:56.951902 UTC still observes Gemma training PID 29223
+and router PID 29377 in descriptor/kernel KFD. No root remote GPU build/run/hash,
+service mutation, foreign signal, waiter or reservation starts. All six owned
+tasks remain open.
+
+## C17 sampler history; host checks only — 2026-10-05 UTC
+
+Prompt-tail repetition and committed generated-token counts now use the owned
+C17 history contract, selected with the existing default-ON sampler option.
+Construction/reset/acceptance/free-distribution bookkeeping is wired through
+storage-only provider glue; OFF retains Gufo. Inputs are borrowed, growth is
+caller-controlled and refusals preserve published state. The owner/reactive
+path and DS4 prefix framing remain unchanged.
+
+Seventeen Debug and seventeen ASan/UBSan/LeakSanitizer checks pass, plus fifteen
+pristine/ON/OFF sanitizer checks and 33 public C++ headers. The independent
+FIFO/count oracle covers 14,400 transitions; complete history witnesses cover
+1,728 transitions and 48 profiles. The failed sandbox run and unsupported root
+schema fixture remain in the [host receipt](development/validation/c17-history-host-2026-10-05.json).
+Local CPU peak is 90.875 C; no thermal guard trips or tuning occurs. The older
+closed-stderr abort remains unexplained.
+
+History GPU continuation and cost are still unqualified. Grammar/masking and
+compact speculative distributions remain delegated. The fresh `.161` witness
+at 06:24:10.934843 UTC observes the external training PID29223 and router PID29377
+in descriptor/kernel KFD. No remote build/run/hash, service change, waiter or
+reservation starts. All six owned roadmap tasks remain open.
+
+## HTTP steering plans and independent choices — 2026-10-05 UTC
+
+Both HTTP APIs now accept `dir_steering_plan`, copied into the shared C17 core
+before protocol storage is freed. Multi-choice admission gives every child an
+independent plan with existing seed offsets and rollback. Stored controls use
+`/steering/{choice}` for one selected child; GET retains tickets, actual policy
+and attempted/applied plan steps after the foreground closes. Additional stored
+choice references are charged only with a direction bank and released on disposal.
+The network loop still performs admission/snapshots only; no inference thread,
+JSON dependency in core contracts or Python product/default-test dependency is added.
+
+Final 24 Debug and 24 ASan/UBSan/LeakSanitizer checks pass, with three build-off
+tests and 32 public C++ headers. Coverage includes concurrent AR/MTP schedules,
+both creation routes, exact prompt/decode positions, malformed/duplicate plans,
+early-EOS unreached steps, live choice isolation, deletion and no-bank retirement.
+The initial suites exposed release of a null extra-choice reference when the
+bank was absent; the guard fixes that regression without changing assertions.
+Both failed exit-8 commands remain in the
+[host receipt](development/validation/steering-http-plan-host-2026-10-05.json).
+Local CPU peak is 71.875 C. The older closed-stderr abort remains unexplained.
+
+Original-weight GPU continuation, quality and cost remain pending. The fresh
+read-only `.161` witness at 05:43:05.088403 UTC still observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. No remote build/run/hash, service mutation, waiter or reservation
+starts. The six open tasks and frozen GPU/task-evaluation evidence remain.
+
+## Scheduled steering and HTTP controls — 2026-10-05 UTC
+
+The shared C17 core now copies an immutable steering plan and applies it at
+declared retained token positions. Prefill chunks, AR rows and MTP bursts stop at
+each boundary; prefix lookup cannot skip the first unapplied change. The native
+bench accepts `--dir-steering-plan`, reports actual application positions and
+history, and rejects incomplete plans or comparisons with different steering.
+Stored single-choice Chat and Responses requests expose asynchronous GET/POST
+`/steering` controls through the same inference owner. No inference thread or
+Python product/default-test dependency is added.
+
+Final checks pass: 21 Debug, 21 ASan/UBSan/LeakSanitizer, three build-off tests and
+32 public C++ headers. They cover exact boundaries, concurrent policies, RAM/SSD
+reuse, cancellation, provider failures, strict report identities and both HTTP
+routes. Local CPU peak is 75 C. The initial boundary-crossing failure, compiler
+failures and corrected EOS fixture remain recorded with actual exit codes in
+the [host receipt](development/validation/steering-schedule-host-2026-10-05.json).
+The previous closed-stderr sanitizer abort remains unexplained; subsequent
+passing checks do not establish its cause or a fix.
+
+Original-weight GPU continuation, numerical quality, graph/correction behavior
+and cost remain unqualified. HTTP multi-choice control and creation-time plans,
+and replay-based lookup of later mixed-history checkpoints, remain open. The
+fresh `.161` witness at 05:01:54.702189 UTC still observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. No remote build/run/hash, service mutation, waiter or reservation
+starts. All six open roadmap tasks and frozen GPU/evaluation receipts remain.
+
+## Live steering on the existing inference owner — 2026-10-05 UTC
+
+The shared C17 core now admits one copied scale change per job and returns an
+asynchronous ticket. The owner applies it at a scheduling boundary, preserving
+past retained tensors/logits, history and separate image identity. Snapshots
+retain completion through retirement. Scope refresh after each completed forward
+prevents mixed steering history from reusing a uniform prefix. Mutating failure
+poisons the shared model; pure refusal preserves the job. No inference thread or
+Python product/default-test dependency is added, and absent-bank dispatch keeps
+its ordinary path.
+
+The provider source invalidates private graphs and MTP controller/proposal
+scratch while preserving an already sampled residual correction for unchanged
+boundary logits. Nine ON/OFF/unavailable provider syntax checks pass; this is not
+GPU proof. Final host checks pass: 16 Debug, 16 ASan/UBSan/LeakSanitizer, three
+build-off and 32 public headers. They include concurrent isolated policies,
+AR/MTP/vision RAM/SSD capture, copied inputs, saturation, cancellation and failure.
+Local CPU peak is 80.875 C.
+
+One sanitizer native-bench run aborted in its deliberate broken-stderr case.
+The original failure remains; its cause is unresolved. The fixture now retains
+sanitizer diagnostics on file without disabling checks. A diagnostic native rerun,
+32 isolated fault repetitions and the final suites pass; these do not prove the
+previous abort fixed. Compiler/fixture failures and a stale-binary check excluded
+from qualification are retained in the [host receipt](development/validation/steering-live-host-2026-10-05.json).
+
+Dynamic HTTP/bench controls and original-weight live continuation, graph,
+deferred-correction, quality and cost gates remain open. The `.161` read-only
+witness at 04:06:49.060745 UTC still observes external PID29223/start2470351 and
+router PID29377/start2474081 in actual/kernel KFD inventories. No GPU admission,
+remote build/run/hash, service mutation, waiter or reservation starts. All six
+open roadmap tasks and the frozen GPU/task-evaluation limits remain unchanged.
+
+## Shared core steering and initial server/bench controls — 2026-10-05 UTC
+
+The additive core constructor copies bank options/path before return and admits
+them on the existing inference owner. READY snapshots project bank hashes and
+host/device vector data without calling the provider from a client thread.
+Complete steering/image scope is composed before RAM/SSD text or token lookup,
+then checked by capture/restore. Zero-scope legacy reads and unused-bank state
+remain compatible. Executor/request/generation/state ABIs and unversioned core
+options/info layouts are unchanged; no inference thread or Python dependency is added.
+
+Server and native core bench share DS4's initial file/FFN/attention controls.
+Native reports validate actual admission against requested scales and refuse
+matched comparisons whose bank or scales differ. Sixteen Debug and sixteen
+ASan/UBSan/LeakSanitizer checks pass, covering synthetic AR/MTP/vision and joint
+RAM/SSD process restart, copied option lifetimes, both HTTP APIs in JSON/SSE,
+and native reports. Three build-off checks and 32 public C++ headers pass.
+Local CPU peak is 78.5 C. Retained failures comprise the sandbox socket refusal,
+an integer accessor for fractional scale, a missing strict-client fingerprint
+and missing requested Chat SSE usage; fixture corrections preserve protocol behavior.
+
+Live scale transitions and actual GPU continuation/numerical quality/cost remain
+open. The read-only `.161` witness at 03:20:53.768099 UTC still observes external
+PID29223/start2470351 and restored router PID29377/start2474081 in actual/kernel
+KFD lists. No remote GPU build/run/hash, service change, waiter or reservation
+starts. The six open roadmap tasks and frozen GPU/evaluation results remain.
+[Commands, source/artifact hashes and failures](development/validation/steering-core-host-2026-10-05.json).
+
+## Steering model-prefix RAM/SSD binding — 2026-10-05 UTC
+
+The model-neutral C17 state binding plans and validates steering metadata tails
+without copying the tensor payload again. The provider source revalidates the
+actual model prefix, admits policy/scales/combined semantic scope before transfer,
+and commits exactly its observed restored position before suppressing cancelled
+delivery. Model codecs still independently validate geometry, image positions
+and predictor/controller content. Native Gufo snapshots retain their active
+steering refusal; the LIE path uses its owned typed state contracts.
+
+Active or earlier-steered state retains explicit policy metadata. An admitted but
+unused bank preserves exact legacy layout, scope and filenames. Existing MTP
+and vision auxiliary components remain in place; the DS4 tensor body and leading
+client extension are unchanged. A previously steered prefix switched off later
+cannot be reused as initially unsteered state. Existing RAM/SSD accounting charges
+the tail; no runtime thread, tensor scratch copy or Python product dependency is added.
+
+Ten Debug and ten ASan/UBSan/LSan tests pass, with 32 public C++ headers and
+complete-adapter syntax enabled/disabled/without state access. The native tests
+exercise actual shared RAM/SSD and C Qwen AR/MTP/vision codecs with synthetic
+tensors. Local CPU peak is 65.125 C. Initial build exit 2 from a fixture field-name
+typo and test exit 8 from requiring INVALID for an unsupported magic are retained;
+production codec behavior is unchanged. These results do not qualify actual
+GPU continuation, numerical steering, quality or cost.
+
+Shared-worker resource admission/scoped text lookup, live scale changes and
+HTTP/bench exposure remain open. At 01:49:21.180644 UTC `.161` still shows foreign
+PID29223/start2470351 and restored router PID29377/start2474081 in actual/kernel
+KFD inventories. Root starts no GPU window, build, service mutation, waiter or
+reservation; all frozen GPU/evaluation results and the seven-item queue remain.
+[Commands, hashes and scope](development/validation/steering-binding-host-2026-10-05.json).
+
+## Direct steering admission and retained-forward binding — 2026-10-05 UTC
+
+The C17 model contract now validates direction options against actual model
+geometry before GPU upload. The provider source owns the bank and per-sequence
+policy, applies initial scales and confirms only the actual retained frontier
+after prefill, AR and batch AR/MTP. Completed work commits before cancelled client
+delivery is suppressed; rejected drafts and predictor work are excluded. Failed
+post-mutation confirmation poisons the model. No thread or Python product
+dependency is added; existing executor/request/generation ABIs are unchanged.
+
+Nine Debug and nine ASan/UBSan/LSan host checks pass, as do all 31 public C++
+headers and complete-adapter syntax with steering enabled, disabled and without
+state access. The new native fixture uses host files and synthetic positions;
+it does not execute a model. Local CPU peak is 67.375 C. No GPU linking or
+original-weight numerical/quality/cost qualification exists for this increment.
+
+Shared-worker admission/accounting, model-cache binding, live changes and
+HTTP/bench controls remain open. Direction-enabled state transfer refuses even
+at zero scales until complete history-aware restore exists. Existing opens
+without directions retain their RAM/SSD path. The fresh read-only `.161` witness
+at 01:26:22.453930 UTC still finds external PID29223/start2470351 and restored
+router PID29377/start2474081 holding KFD. No GPU window is started. The seven
+owned tasks and frozen GPU/evaluation results remain unchanged.
+[Commands, hashes and scope](development/validation/steering-admission-host-2026-10-05.json).
+
+## Steering metadata and staged RAM/SSD restore — 2026-10-05 UTC
+
+The C17 policy now encodes explicit little-endian, checksummed 192-byte metadata
+instead of native structure padding. A pristine destination validates bank,
+history/scales and an independently confirmed target frontier before staging.
+The immutable plan supplies its combined semantic scope before transfer and
+commits only the exact completed restored position. Refusals preserve live state;
+plans retain their policy/bank. Capacity and revision remain destination-local.
+Absent metadata admits only unsteered legacy state with zero scales.
+
+The additive state role requires an existing cache-scope section and stays after
+the KVC auxiliary boundary. Eight Debug and eight ASan/UBSan/LSan host tests pass,
+including full independent wire oracles, checksummed malformed frames, scale
+history continuation, bank/geometry/frontier incompatibility, owner/stale/discard
+lifetimes and actual shared RAM/SSD framing with synthetic model bytes. The
+DS4 model payload and leading client extension remain byte-identical. All 31
+public C++ headers and complete-adapter syntax pass. Local CPU peak is 75 C.
+Two Debug exit-8 fixture failures remain retained: an incorrectly transcribed
+oracle length and prematurely unlinking the private file before SSD admission.
+
+This is host protocol qualification, not original-weight or GPU steering. Live
+model/session admission, resource metrics, scale transitions, provider/cache and
+HTTP/bench wiring remain pending. At 00:52:53.054202 UTC `.161` still has external
+PID29223/start2470351 and router PID29377/start2474081 as actual/kernel KFD
+clients. No GPU build/run, service change, retry, waiter or reservation follows.
+The seven-item roadmap and all frozen GPU/evaluation failures remain unchanged.
+[Commands, hashes and scope](development/validation/steering-state-host-2026-10-05.json).
+
+## Directional activation operators and provider hooks — 2026-10-05 UTC
+
+The owned C17 activation descriptor validates row/branch spans, scale and byte
+arithmetic. An independently written HIP operator applies DS4's projection edit
+to the target attention block before HC combine and every FFN residual branch
+after combine, in scalar prefill/decode/verification and native batches. Active
+FFN edits invalidate fused normalization and cached F16/Q8 views. The separate
+MTP predictor is unchanged; no inference/scheduling thread is added.
+
+The provider's immutable initial bank/scales are private hooks. Public model and
+session policy admission, live transitions, history-aware cache compatibility,
+HTTP/bench controls and original-weight numerical/quality/cost gates remain open.
+Active steering refuses native/provider snapshots and LIE state transfers until
+that history is integrated. Unsteered DS4 payload formats are unchanged. The
+compile selection is on by default and requires new matching verified archives.
+
+Six Debug and six ASan/UBSan/LSan host tests pass. All 1,019 pristine source hashes
+and the exact composed changes verify. Enabled/disabled provider/adapter syntax,
+both HIP target syntax checks and all 31 public C++ headers pass without producing
+device objects. CPU maximum is 82 C. The first sanitizer run exits 8 under ptrace;
+the first executor syntax checks exit 1 on a missing actual provider define.
+Both failures remain retained; corrected checks pass without weakening oracles.
+At the read-only `.161` witness, external PID29223/start2470351 still owns KFD
+alongside the restored router; no GPU admission/build/run or reservation follows.
+[Commands, hashes and scope](development/validation/steering-provider-host-2026-10-05.json).
+
+## Original-weight automatic AR budgets qualified; MTP interrupted — 2026-10-04 UTC
+
+The device-free `.161` r12 build verifies all 2,457 capsule files and the 1,019
+official Gufo files, compiles `a3066a7`, exits 0 and closes its lease. The separately
+admitted AR window passes **37/37** checks: the previous 34 controls plus model
+limit agreement and actual automatic output in both APIs. Chat and Responses
+each produce 327 tokens with omitted JSON and null SSE limits, with identical
+complete constrained text, usage and resolved budget 4,096. All runtime/controller
+exits are 0; collection verifies seventeen artifacts. CPU/GPU/NVMe maxima are
+61.25/64/62.85 C. Router and original lease are restored at 23:11:50.074654 UTC.
+
+The subsequent MTP window completes the 21 controls sidecar but is interrupted
+at 23:16:24 UTC by external Python 3.12 PID29223/start2470351 in `session-424`.
+Supervisor/controller exit 1, owned child exit 137 and container-init exit 143
+are retained; OOM is false. Sixteen artifacts verify and the actual owned GPU
+PID29140/start2464442 is absent. Models are unchanged, router PID29377 is active
+and the original lease is free. The new MTP37 gate remains unqualified; the
+historical r11 AR/MTP34 gates are unchanged. No automatic retry or standing
+root GPU ownership remains. [Combined receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
+
+Terminal Bench's unchanged official source is separately staged for the existing
+Harbor 0.20.0/Docker client. The smoke image is cached; only 4/19 Core-19 images
+are present. No dependency is installed and no task is executed. Inference still
+targets `.161` over HTTP8000 after a newly admitted server window.
+
+## Automatic shared-core output budgets implemented — 2026-10-04 UTC
+
+The subsequent optional GPU protocol requires actual output past 128 tokens
+with omitted JSON and null SSE budgets in both APIs, plus matching advertised
+model limits. Its 58 supervisor and five wire-oracle host tests pass; an initial
+malformed-JSON exception is retained and normalized without weakening rejection.
+This adds no dependency to the product, native graphs or default tests.
+[Protocol receipt](development/validation/automatic-output-gpu-protocol-host-2026-10-04.json).
+
+The pinned Terminal Bench runner omits `max_tokens`; the existing Harbor client
+raises an output-length error on a length-truncated response. LIE previously
+silently selected 128 tokens. Omitted/null HTTP limits now reach the C17 core as
+an automatic budget, resolved after prompt preparation to the smaller of the
+remaining physical context and the existing 4,096-token ceiling. Explicit
+positive budgets retain exact admission; numeric zero remains invalid in HTTP.
+The C initializer retains its explicit 128-token default. Admission reserves
+bounded storage without a mutable shared request or an extra worker thread.
+
+Request ABI 8 requires callers to rebuild; executor/generation ABI 3 are unchanged.
+Prepared job snapshots and Chat timings expose the resolved limit; Responses
+and stored replay use `max_output_tokens`. Both model routes advertise context
+and output limits. EOS, stop strings and the declared output ceiling still apply.
+
+Nine focused Debug and nine ASan/UBSan/LSan tests pass, covering past-128 output,
+near-full context, independent concurrent budgets, immutable admission, exact
+positive overflow, natural EOS, MTP's final burst, JSON/SSE and stored replay.
+The first Debug run exits 8 on two HTTP assertions: the diagnostic initially
+failed to expose the resolved Responses budget. The correction uses its standard
+field, and the failed run remains preserved. Local CPU maximum is 74 C.
+[Commands, hashes and retained failures](development/validation/automatic-output-host-2026-10-04.json).
+
+These host fixtures do not establish a Terminal Bench score. The subsequent
+r12 AR37 GPU window is recorded above; the newer MTP gate remains interrupted.
+The frozen r11 receipts are unchanged. No task has run and no harness output
+cap or product dependency is added by this slice.
+
+## Original-weight OpenAI MTP controls completed — 2026-10-04 UTC
+
+After the unrelated training process retires, fresh `.161` inspection verifies
+the original boot/FS/lease, sole authorized router, temperatures and memory.
+The separately admitted `context-r11-openai-controls-mtp-r3` window runs the
+frozen `abb69d5` server with the original UD weights and explicit Q8 predictor.
+All 34 checks pass, matching the earlier AR set: both JSON/SSE APIs, function
+arguments/results/replay, allowed tools, 2/8 choices, seeded replay,
+probabilities/bias, stop strings, constrained JSON, storage, disconnected
+background jobs, cursor/input pagination, cancellation, deletion and truncation.
+
+Server/client/controller/supervisor exits are 0; collection exits 0 and verifies
+all fifteen artifacts. Original model/predictor stats stay unchanged. Owned
+processes and KFD clients retire, router PID23248 is restored and the original
+lease is free at 22:22:10.325729 UTC. The subsequently stopped Distrobox init's
+exit 143 is preserved separately from the successful inference child. Across
+97 samples, CPU/GPU/NVMe maxima are 61.5/66/66.85 C, maximum GTT is 87.775 GiB
+and minimum available RAM is 25.289 GiB. CPU98/NVMe85 guards remain active;
+GPU temperature is observed only.
+[Validation receipt](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
+
+Roadmap item 1 is complete for this runtime and these wire/lifecycle paths.
+The earlier foreign-client refusal and all old receipts remain unchanged.
+This is not task evaluation, independent numerical quality or performance,
+nor GPU qualification of the later top-k/min-p, fixed-EOS or steering increments.
+Root retains no GPU job, waiter or reservation on `.161` or `.157` at closure.
+
+## Owned C17 steering policy/history implemented — 2026-10-04 UTC
+
+The shared library now owns per-session scale transactions and history/cache
+identities in separate policy ABI 1, retaining the immutable bank. Preparing
+before device work and committing only its completed retained-target frontier
+keeps failed, deferred and rejected speculative work out of cache history.
+At most two plans are outstanding; policy/staged byte accounting is explicit.
+Uniform policy identity is independent of prefill chunks and accepted bursts;
+turning steering off preserves earlier steered history. Unused toggles preserve
+legacy text/image identities. Owner checks, pins and locked snapshots add no
+runtime thread. Executor/request/generation ABIs remain 3/7/3.
+
+Five focused Debug and five ASan/UBSan/LSan checks pass. Native fixtures retain
+independent SHA oracles, partial/discard/stale/zero updates, wrong-owner refusal,
+plan capacity, image composition, source/bank lifetime and concurrent snapshots.
+Both the full adapter and public header compile in C++; these checks are not
+model inference. Maximum local CPU is 70.5 C. The initial compiler exit 2 from
+a formatting warning is preserved and corrected without suppressing warnings.
+[Validation receipt](development/validation/steering-policy-host-2026-10-04.json).
+
+Policy primitives are not yet attached to actual provider/session/cache calls.
+HIP attention/FFN edits, normalized-view refresh, MTP/graph invalidation, encoded
+history persistence and HTTP/bench controls remain roadmap item 5. No existing
+state or DS4 KVC framing changes. Read-only `.161` inspection at 21:31:58 UTC
+confirms training PID19916/start1073961 still holds KFD/renderD128 and is present
+in the kernel client list. Root admits no GPU window or standing reservation.
+
+## Fixed-token EOS benchmark method implemented — 2026-10-04 UTC
+
+The independently verified official Gufo TG benchmark calls decode with
+`stop_at_eos=false`. LIE previously always selected `true`, explaining a method
+difference for fixed-output measurements. The native core bench now accepts
+explicit `--ignore-eos`, with a per-sequence shared-core policy in AR/batch/MTP.
+EOS remains a sampled confirmed token, including its actual ID and possibly
+empty text. No masking or replacement draw is added. Normal HTTP serving keeps
+EOS; chat, tool, vision, constraint and stop-string combinations refuse ignore.
+
+Request ABI 7 appends the policy; executor ABI 3 and generation ABI 3 stay
+unchanged. A violated provider policy poisons the shared result under the
+existing failure contract. The native CLI, report and optional Point supervisor
+retain full output oracles; result/comparison identity records `eos_policy`,
+with historical absence meaning `stop`. No thread or product dependency is added.
+
+Eight focused Debug and eight ASan/UBSan/LSan checks pass, with 56 optional
+supervisor fixtures and a complete adapter header check. EOS C2 repetitions,
+zero-byte text, MTP bursts, immutable admission, late setter refusal, malformed
+policy, mismatched reports and deliberate provider policy violation are covered.
+The local CPU maximum is 83.5 C. An initial documentation context-patch refusal
+is retained; no test or compiler fails in this slice.
+[Commands, hashes and scope](development/validation/fixed-eos-host-2026-10-04.json).
+
+Original-weight fixed TG128, physical 1M and quality/performance remain open.
+The prior physical PP1,048,448/EOS43 gate is unchanged, not retrospectively
+qualified. Read-only `.161` inspection at 21:08:01 UTC still sees the unrelated
+training process PID19916/start1073961; root admits no GPU job or standing lease.
+
+## Owned C17 steering bank implemented — 2026-10-04 UTC
+
+The shared core library now provides a model-neutral direction-bank loader with
+exact flat f32 values, explicit geometry/budget, immutable references and separate
+file/geometry identities. Invalid files, nonfinite directions, ABI mistakes,
+overflow and over-budget input refuse without changing the output handle.
+No HTTP types, GPU work, extra runtime thread or new dependency enters this API.
+
+Four focused Debug tests and four ASan/UBSan/LSan tests pass, including concurrent
+reference lifetime, source unlink/mutation, multichunk values and independent
+SHA oracles; local CPU maximum is 66.625 C. The loader does not activate steering
+in the model. HIP edits, shared admission/session scales, cache binding and
+HTTP/bench flags remain roadmap item 5.
+[Contract and exact binding requirements](development/STEERING.md) ·
+[Validation receipt](development/validation/steering-bank-host-2026-10-04.json).
+
+Read-only DS4 source audit at `0aaea5a` confirms attention's projected-block
+edit and FFN's post-combine per-HC-residual edit. The Gufo provider's fused
+normalization must be refreshed after an FFN edit; editing only the MoE block
+would implement different behavior. DS4 source/workspaces remain untouched.
+
+## Terminal Bench source and client prerequisites prepared — 2026-10-04 UTC
+
+An independently downloaded official Terminal Bench Mini archive at
+`07034484346dc724d0e2c47c821fd196add1d6fb` matches all 231 recorded reference
+file hashes. The persistent private source keeps the upstream Apache-2.0
+license/notice and unchanged tasks; the official loader verifies Core-19 1.0.0
+content and its one-task smoke tier. This adds no product/build dependency.
+Read-only client checks find existing Harbor 0.20.0 and Docker 29.7.2 on `.157`;
+root job directories will be separate from Q2's environment and results.
+
+Actual model inference remains on `.161`, over ordinary HTTP port 8000. No task
+is executed, no GPU admission or dependency installation occurs, and the
+20:19:42 UTC read-only check still sees the unrelated `.161` training process.
+Full task-image/runtime prerequisites must also pass before a long evaluation.
+[Pinned source, unchanged task verification and scope](development/validation/terminal-bench-source-preparation-2026-10-04.json).
+
+## DS4 sampling GPU profile admission prepared — 2026-10-04 UTC
+
+The optional Point supervisor accepts an explicit, complete seven-control
+`generation` profile, forwards it to the native core bench and verifies the
+returned identity. Invalid profiles refuse before model verification/load;
+unknown, null, wrongly typed or mismatched result controls cannot qualify.
+Historical absent/five-control identities still mean disabled candidate filters.
+All 78 optional Point CPU fixtures pass; maximum CPU is 54.75 C. No runtime,
+GPU thread or product dependency is added.
+[Receipt](development/validation/ds4-sampling-point-supervisor-2026-10-04.json) ·
+[AR/exact-MTP sampling protocol](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md).
+Actual inference/profile cost remains pending on a freshly admitted `.161`.
+
+## DS4 candidate filters exposed in the shared core — 2026-10-04 UTC
+
+Top-k and min-p now pass through generation ABI 3/request ABI 6, Chat and
+Responses, and the native core benchmark to the transitional sampler. Both
+APIs enforce strict numeric types and bounds; Responses retains supplied filter
+values in stored objects. Greedy defaults and disabled filters remain unchanged.
+Native reports record all seven sampling controls, refuse mismatched or malformed
+filters, and normalize missing historical top-k/min-p settings to zero.
+
+All eight focused native Debug checks and the same eight ASan/UBSan/LSan checks
+pass. Existing mathematical sampler oracles pass; adapter object and full
+state/cache/MTP/vision syntax checks use independently verified pinned source.
+The initial null-normalization test failure (exit 8) and a stale-header check
+(exit 1) remain preserved. The maximum local CPU reading is 81.25 C, during
+source composition. No model or GPU inference runs in this slice.
+[Commands, hashes, retained failures and scope](development/validation/ds4-sampling-controls-2026-10-04.json).
+
+Original-weight qualification of the DS4 sampling profile and its AR/exact-MTP
+cost remains open. The read-only `.161` check at 20:01:31 UTC still sees the
+unrelated training process; no new root GPU lease or job is started. Directional
+steering remains a separate task, and DS4-owned files are unchanged.
+
+## Roadmap ownership and DS4 controls — 2026-10-04 UTC
+
+At the owner's request, the active queue excludes separately assigned DGX
+Spark/CUDA, Antirez weight-format/quantization and Strix Point port work. Future
+weight persistence, further model families and new clients are not active tasks.
+General MTP/vision campaign expansion and a complete executor rewrite are not
+used as unspecified backlog items; their recorded qualification limits remain.
+
+Two concrete DS4-derived capabilities are added: per-layer directional steering
+with FFN/attention scales, and sampling-temperature/filter coverage. Existing
+temperature support is not claimed as absent; top-k/min-p client exposure and
+AR/exact-MTP profile qualification need completion. The steering task includes
+validated `.f32` banks, session/cache behavior, baseline-off equivalence and
+original-weight cost/quality checks. DS4's documented Qwen implementation uses
+Metal; its existence does not qualify LIE HIP. All GPU tests in this queue use
+`.161` under fresh admission. Only LIE-owned code is modified.
+
+## Native progress GPU qualification prepared — 2026-10-04 UTC
+
+The optional Point supervisor now forwards a declared `progress_interval_ms`
+to regular core benchmark clients and checks matching result identity. A bounded
+streaming reader verifies live observations and retired final jobs against the
+actual measured counters/times, preserving raw stderr hashes. A final metadata
+flag cannot replace successful inference or a complete fixed-output sample.
+Quiet historical runs remain compatible; reactive probes keep progress disabled.
+
+All 75 optional Point CPU fixtures pass, including adversarial progress tests
+for synthetic records, missing/fake retirement, wrong counts, duplicate users,
+clock/counter regression, interval drift, oversized lines and missing snapshots.
+Local maximum CPU is 57.125 C. No C core, inference thread or product dependency
+changes; actual GPU exercise remains pending while the foreign `.161` process
+uses the device. [Receipt](development/validation/core-progress-point-supervisor-2026-10-04.json).
+
+## Corrected OpenAI AR controls pass on Point — 2026-10-04 UTC
+
+The sealed `abb69d5` r11 runtime passes all **34 original-weight AR HTTP checks**
+on `.161`: thirteen model/function checks and twenty-one additional controls.
+Disconnected background generation retains all 64 requested output tokens and
+its LENGTH completion; cursor replay, cancellation after a witnessed output
+delta, storage, truncation, choices, probabilities, bias, stops and structured
+JSON all pass. This qualifies wire behavior and lifetimes, not independent
+quality or performance. The original r10 retirement failure remains failed.
+
+Controller, child, server, supervisor and collection exit 0. Fifteen artifacts
+hash-verify, model stats stay unchanged, owned processes retire, the router is
+restored and the lease releases at 19:21:29.872800 UTC. Across 111 resource
+observations, CPU/GPU/NVMe maxima are 61.375/63/65.85 C; sampled GTT peaks at
+89,905,623,040 bytes and minimum available RAM is 30,831,460,352 bytes.
+
+The first r11 build attempt refuses its unfinished source stage before compiling;
+the separately admitted r2 build passes. The first AR r11 attempt stops during
+loading on its conservative 112 GiB projected-memory budget, without OOM.
+The successful 16K/eight-row AR gate uses a measured-workload budget of 96 GiB
+and retains its 1 GiB RAM floor and CPU98/NVMe85 guards. Those failures remain
+preserved. MTP r2 then refuses foreign GPU PID19916/start1073961 before model
+load, restores the router and releases at 19:27:37.908694 UTC. Four artifacts
+hash-verify; no model or container child starts. MTP remains unqualified by
+this new gate and requires fresh available-host admission.
+[GPU receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
+
+## Background terminal-demand retirement race corrected — 2026-10-04 UTC
+
+The first original-weight AR OpenAI-control gate passes all thirteen existing
+checks and fourteen of the twenty-one additional controls, then fails when a
+disconnected background Responses stream becomes cancelled. Child, supervisor
+and controller exits are 1; server shutdown and collection exit 0. Fifteen
+artifacts hash-verify, model stats are unchanged, owned processes are absent,
+the router is restored and the lease released at 18:55:10.267458 UTC.
+
+A deterministic CPU sequence-close barrier reproduces the same shared-record
+failure: final output closes demand while numerical teardown and `retired`
+metadata are still pending. `lie_record_pump` now treats CLOSED demand as a
+normal boundary and continues until semantic TURN_END, preserving the output
+and its completion reason. Invalid credit operations still fail. No HTTP type,
+additional thread or provider call enters this shared C17 fix.
+
+The original regression exits 8. After correction, seven focused headless,
+flow, semantic and AR/MTP HTTP tests pass in Debug and with ASan/UBSan/LSan;
+maximum local CPU is 66.25 C during builds and 60 C during checks. These are
+CPU fixtures. The separately admitted corrected AR GPU gate now passes above;
+the MTP gate still needs an available host and fresh admission.
+[Receipt](development/validation/background-retirement-2026-10-04.json).
+
+## Physical 1M prefill completed; TG128 gate failed — 2026-10-04 UTC
+
+The original-weight `.161` C1 AR YaRN4 chunk256 run completes all
+**1,048,448 physical prefill tokens** across 4,096 calls. Prefill takes
+7,398.225 s (141.72 token/s); generation stops naturally at EOS after 43 tokens,
+with 44 decode calls and 5.403 s decode time (7.96 output token/s). The benchmark
+footer and child exit are 0. The declared fixed TG128 oracle correctly rejects
+43 output tokens: supervisor/controller exits remain 1 and state remains FAILED.
+The original predicate is not weakened after observing the result.
+
+Collection exits 0 and all eleven artifacts verify against their recorded
+SHA-256. Model stat witnesses remain unchanged; owned supervisor/GPU/container
+processes retire, the named router is restored and the lease is released at
+18:38:51.721369 UTC. Across 7,155 resource observations, CPU/GPU/NVMe maxima are
+78.625/79/66.85 C and minimum available RAM is 6.03 GiB. No OOM or thermal stop
+is reported. The repeated tokenizer-ID corpus is stress evidence, not recall
+quality, a repeated performance comparison or a successful TG128 qualification.
+[Receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
+
+## Native live prefill observations — 2026-10-04 UTC
+
+The regular shared-core benchmark now accepts `--progress-ms 100..60000` and
+emits native JSONL metadata snapshots on stderr. The default is zero. Snapshots
+expose completed prefill tokens, cache reuse, target-confirmed output and
+consumer-observed output, with per-job timing and global execution phase.
+They use the existing locked C17 counters. No provider call, output credit,
+additional inference thread or Python dependency is introduced.
+
+An explicit final observation is retained before releasing jobs on success,
+failure or deadline. Its `retired` field remains separate from `final_snapshot`;
+unfinished or failed prefill contributes no successful-input count. A closed
+progress pipe produces a failed result and owned cleanup. Native paired reports
+require equal declared intervals; historical records without the field mean zero.
+
+The three native benchmark/report/HTTP contracts pass in Debug and with
+ASan/UBSan/LeakSanitizer, using CPU fixtures and an interpreter-free child PATH.
+Cases include two jobs, cache reuse, pending calls, injected prefill failure,
+deadline, broken pipe, quiet default and historical comparison compatibility.
+The first sandbox socket refusal and the missing target in the headless ASan
+build remain preserved with actual exits 8 and 2. Maximum local CPU is 67.875 C.
+These are client/metadata checks, not new GPU numerical or performance evidence.
+
+The validation receipt retains the live physical1M observation made before
+that run terminated. The run used its frozen r10 binary, without the new
+progress option; its collected terminal result is recorded above. The new
+progress client still needs a separately admitted GPU build and run.
+[Validation receipt](development/validation/core-progress-2026-10-04.json).
+
+## OpenAI control qualification prepared — 2026-10-04 UTC
+
+The optional GPU supervisor now stages a hash-bound control gate alongside the
+existing HTTP/tool gate. Its 21 checks cover 2/8 Chat choices in JSON and SSE,
+prompt usage counted once, seeded replay, token probabilities, positive/negative
+bias, cross-token stops, JSON/schema output, stored Chat operations and Responses
+disconnect/replay/pagination/cancellation/deletion/truncation. Unsupported APIs
+must return an explicit error. The server and shared C17 runtime are unchanged;
+the helper adds no product build or benchmark dependency.
+
+All **54 CPU-only protocol/supervisor fixtures pass** (8 controls and 46 campaign
+checks), with device visibility masked and a 57.875 C maximum CPU temperature.
+The initial fixture-placement failure remains preserved with exit 1. These are
+qualification-control checks, not model inference.
+
+Separate AR and MTP manifests pin the previously built `e6f537f` ROCm 10
+`gfx1150` runtime, the postboot filesystem binding and exact helpers. Both remain
+**prepared at this checkpoint** while the physical 1M window owned `.161`. Its
+collected closure is recorded above; fresh admission is required for each gate. Original
+weight qualification of these controls and Terminal Bench tasks remains open.
+[Preparation receipt](development/validation/openai-controls-preparation-2026-10-04.json).
+
+## GTT112 boot verified; 1M capacity passes — 2026-10-04 UTC
+
+Following the owner's explicit reboot authorization, `.161` returns with a new
+boot ID, the same qualified kernel and **112 GiB effective GTT**. GRUB identity,
+syntax, lease inode and filesystem UUID verify. The router and both monitor
+containers return automatically. The earlier rejected reboot remains historical
+evidence of a command that did not execute.
+
+The first capacity attempt refuses the filesystem device renumbering before
+model launch; supervisor/controller/collection exits remain 1, with five files
+retained and successful ownership closure. Optional staging binding now verifies
+the witnessed boot ID, filesystem UUID and exact old/new device numbers while
+preserving SOURCE.json and all other stat fields. All 44 CPU control fixtures
+pass. No runtime dependency is added.
+
+The separately admitted C1 AR YaRN4 chunk256 capacity-1,048,576 gate passes
+PP1500/TG32. Controller, child and collection exit 0; eleven files hash-verify,
+model stats stay unchanged, the router is restored and the lease released at
+16:31:43.810798 UTC. Peak GTT is 109.18 GiB, minimum available RAM 7.98 GiB,
+and CPU/GPU/NVMe maxima 67.75/70/64.85 C. All 32 output IDs equal the 512K gate.
+The single cold sample records PP50.21/TG10.47 token/s; prefill is slower than
+the short 512K gate and has not been diagnosed or qualified as performance parity.
+
+The subsequent physical PP1,048,448 run completes prefill, then stops at 43
+output tokens. The required TG128 gate remains failed; collection and ownership
+closure pass, as recorded above. Its repeated tokenizer-ID corpus tests extended
+positions, not recall quality or canonical Gufo/Halogen performance.
+[Boot and capacity receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
+
+## Current integration and remaining gates — 2026-10-04 UTC
+
+| Work | Current result | Remaining work |
+| --- | --- | --- |
+| Strix Point integration | Owner checkpoint `40b2ac7` merged into `develop` as `30598a3`; merge Debug 48/48. | No implicit publication. |
+| OpenAI native functions | Corrected runtime `e6f537f` passes all thirteen original-weight HTTP checks on `.161`. Chat/Responses each stream five argument fragments, accept correlated results, and retained Responses replay byte-identically. | Full task evaluation of this runtime; hosted cloud tools remain outside the local API. |
+| Context profiles | Native/YaRN2/YaRN4 implemented in shared C17 core; short original-weight gates pass. Capacity accepts 1,048,576 tokens; physical PP1,048,448 completes. | Fixed-output extended-context qualification, recall quality and generic attention performance above 256K. |
+| Reduced scratch | C1 chunk256 passes short 4K/512K/1M capacity gates at 78.33/93.68/109.18 GiB GTT with exactly equal output IDs. | Diagnose the cold short-prompt prefill slowdown at capacity 1M; no replicated performance parity claim. |
+| Physical 1M fit | GTT112 capacity allocation passes. Physical PP1,048,448 completes with 43 output tokens and 6.03 GiB minimum available RAM. | Required TG128 gate fails on natural EOS; recall quality and canonical comparisons remain open. |
+
+The active work is isolated in `feature/context-million-openai`. Native Debug
+passes 51/51 and focused ASan/UBSan/LSan passes 4/4. Build, HTTP and reduced
+scratch/capacity windows have collected successful closure. The separate physical
+1M window is retired with collected closure and a failed TG128 oracle; there is
+no standing GPU ownership or publication.
+Earlier failed gates remain failed evidence.
+[GPU receipt](development/validation/tool-context-point-gpu-2026-10-04.json) ·
+[Context configuration and memory budget](guides/CONTEXT.md).
+
+## Strict JSON function frames and scratch admission — 2026-10-04 UTC
+
+The first original-weight HTTP gate passes complete strict function output but
+fails incremental SSE: the provider emits JSON frames, which the first parser
+buffered. That exit 1, server exit 0 and successful collected closure remain
+preserved. The shared C17 preview now streams exact JSON argument bytes after
+the complete function name, ignoring nested names and quoted closing tags.
+Independent every-byte prefix oracles and XML/JSON HTTP fixtures pass; Debug
+passes 51/51 and focused ASan/UBSan/LSan passes 4/4. The subsequent r10 GPU
+gate passes, as recorded above; the failed r9 gate is not reclassified.
+[Host receipt](development/validation/tool-json-streaming-2026-10-04.json).
+
+A short original-weight chunk256 gate passes at the prior numerical checkpoint,
+but shows no GTT reduction: scratch still allocated 2048 rows. The new adapter
+passes the existing C17 prefill bound to model creation, retaining a floor for
+admitted decode and MTP rows; indexer score scratch follows that capacity.
+The default 2048 allocation is unchanged. Exact source edits and adapter/engine
+headers verify. The r10 GPU gate samples a 1.21 GiB GTT reduction and exactly
+equal output IDs; PP1500/TG32 records 266.94/10.52 token/s. This single sample
+uses capacity 4096, no warmup, AR and both cache tiers off. It is not physical
+1M or a replicated performance qualification. The subsequent boot and capacity
+gate are recorded above.
+
+## Incremental native functions — 2026-10-04 UTC
+
+The shared C17 core now publishes provisional function starts and append-only
+argument fragments (event ABI 2). Chat and Responses project those events into
+SSE; successful full-turn validation still commits complete calls. The bounded
+record journal owns fragment copies for replay after retirement. Loan retention,
+credit accounting and cancellation stay in the shared core, without another
+inference thread. `allowed_tools` supports the native function subset shapes
+for both APIs, filtering prompt declarations and refusing unknown/duplicate names.
+
+Native Debug passes 51/51. Focused ASan/UBSan/LSan covers parser prefixes,
+held/cancelled/abandoned loans, final validation and exact retired HTTP replay;
+the seven-test initial suite and four-test final suite both pass. CLI/client and
+benchmark dependencies stay native C; optional campaign supervision uses Python.
+The corrected GPU HTTP function/result/replay gate subsequently passes all
+thirteen checks under a fresh build and admission. The [agent guide](guides/AGENT-CLIENTS.md) gives
+actual client requests and distinguishes native tools from the audited Terminus
+text command protocol. [Host receipt](development/validation/tool-streaming-2026-10-04.json).
+
+## GPU context profiles and memory budget — 2026-10-04 UTC
+
+The verified r8 HIP build and three original-weight `native`/`yarn2`/`yarn4`
+PP1500/TG32 gates pass on `.161`. They use total capacity 4096, C1 and no prefix
+retention. Each controller/model child exits 0 and collected closure verifies
+router restored, owned processes absent and private lease free. They qualify
+short-profile integration only. The r7 hash refusal, private source-copy mistake,
+preserved drift and independently verified restoration remain explicit in the
+[GPU receipt](development/validation/context-point-gpu-2026-10-04.json).
+
+The initial source-formula estimate for C1 AR capacity 1M is 110.60 GiB GTT at chunk
+2048. Extending the present 96 GiB ceiling to 112 GiB is technically possible,
+but the observed baseline predicts only 0.72 GiB available RAM left. Host tuning
+and reboot have not occurred. The subsequent measured scratch-bound baseline
+reduces the estimate to 109.16 GiB. The next actual 512K capacity gate samples
+93.68 GiB against the 93.65 projection; rebasing at that gate estimates 109.18
+GiB for 1M and 3.15 GiB remaining RAM. The physical prompt is still only 1500
+tokens. Fresh RAM admission still precedes physical 1M qualification; the
+[context guide](guides/CONTEXT.md#gtt-on-the-point-test-host) records the exact
+proposed boot argument and rollback. Long-context recall and generic attention
+performance above 256K remain open.
+
+## Context 1M implementation and Point merge — 2026-10-04 UTC
+
+The completed Point checkpoint `40b2ac7` is merged into `develop` as `30598a3`;
+48/48 native Debug tests pass on the merge. `feature/context-million-openai`
+continues from that integration and carries the native conversation benchmark.
+
+Shared C17 plans now expose explicit native/YaRN2/YaRN4 profiles. HTTP and direct
+clients accept total capacity up to 1,048,576. The verified provider variant
+uploads the plan for both attention and indexer, preserves mRoPE positions,
+grows session/scratch bounds, and binds scaled SSD identity. Defaults remain
+native, RAM retention enabled and SSD persistence opt-in. The profile changes
+executor ABI to 3; old callers must rebuild.
+
+CPU tests check independent frequency/rotation formulas and an actual 1,048,575
+token fixture prefill plus one output. ASan/UBSan/LSan focused tests pass after
+rerunning outside the ptrace sandbox; the sandbox failure remains preserved.
+State-access adapter headers compile against the fully derived, hash-verified
+official source variant. These checks are NOT-INFERENCE: original-weight 1M
+memory fit, quality and throughput are not qualified. The larger sparse mask
+currently selects generic attention above the 256K WMMA bound.
+
+The owner prefers `.161` for new GPU qualification. Metadata shows 96 GiB GTT
+and approximately 123.44 GiB visible physical RAM; increasing GTT requires
+separate host-driver configuration, not an inference capacity flag. No host
+tuning is performed by this code checkpoint. Commands, initial compiler and
+sandbox failures and exact exits remain under `evidence/point-merge-20261004`.
+See [usage and limits](guides/CONTEXT.md).
+
+## Native canonical conversation benchmark — 2026-10-04 UTC
+
+`synapse-lie-bench --suite http-curve` implements the independently fetched
+Gufo `f783fedb` single-user cached-conversation protocol in C17. Exact seeded
+prose/tasks, tokenizer calibration, real prefix replies, carried recalibration
+and four-attempt tolerance remain distinct from the simplified direct suite.
+Requests, retries, usage, raw responses and physical cache counts are retained.
+Offline C reports reconstruct the protocol before exporting statistics and
+four separately scaled PP/TG/HTTP-wall/TTFT panels. Comparisons expose dynamic
+history/count differences instead of inferring numerical equivalence.
+
+Focused native contracts pass 3/3 in Debug and 3/3 with ASan/UBSan/leak checking.
+The new contract checks 22 upstream prompt goldens, a 35-request oracle through
+128K with two repetitions and forced recalibration, and independent traces for
+thinking, early prefix EOS, four failed retries and a 1M client boundary.
+Benchmark/report subprocesses run with a PATH containing no interpreter or
+external tools. Synthetic timing/chart values stay private and NOT-INFERENCE.
+The standalone Release client also passes the independent wire fixture. Across
+the device-masked commands, CPU peaks at 75.25 C under the CPU98 guard, with
+separate SSD bounds and observe-only GPU temperatures.
+The server/provider/executor ABI and inference scheduler are unchanged.
+The provider ceiling remains 262,144; declaring 1M client capacity does not
+enable 1M inference. No GPU/model access, remote build, dependency installation
+or publication occurs in this implementation window.
+
+The [benchmark guide](guides/BENCHMARKS.md#canonical-gufo-conversation-curve)
+contains build/run/report commands. Static oracle provenance is recorded in
+[the upstream port receipt](../third_party/gufo-bench-source.json).
+Commands, actual failure/success exits, source and binary hashes and temperature
+bounds are recorded in the
+[host validation receipt](development/validation/bench-curve-native-2026-10-04.json).
+
 ## Point cold HTTP AR/MTP through near 256K complete — 2026-10-04 UTC
 
 Sixteen fresh-server original-weight ROCm 10 `gfx1150` windows on `.161`
@@ -109,6 +4681,27 @@ executable link with Fedora's default PIE and non-PIC upstream static archives
 restored service and free lease are preserved. A subsequent build selects an
 explicit non-PIE executable link in the private recipe; it does not change
 upstream Gufo source or install packages.
+
+## HTTP comparison binaries prepared — 2026-10-04 UTC
+
+Local device-masked builds prepare the frozen `128f490` LIE HIP server, an
+unchanged official Gufo `f783fedb` full HTTP control for `gfx1151`, and a separate
+Release C benchmark client without HIP/HSA, C++ or Python link dependencies.
+Post-build verification checks all 1,019 official source hashes, three reused
+provider archives and five owned sampler/decoder files. Gufo's isolated build
+uses private, licensed upstream rocWMMA headers; no installation occurs.
+The missing dependency/version-header failures and an audit-count error remain
+recorded before their successful corrections. This is build preparation,
+separate from model serving or GPU performance qualification.
+
+Short graph ticks keep C1–C8 visible without changing validation, statistics or
+CSV/JSON exports. The focused ASan/UBSan/LeakSanitizer CTest passes 1/1; the actual
+Release client passes the native wire fixture. Four synthetic graph panels are
+visually checked privately and are not published as inference results. Across
+16 supervised host commands, CPU peaks at 93.75 C under the CPU98 guard; GPU
+temperature is observe-only and SSD bounds remain separate. Root has no GPU
+lease, job or model access during this preparation.
+[Source, binary hashes, commands and exits](development/validation/http-multi-preparation-2026-10-04.json).
 
 ## Point reactive/vision evidence integrated — 2026-10-04 UTC
 
@@ -1227,6 +5820,97 @@ state/identity and combined MTP+vision integration remain open. Benchmarks are
 postponed while these separate feature branches advance. See
 [usage and remaining gates](development/VISION.md) and the
 [validation receipt](development/validation/vision-2026-10-03.json).
+
+
+## Shared core semantic events checkpoint — 2026-10-03
+
+Commit **`a399052`**, branch `feature/core-semantic-events`, imports the completed
+MTP/vision integration `01ff720` into persistent `worktrees/core-semantic-events`.
+HTTP, Responses and the direct benchmark consume shared C17 text/progress/tool/
+turn events. Qwen output grammar and UTF-8 decoding belong to the core; request
+ABI 4 preserves owned parallel-tool policy. Credits, cancellation and device
+owner scheduling remain shared, with no added inference thread.
+
+Native ASan/UBSan/LeakSanitizer checks pass **39/39**, including both native HTTP
+tool projections and full-size MTP pieces; the protocol-independent MTP/vision
+OFF build passes **16/16**. Official pinned provider and HIP server/bench rebuild
+and link, with no original weights or GPU execution. Exact contract/receipt are
+`docs/reference/EVENTS.md` and
+`docs/development/validation/core-events-2026-10-03.json` on that source branch.
+Original-weight tool behavior, GPU qualification, incremental argument streaming,
+constrained output and scoring/chat/eval clients remain open. This control branch
+records status only; no source integration, publication or deployment occurred.
+
+## Combined MTP/vision checkpoint — 2026-10-03
+
+Merge **`01ff720`**, branch `feature/mtp-vision-integration`, combines complete
+MTP `7d85b2f` and vision `806a790`. The dedicated persistent worktree was created
+from `develop`. Joint target/predictor/projector admission uses the shared C17
+core, reactive dispatcher, HTTP and direct benchmark client. One complete KV
+checkpoint preserves the unchanged DS4 base plus predictor/controller, prepared
+MRoPE and semantic image scope; restore starts with a fresh destination sampler.
+RAM keeps its default; SSD is explicit opt-in. Feature code is retained on that
+integration branch; this branch updates documentation/control only.
+
+Native ASan/UBSan/LeakSanitizer passes **36/36**, with **30/30** MTP-OFF,
+**29/29** vision-OFF and **26/26** both-OFF suites. Five focused changed checks
+pass. The combined synthetic client covers two users, default RAM hits and native
+JSON/CSV/SVG/PNG exports. Official Gufo was independently fetched and rebuilt;
+HIP server/bench compile and link. Changed documentation passes 261 local-link
+checks. The source-bound receipt is
+`docs/development/validation/mtp-vision-integration-2026-10-03.json` on the integration branch;
+failed attempts and actual exits remain in local `evidence/integration-*`.
+The recorded CPU peak is 90.375 C under the 95 C child-only guard.
+
+No original-weight model load/hash/conversion, GPU execution, remote build or
+performance measurement occurred. Original-weight mixed image/text MTP,
+cache-on/off continuation, sampled target/rejection/rollback, memory/resource
+fit and GPU cancellation/fault qualification remain open. Earlier entries below
+describe their dated independent feature branches.
+
+## MTP and vision branches — 2026-10-03
+
+At the owner's request, new performance campaigns remain deferred. Development
+continues in persistent `worktrees/mtp` (`feature/mtp`) and `worktrees/vision`
+(`feature/vision`), both based on the shared-core/native-tools checkpoint
+`a262902`. Feature code is not merged into this documentation/control branch.
+
+The MTP checkpoint is now **`7d85b2f`**. Its complete C predictor/hidden/controller
+codec connects to device transfers, scalar/batch pooled history and stable
+identity from the actual admitted target/predictor readers. Preload/postload
+witnesses reject changing files; only explicit SSD admission hashes weights.
+RAM retains its default budget; unsupported per-model state refuses readiness
+unless caches are explicitly disabled. Native CPU ASan/UBSan/LeakSanitizer tests
+pass **29/29**, including two synthetic model families, cache clones, SSD process
+restart, changed predictor/draft identity and Chat/Responses JSON/SSE reuse.
+MTP-OFF checks pass 3/3; server/bench HIP linking and native core-client
+CSV/SVG/PNG exports pass. The source-bound receipt is
+`docs/development/validation/mtp-cache-2026-10-03.json` on `feature/mtp`.
+
+Vision is now **`806a790`**. Semantic image identity covers the shared RAM/SSD
+lookup, deduplication, retention/protection and process restart. The model-neutral
+scope component stays outside the unchanged DS4 tensor payload; the Qwen adapter
+validates prepared MRoPE positions and actual admitted target/projector file
+witnesses. RAM retains its normal default and SSD remains opt-in. Full-prompt
+scope conservatively prevents earlier-prefix reuse when future images change;
+clients resupply matching images after restart. No pixels/embeddings are persisted.
+Native CPU ASan/UBSan/LeakSanitizer passes **30/30**, including equal-token image
+isolation, two fixture families, KVC/aligned process restart and Chat/Responses
+JSON/SSE cache reuse. Vision-OFF checks pass 3/3, HIP server/bench linking passes,
+and the native core-client smoke exports JSON/CSV/SVG/PNG. The receipt is
+`docs/development/validation/vision-cache-2026-10-03.json` on `feature/vision`.
+CPU-only guards remain at 95 C; the new provider build peaks at CPU92.125 C and
+the final full suite at CPU71.25 C. Raw failed compiler/fixture exits are preserved.
+
+No original-weight model load, GPU execution, heavy model hash or feature merge
+occurred in this slice. USB metadata showed that usable inputs still require
+the active compatibility work; the incomplete PLE-free artifact is not used.
+CPU-only completion used one job with a 95 C guard (within the owner's 98 C
+allowance), peaking at 94.625 C; all prior thermal refusals/interruption exits
+remain preserved. Local functional-GPU preparation retains its separate 85 C
+ceiling while fans are unconfigured. Original-weight MTP/cache/vision correctness,
+combined operation and performance remain open. The
+[implemented capabilities](BACKEND.md#implemented-capabilities-and-recorded-qualification-limits) records these gates.
 
 
 ## Native build, benchmark clients and reports — 2026-10-03

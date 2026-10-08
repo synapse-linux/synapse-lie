@@ -1,0 +1,90 @@
+{
+  "historical": "q2-hc-model-ud-r1",
+  "current": "q2-packed-ud-r1",
+  "checks": [
+    {
+      "name": "arithmetic-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "arithmetic-input.i32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "counting-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "counting-input.i32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-0-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-0-output.u32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-0-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-1-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-1-output.u32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-1-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-2-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-2-output.u32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-2-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-3-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-3-output.u32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-3-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-input.i32",
+      "exact": true
+    }
+  ]
+}

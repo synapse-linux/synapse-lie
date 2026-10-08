@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-down-register-scatter-host.v1",
+  "capsule_sha256": "089f1a3b6cfd53b093b1cc83953743e107e1418e13b67cedbfbf571448a5648c",
+  "archive_sha256": "60f9a3c51a06e53e11fe20252703add868c4251600c78bae4607a9e54f1ef595",
+  "fixture_files_verified": 85,
+  "source_files_verified": 1020,
+  "plan_sha256": "edb8ca6208f58a8bdc20ae8a64b08af76f4606ec2a992886daa408b34e7bb159",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

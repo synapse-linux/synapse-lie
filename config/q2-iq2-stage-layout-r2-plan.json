@@ -1,0 +1,60 @@
+{
+  "schema": "synapse-lie.q2-iq2-stage-layout-r2-plan.v1",
+  "previous_release": "config/q2-iq2-stage-layout-window-release.json",
+  "previous_release_sha256": "2f2bfa77a6754191e3fbb05ca833ade8f4ebd9126b73406743ec1da66430c9bb",
+  "host": "q2-iq2-stage-layout-r2-host-r1",
+  "host_result_sha256": "f96e9a1db261ff931c14ca5890df805b88c5aa0a5224cf582fe57fcde5c86ad6",
+  "host_source_capsule_sha256": "1eba714c17f9459178397fd64b8ec9e10f68c0c7877e9c7ea0c66cd1941d0a28",
+  "host_collection_sha256": "209df5791659d6b785c5f923eebb0d9749163364aa464d48c87b9be6e375bbbd",
+  "host_test_counts": {
+    "debug": 44,
+    "asan_ubsan": 44
+  },
+  "fixtures": {
+    "CMakeLists.txt": "9277be36d1091207c01525a2baf74f1935772f8e2dff4d256e4e812f75c1e0b9",
+    "cmake/hip/CMakeLists.txt": "7ef28711dae66a0a30e81377dc015ab00b4ae82ae443657ae6d1473e9785eb97",
+    "experiments/iq2_stage_layout.c": "04db56eaf5dce20f01317af168328b8b186f0bfa0bd7be6c5a8907e880ba49e9",
+    "experiments/iq2_stage_layout.h": "59b407a29fc0c825169dcacb8dd8dc592d216630cfd7f5477403bff1de164a74",
+    "experiments/q2-iq2-stage-layout.patch": "533d7e0d61a555ebf74583e2f3255b4e0c2667f130d6cb324a3a9503a6db25d0",
+    "experiments/q2_iq2_tail16_routes.inc": "6df4b69994da8a2077dfa6d1b0b0e6066d5d77d15928ad104d6a6cf35ee49ed4",
+    "tests/q2_iq2_stage_layout.hip": "336b033a221342b35b4d122d6130fd9e74fd8997ea9e898d1ef3a964bc5d474e",
+    "tests/iq2_stage_layout.c": "fd47a6d713118b77d8a6e2d45b4317056e5b6a35d9f70e9e9e1a6851418b3d6c",
+    "tests/q2_remote_test.py": "a00d52747aa3bb6efe0aad8c113d6bf57b85d96f95f950d2d8b56a6e53838fe7",
+    "tools/q2-remote.py": "55edcd8b09923e85366090ad009fad8f2db504f555f8f45ed3aedd38cf5dd256",
+    "tools/q2-runner.py": "96c3af18cd7bb0e41dbb54016641a5eeed58b4705805acce4ba336df4301884e",
+    "tools/q2_process.py": "32d2f266a2c9c4472929874003c4f9914c19233349f50388b14db1087762d0e9",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_window_registry.py": "fcf4446b230453ef5c6b272ef4487e9440f3afbe41829b78d81a7eca5ea896c0",
+    "tools/q2-iq2-stage-layout-r2-window.py": "be3bbd1ee98b24d47234c12afdc9d29d1a5041e75d3dfbdc2a2c4885a9bf88fe",
+    "tools/q2-iq2-stage-layout-r2-phase.py": "3d9cd20e488f38f1fb17f236621a3b6530baebe5e80b7821feceb969c95e49d6",
+    "tools/q2-iq2-stage-layout-r2-preflight.py": "1861ea5d1b132923d0436655301289c5d919da3cee20379b7b1fb4faf60c5a60",
+    "tools/freeze-q2-iq2-stage-layout-r2-plan.py": "af56c6665e7ca921d1715ead0f3148eee823abf2495e5778a535e1ebe936d9d1",
+    "config/q2-iq2-stage-layout-window-release.json": "2f2bfa77a6754191e3fbb05ca833ade8f4ebd9126b73406743ec1da66430c9bb",
+    "tools/prepare-q2-iq2-stage-layout.py": "da55fd69febd33a0a97fa74d4ffbd2fe4e45201fa35210c6f30e1d4c4e80b4d5",
+    "tools/analyze-q2-iq2-stage-layout-static.py": "64b2dde19d46d5c6244891d36094d49cfcbf7ce0a7ce84175b458a25b6438472",
+    "config/q2-iq2-stage-layout-source.json": "2f77b55941a01619dfb8275f4eb9053db2f9121ac487fb7a0694d19114164e19",
+    "config/q2-iq2-stage-layout-static.json": "6439645dfe438193edff852d64f86ad3d940e59651ee970ce834caa1f36da100",
+    "config/q2-iq2-fixed-bounds-source.json": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+    "config/q2-current-routing-v2-results.json": "ccd2e21c6fde161dbc70b7f7692dbc460eb64da115eadac572ae2169d59b2496"
+  },
+  "components": [
+    {
+      "label": "q2-iq2-stage-layout-r2-component-r1",
+      "mode": "iq2-stage-layout-check",
+      "variant": "iq2-stage-layout"
+    }
+  ],
+  "arms": [],
+  "admission_path": "config/q2-iq2-stage-layout-r2-window-admission.json",
+  "release_path": "config/q2-iq2-stage-layout-r2-window-release.json",
+  "window_helper": "tools/q2-iq2-stage-layout-r2-window.py",
+  "window_helper_sha256": "be3bbd1ee98b24d47234c12afdc9d29d1a5041e75d3dfbdc2a2c4885a9bf88fe",
+  "phase_helper": "tools/q2-iq2-stage-layout-r2-phase.py",
+  "phase_helper_sha256": "3d9cd20e488f38f1fb17f236621a3b6530baebe5e80b7821feceb969c95e49d6",
+  "preflight_helper": "tools/q2-iq2-stage-layout-r2-preflight.py",
+  "preflight_helper_sha256": "1861ea5d1b132923d0436655301289c5d919da3cee20379b7b1fb4faf60c5a60",
+  "scope": "One private gfx1151 IQ2 stage-pair layout gate/up component only. Check guarded byte-exact whole outputs and immutable inputs against the retained 128/64-token producer on edge and saved 2048-token routed counts. Three rotating weight sets and interleaved completed timings. No original-weight model inference, saved control rebuild, Q4, full curve, dependency installation, host tuning or remote cleanup. Collect all results and release before performance analysis.",
+  "gpu_admitted": false,
+  "model_inference": false,
+  "production_dispatch_changed": false
+}

@@ -127,6 +127,50 @@ static json_object *chat(const char *extra) {
   require(j != NULL, "request JSON");
   return j;
 }
+static void automatic_output_http(const char *api) {
+  /* Synthetic non-EOS row proves the omitted budget exceeds the old128 cap. */
+  const char *long_requests[] = {
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"LONG\"}]}",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"LONG\",\"store\":false}"};
+  const char *paths[] = {"/chat/completions", "/responses"};
+  const char *counts[] = {"completion_tokens", "output_tokens"};
+  for (unsigned api_index=0;api_index<2;++api_index) {
+    json_object *j=json_transfer(api,paths[api_index],"POST",long_requests[api_index],200);
+    require(json_object_get_int(field(field(j,"usage"),counts[api_index]))==2044,
+            "omitted output limit uses available context past128");
+    require(json_object_get_int(api_index ? field(j,"max_output_tokens") :
+                               field(field(j,"lie_timings"),"output_token_limit"))==2044,
+            "resolved output budget is observable");
+    json_object_put(j);
+  }
+  const char *near_requests[] = {
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"FIXTURE-TOKENS:2045\\n\"}],\"max_completion_tokens\":null,\"stream\":true,\"stream_options\":{\"include_usage\":true}}",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"FIXTURE-TOKENS:2045\\n\",\"max_output_tokens\":null,\"stream\":true,\"store\":false}"};
+  for(unsigned api_index=0;api_index<2;++api_index) {
+    char *stream=transfer(api,paths[api_index],"POST",near_requests[api_index],200);
+    require(strstr(stream,api_index?"\"max_output_tokens\":3":"\"output_token_limit\":3")!=NULL,
+            "null budget uses three remaining tokens");
+    require(strstr(stream,api_index?"\"output_tokens\":3":"\"completion_tokens\":3")!=NULL,
+            "automatic SSE reports exact output count");
+    free(stream);
+  }
+  json_object *j=json_transfer(api,"/responses","POST",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"ok\",\"max_output_tokens\":null}",200);
+  char path[256];snprintf(path,sizeof(path),"/responses/%s",json_object_get_string(field(j,"id")));
+  require(json_object_get_int(field(field(j,"usage"),"output_tokens"))==8,
+          "auto stored response preserves natural EOS");
+  json_object_put(j);
+  j=json_transfer(api,path,"GET",NULL,200);
+  require(json_object_get_int(field(j,"max_output_tokens"))==2044,
+          "stored replay retains resolved output budget");
+  json_object_put(j);j=json_transfer(api,path,"DELETE",NULL,200);json_object_put(j);
+  j=json_transfer(api,"/chat/completions","POST",
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"FIXTURE-TOKENS:2048\\n\"}]}",400);
+  json_object_put(j);
+  j=json_transfer(api,"/chat/completions","POST",
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"FIXTURE-TOKENS:2045\\n\"}],\"max_tokens\":4}",400);
+  json_object_put(j);
+}
 static size_t abandon_collect(char *p, size_t s, size_t n, void *arg) {
   size_t bytes = collect(p, s, n, arg);
   buffer *b = arg;
@@ -206,6 +250,57 @@ static void stream_choices(const char *text) {
               indexes[1] && indexes[2],
           "complete multi-choice SSE");
 }
+static void sampling_filters_http(const char *api) {
+  const char *paths[] = {"/chat/completions", "/responses"};
+  const char *prefixes[] = {
+      "{\"model\":\"cpu-test-fixture\",\"messages\":[{\"role\":\"user\",\"content\":\"ok\"}],\"max_tokens\":16",
+      "{\"model\":\"cpu-test-fixture\",\"input\":\"ok\",\"max_output_tokens\":16"
+  };
+  const char *bad[] = {",\"top_k\":-1", ",\"top_k\":2147483648",
+                      ",\"top_k\":18446744073709551615", ",\"top_k\":1.0",
+                      ",\"top_k\":true", ",\"top_k\":null",
+                      ",\"min_p\":-0.01", ",\"min_p\":1.01",
+                      ",\"min_p\":true", ",\"min_p\":null",
+                      ",\"seed\":-1", ",\"seed\":1.0", ",\"seed\":true",
+                      ",\"seed\":null", ",\"seed\":9223372036854775808",
+                      ",\"frequency_penalty\":null", ",\"frequency_penalty\":2.01",
+                      ",\"presence_penalty\":null", ",\"presence_penalty\":-2.01"};
+  for (size_t endpoint = 0; endpoint < 2; ++endpoint) {
+    char body[1024];
+    snprintf(body, sizeof(body), "%s,\"top_k\":5,\"min_p\":0.05,\"seed\":123,"
+             "\"frequency_penalty\":-1,\"presence_penalty\":1.5}", prefixes[endpoint]);
+    json_object *j = json_transfer(api, paths[endpoint], "POST", body, 200);
+    if (endpoint == 1) {
+      require(json_object_get_int(field(j, "top_k")) == 5 &&
+                  json_object_get_double(field(j, "min_p")) == .05 &&
+                  json_object_is_type(field(j, "seed"),json_type_int) &&
+                  json_object_get_int64(field(j, "seed")) == 123 &&
+                  json_object_get_double(field(j, "frequency_penalty")) == -1 &&
+                  json_object_get_double(field(j, "presence_penalty")) == 1.5,
+              "response sampling controls echo");
+      char retained[256];
+      snprintf(retained, sizeof(retained), "/responses/%s", json_object_get_string(field(j, "id")));
+      json_object *stored = json_transfer(api, retained, "GET", NULL, 200);
+      require(json_object_get_int(field(stored, "top_k")) == 5 &&
+                  json_object_get_double(field(stored, "min_p")) == .05 &&
+                  json_object_is_type(field(stored, "seed"),json_type_int) &&
+                  json_object_get_int64(field(stored, "seed")) == 123 &&
+                  json_object_get_double(field(stored, "frequency_penalty")) == -1 &&
+                  json_object_get_double(field(stored, "presence_penalty")) == 1.5,
+              "stored response sampling controls");
+      json_object_put(stored);
+      stored = json_transfer(api, retained, "DELETE", NULL, 200);
+      json_object_put(stored);
+    }
+    json_object_put(j);
+    for (size_t i = 0; i < sizeof(bad)/sizeof(*bad); ++i) {
+      snprintf(body, sizeof(body), "%s%s}", prefixes[endpoint], bad[i]);
+      j = json_transfer(api, paths[endpoint], "POST", body, 400);
+      require(field(j, "error") != NULL, "invalid filter error object");
+      json_object_put(j);
+    }
+  }
+}
 static uint64_t response_sequences(const char *text, int64_t after) {
   const char *p = text;
   uint64_t last = 0;
@@ -279,9 +374,20 @@ int main(int argc, char **argv) {
     pause_ms();
   }
   require(ready, "readiness");
+  automatic_output_http(api);
+  sampling_filters_http(api);
   json_object *j =
       json_transfer(api, "/models/cpu-test-fixture", "GET", NULL, 200);
   require(lie_json_literal(field(j, "object"), "model"), "model detail");
+  require(json_object_get_int(field(j,"context_length"))==2048&&
+              json_object_get_int(field(j,"max_output_tokens"))==LIE_CORE_MAX_OUTPUT,
+          "model detail advertises actual context and output ceiling");
+  json_object_put(j);
+  j=json_transfer(api,"/models","GET",NULL,200);
+  json_object *listed=json_object_array_get_idx(field(j,"data"),0);
+  require(json_object_get_int(field(listed,"context_length"))==2048&&
+              json_object_get_int(field(listed,"max_output_tokens"))==LIE_CORE_MAX_OUTPUT,
+          "model list supports automatic client discovery");
   json_object_put(j);
   char *abandoned_id = abandon_background_stream(api), abandoned_path[256];
   snprintf(abandoned_path, sizeof(abandoned_path), "/responses/%s?stream=true",

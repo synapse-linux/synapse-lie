@@ -1,0 +1,662 @@
+{
+  "arms": [
+    {
+      "label": "q2-hc-four-wave-r1",
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "e4a7160ec2648488d5d8a317aa48df2aadd6f5cdf5d9f0d6c6e46d07d720ba45",
+      "result_sha256": "3fc7d122f8419d5b693d5e180f2a6d6b0f0511480aec12ffd06dfa9961e67202",
+      "verified_artifacts": 15,
+      "thermal_stop": null,
+      "error": null
+    },
+    {
+      "label": "q2-hc-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "226909732bafacc03393f271684313f4129bf4272200a5c820de1c05e9978064",
+      "result_sha256": "7da0018a5dc9f51b68091564c52acb2c2c43bfa8e70c0b31165ff942dd155717",
+      "verified_artifacts": 7,
+      "thermal_stop": null,
+      "error": null
+    },
+    {
+      "label": "q2-hc-host-r2",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "155bdb157828f631b22da2e6917b3b8eeb6ea9b0dd13fc99ac4eaf004b3ce802",
+      "result_sha256": "a8b0e4ef2576dea37bfcd727e867f3f415d4e03314a99930d4cd3c53e8988700",
+      "verified_artifacts": 7,
+      "thermal_stop": null,
+      "error": null
+    },
+    {
+      "label": "q2-hc-model-four-wave-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "18306cd8bba9fcfae4359366c54c180c3ea51c385bea046d1cf2392c0a0daed8",
+      "result_sha256": "02bc13dda489ae0705aa083094c0a9fc49a7105b13f4ca38013d7881b55771f9",
+      "verified_artifacts": 26,
+      "thermal_stop": null,
+      "error": null
+    },
+    {
+      "label": "q2-hc-model-reference-r1",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        -15
+      ],
+      "capsule_sha256": "e3c262f19515f905ede9ccef460ec09c141af5d8dc46c4b692494d58a821ed62",
+      "result_sha256": "b6243ea67d54319bf5017c24e5165ba9b90b7baa775c80d7388f99098f16914d",
+      "verified_artifacts": 3,
+      "thermal_stop": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 46000,
+          "limit_mc": 85000,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 86250,
+          "limit_mc": 85000,
+          "over_limit": true
+        }
+      ],
+      "error": "RuntimeError('Thermal limit reached; stop owned command')"
+    },
+    {
+      "label": "q2-hc-model-reference-r2",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        1
+      ],
+      "capsule_sha256": "8a956e2ccbbe2d444e55e3116538e7c87029a496a1c07ac25c14897bdbd28145",
+      "result_sha256": "bb9023d8278a166fb2b5f70116342b53b9eb1ee5df0905b77e086c747db309c0",
+      "verified_artifacts": 3,
+      "thermal_stop": null,
+      "error": "RuntimeError('Qualification command failed')"
+    },
+    {
+      "label": "q2-hc-model-reference-r3",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        0,
+        -15
+      ],
+      "capsule_sha256": "8bff624e5942208469ac04fa8ed232d198b7baf1bec8e5fa7bab0f2cf20c7b63",
+      "result_sha256": "0574f4454357a40883caf62f0eb074521cb70989c0a93d57147d19684b6de752",
+      "verified_artifacts": 21,
+      "thermal_stop": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 72000,
+          "limit_mc": 85000,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 85750,
+          "limit_mc": 85000,
+          "over_limit": true
+        }
+      ],
+      "error": "RuntimeError('Thermal limit reached; stop owned command')"
+    },
+    {
+      "label": "q2-hc-model-reference-r4",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        0,
+        -15
+      ],
+      "capsule_sha256": "29eda4b7e138d6ae01a9c7c1a992b03673ffb823a703346bac9c3a1a0df305fc",
+      "result_sha256": "2dcf8fd1d4661465bb6afa652f9941a7644dd9504b566c0a98be20e181a24b71",
+      "verified_artifacts": 24,
+      "thermal_stop": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 71000,
+          "limit_mc": 85000,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 85250,
+          "limit_mc": 85000,
+          "over_limit": true
+        }
+      ],
+      "error": "RuntimeError('Thermal limit reached; stop owned command')"
+    },
+    {
+      "label": "q2-hc-model-ud-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "063e13031b663b7eb9b479ef6ba532b69b81df84eb511cc83bc54c53aa771bbe",
+      "result_sha256": "998e91bb777c0c0a00788840b745d5db35a6a8cfbee9658f2056b2cd617e244b",
+      "verified_artifacts": 26,
+      "thermal_stop": null,
+      "error": null
+    },
+    {
+      "label": "q2-hc-reference-r1",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        -15
+      ],
+      "capsule_sha256": "4acc1672ee36c6e65d2a7e26b037623597d7761c70db37a87be7cd6b66d5eed3",
+      "result_sha256": "19b3e7bc19fc231ba43331486cbe07ef7d0dd8efff14110976bdd00376934bdd",
+      "verified_artifacts": 3,
+      "thermal_stop": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 48000,
+          "limit_mc": 85000,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 86625,
+          "limit_mc": 85000,
+          "over_limit": true
+        }
+      ],
+      "error": "RuntimeError('Thermal limit reached; stop owned command')"
+    },
+    {
+      "label": "q2-hc-reference-r2",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        1
+      ],
+      "capsule_sha256": "1162474d99c02292645b3b9d9c551e67a494cf26568ec1bca2f8f7f95ccaff20",
+      "result_sha256": "7b17722025cb4ffc6e64aeeb8bca33f7015120fbcb23a8f017682e01ff1b9c5c",
+      "verified_artifacts": 3,
+      "thermal_stop": null,
+      "error": "RuntimeError('Qualification command failed')"
+    },
+    {
+      "label": "q2-hc-reference-r3",
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "6b98ca4b71ede0ef213e6c27d403307803ad4c5310e2c3c727e98048f34fbbbe",
+      "result_sha256": "31118bdd9b98b2908d26e32bc4b0d91ad0c7321d25a288e82eaab3937b712496",
+      "verified_artifacts": 15,
+      "thermal_stop": null,
+      "error": null
+    }
+  ],
+  "verified_artifacts": 153,
+  "commands": 42,
+  "closure": {
+    "at": "2026-10-02T07:13:11.717571+00:00",
+    "state": "Q2_HC_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-hc-four-wave-r1",
+        "pid": 2401587,
+        "absent": true,
+        "finished_at": "2026-10-02T06:44:40.756055+00:00"
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2397786,
+        "absent": true,
+        "finished_at": "2026-10-02T06:38:44.955326+00:00"
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404186,
+        "absent": true,
+        "finished_at": "2026-10-02T06:52:03.582198+00:00"
+      },
+      {
+        "label": "q2-hc-model-four-wave-r1",
+        "pid": 2409412,
+        "absent": true,
+        "finished_at": "2026-10-02T07:06:57.955379+00:00"
+      },
+      {
+        "label": "q2-hc-model-reference-r1",
+        "pid": 2402206,
+        "absent": true,
+        "finished_at": "2026-10-02T06:47:17.762395+00:00"
+      },
+      {
+        "label": "q2-hc-model-reference-r2",
+        "pid": 2404886,
+        "absent": true,
+        "finished_at": "2026-10-02T06:53:55.915858+00:00"
+      },
+      {
+        "label": "q2-hc-model-reference-r3",
+        "pid": 2405840,
+        "absent": true,
+        "finished_at": "2026-10-02T06:56:47.644971+00:00"
+      },
+      {
+        "label": "q2-hc-model-reference-r4",
+        "pid": 2407302,
+        "absent": true,
+        "finished_at": "2026-10-02T07:01:26.426092+00:00"
+      },
+      {
+        "label": "q2-hc-model-ud-r1",
+        "pid": 2411065,
+        "absent": true,
+        "finished_at": "2026-10-02T07:11:03.723744+00:00"
+      },
+      {
+        "label": "q2-hc-reference-r1",
+        "pid": 2398244,
+        "absent": true,
+        "finished_at": "2026-10-02T06:40:23.807846+00:00"
+      },
+      {
+        "label": "q2-hc-reference-r2",
+        "pid": 2400544,
+        "absent": true,
+        "finished_at": "2026-10-02T06:42:39.836190+00:00"
+      },
+      {
+        "label": "q2-hc-reference-r3",
+        "pid": 2401070,
+        "absent": true,
+        "finished_at": "2026-10-02T06:43:50.381721+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-hc-four-wave-r1",
+        "pid": 2401604,
+        "start_ticks": 148886138,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-four-wave-r1",
+        "pid": 2401783,
+        "start_ticks": 148886290,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-four-wave-r1",
+        "pid": 2401907,
+        "start_ticks": 148887394,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2397787,
+        "start_ticks": 148849506,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2397890,
+        "start_ticks": 148849559,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2397936,
+        "start_ticks": 148849961,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2397971,
+        "start_ticks": 148850615,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2398009,
+        "start_ticks": 148850668,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r1",
+        "pid": 2398123,
+        "start_ticks": 148851271,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404188,
+        "start_ticks": 148929368,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404231,
+        "start_ticks": 148929420,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404286,
+        "start_ticks": 148929823,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404316,
+        "start_ticks": 148930477,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404354,
+        "start_ticks": 148930530,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-host-r2",
+        "pid": 2404465,
+        "start_ticks": 148931133,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-four-wave-r1",
+        "pid": 2409413,
+        "start_ticks": 149004117,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-four-wave-r1",
+        "pid": 2409643,
+        "start_ticks": 149004270,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-four-wave-r1",
+        "pid": 2410114,
+        "start_ticks": 149010133,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-four-wave-r1",
+        "pid": 2410119,
+        "start_ticks": 149010186,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r1",
+        "pid": 2402208,
+        "start_ticks": 148893786,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r1",
+        "pid": 2402389,
+        "start_ticks": 148893988,
+        "exit_code": -15
+      },
+      {
+        "label": "q2-hc-model-reference-r2",
+        "pid": 2404894,
+        "start_ticks": 148938056,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r2",
+        "pid": 2405129,
+        "start_ticks": 148938209,
+        "exit_code": 1
+      },
+      {
+        "label": "q2-hc-model-reference-r3",
+        "pid": 2405841,
+        "start_ticks": 148949958,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r3",
+        "pid": 2406021,
+        "start_ticks": 148950111,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r3",
+        "pid": 2406529,
+        "start_ticks": 148955924,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r3",
+        "pid": 2406534,
+        "start_ticks": 148955977,
+        "exit_code": -15
+      },
+      {
+        "label": "q2-hc-model-reference-r4",
+        "pid": 2407303,
+        "start_ticks": 148970913,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r4",
+        "pid": 2407477,
+        "start_ticks": 148971116,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r4",
+        "pid": 2407992,
+        "start_ticks": 148976979,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-reference-r4",
+        "pid": 2407997,
+        "start_ticks": 148977032,
+        "exit_code": -15
+      },
+      {
+        "label": "q2-hc-model-ud-r1",
+        "pid": 2411079,
+        "start_ticks": 149028744,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-ud-r1",
+        "pid": 2411254,
+        "start_ticks": 149028896,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-ud-r1",
+        "pid": 2411771,
+        "start_ticks": 149034709,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-model-ud-r1",
+        "pid": 2411776,
+        "start_ticks": 149034761,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-reference-r1",
+        "pid": 2398301,
+        "start_ticks": 148854043,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-reference-r1",
+        "pid": 2398482,
+        "start_ticks": 148854195,
+        "exit_code": -15
+      },
+      {
+        "label": "q2-hc-reference-r2",
+        "pid": 2400559,
+        "start_ticks": 148874156,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-reference-r2",
+        "pid": 2400733,
+        "start_ticks": 148874308,
+        "exit_code": 1
+      },
+      {
+        "label": "q2-hc-reference-r3",
+        "pid": 2401071,
+        "start_ticks": 148881057,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-reference-r3",
+        "pid": 2401301,
+        "start_ticks": 148881210,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-hc-reference-r3",
+        "pid": 2401381,
+        "start_ticks": 148882314,
+        "exit_code": 0
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "thermal": {
+      "amdgpu": {
+        "/sys/class/hwmon/hwmon2/temp1_input": 48000
+      },
+      "k10temp": {
+        "/sys/class/hwmon/hwmon3/temp1_input": 49500
+      }
+    }
+  },
+  "historical_ud_exact_files": 21,
+  "historical_ud_differences": [],
+  "candidate_replay": [
+    {
+      "name": "pp2048-1-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-1-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-1-output.u32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-2-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-2-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-2-output.u32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-3-prefill.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-3-last.f32",
+      "exact": true
+    },
+    {
+      "name": "pp2048-3-output.u32",
+      "exact": true
+    }
+  ],
+  "qualified_runtime_patch_sha256": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+  "handover": "Persistent .157 run/q2-hc-window-release.json and shared coordination runs.jsonl window_release event; direct message transport returned HTTP failure."
+}

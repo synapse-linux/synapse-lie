@@ -1,0 +1,618 @@
+{
+  "scope": "Ten .157 CPU/synthetic GPU arms; no original-model inference; four HC commands retain numerical exit 1",
+  "runs": {
+    "q2-half-wave-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": null,
+      "binary_sha256_after": null,
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-host-r1/results.tar.gz",
+        "sha256": "eadc9e3ba3372ca579ddf78d97c97de5062f977d93986b1d8a606330ee77a2d2",
+        "verified_artifacts": 7
+      },
+      "temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 77375
+      },
+      "result_sha256": "67944e231b0fa5f2cd8a34223b154d98964aa857cbaf3e362cf5bea9929c2fa6",
+      "source_variant": "qualified",
+      "capsule_sha256": "084d128ee31d0e681113a400b117caf2aa9118b4a19ea3ce26912638406e4057"
+    },
+    "q2-half-wave-operators-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "70334c1b80e5d0c6bd7e7dbd06d15f38a4413e59751ef5e7b96d07206bd5381a",
+      "binary_sha256_after": "70334c1b80e5d0c6bd7e7dbd06d15f38a4413e59751ef5e7b96d07206bd5381a",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-operators-r1/results.tar.gz",
+        "sha256": "22b847aaa96c645ac1d68969b945eb62bd75cd53196c23e18660207bbdc8c3ab",
+        "verified_artifacts": 66
+      },
+      "temperature_max_mc": {
+        "amdgpu": 51000,
+        "k10temp": 79875
+      },
+      "result_sha256": "cbf2be5a68c6424829e2abf89c8106541d78146b9bcf0a76337d892360d4d0d0",
+      "source_variant": "half-wave",
+      "capsule_sha256": "1f6ee182f7f77e5c7201fbb2a93e71b4658cfc154ef8a2f2167a7db7df47371c"
+    },
+    "q2-half-wave-permlane-operators-r1": {
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "4cb382517e4275ed37c0d6db6df830200f67f7acd0757ee1bb48e5e7deacd9f9",
+      "binary_sha256_after": "4cb382517e4275ed37c0d6db6df830200f67f7acd0757ee1bb48e5e7deacd9f9",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-permlane-operators-r1/results.tar.gz",
+        "sha256": "3defffa4f30c7c6342e8873d81b4642746534e439b31357ee911d870ad44d680",
+        "verified_artifacts": 66
+      },
+      "temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 78500
+      },
+      "result_sha256": "ffeef5f9a06a1043fd07020f2b08f8a0491f4a4443fd344c2550faffd5cf4098",
+      "source_variant": "half-wave-permlane",
+      "capsule_sha256": "3da05243942ffe4d94ed4372378908f8c064c113ad24d3e996d0829ba38a18fa"
+    },
+    "q2-half-wave-micro-ref-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "9a928bc7f36bd38e57ada177e41807a24cf3059747da1fbcec09311dcdd8f1aa",
+      "binary_sha256_after": "9a928bc7f36bd38e57ada177e41807a24cf3059747da1fbcec09311dcdd8f1aa",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-micro-ref-r1/results.tar.gz",
+        "sha256": "cc6ced1826d315d080a376040f1afda665908a07f6533a19de93e06f2dd63e8b",
+        "verified_artifacts": 5
+      },
+      "temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 80500
+      },
+      "result_sha256": "4326d778bfc47862c8b01a26bf6a3bdac5613a8d62c5a203a0184e63482f4f68",
+      "source_variant": "hc-moe-fused",
+      "capsule_sha256": "047788387c203aa476578a8803c6fef1e25cf27f86f4d19a0113b7638f21f7d9"
+    },
+    "q2-half-wave-micro-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "3c2d61711f666abfdc1dd3c50b933c7101d33d8f12ff5eb52b6d07e72f2f51f0",
+      "binary_sha256_after": "3c2d61711f666abfdc1dd3c50b933c7101d33d8f12ff5eb52b6d07e72f2f51f0",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-micro-r1/results.tar.gz",
+        "sha256": "6cb36508482b8d305c9c40c90ade5a8f136c20399c7e3fbfafe7087b19a507b4",
+        "verified_artifacts": 5
+      },
+      "temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80250
+      },
+      "result_sha256": "69e34bc9317a6a60e9891ac2075ed127cb564b3b3020933d9cfc1056955fa35e",
+      "source_variant": "half-wave",
+      "capsule_sha256": "5b727023bbf62c256ee7d11e924870eae1d2205bbbebd82d55d3f110130d7914"
+    },
+    "q2-half-wave-permlane-micro-r1": {
+      "state": "SYNTHETIC_Q2_PACKED_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "cddba18c2bcfc170cc7530cd23e75a24d070066a2042351c27b10c9472a19ddf",
+      "binary_sha256_after": "cddba18c2bcfc170cc7530cd23e75a24d070066a2042351c27b10c9472a19ddf",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-half-wave-permlane-micro-r1/results.tar.gz",
+        "sha256": "4578ae40769cc9410625029c8dcd58a17a5f9799f31a0a30fcacc7791d20adb6",
+        "verified_artifacts": 5
+      },
+      "temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 78750
+      },
+      "result_sha256": "eee70d55c900639086fe0b99b5671a742202ed0c7e2650e8ea164077d5cd0a04",
+      "source_variant": "half-wave-permlane",
+      "capsule_sha256": "1dcfbbced2549d0ff9e1b1c724c9369d81ee5c234d10b6f0e2831840a0163fce"
+    },
+    "q2-hc-wave4-micro-ref-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "model_access": false,
+      "binary_sha256": "79449b72de0e9c8d1c17be8b023cd1db32d2f649390e300bd723cc666d9432e7",
+      "binary_sha256_after": "79449b72de0e9c8d1c17be8b023cd1db32d2f649390e300bd723cc666d9432e7",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-wave4-micro-ref-r1/results.tar.gz",
+        "sha256": "d5898bae0cdeb9c838e4933fc421cc22e582cd9c926f5fe1e5afe0aa3ef12b16",
+        "verified_artifacts": 48
+      },
+      "temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79375
+      },
+      "result_sha256": "9835453f3ab0d7f7caad9eeef3ca95241e6e557b9d0ff4ee587f7e9a85d4d3f2",
+      "source_variant": "hc-moe-fused",
+      "capsule_sha256": "64391bd8d000447f76987392f56debf1e518285133aec7b8ab655f2faf894548"
+    },
+    "q2-hc-wave4-micro-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "model_access": false,
+      "binary_sha256": "ede766fedc2503be7a2f970c067809e653477af042d4d2e678455daeb967d33a",
+      "binary_sha256_after": "ede766fedc2503be7a2f970c067809e653477af042d4d2e678455daeb967d33a",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-wave4-micro-r1/results.tar.gz",
+        "sha256": "e9d0b41aa93761f99fbc2d853736fef2ae86648b04aa025dcb6144847176874b",
+        "verified_artifacts": 48
+      },
+      "temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 79625
+      },
+      "result_sha256": "7a2b287c302b89fc79d17d6f4329056a9f32a954c3fffcbab2fbf91ed1e748f0",
+      "source_variant": "hc-down64-wave4",
+      "capsule_sha256": "117951c05bf728d26b547eb2d034e6022bc399a28fcd6a663997b7586fda251d"
+    },
+    "q2-hc-k4-micro-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "model_access": false,
+      "binary_sha256": "1fb57f06f8383a109a88a8a7705c69cbe7c240eee000e41bf60923f22e0f05f6",
+      "binary_sha256_after": "1fb57f06f8383a109a88a8a7705c69cbe7c240eee000e41bf60923f22e0f05f6",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-k4-micro-r1/results.tar.gz",
+        "sha256": "c153c3a62b6a05d2ad4a9e38a0ac7b27c5d1aeb366ae5d49bca60043f70fda82",
+        "verified_artifacts": 48
+      },
+      "temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 78000
+      },
+      "result_sha256": "056f394fb657b277a5b5e746b25e6458d46d5b3d76305dc0582ec22af7cfd330",
+      "source_variant": "hc-down64-k4",
+      "capsule_sha256": "9aaaacc72f4397ca0749a3544350c084986d52d50ad22cd52dc13d78a98430dc"
+    },
+    "q2-hc-128wave4-micro-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "model_access": false,
+      "binary_sha256": "2df0204d5d4359381d6531d4cb28ee081d78732dce18ca8174afe98156ec6469",
+      "binary_sha256_after": "2df0204d5d4359381d6531d4cb28ee081d78732dce18ca8174afe98156ec6469",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-128wave4-micro-r1/results.tar.gz",
+        "sha256": "cfb3a08ec68afd87d69d8688ba67735f125deb4056bb4dd1ec37f28e879a4d56",
+        "verified_artifacts": 48
+      },
+      "temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79625
+      },
+      "result_sha256": "e2cf561d00454a06f6c6c5c133451e02ae4fd2aed88ce5e0eb1fc8971a86869f",
+      "source_variant": "hc-down128-wave4",
+      "capsule_sha256": "b5c52d0b51041573b9945502cca218cdc0a98a0f3937cd7c8970b4c2ba8eefef"
+    }
+  },
+  "closure": {
+    "at": "2026-10-02T20:16:14.016645+00:00",
+    "state": "Q2_HALF_WAVE_HC_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2666596,
+        "absent": true,
+        "finished_at": "2026-10-02T20:07:37.554275+00:00"
+      },
+      {
+        "label": "q2-half-wave-operators-r1",
+        "pid": 2667589,
+        "absent": true,
+        "finished_at": "2026-10-02T20:08:30.943451+00:00"
+      },
+      {
+        "label": "q2-half-wave-permlane-operators-r1",
+        "pid": 2668077,
+        "absent": true,
+        "finished_at": "2026-10-02T20:09:18.120399+00:00"
+      },
+      {
+        "label": "q2-half-wave-micro-ref-r1",
+        "pid": 2668575,
+        "absent": true,
+        "finished_at": "2026-10-02T20:10:04.940437+00:00"
+      },
+      {
+        "label": "q2-half-wave-micro-r1",
+        "pid": 2669336,
+        "absent": true,
+        "finished_at": "2026-10-02T20:11:33.553321+00:00"
+      },
+      {
+        "label": "q2-half-wave-permlane-micro-r1",
+        "pid": 2669761,
+        "absent": true,
+        "finished_at": "2026-10-02T20:12:03.531038+00:00"
+      },
+      {
+        "label": "q2-hc-wave4-micro-ref-r1",
+        "pid": 2670420,
+        "absent": true,
+        "finished_at": "2026-10-02T20:13:21.512109+00:00"
+      },
+      {
+        "label": "q2-hc-wave4-micro-r1",
+        "pid": 2670884,
+        "absent": true,
+        "finished_at": "2026-10-02T20:13:54.394360+00:00"
+      },
+      {
+        "label": "q2-hc-k4-micro-r1",
+        "pid": 2671457,
+        "absent": true,
+        "finished_at": "2026-10-02T20:15:01.303764+00:00"
+      },
+      {
+        "label": "q2-hc-128wave4-micro-r1",
+        "pid": 2671895,
+        "absent": true,
+        "finished_at": "2026-10-02T20:15:35.736582+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2666597,
+        "start_ticks": 153702566,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2666667,
+        "start_ticks": 153702618,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2666773,
+        "start_ticks": 153703071,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2666994,
+        "start_ticks": 153703725,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2667064,
+        "start_ticks": 153703778,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-host-r1",
+        "pid": 2667183,
+        "start_ticks": 153704531,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-operators-r1",
+        "pid": 2667590,
+        "start_ticks": 153708755,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-operators-r1",
+        "pid": 2667785,
+        "start_ticks": 153708958,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-operators-r1",
+        "pid": 2667922,
+        "start_ticks": 153710370,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-permlane-operators-r1",
+        "pid": 2668078,
+        "start_ticks": 153713480,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-permlane-operators-r1",
+        "pid": 2668301,
+        "start_ticks": 153713683,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-permlane-operators-r1",
+        "pid": 2668440,
+        "start_ticks": 153715088,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-micro-ref-r1",
+        "pid": 2668604,
+        "start_ticks": 153718112,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-micro-ref-r1",
+        "pid": 2668827,
+        "start_ticks": 153718315,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-micro-ref-r1",
+        "pid": 2668934,
+        "start_ticks": 153719720,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-micro-r1",
+        "pid": 2669337,
+        "start_ticks": 153726974,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-micro-r1",
+        "pid": 2669561,
+        "start_ticks": 153727177,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-micro-r1",
+        "pid": 2669703,
+        "start_ticks": 153728581,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-permlane-micro-r1",
+        "pid": 2669763,
+        "start_ticks": 153729964,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-permlane-micro-r1",
+        "pid": 2669992,
+        "start_ticks": 153730167,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-half-wave-permlane-micro-r1",
+        "pid": 2670126,
+        "start_ticks": 153731572,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-wave4-micro-ref-r1",
+        "pid": 2670421,
+        "start_ticks": 153737669,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-wave4-micro-ref-r1",
+        "pid": 2670644,
+        "start_ticks": 153737872,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-wave4-micro-ref-r1",
+        "pid": 2670789,
+        "start_ticks": 153739277,
+        "exit_code": 1,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-wave4-micro-r1",
+        "pid": 2670885,
+        "start_ticks": 153740900,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-wave4-micro-r1",
+        "pid": 2671080,
+        "start_ticks": 153741103,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-wave4-micro-r1",
+        "pid": 2671222,
+        "start_ticks": 153742515,
+        "exit_code": 1,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-k4-micro-r1",
+        "pid": 2671464,
+        "start_ticks": 153747642,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-k4-micro-r1",
+        "pid": 2671659,
+        "start_ticks": 153747794,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-k4-micro-r1",
+        "pid": 2671802,
+        "start_ticks": 153749206,
+        "exit_code": 1,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-128wave4-micro-r1",
+        "pid": 2671896,
+        "start_ticks": 153751035,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-128wave4-micro-r1",
+        "pid": 2672122,
+        "start_ticks": 153751238,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-128wave4-micro-r1",
+        "pid": 2672267,
+        "start_ticks": 153752649,
+        "exit_code": 1,
+        "absent": true
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "observer": {
+      "pid": 2672463,
+      "state": "R",
+      "group": 2672460,
+      "session": 2672460,
+      "start_ticks": 153756827
+    },
+    "result_sha256": {
+      "q2-half-wave-host-r1": "67944e231b0fa5f2cd8a34223b154d98964aa857cbaf3e362cf5bea9929c2fa6",
+      "q2-half-wave-operators-r1": "cbf2be5a68c6424829e2abf89c8106541d78146b9bcf0a76337d892360d4d0d0",
+      "q2-half-wave-permlane-operators-r1": "ffeef5f9a06a1043fd07020f2b08f8a0491f4a4443fd344c2550faffd5cf4098",
+      "q2-half-wave-micro-ref-r1": "4326d778bfc47862c8b01a26bf6a3bdac5613a8d62c5a203a0184e63482f4f68",
+      "q2-half-wave-micro-r1": "69e34bc9317a6a60e9891ac2075ed127cb564b3b3020933d9cfc1056955fa35e",
+      "q2-half-wave-permlane-micro-r1": "eee70d55c900639086fe0b99b5671a742202ed0c7e2650e8ea164077d5cd0a04",
+      "q2-hc-wave4-micro-ref-r1": "9835453f3ab0d7f7caad9eeef3ca95241e6e557b9d0ff4ee587f7e9a85d4d3f2",
+      "q2-hc-wave4-micro-r1": "7a2b287c302b89fc79d17d6f4329056a9f32a954c3fffcbab2fbf91ed1e748f0",
+      "q2-hc-k4-micro-r1": "056f394fb657b277a5b5e746b25e6458d46d5b3d76305dc0582ec22af7cfd330",
+      "q2-hc-128wave4-micro-r1": "e2cf561d00454a06f6c6c5c133451e02ae4fd2aed88ce5e0eb1fc8971a86869f"
+    },
+    "thermal": {
+      "/sys/class/hwmon/hwmon4/temp1_input": "46500",
+      "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+      "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+      "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+      "/sys/class/hwmon/hwmon3/temp1_input": "46625",
+      "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+    }
+  },
+  "retirement": {
+    "at": "2026-10-02T20:16:35.156417+00:00",
+    "expected": {
+      "pid": 2672463,
+      "state": "R",
+      "group": 2672460,
+      "session": 2672460,
+      "start_ticks": 153756827
+    },
+    "live": [],
+    "kfd": [],
+    "observer_retired": true
+  },
+  "observer_exit_codes": [
+    0,
+    0
+  ],
+  "total_artifacts": 346,
+  "total_commands": 33
+}

@@ -1,0 +1,76 @@
+{
+  "schema": "synapse-lie.core-progress-point-supervisor-validation.v1",
+  "date_utc": "2026-10-04",
+  "parent_source_commit": "bbdb00b",
+  "scope": "CPU_ONLY_OPTIONAL_SUPERVISOR_PROTOCOL_FIXTURES_NOT_MODEL_INFERENCE",
+  "tests_passed": 75,
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "f67a4cac4a255d61bc8885ab4820af94d4ac8f7f510442654450bf3e159bd3f2",
+    "tests/test_strix_point_campaign.py": "e05b03c63219ad16d060f98e9811625e4b4bce75ee5c351a137362ce043c9e21"
+  },
+  "runs": {
+    "fixtures-r1": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_strix_point_campaign.py",
+          "-v"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 57.125
+        },
+        "elapsed_s": 1.0563910081982613
+      },
+      "tests_passed": 51,
+      "command_log_sha256": "31fac3d04c8565b900359a763344a23fe61f86ca5f58978e4e17c252f355d9ba",
+      "temperature_log_sha256": "b80557893ae0190a97e9325566fb93b662d1deccd4a809fc1fed21a02d7646b7"
+    },
+    "fixtures-r2": {
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_strix_point*.py",
+          "-v"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.0
+        },
+        "elapsed_s": 1.1370664294809103
+      },
+      "tests_passed": 75,
+      "command_log_sha256": "38351cc969c373b2c1c8eeee3140e18a60f1276d308d36f05bad0c5e8d182d3f",
+      "temperature_log_sha256": "2761d7664f3ea6c73ac0941134fc1d134c1998c14506a3fb9385be3c472b96de"
+    }
+  },
+  "GPU_execution": false,
+  "GPU_progress_gate": "PENDING_FRESH_AVAILABLE_HOST_ADMISSION",
+  "product_dependency_change": false,
+  "new_inference_threads": 0,
+  "publication": false
+}

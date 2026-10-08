@@ -1,0 +1,506 @@
+{
+  "schema": "synapse-lie.q2-routing-opportunities.v1",
+  "inputs": {
+    "config/q2-current-routing-v2-results.json": "ccd2e21c6fde161dbc70b7f7692dbc460eb64da115eadac572ae2169d59b2496",
+    "config/q2-ssm-fixed-bounds-static.json": "c3a17d65a611d4672d10221f668264ad9321a1b9612f79a56191423a004b99a0",
+    "evidence/q2-ssm-fixed-bounds-preparation/candidate.s": "c6640317900c09dd8d3c72249c8bc2f4672fb361d8372834e2698d8a46e9ebfb"
+  },
+  "existing_kernel_metadata": {
+    "16": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "resources": {
+        "group_segment_fixed_size": 11392,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 86,
+        "next_free_sgpr": 22,
+        "wavefront_size32": 1
+      },
+      "static_barrier_sites": 4,
+      "compiler_comments": {
+        "NumVgprs": 86,
+        "TotalNumSgprs": 24,
+        "NumVGPRsForWavesPerEU": 86,
+        "Occupancy": 16
+      }
+    },
+    "48": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "resources": {
+        "group_segment_fixed_size": 15488,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 96,
+        "next_free_sgpr": 26,
+        "wavefront_size32": 1
+      },
+      "static_barrier_sites": 8,
+      "compiler_comments": {
+        "NumVgprs": 96,
+        "TotalNumSgprs": 28,
+        "NumVGPRsForWavesPerEU": 96,
+        "Occupancy": 16
+      }
+    },
+    "64": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "resources": {
+        "group_segment_fixed_size": 17536,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 104,
+        "next_free_sgpr": 28,
+        "wavefront_size32": 1
+      },
+      "static_barrier_sites": 10,
+      "compiler_comments": {
+        "NumVgprs": 104,
+        "TotalNumSgprs": 30,
+        "NumVGPRsForWavesPerEU": 104,
+        "Occupancy": 12
+      }
+    },
+    "128": {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "resources": {
+        "group_segment_fixed_size": 25728,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 150,
+        "next_free_sgpr": 38,
+        "wavefront_size32": 1
+      },
+      "static_barrier_sites": 18,
+      "compiler_comments": {
+        "NumVgprs": 150,
+        "TotalNumSgprs": 40,
+        "NumVGPRsForWavesPerEU": 150,
+        "Occupancy": 9
+      }
+    }
+  },
+  "eligible_tail16": 9016,
+  "tail16_fraction": 0.7069709088057712,
+  "whole_short_buckets": 8732,
+  "nonzero_offset_short_tails": 284,
+  "active_expert_layer_pairs": 14554,
+  "map_proof_layers": 48,
+  "map_proof_rows": 983040,
+  "logical_tail_capacity_before": 816192,
+  "logical_tail_capacity_after": 383424,
+  "per_layer": [
+    {
+      "layer": 0,
+      "wide128": 159,
+      "tail64": 3,
+      "tail16": 233,
+      "logical_tail_capacity_before": 15104,
+      "logical_tail_capacity_after": 3920
+    },
+    {
+      "layer": 1,
+      "wide128": 157,
+      "tail64": 10,
+      "tail16": 153,
+      "logical_tail_capacity_before": 10432,
+      "logical_tail_capacity_after": 3088
+    },
+    {
+      "layer": 2,
+      "wide128": 158,
+      "tail64": 9,
+      "tail16": 154,
+      "logical_tail_capacity_before": 10432,
+      "logical_tail_capacity_after": 3040
+    },
+    {
+      "layer": 3,
+      "wide128": 159,
+      "tail64": 14,
+      "tail16": 75,
+      "logical_tail_capacity_before": 5696,
+      "logical_tail_capacity_after": 2096
+    },
+    {
+      "layer": 4,
+      "wide128": 159,
+      "tail64": 10,
+      "tail16": 108,
+      "logical_tail_capacity_before": 7552,
+      "logical_tail_capacity_after": 2368
+    },
+    {
+      "layer": 5,
+      "wide128": 154,
+      "tail64": 16,
+      "tail16": 150,
+      "logical_tail_capacity_before": 10624,
+      "logical_tail_capacity_after": 3424
+    },
+    {
+      "layer": 6,
+      "wide128": 156,
+      "tail64": 12,
+      "tail16": 140,
+      "logical_tail_capacity_before": 9728,
+      "logical_tail_capacity_after": 3008
+    },
+    {
+      "layer": 7,
+      "wide128": 155,
+      "tail64": 24,
+      "tail16": 135,
+      "logical_tail_capacity_before": 10176,
+      "logical_tail_capacity_after": 3696
+    },
+    {
+      "layer": 8,
+      "wide128": 153,
+      "tail64": 28,
+      "tail16": 103,
+      "logical_tail_capacity_before": 8384,
+      "logical_tail_capacity_after": 3440
+    },
+    {
+      "layer": 9,
+      "wide128": 154,
+      "tail64": 43,
+      "tail16": 121,
+      "logical_tail_capacity_before": 10496,
+      "logical_tail_capacity_after": 4688
+    },
+    {
+      "layer": 10,
+      "wide128": 150,
+      "tail64": 51,
+      "tail16": 148,
+      "logical_tail_capacity_before": 12736,
+      "logical_tail_capacity_after": 5632
+    },
+    {
+      "layer": 11,
+      "wide128": 156,
+      "tail64": 45,
+      "tail16": 131,
+      "logical_tail_capacity_before": 11264,
+      "logical_tail_capacity_after": 4976
+    },
+    {
+      "layer": 12,
+      "wide128": 148,
+      "tail64": 49,
+      "tail16": 163,
+      "logical_tail_capacity_before": 13568,
+      "logical_tail_capacity_after": 5744
+    },
+    {
+      "layer": 13,
+      "wide128": 149,
+      "tail64": 49,
+      "tail16": 128,
+      "logical_tail_capacity_before": 11328,
+      "logical_tail_capacity_after": 5184
+    },
+    {
+      "layer": 14,
+      "wide128": 140,
+      "tail64": 82,
+      "tail16": 156,
+      "logical_tail_capacity_before": 15232,
+      "logical_tail_capacity_after": 7744
+    },
+    {
+      "layer": 15,
+      "wide128": 142,
+      "tail64": 97,
+      "tail16": 185,
+      "logical_tail_capacity_before": 18048,
+      "logical_tail_capacity_after": 9168
+    },
+    {
+      "layer": 16,
+      "wide128": 133,
+      "tail64": 122,
+      "tail16": 163,
+      "logical_tail_capacity_before": 18240,
+      "logical_tail_capacity_after": 10416
+    },
+    {
+      "layer": 17,
+      "wide128": 135,
+      "tail64": 119,
+      "tail16": 166,
+      "logical_tail_capacity_before": 18240,
+      "logical_tail_capacity_after": 10272
+    },
+    {
+      "layer": 18,
+      "wide128": 141,
+      "tail64": 79,
+      "tail16": 199,
+      "logical_tail_capacity_before": 17792,
+      "logical_tail_capacity_after": 8240
+    },
+    {
+      "layer": 19,
+      "wide128": 128,
+      "tail64": 133,
+      "tail16": 179,
+      "logical_tail_capacity_before": 19968,
+      "logical_tail_capacity_after": 11376
+    },
+    {
+      "layer": 20,
+      "wide128": 133,
+      "tail64": 105,
+      "tail16": 214,
+      "logical_tail_capacity_before": 20416,
+      "logical_tail_capacity_after": 10144
+    },
+    {
+      "layer": 21,
+      "wide128": 146,
+      "tail64": 87,
+      "tail16": 203,
+      "logical_tail_capacity_before": 18560,
+      "logical_tail_capacity_after": 8816
+    },
+    {
+      "layer": 22,
+      "wide128": 146,
+      "tail64": 62,
+      "tail16": 253,
+      "logical_tail_capacity_before": 20160,
+      "logical_tail_capacity_after": 8016
+    },
+    {
+      "layer": 23,
+      "wide128": 128,
+      "tail64": 129,
+      "tail16": 221,
+      "logical_tail_capacity_before": 22400,
+      "logical_tail_capacity_after": 11792
+    },
+    {
+      "layer": 24,
+      "wide128": 139,
+      "tail64": 95,
+      "tail16": 198,
+      "logical_tail_capacity_before": 18752,
+      "logical_tail_capacity_after": 9248
+    },
+    {
+      "layer": 25,
+      "wide128": 128,
+      "tail64": 146,
+      "tail16": 208,
+      "logical_tail_capacity_before": 22656,
+      "logical_tail_capacity_after": 12672
+    },
+    {
+      "layer": 26,
+      "wide128": 139,
+      "tail64": 97,
+      "tail16": 199,
+      "logical_tail_capacity_before": 18944,
+      "logical_tail_capacity_after": 9392
+    },
+    {
+      "layer": 27,
+      "wide128": 141,
+      "tail64": 91,
+      "tail16": 228,
+      "logical_tail_capacity_before": 20416,
+      "logical_tail_capacity_after": 9472
+    },
+    {
+      "layer": 28,
+      "wide128": 134,
+      "tail64": 108,
+      "tail16": 201,
+      "logical_tail_capacity_before": 19776,
+      "logical_tail_capacity_after": 10128
+    },
+    {
+      "layer": 29,
+      "wide128": 133,
+      "tail64": 118,
+      "tail16": 192,
+      "logical_tail_capacity_before": 19840,
+      "logical_tail_capacity_after": 10624
+    },
+    {
+      "layer": 30,
+      "wide128": 133,
+      "tail64": 116,
+      "tail16": 228,
+      "logical_tail_capacity_before": 22016,
+      "logical_tail_capacity_after": 11072
+    },
+    {
+      "layer": 31,
+      "wide128": 137,
+      "tail64": 123,
+      "tail16": 191,
+      "logical_tail_capacity_before": 20096,
+      "logical_tail_capacity_after": 10928
+    },
+    {
+      "layer": 32,
+      "wide128": 136,
+      "tail64": 110,
+      "tail16": 195,
+      "logical_tail_capacity_before": 19520,
+      "logical_tail_capacity_after": 10160
+    },
+    {
+      "layer": 33,
+      "wide128": 129,
+      "tail64": 127,
+      "tail16": 230,
+      "logical_tail_capacity_before": 22848,
+      "logical_tail_capacity_after": 11808
+    },
+    {
+      "layer": 34,
+      "wide128": 138,
+      "tail64": 105,
+      "tail16": 209,
+      "logical_tail_capacity_before": 20096,
+      "logical_tail_capacity_after": 10064
+    },
+    {
+      "layer": 35,
+      "wide128": 132,
+      "tail64": 119,
+      "tail16": 203,
+      "logical_tail_capacity_before": 20608,
+      "logical_tail_capacity_after": 10864
+    },
+    {
+      "layer": 36,
+      "wide128": 132,
+      "tail64": 107,
+      "tail16": 202,
+      "logical_tail_capacity_before": 19776,
+      "logical_tail_capacity_after": 10080
+    },
+    {
+      "layer": 37,
+      "wide128": 130,
+      "tail64": 107,
+      "tail16": 219,
+      "logical_tail_capacity_before": 20864,
+      "logical_tail_capacity_after": 10352
+    },
+    {
+      "layer": 38,
+      "wide128": 140,
+      "tail64": 74,
+      "tail16": 234,
+      "logical_tail_capacity_before": 19712,
+      "logical_tail_capacity_after": 8480
+    },
+    {
+      "layer": 39,
+      "wide128": 131,
+      "tail64": 126,
+      "tail16": 210,
+      "logical_tail_capacity_before": 21504,
+      "logical_tail_capacity_after": 11424
+    },
+    {
+      "layer": 40,
+      "wide128": 134,
+      "tail64": 116,
+      "tail16": 233,
+      "logical_tail_capacity_before": 22336,
+      "logical_tail_capacity_after": 11152
+    },
+    {
+      "layer": 41,
+      "wide128": 129,
+      "tail64": 121,
+      "tail16": 238,
+      "logical_tail_capacity_before": 22976,
+      "logical_tail_capacity_after": 11552
+    },
+    {
+      "layer": 42,
+      "wide128": 137,
+      "tail64": 84,
+      "tail16": 246,
+      "logical_tail_capacity_before": 21120,
+      "logical_tail_capacity_after": 9312
+    },
+    {
+      "layer": 43,
+      "wide128": 137,
+      "tail64": 98,
+      "tail16": 237,
+      "logical_tail_capacity_before": 21440,
+      "logical_tail_capacity_after": 10064
+    },
+    {
+      "layer": 44,
+      "wide128": 139,
+      "tail64": 70,
+      "tail16": 247,
+      "logical_tail_capacity_before": 20288,
+      "logical_tail_capacity_after": 8432
+    },
+    {
+      "layer": 45,
+      "wide128": 145,
+      "tail64": 45,
+      "tail16": 221,
+      "logical_tail_capacity_before": 17024,
+      "logical_tail_capacity_after": 6416
+    },
+    {
+      "layer": 46,
+      "wide128": 149,
+      "tail64": 33,
+      "tail16": 200,
+      "logical_tail_capacity_before": 14912,
+      "logical_tail_capacity_after": 5312
+    },
+    {
+      "layer": 47,
+      "wide128": 152,
+      "tail64": 23,
+      "tail16": 166,
+      "logical_tail_capacity_before": 12096,
+      "logical_tail_capacity_after": 4128
+    }
+  ],
+  "representative_layers": [
+    0,
+    3,
+    22
+  ],
+  "priority": [
+    {
+      "rank": 1,
+      "mechanism": "Select existing BN16 for tails containing1..16 live rows; keep BN128/64 for other descriptors",
+      "rationale": "Covers70.697% of tail descriptors and changes compile-time resource use: VGPR104->86, LDS17536->11392, static barrier sites10->4. No new arithmetic kernel required.",
+      "distinction": "Earlier short48 selected whole buckets1..48 and regressed; this narrower case also remaps nonzero-offset tails in units of16, without changing descriptor count.",
+      "risk": "Original BN64 already skips empty WMMA fragments and activation stores. Resource reductions are not measured occupancy or speed. Extra dispatch and separate kernel scheduling can offset them. Component and original model remain required."
+    },
+    {
+      "rank": 2,
+      "mechanism": "IQ2 BN128 activation-fragment reuse with bounded live accumulators",
+      "rationale": "92.77% of logical row capacity is used; saved1571 attribution135.808ms. Full-width efficiency is a separate problem from short tails.",
+      "risk": "Four-wave BN64 increased register pressure and regressed whole-model. Do not double BN128 accumulators blindly."
+    },
+    {
+      "rank": 3,
+      "mechanism": "Ordered Q2-down consumer fusion or elimination of an HC full-buffer pass",
+      "rationale": "Saved attribution161.558ms down plus186.168ms combine/norm/inject offers larger absolute scope; retain all ten experts in the original reduction order.",
+      "risk": "Requires a concrete cross-block ownership design. Unordered atomics change arithmetic; ten F32 passes can exceed the current half-buffer traffic."
+    }
+  ],
+  "lower_priority": "Four-wave only for tails49..64 reaches761/12753 descriptors (5.967%). Streaming cache with full residency, further host callbacks and generic SSM predicates have weaker evidence after measured negatives. No success probabilities are established.",
+  "performance_gain_measured": false,
+  "binary_recompiled": false,
+  "gpu_run": false,
+  "retained_pp": 1585.308983,
+  "retained_tg": 25.16079073,
+  "goal_met": false
+}

@@ -1,0 +1,17 @@
+candidate,historical,source,rep,warmup,prompt_tokens,output_tokens,decode_steps,prefill_s,decode_s,prefill_tok_s,decode_steps_s
+fixed_q2,True,q2-counting-regression-mixed-r1,0,True,2048,128,127,1.423943804,5.062085753,1438.259006,25.08847266
+fixed_q2,True,q2-counting-regression-mixed-r1,1,False,2048,128,127,1.41887387,5.058620886,1443.398207,25.10565683
+fixed_q2,True,q2-counting-regression-mixed-r1,2,False,2048,128,127,1.418603928,5.062386263,1443.672867,25.08698337
+fixed_q2,True,q2-counting-regression-mixed-r1,3,False,2048,128,127,1.418437954,5.060576497,1443.841794,25.09595499
+best_parent,True,q2-ssm-fixed-bounds-model-r1,0,True,2048,128,127,1.290884953,5.053117186,1586.508538,25.13300114
+best_parent,True,q2-ssm-fixed-bounds-model-r1,1,False,2048,128,127,1.291020152,5.045162344,1586.342395,25.17262901
+best_parent,True,q2-ssm-fixed-bounds-model-r1,2,False,2048,128,127,1.292864751,5.047536119,1584.079076,25.16079073
+best_parent,True,q2-ssm-fixed-bounds-model-r1,3,False,2048,128,127,1.291861727,5.049105431,1585.308983,25.15297051
+register-stage,False,q2-iq2-register-stage-model-r1,0,True,2048,128,127,1.297264744,5.040637605,1578.706281,25.19522528
+register-stage,False,q2-iq2-register-stage-model-r1,1,False,2048,128,127,1.298542086,5.040510525,1577.153349,25.19586049
+register-stage,False,q2-iq2-register-stage-model-r1,2,False,2048,128,127,1.300206571,5.036279318,1575.134325,25.21702868
+register-stage,False,q2-iq2-register-stage-model-r1,3,False,2048,128,127,1.301400623,5.031069398,1573.689119,25.24314215
+fixed_ud,True,q2-counting-regression-ud-r1,0,True,2048,128,127,1.212520558,5.217234208,1689.043527,24.34239962
+fixed_ud,True,q2-counting-regression-ud-r1,1,False,2048,128,127,1.214447147,5.216416355,1686.364042,24.34621613
+fixed_ud,True,q2-counting-regression-ud-r1,2,False,2048,128,127,1.214869991,5.217375049,1685.777092,24.34174251
+fixed_ud,True,q2-counting-regression-ud-r1,3,False,2048,128,127,1.215141798,5.258576845,1685.400011,24.15102104

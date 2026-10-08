@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Complete signed integer-bound policy and exact represented binary64 magnitude in shared C17; typed views/errors remain private. Original OFF algorithm is retained verbatim.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_compile.hpp\"",
+      "new": "#include \"gufo_schema_compile.hpp\"\n#include \"gufo_schema_integer.hpp\""
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  std::uint32_t Integer(const json::Value& schema) {\n    std::optional<double> minimum, maximum;",
+      "new": "  std::uint32_t Integer(const json::Value& schema) {\n#if LIE_C17_SAMPLING\n    return lie_gufo::schema_integer(schema, builder_.get(), integer_);\n#else\n    std::optional<double> minimum, maximum;"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return Alt(choices);\n  }\n  void Keys(const json::Value& schema) {",
+      "new": "    return Alt(choices);\n#endif\n  }\n  void Keys(const json::Value& schema) {"
+    }
+  ]
+}

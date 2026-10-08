@@ -1,0 +1,109 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-chain-final-audit.v1",
+  "plan_sha256": "07750330388b1e21db49d4be78d610e281f0054e03528fa0c8b40a0692d354a4",
+  "model_result_sha256": "91883572baf4b0b9d946cb8159baf003be3cc117621dbcef125163d252d0daca",
+  "release_sha256": "cb652eb5be2dccd340ba35a03c4aaa418de5c45994ea94616da85c8f4f29a136",
+  "qualified_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "command_receipts": {
+    "handover": {
+      "exit_code": 0,
+      "sha256": "46091e9e13df2fb2adc62c83ad041d934692bd8bfe8c328452005a77d89f36df"
+    },
+    "host": {
+      "exit_code": 0,
+      "sha256": "7045a88a252365e908ac02b2104cc032b5b8973156d67fdab10da9b88f0d2ace"
+    },
+    "host-collect": {
+      "exit_code": 0,
+      "sha256": "63e8c2a09c4b7565957d7fcd145d6af797e4438bcdca52020a9ec1e3eba23c7d"
+    },
+    "freeze": {
+      "exit_code": 0,
+      "sha256": "6cdf4dfc04582405136880fc88947617d82e7322bd2c8f1540fe6cfb36ebaa2e"
+    },
+    "transfer": {
+      "exit_code": 0,
+      "sha256": "ad09dc359c73fd0ed4982c182179b5af48ab9a0201fb177910fa80125a0d7794"
+    },
+    "admission": {
+      "exit_code": 0,
+      "sha256": "b50390435f79da75097fb70060ad39bf5d67b7f960238bb5e7f7ac0184441eb0"
+    },
+    "publish-admission": {
+      "exit_code": 0,
+      "sha256": "a9094d2977f5e1053981a1c1d244122f2a9431819dad2f85d70a0308b40f31e6"
+    },
+    "component": {
+      "exit_code": 0,
+      "sha256": "0ec703291ea9cf6e314dc59f75e93c380ddffce608e729b72c6df9e24df404e7"
+    },
+    "collect-component": {
+      "exit_code": 0,
+      "sha256": "68472a81377db87f97c3b7d30994695aaf46484606dd3121b16ab51f59f35d16"
+    },
+    "model": {
+      "exit_code": 0,
+      "sha256": "54f43840e657f41e4a7dff8e65d436df7a41d12e59608d1a931c925fc0f99bc6"
+    },
+    "collect-model": {
+      "exit_code": 0,
+      "sha256": "e0f5699083f219b13927d1d2b64e2ee86266906d3d845d0bee7ef6f7bf802e53"
+    },
+    "release": {
+      "exit_code": 0,
+      "sha256": "c78c42153a419d06ae4b15f4dca22b653ab7ca5ef5f4d55f7da7c502fd3c1cd9"
+    },
+    "publish-release": {
+      "exit_code": 0,
+      "sha256": "3e05423da00953f6901f9b64087b47c2c8033f3b3dfbc6f90331896df57fbd2f"
+    },
+    "component-analysis": {
+      "exit_code": 0,
+      "sha256": "29eb5984d9776626daea2b0d5e606ee793ac66c659963aa48043e5cc7567c6c3"
+    },
+    "model-analysis": {
+      "exit_code": 0,
+      "sha256": "bdde1a09bdd6a1e2d815afa938d450a69a01b41ae154a6f5478c6a58637a6a4e"
+    },
+    "plot": {
+      "exit_code": 0,
+      "sha256": "3d8f091dece84f30c6bac6bfcb736381fc14d579b4843f6f800c7ab182b947a0"
+    }
+  },
+  "component_result_sha256": "36288cfd487bd1b530d0b530494a6b8c8c2aab5ba34ab2eae43227917e99295c",
+  "component_output_pairs": 51,
+  "component_time_scope": "Synchronized monotonic complete-chain wall time",
+  "verified_artifacts": 173,
+  "frozen_files": 273,
+  "provider_files": 1034,
+  "exact_parent_files": 21,
+  "samples_exported": 20,
+  "retired_identities": 1681,
+  "retired_groups": 1341,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "performance_default": "iq2-fixed-bounds",
+  "robust_model_speedup": false,
+  "independent_quality": false,
+  "goal_met": false,
+  "report_tool_sha256": "7bbd21aea611c9e758a5d0e4ce1056a2a9629947244af3ea37b777be8c1f2c4c",
+  "graph_hashes": {
+    ".csv": "341382a561e5a677f44d9c8c0cc3a8c1f62aaf81e50bc92d6c324489bea6f046",
+    ".svg": "fe836c2408350c26ef47b51f062440394a995ffc114c8d4d3ab4e831c4335b10",
+    ".png": "6a4941026f862fa6d7c6e9fe8a80367f8d9966fc7c83b09bcec5d5dfa832efbc"
+  }
+}

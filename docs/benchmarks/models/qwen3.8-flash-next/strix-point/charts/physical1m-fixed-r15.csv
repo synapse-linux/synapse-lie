@@ -1,0 +1,2 @@
+prompt_tokens,prefill_tokens,prefill_ns,decode_ns,output_tokens,output_bytes,total_ns,first_token_ns,prefill_calls,decode_calls,finish,prefill_tps,decode_tps,load_to_ready_ns,physical_ids_sha256
+1048448,1048448,7454744450480,16534549486,128,663,7478559579780,7462250765829,4096,128,length,140.64170904376098,7.74136604740148,14618750016,009daa0d18c658aa86eab7ac5902a0e1911c4bbddbf64d59334f055cfce8ff0a

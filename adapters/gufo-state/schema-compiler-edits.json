@@ -1,0 +1,173 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Default-ON compilation lifecycle, bootstrap, builder/memo/derived-root/predicate-memo ownership and counters move into the shared C17 compiler context. Typed views/errors remain private; original OFF code remains guarded.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    builder_ = lie_gufo::builder_create();\n    lie_builder_primitives p{};\n    lie_gufo::builder_check(lie_builder_json(builder_.get(), Lexeme(JsonSchemaLexeme::Whitespace()), &p));\n    ws_ = p.whitespace; string_ = p.string; integer_ = p.integer;\n    number_ = p.number; bool_ = p.boolean; null_ = p.null_value;\n",
+      "new": "    compiler_.initialize([this] { return Lexeme(JsonSchemaLexeme::Whitespace()); });\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    const auto compiled = lie_gufo::schema_compile(schema_, object_only, builder_.get(), ws_,\n",
+      "new": "    const auto compiled = lie_gufo::schema_compile(schema_, object_only, compiler_,\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::builder_new(builder_.get(), rule);\n",
+      "new": "    return lie_gufo::builder_new(compiler_.builder(), rule);\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_set(builder_.get(), id, rule);\n",
+      "new": "    lie_gufo::builder_set(compiler_.builder(), id, rule);\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_sequence_make(builder_.get(), sequence.data(), sequence.size(), &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_sequence_make(compiler_.builder(), sequence.data(), sequence.size(), &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_alternatives(builder_.get(), alternatives.data(), alternatives.size(), &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_alternatives(compiler_.builder(), alternatives.data(), alternatives.size(), &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_class(builder_.get(), reinterpret_cast<const std::uint8_t *>(characters.data()), characters.size(), &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_class(compiler_.builder(), reinterpret_cast<const std::uint8_t *>(characters.data()), characters.size(), &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_range(builder_.get(), first, last, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_range(compiler_.builder(), first, last, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_literal(builder_.get(), reinterpret_cast<const std::uint8_t *>(value.data()), value.size(), &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_literal(compiler_.builder(), reinterpret_cast<const std::uint8_t *>(value.data()), value.size(), &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_optional(builder_.get(), rule, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_optional(compiler_.builder(), rule, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_repeat(builder_.get(), rule, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_repeat(compiler_.builder(), rule, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_exact(builder_.get(), item, count, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_exact(compiler_.builder(), item, count, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_at_most(builder_.get(), item, count, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_at_most(compiler_.builder(), item, count, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_generic_value(builder_.get(), depth, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_generic_value(compiler_.builder(), depth, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_generic_object(builder_.get(), depth, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_generic_object(compiler_.builder(), depth, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::values_literal(value, builder_.get(), ws_);\n",
+      "new": "    return lie_gufo::values_literal(value, compiler_.builder(), ws_);\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_digits(builder_.get(), low.data(), high.data(), low.size(), &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_digits(compiler_.builder(), low.data(), high.data(), low.size(), &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    lie_gufo::builder_check(lie_builder_unsigned(builder_.get(), low.data(), low.size(), high ? high->data() : nullptr, high ? high->size() : 0, &id)); return id;\n",
+      "new": "    lie_gufo::builder_check(lie_builder_unsigned(compiler_.builder(), low.data(), low.size(), high ? high->data() : nullptr, high ? high->size() : 0, &id)); return id;\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::schema_integer(schema, builder_.get(), integer_);\n",
+      "new": "    return lie_gufo::schema_integer(schema, compiler_.builder(), integer_);\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::visit_rule(compiled_.handle(),builder_.get(),schema,depth,\n",
+      "new": "    return lie_gufo::visit_rule(compiled_.handle(),compiler_.builder(),schema,depth,\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::schema_body(schema_,schema,depth,builder_.get(),ws_,container_counts_,enum_values_,\n",
+      "new": "    return lie_gufo::schema_body(schema_,schema,depth,compiler_.builder(),ws_,container_counts_,enum_values_,\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::dispatch_rules(type_plan,schema,depth,builder_.get(),\n",
+      "new": "    return lie_gufo::dispatch_rules(type_plan,schema,depth,compiler_.builder(),\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::values_object(schema, depth, strict_, builder_.get(), ws_, container_counts_,\n",
+      "new": "    return lie_gufo::values_object(schema, depth, strict_, compiler_.builder(), ws_, container_counts_,\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return lie_gufo::values_array(schema, depth, builder_.get(), ws_,\n",
+      "new": "    return lie_gufo::values_array(schema, depth, compiler_.builder(), ws_,\n"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  lie_gufo::Builder builder_{nullptr, lie_builder_release};",
+      "new": "  lie_gufo::Compiler compiler_;"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "compiled_.handle(),compiler_.builder(),schema,depth,",
+      "new": "compiler_.memo(),compiler_.builder(),schema,depth,"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#if LIE_C17_SAMPLING\n  lie_gufo::SchemaMemo compiled_;\n#else\n  std::map<const json::Value*, std::uint32_t> compiled_;\n#endif",
+      "new": "#if !LIE_C17_SAMPLING\n  std::map<const json::Value*, std::uint32_t> compiled_;\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    return derived_.store(std::move(schema));",
+      "new": "    return compiler_.store(std::move(schema));"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#if LIE_C17_SAMPLING\n  lie_gufo::SchemaStore derived_;\n#else\n  std::deque<json::Value> derived_;\n#endif",
+      "new": "#if !LIE_C17_SAMPLING\n  std::deque<json::Value> derived_;\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  lie_gufo::ValueChecks value_checks_;",
+      "new": "  lie_gufo::ValueChecks value_checks_{compiler_.checks()};"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  lie_schema_container_counts container_counts_{};\n  std::size_t enum_values_{0};",
+      "new": "  lie_schema_container_counts &container_counts_{compiler_.containers()};\n  std::size_t &enum_values_{compiler_.enum_values()};"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  std::uint32_t ws_, string_, integer_, number_, bool_, null_;",
+      "new": "#if LIE_C17_SAMPLING\n  const std::uint32_t &ws_{compiler_.primitives().whitespace};\n  const std::uint32_t &string_{compiler_.primitives().string};\n  const std::uint32_t &integer_{compiler_.primitives().integer};\n  const std::uint32_t &number_{compiler_.primitives().number};\n  const std::uint32_t &bool_{compiler_.primitives().boolean};\n  const std::uint32_t &null_{compiler_.primitives().null_value};\n#else\n  std::uint32_t ws_, string_, integer_, number_, bool_, null_;\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  std::map<std::size_t, std::uint32_t> generic_values_;",
+      "new": "#if !LIE_C17_SAMPLING\n  std::map<std::size_t, std::uint32_t> generic_values_;\n#endif"
+    }
+  ]
+}

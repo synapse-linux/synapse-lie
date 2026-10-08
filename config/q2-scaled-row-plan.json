@@ -1,0 +1,49 @@
+{
+  "schema": "synapse-lie.q2-scaled-row-plan.v1",
+  "state": "PREPARED_NOT_GPU_ADMITTED",
+  "source_manifest": "config/q2-scaled-row-reuse-source.json",
+  "source_manifest_sha256": "9a2eaee3b5d71a15ad151b44fef800b08423c271742df4de94e28e5f7a497420",
+  "parent_manifest_sha256": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+  "harness_files": {
+    "tests/q2_scaled_row_reuse.cpp": "50f5cb47231282f3e455562e195a7a5f151a9ce11110a4c742983955e1956df1",
+    "tests/q2_packed_bench.cpp": "832b66e226c8b240f300d4648e78ad1ce34abbe6a4f3619988ec12321f47187b",
+    "tests/q2_packed_fixture.hpp": "8670f40fbd7da541fb7e1204c0c2f9c7856159cc628ec75e45a3598873baa8e3",
+    "tests/q2_operator_fixture.hpp": "2ba80826f7ce8cf004f0f15f87cbf05e1083dd4d0a6da92e27bf300df3bfc93f",
+    "tests/q2_iq2_routes.hpp": "da5475020b4b2f76c466e56353c78e539263e7a95436f62c3adf61799051aa1d",
+    "tests/q2_remote_test.py": "5a22b563e1038c605ada462cf45d2b48f4918e68ccdb487a496fc1a9f7b63399",
+    "tools/q2-remote.py": "fcb044cd16684431d6edf3c9350af4db6f2ea23575ecf3d5c1fa63cb82e38f48",
+    "tools/q2-runner.py": "bf151bb202df2cade456edebf59b01b7523be7bceed2b213b59f21b7ed4aae21",
+    "tools/q2-scaled-row-window.py": "be4587112afb0e266e45bf4c8d19d38b2c6fbf095090099041a2185d21825026",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "config/q2-iq2-live-epilogue-plan.json": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db"
+  },
+  "arms": [
+    {
+      "label": "q2-scaled-row-before-r1",
+      "mode": "scaled-row-check",
+      "variant": "scaled-row-reference"
+    },
+    {
+      "label": "q2-scaled-row-candidate-r1",
+      "mode": "scaled-row-check",
+      "variant": "scaled-row-reuse"
+    },
+    {
+      "label": "q2-scaled-row-after-r1",
+      "mode": "scaled-row-check",
+      "variant": "scaled-row-reference"
+    }
+  ],
+  "scope": "Synthetic GPU components only; four retained canonical routing histograms and one full-tile control. No original weights or model rate.",
+  "allocation": "Two rotating hipMalloc activation buffers, one hipMalloc synthetic weight buffer; active weights and each input bank exceed 32 MiB. Mapped production weight placement is not reproduced.",
+  "timing": "HIP events, two warmup and five measured samples of eight calls, alternating packing and complete pack/down scope. Routing is prepared once outside both timers. Tile48 matches retained large-prefill down path.",
+  "numeric": "Whole-buffer SHA256 across all three processes; complete small buffers retained. All finite pack elements checked against scalar scale/conversion, nonfinite rows differential only, independent 1024 FP64 original-input down dots per bank and case at unchanged 0.002 RMS/peak bounds.",
+  "lifecycle": "Distinct nonaliasing buffers, exact-size input allocations, guarded/poisoned outputs, input preservation, unsupported shape/null rejection; HIP runtime errors fail.",
+  "limitations": "Component gain is necessary but insufficient. Previous preparation share about 1.46% used historical counting profiles; it cannot establish canonical parity. Full model independent quality remains unresolved.",
+  "promoted": false,
+  "model_inference": false,
+  "goal_met": false
+}

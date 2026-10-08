@@ -1,0 +1,49 @@
+{
+  "schema": "synapse-lie.q2-iq2-tail-audit.v1",
+  "parent_manifest_sha256": "7224f191be0c0eb6360841e60fea9c0692d5982f15290a01741d785290198425",
+  "saved_model_result_sha256": "cd830317b8b807fd02e5658b6ee8423e9556bbdc269e513eed48955870bfdfd3",
+  "sources": {
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "970759b2156f8f92a95997b41df2e706a12313e3e568c690c8534bda5430a5f8",
+    "src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.c": "f7a3348868af68a1be4bdb07883930c72991f5a70e13b48a047c977bce678028",
+    "src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.h": "8fdda61906beb1827e58337f1ae54992d4d40d45682f01c538a5427a0b0ff5ce",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "eac332ca91cbab303214d1fb62f5847b4cab00a7d170790339d1542f025650ff"
+  },
+  "evidence_scope": "Saved IQ2 raw plus selective-Q2-down composition; 48 layers from one of four identical routing sessions. Not a fresh current-best trace or throughput reference.",
+  "histogram_bins": [
+    "0",
+    "1..48",
+    "49..128",
+    "129..255",
+    "256..511",
+    ">=512"
+  ],
+  "histogram_totals": [
+    9956,
+    11280,
+    1635,
+    810,
+    519,
+    376
+  ],
+  "active_expert_layer_buckets": 14620,
+  "short_expert_layer_buckets": 11280,
+  "short_fraction_of_active_buckets": 0.771545827633379,
+  "current_full_short_bucket_tile_width": 64,
+  "available_new_tile_width": 48,
+  "hypothetical_short_bucket_reserved_rows": [
+    721920,
+    541440
+  ],
+  "hypothetical_reserved_row_reduction": 180480,
+  "proposed_boundary": "Only entire nonempty expert buckets with count<=48, at offset zero. Preserve existing128/64 maps for other experts and all Q2 down routing/activation arithmetic.",
+  "no_extra_count_download_needed": true,
+  "exact_per_expert_counts_retained": false,
+  "width16_eligibility_unknown_from_saved_bin": true,
+  "risks": "More dispatch spans, changed occupancy/reuse and map capacity may erase savings. Existing BN48 code does not qualify new mixed dispatch. Do not change hot-expert tails from64 to48 with the old encoded tile index: their starting row need not be divisible by48.",
+  "qualification": "New bounded C17 map, capacity/tail cases, complete mixed outputs and original exact2048/tg128 model are required.",
+  "new_provider_implemented": false,
+  "gpu_run": false,
+  "performance_gain": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

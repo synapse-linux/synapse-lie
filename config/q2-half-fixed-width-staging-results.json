@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-half-fixed-width-staging.v1",
+  "capsule_sha256": "677282877b5815be6f5816543869eaaf32ec6a5b58ed8be3e20a4869cbff36fd",
+  "fixture_files_verified": 72,
+  "provider_files_verified": 1026,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

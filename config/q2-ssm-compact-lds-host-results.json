@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-ssm-compact-lds-host.v1",
+  "host_reused": true,
+  "host_rerun": false,
+  "reused_label": "q2-compressed-cache-host-r2",
+  "capsule_sha256": "1cf29310bbd04ce45b0da7a80afd70c0117d95eaf7edc8922b5aab1cbf553485",
+  "archive_sha256": "b70d72c31a61e8f988655d1ceb89a1498eb04b560943311f4bfb1d684a1506f4",
+  "fixture_files_verified": 102,
+  "source_files_verified": 1020,
+  "plan_sha256": "1728b448eafd740b19f91d154441cd0b18fddb05632c57bce534ebfbd1c574d1",
+  "test_counts": {
+    "debug": 30,
+    "asan_ubsan": 30
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

@@ -1,0 +1,112 @@
+{
+  "reference": "evidence/q2-hc-up-chains-model-r1",
+  "fresh": "evidence/q2-hc-row80-reference-model-r1",
+  "unchanged": true,
+  "pairs": [
+    {
+      "file": "arithmetic-input.i32",
+      "bytes": 108,
+      "sha256": "9063c48a9908c8d8f71661860515a5d25146d1899076b104cd59738a3899e5af"
+    },
+    {
+      "file": "arithmetic-0-prefill.f32",
+      "bytes": 993280,
+      "sha256": "f5c60a2dfb97114cfee48c823052539d95e2fb65ac47c9a69bc33afd2726a8cb"
+    },
+    {
+      "file": "arithmetic-0-last.f32",
+      "bytes": 993280,
+      "sha256": "3f8ca808f689b2904c2afd5e2d5aaa66f0d26006c77021a3f665549c861793c5"
+    },
+    {
+      "file": "arithmetic-0-output.u32",
+      "bytes": 8,
+      "sha256": "c4f6fba337d2e217cf05d617c1643e186a01c85d6695131e556ebf3e73d4af2c"
+    },
+    {
+      "file": "counting-input.i32",
+      "bytes": 112,
+      "sha256": "2fd7f55efc2667189b07c058059b837cede310870b3e8a2d745d6100fcb23178"
+    },
+    {
+      "file": "counting-0-prefill.f32",
+      "bytes": 993280,
+      "sha256": "b0ac131562c024eef621213b542b71f028ef975152ad5934e7dbad9e2c53bb2c"
+    },
+    {
+      "file": "counting-0-last.f32",
+      "bytes": 993280,
+      "sha256": "f3c0e318e88f7a46cdac29538bbd83502fef13b101d7e53528909cc3c7f426d1"
+    },
+    {
+      "file": "counting-0-output.u32",
+      "bytes": 52,
+      "sha256": "c86004912b5b281db0051a6ded0481c08d7cb0e79b84bf5387367b67cdab67e4"
+    },
+    {
+      "file": "pp2048-input.i32",
+      "bytes": 8192,
+      "sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35"
+    },
+    {
+      "file": "pp2048-0-prefill.f32",
+      "bytes": 993280,
+      "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+    },
+    {
+      "file": "pp2048-0-last.f32",
+      "bytes": 993280,
+      "sha256": "e18ee8247a134b54e9b31e019d96b3e374dc514c7d8367dd37a61386cc6e1f4d"
+    },
+    {
+      "file": "pp2048-0-output.u32",
+      "bytes": 512,
+      "sha256": "dabade50d0df8f57e2afab17691dd9b5586c17e6d0c7c687412141f55fa2b0c0"
+    },
+    {
+      "file": "pp2048-1-prefill.f32",
+      "bytes": 993280,
+      "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+    },
+    {
+      "file": "pp2048-1-last.f32",
+      "bytes": 993280,
+      "sha256": "e18ee8247a134b54e9b31e019d96b3e374dc514c7d8367dd37a61386cc6e1f4d"
+    },
+    {
+      "file": "pp2048-1-output.u32",
+      "bytes": 512,
+      "sha256": "dabade50d0df8f57e2afab17691dd9b5586c17e6d0c7c687412141f55fa2b0c0"
+    },
+    {
+      "file": "pp2048-2-prefill.f32",
+      "bytes": 993280,
+      "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+    },
+    {
+      "file": "pp2048-2-last.f32",
+      "bytes": 993280,
+      "sha256": "e18ee8247a134b54e9b31e019d96b3e374dc514c7d8367dd37a61386cc6e1f4d"
+    },
+    {
+      "file": "pp2048-2-output.u32",
+      "bytes": 512,
+      "sha256": "dabade50d0df8f57e2afab17691dd9b5586c17e6d0c7c687412141f55fa2b0c0"
+    },
+    {
+      "file": "pp2048-3-prefill.f32",
+      "bytes": 993280,
+      "sha256": "a45bf84f31d773c349cda7300211a8e138ae78af2cb957d753816fbe9b59ec9b"
+    },
+    {
+      "file": "pp2048-3-last.f32",
+      "bytes": 993280,
+      "sha256": "e18ee8247a134b54e9b31e019d96b3e374dc514c7d8367dd37a61386cc6e1f4d"
+    },
+    {
+      "file": "pp2048-3-output.u32",
+      "bytes": 512,
+      "sha256": "dabade50d0df8f57e2afab17691dd9b5586c17e6d0c7c687412141f55fa2b0c0"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "retained_archives": {
+    ".deps/build-prefill-chunks/cmake/curve/libq2_curve_adapter.a": "b33c260807c1fd0ced661730dabfca3dcdb82dcbaf48fb45a5df1f70a4779795",
+    ".deps/build-prefill-chunks/cmake/hip/qwen/libgufo_qwen38_flash_next.a": "7064043d3ce0339ce3215d67d5017a0ac9aab0dbf89621be0c8e70e31cd9620e",
+    ".deps/build-prefill-chunks/libq2_host.a": "dfc418a77245d67eb3b850a9ef1b76a44deab06a008b3d8cc6033091893ae0a7",
+    ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91"
+  },
+  "binary": ".deps/build-counting-bench-gpu/core/synapse-lie-bench",
+  "sha256": "b701e948e8b0e1e241faf0197ebc40446720e7e96c0388d912231fe225f2ef62",
+  "device_functions": 923,
+  "device_functions_byte_exact": 923,
+  "model_inference": false,
+  "cpu_tests": {
+    "exit_code": 0,
+    "ctest_pass": 4,
+    "cli_cases_per_configuration": 38,
+    "full_grid_points_per_configuration": 112,
+    "receipt_sha256": "ddb154b805bf2a1a17311813cad2eef516bd5f44b933e18941de485adbd6a82d"
+  }
+}

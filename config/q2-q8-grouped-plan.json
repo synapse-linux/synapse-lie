@@ -1,0 +1,81 @@
+{
+  "schema": "synapse-lie.q2-q8-grouped-plan.v1",
+  "manifests": {
+    "config/q2-q8-grouped-source.json": "88592f7439502187da60667a58e9426afbe8afdfe0d0443658991c2a903bb774",
+    "config/q2-q8-grouped-static.json": "2c4c025967c854aa07c914cecbb61a837b8aaa1515ca1fa56811c3396b97a843",
+    "config/q2-hc-moe-deferred-model-results.json": "35a0326b288f977c225bc7288f33aad71fac8c097a8c86bdadc74072c7d6d5dc",
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1"
+  },
+  "fixtures": {
+    "CMakeLists.txt": "4111bb00e585ef5639f220e05fde0baae2c3835dd51b394879328cd522db82ee",
+    "cmake/hip/CMakeLists.txt": "49ecb68a327612f906d61bb08d91a63754efbefa7f7403feaa09e57759eba92d",
+    "tests/q2_hc_bk256.cpp": "d58035790ba10af5ba29ed9a3dee3df0a30646c8773b2362a1222c5c8abbb48e",
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "5c7837af820e883b7ca8bd108391f63c65537177b3f9c765513d3b932e5778f0",
+    "tools/q2-remote.py": "e698ad413fe4da0c566e4b7c1730e8cc95cb0f7b2a312a1aa282f62346eff4f1",
+    "tools/q2-runner.py": "9cd0411809ea5e6a9b2423e4ab12b8345619ddabed42a15cea6adf27caf15ae4",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "experiments/q2_hc_blaslt_control.cpp": "869d748e87e0a00f7317ed8200c687b383ba375e06355269ebba37eb787b17aa",
+    "experiments/q2_hc_blaslt_control.hpp": "a7d60e6be24acaed5570844a34eff4735573ceaf247db3df89d68298a98eacdb",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+    "experiments/q2_deferred_norm_state.h": "ae04cd47fd9c30f8ac25418a48e31b1ca38cae46b3d4333c3d7dfe51e4568668",
+    "tests/q2_deferred_norm_state.c": "2a8225eb7aae0d80943fb6f813625dc5831230b6507c278deff6e59b34aede41",
+    "tools/q2_binary_replay.py": "6fca7f8ff07ea89ededa053e512b45e330f9f0e3fbd98b4280c7514844d37f05",
+    "tests/q2_binary_replay_test.py": "3a705e79a2cb8058014b6dfdfa4e4bb270c83de78d0eb95b27e86badf7578ee9",
+    "tools/analyze-q2-profile.py": "9c5134ceca2aa40d6241900899499bff360e92af106d39d83142529634f9688d",
+    "tools/q2-resource-report.py": "c9fa2bb446d2d05bb677fac555be74e7ad6bf3fd90b0a2c97dde5cfdf52b835e",
+    "tools/analyze-q2-expert-profile.py": "d491d7cd06eb652f7f0336b49b68c1f2fe5b54a23299162284232bfea3f78a75",
+    "tests/q2_profile_test.py": "7d59b3f1cca9e6d78834477c21db8e2e7d2a15982c913fc83fe4f68008867511",
+    "tests/q2_q8_grouped.hip": "676cfd0e662ee9e134ef366d5a6a39097e9d40ae887370169b585566587ca6a5",
+    "experiments/q2-q8-grouped-control.inc": "a536401561042c0e99ee3007081f794146a18aec9f2e174a47c844adbb532acc"
+  },
+  "window_helper": "tools/q2-q8-grouped-window.py",
+  "window_helper_sha256": "8d4c193ffa64f12b1de0fee73f0ea578f87f15760d156722f41342d0580bb241",
+  "previous_release_sha256": "ffefaeb6b3426d484a7faaa62b1cbba921101808eb019db30c7c47d890bea71e",
+  "host": "q2-q8-grouped-host-r1",
+  "component": {
+    "label": "q2-q8-grouped-component-r1",
+    "mode": "q8-grouped-check",
+    "variant": "q8-grouped-store"
+  },
+  "arms": [
+    {
+      "label": "q2-q8-grouped-model-r1",
+      "mode": "q2-counting-q8-grouped",
+      "variant": "q8-grouped-store"
+    }
+  ],
+  "model_performance_test_despite_numeric_or_timing_rejection": true,
+  "run_controls": false,
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "context_capacity": 9216,
+  "chunk": 2048,
+  "prompt_tokens": 2048,
+  "output_tokens": 128,
+  "timed_decode_calls": 127,
+  "warmups": 1,
+  "repetitions": 3,
+  "cooldown_seconds": 15,
+  "mtp": false,
+  "component_shapes": [
+    "ssm:2048x16384x2560+convolution",
+    "output:2048x2560x6144",
+    "ragged:129x257x96"
+  ],
+  "component_weight_rotation_bytes": {
+    "ssm": 133693440,
+    "output": 50135040
+  },
+  "protocol": "New candidate only with original tester/input/timers and saved qualified Q2/UD/parent evidence; new component has copied original numerical control in same binary, no qualified existing cohort is rerun. All strict failures retained; no model performance verdict from component time or resource counts.",
+  "numerical_acceptance": false,
+  "full_curve": false,
+  "dependencies": false,
+  "tuning": false,
+  "cleanup": false,
+  "goal_met": false
+}

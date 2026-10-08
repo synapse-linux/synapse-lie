@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-ssm-channel-bounds-staging.v1",
+  "arms": [
+    {
+      "mode": "ssm-channel-bounds-check",
+      "capsule_sha256": "d3c27fb7607cb8f7c6550d3be7b9f5b07992254e1a4b1579cb70a358e5c294e6",
+      "provider_files": 1027,
+      "fixture_files": 105,
+      "capsule_path": "evidence/q2-ssm-channel-bounds-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-ssm-channel-bounds",
+      "capsule_sha256": "23ea92139c18e6074d9ef5d2466f0a2ebb43ab84b3817a33e1c68652cfff20da",
+      "provider_files": 1027,
+      "fixture_files": 105,
+      "capsule_path": "evidence/q2-ssm-channel-bounds-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

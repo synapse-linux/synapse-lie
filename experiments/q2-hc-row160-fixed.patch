@@ -1,0 +1,17 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5349,6 +5349,14 @@
+                  kRowGroup == 2 && kHalfWeights && !kHcMix && !kSsmConv &&
+                  !kAttention && !kHcUpChains));
+   static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
++  // This tile is launched only by the M320/K10240 HC-down dispatch.
++  // Expose that contract to the compiler; token tails remain runtime-checked.
++  if constexpr (BM == 160 && BN == 128 && BK == 2 && WM == 5 && WN == 4 &&
++                kRowGroup == 2 && kHalfWeights && !kHcMix && !kSsmConv &&
++                !kAttention && !kHcUpChains) {
++    m = 320;
++    k = 10240;
++  }
+   constexpr int kRowTiles = BM / 16;
+   constexpr int kTokTiles = BN / 16;
+   constexpr int kWaveRowTiles = kRowTiles / WM;

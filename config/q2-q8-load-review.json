@@ -1,0 +1,73 @@
+{
+  "schema": "synapse-lie.q2-q8-load-review.v1",
+  "parent_source_manifest_sha256": "b815852389cef93b79ac0aad55b6fd59be7a76d7ce08816d0769e5af7db411cd",
+  "inspected_kernel": ".deps/gufo-q2-iq2-live-compose-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+  "kernel_sha256": "278aa6fc6356a9ba93a4feb154e487a743ee3e4a88e0f85379d7b7b9f9662801",
+  "retained_assembly": "evidence/q2-iq2-live-compose-preparation/candidate.s",
+  "retained_assembly_sha256": "a24f826327de8b37ebfc685ea08637acddeca60d15a13486ed60dea1d567af9c",
+  "source_load_contract": "Each Q8_0 block has one16-bit scale and two16-byte payload copies; bytes remain in the original34-byte encoding.",
+  "selected_bodies": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "body_sha256": "54eea2b3ce1698d2e8dd1adccf840a354c6dac19d2b34feb93c86a95961e31d6",
+      "resources": {
+        "group_segment_fixed_size": 49152,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 241,
+        "next_free_sgpr": 37,
+        "wavefront_size32": 1
+      },
+      "global_load_instructions": {
+        "global_load_b128": 16,
+        "global_load_b32": 304,
+        "global_load_b64": 16,
+        "global_load_u16": 4
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "body_sha256": "a620cc45508c155d4d72fe6b62be26da26ee99851b07ada613c8f6dcceba6f12",
+      "resources": {
+        "group_segment_fixed_size": 49152,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 241,
+        "next_free_sgpr": 23,
+        "wavefront_size32": 1
+      },
+      "global_load_instructions": {
+        "global_load_b128": 16,
+        "global_load_u16": 4
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE": {
+      "body_sha256": "522f0a9554589c64c7faa69029f3578601d407d774be5dec221f24f247ab9d3b",
+      "resources": {
+        "group_segment_fixed_size": 49152,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 241,
+        "next_free_sgpr": 23,
+        "wavefront_size32": 1
+      },
+      "global_load_instructions": {
+        "global_load_b128": 144,
+        "global_load_u16": 4
+      }
+    }
+  },
+  "finding": "The retained production ISA already uses128-bit global payload loads. The premise that memcpy expands the payload into many scalar byte/halfword loads is unsupported.",
+  "scope_limit": "Counts cover each whole specialization, including activation and epilogue loads; they do not isolate hardware transactions, bandwidth, cache misses or stalls.",
+  "aligned_word_proposal": "A compact aligned-word reassembly remains an unimplemented hypothesis, requiring valid row boundaries and odd-K fallback; no instruction or throughput saving is established.",
+  "upstream_ledger": ".deps/gufo-base/docs/models/qwen3.8-flash-next/EXPERIMENTS.md",
+  "upstream_ledger_sha256": "fac4ee7d17a14de9946a2b1d14d9dcf96fc3af77b371fe4f4a9cc9d3c376fdb3",
+  "prior_negative_families": [
+    "Packed Q8 prefill LDS staging",
+    "Persistent packed Q8 SSM weights",
+    "Smaller-LDS SSM projection",
+    "SSM tile/wave/compiler variants",
+    "SSM K16 lifetime and double-buffer prefetch"
+  ],
+  "next_boundary": "Use an explicit changed dataflow or measured bottleneck before another loader/tile experiment; do not relabel already-vectorized loads as a missing optimization.",
+  "new_candidate_prepared": false,
+  "reference_recompiled": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

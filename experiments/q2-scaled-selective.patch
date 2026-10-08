@@ -1,0 +1,250 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -56,7 +56,8 @@
+     ${QFN_ROCM_DIR}/batch.cpp
+     engine.cpp)
+   target_sources(gufo_qwen38_flash_next PRIVATE ${QFN_HIP_SOURCES}
+-    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c)
++    ${QFN_ROCM_DIR}/iq2_mixed_tiles.c
++    ${QFN_ROCM_DIR}/q2_scaled_tiles_map.c)
+   set_target_properties(gufo_qwen38_flash_next PROPERTIES
+     C_STANDARD 17 C_STANDARD_REQUIRED ON C_EXTENSIONS OFF)
+   set_source_files_properties(${QFN_ROCM_DIR}/kernels.hip.cpp PROPERTIES LANGUAGE HIP)
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -6,6 +6,7 @@
+ #include <bit>
+ #include <cmath>
+ #include <cstddef>
++#include <cstdio>
+ #include <cstdlib>
+ #include <cstring>
+ #include <memory>
+@@ -256,6 +257,25 @@
+ }
+ 
+ Executor::~Executor() {
++  // This isolated candidate records routing in bounded host storage. Emit it
++  // only at executor teardown, after the original benchmark's complete event
++  // and outside every PP/TG timer; no I/O is added to RouteHints.
++  if (scaled_tile_calls_ != 0) {
++    std::fprintf(stdout, "{\"event\":\"q2_scaled_tile_usage\",\"calls\":%llu,"
++        "\"records\":%u,\"capacity\":256}\n",
++        static_cast<unsigned long long>(scaled_tile_calls_), scaled_tile_record_count_);
++    for (std::uint32_t i = 0; i < scaled_tile_record_count_; ++i) {
++      const auto& s = scaled_tile_records_[i];
++      std::fprintf(stdout, "{\"event\":\"q2_scaled_tile_map\",\"index\":%u,"
++          "\"narrow\":%u,\"wide\":%u,\"selected_experts\":%u,\"selected_rows\":%u,"
++          "\"original_tiles\":%u,\"original_reserved_rows\":%u,\"reserved_rows\":%u,"
++          "\"max_rows\":%u,\"histogram\":[%u,%u,%u,%u,%u,%u]}\n",
++          i, s.narrow, s.wide, s.selected_experts, s.selected_rows,
++          s.original_tiles, s.original_reserved_rows, s.reserved_rows, s.max_rows,
++          s.histogram[0], s.histogram[1], s.histogram[2], s.histogram[3],
++          s.histogram[4], s.histogram[5]);
++    }
++  }
+   // Readers write pinned staging memory; drain them before freeing it,
+   // including when a forward failed before reaching PLE.
+   if (ple_pending_) {
+@@ -910,6 +930,7 @@
+   routed_pair_rows_ = 64;
+   routed_iq2_tail_tiles_ = 0;
+   routed_iq2_mixed_ = false;
++  routed_q2_down64_tiles_ = 0;
+   if (!ExpertMatrixRows(n_tokens)) {
+     return true;
+   }
+@@ -923,9 +944,12 @@
+   std::uint32_t n_tiles = 0;
+   routed_tile_rows_ = RoutedTileRows(
+       static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
++  const bool selective_q2 = mixed_iq2 && n_tokens >= 1024 && n_tokens <= 4096 &&
++      c.num_experts <= 512 && routed_tile_rows_ == kRoutedTileRowsWide;
+   for (std::uint32_t e = 0; e < c.num_experts; ++e) {
+     const std::uint32_t padded = (counts_host_[e] + 15u) / 16u * 16u;
+     max_rows = std::max(max_rows, counts_host_[e]);
++    if (selective_q2) continue;
+     for (std::uint32_t j = 0;
+          j < (padded + routed_tile_rows_ - 1) / routed_tile_rows_; ++j) {
+       tiles_host_[n_tiles++] = static_cast<std::int32_t>(e | (j << 16));
+@@ -936,13 +960,26 @@
+   // Append the 64-token map for gate/up and eligible down projections.
+   // Wide expert buckets also get a 128-token gate/up map: it amortizes
+   // weight decoding, while short buckets retain the cheaper 64-token tile.
+-  if (mixed_iq2 && n_tokens >= 1024 && n_tokens <= 4096 &&
+-      c.num_experts <= 512 && routed_tile_rows_ == kRoutedTileRowsWide) {
+-    // Keep the original down map at offset zero. Append only the two
+-    // gate/up spans; their total fits one existing map-capacity reservation.
+-    lie_iq2_tile_spans spans{};
++  if (selective_q2) {
++    // Replace the original down reservation with disjoint 48/64-row spans.
++    // No more rows or descriptors than the original 48 map are reserved.
+     const auto capacity = RoutedTileCapacity(
+         static_cast<std::size_t>(n_tokens) * c.num_experts_used, c);
++    lie_q2_scaled_tile_spans down{};
++    if (!lie_q2_scaled_tiles_map(counts_host_, c.num_experts, n_tokens,
++          c.num_experts_used, tiles_host_, capacity, &down)) {
++      AssignError(error_msg, "invalid selective Q2 down map");
++      return false;
++    }
++    routed_n_tiles_ = down.narrow;
++    routed_q2_down64_tiles_ = down.wide;
++    n_tiles = down.narrow + down.wide;
++    ++scaled_tile_calls_;
++    if (scaled_tile_record_count_ < 256) {
++      scaled_tile_records_[scaled_tile_record_count_++] = down;
++    }
++    // Append the unchanged original gate/up spans within their reservation.
++    lie_iq2_tile_spans spans{};
+     if (!lie_iq2_mixed_tiles(counts_host_, c.num_experts, n_tokens,
+                               c.num_experts_used, tiles_host_ + n_tiles,
+                               capacity, &spans)) {
+@@ -1816,13 +1853,17 @@
+         : gate_up(pair_map ? routed_pair_offset_ : 0,
+                   pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+                   pair_map ? routed_pair_rows_ : routed_tile_rows_);
++    const auto down = [&](std::uint32_t offset, std::uint32_t count,
++                          std::uint32_t rows) {
++      return count == 0 || RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
++          s_.routed_tiles + offset, count, rows, s_.routed_bounds, s_.rows_slot,
++          s_.down_e, c.hidden_size, c.expert_ff, stream_);
++    };
+     if (!gate_ok ||
+         !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+                           c.expert_ff, stream_) ||
+-        !RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+-                            s_.routed_tiles, routed_n_tiles_, routed_tile_rows_,
+-                            s_.routed_bounds, s_.rows_slot, s_.down_e,
+-                            c.hidden_size, c.expert_ff, stream_)) {
++        !down(0, routed_n_tiles_, routed_tile_rows_) ||
++        !down(routed_n_tiles_, routed_q2_down64_tiles_, 64)) {
+       AssignError(error_msg, "routed IQ2 paired gate/up or Q2 down failed");
+       return false;
+     }
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -2,6 +2,7 @@
+ #define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_
+ 
+ #include "lie_q2_deferred_norm_state.h"
++#include "q2_scaled_tiles_map.h"
+ 
+ #include <hip/hip_fp16.h>
+ #include <hip/hip_runtime.h>
+@@ -539,6 +540,10 @@
+   mutable std::uint32_t routed_pair_rows_{64};
+   mutable std::uint32_t routed_iq2_tail_tiles_{0};
+   mutable bool routed_iq2_mixed_{false};
++  mutable std::uint32_t routed_q2_down64_tiles_{0};
++  mutable lie_q2_scaled_tile_spans scaled_tile_records_[256]{};
++  mutable std::uint32_t scaled_tile_record_count_{0};
++  mutable std::uint64_t scaled_tile_calls_{0};
+   mutable std::uint32_t routed_tile_rows_{48};  ///< token rows per tile
+   mutable int routed_tile_cols_{0};
+   float* logits_host_{nullptr};
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_tiles_map.c
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_tiles_map.c
+@@ -0,0 +1,60 @@
++/* SPDX-License-Identifier: MIT */
++#include "q2_scaled_tiles_map.h"
++
++static uint32_t width_for(uint32_t padded) {
++  const uint32_t narrow = (padded + 47u) / 48u;
++  const uint32_t wide = (padded + 63u) / 64u;
++  return padded >= 256u && wide * 64u <= narrow * 48u ? 64u : 48u;
++}
++
++int lie_q2_scaled_tiles_map(const uint32_t* counts, uint32_t experts,
++                            uint32_t tokens, uint32_t used, int32_t* map,
++                            size_t capacity,
++                            struct lie_q2_scaled_tile_spans* spans) {
++  if (!counts || !map || !spans || !experts || experts > 512u || !tokens ||
++      tokens > 4096u || !used || used > experts)
++    return 0;
++  uint32_t total = 0;
++  struct lie_q2_scaled_tile_spans result = {0};
++  for (uint32_t e = 0; e < experts; ++e) {
++    const uint32_t count = counts[e];
++    if (count > tokens)
++      return 0;
++    const uint32_t padded = (count + 15u) / 16u * 16u;
++    const uint32_t original = (padded + 47u) / 48u;
++    const uint32_t width = width_for(padded);
++    const uint32_t tiles = (padded + width - 1u) / width;
++    total += count;
++    result.original_tiles += original;
++    result.original_reserved_rows += original * 48u;
++    result.reserved_rows += tiles * width;
++    if (count > result.max_rows)
++      result.max_rows = count;
++    const uint32_t bin = !count          ? 0u
++                         : count <= 48u  ? 1u
++                         : count <= 128u ? 2u
++                         : count <= 255u ? 3u
++                         : count <= 511u ? 4u
++                                         : 5u;
++    ++result.histogram[bin];
++    if (width == 64u) {
++      result.wide += tiles;
++      ++result.selected_experts;
++      result.selected_rows += count;
++    } else {
++      result.narrow += tiles;
++    }
++  }
++  if (total != tokens * used || (size_t)result.narrow + result.wide > capacity)
++    return 0;
++  uint32_t ni = 0, wi = result.narrow;
++  for (uint32_t e = 0; e < experts; ++e) {
++    const uint32_t padded = (counts[e] + 15u) / 16u * 16u;
++    const uint32_t width = width_for(padded);
++    uint32_t* index = width == 64u ? &wi : &ni;
++    for (uint32_t j = 0; j * width < padded; ++j)
++      map[(*index)++] = (int32_t)(e | (j << 16));
++  }
++  *spans = result;
++  return 1;
++}
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_tiles_map.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_tiles_map.h
+@@ -0,0 +1,39 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_SCALED_TILES_MAP_H
++#define LIE_Q2_SCALED_TILES_MAP_H
++
++#include <stddef.h>
++#include <stdint.h>
++
++#ifdef __cplusplus
++extern "C" {
++#endif
++
++struct lie_q2_scaled_tile_spans {
++  uint32_t narrow;
++  uint32_t wide;
++  uint32_t selected_experts;
++  uint32_t selected_rows;
++  uint32_t original_tiles;
++  uint32_t original_reserved_rows;
++  uint32_t reserved_rows;
++  uint32_t max_rows;
++  uint32_t histogram[6]; /* 0, 1..48, 49..128, 129..255, 256..511, >=512 */
++};
++
++/* Own host scheduling policy for the existing Q2 scaled WMMA kernels.
++ * Narrow (48-row) descriptors precede wide (64-row) descriptors. Each word
++ * encodes expert in bits 0..15 and width-relative tile index in bits 16..30.
++ * Select 64 only for >=256 padded rows with no larger reserved-row count.
++ * Each expert remains in exactly one span. No allocation/device/model access.
++ * Counts/map/spans must not alias. Failure leaves map and spans unchanged.
++ * Bounds are 1..512 experts, 1..4096 tokens, and exactly tokens*used routes. */
++int lie_q2_scaled_tiles_map(const uint32_t* counts, uint32_t experts,
++                            uint32_t tokens, uint32_t used, int32_t* map,
++                            size_t capacity,
++                            struct lie_q2_scaled_tile_spans* spans);
++
++#ifdef __cplusplus
++}
++#endif
++#endif

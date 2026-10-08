@@ -1,0 +1,81 @@
+{
+  "schema": "synapse-lie.q2-select-score-group4-results.v1",
+  "at": "2026-10-07T05:40:15.816510+00:00",
+  "plan_sha256": "119bc361117d2283c0c9f106295731f52eab5bc81011556252d83a3ed895250e",
+  "source_checkpoint": "e825dff3",
+  "component_result_sha256": "96d06a7184710a60e2f46d2d599e7afc6312ddff30a2dee0f3f9a29a827009fa",
+  "raw_log_sha256": "73e17ef6e8bf6e76980bfdf392ae4f6d8a9643d8ec9c04a4b085b12fa6b7114e",
+  "component_command_exits": [
+    0,
+    0,
+    0
+  ],
+  "release_sha256": "c087ce07de0fc16d3b058223b3fde68383271da0be8333d85236c68fd5d94aca",
+  "gpu_event_valid_count": 0,
+  "gpu_event_invalid_count": 28,
+  "pair_records": 16,
+  "full_score_and_mask_exact_pairs": 16,
+  "oracle_reports": 8,
+  "oracle_reports_passed": 8,
+  "max_sampled_fp64_absolute_error": 3.7086689985699195e-07,
+  "measurements": {
+    "full32": {
+      "retained": {
+        "samples_completed_wall_us": [
+          2913.372,
+          2015.957,
+          2812.945,
+          2012.486,
+          2815.085
+        ],
+        "median_us": 2812.945,
+        "min_us": 2012.486,
+        "max_us": 2913.372
+      },
+      "group4": {
+        "samples_completed_wall_us": [
+          5997.62,
+          6036.02,
+          6196.3550000000005,
+          6823.408,
+          6012.150000000001
+        ],
+        "median_us": 6036.02,
+        "min_us": 5997.62,
+        "max_us": 6823.408
+      },
+      "time_change_percent": 114.58009310526869
+    },
+    "full128": {
+      "retained": {
+        "samples_completed_wall_us": [
+          7147.34,
+          6132.057,
+          6124.2970000000005,
+          6118.127,
+          6991.684
+        ],
+        "median_us": 6132.057,
+        "min_us": 6118.127,
+        "max_us": 7147.34
+      },
+      "group4": {
+        "samples_completed_wall_us": [
+          25057.123,
+          25400.153000000002,
+          26863.635000000002,
+          24723.352,
+          24745.941
+        ],
+        "median_us": 25057.123,
+        "min_us": 24723.352,
+        "max_us": 26863.635000000002
+      },
+      "time_change_percent": 308.6250829044805
+    }
+  },
+  "provider_changed": false,
+  "model_inference": false,
+  "promoted": false,
+  "disposition": "Reject group4 score kernel: regresses 32K and 128K completed component wall time."
+}

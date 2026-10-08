@@ -1,0 +1,109 @@
+{
+  "schema": "synapse-lie.q2-iq2-epilogue-break-wiring.v1",
+  "at": "2026-10-04T04:48:05.837169+00:00",
+  "scope": "Static Python/C++/HIP syntax and retained canonical routing analysis; no runtime fixtures or GPU program executed",
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-c",
+        "import ast; from pathlib import Path; ast.parse(Path('tools/prepare-q2-iq2-live-epilogue.py').read_text(),filename='tools/prepare-q2-iq2-live-epilogue.py'); ast.parse(Path('tools/q2-remote.py').read_text(),filename='tools/q2-remote.py'); ast.parse(Path('tools/q2-runner.py').read_text(),filename='tools/q2-runner.py'); ast.parse(Path('tools/analyze-q2-iq2-live-epilogue.py').read_text(),filename='tools/analyze-q2-iq2-live-epilogue.py'); ast.parse(Path('tests/q2_remote_test.py').read_text(),filename='tests/q2_remote_test.py')"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "g++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-fsyntax-only",
+        "-I.deps/gufo-q2-curve-iq2-epilogue-break",
+        "tests/q2_iq2_routes.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-fsyntax-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-curve-iq2-epilogue-break",
+        "-Ievidence/q2-iq2-live-epilogue-wiring-r1",
+        "-isystem",
+        "/opt/rocm/include",
+        "tests/q2_iq2_live_epilogue.cpp"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "source_files": {
+    "tools/prepare-q2-iq2-live-epilogue.py": "9e490f4d8b60fede87e62d9ea0b09c229cf3ec9d34228adca14eedf00e274b06",
+    "tools/q2-remote.py": "3c4f01a9045d118f5cc794a0b24842757acb7f4007d78a9fc4b0e2f8d6170b45",
+    "tools/q2-runner.py": "47fd195b39c3c85b9ce30dc49181b98eced759bf72630ef0f0ed7d671d2d7483",
+    "tools/analyze-q2-iq2-live-epilogue.py": "559f57093c5f8e8a0c665c48d992ab2ba562deea953c7d80ed07a74a394e7bd3",
+    "tests/q2_remote_test.py": "9cd1dcd555c00d0247379a4c431b2a4c785839b70bbd810e2d37021a3adb7cce",
+    "tests/q2_iq2_live_epilogue.cpp": "d298be5a0cd025e24fc6b272ba10f73f43374defd98b53de0fd1543c30510e3e",
+    "tests/q2_iq2_routes.hpp": "da5475020b4b2f76c466e56353c78e539263e7a95436f62c3adf61799051aa1d",
+    "tests/q2_iq2_routes.cpp": "bc09dee47bef06707c1e35da474e5f4c1aa34c2ab9e8c0a3d5ec32f0fd47fd0f",
+    "tests/q2_iq2_wmma_signs.cpp": "2c3dfb879a433953579482f7744f48d90ceb0eef995df21fa54da42aa6d5b213",
+    "tests/q2_iq2_pair.cpp": "0a84f47a10354d103197378bb5ab4f94552b7713ea2453b38651c8f83d929e4e",
+    "tests/q2_packed_fixture.hpp": "8670f40fbd7da541fb7e1204c0c2f9c7856159cc628ec75e45a3598873baa8e3",
+    "tests/q2_operator_fixture.hpp": "2ba80826f7ce8cf004f0f15f87cbf05e1083dd4d0a6da92e27bf300df3bfc93f",
+    "CMakeLists.txt": "d621612f3f7b1411e76f695ffbfe7dbe4406b34ce9475415bf5e6cbcf89ed384",
+    "cmake/hip/CMakeLists.txt": "2ed7cf0bae4b0470b56a052be0a2ea61b514a00096a2f1f37b30ca5661b0c727",
+    "config/q2-iq2-live-epilogue-plan.json": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db"
+  },
+  "artifacts": {
+    "01.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "02.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "03.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commands.json": {
+      "bytes": 1376,
+      "sha256": "da483c2b7ec235cf678c728e5de3d60211a36da7d4d7eec33505a773edc2c88b"
+    }
+  },
+  "routing": {
+    "log_sha256": "94bba9065ce5b49ab8979363869bbef112b94e306ae972a44853defefcc50728",
+    "plan_sha256": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db",
+    "accepted_canonical_distributions": 4,
+    "synthetic_full_tile_controls": 1
+  },
+  "component_order": [
+    "iq2-epilogue-reference",
+    "iq2-live-epilogue",
+    "iq2-epilogue-break"
+  ],
+  "independent_checks": 51,
+  "output_files": 102,
+  "source_manifest_sha256": "0b63636bb19ca9a1320f42948259be296e806ac1945950c0c6f447efd0912ff1",
+  "static_receipt_sha256": "e4bfc86ef27a1bcd930482b2d7d93f9f0cfa95fbd867cb215fe8dc270f927623",
+  "runtime_wiring_complete": true,
+  "host_runtime_qualified": false,
+  "gpu_runtime_qualified": false,
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "next_gpu_window_owner": "core",
+  "requires_verified_core_handover": true,
+  "promoted": false,
+  "goal_met": false
+}

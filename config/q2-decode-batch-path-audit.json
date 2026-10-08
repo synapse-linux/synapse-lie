@@ -1,0 +1,43 @@
+{
+  "schema": "synapse-lie.q2-decode-batch-path-audit.v1",
+  "bindings": {
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/batch.cpp": "915f812257ab4c6fd42f7bb870e34638bac7d66756b0ec2cbdd9425b06df3db8",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "21060c653310f5cb7fcfd214890b3cc699f9f8b8b6403365996cf888e134239b",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/engine.cpp": "c621dce3a6e2468f9668407035c94c6fc68979c724ca3dde7d29893b87fa55dd",
+    ".deps/lie-q2-curve256-core/src/inference.c": "b7ca89f39e5e2f489cdf6bef9c139bc0f902d4fc6d41e7519ee7041e4537175a"
+  },
+  "source": "Retained Q2 provider and frozen native C core only; no peer changes imported",
+  "findings": [
+    {
+      "path": "src/inference.c",
+      "line": 45,
+      "finding": "C scheduler calls scalar decode for1 row, real lie_sequences_decode for multiple ready rows; flow credits choose eligibility."
+    },
+    {
+      "path": "kernels/rocm/batch.cpp",
+      "line": 658,
+      "finding": "ForwardBatch groups projections for1..8 sessions, retaining private recurrence/KV and async PLE reads. Shared weights can be reused by Q8 dense consumers."
+    },
+    {
+      "path": "kernels/rocm/batch.cpp",
+      "line": 950,
+      "finding": "ForwardBatch invokes eager body and then synchronizes; it does not use the scalar Forward HIP graph replay. A graph cache needs safe session/lifetime keys, descriptors, cancellation and split PLE handling."
+    },
+    {
+      "path": "kernels/rocm/batch.cpp",
+      "line": 975,
+      "finding": "SelectBatchLogits queues a separate D2H and synchronizes for each non-null logit destination; DecodeBatchImpl calls it per completed request."
+    },
+    {
+      "path": "kernels/rocm/executor.cpp",
+      "line": 431,
+      "finding": "Existing pinned logits buffer is sized for max_logit_rows, not the sum across sessions. Consolidating readback needs bounded batch staging and accounting, or a queue of separately owned destinations, not an unchecked larger copy."
+    }
+  ],
+  "priority": "First measure actual current C1 waits and C2 batch/readback service. Consolidated batch readback is smaller than safe batch graph capture, but neither has a measured gain here.",
+  "no_C1_speedup_from_batching_claim": true,
+  "no_new_model_run": true,
+  "no_reactive_code_change": true,
+  "no_new_measured_gain": true,
+  "fixed_point_goal_paused": true
+}

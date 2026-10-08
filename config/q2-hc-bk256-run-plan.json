@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.q2-hc-bk256-run-plan.v1",
+  "at": "2026-10-04T20:57:27.631742+00:00",
+  "source_manifest": "config/q2-hc-bk256-run-source.json",
+  "source_manifest_sha256": "4b2da36dcf7e1ca60bffe3d47f0993f50bb5b97b26d2cc8f59b1389a1ea54049",
+  "fixtures": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "9925cde949b9f39b05791c2cc5a33c351dda71f084f0d2d0efaef76515d9ed24",
+    "tests/q2_hc_bk256.cpp": "c50b92ea328c42398fe23d625d3a8d098f36dd92bf142516ea9574cd47e67727",
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "798ab2d9bc7429e06109dca4a39b09b167796d5e9ac938ae0cf2a6e0803e2996",
+    "tools/q2-remote.py": "38b4ae60ff78b1e59928f7782261bdd86669d43b31d2ddeec6fadb6af0980e97",
+    "tools/q2-runner.py": "167108f8cb0d39812c9a2aa9a447c91053a1e8772290cf3db52be60a873e3051",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "experiments/q2_hc_blaslt_control.cpp": "869d748e87e0a00f7317ed8200c687b383ba375e06355269ebba37eb787b17aa",
+    "experiments/q2_hc_blaslt_control.hpp": "a7d60e6be24acaed5570844a34eff4735573ceaf247db3df89d68298a98eacdb",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867"
+  },
+  "host": "q2-hc-bk256-run-host-r1",
+  "component_mode": "hc-bk256-bench",
+  "component_arms": [
+    {
+      "key": "initial",
+      "variant": "hc-bk256-initial",
+      "label": "q2-hc-bk256-initial-component-r1"
+    },
+    {
+      "key": "bounded",
+      "variant": "hc-bk256-bounded",
+      "label": "q2-hc-bk256-bounded-component-r1"
+    }
+  ],
+  "model_arms": [
+    {
+      "key": "initial",
+      "variant": "hc-bk256-initial",
+      "mode": "q2-counting-hc-bk256-initial",
+      "label": "q2-hc-bk256-initial-model-r1"
+    },
+    {
+      "key": "bounded",
+      "variant": "hc-bk256-bounded",
+      "mode": "q2-counting-hc-bk256-bounded",
+      "label": "q2-hc-bk256-bounded-model-r1"
+    }
+  ],
+  "model_selection": "Run only the faster complete-cycle candidate, retaining numerical rejection and measuring matched fixed input; both model labels bounded by window, no reference model reruns",
+  "repetitions": 5,
+  "timing_warmups": 2,
+  "weight_rotation_bytes": 104857600,
+  "model_input_tokens": 2048,
+  "model_decode_steps": 128,
+  "fixed_reference": "config/q2-fixed-prefill-reference.json",
+  "fixed_reference_sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "previous_release_sha256": "2260618fedfa4256224d540384e5b738df7a42a65c5dc265abc7d839016da2c4",
+  "controls_rerun": false,
+  "full_curve": false,
+  "dependencies": false,
+  "tuning": false,
+  "cleanup": false,
+  "goal_met": false,
+  "window_helper": "tools/q2-hc-bk256-run-window.py",
+  "window_helper_sha256": "8fe59799951e9d8be77773fc182c3c9bc964affe263050755b3684f82381cd68",
+  "host_receipt": "config/q2-hc-bk256-run-host-results.json",
+  "host_receipt_sha256": "b2a6eaf32d9223de688e89c1ad4f3cf06a5220d325d5c9b659066ff0a345c371"
+}

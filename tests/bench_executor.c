@@ -5,14 +5,42 @@
 #include "lie/vision.h"
 #include "lie/state.h"
 #include "lie/store.h"
+#include "lie/steering.h"
 #include <math.h>
+#include <errno.h>
 #include <stdatomic.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; unsigned vision; };
-struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; };
+struct lie_sequence { lie_model *m; unsigned position,step,prefill_chunk; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; lie_eos_policy eos_policy; };
 static atomic_uint_fast64_t domain_counter=1;
+/* This accounting-only fixture does not implement steering. The separate
+ * shared-core steering fixture exercises bank/policy/cache/client lifetimes. */
+lie_status lie_backend_open_steered(const char *p,const lie_model_options *o,uint32_t width,const char *d,uint32_t n,
+    const char *v,const lie_steering_model_options *s,lie_model **out,lie_error *e){
+    (void)p;(void)o;(void)width;(void)d;(void)n;(void)v;(void)s;(void)out;
+    if(e)snprintf(e->message,sizeof(e->message),"accounting fixture has no steering");
+    return LIE_UNSUPPORTED;
+}
+lie_status lie_model_steering_info(lie_model *m,lie_steering_model_info *out,lie_error *e){
+    (void)m;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_steering_cache_scope(lie_sequence *s,const unsigned char semantic[32],unsigned char out[32],lie_error *e){
+    (void)s;(void)semantic;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_change_steering(lie_sequence *s,const lie_steering_settings *settings,lie_error *e){
+    (void)s;(void)settings;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_steering_info(lie_sequence *s,lie_steering_policy_info *out,lie_error *e){
+    (void)s;(void)out;(void)e;return LIE_UNSUPPORTED;
+}
+lie_status lie_sequence_configure_prefill(lie_sequence *s,uint32_t chunk,const unsigned char scope[32],lie_error *e){
+    unsigned char zero[32]={0};
+    (void)e;if(!s||!scope||!chunk||chunk>s->m->chunk||s->position||s->prefill_chunk||!memcmp(scope,zero,32))return LIE_INVALID;
+    s->prefill_chunk=chunk;memcpy(s->scope,scope,32);return LIE_OK;
+}
 const char *lie_backend_name(void) { return "bench-fixture-NOT-INFERENCE"; }
 const char *lie_backend_ownership(void) { return "synthetic-test-fixture"; }
 const char *lie_backend_dense_sampling(void) { return "synthetic-test-fixture"; }
@@ -29,13 +57,21 @@ lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model *
     if(!strcmp(p,":load-failure:")){snprintf(e->message,sizeof(e->message),"synthetic model allocation failure");return LIE_BACKEND_FAILED;}
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);
-    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:"};
-    for (int i=0;i<8;++i) if (!strcmp(p,names[i])) { (*m)->mode=i; return LIE_OK; }
+    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:",":progress-fixture:",":progress-failure:",":progress-timeout:",":eos-policy-fault:",":snapshot-limit:",":capture-failure:",":restore-failure:"};
+    for (unsigned i=0;i<sizeof(names)/sizeof(*names);++i) if (!strcmp(p,names[i])) { (*m)->mode=(int)i; return LIE_OK; }
     free(*m); *m=NULL; return LIE_INVALID;
 }
 lie_status lie_model_close(lie_model **m,lie_error *e) { (void)e; free(*m); *m=NULL; return LIE_OK; }
 lie_status lie_model_get_info(lie_model *m,lie_model_info *i,lie_error *e) {
-    (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=2048,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
+    (void)e; *i=(lie_model_info){.abi_version=LIE_EXECUTOR_ABI,.context_tokens=m->context,.vocab_tokens=256,.prefill_capacity=m->chunk,.native_batch_capacity=m->width,.speculative_supported=m->mtp}; return LIE_OK;
+}
+lie_status lie_model_attention_dispatch_snapshot(lie_model *m,
+    lie_attention_dispatch_info *out,lie_error *e) {
+    if(!m||!out||out->abi_version!=LIE_ATTENTION_DISPATCH_ABI||out->struct_bytes!=sizeof(*out)){
+        if(e)snprintf(e->message,sizeof(e->message),"invalid fixture attention dispatch snapshot");
+        return LIE_INVALID;
+    }
+    lie_attention_dispatch_info_init(out);return LIE_OK;
 }
 lie_status lie_model_chat_tokens(lie_model *m,const lie_chat_message *msg,size_t count,int32_t *p,size_t cap,size_t *n,lie_error *e) {
     (void)count;
@@ -56,14 +92,22 @@ lie_status lie_sequence_close(lie_sequence **s,lie_error *e) { (void)e; free((*s
 lie_status lie_sequence_prefill(lie_sequence *s,const int32_t *p,size_t n,lie_error *e) {
     (void)e; (void)p;
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
-    if (n<=s->position || n-s->position>2048 || n>s->m->context) return LIE_INVALID;
+    if (n<=s->position || n-s->position>s->m->chunk || n>s->m->context) return LIE_INVALID;
+    if(s->m->mode>=8&&s->m->mode<=10){
+        struct timespec delay={s->m->mode==10?1:0,s->m->mode==10?0:s->position?50000000:300000000};
+        while(nanosleep(&delay,&delay)&&errno==EINTR){}
+        if(s->m->mode==9&&s->position>=4){snprintf(e->message,sizeof(e->message),"synthetic prefill failure after four completed tokens");return LIE_BACKEND_FAILED;}
+    }
     memcpy(s->prompt,p,n*sizeof(*p));s->position=(unsigned)n; return LIE_OK;
 }
 lie_status lie_sequence_decode(lie_sequence *s,lie_decode_result *d,lie_error *e) {
     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
     if (s->m->mode==4) { snprintf(e->message,sizeof(e->message),"synthetic mutating failure; no retry"); return LIE_BACKEND_FAILED; }
-    if (s->m->mode==1 && s->step==7) { *d=(lie_decode_result){.token=-1,.stop=1,.position=s->position}; return LIE_OK; }
-    *d=(lie_decode_result){.token=(int32_t)(s->step%256),.emitted=1,.position=++s->position}; ++s->step;
+    if(s->m->mode>=8&&s->m->mode<=10){struct timespec delay={0,10000000};while(nanosleep(&delay,&delay)&&errno==EINTR){}}
+    /* Mode 11 deliberately violates the admitted policy to exercise the
+     * benchmark's completion refusal, not an inference error recovery. */
+    if (s->step==7 && ((s->m->mode==1 && s->eos_policy==LIE_EOS_STOP)||s->m->mode==11)) { *d=(lie_decode_result){.token=-1,.stop=1,.position=s->position}; return LIE_OK; }
+    *d=(lie_decode_result){.token=s->m->mode==1&&s->step==7?255:(int32_t)(s->step%256),.emitted=1,.position=++s->position}; ++s->step;
     s->prompt[s->position-1]=d->token;
     if (s->m->mode==5) ++d->position;
     return LIE_OK;
@@ -87,11 +131,16 @@ lie_status lie_model_tokenize(lie_model *m,const char *s,size_t bytes,int32_t *p
     lie_chat_message message={LIE_CHAT_USER,s,bytes};return lie_model_chat_tokens(m,&message,1,p,cap,n,e);
 }
 lie_status lie_model_token_text(lie_model *m,int32_t token,char *out,size_t cap,size_t *n,lie_error *e) {
-    (void)m;(void)e;*n=1;if(cap<1)return LIE_BUFFER_SMALL;out[0]=(char)('a'+token%26);return LIE_OK;
+    (void)e;*n=m->mode==1&&token==255?0:1;if(cap<*n)return LIE_BUFFER_SMALL;if(*n)out[0]=(char)('a'+token%26);return LIE_OK;
+}
+lie_status lie_sequence_set_eos_policy(lie_sequence *s,lie_eos_policy p,lie_error *e) {
+    (void)e;if(!s||s->position||s->step||(p!=LIE_EOS_STOP&&p!=LIE_EOS_IGNORE))return LIE_INVALID;
+    s->eos_policy=p;return LIE_OK;
 }
 lie_status lie_sequence_configure(lie_sequence *s,const lie_generation_options *o,lie_error *e) {
     (void)e;
     if (s->m->mode==7 && (o->temperature!=.75 || o->top_p!=.9 ||
+        o->top_k!=5 || o->min_p!=.05 ||
         o->frequency_penalty!=.25 || o->presence_penalty!=-.5 || o->seed!=INT64_MAX))
         return LIE_INVALID;
     return o->abi_version==LIE_GENERATION_ABI?LIE_OK:LIE_INVALID;
@@ -119,15 +168,17 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     (void)e;if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if(from?(s->position||s->step||from->domain!=s->m->domain):!s->position)return LIE_INVALID;
     *out=(lie_state_layout){.abi_version=LIE_STATE_ABI,.representation_version=2,.domain=s->m->domain,
-        .token_count=from?from->token_count:s->position,.context_tokens=s->m->context,.prefill_chunk=s->m->chunk};
+        .token_count=from?from->token_count:s->position,.context_tokens=s->m->context,.prefill_chunk=s->prefill_chunk?s->prefill_chunk:s->m->chunk};
     out->model_data[0]=from?from->model_data[0]:s->step;
     out->model_data[1]=s->m->drafts;if(from&&from->model_data[1]!=out->model_data[1])return LIE_INVALID;
     uint64_t shape=out->token_count;if(!lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape))return LIE_INVALID;
     shape=256;if(!lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape))return LIE_INVALID;
+    if(s->m->mode==12){shape=UINT64_C(1073741824);if(!lie_state_add(out,LIE_STATE_MODEL_COMPONENT,0,LIE_STATE_U8,1,&shape))return LIE_INVALID;}
     unsigned char zero[32]={0};if(memcmp(s->scope,zero,32)){shape=32;if(!lie_state_add(out,LIE_STATE_CACHE_SCOPE,0,LIE_STATE_U8,1,&shape))return LIE_INVALID;}
     return LIE_OK;
 }
 lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,void *p,size_t n,lie_error *e){
+    if(s->m->mode==13){snprintf(e->message,sizeof(e->message),"synthetic checkpoint transfer failure");return LIE_BACKEND_FAILED;}
     uint64_t bytes;if(!lie_state_validate(l,&bytes)||bytes!=n)return LIE_INVALID;
     if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     memcpy((char*)p+l->sections[0].offset,s->prompt,l->sections[0].bytes);
@@ -138,7 +189,9 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
     (void)e;uint64_t bytes;if(!lie_state_validate(l,&bytes)||bytes!=n||s->position)return LIE_INVALID;
     if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if(l->section_count==3&&memcmp((const char*)p+l->sections[2].offset,s->scope,32))return LIE_INVALID;
-    memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;s->step=l->model_data[0];return LIE_OK;
+    memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;s->step=l->model_data[0];
+    if(s->m->mode==14){snprintf(e->message,sizeof(e->message),"synthetic mutating restore failure; no retry");return LIE_BACKEND_FAILED;}
+    return LIE_OK;
 }
 
 lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){

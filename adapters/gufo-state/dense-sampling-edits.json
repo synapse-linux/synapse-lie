@@ -1,7 +1,7 @@
 {
   "schema": "synapse-lie.gufo-dense-sampling.v1",
   "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
-  "scope": "Owned C17 dense selection and random draws. Gufo retains grammar/history and compact speculative distributions. LIE_C17_SAMPLING defaults ON; OFF preserves the pinned fallback.",
+  "scope": "Owned C17 dense selection and random draws. The separately applied history recipe owns bookkeeping; Gufo retains grammar and compact speculative distributions. LIE_C17_SAMPLING defaults ON; OFF preserves the pinned fallback.",
   "edits": [
     {
       "path": "src/core/sampling.hpp",

@@ -1,0 +1,53 @@
+{
+  "schema": "synapse-lie.q2-hc-bn64-object.v1",
+  "source_manifest_sha256": "d0a14939cd10b2c742adf8fed48d5e100d0d85bdc4de25ad55f4b5d0f91d773d",
+  "arms": [
+    {
+      "variant": "hc-bn64-token",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "fields": {
+        "name": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117HcDownBk256KernelILi64ELi64ELi16ELi32ELi128ELi1EEEvPKtS6_Pfiiiii",
+        "group_segment_fixed_size": "34816",
+        "private_segment_fixed_size": "0",
+        "vgpr_count": "143",
+        "sgpr_count": "18",
+        "wavefront_size": "32",
+        "max_flat_workgroup_size": "256"
+      },
+      "bundle_sha256": "03dfb7a064dd6f01daee7b027d07922673425d6c4151c4052e8f7410f29b65e8",
+      "device_object_sha256": "35fd66c30df8a6e31ec6b7ea72e159ee1001913dc403812e8033312caeb64fdd",
+      "shared_format_exit": 1,
+      "new_include_format_complaint": false,
+      "gpu_run": false
+    },
+    {
+      "variant": "hc-bn64-output",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "fields": {
+        "name": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117HcDownBk256KernelILi64ELi64ELi32ELi16ELi128ELi1EEEvPKtS6_Pfiiiii",
+        "group_segment_fixed_size": "34816",
+        "private_segment_fixed_size": "0",
+        "vgpr_count": "144",
+        "sgpr_count": "18",
+        "wavefront_size": "32",
+        "max_flat_workgroup_size": "256"
+      },
+      "bundle_sha256": "e845b26757c332ffa1b787b78fb4e7383dde8bc10f6eb00e8248886145dbfc7c",
+      "device_object_sha256": "5968f46434b8de01a04d630c5b2b00d0d9b99405238f4f686b1f296f2b343c2d",
+      "shared_format_exit": 1,
+      "new_include_format_complaint": false,
+      "gpu_run": false
+    }
+  ],
+  "gpu_run": false,
+  "numerical_qualification": false,
+  "performance_qualification": false
+}

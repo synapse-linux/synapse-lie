@@ -1,0 +1,453 @@
+{
+  "schema": "synapse-lie.q2-rejected-test-inventory.v1",
+  "owner_requested_recheck": true,
+  "scope": "Read-only structured inventory; numeric failure is not syntax failure; each original failure and evidence remains immutable",
+  "candidates": [
+    {
+      "result": "config/q2-decode-baseline-results.json",
+      "numerical_false_fields": [
+        "numerical_pass"
+      ],
+      "nonzero_commands": [],
+      "source_sha256": "1fbf4a7c9de1d71eaf8ebfe8a71484d59dec96d1a4173cd4e63ef25bc1542fca",
+      "family": "baseline-quality-status",
+      "kind": "status",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-hc-deferred-norm-results.json",
+      "numerical_false_fields": [
+        "numerical_qualification_pass"
+      ],
+      "nonzero_commands": [],
+      "source_sha256": "19246d00a511afe41ec2c43b1f31a5b2b2518dc7cd509fc45e44a4520a22f4e1",
+      "family": "hc-deferred-norm",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-hc-library-ragged-model-results.json",
+      "numerical_false_fields": [
+        "numerical_pass"
+      ],
+      "nonzero_commands": [],
+      "source_sha256": "3413fb7e5add6d1bbf3abf230922fa321c7bf4277529bf96f8e16eae42ad132f",
+      "family": "hc-library-ragged",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-hc-library-ragged-results.json",
+      "numerical_false_fields": [
+        "numerical_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "ea6539f340a4de8bf8a77e8b5e61c6f549c794ad61ca5c0758afbd06cc6c55d0",
+      "family": "hc-library-ragged",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-hc-sequence-results.json",
+      "numerical_false_fields": [
+        "numerical_qualification_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "arms[0].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "arms[1].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "6ccd204ddec46d9366537cbe53fba09d2450b5a945d407673f1fe6058b0bba6e",
+      "family": "hc-sequence",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-iq2-mixed-host-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "failed_first_attempt.command_exits",
+          "exits": [
+            0,
+            0,
+            8
+          ]
+        }
+      ],
+      "source_sha256": "5d614a8beb6c57b0dab56cc1b78a8ae43ffbe94eb5f7d9a85febdff7e850bff5",
+      "family": "iq2-host-guard",
+      "kind": "host",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-library-norm-model-results.json",
+      "numerical_false_fields": [
+        "numerical_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "component.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "validation.q2-library-norm-component-r1.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "b203cc1a3ead3773a7e96b9ce083f93eb3b35a64022c25436017ae463365cd47",
+      "family": "library-norm",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-library-norm-results.json",
+      "numerical_false_fields": [
+        "numerical_qualification_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "arms[0].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "2896757ae3fed886eb9d9d984f3d002da02f49f59af783c821f70c9f3ced0b6a",
+      "family": "library-norm",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-norm-fixed-results.json",
+      "numerical_false_fields": [
+        "independent_numerical_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "arms.before.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "arms.candidate.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "arms.after.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "d7bb1e45df39149a410def9f8468b6bf0662e73b424dd3fc05ff892e07b1eb08",
+      "family": "norm-fixed",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-norm-ragged-host-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "failed_cohort.command_exits",
+          "exits": [
+            0,
+            0,
+            8
+          ]
+        }
+      ],
+      "source_sha256": "2b69080b7c3eedd74bee09051bdf70bbe82e59a692fb6be0a814a998dd149e0a",
+      "family": "norm-host-guard",
+      "kind": "host",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-norm-ragged-results.json",
+      "numerical_false_fields": [
+        "numerical_qualification_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "arms[0].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "baff5bea85a7a2f4bb82bce02660f63d1b8576c7ace3b061ddfe58d2453c58a7",
+      "family": "norm-ragged",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-original-baseline-results.json",
+      "numerical_false_fields": [
+        "numerical_pass"
+      ],
+      "nonzero_commands": [],
+      "source_sha256": "5abbf5c9d045862f7a336ec3b8afe0b5c1f7741f3f5fc766031873d380b288fe",
+      "family": "baseline-quality-status",
+      "kind": "status",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-scaled-input-results.json",
+      "numerical_false_fields": [
+        "component.numerical_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "component.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "f12cdecfb3a9f499fe1e7ac57dbe1cbf2ed4b77d2453d1c9ee6836f0ccd26d71",
+      "family": "scaled-input",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-scaled-library-results.json",
+      "numerical_false_fields": [
+        "numerical_pass"
+      ],
+      "nonzero_commands": [
+        {
+          "path": "validation.q2-scaled-library-component-reference-r1.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "validation.q2-scaled-library-component-candidate-r1.command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "02716f491b46cca76ca2e02ec5c118190c18ddbab2c5bd8dccaa813327a6c9b5",
+      "family": "scaled-library",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-scaled-row-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "arms[0].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "arms[1].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "path": "arms[2].command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "a0c2f9759ee1da25120d299b331f0727b07008b47ab6f494a2755deccc20710d",
+      "family": "scaled-row",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-scaled-tiles-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "28609d9923560f92570324249e3c2915d80688cbd7ca591b2bf632f65acb484c",
+      "family": "scaled-tiles",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": false,
+      "recheck_result": "Read-only classification; no new GPU run"
+    },
+    {
+      "result": "config/q2-shared-q8-producer-r1-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "c0fee349540c2c801cece2d2d45c81933b2103c64713ca880fe1c26402135e7a",
+      "family": "shared-q8",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": true,
+      "recheck_result": "Candidate-only fixed model complete; all21 Q2 files exact, timing retained; oracle cause still unproven"
+    },
+    {
+      "result": "config/q2-shared-q8-producer-r2-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "bca08a24585d804918b72ee767cfd04b2aa0e4cec88bd2db393264ca6d250ebe",
+      "family": "shared-q8",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": true,
+      "recheck_result": "Candidate-only fixed model complete; all21 Q2 files exact, timing retained; oracle cause still unproven"
+    },
+    {
+      "result": "config/q2-shared-q8-producer-r3-results.json",
+      "numerical_false_fields": [],
+      "nonzero_commands": [
+        {
+          "path": "command_exits",
+          "exits": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "source_sha256": "ed0ce56feddd571e3ea9d900a79107ac3dc06a88db2bb02d9a376c1e0c73c9c3",
+      "family": "shared-q8",
+      "kind": "candidate",
+      "confirmed_false_failure": false,
+      "recheck_done": true,
+      "recheck_result": "Candidate-only fixed model complete; all21 Q2 files exact, timing retained; oracle cause still unproven"
+    }
+  ],
+  "shared_q8_gpu_oracle_failure_has_possible_initialization_race": true,
+  "race_confirmed_by_gpu_test": false,
+  "other_oracles_not_assumed_invalid": true,
+  "current_gpu_scope": "Candidate-only shared-Q8 fixed original-model test; no controls rerun",
+  "further_candidate_model_launches_admitted": false,
+  "candidate_families": [
+    "hc-deferred-norm",
+    "hc-library-ragged",
+    "hc-sequence",
+    "library-norm",
+    "norm-fixed",
+    "norm-ragged",
+    "scaled-input",
+    "scaled-library",
+    "scaled-row",
+    "scaled-tiles",
+    "shared-q8"
+  ],
+  "candidate_family_count": 11,
+  "non_candidate_record_count": 4,
+  "source_scope_note": "A false numeric gate or repeated failed report is not automatically a distinct optimization or a compiler/syntax failure. Existing component timings remain usable as measured data; oracle causes and model effects are separate.",
+  "model_recheck": "config/q2-shared-q8-fixed-model-results.json"
+}

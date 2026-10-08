@@ -1,0 +1,33 @@
+{
+  "scope": "CPU host/runner fixtures only; no GPU or original-model qualification",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "started_at": "2026-10-03T11:17:11.462838+00:00",
+  "finished_at": "2026-10-03T11:17:38.116078+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "ctest": {
+    "debug": "14/14",
+    "asan_ubsan": "14/14"
+  },
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-tiles-host-r1/results.tar.gz",
+    "sha256": "b93ffdff3fd22bd3aa3ff9983081f3168f21061b5fc5ad210b13f0a6248e1508",
+    "verified_artifacts": 7,
+    "existing_archive": false
+  },
+  "source_capsule_sha256": "27d8e7d142fd7c97bddf3718e75868a25a3ebefae4d9a44c543550cc7d3e0af7",
+  "qualified_file_sha256": {
+    "tools/q2-remote.py": "59dff702c621aef778da03d98eb788b6dbe7e310e726521bb494e6be9863a08e",
+    "tools/q2-runner.py": "00e4f91ba72fe9ad265581493ccc14274db57ea1bef5dc1749da094bdae3541f",
+    "tests/q2_remote_test.py": "4eaee97c2297007ca1186b05fb13a18d781d005fdc3712f0cecef1ed25a1b936",
+    "tests/q2_packed_bench.cpp": "832b66e226c8b240f300d4648e78ad1ce34abbe6a4f3619988ec12321f47187b",
+    "tests/q2_scaled_tiles.cpp": "411c381ce7f52b1977574afb1c6f8bb8efcb385a5f4d2b093249604adcb955ea",
+    "cmake/hip/CMakeLists.txt": "93b2e7641ca8d8fa6bdb3f7c72b88d38e6d96fe174081a1647f29e633b0fe996"
+  }
+}

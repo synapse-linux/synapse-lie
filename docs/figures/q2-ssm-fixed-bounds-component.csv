@@ -1,0 +1,15 @@
+event,shape,rep,order,candidate,warmup,tokens,output_rows,inner,iterations,weight_bytes,us_per_iteration
+ssm_row_group_timing,ssm2048,0,0,False,True,2048,16384,2560,3,133693440,4909.58563487
+ssm_row_group_timing,ssm2048,0,1,True,True,2048,16384,2560,3,133693440,4855.86706797
+ssm_row_group_timing,ssm2048,1,0,True,True,2048,16384,2560,3,133693440,4837.85470327
+ssm_row_group_timing,ssm2048,1,1,False,True,2048,16384,2560,3,133693440,5021.83532715
+ssm_row_group_timing,ssm2048,2,0,False,False,2048,16384,2560,3,133693440,4992.22342173
+ssm_row_group_timing,ssm2048,2,1,True,False,2048,16384,2560,3,133693440,4844.01448568
+ssm_row_group_timing,ssm2048,3,0,True,False,2048,16384,2560,3,133693440,4837.69480387
+ssm_row_group_timing,ssm2048,3,1,False,False,2048,16384,2560,3,133693440,5027.34247843
+ssm_row_group_timing,ssm2048,4,0,False,False,2048,16384,2560,3,133693440,5002.54313151
+ssm_row_group_timing,ssm2048,4,1,True,False,2048,16384,2560,3,133693440,4836.76115672
+ssm_row_group_timing,ssm2048,5,0,True,False,2048,16384,2560,3,133693440,4841.17444356
+ssm_row_group_timing,ssm2048,5,1,False,False,2048,16384,2560,3,133693440,4985.69011688
+ssm_row_group_timing,ssm2048,6,0,False,False,2048,16384,2560,3,133693440,4999.54255422
+ssm_row_group_timing,ssm2048,6,1,True,False,2048,16384,2560,3,133693440,4855.12065887

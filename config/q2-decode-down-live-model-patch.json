@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-decode-down-live-model-patch.v1",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "parent_file": "src/models/qwen38_flash_next/kernels/rocm/q2_decode_down_rows.inc",
+  "parent_file_sha256": "5721e2818fae494367a080f35ec4c238191eaae9d6c18013d6720357ddb7cb1f",
+  "candidate_kernel": "experiments/q2-decode-down-live.inc",
+  "candidate_kernel_sha256": "d7b88204cb41997ce16619c6049cba2959a52e90bc9f0daaf3f665543e19811d",
+  "result_manifest": "config/q2-decode-down-live-results.json",
+  "result_manifest_sha256": "d80a82f65bf9f1158e61fa31e51d33fa439ce2f570c56c5261e06ba8732f0e05",
+  "patch": "experiments/q2-decode-down-live-model.patch",
+  "patch_sha256": "a1d82cae55c04dea9503f763acb1cf2c0a3147addb8aedf8aaef94f236f79f27",
+  "resulting_source_sha256": "14d02a4722cf1e51db649d86612dc8e70cb5ae2f5f30a8c2c6ab31769cb6c52c",
+  "dispatch": "Inherited non-prefill,one-token Q2_K down with2560 output/640 logical/768 stored columns,ten slots,512 experts; no change to phase gate.",
+  "changed_provider_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/q2_decode_down_rows.inc"
+  ],
+  "new_quantization": false,
+  "new_buffers": 0,
+  "source_provider_modified": false,
+  "model_compiled": false,
+  "model_tested": false
+}

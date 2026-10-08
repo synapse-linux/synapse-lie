@@ -1,0 +1,838 @@
+{
+  "schema": "synapse-lie.c17-distribution-host-qualification.v1",
+  "at_utc": "2026-10-05T07:30:56.332759+00:00",
+  "baseline_checkpoint": "950b0149e115ea47d71a43b5eb5e22bec2da4960",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Executed synthetic host ordered/compact/residual/MTP probability operations and pristine/ON/OFF numerical/grammar/history fixtures. NOT-INFERENCE; no model forward, original-weight GPU continuation, fit or performance qualification.",
+  "implementation": [
+    "Model-neutral C17 ABI1 owns checked/stable normalization, ranking/lookup, raw-ID penalties for compact positions, positive p-q residual and host discrete proposal/verification arithmetic. Caller owns all storage/growth/budgets; no pointer retention, allocator, thread or device import.",
+    "Ranked compact math preserves pinned top-k/top-p/min-p order, normalized cumulative rounding, logit min-p threshold and double normalization. Dense bias is not added to the pinned compact algorithm. Grammar may pre-mask rows but remains delegated.",
+    "Sparse repeated IDs are sorted by raw ID and lossless original index, then accumulate FP64 in original occurrence order. Residual retains target order and falls back to target when empty.",
+    "Exact F32 proposal masses sum to2^24 with remainder on first entry and always one draw. Acceptance draws once; residual draws only after rejection. Refusal preserves published result/RNG; ordinary target singleton uses no draw.",
+    "Provider recipe applies exact15 edits after dense/history recipes. Vectors/options/errors remain transient glue; C17 ON excludes legacy numerical helpers, OFF retains numerical/draw behavior and equal layouts. Provider receipt binds9 owned sampling files and all3 extraction recipes.",
+    "No executor/request/generation/persisted-state layout, DS4 framing, HTTP field, runtime thread or Python product/defaultCTest dependency changes. MTP controller, deferred correction and model/GPU ownership remain transitional."
+  ],
+  "coverage": [
+    "2048 independent residual draw oracles over512 profiles and4 seeds; duplicated/out-of-support sparse IDs accumulate in original order, with full FP64 residual and independent xorshift/draw witnesses.",
+    "768 independent proposal/verification draws plus singleton draw rule; mapped raw IDs, exact exported mass, accepted/rejected corrections, RNG and output preserved on invalid/resource refusal.",
+    "Malformed sparse lengths/nonfinite/negative masses, aliasing input/output, too-short mapping, ABI/bounds errors and first/second allocation refusal are checked without weakening assertions.",
+    "1728 compact/target profiles,6912 full MTP decisions,1024 raw residual draws and32 grammar-masked decisions match pristine Gufo and OFF byte-exactly for full FP64 rows/F32 q/token/RNG witnesses.",
+    "Existing1200 numerical cases,1200 bias cases,24 full-vocabulary cases and1728 complete history transitions/48profiles still match;9 upstream logit/grammar/MTP fixtures and candidate/fallback controls pass.",
+    "Final18 Debug,18 ASan/UBSan/LeakSanitizer shared-contract checks,16 sanitizer reference-project checks and34 public C++ headers pass. Strict C17 warning-as-error compilation and symbol audit pass."
+  ],
+  "sources": [
+    {
+      "path": "include/lie/sampling_distribution.h",
+      "sha256": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555"
+    },
+    {
+      "path": "src/sampling_distribution.c",
+      "sha256": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b"
+    },
+    {
+      "path": "adapters/gufo_distribution.hpp",
+      "sha256": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d"
+    },
+    {
+      "path": "adapters/gufo-state/distribution-sampling-edits.json",
+      "sha256": "2dc06f4ba2ff2fa9b021baff1dcd133ad582d0246bf46340208beeab7fcded16"
+    },
+    {
+      "path": "include/lie/sampling_history.h",
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "adapters/gufo-state/history-sampling-edits.json",
+      "sha256": "7487f5b2b087e54b64ee564131870daad4441572aa80d2440c2476080c631608"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "src/sampling.c",
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "adapters/gufo-state/dense-sampling-edits.json",
+      "sha256": "b64b16d475b24beeb06609ea28b13411f71a9ce562d242a9566fe85c281ba037"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "95c64be522ac8aef4a98dffd7a87a995535abcdcdb12a8dc85a3cd3421bd54f4"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "sha256": "768752ce39f4d2f8d0e9f4f0e660dc4893c81c1c416ff4a3c48969df3e891dc5"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "sha256": "cb67e2c4ac380dfa36c7ae811ee80311a4dee7e0d78ed3708ce33c196deec9c7"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "sha256": "1f0e44c842a230bcdaaddaa914551fbbba0dda6b5a1954ae74cb4c4b2f92740a"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "6dcb6e875cebdb05bc0a9753717ec5ef2fb9ab321ea6e6921bdbb15183e9e337"
+    },
+    {
+      "path": "tests/test_sampling_distribution.c",
+      "sha256": "40c72a4ce28dd17c2cfbdc3b4af23180e23b438771a94e30ae88b1b02b4820c3"
+    },
+    {
+      "path": "tests/sampling/distribution.cpp",
+      "sha256": "317b1b292c37ccbe16224eaa28bb489702d56652975cba518bb6416d2a556f58"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "sha256": "419391057a74833f673ea7311f8a9692820bf65e48a3519aa3b0a9809452ef98"
+    },
+    {
+      "path": "tests/sampling/compare.cmake",
+      "sha256": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "sha256": "11258c242d97e0b5ebb999502ba032817403eb3c77abe8d6eec5b97e15faf9f6"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/sampling-distribution-debug-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 54.875,
+      "result_sha256": "0ffd1bce00d29fd955eed5311fd7adbca2a10e1092ac1514879c1dbeede86dd0",
+      "log_sha256": "fd42ad26ca54501ad391e9f73a6a917110d0eb7f87b96cb9421fda347fa37851",
+      "temperature_log_sha256": "6ceadc8e5f569b57840fe5874d82ea4f26041a2a1fe428579a9b09be5b66358e"
+    },
+    {
+      "directory": "evidence/sampling-distribution-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 76.0,
+      "result_sha256": "9c1860f730a6309767351a83275634ebbfab189b8ed1da4b998936f84a87115a",
+      "log_sha256": "953ef1b104511be41d141b9d3484eec78b42475c098a9106977a141a832683cf",
+      "temperature_log_sha256": "aae52e480253718b4d4ac63e9058c6bd5907b153f1bca84832f44630fc119b34"
+    },
+    {
+      "directory": "evidence/sampling-distribution-asan-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/tool-http-asan",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 69.375,
+      "result_sha256": "9fedf192a5d19d333186a1400455ffbec13bfe1fea8bd0d0ac81a77744e3d0a8",
+      "log_sha256": "285a73c345a99950c2c75a9eaf177d4e6b48c6cba0ab7808780ef4375d9786aa",
+      "temperature_log_sha256": "880959a8a4ae1e1b5463e9935b16dbe981e806ab0b3958b5bee7b0fe00b4bae4"
+    },
+    {
+      "directory": "evidence/sampling-distribution-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 76.125,
+      "result_sha256": "59483674f06e00c8cfff6a19093452602d7d95c00b8caaf2b31d6e9ddd0ca17c",
+      "log_sha256": "953ef1b104511be41d141b9d3484eec78b42475c098a9106977a141a832683cf",
+      "temperature_log_sha256": "3f05609b2341e8ac6006bd648591f0902645971b034ab8f4b1338d264103f71d"
+    },
+    {
+      "directory": "evidence/sampling-distribution-reference-configure-r3",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-distribution-host",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 75.875,
+      "result_sha256": "f5d1e900c10e41488e31ef9a9d3b9b2e7cd7c4809fe482bd85688040817d70ef",
+      "log_sha256": "da17279ae93c8c1fbea4d4bbc8d360c666f723820c3eb3c9e0cb0ea3bd457ff8",
+      "temperature_log_sha256": "69aec9e4ac01902d28a747ecdd3d8db34452fe0c09529576fa6d81b2b0ded4b6"
+    },
+    {
+      "directory": "evidence/sampling-distribution-reference-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/sampling-distribution-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 76.75,
+      "result_sha256": "7b0503bff0c5856d38c8806b1a5502554fbef8ef80523000b4601c86331bdf7a",
+      "log_sha256": "ca9be4d8fab81353f8f71e098a51971bd1bf13ca5d9af0c81481335098d2682f",
+      "temperature_log_sha256": "a4d12eb888d48bb40ed548ba3ddd3e27be9a3d184f41d3982b1939ba0f7cbcc9"
+    },
+    {
+      "directory": "evidence/sampling-distribution-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(c17-(sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-verification|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "cpu_max_c": 80.0,
+      "result_sha256": "74809c083b8caf67c672f023066f5181ae999d9152e6b4089f9271e088d98b68",
+      "log_sha256": "6ed6e1d7e6065b1a41ff62153d4c903435e338d03e6870b8ae0283a9b363d967",
+      "temperature_log_sha256": "7c9d3d4741f2628763fc0264118079f686c2976f48b1a64102df5b90d3e6ade0"
+    },
+    {
+      "directory": "evidence/sampling-distribution-asan-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(c17-(sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-verification|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "cpu_max_c": 80.375,
+      "result_sha256": "053d8ae7ec1d1a281f4eb9dd7d2dbc7d78f967d6969c3a9b8571e94a62d88e9c",
+      "log_sha256": "2022e0acbf760636ca4becdb5abc99cdb7ba77a988dbf59c2ee7b3fb491c0493",
+      "temperature_log_sha256": "1ed5dd1285656bc2df5da6a1997fafb9f21d0164146a3ce0bf68936d7355ecb3"
+    },
+    {
+      "directory": "evidence/sampling-distribution-reference-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/sampling-distribution-host",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 16,
+      "cpu_max_c": 88.375,
+      "result_sha256": "847747d8ef66e9779629b65d9c096d3fc1d860a7c63ba4005033dc47802879c4",
+      "log_sha256": "03f239597d28e7197b0a8105c2efcab1bcfe7105f8ef1d2fd71d18ef2cddc676",
+      "temperature_log_sha256": "ca708272fc456c42de9251bb2c6eeed80d637a896e6d85b70061cc44a9c23be5"
+    },
+    {
+      "directory": "evidence/sampling-distribution-cxx-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-fsyntax-only",
+        "evidence/sampling-distribution-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 52.5,
+      "result_sha256": "77e591d293b4c4cf860b3b91c44cc547ad3c2cbec3d0074ebd092345b44c3c92",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "2faa918742a425a23b0fe04223af4717ceb278c6df6fee556a9936dd1887b086"
+    },
+    {
+      "directory": "evidence/sampling-distribution-c17-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/sampling_distribution.c",
+        "-o",
+        "evidence/sampling-distribution-c17-strict-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 52.5,
+      "result_sha256": "6803085ba5de9fc954cc5ff50511da4150af94de0e637406acaf9f726d5ca24a",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "56e65384d9e7b290939a60a20fcddf3258c5c0a52d838813ef7f822ca9aa95e9"
+    },
+    {
+      "directory": "evidence/sampling-distribution-c17-symbols-r1",
+      "argv": [
+        "nm",
+        "-u",
+        "evidence/sampling-distribution-c17-strict-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 83.625,
+      "result_sha256": "d954fba7509edf27c49cf16b18a6819fcaa51bcae60fcf6cfded7d23cbce119a",
+      "log_sha256": "c8a1b69521692dc72867bbd9b38fa23f31e7cd9661d48c0fc799f98b6f111b6d",
+      "temperature_log_sha256": "4dc7c67fdab1a41965a3254e5c7056c2f77f6057308979431af0d653c997eeb1"
+    }
+  ],
+  "preliminary_passing_checks": [
+    {
+      "directory": "evidence/sampling-distribution-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 74.875,
+      "result_sha256": "d40c769a8167d74499e6e14f504312ec9e54ba3ee4cd4ce4ccde48e83238b14d",
+      "log_sha256": "f730f4f1e2be1b3170fdd66b12f0ff981e14a925cfed8f5fd272ed1c41d07a02",
+      "temperature_log_sha256": "4ba92ba959f56bcffe5be46489dab55f7a980eb0ccbcf541e1e2b45675c7e19c"
+    },
+    {
+      "directory": "evidence/sampling-distribution-contract-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-R",
+        "^(c17-sampling-distribution-contract|native-provider-verification)$",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 2,
+      "cpu_max_c": 52.25,
+      "result_sha256": "85eececab355f40d81d1bda7dd5e5e2b645d8d46c224735f57e888068bfbba5a",
+      "log_sha256": "8f032d34867d1aa93c2f9154d5f6e753d4e81d55a3ddd104188356270a90e9ce",
+      "temperature_log_sha256": "a3c8d7b5da2b881d5cc19ab1e18c1767e548e29afc5348cc92cfe99758a41f80"
+    },
+    {
+      "directory": "evidence/sampling-distribution-reference-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-distribution-host",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 74.75,
+      "result_sha256": "44dd6d4a1b1c18e7eb55562fd06f231fc7756bf3b0c21deee481c46dc25b2939",
+      "log_sha256": "ab4698d9ffd0ccd1a289242b747455e44fabb6eefae95006aef958c7f808097c",
+      "temperature_log_sha256": "8be8f49520ce336f8d140266aa81de78a9492504b4d3bdae83714390ddf3061f"
+    },
+    {
+      "directory": "evidence/sampling-distribution-reference-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/sampling-distribution-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.125,
+      "result_sha256": "ffa5bfc509e5edd5fe1b3c1c54aa06b8de3482d7629c5ce13b844a4b98cb3739",
+      "log_sha256": "bc25c44e828f798b0a2a59f343d96ffddf9a4b7b37c906392174aeea9e65c125",
+      "temperature_log_sha256": "1dfd5f8bcf755859acf02557374ea7603886a29ff5452fe14b547908032fce82"
+    },
+    {
+      "directory": "evidence/sampling-distribution-reference-configure-r2",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-distribution-host",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 69.375,
+      "result_sha256": "24589dbf4c7098d5e021ccb887fc9991bcdee569ac52501492169cc7d47b96da",
+      "log_sha256": "da17279ae93c8c1fbea4d4bbc8d360c666f723820c3eb3c9e0cb0ea3bd457ff8",
+      "temperature_log_sha256": "cbb0292e13b53b88a8804eb71d572fe5f33bc6bcf77f7cef56695112194e233a"
+    }
+  ],
+  "host_binaries": [
+    {
+      "path": "build/sampling-distribution-host/reference-logit",
+      "sha256": "858b2ca2e96957b3eda1cf8245d616952fe4b82859d8bfb616ab0ae3095eec84"
+    },
+    {
+      "path": "build/sampling-distribution-host/reference-grammar",
+      "sha256": "e78fc96571c63d199c8bb3d47dd61ce709044b3c702017814f1cdac4111746b1"
+    },
+    {
+      "path": "build/sampling-distribution-host/reference-mtp",
+      "sha256": "2d7a7f25753188cedb4291d732394195ccd6252f37b32db8a4d86ff0f764a311"
+    },
+    {
+      "path": "build/sampling-distribution-host/reference-probe",
+      "sha256": "c2ca5f5c0d0ab0f3bf035fc753c2ec089a43737ac1414d09e9b004e56a9aa033"
+    },
+    {
+      "path": "build/sampling-distribution-host/reference-history",
+      "sha256": "3ab735cd1201e485dad15b153440a9c0e39f7f18ed5787922cd6f2b1af7af47e"
+    },
+    {
+      "path": "build/sampling-distribution-host/reference-distribution",
+      "sha256": "c011c85324e57c82fefb0c577f00132c9fb0d40ba7708588989d8e94fe509ec7"
+    },
+    {
+      "path": "build/sampling-distribution-host/reference-vocabulary",
+      "sha256": "462f84e61f6945546fa8ec93c6a7b25a1fe287dd7dbc76ce9fddcad7ff9e6405"
+    },
+    {
+      "path": "build/sampling-distribution-host/libreference.a",
+      "sha256": "01e8e7db7dfed37485cb90b5d043c358b9202b2b8abafa618e3c838cbad9af54"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-logit",
+      "sha256": "43ba8c4094a7c2149d5f3a247a3a57dce914d66706bbb0d529de9aeadb85cd64"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-grammar",
+      "sha256": "7cbff4ebdc67aee5b5039512bbe792b5e95b5e30aed5b4a75f4f0c99bf956bcc"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-mtp",
+      "sha256": "3b0767be5f65fb16a9cd6dce9f0806562824d6061db706d6666161482cf907ea"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-probe",
+      "sha256": "bb936bf1cf60e4e177f6ad87357a860acee37bafaab00ba096b4456628ddcb1c"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-history",
+      "sha256": "c860c7edfb4349292148bee37911873750d98383808ed4fa930b8ca034094b14"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-distribution",
+      "sha256": "d9d3b42d528fcae83bf18b5f1f7727904f4cf656679a1b538695be3a3b9b8bbf"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-vocabulary",
+      "sha256": "acfb1d2e0dea076bce94aa4a09260d170542d244f4d470e96405138c2759cab4"
+    },
+    {
+      "path": "build/sampling-distribution-host/libcandidate.a",
+      "sha256": "43bad0552d93f23ce9ddecb4285256199f7c47a778b64c3a8e22d30d0f3c616d"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-logit",
+      "sha256": "ca6b61b9435fd2f8ce9b15a39384283181063cbf1b2eaed2547d05d415ba4c70"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-grammar",
+      "sha256": "b3e36ac92e5eb199eb5972ce2ee8f3438b47ca1e08dcf6bedbdeea15e4e981e8"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-mtp",
+      "sha256": "7668be93ec11383798568fd208ddc39ad3596047a3c438c2aca255641a30c538"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-probe",
+      "sha256": "8bf2804e7d4d1d78937c333dbfe365b34eff39bde0d0bb74177d7f88cbd1311d"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-history",
+      "sha256": "f8171926346ffe462a34521f0461794416137a21d1f8339ed2c688884ac6c06d"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-distribution",
+      "sha256": "147e17a61767b819fe199a1e64a6568ca957d7c649f207c6d333d5d8603ff63f"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-vocabulary",
+      "sha256": "29b853e5cc048becd3c786d2da1037ef6d040759fcbf645e7f3ebac525b09e09"
+    },
+    {
+      "path": "build/sampling-distribution-host/libfallback.a",
+      "sha256": "bde2992f84196748a5ffba557f30693dd1ee2251297658eb1806253f50efff4b"
+    },
+    {
+      "path": "build/sampling-distribution-host/candidate-controls",
+      "sha256": "109f4f884fc55e841f7589a72a66b1539b31fcd9624f7a837f1a612e7c0322c8"
+    },
+    {
+      "path": "build/sampling-distribution-host/fallback-controls",
+      "sha256": "07cb93cf82598497f780a8db419057e518daf0fe93f6a8736db5ed1fbdbbdbe7"
+    }
+  ],
+  "generated_variant_inventory": {
+    "path": "build/sampling-distribution-host/variant-files.json",
+    "sha256": "54b6c19a382a312983f6cff1ef465e49de069485716b77eecb909d2240b1fc65"
+  },
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/sampling-distribution-host/parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/CANDIDATE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/FALLBACK.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/parity/REFERENCE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/sampling-distribution-host/biased-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/biased-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/biased-parity/CANDIDATE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/sampling-distribution-host/biased-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/biased-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/biased-parity/REFERENCE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/CANDIDATE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/FALLBACK.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/vocabulary-parity/REFERENCE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/sampling-distribution-host/history-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/CANDIDATE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/FALLBACK.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/history-parity/REFERENCE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    },
+    {
+      "suite": "distribution-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/CANDIDATE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/FALLBACK.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-distribution-host/distribution-parity/REFERENCE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        }
+      ]
+    }
+  ],
+  "strict_boundary": {
+    "imports": [
+      "                 U __stack_chk_fail",
+      "                 U exp",
+      "                 U floor",
+      "                 U lie_sampling_draw",
+      "                 U lie_sampling_options_validate",
+      "                 U lie_sampling_penalize",
+      "                 U lie_sampling_uniform",
+      "                 U log"
+    ],
+    "object": {
+      "path": "evidence/sampling-distribution-c17-strict-r1.o",
+      "sha256": "dd6eab8f1c62c72df853c2df415ad9da2dbc20f0a38365613a3b166727f42153"
+    },
+    "headers_fixture": {
+      "path": "evidence/sampling-distribution-public-headers-r1.cpp",
+      "sha256": "521e6744047543bafe4453c3b8bfb42c5a0e1994dd421e06b7750e8e67dc818b"
+    }
+  },
+  "retained_failed_checks": [],
+  "retained_tooling_failure": {
+    "path": "evidence/sampling-distribution-manifest-tooling-failure-r1.json",
+    "sha256": "e8f63d619a705c3b093179619903e3f4550d1e0f302ac7164f845c47828d24f3"
+  },
+  "failure_limits": [
+    "A guard-generation script exits1 before writing because it assumed a SamplerState::NextRandom member; source inspection found the actual free function. The corrected recipe builds and all final tests pass. This is tooling, not a runtime/test failure.",
+    "The earlier closed-stderr native-bench sanitizer abort remains unexplained; passing checks here do not establish a cause or fix."
+  ],
+  "local_cpu_max_c": 88.375,
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "gpu": "observe-only",
+    "tuning": false
+  },
+  "latest_readonly_gpu_witness": {
+    "path": "evidence/context-steering-availability-r22.json",
+    "sha256": "7468995d357b85261bf9e1ebe71ffd35de4debdb4e4fe52e7df211715a5a9d52",
+    "at_utc": "2026-10-05T07:28:56.951902+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "process_identity": [
+      {
+        "pid": 29223,
+        "comm": "python",
+        "exe": "/usr/bin/python3.12",
+        "cwd": "/home/pop/javaspec-lora-gemma4",
+        "workload_markers": [
+          "scripts/train_lora.py",
+          "/home/pop/hf-cache/models--google--gemma-4-E4B-it/snapshots/ee0ef6023621cff504d758262d4e04895a5af4a2"
+        ]
+      },
+      {
+        "pid": 29377,
+        "comm": "llama-server",
+        "exe": "/home/pop/.local/opt/llama.cpp-b10242-rocm72/llama-server",
+        "cwd": "/home/pop",
+        "workload_markers": []
+      }
+    ],
+    "cpu_c": 89.25,
+    "available_ram_bytes": 86238363648,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "limits": [
+    "New C17 history/distribution original-weight AR/MTP/grammar/vision and retained-correction continuation, allocation-exact resources, fault handling and matched cost remain unqualified on .161.",
+    "Grammar compilation/masking, entropy initialization, provider vector storage/deep copies, deferred draws, model/controller state and GPU-resident numerical kernels remain transitional; no autonomous model executor claim.",
+    "C caller/growth budgets and host probability parity do not establish GPU memory fit or a throughput benefit. The unchanged old dense-selector GPU receipts cover only their frozen identities.",
+    "No remote GPU build/run, heavyweight model hash, conversion, service mutation, foreign signal, dependency installation, waiter, standing lease or publication."
+  ],
+  "owned_open_task_count": 6,
+  "all_goal_requirements_verified": false
+}

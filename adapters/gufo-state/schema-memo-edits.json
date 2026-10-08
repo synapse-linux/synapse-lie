@@ -1,0 +1,21 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Per-compilation opaque node identity memo lookup/storage/insertion and bounds in C17; publish recursive placeholder before original VisitBody. JSON nodes/rule construction/dispatch and typed exceptions stay private. Preserve exact OFF reference; no inference threads, GPU/performance claim or persisted/KV format change.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_grammar_cache.hpp\"\n#endif",
+      "new": "#include \"gufo_grammar_cache.hpp\"\n#include \"gufo_schema_memo.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    if (const auto found = compiled_.find(&schema); found != compiled_.end())\n      return found->second;\n    const auto id = New();\n    compiled_[&schema] = id;",
+      "new": "#if LIE_C17_SAMPLING\n    if (auto found = compiled_.get(&schema))\n      return *found;\n    const auto id = New();\n    compiled_.assign(&schema, id);\n#else\n    if (const auto found = compiled_.find(&schema); found != compiled_.end())\n      return found->second;\n    const auto id = New();\n    compiled_[&schema] = id;\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  std::map<const json::Value*, std::uint32_t> compiled_;",
+      "new": "#if LIE_C17_SAMPLING\n  lie_gufo::SchemaMemo compiled_;\n#else\n  std::map<const json::Value*, std::uint32_t> compiled_;\n#endif"
+    }
+  ]
+}

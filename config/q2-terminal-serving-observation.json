@@ -1,0 +1,80 @@
+{
+  "observed_at": "2026-10-03T11:25:25.449875+00:00",
+  "label": "q2-terminal-qualified-full-r1",
+  "snapshot_sha256": "d6808f24ae6214cabc43d787a902639c4868eb65881dc1f8524d322c25f09204",
+  "scope": "Partial read-only serving observation during first Core-19 baseline; not a final quality or performance result",
+  "limits": {
+    "context_tokens": 262144,
+    "max_output_tokens": 4096,
+    "max_request_bytes": 8388608,
+    "max_messages": 1024
+  },
+  "scheduler": {
+    "mode": "single-owner-reactive-ready-batch",
+    "queued": 0,
+    "active": 0,
+    "output_blocked": 0,
+    "executor": {
+      "scope": "owner_dispatch_intervals",
+      "phase": "none",
+      "prefill_started": 202,
+      "prefill_returned": 202,
+      "decode_started": 9354,
+      "decode_returned": 9354,
+      "decode_batches": 0,
+      "decode_batch_rows": 0,
+      "decode_single_calls": 9354,
+      "cancel_during_prefill": 0,
+      "cancel_during_decode": 0
+    },
+    "max_active": 1,
+    "admission_capacity": 8,
+    "generated_tokens": 9328,
+    "completed": 26,
+    "cancelled": 0,
+    "failed": 0
+  },
+  "cache_enabled": false,
+  "ssd_enabled": false,
+  "post_responses": {
+    "2xx": 26,
+    "4xx": 0,
+    "5xx": 0
+  },
+  "get_4xx": 132,
+  "trials": [
+    {
+      "name": "break-filter-js-from-html__7qcSKnD",
+      "completed": true,
+      "observed_agent_steps": 6,
+      "maximum_prompt_tokens": 4806,
+      "maximum_completion_tokens": 1771,
+      "completion_at_output_ceiling": 0,
+      "metrics": {
+        "total_prompt_tokens": 20804,
+        "total_completion_tokens": 2506,
+        "total_cached_tokens": 0
+      }
+    },
+    {
+      "name": "build-cython-ext__TMxsGLK",
+      "completed": false,
+      "observed_agent_steps": 19,
+      "maximum_prompt_tokens": 28883,
+      "maximum_completion_tokens": 796,
+      "completion_at_output_ceiling": 0,
+      "metrics": {
+        "total_prompt_tokens": 334047,
+        "total_completion_tokens": 6721,
+        "total_cached_tokens": 0
+      }
+    }
+  ],
+  "limitations": [
+    "ATIF trajectories retain token counts, not finish_reason; no output reaches the configured ceiling in these recorded steps.",
+    "Metrics and trajectory reads are consecutive snapshots, not one atomic boundary.",
+    "GET 4xx count has no path attribution; it is not a model-request failure count.",
+    "No input/body/message-limit failure is observed; metadata capacity is not long-context qualification.",
+    "HTTP timer covers connection acceptance to response enqueue; it does not separate prefill, decode or agent execution."
+  ]
+}

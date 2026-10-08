@@ -1,0 +1,28 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp
+@@ -950,15 +950,19 @@
+ #pragma unroll
+     for (int k0 = 0; k0 < 8; k0 += 2) {
+         const uint2 grid_pos = ((const uint2*)iq2xxs_grid)[aux8[k0/2]];
+-        const uint32_t signs = unpack_ksigns(aux32 >> (7 * k0 / 2));
+-
+-        const int signs0 = __vcmpne4(signs & 0x08040201, 0);
+-        const int grid0 = __vsub4(grid_pos.x ^ signs0, signs0);
++        // Adapted from official Gufo DeepSeek dev_iq2_i8x8_lut at
++        // f783fedb9bea2ec7de941f6da4e02f4a4596b29e (see provenance).
++        // Complete parity, then spread four signs into byte-wise increments.
++        // IQ2 magnitudes are nonzero; negation cannot carry to another byte.
++        const uint32_t sign7 = (aux32 >> (7 * k0 / 2)) & 127u;
++        const uint32_t signs = sign7 | ((__popc(sign7) & 1u) << 7u);
++        const uint32_t add0 = ((signs & 15u) * 0x00204081u) & 0x01010101u;
++        const uint32_t add1 = ((signs >> 4u) * 0x00204081u) & 0x01010101u;
++        const int grid0 = static_cast<int>((grid_pos.x ^ (add0 * 255u)) + add0);
+         const int u0 = get_int_b4(bq8_1[iqs/2].qs, k0 + 0);
+         sumi = ggml_hip_dp4a(grid0, u0, sumi);
+ 
+-        const int signs1 = __vcmpne4(signs & 0x80402010, 0);
+-        const int grid1 = __vsub4(grid_pos.y ^ signs1, signs1);
++        const int grid1 = static_cast<int>((grid_pos.y ^ (add1 * 255u)) + add1);
+         const int u1 = get_int_b4(bq8_1[iqs/2].qs, k0 + 1);
+         sumi = ggml_hip_dp4a(grid1, u1, sumi);
+     }

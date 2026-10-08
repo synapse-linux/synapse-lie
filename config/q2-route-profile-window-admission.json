@@ -1,0 +1,278 @@
+{
+  "at": "2026-10-04T04:10:27.186037+00:00",
+  "state": "Q2_ROUTE_PROFILE_WINDOW_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "release_sha256": "83536aa9691a7607234f29a8a39b775123aa408617881f8cccc6f00fdefd7c9b",
+  "release_at": "2026-10-04T03:51:19.663070+00:00",
+  "retired": [
+    {
+      "pid": 3378175,
+      "start_ticks": null
+    },
+    {
+      "pid": 3378207,
+      "start_ticks": 164892398
+    },
+    {
+      "pid": 3378278,
+      "start_ticks": 164892451
+    },
+    {
+      "pid": 3378435,
+      "start_ticks": 164893103
+    },
+    {
+      "pid": 3378798,
+      "start_ticks": 164893807
+    },
+    {
+      "pid": 3378868,
+      "start_ticks": 164893860
+    },
+    {
+      "pid": 3379040,
+      "start_ticks": 164894813
+    },
+    {
+      "pid": 3379757,
+      "start_ticks": null
+    },
+    {
+      "pid": 3379758,
+      "start_ticks": 164901821
+    },
+    {
+      "pid": 3380173,
+      "start_ticks": 164902123
+    },
+    {
+      "pid": 3381641,
+      "start_ticks": 164919856
+    },
+    {
+      "pid": 3381642,
+      "start_ticks": 164919909
+    },
+    {
+      "pid": 3381643,
+      "start_ticks": 164919962
+    },
+    {
+      "pid": 3381644,
+      "start_ticks": 164919970
+    },
+    {
+      "pid": 3381751,
+      "start_ticks": 164921158
+    },
+    {
+      "pid": 3383689,
+      "start_ticks": null
+    },
+    {
+      "pid": 3383690,
+      "start_ticks": 164962536
+    },
+    {
+      "pid": 3384139,
+      "start_ticks": 164962889
+    },
+    {
+      "pid": 3385585,
+      "start_ticks": 164980871
+    },
+    {
+      "pid": 3385615,
+      "start_ticks": 164980924
+    },
+    {
+      "pid": 3385617,
+      "start_ticks": 164980977
+    },
+    {
+      "pid": 3385618,
+      "start_ticks": 164980985
+    },
+    {
+      "pid": 3385713,
+      "start_ticks": 164982092
+    },
+    {
+      "pid": 3387396,
+      "start_ticks": null
+    },
+    {
+      "pid": 3387397,
+      "start_ticks": 165017491
+    },
+    {
+      "pid": 3387810,
+      "start_ticks": 165017793
+    },
+    {
+      "pid": 3389298,
+      "start_ticks": 165035726
+    },
+    {
+      "pid": 3389299,
+      "start_ticks": 165035779
+    },
+    {
+      "pid": 3389300,
+      "start_ticks": 165035832
+    },
+    {
+      "pid": 3389301,
+      "start_ticks": 165035840
+    },
+    {
+      "pid": 3389426,
+      "start_ticks": 165036967
+    },
+    {
+      "pid": 3391250,
+      "start_ticks": null
+    },
+    {
+      "pid": 3391252,
+      "start_ticks": 165075145
+    },
+    {
+      "pid": 3391663,
+      "start_ticks": 165075447
+    },
+    {
+      "pid": 3392929,
+      "start_ticks": 165089073
+    },
+    {
+      "pid": 3392958,
+      "start_ticks": 165089126
+    },
+    {
+      "pid": 3392965,
+      "start_ticks": 165089179
+    },
+    {
+      "pid": 3392966,
+      "start_ticks": 165089186
+    },
+    {
+      "pid": 3393134,
+      "start_ticks": 165091239
+    }
+  ],
+  "retired_groups": [
+    3378207,
+    3378278,
+    3378435,
+    3378798,
+    3378868,
+    3379040,
+    3379758,
+    3380173,
+    3381641,
+    3381642,
+    3381643,
+    3383690,
+    3384139,
+    3385585,
+    3385615,
+    3385617,
+    3387397,
+    3387810,
+    3389298,
+    3389299,
+    3389300,
+    3391252,
+    3391663,
+    3392929,
+    3392958,
+    3392965
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": {
+      "driver": "r8169_0_c100:00",
+      "celsius": 38.0
+    },
+    "/sys/class/hwmon/hwmon2/temp1_input": {
+      "driver": "amdgpu",
+      "celsius": 35.0
+    },
+    "/sys/class/hwmon/hwmon0/temp1_input": {
+      "driver": "acpitz",
+      "celsius": 37.0
+    },
+    "/sys/class/hwmon/hwmon5/temp1_input": {
+      "driver": "mt7925_phy0",
+      "celsius": 42.0
+    },
+    "/sys/class/hwmon/hwmon3/temp1_input": {
+      "driver": "k10temp",
+      "celsius": 37.375
+    },
+    "/sys/class/hwmon/hwmon1/temp6_input": {
+      "driver": "nvme",
+      "celsius": 35.85
+    },
+    "/sys/class/hwmon/hwmon1/temp3_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp7_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp4_input": {
+      "driver": "nvme",
+      "celsius": 35.85
+    },
+    "/sys/class/hwmon/hwmon1/temp8_input": {
+      "driver": "nvme",
+      "celsius": 35.85
+    },
+    "/sys/class/hwmon/hwmon1/temp1_input": {
+      "driver": "nvme",
+      "celsius": 35.85
+    },
+    "/sys/class/hwmon/hwmon1/temp9_input": {
+      "driver": "nvme",
+      "celsius": 35.85
+    },
+    "/sys/class/hwmon/hwmon1/temp2_input": {
+      "driver": "nvme",
+      "celsius": 46.85
+    }
+  },
+  "scope": "Host20 Debug/ASan then one full-MMQ canonical ordered IQ2 Q2 routing diagnostic, 0-128K. Existing host counts only; same workload, no device arithmetic, routing, PLE or model mutation. Profile rates not performance acceptance.",
+  "restart_scheduled": false,
+  "hardware_tuning": false,
+  "checkpoint": "dd76d74"
+}

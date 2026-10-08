@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-select-key-tile-steady-window-plan.v1",
+  "label": "q2-select-key-tile-steady-component-r1",
+  "source_commit": "d7996a13c37b2487a101c4813e680cc1d3ddb02e",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-select-key-tile-component-r1/release.json",
+  "previous_release_sha256": "519dc16c2dcb527861573f29e3148deebaedb335a207d9b6ce1d8c3141b9d609",
+  "staged_sha256": {
+    "candidate.inc": "846826d838539faef0c608e15830057e2d8057b328bbebc9aecc7a23fd28495a",
+    "fixture.hip": "abc4d75fe6c716235ec565dd61752fb0a1950e489ff2864e02b268febf7a5983",
+    "q2-decode-down-rows-native128-performance-window.py": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+    "q2-select-key-tile-steady-window.py": "d5b629c3049e23560fb950ef5a747011956866b9c7f263b6bf73cc87474aa159",
+    "q2_select_key_tile.hip": "aeb7c91084384752858071249fa7ba6cf8527a55a348b22b5ad743df33d888c0",
+    "q2_select_key_tile_steady_check": "72f824dcfdcfedb89c8f986f3f6b95d83e6f0918880d525253ccb902c1a888a8",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "cd8622cab32af79caff5dde7e8580e2b8d8000b82497f1f73f9d2ca2fd1a276f",
+    "source-manifest.json": "405a9867c299e7b025e9a843d151e06dd0266bce089cc0174e06b6823e781a2e",
+    "static-manifest.json": "391fed68af5e367c349dcaede628bed7986cf57a7167c3738aeaba4f96ccc553"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "e5c0c4be255f933448c5af2b842e5a11a91f772fd11ae6b927a9b097b75da230",
+    "cpu-test.stdout": "03d3fc543cdc38d4288241e5e80d69b94818240da2fd9e3d568076e0a16ae2d1",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Continuous synthetic diagnostic only: same167 device functions byte-exact; eight alternating equally ordered pairs with per-launch output buffers and HIP events, all outputs checked after completion. Exact packing remains inside every candidate launch timer. Same original32K/128K internal512row slices and tail365, original arithmetic and precision. No model/input/chunk/dispatch change."
+}

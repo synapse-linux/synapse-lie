@@ -1,0 +1,46 @@
+{
+  "schema": "synapse-lie.q2-hc-rms-owner-ordinary-host.v1",
+  "label": "q2-hc-rms-owner-ordinary-host-r3",
+  "finished_at": "2026-10-06T10:37:43.158684+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "test_counts": {
+    "debug": 36,
+    "asan_ubsan": 36
+  },
+  "artifacts": 7,
+  "capsule_sha256": "a774c128adec79bc966c362f744f72fbea1875342929cebc1665c2cd2e94f9a4",
+  "archive_sha256": "c90b1d216cd5104f648c19f18ea3f7653744d53445bd986720330f71f2ffc252",
+  "result_sha256": "471e6e5a133b6ba560f87c0259417acd2a23d88c3e5c8f0641587784e35e76f2",
+  "plan_sha256": "f9d33dde523148666a1f274deeb9181f06459d68063c57e163aa1eea8004daab",
+  "frozen_fixture_files": 146,
+  "provider_files": 1028,
+  "model_access": false,
+  "GPU_admitted": false,
+  "preserved_failed_host_cohorts": [
+    {
+      "label": "q2-hc-rms-owner-ordinary-host-r1",
+      "result_sha256": "65946c161b1a797bc57a3e8f3cb4acea43892d018a50f6c8327d5eb8e5585d57",
+      "command_exits": [
+        0,
+        0,
+        8
+      ]
+    },
+    {
+      "label": "q2-hc-rms-owner-ordinary-host-r2",
+      "result_sha256": "77b34d797f1a6cd57a719e8968cf670eec26987354a597d4123cd41a9ec2baf4",
+      "command_exits": [
+        0,
+        0,
+        8
+      ]
+    }
+  ]
+}

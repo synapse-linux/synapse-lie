@@ -1,0 +1,88 @@
+{
+  "schema": "synapse-lie.q2-ssm-followup-runtime-staging.v1",
+  "arms": [
+    {
+      "variant": "ssm-fixed-shape",
+      "mode": "ssm-fixed-shape-check",
+      "kind": "component",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-fixed-shape-component/source.tar.gz",
+      "capsule_sha256": "065dbdd90fc2f4679a981e8fe421f47fd2303097bf9e3cd4ba96101558586689",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-fixed-shape",
+      "mode": "q2-counting-ssm-fixed-shape",
+      "kind": "model",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-fixed-shape-model/source.tar.gz",
+      "capsule_sha256": "609e559752188c025585a82f4f0b675648602b1367c65c4c17a2bece660128e8",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-fixed-bounds",
+      "mode": "ssm-fixed-bounds-check",
+      "kind": "component",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-fixed-bounds-component/source.tar.gz",
+      "capsule_sha256": "c1394301a982ff39b640afa5fff5928cb9744e94069d49378f977437ec55aa6e",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-fixed-bounds",
+      "mode": "q2-counting-ssm-fixed-bounds",
+      "kind": "model",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-fixed-bounds-model/source.tar.gz",
+      "capsule_sha256": "afca21e20a61eb02b84b89745983c10aadd23b84b0a91141c48535b42f8c5f0c",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-compact-lds",
+      "mode": "ssm-compact-lds-check",
+      "kind": "component",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-compact-lds-component/source.tar.gz",
+      "capsule_sha256": "0695feb8cfb1f398dede40393de0c23c1bd98274cc41c2cee553ea96697b8982",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-compact-lds",
+      "mode": "q2-counting-ssm-compact-lds",
+      "kind": "model",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-compact-lds-model/source.tar.gz",
+      "capsule_sha256": "3b4bcb41f0d3e6bcc3fe53eeccb90fb165b21fe64d25561cb0132d27729c59e7",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-pingpong",
+      "mode": "ssm-pingpong-check",
+      "kind": "component",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-pingpong-component/source.tar.gz",
+      "capsule_sha256": "8e0aee25d6632470c8ce0b297709969f95273067bd4099e954210431da47bd1f",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    },
+    {
+      "variant": "ssm-pingpong",
+      "mode": "q2-counting-ssm-pingpong",
+      "kind": "model",
+      "capsule": "evidence/q2-ssm-followup-runtime-preparation/overlay/evidence/q2-followup-local-ssm-pingpong-model/source.tar.gz",
+      "capsule_sha256": "8f6200692a964e3339252123e664f53d59a3a6a849bf51eeda51bbbbfa3dee3a",
+      "verified_files": 1035,
+      "provider_files": 1027,
+      "ssh_executed": false
+    }
+  ],
+  "patch_applied": false,
+  "remote_run": false,
+  "gpu_run": false
+}

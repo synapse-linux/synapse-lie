@@ -1,0 +1,860 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1105,6 +1105,7 @@
+ void Executor::Combine(float* res, const float* gamma,
+                        std::uint32_t n_tokens) const {
+   const Config& c = config();
++  lie_q2_deferred_norm_clear(&deferred_norm_);
+   // Wide batches hand the next mixer an F16 norm for its epilogue and the
+   // same norm quantized into the tiled Q8 layout for its W8A8 down
+   // projection: half the bytes for the combine and the epilogue, and no
+@@ -1130,6 +1131,19 @@
+   if (moe_f32_pending_) {
+     moe_f32_pending_ = false;
+     if (!xn_half_) {
++      if (produce_half && c.hc_low_rank == 320) {
++        // Low-rank F16 input occupies the prefix. Four F32 scales per token
++        // live beyond it; the fused up/inject consumers never overwrite them.
++        float* scales = s_.hc_gate + std::size_t(n_tokens) * c.hc_low_rank;
++        if (HcCombineMoeDeferredNorm(res, s_.down_e, s_.weights, s_.shexp_out,
++              s_.router + c.num_experts, c.num_experts + 1, c.num_experts_used,
++              s_.inject, inject_parts_, gamma, scales, n_tokens, c.hidden_size,
++              c.hc_count, c.rms_eps, stream_, norm_half)) {
++          lie_q2_deferred_norm_publish(&deferred_norm_, res, gamma, scales, n_tokens);
++          publish_half();
++          return;
++        }
++      }
+       const bool combined =
+           produce_half
+               ? HcCombineMoeF32Half(res, s_.down_e, s_.weights, s_.shexp_out,
+@@ -1195,6 +1209,7 @@
+   // otherwise the previous combine produced it, as F16 plus tiled Q8 on the
+   // wide route or as F32 in s_.xn.
+   if (!normed) {
++    lie_q2_deferred_norm_clear(&deferred_norm_);
+     xn_half_ = false;
+     // Recomputing xn invalidates every previously published copy.
+     half_src_ = nullptr;
+@@ -1217,6 +1232,24 @@
+       m.up.rows == c.HcDim() && m.up.cols == c.hc_low_rank &&
+       (inject == nullptr || m.inject.empty() ||
+        m.inject.type == GgmlType::kF32);
++  const auto deferred = deferred_norm_;
++  const bool consume_deferred = deferred.rows != 0 && normed && !xn_half_ &&
++      fused_raw_projection && !produce_q8;
++  if (deferred.rows != 0) {
++    if (!lie_q2_deferred_norm_matches(&deferred, res, m.norm.f32(), n_tokens)) {
++      lie_q2_deferred_norm_clear(&deferred_norm_);
++      AssignError(error_msg, "deferred HC norm identity changed");
++      return false;
++    }
++    if (!consume_deferred &&
++        !ReconstructHcNorm(res, deferred.scales, deferred.gamma, s_.xn, n_tokens, stream_)) {
++      lie_q2_deferred_norm_clear(&deferred_norm_);
++      AssignError(error_msg, "deferred HC norm reconstruction failed");
++      return false;
++    }
++    // The local snapshot stays live through both same-stream consumers.
++    lie_q2_deferred_norm_clear(&deferred_norm_);
++  }
+   if (fused_projection) {
+     // The up projection writes x_half; keep its input in the gate buffer.
+     if (!HcDownF16Gemm(m.down.data, s_.xn_q8t,
+@@ -1284,6 +1317,18 @@
+       q8t_rows_ = n_tokens;
+       q8t_cols_ = c.hidden_size;
+     }
++  } else if (consume_deferred) {
++    if (!HcMixDeferredNorm(m.up.data, reinterpret_cast<const __half*>(s_.hc_gate),
++            res, fused_inject ? m.inject.f32() : nullptr, mixed,
++            static_cast<__half*>(s_.x_half), inject, n_tokens, c.hidden_size,
++            c.hc_low_rank, stream_, deferred.scales, deferred.gamma)) {
++      AssignError(error_msg, "deferred raw F16 HC projection failed");
++      return false;
++    }
++    half_src_ = mixed;
++    half_rows_ = n_tokens;
++    half_cols_ = c.hidden_size;
++    half_bf16_ = false;
+   } else if (fused_raw_projection && produce_q8) {
+     // The FFN shared gate/up reads these exact mixed rows next. Reuse the
+     // existing Q8 epilogue; publish its identity only after both launches pass.
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.hpp
+@@ -1,5 +1,7 @@
+ #ifndef GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_
+ #define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_EXECUTOR_HPP_
++
++#include "lie_q2_deferred_norm_state.h"
+ 
+ #include <hip/hip_fp16.h>
+ #include <hip/hip_runtime.h>
+@@ -563,6 +565,7 @@
+   mutable bool half_bf16_{false};
+   /// Set by a combine that wrote s_.xn_half / s_.xn_q8t instead of s_.xn.
+   mutable bool xn_half_{false};
++  mutable lie_q2_deferred_norm_state deferred_norm_{};
+   /// Partial sums per inject logit the last HcMix left in s_.inject.
+   mutable std::uint32_t inject_parts_{1};
+   mutable unsigned q8_slot_{0};
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -6271,6 +6271,8 @@
+ 
+ #include "q2_hc_down_bk256.inc"
+ 
++#include "q2_hc_moe_deferred.inc"
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -594,6 +594,25 @@
+                       std::uint32_t* scratch_ids, float* scores,
+                       std::uint32_t vocab, hipStream_t stream);
+ 
++// Experimental MoE deferred norm: all inputs/scales survive both consumers.
++bool HcCombineMoeDeferredNorm(float* res, const float* expert_out,
++                              const float* weights, const float* shared_out,
++                              const float* gate, std::uint32_t gate_stride,
++                              std::uint32_t used, const float* inject,
++                              std::uint32_t inject_parts, const float* gamma,
++                              float* norm_scales, std::uint32_t n_tokens,
++                              std::uint32_t hidden, std::uint32_t streams,
++                              float eps, hipStream_t stream,
++                              __half* norm_half);
++bool ReconstructHcNorm(const float* residual, const float* scales,
++                       const float* gamma, float* out, std::uint32_t tokens,
++                       hipStream_t stream);
++bool HcMixDeferredNorm(const void* up, const __half* low_rank, const float* xn,
++                       const float* inject_w, float* mixed, __half* mixed_half,
++                       float* inject, std::uint32_t n_tokens,
++                       std::uint32_t hidden, std::uint32_t rank,
++                       hipStream_t stream, const float* norm_scales,
++                       const float* norm_gamma);
+ }  // namespace gufo::models::qwen38_flash_next::rocm
+ 
+ #endif  // GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_KERNELS_HPP_
+--- a/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h
+@@ -0,0 +1,41 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_DEFERRED_NORM_STATE_H
++#define LIE_Q2_DEFERRED_NORM_STATE_H
++#include <stdbool.h>
++#include <stddef.h>
++#include <stdint.h>
++
++/* Host identity only. Device buffers remain owned by the transitional executor
++ * and all producer/consumer launches use its existing ordered stream. */
++typedef struct {
++    const float *residual;
++    const float *gamma;
++    float *scales;
++    uint32_t rows;
++} lie_q2_deferred_norm_state;
++
++static inline void lie_q2_deferred_norm_clear(lie_q2_deferred_norm_state *state) {
++    state->residual = NULL;
++    state->gamma = NULL;
++    state->scales = NULL;
++    state->rows = 0;
++}
++
++static inline bool lie_q2_deferred_norm_publish(lie_q2_deferred_norm_state *state,
++        const float *residual, const float *gamma, float *scales, uint32_t rows) {
++    lie_q2_deferred_norm_clear(state);
++    if (residual == NULL || gamma == NULL || scales == NULL || rows != 2048)
++        return false;
++    state->residual = residual;
++    state->gamma = gamma;
++    state->scales = scales;
++    state->rows = rows;
++    return true;
++}
++
++static inline bool lie_q2_deferred_norm_matches(const lie_q2_deferred_norm_state *state,
++        const float *residual, const float *gamma, uint32_t rows) {
++    return state->rows == 2048 && state->scales != NULL &&
++        state->residual == residual && state->gamma == gamma && state->rows == rows;
++}
++#endif
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_hc_moe_deferred.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_hc_moe_deferred.inc
+@@ -0,0 +1,673 @@
++// SPDX-License-Identifier: MIT
++// Retained official-Gufo-derived numerical experiment; MoE only.
++// No ordinary deferred producer or Q8 consumer is selected.
++__device__ __forceinline__ float4 DeferredHcNormValue(float4 residual,
++                                                      float scale,
++                                                      float4 gamma) {
++  float4 n{__fmul_rn(residual.x, __fmul_rn(scale, gamma.x)),
++           __fmul_rn(residual.y, __fmul_rn(scale, gamma.y)),
++           __fmul_rn(residual.z, __fmul_rn(scale, gamma.z)),
++           __fmul_rn(residual.w, __fmul_rn(scale, gamma.w))};
++  asm("" : "+v"(n.x), "+v"(n.y), "+v"(n.z), "+v"(n.w));
++  return n;
++}
++
++__device__ __forceinline__ float4 LoadDeferredHcNorm(
++    const float* residual, const float* scales, const float* gamma,
++    std::size_t token, unsigned stream, std::size_t hidden, std::size_t h) {
++  return DeferredHcNormValue(
++      Load4(residual + (token * 4 + stream) * hidden + h),
++      scales[token * 4 + stream], Load4(gamma + stream * hidden + h));
++}
++
++__global__ void HcCombineMoeDeferredNormKernel(
++    float* res, const float* expert_out, const float* weights,
++    const float* shared_out, const float* gate, std::uint32_t gate_stride,
++    std::uint32_t used, const float* inject, std::uint32_t inject_parts,
++    const float* gamma, float* norm_scales, std::uint32_t hidden, float eps,
++    __half* norm_half) {
++  constexpr std::uint32_t kStreams = 4;
++  constexpr std::uint32_t kMaxChunks = 10;  // 4 x 2560 / 4 / kThreads
++  __shared__ float shared[kStreams][kThreads / 32];
++  const std::uint32_t t = blockIdx.x;
++  const std::size_t hc_dim = static_cast<std::size_t>(kStreams) * hidden;
++  float w[kStreams];
++#pragma unroll
++  for (std::uint32_t s = 0; s < kStreams; ++s) {
++    float logit = 0.0f;
++    for (std::uint32_t p = 0; p < inject_parts; ++p) {
++      logit +=
++          inject[(static_cast<std::size_t>(t) * kStreams + s) * inject_parts +
++                 p];
++    }
++    w[s] = 2.0f * SigmoidF(logit / static_cast<float>(kStreams));
++  }
++  float* dst = res + static_cast<std::size_t>(t) * hc_dim;
++  __shared__ __attribute__((aligned(16))) float moe[2560];
++  const float g = SigmoidF(gate[static_cast<std::size_t>(t) * gate_stride]);
++  for (std::uint32_t i = threadIdx.x * 4; i < hidden; i += kThreads * 4) {
++    float4 acc{0.0F, 0.0F, 0.0F, 0.0F};
++    const float* rows =
++        expert_out + static_cast<std::size_t>(t) * used * hidden + i;
++    for (std::uint32_t s = 0; s < used; ++s) {
++      const float wk = weights[t * used + s];
++      const float4 value = Load4(rows + static_cast<std::size_t>(s) * hidden);
++      // Keep the reference epilogue's rounded expert accumulation separate
++      // from the residual update, despite fast-math across this fusion.
++      acc.x = __fmaf_rn(wk, value.x, acc.x);
++      acc.y = __fmaf_rn(wk, value.y, acc.y);
++      acc.z = __fmaf_rn(wk, value.z, acc.z);
++      acc.w = __fmaf_rn(wk, value.w, acc.w);
++    }
++    const float4 sh = *reinterpret_cast<const float4*>(
++        shared_out + static_cast<std::size_t>(t) * hidden + i);
++    acc.x = __fmaf_rn(g, sh.x, acc.x);
++    acc.y = __fmaf_rn(g, sh.y, acc.y);
++    acc.z = __fmaf_rn(g, sh.z, acc.z);
++    acc.w = __fmaf_rn(g, sh.w, acc.w);
++    *reinterpret_cast<float4*>(moe + i) = acc;
++  }
++  // All lanes finish the shared row before any stream reads it.
++  __syncthreads();
++  const float* src = moe;
++  const std::uint32_t chunks = static_cast<std::uint32_t>(hc_dim / 4);
++  float4 v[kMaxChunks];
++  float ss[kStreams] = {0.0F, 0.0F, 0.0F, 0.0F};
++#pragma unroll
++  for (std::uint32_t c = 0; c < kMaxChunks; ++c) {
++    const std::uint32_t e = (c * kThreads + threadIdx.x) * 4;
++    v[c] = float4{0.0F, 0.0F, 0.0F, 0.0F};
++    if (e < hc_dim) {
++      const std::uint32_t s = e / hidden;
++      const std::uint32_t i = e - (s * hidden);
++      const float ws = w[s];
++      const float4 r = *reinterpret_cast<const float4*>(dst + e);
++      const float4 b = *reinterpret_cast<const float4*>(src + i);
++      v[c] = float4{r.x + b.x * ws, r.y + b.y * ws, r.z + b.z * ws,
++                    r.w + b.w * ws};
++      *reinterpret_cast<float4*>(dst + e) = v[c];
++      // Retain the measured F32 sum-of-squares contraction order.
++      const float sq = __fmaf_rn(
++          v[c].x, v[c].x,
++          __fmaf_rn(v[c].z, v[c].z,
++                    __fmaf_rn(v[c].y, v[c].y, __fmul_rn(v[c].w, v[c].w))));
++#pragma unroll
++      for (std::uint32_t k = 0; k < kStreams; ++k) {
++        ss[k] += (k == s) ? sq : 0.0F;
++      }
++    }
++  }
++  if (gamma == nullptr) {
++    return;
++  }
++  const std::uint32_t lane = threadIdx.x & 31u;
++  const std::uint32_t wave = threadIdx.x >> 5u;
++#pragma unroll
++  for (std::uint32_t k = 0; k < kStreams; ++k) {
++    ss[k] = WaveSum(ss[k]);
++    if (lane == 0) {
++      shared[k][wave] = ss[k];
++    }
++  }
++  __syncthreads();
++  float scale[kStreams];
++#pragma unroll
++  for (std::uint32_t k = 0; k < kStreams; ++k) {
++    float total = 0.0F;
++    for (std::uint32_t q = 0; q < kThreads / 32; ++q) {
++      total += shared[k][q];
++    }
++    scale[k] = rsqrtf(total / static_cast<float>(hidden) + eps);
++  }
++  if (threadIdx.x == 0) {
++    *reinterpret_cast<float4*>(norm_scales + std::size_t(t) * 4) =
++        float4{scale[0], scale[1], scale[2], scale[3]};
++  }
++#pragma unroll
++  for (std::uint32_t c = 0; c < kMaxChunks; ++c) {
++    const std::uint32_t e = (c * kThreads + threadIdx.x) * 4;
++    // Every lane of the wave takes part in the block reductions below, so
++    // lanes past the row carry zeros instead of leaving.
++    float4 n{0.0F, 0.0F, 0.0F, 0.0F};
++    if (e < hc_dim) {
++      const std::uint32_t s = e / hidden;
++      const float sc = scale[s];
++      const float4 gm = *reinterpret_cast<const float4*>(gamma + e);
++      n = DeferredHcNormValue(v[c], sc, gm);
++      // Anchor F32 rounding before conversion. Without this barrier
++      // fast-math can emit a mixed FMA rounding directly into F16.
++      asm("" : "+v"(n.x), "+v"(n.y), "+v"(n.z), "+v"(n.w));
++      if (norm_half != nullptr) {
++        __half* half = norm_half + (static_cast<std::size_t>(t) * hc_dim) + e;
++        *reinterpret_cast<__half2*>(half) = __floats2half2_rn(n.x, n.y);
++        *reinterpret_cast<__half2*>(half + 2) = __floats2half2_rn(n.z, n.w);
++      }
++    }
++  }
++}
++
++__global__ void ReconstructHcNormKernel(const float* residual,
++                                        const float* scales, const float* gamma,
++                                        float* out, std::size_t count) {
++  const std::size_t i =
++      (std::size_t(blockIdx.x) * blockDim.x + threadIdx.x) * 4;
++  if (i >= count)
++    return;
++  constexpr std::size_t hidden = 2560;
++  const std::size_t token = i / (hidden * 4);
++  const unsigned stream = (i / hidden) % 4;
++  const std::size_t h = i % hidden;
++  *reinterpret_cast<float4*>(out + i) =
++      LoadDeferredHcNorm(residual, scales, gamma, token, stream, hidden, h);
++}
++
++template<typename XnT, bool kMix = true>
++__global__ void HcInjectDeferredNormKernel(const XnT* xn, const float* gate,
++                                           const float* inject_w, float* mixed,
++                                           float* inject, std::uint32_t hidden,
++                                           const float* norm_scales,
++                                           const float* norm_gamma) {
++  static_assert(!kMix && std::is_same_v<XnT, float>);
++  constexpr std::uint32_t kStreams = 4;
++  const std::uint32_t t = blockIdx.x;
++  const std::uint32_t i = (blockIdx.y * blockDim.x + threadIdx.x) * 4;
++  const std::size_t hc_dim = static_cast<std::size_t>(kStreams) * hidden;
++  const XnT* x = xn + static_cast<std::size_t>(t) * hc_dim;
++  float4 v[kStreams];
++  float4 acc{0.0F, 0.0F, 0.0F, 0.0F};
++#pragma unroll
++  for (std::uint32_t s = 0; s < kStreams; ++s) {
++    const std::size_t idx = static_cast<std::size_t>(s) * hidden + i;
++    v[s] = i < hidden ? LoadDeferredHcNorm(xn, norm_scales, norm_gamma, t, s,
++                                           hidden, i)
++                      : float4{0.0F, 0.0F, 0.0F, 0.0F};
++    if (kMix && i < hidden) {
++      const float4 g = *reinterpret_cast<const float4*>(
++          gate + static_cast<std::size_t>(t) * hc_dim + idx);
++      acc.x += v[s].x * SigmoidF(g.x);
++      acc.y += v[s].y * SigmoidF(g.y);
++      acc.z += v[s].z * SigmoidF(g.z);
++      acc.w += v[s].w * SigmoidF(g.w);
++    }
++  }
++  if (kMix && i < hidden) {
++    constexpr float kInvStreams = 1.0F / static_cast<float>(kStreams);
++    acc.x *= kInvStreams;
++    acc.y *= kInvStreams;
++    acc.z *= kInvStreams;
++    acc.w *= kInvStreams;
++    *reinterpret_cast<float4*>(mixed + static_cast<std::size_t>(t) * hidden +
++                               i) = acc;
++  }
++  if (inject_w == nullptr) {
++    return;
++  }
++  __shared__ float partial[kStreams][kThreads / 32];
++  const std::uint32_t lane = threadIdx.x % warpSize;
++  const std::uint32_t wave = threadIdx.x / warpSize;
++#pragma unroll
++  for (std::uint32_t o = 0; o < kStreams; ++o) {
++    const float* w = inject_w + static_cast<std::size_t>(o) * hc_dim;
++    float dot = 0.0F;
++    if (i < hidden) {
++#pragma unroll
++      for (std::uint32_t s = 0; s < kStreams; ++s) {
++        const float4 q = *reinterpret_cast<const float4*>(
++            w + static_cast<std::size_t>(s) * hidden + i);
++        dot += q.x * v[s].x;
++        dot += q.y * v[s].y;
++        dot += q.z * v[s].z;
++        dot += q.w * v[s].w;
++      }
++    }
++    dot = WaveSum(dot);
++    if (lane == 0) {
++      partial[o][wave] = dot;
++    }
++  }
++  __syncthreads();
++  if (threadIdx.x < kStreams) {
++    float total = 0.0F;
++    for (std::uint32_t w = 0; w < blockDim.x / warpSize; ++w) {
++      total += partial[threadIdx.x][w];
++    }
++    inject[(static_cast<std::size_t>(t) * kStreams + threadIdx.x) * gridDim.y +
++           blockIdx.y] = total;
++  }
++}
++
++__launch_bounds__(512) __global__ void HcMixDeferredNormKernel(
++    const void* __restrict__ w, const __half* __restrict__ x,
++    float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
++    const float* xn, __half* mixed_half, void* mixed_q8,
++    const float* norm_scales, const float* norm_gamma) {
++  constexpr int BM = 256, BN = 128, BK = 1, WM = 4, WN = 2, kRowGroup = 8;
++  constexpr bool kHcMix = true, kSsmConv = false, kAttention = false,
++                 kHalfWeights = true, kHcUpChains = true;
++  static_assert(WM * WN == 8, "256 threads is 8 waves");
++  static_assert(BM % (16 * WM) == 0 && BN % (16 * WN) == 0);
++  constexpr int kRowTiles = BM / 16;
++  constexpr int kTokTiles = BN / 16;
++  constexpr int kWaveRowTiles = kRowTiles / WM;
++  constexpr int kWaveTokTiles = kTokTiles / WN;
++  // Weight and activation K blocks staged per thread; a unit past the
++  // stage's block count is idle.
++  static_assert(!kHcUpChains ||
++                (kHalfWeights && kHcMix && BM == 256 && BN == 128));
++  constexpr int kBlockThreads = kHcUpChains ? 512 : 256;
++  constexpr int kAUnits = BM * BK;
++  constexpr int kBUnits = BN * BK;
++  constexpr int kAPer = (kAUnits + kBlockThreads - 1) / kBlockThreads;
++  constexpr int kBPer = (kBUnits + kBlockThreads - 1) / kBlockThreads;
++
++  // One K block of one row or token is four 16-byte chunks; the chunks of
++  // nearby rows are permuted so a fragment read (one row per lane, 64-byte
++  // stride) covers all bank groups.
++  constexpr int kLdsChunks = BK * (BM + BN) * 4;
++  constexpr int kTransposeChunks = 8 * 16 * 36 * sizeof(float) / sizeof(uint4);
++  constexpr int kLdsStorage =
++      kLdsChunks < kTransposeChunks ? kTransposeChunks : kLdsChunks;
++  static_assert(kLdsStorage * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
++  __shared__ __attribute__((aligned(16))) uint4 s_lds[kLdsStorage];
++  auto* s_a = reinterpret_cast<uint4(*)[BM][4]>(s_lds);
++  auto* s_b = reinterpret_cast<uint4(*)[BN][4]>(s_lds + (BK * BM * 4));
++  const auto swizzle = [](int row, int c) { return c ^ ((row >> 1) & 3); };
++
++  const int num_kb = static_cast<int>(k / 32);
++  const int m_i = static_cast<int>(m);
++  const auto* w_bytes = static_cast<const std::uint8_t*>(w);
++
++  const int tid = static_cast<int>(threadIdx.x);
++  const int wave_id = (tid >> 5) / (kHcUpChains ? 2 : 1);
++  const int chain = (tid >> 5) & 1;
++  const int lane_id = tid & 31;
++  const int sub_lane = lane_id & 15;
++  const int half_id = lane_id >> 4;
++  const int wave_row = wave_id / WN;
++  const int wave_tok = wave_id % WN;
++  // Group row tiles for the narrow HC up projection. The tile grid's row
++  // count is divisible by kRowGroup; every dot product keeps its K order.
++  const unsigned row_group = blockIdx.y / kRowGroup;
++  const unsigned within = (blockIdx.y % kRowGroup) * gridDim.x + blockIdx.x;
++  const int r_block = (row_group * kRowGroup + within % kRowGroup) * BM;
++  const int t_block = (within / kRowGroup) * BN;
++
++  // Weight fetch unit p of a thread: row (p * 256 + tid) / BK, K block
++  // (p * 256 + tid) % BK of the stage; rows past m read the last row with
++  // a zero scale.
++  const std::uint8_t* a_ptr[kAPer];
++  bool a_live[kAPer];
++#pragma unroll
++  for (int p = 0; p < kAPer; ++p) {
++    const int idx = (p * kBlockThreads) + tid;
++    const int r = r_block + (idx / BK);
++    a_live[p] = idx < kAUnits && r < m_i;
++    // Interleave the four gate streams within the tile, without repacking
++    // weights. Each group of four rows produces one mixed hidden element.
++    const int weight_row = kHcMix ? (r % 4) * (m_i / 4) + r / 4 : r;
++    a_ptr[p] = w_bytes +
++               static_cast<std::size_t>(a_live[p] ? weight_row : (m_i - 1)) *
++                   static_cast<std::size_t>(num_kb) * (kHalfWeights ? 64 : 34);
++  }
++  const __half* b_ptr[kBPer];
++#pragma unroll
++  for (int p = 0; p < kBPer; ++p) {
++    const int idx = (p * kBlockThreads) + tid;
++    const int t = t_block + (idx / BK);
++    b_ptr[p] = idx < kBUnits && t < static_cast<int>(batch)
++                   ? x + (static_cast<std::size_t>(t) * k)
++                   : nullptr;
++  }
++  uint4 a_codes[kAPer][2];
++  uint4 a_half[kHalfWeights ? kAPer : 1][4];
++  std::uint32_t a_d[kAPer];
++  uint4 b_data[kBPer][4];
++
++  const auto fetch_stage = [&](int kb0) {
++#pragma unroll
++    for (int p = 0; p < kAPer; ++p) {
++      const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
++      const bool live = a_live[p] && kb < num_kb;
++      if constexpr (kHalfWeights) {
++        const auto* src = reinterpret_cast<const uint4*>(
++            a_ptr[p] + static_cast<std::size_t>(kb) * 64);
++#pragma unroll
++        for (int c = 0; c < 4; ++c)
++          a_half[p][c] = live ? src[c] : make_uint4(0u, 0u, 0u, 0u);
++      } else {
++        const std::uint8_t* blk =
++            a_ptr[p] +
++            (static_cast<std::size_t>(live ? kb : (num_kb - 1)) * 34);
++        a_d[p] = live ? *reinterpret_cast<const std::uint16_t*>(blk) : 0U;
++        __builtin_memcpy(&a_codes[p][0], blk + 2, 16);
++        __builtin_memcpy(&a_codes[p][1], blk + 18, 16);
++      }
++    }
++#pragma unroll
++    for (int p = 0; p < kBPer; ++p) {
++      const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
++      if (b_ptr[p] != nullptr && kb < num_kb) {
++        const auto* src = reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
++#pragma unroll
++        for (int c = 0; c < 4; ++c) {
++          b_data[p][c] = src[c];
++        }
++      } else {
++#pragma unroll
++        for (int c = 0; c < 4; ++c) {
++          b_data[p][c] = make_uint4(0u, 0u, 0u, 0u);
++        }
++      }
++    }
++  };
++
++  const __half2 magic = __floats2half2_rn(-1152.0F, -1152.0F);
++  const __half2 zero2 = __floats2half2_rn(0.0F, 0.0F);
++  const auto commit_stage = [&]() {
++#pragma unroll
++    for (int p = 0; p < kAPer; ++p) {
++      const int idx = (p * kBlockThreads) + tid;
++      if (idx >= kAUnits) {
++        break;
++      }
++      const int row = idx / BK;
++      const int kk = idx % BK;
++      if constexpr (kHalfWeights) {
++#pragma unroll
++        for (int c = 0; c < 4; ++c)
++          s_a[kk][row][swizzle(row, c)] = a_half[p][c];
++      } else {
++        // Q8_0 codes are signed; flipping the sign bit carries q + 128, which
++        // the 1152 magic takes back out.
++        const std::uint32_t words[8] = {
++            a_codes[p][0].x, a_codes[p][0].y, a_codes[p][0].z, a_codes[p][0].w,
++            a_codes[p][1].x, a_codes[p][1].y, a_codes[p][1].z, a_codes[p][1].w};
++        const __half2 scale2 = __half2half2(
++            __builtin_bit_cast(__half, static_cast<std::uint16_t>(a_d[p])));
++        __half2 h[16];
++#pragma unroll
++        for (int i = 0; i < 8; ++i) {
++          CodesToHalves(words[i] ^ 0x80808080U, magic, scale2, zero2, h[2 * i],
++                        h[2 * i + 1]);
++        }
++#pragma unroll
++        for (int c = 0; c < 4; ++c) {
++          uint4 v;
++          __builtin_memcpy(&v, &h[4 * c], 16);
++          s_a[kk][row][swizzle(row, c)] = v;
++        }
++      }
++    }
++#pragma unroll
++    for (int p = 0; p < kBPer; ++p) {
++      const int idx = (p * kBlockThreads) + tid;
++      if (idx >= kBUnits) {
++        break;
++      }
++      const int t = idx / BK;
++      const int kk = idx % BK;
++#pragma unroll
++      for (int c = 0; c < 4; ++c) {
++        s_b[kk][t][swizzle(t, c)] = b_data[p][c];
++      }
++    }
++  };
++
++  v8f acc[kWaveRowTiles][kWaveTokTiles];
++  // Separate K16 chains reduce FP32 accumulation error for the sensitive
++  // unquantized router/gate projections, with the same order in every chunk.
++  v8f acc_high[(kHalfWeights && !kHcUpChains) ? kWaveRowTiles : 1]
++              [(kHalfWeights && !kHcUpChains) ? kWaveTokTiles : 1]{};
++#pragma unroll
++  for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++    for (int j = 0; j < kWaveTokTiles; ++j) {
++      acc[i][j] = v8f{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
++    }
++  }
++
++  fetch_stage(0);
++  for (int kb0 = 0; kb0 < num_kb; kb0 += BK) {
++    commit_stage();
++    __syncthreads();
++    if (kb0 + BK < num_kb) {
++      fetch_stage(kb0 + BK);
++    }
++    // Keeps the next stage's loads ahead of the matrix work: scheduled
++    // freely, the compiler sinks them below it and the commit waits on
++    // the full memory latency.
++    __builtin_amdgcn_sched_barrier(0);
++#pragma unroll
++    for (int kb = 0; kb < BK; ++kb) {
++      v16h a_lo[kWaveRowTiles];
++      v16h a_hi[kWaveRowTiles];
++#pragma unroll
++      for (int i = 0; i < kWaveRowTiles; ++i) {
++        const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
++        uint4 c[4];
++#pragma unroll
++        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++          c[q] = s_a[kb][row][swizzle(row, q + (kHcUpChains ? chain * 2 : 0))];
++        }
++        __builtin_memcpy(&a_lo[i], &c[0], 32);
++        if constexpr (!kHcUpChains)
++          __builtin_memcpy(&a_hi[i], &c[2], 32);
++      }
++#pragma unroll
++      for (int j = 0; j < kWaveTokTiles; ++j) {
++        const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
++        uint4 c[4];
++#pragma unroll
++        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++          c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
++        }
++        v16h b_lo;
++        v16h b_hi;
++        __builtin_memcpy(&b_lo, &c[0], 32);
++        if constexpr (!kHcUpChains)
++          __builtin_memcpy(&b_hi, &c[2], 32);
++#pragma unroll
++        for (int i = 0; i < kWaveRowTiles; ++i) {
++          acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
++          if constexpr (kHalfWeights && !kHcUpChains)
++            acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
++          else if constexpr (!kHcUpChains)
++            acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
++        }
++      }
++    }
++    __syncthreads();
++  }
++
++  if constexpr (kHalfWeights && !kHcUpChains) {
++#pragma unroll
++    for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++      for (int j = 0; j < kWaveTokTiles; ++j)
++        acc[i][j] += acc_high[i][j];
++    }
++  }
++
++  if constexpr (kHcMix) {
++    static_assert((BM == 128 || BM == 256) && (BN == 64 || BN == 128) &&
++                  BK == 1 && WM == 4 && WN == 2);
++    constexpr unsigned kHiddenTile = BM / 4;
++    constexpr unsigned kStreamStride = kHiddenTile + 1;
++    constexpr unsigned kPlane = 16 * kStreamStride;
++    static_assert(4 * kPlane * sizeof(float) <= sizeof(s_lds));
++    float* gates = reinterpret_cast<float*>(s_lds);
++    const std::size_t hidden = m / 4;
++#pragma unroll
++    for (int j = 0; j < kWaveTokTiles; ++j) {
++#pragma unroll
++      for (int token_group = 0; token_group < WN; ++token_group) {
++        if (wave_tok == token_group && (!kHcUpChains || chain == 0)) {
++#pragma unroll
++          for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++            for (int l = 0; l < 8; ++l) {
++              const unsigned row =
++                  (wave_row * kWaveRowTiles + i) * 16 + 2 * l + half_id;
++              gates[(row % 4) * kPlane + sub_lane * kStreamStride + row / 4] =
++                  acc[i][j][l];
++            }
++          }
++        }
++        __syncthreads();
++        if constexpr (kHcUpChains) {
++          // Each wave pair owns the original low/high K16 sums. Publish low,
++          // then add high in F32 in the same order before any sigmoid/mix.
++          if (chain == 1 && wave_tok == token_group) {
++#pragma unroll
++            for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++              for (int l = 0; l < 8; ++l) {
++                const unsigned row =
++                    (wave_row * kWaveRowTiles + i) * 16 + 2 * l + half_id;
++                const unsigned pos =
++                    (row % 4) * kPlane + sub_lane * kStreamStride + row / 4;
++                gates[pos] = gates[pos] + acc[i][j][l];
++              }
++            }
++          }
++          __syncthreads();
++        }
++        // A half-wave writes all 64 hidden values of one token. The stream
++        // planes are padded to avoid the gate transpose's LDS bank conflicts.
++        const unsigned token_in_tile = tid / (kHiddenTile / 4);
++        const unsigned h_local = (tid % (kHiddenTile / 4)) * 4;
++        const std::size_t token =
++            t_block + (token_group * kWaveTokTiles + j) * 16 + token_in_tile;
++        const std::size_t h = r_block / 4 + h_local;
++        // Smaller hidden tiles use only the lanes of 16 token rows.
++        // All threads still reach both surrounding block barriers.
++        if (token_in_tile < 16 && token < batch) {
++          float4 value{0.0F, 0.0F, 0.0F, 0.0F};
++#pragma unroll
++          for (unsigned stream = 0; stream < 4; ++stream) {
++            const float* g = gates + stream * kPlane +
++                             token_in_tile * kStreamStride + h_local;
++            const float4 v = LoadDeferredHcNorm(xn, norm_scales, norm_gamma,
++                                                token, stream, hidden, h);
++            // Preserve the separate mixer's F32 FMA rounding.
++            value.x = __fmaf_rn(v.x, SigmoidF(g[0]), value.x);
++            value.y = __fmaf_rn(v.y, SigmoidF(g[1]), value.y);
++            value.z = __fmaf_rn(v.z, SigmoidF(g[2]), value.z);
++            value.w = __fmaf_rn(v.w, SigmoidF(g[3]), value.w);
++          }
++          value.x *= 0.25F;
++          value.y *= 0.25F;
++          value.z *= 0.25F;
++          value.w *= 0.25F;
++          *reinterpret_cast<float4*>(y + token * hidden + h) = value;
++          if (mixed_half != nullptr) {
++            *reinterpret_cast<__half2*>(mixed_half + token * hidden + h) =
++                __floats2half2_rn(value.x, value.y);
++            *reinterpret_cast<__half2*>(mixed_half + token * hidden + h + 2) =
++                __floats2half2_rn(value.z, value.w);
++          }
++          if (mixed_q8 != nullptr) {
++            float max_abs = fmaxf(fmaxf(fabsf(value.x), fabsf(value.y)),
++                                  fmaxf(fabsf(value.z), fabsf(value.w)));
++#pragma unroll
++            for (int off = 4; off > 0; off >>= 1) {
++              max_abs = fmaxf(max_abs, __shfl_xor(max_abs, off));
++            }
++            const float d = max_abs / 127.0F;
++            const float id = d != 0.0F ? 1.0F / d : 0.0F;
++            const auto q0 = static_cast<unsigned>(static_cast<unsigned char>(
++                static_cast<signed char>(roundf(value.x * id))));
++            const auto q1 = static_cast<unsigned>(static_cast<unsigned char>(
++                static_cast<signed char>(roundf(value.y * id))));
++            const auto q2 = static_cast<unsigned>(static_cast<unsigned char>(
++                static_cast<signed char>(roundf(value.z * id))));
++            const auto q3 = static_cast<unsigned>(static_cast<unsigned char>(
++                static_cast<signed char>(roundf(value.w * id))));
++            const unsigned pos = h % 32;
++            auto* tile = Q8ActTile(mixed_q8, hidden / 32,
++                                   token / kQ8ActTileTokens, h / 32);
++            const std::size_t tl = token % kQ8ActTileTokens;
++            *reinterpret_cast<unsigned*>(tile + (pos >> 4) * 256 + tl * 16 +
++                                         (pos & 15)) =
++                q0 | q1 << 8 | q2 << 16 | q3 << 24;
++            if (pos == 0) {
++              *reinterpret_cast<float*>(tile + kQ8ActScaleOffset +
++                                        tl * sizeof(float)) = d;
++            }
++          }
++        }
++        __syncthreads();
++      }
++    }
++    return;
++  }
++}
++
++bool HcCombineMoeDeferredNorm(float* res, const float* expert_out,
++                              const float* weights, const float* shared_out,
++                              const float* gate, std::uint32_t gate_stride,
++                              std::uint32_t used, const float* inject,
++                              std::uint32_t inject_parts, const float* gamma,
++                              float* norm_scales, std::uint32_t n_tokens,
++                              std::uint32_t hidden, std::uint32_t streams,
++                              float eps, hipStream_t stream,
++                              __half* norm_half) {
++  if (gamma == nullptr || norm_half == nullptr)
++    return false;
++  if (n_tokens < 16 || hidden != 2560 || streams != 4 || used == 0 ||
++      used > 32 || gate_stride == 0 || inject_parts == 0 || res == nullptr ||
++      expert_out == nullptr || weights == nullptr || shared_out == nullptr ||
++      gate == nullptr || inject == nullptr ||
++      (gamma != nullptr && norm_scales == nullptr)) {
++    return false;
++  }
++  hipLaunchKernelGGL(HcCombineMoeDeferredNormKernel, dim3(n_tokens),
++                     dim3(kThreads), 0, stream, res, expert_out, weights,
++                     shared_out, gate, gate_stride, used, inject, inject_parts,
++                     gamma, norm_scales, hidden, eps, norm_half);
++  return hipGetLastError() == hipSuccess;
++}
++
++bool ReconstructHcNorm(const float* residual, const float* scales,
++                       const float* gamma, float* out, std::uint32_t tokens,
++                       hipStream_t stream) {
++  if (tokens == 0 || residual == nullptr || scales == nullptr ||
++      gamma == nullptr || out == nullptr)
++    return false;
++  const std::size_t count = std::size_t(tokens) * 10240;
++  hipLaunchKernelGGL(ReconstructHcNormKernel, dim3((count / 4 + 255) / 256),
++                     dim3(kThreads), 0, stream, residual, scales, gamma, out,
++                     count);
++  return hipGetLastError() == hipSuccess;
++}
++
++bool HcMixDeferredNorm(const void* up, const __half* low_rank, const float* xn,
++                       const float* inject_w, float* mixed, __half* mixed_half,
++                       float* inject, std::uint32_t n_tokens,
++                       std::uint32_t hidden, std::uint32_t rank,
++                       hipStream_t stream, const float* norm_scales,
++                       const float* norm_gamma) {
++  if (norm_scales == nullptr || norm_gamma == nullptr)
++    return false;
++  if (n_tokens < 96 || hidden != 2560 || rank != 320 || up == nullptr ||
++      low_rank == nullptr || xn == nullptr || mixed == nullptr ||
++      (inject_w != nullptr && inject == nullptr)) {
++    return false;
++  }
++  // Original half weights and reconstructed F32 normalized streams. Interleave
++  // gate rows only in the fetch addresses; no persistent weight repacking.
++  const dim3 grid((n_tokens + 127) / 128, 4 * hidden / 256);
++  hipLaunchKernelGGL(HcMixDeferredNormKernel, grid, dim3(512), 0, stream, up,
++                     low_rank, mixed, n_tokens, 4 * hidden, rank, xn,
++                     mixed_half, nullptr, norm_scales, norm_gamma);
++  if (hipGetLastError() != hipSuccess) return false;
++  if (inject_w != nullptr) {
++    // Keep the original F32 inject products, partials and reduction order.
++    // This specialization omits only the gate read and mixed-row output.
++    hipLaunchKernelGGL((HcInjectDeferredNormKernel<float, false>),
++                       dim3(n_tokens, HcInjectPartsVec4(hidden)),
++                       dim3(kThreads), 0, stream, xn, nullptr, inject_w,
++                       nullptr, inject, hidden, norm_scales, norm_gamma);
++  }
++  return hipGetLastError() == hipSuccess;
++}

@@ -1,0 +1,565 @@
+{
+  "schema": "synapse-lie.openai-controls-gpu-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "ORIGINAL_WEIGHT_AR_OPENAI_WIRE_LIFECYCLE_CONTROLS_PASS_MTP_REFUSED_BEFORE_MODEL_LOAD_NOT_QUALITY_OR_PERFORMANCE",
+  "host": "pop@192.168.5.161",
+  "source_commit": "abb69d57101d04e7b28ae0fe71ad18e50027cfc2",
+  "upstream_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "cpu_regression_receipt": "background-retirement-2026-10-04.json",
+  "runs": {
+    "context-r11-build": {
+      "state": "FAILED",
+      "error": "FileNotFoundError(2, 'No such file or directory')",
+      "started_at": "2026-10-04T19:09:13.626262+00:00",
+      "ended_at": "2026-10-04T19:09:14.072940+00:00",
+      "child_exit_code": null,
+      "model_attempted": false,
+      "model_stat_unchanged": null,
+      "lease_released_at": "2026-10-04T19:09:14.072925+00:00",
+      "service_before": {
+        "MainPID": "13572",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "service_after": {
+        "MainPID": "14025",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "controller_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "collection_exit_code": 0,
+      "collection_sha256": "321627bf4a8c1b14bbbb0f09c68c4bc4151ad9ad2a87437e7a37a2eaafc2f98f",
+      "verified_files": {
+        "manifest.json": {
+          "bytes": 1065,
+          "sha256": "cd1bbd57cacb55e55771aa2fdb7dde2ca02f9469b479565fa521a4e8b1dce19b"
+        },
+        "runner.py": {
+          "bytes": 89993,
+          "sha256": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918"
+        },
+        "result.json": {
+          "bytes": 8842,
+          "sha256": "8ea3a0d38cb225b79498c50826e614453e70d55994ae214e6e6cbaad6b215876"
+        },
+        "telemetry.jsonl": {
+          "bytes": 2695,
+          "sha256": "da07611ccbbfb90ce8a08d0d96bea198b3be86bcff3e1e35cbfe94b8aae2539c"
+        }
+      },
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true
+      }
+    },
+    "context-r11-build-r2": {
+      "state": "PASSED",
+      "error": null,
+      "started_at": "2026-10-04T19:10:37.174821+00:00",
+      "ended_at": "2026-10-04T19:13:14.855632+00:00",
+      "child_exit_code": 0,
+      "model_attempted": false,
+      "model_stat_unchanged": null,
+      "lease_released_at": "2026-10-04T19:13:14.855612+00:00",
+      "service_before": {
+        "MainPID": "14025",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "service_after": {
+        "MainPID": "17196",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "collection_exit_code": 0,
+      "collection_sha256": "1f72da2bae352f4769d479c50f9c334538aabe15143e742a11dc65d878274ff7",
+      "verified_files": {
+        "manifest.json": {
+          "bytes": 1065,
+          "sha256": "cd1bbd57cacb55e55771aa2fdb7dde2ca02f9469b479565fa521a4e8b1dce19b"
+        },
+        "runner.py": {
+          "bytes": 89993,
+          "sha256": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918"
+        },
+        "result.json": {
+          "bytes": 85679,
+          "sha256": "1d9daafa4c2ee566593758fa22844107c8d53c0e25475a23f3733bd99442ff2d"
+        },
+        "telemetry.jsonl": {
+          "bytes": 187151,
+          "sha256": "ec03ce5e50f0b69cf4493a79666619086ac8e6828a876315371607d01610fa3c"
+        },
+        "stdout.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true
+      }
+    },
+    "context-r11-openai-controls-ar": {
+      "state": "FAILED",
+      "error": "RuntimeError('Projected available RAM below admitted floor')",
+      "started_at": "2026-10-04T19:15:18.572894+00:00",
+      "ended_at": "2026-10-04T19:16:10.271460+00:00",
+      "child_exit_code": 137,
+      "model_attempted": true,
+      "model_stat_unchanged": true,
+      "lease_released_at": "2026-10-04T19:16:10.271443+00:00",
+      "service_before": {
+        "MainPID": "17196",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "service_after": {
+        "MainPID": "18483",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "controller_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "collection_exit_code": 0,
+      "collection_sha256": "eb50656aeb803a34cab08305cba641402b41d12b9ba80e6f10afd0763b49ed31",
+      "verified_files": {
+        "manifest.json": {
+          "bytes": 4484,
+          "sha256": "60c7a1cf60599644dfe67007891a8678ea31cad4547308ef652a952dab4c3545"
+        },
+        "runner.py": {
+          "bytes": 89993,
+          "sha256": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918"
+        },
+        "http-gate.py": {
+          "bytes": 18251,
+          "sha256": "9e1d92380795d5eac9a005025e2a804e97353c970e4df5b950f8abc5270dcfe5"
+        },
+        "result.json": {
+          "bytes": 96918,
+          "sha256": "a46d9b7f4b36934a522a6fba00158aa949531d8db2ee2cb53e6db573f78fc84d"
+        },
+        "telemetry.jsonl": {
+          "bytes": 71941,
+          "sha256": "f105edf4844aca678603fdcff4ce221785c363ebc5b493fa3f8269b01b24f21e"
+        },
+        "http-wire.jsonl": {
+          "bytes": 1876,
+          "sha256": "74f9e04a81c8ef9075064f9cfa06824bbf6baf3e209a683e8c560f005ba1c0aa"
+        },
+        "server.log": {
+          "bytes": 92,
+          "sha256": "84fbb720b198d88bd4ca4a017566ba0afa97d07e9d5233b5e48340ce853728f4"
+        },
+        "stdout.log": {
+          "bytes": 66686,
+          "sha256": "9043639d4e179cf59a6da1d2c1a7d44aaf31a9a26fc12538670796c4af389bd0"
+        },
+        "stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "distrobox-create.log": {
+          "bytes": 284,
+          "sha256": "30d6d20307668a67cde6dfd614943cf6ec2220583058e2a1a6f421d5149ac6d7"
+        },
+        "distrobox.stdout.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "distrobox.stderr.log": {
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        "http-controls.py": {
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        }
+      },
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true
+      }
+    },
+    "context-r11-openai-controls-ar-r2": {
+      "state": "PASSED",
+      "error": null,
+      "started_at": "2026-10-04T19:19:37.543678+00:00",
+      "ended_at": "2026-10-04T19:21:29.872814+00:00",
+      "child_exit_code": 0,
+      "model_attempted": true,
+      "model_stat_unchanged": true,
+      "lease_released_at": "2026-10-04T19:21:29.872800+00:00",
+      "service_before": {
+        "MainPID": "18483",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "service_after": {
+        "MainPID": "19830",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "collection_exit_code": 0,
+      "collection_sha256": "b1ee613c10317982bf1ea7872a08ec754621ee76d668576cb417a6ebade9165c",
+      "verified_files": {
+        "manifest.json": {
+          "bytes": 4545,
+          "sha256": "afe32aa2fc5d3f84f2f5f708507ab199cd9b87dc38f9786bea3c4a4ab7657339"
+        },
+        "runner.py": {
+          "bytes": 89993,
+          "sha256": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918"
+        },
+        "http-gate.py": {
+          "bytes": 18251,
+          "sha256": "9e1d92380795d5eac9a005025e2a804e97353c970e4df5b950f8abc5270dcfe5"
+        },
+        "result.json": {
+          "bytes": 98233,
+          "sha256": "688f23a08b0725321ad0fd7572fff8744a2b7cf777caf4be1cf7031b3c38d0ce"
+        },
+        "telemetry.jsonl": {
+          "bytes": 180281,
+          "sha256": "cab7fd2ac4ff7f273a9044edbe761a01dfada0ff4e64bf9dac46aa8e2ff0483f"
+        },
+        "http-result.json": {
+          "bytes": 1696,
+          "sha256": "2aac1c701938747413cd6fd6552d31ed449b9a600424ac32fdca33af0c8a202a"
+        },
+        "http-wire.jsonl": {
+          "bytes": 698024,
+          "sha256": "a549525c574432230acc4972901f684f317c9777f27a7981da7670f6eb4e6dfc"
+        },
+        "server.log": {
+          "bytes": 92,
+          "sha256": "15857f02d1d80ebf57affdf1c555a9ffe8c8ce68e6ce56a651ecd7ec3bcc67be"
+        },
+        "stdout.log": {
+          "bytes": 66725,
+          "sha256": "8fa70b8367f0ddbff770757796fadf2e44eb51fd616a5cfb0390fdbd4cf362b9"
+        },
+        "stderr.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "distrobox-create.log": {
+          "bytes": 293,
+          "sha256": "49dc069673e60f7e40297d62fa3a42b22ccb91b693b4c16b998c1f73403b3913"
+        },
+        "distrobox.stdout.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "distrobox.stderr.log": {
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        "http-controls.py": {
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        "http-controls-result.json": {
+          "bytes": 2971,
+          "sha256": "9da5967d7a74c8848f2b9e34f7bba8f7ad6a8a69e323b100b2c7ab8228b5f342"
+        }
+      },
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true
+      },
+      "checks_passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields"
+      ],
+      "additional_controls_passed": [
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields"
+      ],
+      "server_exit_code": 0,
+      "decode_mode": "ar",
+      "server_argv": [
+        "/bundle/runtime/bin/synapse-lie-server",
+        "--model",
+        "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "--model-id",
+        "qwen3.8-flash-next",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "41453",
+        "--management-host",
+        "127.0.0.1",
+        "--management-port",
+        "37217",
+        "--context",
+        "16384",
+        "--prefill-chunk",
+        "2048",
+        "--max-active",
+        "8",
+        "--kv-cache-ram-mb",
+        "0",
+        "--request-timeout-ms",
+        "180000"
+      ],
+      "control_witnesses": {
+        "chat_choices_json": {
+          "2": {
+            "usage": {
+              "prompt_tokens": 26,
+              "completion_tokens": 2,
+              "total_tokens": 28
+            },
+            "choices": {
+              "0": "4",
+              "1": "4"
+            }
+          },
+          "8": {
+            "usage": {
+              "prompt_tokens": 26,
+              "completion_tokens": 8,
+              "total_tokens": 34
+            },
+            "choices": {
+              "0": "4",
+              "1": "4",
+              "2": "4",
+              "3": "4",
+              "4": "4",
+              "5": "4",
+              "6": "4",
+              "7": "4"
+            }
+          }
+        },
+        "chat_choices_sse": {
+          "counts": [
+            2,
+            8
+          ]
+        },
+        "chat_seed_replay": {
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": "Red, blue, green."
+              },
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 18,
+            "completion_tokens": 6,
+            "total_tokens": 24
+          }
+        },
+        "chat_logprobs": {
+          "chosen_tokens": 4,
+          "usage": {
+            "prompt_tokens": 19,
+            "completion_tokens": 4,
+            "total_tokens": 23
+          }
+        },
+        "chat_bias_positive": {
+          "token_id": 19,
+          "text": "4"
+        },
+        "chat_bias_negative": {
+          "text": "2"
+        },
+        "chat_stop_json": {
+          "stop": "alpha beta",
+          "removed_token_pieces": 2,
+          "usage": {
+            "prompt_tokens": 19,
+            "completion_tokens": 2,
+            "total_tokens": 21
+          }
+        },
+        "responses_background_disconnect": {
+          "id": "resp_19487-10588958970081-30",
+          "status": "incomplete",
+          "usage": {
+            "input_tokens": 28,
+            "output_tokens": 64,
+            "total_tokens": 92,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          }
+        },
+        "responses_cursor_replay": {
+          "after": 4,
+          "events": 67
+        },
+        "responses_cancel_after_output": {
+          "confirmed_delta_sequence": 4,
+          "confirmed_delta_bytes": 1,
+          "status": "cancelled"
+        },
+        "responses_truncation": {
+          "admitted_input_tokens": 26
+        }
+      },
+      "sampled_resources": {
+        "observations": 111,
+        "temperature_max_c": {
+          "nvme": 65.85,
+          "amdgpu": 63.0,
+          "k10temp": 61.375
+        },
+        "available_ram_min_bytes": 30831460352,
+        "gtt_peak_bytes": 89905623040,
+        "thermal_policy": "cpu98-nvme85-gpu-observe",
+        "AR_memory_budget_bytes": 103079215104,
+        "available_ram_floor_bytes": 1073741824
+      }
+    },
+    "context-r11-openai-controls-mtp-r2": {
+      "state": "FAILED",
+      "error": "RuntimeError('Foreign GPU client observed')",
+      "started_at": "2026-10-04T19:27:37.595403+00:00",
+      "ended_at": "2026-10-04T19:27:37.908702+00:00",
+      "child_exit_code": null,
+      "model_attempted": false,
+      "model_stat_unchanged": null,
+      "lease_released_at": "2026-10-04T19:27:37.908694+00:00",
+      "service_before": {
+        "MainPID": "19830",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "service_after": {
+        "MainPID": "20206",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "controller_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "collection_exit_code": 0,
+      "collection_sha256": "6939dfa3744db97d331b7e6ec617f2ec211b5156d50895915902c440c3860a18",
+      "verified_files": {
+        "manifest.json": {
+          "bytes": 5204,
+          "sha256": "b4316d5d5b057d6f9a90eaf2e2b5c3d51524f93b0571c036b246d2f23bcd59cb"
+        },
+        "runner.py": {
+          "bytes": 89993,
+          "sha256": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918"
+        },
+        "result.json": {
+          "bytes": 8014,
+          "sha256": "7b3dc6ae63497888b5ebba97f0c9db15a30ab3bc553cf6342f916eb791146a36"
+        },
+        "telemetry.jsonl": {
+          "bytes": 1656,
+          "sha256": "be49c7f1cb3a92e418cb59f097d15f1db208724117db727b055e0bb1766379d3"
+        }
+      },
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true
+      },
+      "blocking_foreign_identity": [
+        {
+          "pid": 19916,
+          "start_ticks": 1073961,
+          "cgroup": "0::/user.slice/user-1000.slice/session-326.scope\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "classification": "ADMISSION_REFUSAL_NO_MODEL_OR_CONTAINER_LAUNCH"
+    }
+  },
+  "pending": [
+    "Fresh original-weight MTP 21-control gate",
+    "Terminal Bench task outcomes",
+    "Independent quality and performance",
+    "Native --progress-ms GPU exercise"
+  ],
+  "DS4_mutation": false,
+  "foreign_process_termination": false,
+  "publication": false
+}

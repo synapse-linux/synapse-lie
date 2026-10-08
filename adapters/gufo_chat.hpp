@@ -2,16 +2,77 @@
 #ifndef LIE_GUFO_CHAT_HPP
 #define LIE_GUFO_CHAT_HPP
 #include "lie/executor.h"
+#include "lie/chat_history.h"
+#include "src/core/json.hpp"
 #include "src/models/qwen/chat_template.hpp"
 #include <cstring>
+#include <array>
 #include <optional>
 #include <string>
+#include <type_traits>
 #include <vector>
 namespace lie_gufo {
 struct Chat {
     std::vector<gufo::tokenization::ChatMessage> messages;
     std::vector<gufo::tokenization::ChatTool> tools;
 };
+// Qwen's pinned template omits call IDs. Apply the shared C17 correlation
+// view after attaching images by original message index, before rendering.
+inline bool order_tool_results(Chat &chat, const lie_chat_template &input) {
+    std::array<size_t, LIE_CHAT_MAX_MESSAGES> order;
+    if (chat.messages.size() != input.count ||
+        !lie_chat_tool_result_order(&input, order.data(), order.size())) return false;
+    bool changed = false;
+    for (size_t i = 0; i < input.count; ++i) changed |= order[i] != i;
+    if (!changed) return true;
+    using gufo::tokenization::ChatMessage;
+    static_assert(std::is_nothrow_move_constructible_v<ChatMessage>);
+    std::vector<ChatMessage> messages;
+    messages.reserve(input.count); // Allocation precedes any move.
+    for (size_t i = 0; i < input.count; ++i)
+        messages.push_back(std::move(chat.messages[order[i]]));
+    chat.messages.swap(messages);
+    return true;
+}
+// The constrained sampler consumes JSON call frames, while the pinned Qwen
+// template describes XML calls. Align their formats before tokenization, as
+// upstream ConstrainChatRequest does. This guides syntax, never requested
+// function names, argument values, call counts or model decisions.
+// Apply after attaching images by their original LIE message indices.
+inline bool guide_constrained_tools(Chat &chat) {
+    bool constrained = false;
+    try {
+        for (const auto &tool : chat.tools) {
+            if (tool.definition_json.empty()) continue;
+            const auto definition = gufo::json::parse(tool.definition_json);
+            const auto *function = definition.find("function");
+            const auto *strict = function ? function->find("strict") : nullptr;
+            if (strict && !strict->is_null()) {
+                if (!strict->is_bool()) return false;
+                constrained |= strict->as_bool();
+            }
+        }
+    } catch (const std::invalid_argument &) {
+        return false;
+    } catch (const std::runtime_error &) {
+        return false;
+    }
+    if (!constrained) return true;
+    constexpr const char *instruction =
+        "For constrained function calls, use the JSON form "
+        "<tool_call>{\"name\":\"function_name\",\"arguments\":{...}}</tool_call>. "
+        "This replaces the XML function and parameter blocks described above. "
+        "Arguments must satisfy the selected function's schema.";
+    using gufo::tokenization::ChatRole;
+    if (!chat.messages.empty() && (chat.messages.front().role == ChatRole::kSystem ||
+                                  chat.messages.front().role == ChatRole::kDeveloper)) {
+        chat.messages.front().content += "\n\n";
+        chat.messages.front().content += instruction;
+    } else {
+        chat.messages.insert(chat.messages.begin(), {ChatRole::kSystem, instruction});
+    }
+    return true;
+}
 // Pure translation of LIE-owned data. No HTTP parsing, scheduling or model work.
 inline std::optional<Chat> translate_chat(const lie_chat_template &input) {
     using namespace gufo::tokenization;

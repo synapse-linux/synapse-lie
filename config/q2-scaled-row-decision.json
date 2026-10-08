@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-scaled-row-decision.v1",
+  "state": "COMPONENT_TIMING_GAIN_WITH_UNCHANGED_NUMERICAL_REJECTIONS",
+  "source_checkpoint": "9429d9a",
+  "result_sha256": "a0c2f9759ee1da25120d299b331f0727b07008b47ab6f494a2755deccc20710d",
+  "release_sha256": "2b759f6bbfa049d2c5fca8913773884d4fedc3341d31ccc8255495fe63ad0f34",
+  "interpretation": "All five packing medians improve about 15% against both unchanged controls; all complete pack/down medians also improve, 0.4-1.8% versus the repeated control. No canonical model gain is measured.",
+  "independent_numeric": "Each arm exits 1 with the same 15 failures: ten FP64 down RMS checks (0.002028-0.002197 vs 0.002) and five signed-zero cases. No tolerance or oracle is relaxed.",
+  "exactness": "All 42 pack and ten full down output digests match across three arms; both comparisons also match all 74 retained small-buffer/sample files byte for byte.",
+  "values_per_arm": {
+    "packing": 132321280,
+    "down": 523264000,
+    "independent_dots": 10240
+  },
+  "timing_samples": 150,
+  "component_artifacts": 234,
+  "host_artifacts": 7,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1,
+    0,
+    0,
+    1
+  ],
+  "next_gate": "Wire this isolated provider into the unchanged native C 0-128K canonical comparison; preserve numerical rejections, repeated controls and all cache/thermal observations. No default promotion or parity claim from components.",
+  "model_inference": false,
+  "promoted": false,
+  "goal_met": false,
+  "gpu_reserved": false,
+  "remote_cleanup": false
+}

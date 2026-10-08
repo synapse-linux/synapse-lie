@@ -1,0 +1,23 @@
+{
+  "label": "q2-packed-host-r1",
+  "scope": "CPU fixtures only; no GPU or model inference",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "debug_ctest": "9/9 pass",
+  "asan_ubsan_ctest": "9/9 pass",
+  "remote_guard_fixture": "4 test methods, 7 refusal cases",
+  "transport_exit": 0,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 7,
+  "result_sha256": "45a8780b2cbc6bee44426b005825d4d7a50561b867583eb6eec05e9bff05e5d3",
+  "collection_sha256": "e6045fbcc407244c8dcd3efa394416f67aece45849c3a4ca160cfe3010e442db",
+  "source_capsule_sha256": "147054cce43b3ab2a0379b1342ea227731c9274a3dc4a2d11f9de61970300aab",
+  "finished_at": "2026-10-02T09:43:34.213483+00:00",
+  "postflight_receipt": "evidence/q2-point-copy-handover.json"
+}

@@ -1,0 +1,2296 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-epilogue-results.v1",
+  "scope": "Measured route counts, synthetic narrowing/compaction/fused IQ2 gate-up-SwiGLU cycles; no model rates",
+  "routing_provenance": {
+    "log_sha256": "94bba9065ce5b49ab8979363869bbef112b94e306ae972a44853defefcc50728",
+    "plan_sha256": "caa00410a68758c62dbe0e27a42a4db0009ebd30e30a658d563b62dc6eed49db",
+    "accepted_canonical_distributions": 4,
+    "synthetic_full_tile_controls": 1
+  },
+  "arms": {
+    "reference": {
+      "weights": {
+        "event": "iq2_epilogue_weights",
+        "bytes": 432537600,
+        "gate_sha256": "7b26b689e3734cfab8440c3a4067da76b7b45dd7c4305aae1fc81102a1fefe48",
+        "up_sha256": "a371d30954c2d280d7b0168d07e277e6297a37141dfc08adf5da7c5cc4231b0c"
+      },
+      "cases": {
+        "depth0-layer6": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2040,
+            "case": "depth0-layer6",
+            "active_experts": 339,
+            "tile": 128,
+            "tiles": 414,
+            "output_values": 13056000,
+            "active_weight_bytes": 286387200,
+            "input_sha256": "0236e254811fd147b5978ad72c91d994cdfc8206ac0afab23c730e87200fad84",
+            "ids_sha256": "b9842021256c1430762c1c5c41f0f57933f36732bf6b8c1bb206d5e0fe8adde7",
+            "counts_sha256": "e35863762a6a4f07356a341cb22c26033d1f2e01369c7bc0ba75c563d59a4a08",
+            "live_fragments": 1473,
+            "reserved_fragments": 3312
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth0-layer6",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5701.6328125
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth0-layer6",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5778.25634766
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5806.61035156
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5759.95214844
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5758.40185547
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5754.4921875
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5739.68310547
+            }
+          ],
+          "median_us": 5758.40185547
+        },
+        "depth0-layer0": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2040,
+            "case": "depth0-layer0",
+            "active_experts": 381,
+            "tile": 64,
+            "tiles": 573,
+            "output_values": 13056000,
+            "active_weight_bytes": 321868800,
+            "input_sha256": "0236e254811fd147b5978ad72c91d994cdfc8206ac0afab23c730e87200fad84",
+            "ids_sha256": "6c51c75fd66caf4a05e427b90c5fef34380e23d7e42b897b31f19b1a41368691",
+            "counts_sha256": "797f74a0edf1549c2211f945e34c77d338480ed5815b123e9e1f78085c7081cc",
+            "live_fragments": 1496,
+            "reserved_fragments": 2292
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth0-layer0",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6077.80957031
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth0-layer0",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6447.86132812
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6103.04882812
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6010.88818359
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5992.6328125
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5980.76904297
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5972.47412109
+            }
+          ],
+          "median_us": 5992.6328125
+        },
+        "depth131072-layer16": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2046,
+            "case": "depth131072-layer16",
+            "active_experts": 325,
+            "tile": 128,
+            "tiles": 409,
+            "output_values": 13094400,
+            "active_weight_bytes": 274560000,
+            "input_sha256": "bb19dc11413a94fa171cb705d1fb782dee80074c8ee1a89d0355b3dc633b6c57",
+            "ids_sha256": "e93b6afada515d2129d26b8918925616b53cfe383d0e44b36230caa4bd41a00f",
+            "counts_sha256": "d5154cacb5ae7130cb2232f54fd21bc9ab06448e3565455992406e51341d45f2",
+            "live_fragments": 1464,
+            "reserved_fragments": 3272
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth131072-layer16",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5716.00927734
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth131072-layer16",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5784.1015625
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5765.20214844
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5750.28759766
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5740.71777344
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5753.64257812
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5729.59326172
+            }
+          ],
+          "median_us": 5750.28759766
+        },
+        "depth131072-layer6": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2046,
+            "case": "depth131072-layer6",
+            "active_experts": 367,
+            "tile": 64,
+            "tiles": 581,
+            "output_values": 13094400,
+            "active_weight_bytes": 310041600,
+            "input_sha256": "bb19dc11413a94fa171cb705d1fb782dee80074c8ee1a89d0355b3dc633b6c57",
+            "ids_sha256": "9b7a8881bc5a60aff9cdb9ecb9f7f52f85897e655806d267eb59dc539d83d9ea",
+            "counts_sha256": "836740e8b3b6b1c0193542c5e2789479b8efe20bed005e4fc81ad8d8e645a073",
+            "live_fragments": 1493,
+            "reserved_fragments": 2324
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth131072-layer6",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5977.94921875
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth131072-layer6",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6026.50195312
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6020.82714844
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6016.33740234
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5991.17871094
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5976.48925781
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5963.86962891
+            }
+          ],
+          "median_us": 5991.17871094
+        },
+        "full-tiles": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2048,
+            "case": "full-tiles",
+            "active_experts": 160,
+            "tile": 128,
+            "tiles": 160,
+            "output_values": 13107200,
+            "active_weight_bytes": 135168000,
+            "input_sha256": "e116f40499df090c74d81a6165b8447300d6dc61f930fbf12bf77186187ca85b",
+            "ids_sha256": "d8ae8174f1d071a1a367014bfb8e8354b06274c3c74d5ffcfec21077e19bbdd3",
+            "counts_sha256": "a8334439fe4c753e292e6a69c485bbe2048b2b85679e0d133025169cc5e6e121",
+            "live_fragments": 1280,
+            "reserved_fragments": 1280
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "full-tiles",
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3940.99975586
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "full-tiles",
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3976.75439453
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3984.42456055
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3979.30444336
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3966.95996094
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3966.45507812
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3964.95019531
+            }
+          ],
+          "median_us": 3966.95996094
+        }
+      },
+      "completion": {
+        "event": "iq2_epilogue_complete",
+        "numerical_pass": true,
+        "independent_checks": 51,
+        "failures": 0,
+        "model_inference": false
+      },
+      "directory": "evidence/q2-iq2-prefill-reuse-before-r1",
+      "source_variant": "iq2-epilogue-reference",
+      "source_files": 1020,
+      "artifacts": 106,
+      "checks": [
+        [
+          "IQ2-pair-n15-m5-tile16-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile16-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile16-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile16-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile16-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile16-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile16-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile48-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile48-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile48-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile48-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n47-m5-tile48-normal",
+          "0.000568939442731",
+          "0.000694508956152"
+        ],
+        [
+          "IQ2-pair-n47-m5-tile48-tiny",
+          "0.00058137949997",
+          "0.000504245220792"
+        ],
+        [
+          "IQ2-pair-n48-m5-tile48-normal",
+          "0.000569377973567",
+          "0.000694508956152"
+        ],
+        [
+          "IQ2-pair-n48-m5-tile48-tiny",
+          "0.000579295513128",
+          "0.000504245220792"
+        ],
+        [
+          "IQ2-pair-n49-m5-tile48-normal",
+          "0.000567693589835",
+          "0.000694508956152"
+        ],
+        [
+          "IQ2-pair-n49-m5-tile48-tiny",
+          "0.000577985099879",
+          "0.000504245220792"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile48-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile64-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile64-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile64-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile64-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n63-m5-tile64-normal",
+          "0.000604379040583",
+          "0.000881552999699"
+        ],
+        [
+          "IQ2-pair-n63-m5-tile64-tiny",
+          "0.000613833951461",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n64-m5-tile64-normal",
+          "0.000604823147069",
+          "0.000881552999699"
+        ],
+        [
+          "IQ2-pair-n64-m5-tile64-tiny",
+          "0.000616536470914",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n65-m5-tile64-normal",
+          "0.000604259610671",
+          "0.000881552999699"
+        ],
+        [
+          "IQ2-pair-n65-m5-tile64-tiny",
+          "0.000616038579253",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile64-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile128-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile128-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile128-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile128-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n127-m5-tile128-normal",
+          "0.000593424942392",
+          "0.000756127094433"
+        ],
+        [
+          "IQ2-pair-n127-m5-tile128-tiny",
+          "0.000597021051492",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n128-m5-tile128-normal",
+          "0.000593789889306",
+          "0.000756127094433"
+        ],
+        [
+          "IQ2-pair-n128-m5-tile128-tiny",
+          "0.000597213740591",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n129-m5-tile128-normal",
+          "0.000594666149298",
+          "0.000756127094433"
+        ],
+        [
+          "IQ2-pair-n129-m5-tile128-tiny",
+          "0.000597668440281",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile128-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "iq2-epilogue-depth0-layer6",
+          "0.000573403560897",
+          "0.000467263458211"
+        ],
+        [
+          "iq2-epilogue-depth0-layer0",
+          "0.000512985864504",
+          "0.000438195172091"
+        ],
+        [
+          "iq2-epilogue-depth131072-layer16",
+          "0.000584728362839",
+          "0.000628225133315"
+        ],
+        [
+          "iq2-epilogue-depth131072-layer6",
+          "0.000552554925295",
+          "0.000438722999718"
+        ],
+        [
+          "iq2-epilogue-full-tiles",
+          "0.0005032286073",
+          "0.000461562868596"
+        ]
+      ],
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    },
+    "candidate": {
+      "weights": {
+        "event": "iq2_epilogue_weights",
+        "bytes": 432537600,
+        "gate_sha256": "7b26b689e3734cfab8440c3a4067da76b7b45dd7c4305aae1fc81102a1fefe48",
+        "up_sha256": "a371d30954c2d280d7b0168d07e277e6297a37141dfc08adf5da7c5cc4231b0c"
+      },
+      "cases": {
+        "depth0-layer6": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2040,
+            "case": "depth0-layer6",
+            "active_experts": 339,
+            "tile": 128,
+            "tiles": 414,
+            "output_values": 13056000,
+            "active_weight_bytes": 286387200,
+            "input_sha256": "0236e254811fd147b5978ad72c91d994cdfc8206ac0afab23c730e87200fad84",
+            "ids_sha256": "b9842021256c1430762c1c5c41f0f57933f36732bf6b8c1bb206d5e0fe8adde7",
+            "counts_sha256": "e35863762a6a4f07356a341cb22c26033d1f2e01369c7bc0ba75c563d59a4a08",
+            "live_fragments": 1473,
+            "reserved_fragments": 3312
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth0-layer6",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5669.5390625
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth0-layer6",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5727.02539062
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5746.05517578
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5742.01464844
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5733.88525391
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5715.74121094
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth0-layer6",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 339,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5714.64599609
+            }
+          ],
+          "median_us": 5733.88525391
+        },
+        "depth0-layer0": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2040,
+            "case": "depth0-layer0",
+            "active_experts": 381,
+            "tile": 64,
+            "tiles": 573,
+            "output_values": 13056000,
+            "active_weight_bytes": 321868800,
+            "input_sha256": "0236e254811fd147b5978ad72c91d994cdfc8206ac0afab23c730e87200fad84",
+            "ids_sha256": "6c51c75fd66caf4a05e427b90c5fef34380e23d7e42b897b31f19b1a41368691",
+            "counts_sha256": "797f74a0edf1549c2211f945e34c77d338480ed5815b123e9e1f78085c7081cc",
+            "live_fragments": 1496,
+            "reserved_fragments": 2292
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth0-layer0",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6129.22216797
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth0-layer0",
+              "warmup": true,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5987.21337891
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5979.42138672
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5942.13378906
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5927.61425781
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5910.72949219
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth0-layer0",
+              "warmup": false,
+              "tokens": 2040,
+              "active_experts": 381,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5886.46484375
+            }
+          ],
+          "median_us": 5927.61425781
+        },
+        "depth131072-layer16": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2046,
+            "case": "depth131072-layer16",
+            "active_experts": 325,
+            "tile": 128,
+            "tiles": 409,
+            "output_values": 13094400,
+            "active_weight_bytes": 274560000,
+            "input_sha256": "bb19dc11413a94fa171cb705d1fb782dee80074c8ee1a89d0355b3dc633b6c57",
+            "ids_sha256": "e93b6afada515d2129d26b8918925616b53cfe383d0e44b36230caa4bd41a00f",
+            "counts_sha256": "d5154cacb5ae7130cb2232f54fd21bc9ab06448e3565455992406e51341d45f2",
+            "live_fragments": 1464,
+            "reserved_fragments": 3272
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth131072-layer16",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5733.47900391
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth131072-layer16",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5755.17578125
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5751.55517578
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5735.52539062
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5720.70605469
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5693.15722656
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth131072-layer16",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 325,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 5674.63232422
+            }
+          ],
+          "median_us": 5720.70605469
+        },
+        "depth131072-layer6": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2046,
+            "case": "depth131072-layer6",
+            "active_experts": 367,
+            "tile": 64,
+            "tiles": 581,
+            "output_values": 13094400,
+            "active_weight_bytes": 310041600,
+            "input_sha256": "bb19dc11413a94fa171cb705d1fb782dee80074c8ee1a89d0355b3dc633b6c57",
+            "ids_sha256": "9b7a8881bc5a60aff9cdb9ecb9f7f52f85897e655806d267eb59dc539d83d9ea",
+            "counts_sha256": "836740e8b3b6b1c0193542c5e2789479b8efe20bed005e4fc81ad8d8e645a073",
+            "live_fragments": 1493,
+            "reserved_fragments": 2324
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "depth131072-layer6",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5989.89794922
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "depth131072-layer6",
+              "warmup": true,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6040.74121094
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6032.07519531
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6016.35107422
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 6008.78613281
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5993.49658203
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "depth131072-layer6",
+              "warmup": false,
+              "tokens": 2046,
+              "active_experts": 367,
+              "tile": 64,
+              "calls": 8,
+              "microseconds_per_call": 5973.8125
+            }
+          ],
+          "median_us": 6008.78613281
+        },
+        "full-tiles": {
+          "geometry": {
+            "event": "iq2_epilogue_geometry",
+            "tokens": 2048,
+            "case": "full-tiles",
+            "active_experts": 160,
+            "tile": 128,
+            "tiles": 160,
+            "output_values": 13107200,
+            "active_weight_bytes": 135168000,
+            "input_sha256": "e116f40499df090c74d81a6165b8447300d6dc61f930fbf12bf77186187ca85b",
+            "ids_sha256": "d8ae8174f1d071a1a367014bfb8e8354b06274c3c74d5ffcfec21077e19bbdd3",
+            "counts_sha256": "a8334439fe4c753e292e6a69c485bbe2048b2b85679e0d133025169cc5e6e121",
+            "live_fragments": 1280,
+            "reserved_fragments": 1280
+          },
+          "samples": [
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 0,
+              "case": "full-tiles",
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3967.79101562
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 1,
+              "case": "full-tiles",
+              "warmup": true,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3978.37719727
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 2,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3996.68603516
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 3,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 4000.43579102
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 4,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3999.64599609
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 5,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3982.63134766
+            },
+            {
+              "event": "iq2_epilogue_cycle",
+              "sample": 6,
+              "case": "full-tiles",
+              "warmup": false,
+              "tokens": 2048,
+              "active_experts": 160,
+              "tile": 128,
+              "calls": 8,
+              "microseconds_per_call": 3989.76147461
+            }
+          ],
+          "median_us": 3996.68603516
+        }
+      },
+      "completion": {
+        "event": "iq2_epilogue_complete",
+        "numerical_pass": true,
+        "independent_checks": 51,
+        "failures": 0,
+        "model_inference": false
+      },
+      "directory": "evidence/q2-iq2-prefill-reuse-grid-r1",
+      "source_variant": "iq2-prefill-grid-lds",
+      "source_files": 1020,
+      "artifacts": 106,
+      "checks": [
+        [
+          "IQ2-pair-n15-m5-tile16-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile16-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile16-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile16-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile16-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile16-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile16-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile48-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile48-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile48-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile48-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile48-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n47-m5-tile48-normal",
+          "0.000568939442731",
+          "0.000694508956152"
+        ],
+        [
+          "IQ2-pair-n47-m5-tile48-tiny",
+          "0.00058137949997",
+          "0.000504245220792"
+        ],
+        [
+          "IQ2-pair-n48-m5-tile48-normal",
+          "0.000569377973567",
+          "0.000694508956152"
+        ],
+        [
+          "IQ2-pair-n48-m5-tile48-tiny",
+          "0.000579295513128",
+          "0.000504245220792"
+        ],
+        [
+          "IQ2-pair-n49-m5-tile48-normal",
+          "0.000567693589835",
+          "0.000694508956152"
+        ],
+        [
+          "IQ2-pair-n49-m5-tile48-tiny",
+          "0.000577985099879",
+          "0.000504245220792"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile48-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile64-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile64-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile64-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile64-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile64-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n63-m5-tile64-normal",
+          "0.000604379040583",
+          "0.000881552999699"
+        ],
+        [
+          "IQ2-pair-n63-m5-tile64-tiny",
+          "0.000613833951461",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n64-m5-tile64-normal",
+          "0.000604823147069",
+          "0.000881552999699"
+        ],
+        [
+          "IQ2-pair-n64-m5-tile64-tiny",
+          "0.000616536470914",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n65-m5-tile64-normal",
+          "0.000604259610671",
+          "0.000881552999699"
+        ],
+        [
+          "IQ2-pair-n65-m5-tile64-tiny",
+          "0.000616038579253",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile64-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile128-normal",
+          "0.000562676950128",
+          "0.000745436214166"
+        ],
+        [
+          "IQ2-pair-n15-m5-tile128-tiny",
+          "0.000618805037053",
+          "0.000505406959529"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile128-normal",
+          "0.00051461563494",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n16-m5-tile128-tiny",
+          "0.000568726769369",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-normal",
+          "0.000514973319305",
+          "0.000521096293995"
+        ],
+        [
+          "IQ2-pair-n17-m5-tile128-tiny",
+          "0.000569941123956",
+          "0.000492566099927"
+        ],
+        [
+          "IQ2-pair-n127-m5-tile128-normal",
+          "0.000593424942392",
+          "0.000756127094433"
+        ],
+        [
+          "IQ2-pair-n127-m5-tile128-tiny",
+          "0.000597021051492",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n128-m5-tile128-normal",
+          "0.000593789889306",
+          "0.000756127094433"
+        ],
+        [
+          "IQ2-pair-n128-m5-tile128-tiny",
+          "0.000597213740591",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n129-m5-tile128-normal",
+          "0.000594666149298",
+          "0.000756127094433"
+        ],
+        [
+          "IQ2-pair-n129-m5-tile128-tiny",
+          "0.000597668440281",
+          "0.000644465251994"
+        ],
+        [
+          "IQ2-pair-n65-m129-tile128-normal",
+          "0.000563103674511",
+          "0.000520404715818"
+        ],
+        [
+          "iq2-epilogue-depth0-layer6",
+          "0.000573403560897",
+          "0.000467263458211"
+        ],
+        [
+          "iq2-epilogue-depth0-layer0",
+          "0.000512985864504",
+          "0.000438195172091"
+        ],
+        [
+          "iq2-epilogue-depth131072-layer16",
+          "0.000584728362839",
+          "0.000628225133315"
+        ],
+        [
+          "iq2-epilogue-depth131072-layer6",
+          "0.000552554925295",
+          "0.000438722999718"
+        ],
+        [
+          "iq2-epilogue-full-tiles",
+          "0.0005032286073",
+          "0.000461562868596"
+        ]
+      ],
+      "command_exits": [
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "cells": {
+    "depth0-layer6": {
+      "reference_us": 5758.40185547,
+      "candidate_us": 5733.88525391,
+      "time_change_percent": -0.4257535714828786
+    },
+    "depth0-layer0": {
+      "reference_us": 5992.6328125,
+      "candidate_us": 5927.61425781,
+      "time_change_percent": -1.0849747802731735
+    },
+    "depth131072-layer16": {
+      "reference_us": 5750.28759766,
+      "candidate_us": 5720.70605469,
+      "time_change_percent": -0.5144358863378828
+    },
+    "depth131072-layer6": {
+      "reference_us": 5991.17871094,
+      "candidate_us": 6008.78613281,
+      "time_change_percent": 0.29388911130039386
+    },
+    "full-tiles": {
+      "reference_us": 3966.95996094,
+      "candidate_us": 3996.68603516,
+      "time_change_percent": 0.7493414229710504
+    }
+  },
+  "pairs": {
+    "operator-IQ2-pair-n15-m5-tile16-normal.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile16-normal.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile16-tiny.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile16-tiny.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile16-normal.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile16-normal.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile16-tiny.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile16-tiny.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile16-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile16-normal.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile16-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile16-tiny.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile16-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n65-m129-tile16-normal.u32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile48-normal.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile48-normal.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile48-tiny.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile48-tiny.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile48-normal.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile48-normal.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile48-tiny.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile48-tiny.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile48-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile48-normal.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile48-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile48-tiny.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n47-m5-tile48-normal.f32": {
+      "values": 470,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n47-m5-tile48-normal.u32": {
+      "values": 470,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n47-m5-tile48-tiny.f32": {
+      "values": 470,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n47-m5-tile48-tiny.u32": {
+      "values": 470,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n48-m5-tile48-normal.f32": {
+      "values": 480,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n48-m5-tile48-normal.u32": {
+      "values": 480,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n48-m5-tile48-tiny.f32": {
+      "values": 480,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n48-m5-tile48-tiny.u32": {
+      "values": 480,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n49-m5-tile48-normal.f32": {
+      "values": 490,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n49-m5-tile48-normal.u32": {
+      "values": 490,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n49-m5-tile48-tiny.f32": {
+      "values": 490,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n49-m5-tile48-tiny.u32": {
+      "values": 490,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile48-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n65-m129-tile48-normal.u32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile64-normal.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile64-normal.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile64-tiny.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile64-tiny.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile64-normal.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile64-normal.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile64-tiny.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile64-tiny.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile64-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile64-normal.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile64-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile64-tiny.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n63-m5-tile64-normal.f32": {
+      "values": 630,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n63-m5-tile64-normal.u32": {
+      "values": 630,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n63-m5-tile64-tiny.f32": {
+      "values": 630,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n63-m5-tile64-tiny.u32": {
+      "values": 630,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n64-m5-tile64-normal.f32": {
+      "values": 640,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n64-m5-tile64-normal.u32": {
+      "values": 640,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n64-m5-tile64-tiny.f32": {
+      "values": 640,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n64-m5-tile64-tiny.u32": {
+      "values": 640,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m5-tile64-normal.f32": {
+      "values": 650,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n65-m5-tile64-normal.u32": {
+      "values": 650,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m5-tile64-tiny.f32": {
+      "values": 650,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n65-m5-tile64-tiny.u32": {
+      "values": 650,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile64-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n65-m129-tile64-normal.u32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile128-normal.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile128-normal.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n15-m5-tile128-tiny.f32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n15-m5-tile128-tiny.u32": {
+      "values": 150,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile128-normal.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile128-normal.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n16-m5-tile128-tiny.f32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n16-m5-tile128-tiny.u32": {
+      "values": 160,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile128-normal.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile128-normal.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n17-m5-tile128-tiny.f32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n17-m5-tile128-tiny.u32": {
+      "values": 170,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n127-m5-tile128-normal.f32": {
+      "values": 1270,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n127-m5-tile128-normal.u32": {
+      "values": 1270,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n127-m5-tile128-tiny.f32": {
+      "values": 1270,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n127-m5-tile128-tiny.u32": {
+      "values": 1270,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n128-m5-tile128-normal.f32": {
+      "values": 1280,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n128-m5-tile128-normal.u32": {
+      "values": 1280,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n128-m5-tile128-tiny.f32": {
+      "values": 1280,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n128-m5-tile128-tiny.u32": {
+      "values": 1280,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n129-m5-tile128-normal.f32": {
+      "values": 1290,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n129-m5-tile128-normal.u32": {
+      "values": 1290,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n129-m5-tile128-tiny.f32": {
+      "values": 1290,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n129-m5-tile128-tiny.u32": {
+      "values": 1290,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-IQ2-pair-n65-m129-tile128-normal.f32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "packed-iq2-n65-m129-tile128-normal.u32": {
+      "values": 16770,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-epilogue-depth0-layer6.f32": {
+      "values": 13056000,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-epilogue-depth0-layer6.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-epilogue-depth0-layer0.f32": {
+      "values": 13056000,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-epilogue-depth0-layer0.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-epilogue-depth131072-layer16.f32": {
+      "values": 13094400,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-epilogue-depth131072-layer16.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-epilogue-depth131072-layer6.f32": {
+      "values": 13094400,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-epilogue-depth131072-layer6.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "iq2-epilogue-full-tiles.f32": {
+      "values": 13107200,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    },
+    "operator-iq2-epilogue-full-tiles.f32": {
+      "values": 256,
+      "exact": true,
+      "changed_values": 0,
+      "max_absolute_delta": 0.0,
+      "relative_l2": 0.0
+    }
+  },
+  "exact": true,
+  "numerical_pass": true,
+  "promoted": false,
+  "goal_met": false,
+  "component_candidate": false
+}

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
-// Transitional glue only: grammar/history/container ownership still upstream.
+// Transitional dense glue; C17 history has separate storage-only glue.
 #ifndef LIE_GUFO_SAMPLING_HPP
 #define LIE_GUFO_SAMPLING_HPP
 #include "lie/sampling.h"
+#include "gufo_sampling_storage.hpp"
 #include "src/core/sampling.hpp"
 #include <span>
 #include <stdexcept>
-#include <vector>
 namespace lie_gufo {
 inline lie_sampling_options dense_options(const gufo::sampling::SamplingConfig& c) {
   lie_sampling_options o;lie_sampling_options_init(&o);
@@ -36,19 +36,13 @@ inline uint32_t dense_greedy(std::span<const float> logits,
   auto o=dense_options(c);auto r=dense_row(logits,c,p,allowed);uint32_t token=0;
   dense_check(lie_sampling_greedy(&r,&o,&token));return token;
 }
-inline int dense_grow(void* ctx,size_t n,lie_sampling_probability** p,size_t* cap) noexcept {
-  try {
-    auto& v=*static_cast<std::vector<gufo::sampling::Probability>*>(ctx);
-    v.resize(n);*p=v.data();*cap=v.size();return 0;
-  }catch(...){return 1;}
-}
-inline std::vector<gufo::sampling::Probability> dense_distribution(
+inline ProbabilityStorage dense_distribution(
     std::span<const float> logits,const gufo::sampling::SamplingConfig& c,
     std::span<const gufo::sampling::TokenPenalty> p) {
   auto o=dense_options(c);auto r=dense_row(logits,c,p);
-  std::vector<gufo::sampling::Probability> entries;
-  lie_sampling_workspace w{nullptr,0,dense_grow,&entries};size_t count=0;
-  dense_check(lie_sampling_build(&r,&o,&w,&count));entries.resize(count);return entries;
+  ProbabilityStorage entries;
+  auto w=entries.workspace();size_t count=0;
+  dense_check(lie_sampling_build(&r,&o,&w,&count));entries.publish(count);return entries;
 }
 }
 #endif

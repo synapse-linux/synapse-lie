@@ -1,0 +1,57 @@
+scope,arm,metric,unit,measured_repetition,value
+synthetic_ordinary,Control,cycle_us,microseconds / cycle (lower is faster),1,2973.03
+synthetic_ordinary,Control,cycle_us,microseconds / cycle (lower is faster),2,2975.4
+synthetic_ordinary,Control,cycle_us,microseconds / cycle (lower is faster),3,2972.25
+synthetic_ordinary,Control,cycle_us,microseconds / cycle (lower is faster),4,2982.4
+synthetic_ordinary,Control,cycle_us,microseconds / cycle (lower is faster),5,2998.85
+synthetic_ordinary,Paired,cycle_us,microseconds / cycle (lower is faster),1,2900.13
+synthetic_ordinary,Paired,cycle_us,microseconds / cycle (lower is faster),2,2851.26
+synthetic_ordinary,Paired,cycle_us,microseconds / cycle (lower is faster),3,2870.82
+synthetic_ordinary,Paired,cycle_us,microseconds / cycle (lower is faster),4,2911.39
+synthetic_ordinary,Paired,cycle_us,microseconds / cycle (lower is faster),5,2922.39
+synthetic_moe,Control,cycle_us,microseconds / cycle (lower is faster),1,3876.99
+synthetic_moe,Control,cycle_us,microseconds / cycle (lower is faster),2,3873.68
+synthetic_moe,Control,cycle_us,microseconds / cycle (lower is faster),3,3895.46
+synthetic_moe,Control,cycle_us,microseconds / cycle (lower is faster),4,3873.83
+synthetic_moe,Control,cycle_us,microseconds / cycle (lower is faster),5,3901.44
+synthetic_moe,Paired,cycle_us,microseconds / cycle (lower is faster),1,3666.8
+synthetic_moe,Paired,cycle_us,microseconds / cycle (lower is faster),2,3662.9
+synthetic_moe,Paired,cycle_us,microseconds / cycle (lower is faster),3,3616.46
+synthetic_moe,Paired,cycle_us,microseconds / cycle (lower is faster),4,3639.71
+synthetic_moe,Paired,cycle_us,microseconds / cycle (lower is faster),5,3609.01
+original_model_c1_pp2048_tg128,Q2 control,prefill_tok_s,token/s (higher is faster),1,1414.094139
+original_model_c1_pp2048_tg128,Q2 control,prefill_tok_s,token/s (higher is faster),2,1411.691465
+original_model_c1_pp2048_tg128,Q2 control,prefill_tok_s,token/s (higher is faster),3,1411.386922
+original_model_c1_pp2048_tg128,Q2 paired,prefill_tok_s,token/s (higher is faster),1,1440.414411
+original_model_c1_pp2048_tg128,Q2 paired,prefill_tok_s,token/s (higher is faster),2,1439.264244
+original_model_c1_pp2048_tg128,Q2 paired,prefill_tok_s,token/s (higher is faster),3,1438.260668
+original_model_c1_pp2048_tg128,UD,prefill_tok_s,token/s (higher is faster),1,1666.90195
+original_model_c1_pp2048_tg128,UD,prefill_tok_s,token/s (higher is faster),2,1660.402276
+original_model_c1_pp2048_tg128,UD,prefill_tok_s,token/s (higher is faster),3,1668.166107
+original_model_c1_pp2048_tg128,Q2 control,prefill_s,seconds (lower is faster),1,1.448276988
+original_model_c1_pp2048_tg128,Q2 control,prefill_s,seconds (lower is faster),2,1.45074193
+original_model_c1_pp2048_tg128,Q2 control,prefill_s,seconds (lower is faster),3,1.451054965
+original_model_c1_pp2048_tg128,Q2 paired,prefill_s,seconds (lower is faster),1,1.421813045
+original_model_c1_pp2048_tg128,Q2 paired,prefill_s,seconds (lower is faster),2,1.422949266
+original_model_c1_pp2048_tg128,Q2 paired,prefill_s,seconds (lower is faster),3,1.423942158
+original_model_c1_pp2048_tg128,UD,prefill_s,seconds (lower is faster),1,1.228626555
+original_model_c1_pp2048_tg128,UD,prefill_s,seconds (lower is faster),2,1.233436035
+original_model_c1_pp2048_tg128,UD,prefill_s,seconds (lower is faster),3,1.227695486
+original_model_c1_pp2048_tg128,Q2 control,decode_steps_s,decode calls/s (higher is faster),1,24.07983285
+original_model_c1_pp2048_tg128,Q2 control,decode_steps_s,decode calls/s (higher is faster),2,24.08612132
+original_model_c1_pp2048_tg128,Q2 control,decode_steps_s,decode calls/s (higher is faster),3,24.10743338
+original_model_c1_pp2048_tg128,Q2 paired,decode_steps_s,decode calls/s (higher is faster),1,24.09537275
+original_model_c1_pp2048_tg128,Q2 paired,decode_steps_s,decode calls/s (higher is faster),2,24.10188652
+original_model_c1_pp2048_tg128,Q2 paired,decode_steps_s,decode calls/s (higher is faster),3,24.09657332
+original_model_c1_pp2048_tg128,UD,decode_steps_s,decode calls/s (higher is faster),1,24.28748712
+original_model_c1_pp2048_tg128,UD,decode_steps_s,decode calls/s (higher is faster),2,24.32002162
+original_model_c1_pp2048_tg128,UD,decode_steps_s,decode calls/s (higher is faster),3,24.31815223
+original_model_c1_pp2048_tg128,Q2 control,decode_s,seconds / 127 calls (lower is faster),1,5.274122989
+original_model_c1_pp2048_tg128,Q2 control,decode_s,seconds / 127 calls (lower is faster),2,5.272746006
+original_model_c1_pp2048_tg128,Q2 control,decode_s,seconds / 127 calls (lower is faster),3,5.26808466
+original_model_c1_pp2048_tg128,Q2 paired,decode_s,seconds / 127 calls (lower is faster),1,5.270721534
+original_model_c1_pp2048_tg128,Q2 paired,decode_s,seconds / 127 calls (lower is faster),2,5.26929707
+original_model_c1_pp2048_tg128,Q2 paired,decode_s,seconds / 127 calls (lower is faster),3,5.270458928
+original_model_c1_pp2048_tg128,UD,decode_s,seconds / 127 calls (lower is faster),1,5.229030051
+original_model_c1_pp2048_tg128,UD,decode_s,seconds / 127 calls (lower is faster),2,5.222034832
+original_model_c1_pp2048_tg128,UD,decode_s,seconds / 127 calls (lower is faster),3,5.222436261

@@ -1,0 +1,27 @@
+{
+  "spdx": "MIT",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Owned diagnostic projection; unchanged numerical kernels. Capture only the last ordinary prompt token, after existing steering. Partial captures require successful full prefill and C17 collection before learning. No default device copy, wait, row allocation or callback.",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "#include \"src/models/qwen38_flash_next/kernels/rocm/executor.hpp\"\n",
+      "new": "#include \"src/models/qwen38_flash_next/kernels/rocm/executor.hpp\"\n#include \"gufo_activation_observer.hpp\"\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "bool ExpertMatrixRows(std::uint32_t rows) {\n  return prefill_phase || rows > 4 * kVecBatch;\n}\n",
+      "new": "bool ExpertMatrixRows(std::uint32_t rows) {\n  return prefill_phase || rows > 4 * kVecBatch;\n}\n\nbool LieObserveActivation(const Config& config, const float* values,\n                          std::uint32_t tokens, std::uint32_t start,\n                          std::uint32_t layer, bool ffn, hipStream_t stream,\n                          std::string* error_msg) {\n  auto* observer = lie_gufo::activation_observer;\n  if (!prefill_phase || observer == nullptr)\n    return true;\n  const auto component = ffn ? LIE_ACTIVATION_FFN : LIE_ACTIVATION_ATTENTION;\n  const auto branches = ffn ? config.hc_count : 1U;\n  float* destination = observer->destination(start, tokens, layer, component,\n                                             config.hidden_size, branches);\n  if (destination == nullptr)\n    return true;\n  const std::size_t count = static_cast<std::size_t>(config.hidden_size) * branches;\n  const std::size_t offset = static_cast<std::size_t>(tokens - 1) * count;\n  if (!Check(hipMemcpyAsync(destination, values + offset, count * sizeof(float),\n                            hipMemcpyDeviceToHost, stream),\n             \"activation observation row copy\", error_msg) ||\n      !Check(hipStreamSynchronize(stream), \"activation observation completion\", error_msg))\n    return false;\n  observer->emit(layer, component, branches);\n  return true;\n}\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "    if (!LieSteer(session, s_.block_out, n, 1, il, false, error_msg))\n      return false;\n",
+      "new": "    if (!LieSteer(session, s_.block_out, n, 1, il, false, error_msg))\n      return false;\n    if (!LieObserveActivation(c, s_.block_out, n, start_pos, il, false, stream_, error_msg))\n      return false;\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "    if (!LieSteer(session, s_.res, n, c.hc_count, il, true, error_msg))\n      return false;\n",
+      "new": "    if (!LieSteer(session, s_.res, n, c.hc_count, il, true, error_msg))\n      return false;\n    if (!LieObserveActivation(c, s_.res, n, start_pos, il, true, stream_, error_msg))\n      return false;\n"
+    }
+  ]
+}

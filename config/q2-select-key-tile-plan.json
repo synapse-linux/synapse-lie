@@ -1,0 +1,30 @@
+{
+  "schema": "synapse-lie.q2-select-key-tile-window-plan.v1",
+  "label": "q2-select-key-tile-component-r1",
+  "source_commit": "be128ea3c83107ed82589f45e7abb0f07fbb8067",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-select-query-lds-component-r1/release.json",
+  "previous_release_sha256": "6b0d4d028408ba4d583bdee71827a368888d88078e0a07c91d737ec3b456c21c",
+  "staged_sha256": {
+    "candidate.inc": "846826d838539faef0c608e15830057e2d8057b328bbebc9aecc7a23fd28495a",
+    "fixture.hip": "aeb7c91084384752858071249fa7ba6cf8527a55a348b22b5ad743df33d888c0",
+    "q2-decode-down-rows-native128-performance-window.py": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+    "q2-select-key-tile-window.py": "d8dfdfedf1374be44dcfa37d3e42b4e635c00180ab36f8190e9597d54ea085d2",
+    "q2_select_key_tile_check": "6058a12a53509267e4088a9525e55a8a9670ca024e13ea5944232c40e7279fad",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "record-command.py": "eb63cb54fdee43fb940d44c97eec8fb7a7bdfa503313ad8ac5b1a6e01cfd15d2",
+    "source-manifest.json": "26bced90268fb7fbe890257af71839f03b2e9bc69f11e53c97ca70f589966f14",
+    "static-manifest.json": "2f3ea5f7e467aacc1e407ef6d298545b3b2ce35f972c06c8a7bb2dca682a9a38"
+  },
+  "cpu_check_sha256": {
+    "cpu-test-command.json": "3fb68d708d13eb69a774f9674c62655ab3536c49a8f792521ef6aa1248782265",
+    "cpu-test.stdout": "800f3288f0f45d4146ca2b0f4c2e14ca8d0ecd91dd6c0b56c547dcb3a6d0d1c6",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "scope": "Exact 8x8 selector key tiling, with uint4 packing inside the complete original score+topk timer. Original FP32 queries, F16 key bits, score arithmetic and original32K/128K internal512row slices plus originaltail365. Synthetic operator only; no model/input/chunk/dispatch change. Two warmups and five alternating measurements; all packed halves/sentinels, full outputs, FP64 and CPU topk checked."
+}

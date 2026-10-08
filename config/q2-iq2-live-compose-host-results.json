@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-compose-host.v1",
+  "capsule_sha256": "33787df3a94a45a73777b9bc794493d5520bcb1793b953afb74085356ceabbea",
+  "archive_sha256": "5ec73d596bbc8d43d761ecf7b2d468ee855d36d5a0a08d7cedc8d00a3a380a5b",
+  "fixture_files_verified": 61,
+  "source_files_verified": 1020,
+  "plan_sha256": "b604df50df61cba060e1f9ae2e14b6125a7cbccd1e981663f20cc4ab44c50cab",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

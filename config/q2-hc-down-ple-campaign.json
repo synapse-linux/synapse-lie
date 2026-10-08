@@ -1,0 +1,83 @@
+{
+  "q2-hc-down64-host-r1": {
+    "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 7,
+    "finished_at": "2026-10-02T16:57:53.441880+00:00"
+  },
+  "q2-hc-down64-micro-ref-r1": {
+    "state": "FAILED",
+    "command_exits": [
+      0,
+      0,
+      1
+    ],
+    "verified_artifacts": 48,
+    "finished_at": "2026-10-02T16:59:01.706109+00:00"
+  },
+  "q2-hc-down64-micro-r1": {
+    "state": "FAILED",
+    "command_exits": [
+      0,
+      0,
+      1
+    ],
+    "verified_artifacts": 48,
+    "finished_at": "2026-10-02T17:00:44.015260+00:00"
+  },
+  "q2-hc-down-tiles-host-r1": {
+    "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 7,
+    "finished_at": "2026-10-02T17:05:09.443475+00:00"
+  },
+  "q2-ple-host-r1": {
+    "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 7,
+    "finished_at": "2026-10-02T17:23:50.473657+00:00"
+  },
+  "q2-ple-model-r1": {
+    "state": "PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 23,
+    "finished_at": "2026-10-02T17:28:09.886710+00:00"
+  },
+  "q2-ple-ud-r1": {
+    "state": "PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT",
+    "command_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "verified_artifacts": 23,
+    "finished_at": "2026-10-02T17:32:17.609495+00:00"
+  }
+}

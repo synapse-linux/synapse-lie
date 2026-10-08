@@ -1,0 +1,344 @@
+{
+  "schema": "synapse-lie.core-progress-host.v1",
+  "SPDX-License-Identifier": "MIT",
+  "recorded_at": "2026-10-04T18:41:53.063484+00:00",
+  "base_checkpoint": "6c694f4",
+  "scope": "Native C17 direct-client metadata progress and comparison policy; CPU fixtures only, NOT-INFERENCE",
+  "core_or_executor_ABI_changed": false,
+  "numerical_provider_or_scheduling_changed": false,
+  "progress_schema": "synapse-lie.core-progress.v1",
+  "progress_interval_default_ms": 0,
+  "progress_interval_enabled_range_ms": [
+    100,
+    60000
+  ],
+  "snapshot_contract": {
+    "per_job": "Individually locked metadata; successful completed prefill only",
+    "global": "Separate core metadata lock; execution phase and started/returned calls",
+    "consumer_tokens": "Observed confirmed output, not network-delivery receipts",
+    "final_snapshot": "Last observation before job release; retirement and success remain explicit"
+  },
+  "verification": {
+    "Debug_native_CTest": "3/3 passed",
+    "ASan_UBSan_LeakSanitizer_native_CTest": "3/3 passed",
+    "child_PATH": "/nonexistent-native-bench-contract",
+    "cases": [
+      "Two-job progress and output parity",
+      "In-flight prefill is not completed input",
+      "Cache reuse separated from recomputation",
+      "Failed prefill preserves completed prefix only",
+      "Deadline final snapshot can precede retirement",
+      "Broken stderr pipe produces failed evidence and cleanup",
+      "Quiet default",
+      "Progress-policy mismatch refusal",
+      "Missing historical policy normalizes to disabled",
+      "Interval bounds and duplicate option refusal"
+    ]
+  },
+  "commands": [
+    {
+      "label": "debug-build-schema",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "--target",
+          "synapse-lie-bench",
+          "test-synthetic-lie-bench",
+          "test-native-bench",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 64.75
+        },
+        "elapsed_s": 1.1021629013121128
+      },
+      "log_sha256": "4b9749ec72704ef5ea7b081df12f3c54f231f4bcdceb5e12b4bece7587b51ac3",
+      "temperatures_sha256": "9371412f3c0022a1f028490b0b2f6b78eb7e5d619758037443162eee82618006",
+      "device_visibility": "Masked"
+    },
+    {
+      "label": "asan-build-schema",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "--target",
+          "synapse-lie-bench",
+          "test-synthetic-lie-bench",
+          "test-native-bench",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 64.75
+        },
+        "elapsed_s": 1.1047534020617604
+      },
+      "log_sha256": "191a0d68a330c2566d2ab62a6ca53d7e7558e90380ad5cb46fb1af66b0ea46fe",
+      "temperatures_sha256": "c74bcf2ada1b4100404a368d63635a5a2d8fd5f1c396258e0562ba8272b8fea0",
+      "device_visibility": "Masked"
+    },
+    {
+      "label": "debug-ctest-schema",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "-R",
+          "^(native-benchmark-contract|native-http-multi-contract|native-http-curve-contract)$",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 67.875
+        },
+        "elapsed_s": 13.660142198204994
+      },
+      "log_sha256": "22c086b37ef6969b839762c258da73356d9ba7910f48d7f9a823da25b8eb8952",
+      "temperatures_sha256": "547b7cc8f740a82b1bc00283362348edef69e12b12aff15b629edfd98d41f243",
+      "device_visibility": "Masked"
+    },
+    {
+      "label": "asan-ctest-schema",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+          "UBSAN_OPTIONS=halt_on_error=1",
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "-R",
+          "^(native-benchmark-contract|native-http-multi-contract|native-http-curve-contract)$",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 67.75
+        },
+        "elapsed_s": 15.69687690678984
+      },
+      "log_sha256": "08150cd713c5243b57265b296d4bf53167e9733c2d210842949dc685ba16cd70",
+      "temperatures_sha256": "0f62452403640d485724d9aea5abe4759be4efacf42fcd0f96fdbd5ed969c478",
+      "device_visibility": "Masked"
+    }
+  ],
+  "preserved_failures": [
+    {
+      "label": "debug-ctest",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "-R",
+          "^native-benchmark-contract$",
+          "--output-on-failure",
+          "-j1"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.75
+        },
+        "elapsed_s": 2.1608255058526993
+      },
+      "log_sha256": "7bfbc4c87e6dc2b35bb3e22e944e61a6bb2a6e366c9b5a19c356a1dc1b2d2180",
+      "reason": "Sandbox refused the native fixture ephemeral loopback socket"
+    },
+    {
+      "label": "asan-build",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-asan",
+          "--target",
+          "synapse-lie-bench",
+          "test-synthetic-lie-bench",
+          "test-native-bench",
+          "-j2"
+        ],
+        "child_exit_code": 2,
+        "exit_code": 2,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.75
+        },
+        "elapsed_s": 1.1180557003244758
+      },
+      "log_sha256": "623459a1b50eb7d917ef33913a762daed9e14d4278cf22a8bc47b7b48100384f",
+      "reason": "The selected headless-only ASan directory does not contain the benchmark target"
+    }
+  ],
+  "source_sha256": {
+    "tools/core-bench.c": "85d2f714c4066a664bfb54ca10f6b63f940eda25ac4ace59d253ab71b88f7813",
+    "tools/native/report.c": "2b35010d7602497c94a0c05cee3394b1a13278eb7063abebae2a93c8007d6e9a",
+    "tests/bench_executor.c": "58e206efbc7a73f22a002577312990ff347368beb3a8155b3da3e4413a39301b",
+    "tests/test_native_bench.c": "203e92822021bbcd99c6c9a2a43895986573d24336f3b2a936cf58739824bf44"
+  },
+  "binary_sha256": {
+    "build/context-debug/synapse-lie-bench": "c0c8d79241a12209125808d77ba610dfffb7f0e8b22859f37d3bc2476570542f",
+    "build/context-debug/test-synthetic-lie-bench": "0ca82e6879e6ff9f50e30a59b0cf9c8ab7683cc3fcc68cca66cdab55cf290255",
+    "build/context-debug/test-native-bench": "01fe4a1897f4c24d3ab8f5df8ef31a97ce4a957b1ce73611292917a94efa04d6",
+    "build/tool-http-asan/test-native-bench": "411a1471139d8e38a52377b212af1504edfa47f9d05a23fa0d181233ddf6ec70"
+  },
+  "physical_1m_latest_observation": {
+    "state": "RUNNING_NOT_YET_QUALIFIED",
+    "at_unix": 1791139041.2996452,
+    "processes": [
+      {
+        "pid": 5052,
+        "start_ticks": 62594,
+        "state": "S",
+        "user_ticks": 3309,
+        "system_ticks": 1807,
+        "cgroup": "0::/user.slice/user-1000.slice/session-31.scope",
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/pop/workspace/synapse-lie/context-r10-yarn4-physical1m-smoke/runner.py",
+          "/home/pop/workspace/synapse-lie/context-r10-yarn4-physical1m-smoke"
+        ]
+      },
+      {
+        "pid": 5917,
+        "start_ticks": 66589,
+        "state": "S",
+        "user_ticks": 733665,
+        "system_ticks": 1712,
+        "cgroup": "0::/system.slice/docker-2f5d5b86d91806e55e29d8db9816c1a28354aaa94939afb21536d00296286536.scope",
+        "argv": [
+          "/bundle/runtime/bin/synapse-lie-bench",
+          "--suite",
+          "core",
+          "--model",
+          "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "--tokens-file",
+          "/work/tokens.json",
+          "--output",
+          "/work/measurements.jsonl",
+          "--kv-cache-ram-mb",
+          "0",
+          "--kv-cache-policy",
+          "ds4",
+          "--timeout-ms",
+          "86400000",
+          "--rope-scaling",
+          "yarn4",
+          "--context",
+          "1048576",
+          "--chunk",
+          "256",
+          "--users",
+          "1",
+          "--tg",
+          "128",
+          "--warmups",
+          "0",
+          "--repetitions",
+          "1"
+        ]
+      }
+    ],
+    "gpu": {
+      "mem_info_gtt_total": 120259084288,
+      "mem_info_gtt_used": 116965175296,
+      "gpu_busy_percent": 100
+    },
+    "memory": {
+      "MemAvailable": 6486753280,
+      "SwapFree": 21366665216
+    },
+    "temperatures": [
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 77.375
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 38.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 38.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 37.85
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 77.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 37.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 37.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 37.85
+      }
+    ],
+    "measurements_bytes": 1339,
+    "receipt": "evidence/core-progress-20261004/physical-at-validation.json",
+    "sha256": "3b775eabe6999736a24b0d003f94b20afc2e7e51c998a131a9778caf5371e1be"
+  },
+  "new_GPU_gate_executed": false,
+  "product_Python_dependency_added": false,
+  "model_mutation": false,
+  "remote_build_or_tuning": false,
+  "publication": false,
+  "remaining": [
+    "Collected physical1M closure",
+    "Original-weight AR/MTP OpenAI controls",
+    "New progress-enabled GPU client integration after fresh admission",
+    "Long-context quality, Terminal Bench and autonomous C17 executor milestones"
+  ]
+}

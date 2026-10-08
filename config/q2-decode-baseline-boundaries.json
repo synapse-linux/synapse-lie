@@ -1,0 +1,17 @@
+{
+  "scope": "Static timing-boundary investigation; not a performance subtraction",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "files": {
+    "src/core/sampling.cpp": "16fd66465127d137240eb5b5ab984cbacab0788909000adc99926d40dae89248",
+    "src/models/qwen38_flash_next/engine.cpp": "c621dce3a6e2468f9668407035c94c6fc68979c724ca3dde7d29893b87fa55dd",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b186b9c41f7c8c05d309b7bdde3b3e06afa09fd86b6c452fa9ad40c97b9a47d4"
+  },
+  "findings": [
+    "Original Session::DecodeStep prepares sampling, forwards one token with host logits, and finishes state bookkeeping. The final true argument is stop_at_eos, not materialize.",
+    "Original SamplerState::SampleGreedy scans once and tests finiteness when a new maximum is selected; isolated nonfinite values are skipped.",
+    "Corrected diagnostic Argmax retains a complete finite scan followed by std::max_element, rejecting every nonfinite value. Timed work therefore still differs from original production sampling.",
+    "Both fresh Q2/UD benchmark arms use the same stricter Argmax and matched completed-work scope. A lower diagnostic UD rate cannot replace the historical production target.",
+    "No sampler or production engine implementation is changed in this campaign."
+  ],
+  "next": "Measure strict single-pass argmax separately or use a pinned production Session/Sampler comparison for absolute baseline reproduction; never remove finite checks just to raise reported throughput."
+}

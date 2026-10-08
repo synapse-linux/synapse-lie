@@ -1,0 +1,97 @@
+{
+  "schema": "synapse-lie.q2-iq2-routing-coverage.v1",
+  "inputs": {
+    "profile": {
+      "path": "config/q2-current-best-profile-results.json",
+      "sha256": "efb16d4015e3fce00af978374573b17aa4bbc3b2250007bf126eb459651b2f7f"
+    },
+    "component": {
+      "path": "config/q2-iq2-four-wave-component-results.json",
+      "sha256": "4d0cfc56742135fb5f07b2c866855ee1020a78d5fd99456bd379d4a2fa2a3048"
+    },
+    "parent": {
+      "path": "config/q2-ssm-fixed-bounds-model-results.json",
+      "sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd"
+    },
+    "fixed": {
+      "path": "config/q2-fixed-prefill-reference.json",
+      "sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1"
+    }
+  },
+  "retained_pp": 1585.308983,
+  "fixed_ud_pp": 1685.777092,
+  "required_pp_gain_percent": 6.3374465216160525,
+  "required_prefill_time_reduction_ms": 76.99173596475516,
+  "profiled_variant": "half-consumer-eight",
+  "profiled_saved_pp": 1571.716479,
+  "profiled_layers": 48,
+  "model_geometry": {
+    "iq2_128_tiles": {
+      "min": 128,
+      "median": 139.5,
+      "max": 159,
+      "total": 6813
+    },
+    "iq2_64_tiles": {
+      "min": 89,
+      "median": 294.5,
+      "max": 359,
+      "total": 12753
+    },
+    "q2_48_tiles": {
+      "min": 511,
+      "median": 669.5,
+      "max": 714,
+      "total": 31120
+    }
+  },
+  "component_geometry": [
+    {
+      "case": "mixed-e64",
+      "active_experts": 64,
+      "iq2_128_tiles": 128,
+      "iq2_64_tiles": 64
+    },
+    {
+      "case": "mixed-e128",
+      "active_experts": 128,
+      "iq2_128_tiles": 128,
+      "iq2_64_tiles": 128
+    },
+    {
+      "case": "mixed-e512",
+      "active_experts": 512,
+      "iq2_128_tiles": 0,
+      "iq2_64_tiles": 512
+    }
+  ],
+  "profiled_expert_ms": {
+    "iq2_bn128": 135.80781,
+    "iq2_bn64": 103.691949,
+    "q2_down": 161.55806
+  },
+  "sensitivity_scenarios": [
+    {
+      "expert_time_reduction_fraction": 0.1,
+      "saving_on_saved_trace_ms": 40.105781900000004,
+      "measured_gain": false
+    },
+    {
+      "expert_time_reduction_fraction": 0.2,
+      "saving_on_saved_trace_ms": 80.21156380000001,
+      "measured_gain": false
+    }
+  ],
+  "finding": "The512-expert component has zero wide tiles; every saved model layer has128..159 wide tiles plus89..359 narrow tiles. Expert cardinality alone does not reproduce the model workload.",
+  "next_required_observation": "Capture or recover exact per-expert counts for the fixed input and retained provider; the saved dispatch geometry alone cannot identify one/two/three/four live16-row tail fragments.",
+  "prioritized_hypotheses": [
+    "Use the real tail distribution to decide whether the four-wave route belongs only to sufficiently full tiles; preserve the original path for small tails. This is unimplemented and requires measurement.",
+    "Reduce IQ2 BN128 repeated activation/dequantization work without doubling its accumulator live range; blindly extending four-wave BN64 is not justified by its negative model result.",
+    "Remove Q2-down/expert-consumer materialization with deterministic per-expert accumulation ownership; previous layout-only and unordered-atomic proposals do not establish a saving."
+  ],
+  "limits": "Saved trace costs are attribution on1571, not new1585 timings. Geometry mismatch does not isolate the cause of the four-wave model regression or prove any new candidate faster. No probability of success is measured. The original exact2048/tg128 acceptance benchmark is unchanged.",
+  "gpu_run": false,
+  "control_rerun": false,
+  "full_curve": false,
+  "goal_met": false
+}

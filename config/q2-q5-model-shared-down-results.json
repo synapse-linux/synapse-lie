@@ -1,0 +1,125 @@
+{
+  "schema": "synapse-lie.q2-q5-model-shared-down-results.v1",
+  "at": "2026-10-07T10:02:20.794515+00:00",
+  "host": ".157",
+  "scope": "Original antirez Q2 model, exact retained 2048-token counting input, direct executor bench2k; one warmup and three measured sessions per arm, default Q8 then opt-in shared-down Q5. Candidate Q5 is a lossy in-memory re-quantization of native Q8 weights, not a native GGUF format.",
+  "model_header_audit_sha256": "76fd2088f6f2d2560ea2a0dd6887af7f69ca452513a696537ad04463e5281e67",
+  "native_model_storage_type_counts": {
+    "BF16": 2,
+    "Q8_0": 337,
+    "F32": 472,
+    "F16": 298,
+    "IQ2_XXS": 96,
+    "Q2_K": 48,
+    "Q4_K": 2,
+    "MXFP4": 1
+  },
+  "native_model_q5_tensor_count": 0,
+  "plan_sha256": "693b60c063b1957dfd4b917efbb35056e1be782999394a6f54fd7c14ecdf3f55",
+  "source_manifest_sha256": "553a21f75d60f3daf0204f89acf26fb4f72f0ae77c98cc5c243eb46cb0f8c235",
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "binary_sha256": "d12703168a1da70b5f3211fc13e9cb9b2225f370cd2a07e9a72676ad2d11c960",
+  "raw_evidence": "evidence/q2-q5-model-shared-down-r1",
+  "raw_sha256": {
+    "preflight.json": "9b359a4590e1898c9224e7d4fd8c439834c345132d31e1283416ddf4adf7dbe8",
+    "admission.json": "f59c5835efee448e2cc720fd15214b7f21ef72bbaf715bfc129e8e5f057415bc",
+    "result.json": "dcac0b7e56407ec6262ed7a7fc3409b78373b76cc3d2329c1ea8aa909fce5c73",
+    "release.json": "5a6cc85fc1720422f2fb85de8ba0f606fc5f08acc695754255953b36d3177409",
+    "registry-check.txt": "08811809450a129ca9b22bc90f5d0df458f8a914d0a4957324928a3fab9f1ce6"
+  },
+  "arm_exit_codes": {
+    "q8": 0,
+    "shared-down": 0
+  },
+  "arm_artifacts_verified": {
+    "q8": 21,
+    "shared-down": 21
+  },
+  "metrics": {
+    "q8": {
+      "prefill_tok_s_samples": [
+        1575.143119,
+        1572.021296,
+        1572.61953
+      ],
+      "prefill_tok_s_median": 1572.61953,
+      "decode_steps_s_samples": [
+        25.62081661,
+        25.61155912,
+        25.60633178
+      ],
+      "decode_steps_s_median": 25.61155912,
+      "warmup_prefill_tok_s": 1575.510476,
+      "warmup_decode_steps_s": 25.49179825,
+      "all_physical_prompt_tokens_2048": true,
+      "all_output_tokens_128": true,
+      "all_timed_decode_calls_127": true
+    },
+    "shared-down": {
+      "prefill_tok_s_samples": [
+        1572.938615,
+        1573.244225,
+        1572.244037
+      ],
+      "prefill_tok_s_median": 1572.938615,
+      "decode_steps_s_samples": [
+        25.63652494,
+        25.6543173,
+        25.63558026
+      ],
+      "decode_steps_s_median": 25.63652494,
+      "warmup_prefill_tok_s": 1575.304064,
+      "warmup_decode_steps_s": 25.6252122,
+      "all_physical_prompt_tokens_2048": true,
+      "all_output_tokens_128": true,
+      "all_timed_decode_calls_127": true
+    }
+  },
+  "comparisons": [
+    {
+      "rep": 0,
+      "prefill_logits_byte_equal": true,
+      "generated_tokens_byte_equal": true,
+      "final_logits_relative_rms": 0.07719846769130652,
+      "final_logits_max_scaled_error": 0.04659721467710599,
+      "final_logits_byte_equal": false
+    },
+    {
+      "rep": 1,
+      "prefill_logits_byte_equal": true,
+      "generated_tokens_byte_equal": true,
+      "final_logits_relative_rms": 0.07719846769130652,
+      "final_logits_max_scaled_error": 0.04659721467710599,
+      "final_logits_byte_equal": false
+    },
+    {
+      "rep": 2,
+      "prefill_logits_byte_equal": true,
+      "generated_tokens_byte_equal": true,
+      "final_logits_relative_rms": 0.07719846769130652,
+      "final_logits_max_scaled_error": 0.04659721467710599,
+      "final_logits_byte_equal": false
+    },
+    {
+      "rep": 3,
+      "prefill_logits_byte_equal": true,
+      "generated_tokens_byte_equal": true,
+      "final_logits_relative_rms": 0.07719846769130652,
+      "final_logits_max_scaled_error": 0.04659721467710599,
+      "final_logits_byte_equal": false
+    }
+  ],
+  "decode_median_rate_ratio_q5_over_q8": 1.0009747871999135,
+  "decode_median_rate_percent_change": 0.09747871999135072,
+  "release": {
+    "at": "2026-10-07T09:59:15.401783+00:00",
+    "sha256": "5a6cc85fc1720422f2fb85de8ba0f606fc5f08acc695754255953b36d3177409",
+    "kfd_empty": true,
+    "leases_free": 5,
+    "models_unchanged": 7,
+    "remote_cleanup": false,
+    "retired_identities": 1957,
+    "retired_groups": 1563
+  },
+  "verdict": "Reject shared-down Q5 overlay for target: ~0.10% direct-executor decode gain, 7.72% final-logit relative RMS change, no native C1 or long-prefill target evidence; keep default Q8 and original GGUF."
+}

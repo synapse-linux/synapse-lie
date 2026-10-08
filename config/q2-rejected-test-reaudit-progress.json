@@ -1,0 +1,52 @@
+{
+  "schema": "synapse-lie.q2-rejected-test-reaudit-progress.v1",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "original_reports_verified": 19,
+  "manifest_sha256": {
+    "config/q2-iq2-mixed-model-source.json": "8b45bea7e4f7557372a7bd044587c9e3350f2566398c764e7e1ddd47edbfae26",
+    "config/q2-hc-library-ragged-source.json": "ccc14aad25e932138db3540946dbbf913808a0ddd433dee848e054f2ccac73c5",
+    "config/q2-scaled-input-source.json": "ec3c7ec92a2dc1736751024e1b42adb8692799b53846ba80eaf62a0c0779b9a9",
+    "config/q2-reaudit-composition-results.json": "cca63b54a4b70d05e517d2eb359bb1f68d56d0ca2a47cccb4a70ac8dafaf6a09"
+  },
+  "source_inventories_verified": {
+    "fixed": {
+      "path": ".deps/gufo-q2-curve-iq2-mixed",
+      "files": 1022
+    },
+    "library_ragged": {
+      "path": ".deps/gufo-q2-bench-hc-library-ragged",
+      "files": 1020
+    }
+  },
+  "source_observations": {
+    "scaled_input_inc_exact_sha256": "24d259a90bbe6130240ca80576274864abd3f014d4e999b0078fca2aa1db45c1",
+    "paired_norm_kernel_bodies_exact_sha256": {
+      "HcCombineF32HalfKernel": "3a66db8b318dbef895fc5a0efc50142690758715ee69ccfe6c7bd50dff6dfd13",
+      "HcCombineMoeF32HalfKernel": "c68526383590a922433ddf3a75a613eaa482c07c4148fd3a656d720ba69eaa02"
+    },
+    "paired_norm_fixed_point_dispatch_already_present": true,
+    "hc_library_ragged_blaslt_exact_sha256": "8491f54d8e2db60879c478684600aacff43bebd280bb557bb364e93d5f66adf2",
+    "hc_library_algorithm_7526_already_present": true
+  },
+  "families": {
+    "shared-q8": "New candidate and both compositions measured; exact production/model replay. Oracle cause remains unproven.",
+    "scaled-row": "New fixed-model Q8+row composition measured; all21 Q2 replay files exact.",
+    "norm-fixed": "New Q8+row+norm composition measured; exact replay to prior norm model with preserved logit differences.",
+    "scaled-input": "Identical packing include already in fixed parent; earlier arithmetic change is not an additional missing improvement.",
+    "scaled-library": "Packing and the original-F16 HC library route are already in fixed parent; prior component/model timing exists.",
+    "library-norm": "Both paired norm bodies and the fixed2048 dispatch are already in fixed parent; prior complete timing exists.",
+    "hc-library-ragged": "Entire blaslt.cpp exactly matches fixed parent; prior component/model timing exists.",
+    "norm-ragged": "The existing2048 pairing is already in fixed parent; broader ragged dispatch does not add a new mechanism at this fixed point.",
+    "scaled-tiles": "Performance already collected despite numeric rejection; tile128 slows every measured routing and tile64 benefits only highly shared routing.",
+    "hc-sequence": "Performance already collected despite numeric rejection; both measured geometries slow the complete cycle.",
+    "hc-deferred-norm": "Performance already collected; ordinary cycle slows, MoE cycle has a marginal gain with real feedback differences. New integration against the current library consumer remains pending."
+  },
+  "new_model_compositions": "config/q2-reaudit-composition-results.json",
+  "controls_rerun": false,
+  "confirmed_false_failures_not_inferred": true,
+  "original_failures_preserved": true,
+  "independent_quality_complete": false,
+  "entire_reaudit_complete": false,
+  "goal_met": false,
+  "limits": "Source presence and saved performance do not establish numeric acceptance, a false oracle, or independent additive gains. Nineteen records remain eleven candidate families plus four host/status records. No GPU run in this source audit."
+}

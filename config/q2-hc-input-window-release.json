@@ -1,0 +1,396 @@
+{
+  "at": "2026-10-03T02:02:35.780436+00:00",
+  "state": "Q2_HC_INPUT_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785235,
+      "absent": true,
+      "finished_at": "2026-10-03T01:28:45.740548+00:00"
+    },
+    {
+      "label": "q2-hc-input-micro-r1",
+      "pid": 2786625,
+      "absent": true,
+      "finished_at": "2026-10-03T01:31:03.037374+00:00"
+    },
+    {
+      "label": "q2-hc-input-model-ref-r1",
+      "pid": 2787672,
+      "absent": true,
+      "finished_at": "2026-10-03T01:37:43.383040+00:00"
+    },
+    {
+      "label": "q2-hc-input-model-r1",
+      "pid": 2789640,
+      "absent": true,
+      "finished_at": "2026-10-03T01:42:30.611383+00:00"
+    },
+    {
+      "label": "q2-hc-input-ud-r1",
+      "pid": 2791871,
+      "absent": true,
+      "finished_at": "2026-10-03T01:47:30.581774+00:00"
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2795249,
+      "absent": true,
+      "finished_at": "2026-10-03T01:56:40.121308+00:00"
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2797016,
+      "absent": true,
+      "finished_at": "2026-10-03T02:00:45.688216+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785264,
+      "start_ticks": 155629435,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785338,
+      "start_ticks": 155629488,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785447,
+      "start_ticks": 155629940,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785653,
+      "start_ticks": 155630594,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785723,
+      "start_ticks": 155630647,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-host-r1",
+      "pid": 2785856,
+      "start_ticks": 155631350,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-micro-r1",
+      "pid": 2786633,
+      "start_ticks": 155643721,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-micro-r1",
+      "pid": 2786831,
+      "start_ticks": 155643924,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-micro-r1",
+      "pid": 2786976,
+      "start_ticks": 155645329,
+      "exit_code": 1,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-ref-r1",
+      "pid": 2787680,
+      "start_ticks": 155659994,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-ref-r1",
+      "pid": 2787882,
+      "start_ticks": 155660197,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-ref-r1",
+      "pid": 2788950,
+      "start_ticks": 155675725,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-ref-r1",
+      "pid": 2788955,
+      "start_ticks": 155675778,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-r1",
+      "pid": 2789647,
+      "start_ticks": 155688715,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-r1",
+      "pid": 2789842,
+      "start_ticks": 155688919,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-r1",
+      "pid": 2790972,
+      "start_ticks": 155704446,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-model-r1",
+      "pid": 2791005,
+      "start_ticks": 155704499,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-ud-r1",
+      "pid": 2791872,
+      "start_ticks": 155722122,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-ud-r1",
+      "pid": 2792067,
+      "start_ticks": 155722325,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-ud-r1",
+      "pid": 2792974,
+      "start_ticks": 155733597,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-ud-r1",
+      "pid": 2792986,
+      "start_ticks": 155733650,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2795250,
+      "start_ticks": 155781787,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2795465,
+      "start_ticks": 155781990,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2796532,
+      "start_ticks": 155797467,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2796537,
+      "start_ticks": 155797519,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2796695,
+      "start_ticks": 155799279,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2796696,
+      "start_ticks": 155799332,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-ref-r1",
+      "pid": 2796697,
+      "start_ticks": 155799384,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2797025,
+      "start_ticks": 155805692,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2797220,
+      "start_ticks": 155805895,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2798280,
+      "start_ticks": 155821374,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2798285,
+      "start_ticks": 155821426,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2798474,
+      "start_ticks": 155823834,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2798475,
+      "start_ticks": 155823887,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-input-profile-r1",
+      "pid": 2798477,
+      "start_ticks": 155823940,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2798982,
+    "state": "R",
+    "group": 2798979,
+    "session": 2798979,
+    "start_ticks": 155835003
+  },
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "result_sha256": {
+    "q2-hc-input-host-r1": "8151b3340b7ff55c6e73548a5b6421f90e9e032dbc467822a1f3539e0e408d92",
+    "q2-hc-input-micro-r1": "c283f3264baa154f2f8faf9f0a96c8c156c937b73cb9bb86d31c5e260bed9a2a",
+    "q2-hc-input-model-ref-r1": "ab30ac0aefdbe08a9dac359af87fdd90bb9a1321b5dea5ebfd3e24d70b6b108b",
+    "q2-hc-input-model-r1": "a18c27025a366afdd889f97017f1ce6753cb00c6497fc7a923ca48dd0df09857",
+    "q2-hc-input-ud-r1": "60a1d182747391811f661e4bc30c4d4745f91fb9245518985764a67288f35eb9",
+    "q2-hc-input-profile-ref-r1": "e0603162d825b2b86e948ef12a864913357376d32ca6259eae131c30d191d9ae",
+    "q2-hc-input-profile-r1": "796c2b2924bf0bae8e3701d10650cbd89a0d10e7c55fe2ce9e32c8eff4e167b4"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "43000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "44000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "44875",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "40850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "51850"
+  }
+}

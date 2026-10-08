@@ -1,0 +1,238 @@
+{
+  "schema": "synapse-lie.host-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "CPU_FIXTURES_AND_PROVIDER_HEADER_CHECK_NOT_INFERENCE",
+  "source_parent": "65400dfb7bbddddf15898ee0b52410257763737c",
+  "changes": [
+    "Incremental JSON name/arguments frame extraction preserving exact argument bytes",
+    "Ignore nested/quoted names and closing tool tags in JSON strings",
+    "C17 prefill limit bounds numerical scratch with admitted decode/MTP row floor"
+  ],
+  "checks": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 65.5
+      },
+      "elapsed_s": 2.1238685688003898,
+      "directory": "evidence/point-merge-20261004/tool-json-debug-build-r3",
+      "command_log_sha256": "22d182d00ca77787ae25eb2ceb61816f3d2309cff9e2863711941871042319e4"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-R",
+        "core-semantic-events|semantic-http-contract|semantic-mtp-http-contract"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.625
+      },
+      "elapsed_s": 16.6178697636351,
+      "directory": "evidence/point-merge-20261004/tool-json-debug-focused-r2",
+      "command_log_sha256": "40b84deef58a9354a853191fb9815add49c05b77915c416f65745a0a95787c36",
+      "ctest_passed": 3
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.625
+      },
+      "elapsed_s": 33.4134347550571,
+      "directory": "evidence/point-merge-20261004/tool-json-debug-tests",
+      "command_log_sha256": "a1b304ba4f95d10c30cb27bd2cf64e8b14431abc741c19fdfb2ff044fd595f57",
+      "ctest_passed": 51
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.625
+      },
+      "elapsed_s": 6.1975026009604335,
+      "directory": "evidence/point-merge-20261004/tool-json-asan-build",
+      "command_log_sha256": "66aa89b7cb726dce569fc3cfe45732e3c4832492296cfab6a3145c189b85928c"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-R",
+        "core-semantic-events|semantic-http-contract|semantic-mtp-http-contract|openai-headless-controls-state"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.5
+      },
+      "elapsed_s": 17.74567082338035,
+      "directory": "evidence/point-merge-20261004/tool-json-asan-tests",
+      "command_log_sha256": "11226e957a9fc82ffc7afa1c945b72a2729c067443e177585ab84b522f526034",
+      "ctest_passed": 4
+    },
+    {
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+        "-DLIE_GUFO_STATE_ACCESS=1",
+        "-DLIE_DS4_RUNTIME_CACHE=1",
+        "-DLIE_C17_SAMPLING=1",
+        "-DLIE_MTP=1",
+        "-DLIE_VISION=1",
+        "-D__HIP_PLATFORM_AMD__=1",
+        "-Iinclude",
+        "-I.deps/context-source-r10-final",
+        "-I/opt/rocm/include",
+        "adapters/gufo.cpp"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 63.0
+      },
+      "elapsed_s": 1.1360814115032554,
+      "directory": "evidence/point-merge-20261004/tool-json-state-headers",
+      "command_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_strix_point_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 53.625
+      },
+      "elapsed_s": 1.124621563591063,
+      "directory": "evidence/point-merge-20261004/tool-campaign-chunk-check",
+      "command_log_sha256": "75a43d7c384eefaf9f13679927644da116d3e9979ef0c4b6db1e8e5ff51b0cc6"
+    },
+    {
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-DLIE_C17_SAMPLING=1",
+        "-DLIE_VISION_WEIGHT_DECODE=1",
+        "-D__HIP_PLATFORM_AMD__=1",
+        "-Iinclude",
+        "-I.deps/context-source-r10-final",
+        "-I/opt/rocm/include",
+        ".deps/context-source-r10-final/src/models/qwen38_flash_next/engine.cpp"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 64.125
+      },
+      "elapsed_s": 2.1500577377155423,
+      "directory": "evidence/point-merge-20261004/tool-json-engine-headers",
+      "command_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "retained_failures": [
+    {
+      "directory": "evidence/point-merge-20261004/tool-json-debug-build",
+      "exit": 2,
+      "reason": "Incorrect C escaping in a new test literal; corrected before build-r2."
+    },
+    {
+      "directory": "evidence/point-merge-20261004/tool-json-debug-focused",
+      "exit": 8,
+      "reason": "Fixture mode109 tested before recompiling its final mode bound; fresh build-r3 and focused-r2 pass."
+    }
+  ],
+  "gpu_failure": {
+    "label": "context-r9-tools-http",
+    "exit": 1,
+    "scope": "ORIGINAL_WEIGHT",
+    "error": "Chat incremental function SSE failed",
+    "finding": "Strict sampler emitted JSON function frames, which the first checkpoint buffered to closing tag; native complete call passed. New JSON preview addresses the actual format.",
+    "child_exit": 1,
+    "server_exit": 0,
+    "collection_exit": 0,
+    "lease_released_at": "2026-10-04T14:16:26.455527+00:00",
+    "owned_processes_absent": true,
+    "router_restored": true,
+    "reclassified_as_pass": false
+  },
+  "gpu_new_candidate": "pending build and fresh admission",
+  "host_tuning": false,
+  "publication": false,
+  "source_sha256": {
+    "src/models/qwen_output.c": "7a8bd8898a94a8f4cedb596565f101fc605cb63409221e6ed8ce60aa48374726",
+    "tests/test_core_events.c": "d28ed24ac1d0a53a25cad6a99894f9945e8a53973e422a3d5d8ee8735720bc16",
+    "tests/test_event_http.c": "33233822e81fa2fe01ef3b434df43abe19297770cbb9c6a4cdd16c9f6e125c1a",
+    "tests/fake_executor.c": "adc1a8cd448182471b49489bae909f36f3cdcf6b2bf5ac6d7611528a26c40e21",
+    "adapters/gufo.cpp": "909d86b607e5f9f90f15d80da2f1509c1c9e4e910d2bf2350cae9c2c8d36b183",
+    "adapters/gufo-state/context-edits.json": "272401d5908e0e4785061756729fc51c913dfe6377e973e15242012209a88ee9"
+  },
+  "gpu_followup_receipt": "tool-context-point-gpu-2026-10-04.json"
+}

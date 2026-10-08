@@ -1,0 +1,88 @@
+{
+  "host_and_component": {
+    "q2-hc-decode-reduce-host-r1": {
+      "source_files_verified": 1020,
+      "source_capsule_sha256": "fe91eae7142f583e055310ba27c77c11ed45e6cecaf67d71acf50c30a51035bc",
+      "archive_sha256": "492284a51f3311b40278874471f10f06bc32f22cdadedf02fc90dd86ac066fda",
+      "artifacts_verified": 7,
+      "temperature_max_c": {
+        "amdgpu": 40.0,
+        "k10temp": 68.375
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+        "cmake/hip/CMakeLists.txt": "1beabb0219c98ff58fd755a950450093bed607bd5c2b98c5b028b7424d2a578c",
+        "tests/q2_hc.cpp": "de9b86b56cc74abf12efc4bb4d5b2570b2a18db7d23abdb1c338d0c752927ba1",
+        "tests/q2_hc_decode_reduce.cpp": "cda2db88878a7cd91bc57f8147e5d0861611c9bafccfca2ea25d161877d93ebe",
+        "tests/q2_remote_test.py": "2b51b0b8a5d51a65ee4d595afee164401d2001c2342640d03b735c235790a65f",
+        "tools/q2-remote.py": "72cbff11a0c8bc03517a5345c2c78a402dcdb2c45ac49358a1221f67e63bf96b",
+        "tools/q2-runner.py": "0249be78964e89a632ba52cc968ab6278d5b46d5315fb265dd9d810e85ca4598",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "config/q2-hc-decode-reduce-source.json": "062d919bee69adfcb55973e866e6a21c8f5fd7c627277998f272ab2c4f9766fe",
+        "config/models-157.inventory.json": "05335e60f5682bd1fe58a0399f1e78467c02f97625a4d49a4da7969c7d481b82"
+      },
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE"
+    },
+    "q2-hc-decode-reduce-component-r1": {
+      "source_files_verified": 1020,
+      "source_capsule_sha256": "02a27fb2904d224ab4af4986af93925bf0b693e34b626d633519dedf893f23e5",
+      "archive_sha256": "70186f02c8c5154d4c11ee4dea98af12b395f122535ce59049c9fe095a489280",
+      "artifacts_verified": 69,
+      "temperature_max_c": {
+        "amdgpu": 40.0,
+        "k10temp": 71.375
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "e7ba612fe28f056631db71a88a4719d73239e68989ec4f3a6715c0db0370b1ea",
+        "cmake/hip/CMakeLists.txt": "1beabb0219c98ff58fd755a950450093bed607bd5c2b98c5b028b7424d2a578c",
+        "tests/q2_hc.cpp": "de9b86b56cc74abf12efc4bb4d5b2570b2a18db7d23abdb1c338d0c752927ba1",
+        "tests/q2_hc_decode_reduce.cpp": "cda2db88878a7cd91bc57f8147e5d0861611c9bafccfca2ea25d161877d93ebe",
+        "tests/q2_remote_test.py": "2b51b0b8a5d51a65ee4d595afee164401d2001c2342640d03b735c235790a65f",
+        "tools/q2-remote.py": "72cbff11a0c8bc03517a5345c2c78a402dcdb2c45ac49358a1221f67e63bf96b",
+        "tools/q2-runner.py": "0249be78964e89a632ba52cc968ab6278d5b46d5315fb265dd9d810e85ca4598",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "config/q2-hc-decode-reduce-source.json": "062d919bee69adfcb55973e866e6a21c8f5fd7c627277998f272ab2c4f9766fe",
+        "config/models-157.inventory.json": "05335e60f5682bd1fe58a0399f1e78467c02f97625a4d49a4da7969c7d481b82"
+      },
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT"
+    }
+  },
+  "host_fixtures_identical": true,
+  "prepared_source_files_verified": 1020,
+  "decision": {
+    "component_numerical_pass": true,
+    "independent_fp64_cases": 11,
+    "full_pairs_exact": 27,
+    "median_us": {
+      "reference": 30.2722807974,
+      "candidate": 30.1710311323
+    },
+    "median_time_change_percent": -0.3344632859929586,
+    "all_five_candidate_samples_faster": true,
+    "weight_bytes_per_launch": 6553600,
+    "weight_only_effective_GB_s": 217.21498251957175,
+    "profile_hc_down_calls_per_token": 97.0,
+    "projected_saving_ms_per_token": 0.009821217514699925,
+    "fresh_diagnostic_gap_ms_per_token": 0.6001298224,
+    "model_arm_admitted": false,
+    "decision": "Keep as measured component evidence; do not promote or spend a full-model arm on this marginal saving before the original C17 baseline resolves the absolute timing discrepancy.",
+    "projection_scope": "Projection multiplies micro saving by prior call count; not a measured full-model gain or physical DRAM bandwidth measurement.",
+    "numerical_scope": "11 scalar/control FP64 cases pass; inherited full-model/operator/KL rejection remains unchanged.",
+    "goal_met": false
+  }
+}

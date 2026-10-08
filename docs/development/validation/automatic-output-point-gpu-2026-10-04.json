@@ -1,0 +1,342 @@
+{
+  "schema": "synapse-lie.automatic-output-point-gpu-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "ORIGINAL_WEIGHT_AR37_PASSED_MTP37_INTERRUPTED_BY_EXTERNAL_CLIENT_NOT_TASK_QUALITY_OR_PERFORMANCE",
+  "runtime_source_checkpoint": "a3066a795f2ac2fd71078d63ea834709827be51f",
+  "protocol_checkpoint": "88fe91b85f6e1948c7533641825bcfdd34c0025e",
+  "request_abi": 8,
+  "executor_abi": 3,
+  "generation_abi": 3,
+  "runtime_build_id": "rocm10-point-modern-r12-runtime",
+  "platform": {
+    "host": "192.168.5.161",
+    "cpu": "Ryzen AI 9 HX 370",
+    "gpu": "Radeon 890M",
+    "target": "gfx1150",
+    "stack": "ROCm10 pinned Fedora image",
+    "effective_gtt_bytes": 120259084288,
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem_uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb"
+  },
+  "source_capsule": {
+    "scope": "LOCAL_SEALED_SOURCE_NOT_REMOTE_BUILD_OR_GPU",
+    "source_commit": "a3066a795f2ac2fd71078d63ea834709827be51f",
+    "source_archive_sha256": "492a8535d8da379e9ff430cfeeff9dfcdaf146ba351bfb9c3bc4bbafe616f798",
+    "source_archive_bytes": 49406549,
+    "source_files_sha256": "127a252856b73ff55eb85157524700ec18a4594e26cf6edabcc43c8f21ed98f4",
+    "files": 2457,
+    "compile_helper_sha256": "9f5ddf85213e4880f6b92f6c5d0ac2aad8d0f760315025e1a8c2d281e5459634",
+    "gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "pristine_gufo_files_verified": 1019,
+    "zstd_development_source": "evidence/context-source-modern-r11/third_party/point-zstd-dev",
+    "zstd_prior_receipt_sha256": "1d9daafa4c2ee566593758fa22844107c8d53c0e25475a23f3733bd99442ff2d",
+    "zstd_development_sha256": {
+      "zstd.h": "9b4bc8245565c98ccfc61c07749928b57e7c0f6fddb0530c4f6aa1971893d88b",
+      "zstd_errors.h": "66a8c3f71d12ea6e797e4f622f31f3f8f81c41b36f48cad4f5de7d8bfb6aac0a",
+      "LICENSE": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+    }
+  },
+  "bundle": {
+    "bundle": "/home/pop/workspace/synapse-lie/rocm10-fedora-161/bundle-modern-r12",
+    "bundle_sha256": "afcdec69bd041559f70a9cce20a5157951f66946b76b76e022f52cb1d7c2fe8a",
+    "metadata": {
+      "schema": "synapse-lie.point-bundle.v1",
+      "source_commit": "a3066a795f2ac2fd71078d63ea834709827be51f",
+      "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+      "compile_receipt_sha256": "4a631e3ea93fe30f7073c7ac7c7429cdea46e6ebb9d58c444c5c10c43ccd9de7",
+      "artifacts": {
+        "runtime/bin/lie-hip-probe": "21f343577c87176f64de120ddf00340e87cbc4ccf3e1753f96467ab5c07f06b9",
+        "runtime/bin/synapse-lie-bench": "476565d4df7f5e7bca5a699eb5305b252eb10fc8139f0a29f533b54fe5712683",
+        "runtime/bin/synapse-lie-bench-gufo-reference": "fb820964c9326b53eed52baac789a7e72f9f614edba83cf2e5c7f5044c111506",
+        "runtime/bin/synapse-lie-server": "4b623f67454ef9c8b1615ea332e7807411fbe2a1fda924b97525cae6fbc1f0d1"
+      },
+      "runtime_libraries": "pinned ROCm10 image",
+      "scope": "BUILT_NOT_GPU_TESTED"
+    }
+  },
+  "windows": {
+    "context-r12-build-r1": {
+      "directory": "evidence/context-r12-build-r1",
+      "state": "PASSED",
+      "admitted_at": "2026-10-04T22:57:20.466869+00:00",
+      "released_at": "2026-10-04T22:59:56.903782+00:00",
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "container_init_exit_code": 0,
+      "collection_exit_code": 0,
+      "verified_artifact_count": 6,
+      "collection_sha256": "95c45aae842063f53d5283cbcc1dc6852cf5305f51542ea7d251451e4d0aad46",
+      "result_sha256": "a32008ad5c8e3653896c38c123eade6a3ca5988c504e9a8dbf6225a646917d0f",
+      "runner_sha256": "8c7782883cd6188dbddb6a91828198fee0dd474d1ecf6f4e2751795107c76e58",
+      "manifest_sha256": "60b0f8e74027e9f7969388cf7254db464d5b52352feb300c35770411ee7c1615",
+      "model_attempted": false,
+      "model_stat_unchanged": null,
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "service": "MainPID=26789\nActiveState=active\n",
+        "service_exit": 0,
+        "kernel_kfd": [
+          "26789"
+        ]
+      },
+      "thermal_samples": 136,
+      "peak_c": {
+        "k10temp": 69.75,
+        "amdgpu": 45.0,
+        "nvme": 47.85
+      },
+      "max_gtt_bytes": 14401536,
+      "min_available_ram_bytes": 120871538688,
+      "cleanup_failures": []
+    },
+    "context-r12-openai-auto-ar-r1": {
+      "directory": "evidence/context-r12-openai-auto-ar-r1",
+      "state": "PASSED",
+      "admitted_at": "2026-10-04T23:08:11.849049+00:00",
+      "released_at": "2026-10-04T23:11:50.074654+00:00",
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "child_exit_code": 0,
+      "container_init_exit_code": 143,
+      "collection_exit_code": 0,
+      "verified_artifact_count": 17,
+      "collection_sha256": "8e3b670072e24b44819423b5c31bfc955e33d849adce370e1746174b8f51a288",
+      "result_sha256": "129a52bff33cf6cef5845df6ff1b943763383674130dc22ce7550886cf5b1f1b",
+      "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "manifest_sha256": "106f9dfabf7b6af2de4e8666fc133540df2cb0d0a3e1699fb20d76f929b2b0e7",
+      "model_attempted": true,
+      "model_stat_unchanged": true,
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "service": "MainPID=28052\nActiveState=active\n",
+        "service_exit": 0,
+        "kernel_kfd": [
+          "28052"
+        ]
+      },
+      "thermal_samples": 212,
+      "peak_c": {
+        "k10temp": 61.25,
+        "amdgpu": 64.0,
+        "nvme": 62.85
+      },
+      "max_gtt_bytes": 90559934464,
+      "min_available_ram_bytes": 30840995840,
+      "cleanup_failures": [],
+      "passed_checks": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ]
+    },
+    "context-r12-openai-auto-mtp-r1": {
+      "directory": "evidence/context-r12-openai-auto-mtp-r1",
+      "state": "FAILED",
+      "admitted_at": "2026-10-04T23:14:10.712962+00:00",
+      "released_at": "2026-10-04T23:16:24.366038+00:00",
+      "controller_exit_code": 1,
+      "supervisor_exit_code": 1,
+      "child_exit_code": 137,
+      "container_init_exit_code": 143,
+      "collection_exit_code": 0,
+      "verified_artifact_count": 16,
+      "collection_sha256": "8dd6b5f981615a1cf296ab2f3a7c5f2d0a37f1f0732a3a3099267bd7716df8b4",
+      "result_sha256": "09c49c31e55de6d8d9ac839121e395998c09c9d817125a41342e121d916951d2",
+      "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "manifest_sha256": "8677cd332ac21f9083d6118de1691d0f4d7edaa5a2957158ae5288720f259da7",
+      "model_attempted": true,
+      "model_stat_unchanged": true,
+      "closure": {
+        "supervisor_absent": true,
+        "gpu_child_absent": true,
+        "owned_child_absent": true,
+        "lease_free": true,
+        "service": "MainPID=29377\nActiveState=active\n",
+        "service_exit": 0,
+        "kernel_kfd": [
+          "29223",
+          "29377"
+        ]
+      },
+      "thermal_samples": 130,
+      "peak_c": {
+        "k10temp": 82.625,
+        "amdgpu": 73.0,
+        "nvme": 67.85
+      },
+      "max_gtt_bytes": 94247227392,
+      "min_available_ram_bytes": 27222253568,
+      "cleanup_failures": [],
+      "error": "RuntimeError('Foreign GPU client observed')"
+    }
+  },
+  "ar_output_budget_witnesses": {
+    "models_context_output_limits": {
+      "context_length": 16384,
+      "max_output_tokens": 4096
+    },
+    "chat_automatic_output": {
+      "omitted_json": {
+        "prompt_tokens": 26,
+        "output_tokens": 327,
+        "output_token_limit": 4096,
+        "text": "{\n  \"value\": \"alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha\"\n}"
+      },
+      "null_sse": {
+        "prompt_tokens": 26,
+        "output_tokens": 327,
+        "output_token_limit": 4096,
+        "text": "{\n  \"value\": \"alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha\"\n}"
+      }
+    },
+    "responses_automatic_output": {
+      "omitted_json": {
+        "prompt_tokens": 26,
+        "output_tokens": 327,
+        "output_token_limit": 4096,
+        "text": "{\n  \"value\": \"alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha\"\n}"
+      },
+      "null_sse": {
+        "prompt_tokens": 26,
+        "output_tokens": 327,
+        "output_token_limit": 4096,
+        "text": "{\n  \"value\": \"alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha alpha\"\n}"
+      }
+    }
+  },
+  "mtp_retained_failure": {
+    "error": "Foreign GPU client observed during admitted window",
+    "external_client": [
+      {
+        "pid": 29223,
+        "start_ticks": 2470351,
+        "executable": "/usr/bin/python3.12",
+        "cgroup": "0::/user.slice/user-1000.slice/session-424.scope\n"
+      }
+    ],
+    "owned_gpu_closure": [
+      {
+        "pid": 29140,
+        "start_ticks": 2464442,
+        "current_start_ticks": null,
+        "original_identity_absent": true
+      }
+    ],
+    "closure_receipt_sha256": "9c21408575f9b7c7eedc1fde1f4269b401ed8680d76417f186726b4a9333a47b",
+    "completed_sidecar_controls": [
+      "chat_choices_json",
+      "chat_choices_sse",
+      "chat_seed_replay",
+      "chat_logprobs",
+      "chat_logprobs_sse",
+      "chat_bias_positive",
+      "chat_bias_negative",
+      "chat_stop_json",
+      "chat_stop_sse",
+      "chat_json_object",
+      "responses_json_object",
+      "chat_json_schema",
+      "responses_json_schema",
+      "chat_store_crud",
+      "responses_background_disconnect",
+      "responses_cursor_replay",
+      "responses_input_pagination",
+      "responses_cancel_after_output",
+      "responses_delete",
+      "responses_truncation",
+      "unsupported_fields"
+    ],
+    "completed_budget_checks": [
+      "models_context_output_limits"
+    ],
+    "entire_mtp_gate_qualified": false,
+    "automatic_retry": false
+  },
+  "terminal_bench_preparation": {
+    "official_revision": "07034484346dc724d0e2c47c821fd196add1d6fb",
+    "source_stage_receipt_sha256": "6e7daa625e71a7744b267efe7d526910ae0a5fed64da66f07d4e6cec41466175",
+    "files_verified": 232,
+    "client_prerequisites_receipt_sha256": "cb1538b905d12742fcc96f6b1e6179e15f0c436c12e44094eaca6312395e2b35",
+    "existing_harbor_version": "0.20.0",
+    "docker_version": "29.7.2",
+    "compose_version": "5.5.0",
+    "cached_task_images": 4,
+    "full_task_images": 19,
+    "missing_full_task_images": [
+      "pypi-server",
+      "nginx-request-logging",
+      "fix-git",
+      "regex-log",
+      "headless-terminal",
+      "mailman",
+      "fix-ocaml-gc",
+      "sqlite-with-gcov",
+      "sparql-university",
+      "llm-inference-batching-scheduler",
+      "configure-git-webserver",
+      "extract-elf",
+      "openssl-selfsigned-cert",
+      "overfull-hbox",
+      "mteb-retrieve"
+    ],
+    "smoke_image_cached": true,
+    "endpoint_target": "http://192.168.5.161:8000/v1",
+    "task_runs_completed": 0,
+    "new_dependencies_installed": false,
+    "gpu_or_q2_mutations_on_client": false
+  },
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "gpu": "observe-only"
+  },
+  "qualification_limits": [
+    "AR37 qualifies r12 wire/lifetimes and automatic output only; structured enum output is not independent quality evidence.",
+    "The full new MTP37 window is interrupted. The historical r11 AR/MTP34 qualification remains unchanged.",
+    "Existing output ceiling remains4096; no benchmark harness cap was added.",
+    "DS4 candidate-filter profile qualification, fixed EOS/TG128, physical1M completion, task scores and numerical steering remain open.",
+    "MTP telemetry includes an external client at interruption and is not performance evidence.",
+    "Original model/predictor files and Q2 source/results are untouched. Further GPU work needs fresh availability/lease; no standing root job, waiter or reservation remains."
+  ]
+}

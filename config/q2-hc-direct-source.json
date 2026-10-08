@@ -1,0 +1,16 @@
+{
+  "scope": "Prepared source; runtime performance and numerical replay unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-affine-palette",
+  "candidate": ".deps/gufo-q2-bench-hc-direct",
+  "base_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+  "candidate_sha256": "d98171d2283584abce3749616ae07458e2906c9fd09d99605357066d8921490f",
+  "patch_sha256": "ed601bdcbebe9a2dd4719700033ef7b4300e0015dd5f86c9c8ac1c59a6131e07",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "mechanism": "Direct global-to-register WMMA fragments; LDS only for output transpose",
+  "dispatch": "F16 M320/K10240, n>=96; existing 64x128 tile and five-row grouping",
+  "numeric_contract": "Original half weights, two ordered K16 chains, final F32 addition and output layout",
+  "limit": "Additional repeated global reads may outweigh removed staging/synchronization; no benefit assumed"
+}

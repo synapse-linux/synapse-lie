@@ -1,0 +1,86 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5779,7 +5779,8 @@
+   // nearby rows are permuted so a fragment read (one row per lane, 64-byte
+   // stride) covers all bank groups.
+   constexpr int kLdsChunks = BK * (BM + BN) * 4;
+-  constexpr int kTransposeChunks = 8 * 16 * 36 * sizeof(float) / sizeof(uint4);
++  constexpr int kTransposeChunks =
++      (kSsmConv ? 8 * 32 * 32 : 8 * 16 * 36) * sizeof(float) / sizeof(uint4);
+   constexpr int kLdsStorage =
+       kLdsChunks < kTransposeChunks ? kTransposeChunks : kLdsChunks;
+   static_assert(kLdsStorage * 16 >= 8 * 512 * 4, "epilogue transposes 16 KB");
+@@ -6207,7 +6208,11 @@
+   // line (half lines cost a read-modify-write on the fabric).
+   // Four padding floats reduce scatter bank conflicts and retain float4
+   // alignment for both output stores and the fused convolution's reads.
+-  constexpr unsigned kOutputStride = 36;
++  // SSM keeps float4 alignment with an XOR row permutation, without padding.
++  constexpr unsigned kOutputStride = kSsmConv ? 32 : 36;
++  const auto ssm_index = [](unsigned token, unsigned row) {
++    return token * 32 + (row ^ ((token & 7) << 2));
++  };
+   // Pair token tiles for SSM: half as many convolutions cross a tile edge.
+   // The larger transpose still fits the projection's existing LDS allocation.
+   constexpr unsigned kOutputTokens = kSsmConv ? kSsmProjectionTileTokens : 16;
+@@ -6226,10 +6231,17 @@
+         // scratch[token][row], with 32 output rows per token.
+ #pragma unroll
+         for (int l = 0; l < 8; ++l) {
++          if constexpr (kSsmConv) {
++            tile_scratch[ssm_index(sub_lane + group * 16, 2 * l + half_id)] =
++                acc[i][j + group][l];
++            tile_scratch[ssm_index(sub_lane + group * 16, 16 + 2 * l + half_id)] =
++                acc[i + 1][j + group][l];
++          } else {
+           tile_scratch[((sub_lane + group * 16) * kOutputStride) + (2 * l) +
+                        half_id] = acc[i][j + group][l];
+           tile_scratch[((sub_lane + group * 16) * kOutputStride) + 16 +
+                        (2 * l) + half_id] = acc[i + 1][j + group][l];
++          }
+         }
+       }
+       __builtin_amdgcn_wave_barrier();
+@@ -6248,7 +6260,7 @@
+         const auto* src = reinterpret_cast<const float4*>(
+             tile_scratch + (tok_l * kOutputStride) + row_l);
+         if constexpr (kSsmConv) {
+-          static_assert(BM == 256 && BN == 128 && BK == 2 && WM == 8 &&
++          static_assert(BM == 256 && BN == 128 && BK == 1 && WM == 8 &&
+                         WN == 1);
+           static_assert(!kHcMix && kRowGroup == 1);
+           constexpr std::uint32_t channels = 10240;
+@@ -6258,18 +6270,19 @@
+               const unsigned row = r0 + row_l + v * 4;
+               if (row >= m)
+                 continue;
+-              const float4 current = src[v];
++              const float4 current = *reinterpret_cast<const float4*>(
++                  tile_scratch + ssm_index(tok_l, row_l + v * 4));
+               if (row >= channels || tok_l < 3 || tok_l >= kOutputTokens - 3 ||
+                   tok + 3 >= batch) {
+                 *reinterpret_cast<float4*>(y + tok * m + row) = current;
+               }
+               if (row < channels && tok_l >= 3) {
+                 const float4 x0 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 3) * kOutputStride + row_l + v * 4);
++                    tile_scratch + ssm_index(tok_l - 3, row_l + v * 4));
+                 const float4 x1 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 2) * kOutputStride + row_l + v * 4);
++                    tile_scratch + ssm_index(tok_l - 2, row_l + v * 4));
+                 const float4 x2 = *reinterpret_cast<const float4*>(
+-                    tile_scratch + (tok_l - 1) * kOutputStride + row_l + v * 4);
++                    tile_scratch + ssm_index(tok_l - 1, row_l + v * 4));
+                 const float4 w0 =
+                     *reinterpret_cast<const float4*>(conv_w + (row + 0) * 4);
+                 const float4 w1 =
+@@ -6504,7 +6517,7 @@
+       kernel != kSsmConvTaps) {
+     return false;
+   }
+-  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true>),
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 1, 8, 1, 1, false, true>),
+                      dim3((n_tokens + 127) / 128, m / 256), dim3(kThreads), 0,
+                      stream, w, x, qkvz, n_tokens, m, k, nullptr, nullptr,
+                      nullptr, conv_w, convolved);

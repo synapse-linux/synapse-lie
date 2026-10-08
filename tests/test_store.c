@@ -60,7 +60,7 @@ int main(void){
     char cwd[2048],base[2200],path[2300],file[2300];assert(getcwd(cwd,sizeof(cwd)));
     snprintf(base,sizeof(base),"%s/ssd-store-XXXXXX",cwd);assert(mkdtemp(base));
     snprintf(path,sizeof(path),"%s/store",base);snprintf(file,sizeof(file),"%s/codec",base);
-    lie_model_options mo={LIE_EXECUTOR_ABI,sizeof(mo),128,4};lie_model *m=NULL;lie_error e={0};
+    lie_model_options mo={LIE_EXECUTOR_ABI,sizeof(mo),128,4,LIE_ROPE_NATIVE};lie_model *m=NULL;lie_error e={0};
     assert(lie_backend_open(":fixture:",&mo,&m,&e)==LIE_OK);lie_state *state=capture(m,10);
     lie_state_identity id={{7}},foreign={{8}};uint64_t domain=lie_state_description(state)->domain;
     int fd=open(file,O_RDWR|O_CREAT|O_EXCL|O_CLOEXEC,0600);assert(fd>=0);

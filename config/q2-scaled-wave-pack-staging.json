@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-scaled-wave-pack-staging.v1",
+  "arms": [
+    {
+      "mode": "scaled-wave-pack-check",
+      "capsule_sha256": "7d14e10fa16ebeb9bc6c6d4628a8a8e979722b581b86159d515448c70f5f032e",
+      "provider_files": 1027,
+      "fixture_files": 77,
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-scaled-wave-pack",
+      "capsule_sha256": "3e7eaef0cacf55d42cf4e4a2ad931bc338f21ae01ad0b88e6892f0bfce81e78e",
+      "provider_files": 1027,
+      "fixture_files": 77,
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

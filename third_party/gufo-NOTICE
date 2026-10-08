@@ -7,6 +7,157 @@ See THIRD_PARTY_NOTICES.md for provenance, versions and distribution boundaries;
 full imported notices are installed alongside it in third-party/.
 
 Adapted code includes:
+- Complete native schema_frontend orchestration follows the independently pinned
+  Gufo compiler/factory visitation, leaf registration and publication sequence.
+  First-party C17 code composes the previously attributed schema/grammar modules,
+  owns native temporary/derived roots, predicate tables and retained diagnostics.
+  schema-frontend-edits.json switches default-ON production Compile/Object to
+  native policy; private typed/error/shared-handle projection, original OFF and
+  helper probes remain. No peer engine/model/collection artifacts are imported.
+- String-leaf construction in src/schema_string.c follows StringLexeme's
+  ordered lengths/pattern/format admission, hostname narrowing, unrestricted
+  reuse and error sequence at the independently pinned Gufo source below.
+  C17 composes the previously owned format/Unicode/regex/lexeme modules;
+  private typed error/shared-handle projection remains in the adapter.
+  schema-string-edits.json replaces only default-ON construction and preserves
+  original OFF source. No foreign engine/model/collection code is imported.
+- The first-party native schema_arena binds previously owned schema/format/
+  numeric policies to C17 JSON trees and root collections. It replaces private
+  default-ON staging construction with native creation/clone/mutation/transfer;
+  typed views/errors remain private and original OFF construction stays guarded.
+  The algorithms retain the independently pinned Gufo provenance below; the
+  aggregate ownership/binding code imports no foreign engine/model/collection.
+- The first-party schema_compiler C17 context composes the existing builder,
+  reference/leaf memos and derived-root store under one caller-serialized
+  lifetime. Its bootstrap/publication order retains the recorded pinned Gufo
+  JsonConstraintCompiler semantics. schema-compiler-edits.json moves default-ON
+  construction/counters into that context; typed projections/errors remain
+  private and original OFF algorithms remain guarded. The aggregate lifecycle
+  implementation imports no other engine, collection or model source.
+- Signed integer-bound policy in src/schema_integer.c follows
+  JsonConstraintCompiler::Integer at the independent immutable Gufo pin below.
+  The first-party C17 implementation owns ordered lookup, rounding, exclusivity,
+  empty intervals and signed alternatives. Its exact represented binary64
+  magnitude formatter is independently implemented with bounded integer words;
+  no GCC/libstdc++ conversion code is imported. Three exact guarded replacements
+  preserve the original OFF algorithm. Typed views/errors remain private.
+- Per-compilation derived schema storage follows the value admission/lifetimes
+  of JsonConstraintCompiler::Store at the independent Gufo pin below. The
+  first-party C17 json_store implementation owns native root identity tables,
+  cumulative bounds and retirement; transform/normalization staging uses the
+  same contract. Typed views/errors remain private adapters. Two exact
+  schema-store-edits.json guards retain original OFF compiler algorithms.
+  No DS4, sibling source, model payload or external collection code is imported.
+- Root schema admission in src/schema_root.c follows JsonConstraintCompiler::Compile
+  at independently fetched immutable Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT; gufo-LICENSE retained). C17 owns ordered root-reference traversal,
+  cycle identities and scratch retirement, resolved-root type/anyOf validation,
+  original-schema Visit admission and whitespace/body root construction.
+  Bounded identity storage and a shared whole-chain work budget are first-party
+  policy. Private JSON views, prompt text and exceptions remain adapters.
+  schema-root-edits.json records two exact default-ON/OFF replacements; original
+  OFF root admission is retained. No DS4 or sibling source/artifact is imported.
+- Binary64 number formatting/parsing now uses the shared first-party C17
+  lie/binary64.h contract, with separately pinned Ryu C material as described
+  in ryu-NOTICE. binary64-edits.json keeps both exact original OFF conversions
+  in Gufo JSON values. Borrowed JSON trees, lexer/storage and exceptions remain
+  private; binary64 conversion belongs to C17. No GCC/libstdc++ implementation,
+  DS4 code, sibling artifacts or model payloads are imported.
+- Immutable reasoning/tool grammar composition in src/grammar_composition.c
+  follows JsonConstraint::WithReasoning/WithTools and JSON name escaping at
+  independently fetched immutable Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT; gufo-LICENSE retained). C17 owns ordered marker automata, alternatives,
+  identity imports/remapping, quoting and stop policy. Typed template/predicate
+  storage stays private. composition-edits.json records three exact edits and
+  preserves both original OFF algorithms. No DS4/sibling code or artifacts
+  are imported. Matching GPU qualification/cost remains separate.
+- Ordered reasoning/tool composition cache policy in src/ordered_cache.c follows
+  JsonConstraint::WithReasoning/WithTools at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  C17 owns ordering/search, duplicate-before-eviction insertion, synchronization
+  and smallest-key bounded eviction. Opaque typed key/value storage/comparisons
+  remain private; immutable composition now uses the module above. Refusals are transactional
+  under the owned ABI. composition-cache-edits.json records five exact edits,
+  with four original OFF cache blocks retained. No DS4 or sibling source/code
+  artifact is imported; numerical forward and matching GPU gates remain separate.
+- Format selection/pattern construction in src/schema_format.c follows official
+  FormatPattern/JsonSchemaLexeme::Format at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  C17 owns nine pinned formats, ordered IPv6 alternatives and staged schema
+  expansion including hostname maxLength253. The provider retains private
+  strings/JSON storage and typed exceptions. schema-format-edits.json records
+  three exact default-ON/OFF replacements. This preserves the original format
+  repertoire and semantics; it does not implement every external format.
+  No DS4 or sibling source/artifact is imported.
+- Numeric schema leaf control in src/schema_number.c follows official
+  NumberLexeme preparation/AcceptValue and IntersectMultipleOf at independently
+  fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT,
+  gufo-LICENSE retained). C17 owns ordered lookup, finite/positive validation,
+  exact-decimal preparation, scalar acceptance, LCM representability and
+  literal publication. The private adapter retains only borrowed JSON views,
+  binary64 codec and typed exceptions. Four grammar-number-edits.json edits
+  keep pinned default-ON and exact original OFF bodies. The existing exact
+  comparison gains a paired workspace allocator; its legacy API is unchanged.
+  No DS4 or sibling source/artifact is imported.
+- Full schema body control in src/schema_body.c follows official
+  JsonConstraintCompiler::VisitBody at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  C17 owns ordered definitions, reference/anyOf distribution, enum/const base
+  validation, counts/filters and rule composition. Borrowed JSON/storage,
+  scalar leaves and exceptions remain private; C17 normalization is reused
+  through its declared hook, preserving private cached-node lifetimes.
+  schema-body-edits.json records two exact default-ON/OFF replacements.
+  No DS4 or sibling source/artifact is imported.
+- The recursive Visit sequencing in src/schema_visit.c follows official
+  JsonConstraintCompiler::Visit at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  Identity hit, new-rule reservation, placeholder publication, body/empty-rule
+  commitment and result publication use C17. Body-specific VisitBody control
+  now uses the separate C17 module above; views/exceptions remain private.
+  schema-visit-edits.json records two exact default-ON/OFF replacements.
+  No DS4 or sibling source/artifact is imported.
+- The type/nullable/keyword compatibility and ordered route policy in
+  src/schema_dispatch.c follows official JsonConstraintCompiler::VisitBody at
+  independently fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT, gufo-LICENSE retained). schema-dispatch-edits.json records three exact
+  default-ON/OFF replacements. C17 selects routes and composes ordered rule IDs;
+  opaque leaf/child callbacks and exception translation remain private. This
+  does not move model/controller storage to C. Body orchestration now uses
+  the separate owned module above.
+  No DS4 or sibling source/artifact is imported.
+- The per-compilation reference identity policy in src/schema_memo.c follows
+  official JsonConstraintCompiler::Visit in src/core/json_constraint.cpp at
+  independently fetched immutable pin f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+  (MIT, gufo-LICENSE retained). Bounded identity lookup, insertion, growth and
+  storage are C17; recursive placeholders retain original visit order. The
+  hash table is independently implemented. schema-memo-edits.json records
+  three exact default-ON/OFF replacements. Node storage and exceptions stay
+  private; body control now uses C17. No DS4 or sibling source is imported.
+- The compiled-schema cache policy in src/grammar_cache.c follows official
+  src/core/json_constraint.cpp at independently fetched immutable pin
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e (MIT, gufo-LICENSE retained).
+  grammar-cache-edits.json records two exact default-ON/OFF replacements.
+  Ordering, bounds, mutex ownership and retirement are C17; shared_ptr copying
+  and error translation remain private glue. Compilation remains outside the
+  cache lock. No DS4 or sibling workspace source/artifact is imported.
+- The C17 finite-value and container algorithms in src/schema_values.c follow
+  official src/core/json_constraint.cpp at the same independently fetched
+  f783fedb pin. schema-values-edits.json records nine exact default-ON/OFF
+  replacements. C17 owns type matching, finite-value filtering/canonicalization,
+  JSON string/key quoting, object suffix/array bound rule construction and
+  iterative character accounting. JSON staging, cached leaf predicates,
+  binary-double serialization and private composition stay private;
+  reference identity memo now uses the separate C17 module above.
+  gufo-LICENSE is retained; no DS4 or sibling source is imported.
+- The C17 schema transformation algorithms in src/schema_transform.c follow
+  official src/core/json_constraint.cpp at the independently fetched immutable
+  f783fedb9bea2ec7de941f6da4e02f4a4596b29e pin (MIT, gufo-LICENSE retained).
+  schema-transform-edits.json records default-ON/OFF integration. C17 owns
+  structural equality, local pointer resolution, keyword validation and schema
+  conjunction/distribution/merging. Provider storage/error translation and
+  binary64 codec remains transitional; format and numeric leaf control now use
+  the separate C17 modules above. No sibling
+  source/artifact, DS4 checkout modification or model payload is imported.
 - llama.cpp / ggml: Copyright (c) 2023-2026 The ggml authors (MIT).
 - DS4: Copyright (c) 2026 The ds4.c authors (MIT).
 - DS4 GB10/GX10 changes: Copyright (c) 2026 Marco Palaferri (MIT).
@@ -39,12 +190,174 @@ Synapse LIE's explicitly selected state-access variant applies independently
 recorded MIT source edits for state access, MTP/vision state and target sampling
 controls. adapters/gufo-state/sampling-edits.json identifies the exact pinned
 bias/reporting replacements; the build receipt and source inventory bind their
-hashes. Constrained grammar selection remains delegated Gufo implementation.
+hashes. Model/controller and typed predicate/template storage remain delegated
+Gufo implementation; immutable composition uses the C17 port attributed above.
 No model weights or sibling-project source are imported by this recipe.
 
 The owned C17 dense sampling implementation in src/sampling.c is a port of
 official src/core/sampling.cpp at f783fedb9bea2ec7de941f6da4e02f4a4596b29e.
 Copyright (c) 2026 gufo contributors; MIT, with gufo-LICENSE retained here.
+The native canonical benchmark workload/protocol port in tools/native/gufo_workload.c
+and tools/native/http_curve.c uses the same independently fetched pin and license.
+gufo-bench-source.json records its source hash, scope and offline test goldens.
 adapters/gufo-state/dense-sampling-edits.json identifies the conditional provider
-integration. C17 owns dense selection and random draws; grammar, history and
-compact speculative distributions remain transitional Gufo responsibilities.
+integration. C17 owns dense selection and random draws.
+The request-history implementation in src/sampling_history.c follows the same
+independently pinned Gufo semantics for prompt repetition and committed-token
+counts, with this notice and license retained. The exact conditional integration
+is recorded in adapters/gufo-state/history-sampling-edits.json. C17 owns this
+bookkeeping. The attributed src/sampling_distribution.c port follows official
+src/core/sampling.cpp and src/models/qwen38_flash_next/mtp_sampling.hpp at the
+same pin, including exact rounding and draw order. Its conditional integration
+is recorded in adapters/gufo-state/distribution-sampling-edits.json. C17 owns
+ordered/compact normalization, residual correction and host discrete proposal/
+verification arithmetic. Vector storage/deep copies, schema/primitive predicates, vocabulary trie/cache,
+entropy acquisition, deferred draws, speculative controller and GPU-resident
+numerical kernels remain
+transitional Gufo responsibilities.
+
+The owned C17 src/grammar.c byte-runtime and mask-application port follows
+src/core/json_constraint.cpp and src/core/sampling.cpp at the same official pin.
+Copyright (c) 2026 gufo contributors; MIT, with gufo-LICENSE retained. Exact
+integration is recorded in adapters/gufo-state/grammar-runtime-edits.json.
+C17 owns rule expansion, byte branching, stack/lexeme ordering/deduplication,
+completion/canonical snapshots and mask application. Schema compilation,
+primitive lexical/regex predicates and vocabulary trie/cache algorithms remain
+upstream; their callback/storage bridge does not reimplement those algorithms.
+
+The attributed C17 src/grammar_number.c exact-decimal algorithm port follows
+src/core/json_schema_lexeme.cpp at the same independently fetched official pin.
+Copyright (c) 2026 gufo contributors; MIT, with gufo-LICENSE retained. Exact
+integration is recorded in adapters/gufo-state/grammar-number-edits.json.
+C17 owns canonical decimal parsing/comparison, long division/product, numeric
+bound/grid policy and prefix checking, integer multiple reduction and exact LCM.
+The adapter supplies JSON value conversion/representability and exception glue.
+String/regex/schema compilation and vocabulary trie/cache remain upstream.
+
+The attributed C17 src/grammar_regex.c and src/grammar_string.c ports follow
+src/core/json_schema_regex.cpp and src/core/json_schema_lexeme.cpp at the same
+official pin. Copyright (c) 2026 gufo contributors; MIT, gufo-LICENSE retained.
+Exact integration is in grammar-regex-edits.json and grammar-string-edits.json.
+C17 owns copied Unicode-DFA graph construction/distances/pruning/range and length
+queries, Brent cycle skipping, string UTF8/JSON escape/surrogate/pending/count
+runtime, mask-key canonicalization and bounded whitespace. JSON/regex compilation
+and vocabulary trie/transition/cache remain upstream; storage/exception glue
+in gufo_grammar_regex.hpp and gufo_grammar_string.hpp performs no runtime algorithm.
+
+The attributed C17 src/grammar_vocabulary.c trie/masking/cache port follows
+src/core/json_constraint.cpp and .hpp from the same independently acquired
+immutable official Gufo f783fedb pin under MIT (retained gufo-LICENSE).
+Exact integration is in adapters/gufo-state/grammar-vocabulary-edits.json.
+C17 owns copied token/trie storage, bounded iterative traversal, exact state
+interning and canonical-state mask-cache lookup/eviction/publication. Snapshot
+clone/comparison/hash are in the attributed src/grammar.c port. Provider piece,
+state, vector/shared_ptr lifetime, mutex and exception translation stay in
+adapters/gufo_grammar_vocabulary.hpp and exact glue edits. Unicode-set/property
+identity/input decoding, JSON Schema compilation and provider snapshot marshalling
+remain upstream.
+No sibling CachyOS artifact or DS4 source is imported; host witnesses are not
+new numerical GPU/performance qualification.
+
+Regex expression/derivative/Unicode-partition/BFS compiler extraction
+---------------------------------------------------------------
+src/grammar_regex_compile.c, include/lie/grammar_regex_compile.h and
+adapters/gufo_grammar_regex_compile.hpp are attributed ports from the same
+independently fetched official Gufo f783fedb MIT pin. Exact integration is in
+adapters/gufo-state/grammar-compiler-edits.json. C17 owns expression interning,
+normalization/minimum widths/nullable contexts, iterative memoized derivatives,
+Unicode membership partitioning and BFS graph construction. The glue retains
+ICU property/full-set identity, scalar range copying
+and exception translation; JSON Schema compilation remains upstream. No sibling
+CachyOS or DS4 code/artifact is imported. Host comparisons do not qualify a new
+original-weight GPU/runtime/performance build.
+
+Regex syntax/assertion-expansion extraction
+-----------------------------------------
+src/grammar_regex_parse.c, include/lie/grammar_regex_parse.h and
+adapters/gufo_grammar_regex_parse.hpp are attributed ports from independently
+fetched official Gufo f783fedb under its retained MIT license. Exact integration
+is in adapters/gufo-state/grammar-parser-edits.json. C17 owns syntax parsing,
+bounded AST lifetimes and iterative assertion expansion. Opaque Unicode-set
+storage/property/full-set identity, UTF8 input decoding and exception translation
+remain provider glue; JSON Schema compilation remains upstream. No sibling
+CachyOS or DS4 code/artifact is imported. Synthetic host comparisons are not
+new original-weight GPU correctness/resources/performance qualification.
+
+Unicode-set registry and UTF8 input extraction
+--------------------------------------------
+src/grammar_unicode.c and include/lie/grammar_unicode.h own a reusable C17
+context attributed to independently fetched official Gufo f783fedb's registry,
+full-set identity and range translation. ICU public C APIs supply actual set,
+property and replacement conversion semantics; no ICU algorithm/source/database
+is copied or claimed reimplemented. ICU retains its third-party license and
+C/C++ implementation. Provider headers now retain context RAII, borrowed input
+and error/enum translation. Earlier descriptions of delegated registry/input
+storage refer to their historical slices. JSON Schema compilation and provider
+snapshot marshalling remain transitional. Own allocator fault injection does
+not cover ICU internal allocations/OOM. No DS4 or sibling CachyOS code is imported.
+
+Snapshot read/write bridge extraction
+------------------------------------
+The additive snapshot reader/writer ABI in include/lie/grammar.h and
+src/grammar.c extends the attributed official Gufo f783fedb C17 state port.
+C owns import traversal/construction, export planning, capacity/overlap
+validation and copied payloads; adapter gufo_grammar.hpp supplies only typed
+container views/growth and nonthrowing error translation. Its original
+private vector/string State layout remains; this is not full provider/model
+storage ownership or C++ dependency removal. No sibling CachyOS/DS4 source
+or artifact is imported. Synthetic host lifetimes/refusal/full-payload tests
+are not original-weight GPU correctness/resources/performance qualification.
+
+Concrete grammar construction extraction
+---------------------------------------
+The rule/class/literal/repetition, JSON byte primitive, generic-value,
+shared-prefix unsigned interval and productive/nullable/cycle/pruning algorithms
+in src/grammar_builder.c are attributed C17 ports of the independently pinned
+official Gufo f783fedb JsonConstraintCompiler. The iterative cycle stack and
+owned construction/flat-table lifetimes use the public model-neutral contract
+in include/lie/grammar_builder.h. Adapter gufo_grammar_builder.hpp translates
+typed views/errors and preserves private reasoning/tool composition templates.
+JSON Schema visitor orchestration and binary-double leaf translation remain
+transitional; transformations/finite values/reference memo/compile cache and
+type/ordered-route policy now use C17.
+This is not full compiler,
+provider/model storage ownership or C++ dependency removal. No DS4 or sibling
+CachyOS source/artifact is imported. Host language/lifetime/refusal witnesses
+do not qualify original-weight GPU numerical/resource/performance behavior.
+
+LIE grammar-storage-edits.json removes only default-ON private rule/class table
+projections after the independently pinned state recipes. Original OFF fields
+and algorithms remain guarded; finished tables are owned by the MIT C17 core.
+
+
+Schema compilation and prompt publication extraction
+--------------------------------------------------
+The synchronous publication order and exact prompt text in src/schema_compile.c
+follow independently fetched official Gufo f783fedb9bea2ec7de941f6da4e02f4a4596b29e
+JsonConstraintCompiler. LIE owns the C17 publication/lifetime/budget contract,
+native immutable prompt buffer and failure retirement. gufo_schema_compile.hpp
+retains typed callback/exception and smart-pointer translation. Eight exact
+schema-compile-edits.json replacements retain original OFF compiler/getter/string
+and frontend code. Default-ON reasoning/tool grammars share the C prompt owner;
+the private frontend copies the view where an owned mutable string is required.
+Matching complete HIP providers and consumers must rebuild together. HOST tests
+retain the copied frontend source but do not compile or qualify that HIP path.
+Typed construction/initialization/errors and model/controller stay transitional.
+No DS4 or sibling CachyOS source/artifact is imported. This increment is HOST
+qualified only; earlier source72e9/r30 GPU evidence excludes it.
+
+Native sampler buffer ownership integration (unverified)
+-------------------------------------------------------
+LIE's MIT sampling_storage.c/.h provide first-party allocation/lifetime/budget
+policy for its C17 history/distribution algorithms. The 20 exact pinned
+sampling-storage-edits.json replacements bind the independently fetched official
+Gufo f783fedb sampler to native history/probability owners under default-ON
+selection. Original OFF vectors/algorithms remain guarded; private spans/errors/
+config/RNG/shared handles stay transitional. Dense/ranked/residual/proposal
+workspaces grow in C17; native production results transfer without a C++ row copy.
+Public vector constructors remain compatibility input boundaries. Private layouts
+change and require matching complete provider/core/numerical/consumer builds.
+This does not complete model/controller/kernel ownership or remove C++/HIP.
+No DS4 or sibling CachyOS/peer artifact is imported. Source and written fixtures
+are unverified pending the owner-requested final qualification phase; earlier
+HOST/GPU receipts do not qualify this increment or establish performance gains.

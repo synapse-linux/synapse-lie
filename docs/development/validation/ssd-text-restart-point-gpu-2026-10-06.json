@@ -1,0 +1,1813 @@
+{
+  "schema": "synapse-lie.ssd-text-restart-point-original.v1",
+  "state": "SELECTED_CORE_CASES_QUALIFIED_WITH_RETAINED_GATE_FAILURES",
+  "at_utc": "2026-10-06T03:29:11.236731+00:00",
+  "source_commit": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "target": "pop@192.168.5.161",
+  "GPU_architecture": "gfx1150",
+  "scope": "Original-weight shared reactive core reconstructs exact saved physical token history from SSD text when that history is longer than fresh BPE, independently in AR/MTP. No HTTP, scheduled steering, general quality, independent numeric/probability or matched performance claim.",
+  "previous_matching_GPU_receipt": {
+    "path": "docs/development/validation/c17-binary64-point-gpu-2026-10-06.json",
+    "bytes": 41599,
+    "sha256": "f4ed064fb4b81a278f3cd91254e0188dc0a59e527bd3bb0a45c2116cd51e5081"
+  },
+  "host_receipt": {
+    "path": "docs/development/validation/ssd-text-restart-host-2026-10-06.json",
+    "bytes": 2507,
+    "sha256": "adc63bf4b3ae17ed3e6dcc77388ef0f5454ccea673c9f30cc4b201a0c56305df"
+  },
+  "host_receipt_source_commit": "4d6dbc3f10155718760ab68e7a302c60ad994a4d",
+  "parser_rejection_tests": 12,
+  "campaign_host_tests": 59,
+  "runs": [
+    {
+      "label": "context-r21-ssd-text-ar-r1",
+      "mode": "ar",
+      "state": "PASSED",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "started_at": "2026-10-06T02:49:28.064305+00:00",
+      "ended_at": "2026-10-06T02:55:03.080618+00:00",
+      "lease_released_at": "2026-10-06T02:55:03.080594+00:00",
+      "supervisor_pid": 91694,
+      "supervisor_start_ticks": 12392443,
+      "router_restored": {
+        "MainPID": "93016",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "artifacts": [
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/manifest.json",
+          "bytes": 4637,
+          "sha256": "45b51245588259c0d21564f40e61373593663976b0471660d77594ba234aeedf"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/runner.py",
+          "bytes": 103245,
+          "sha256": "0be4dc27b744d71379ea4d52e5643f5b409fe2623bb7de1b0be5a7d2fb4d1fca"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/ssd-text-restart-gate.py",
+          "bytes": 11179,
+          "sha256": "4d889d2e6bb856eb959fbc9b77e39f0679c84a0657316333a04df38d32f020b1"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/result.json",
+          "bytes": 97001,
+          "sha256": "77cf25cd6290d358d982c3e220c13a043a821c04c21072cfdb7a996600217bb4"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/telemetry.jsonl",
+          "bytes": 515493,
+          "sha256": "de276d6765d74c3162bb2bde126854ea8df2f381ef783b569c7e5930b098fd26"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/ssd-text-restart-result.json",
+          "bytes": 5755,
+          "sha256": "b0ab73442af3589be2db837afa6829cba82075aed1b0f9d68e772e89918af2e0"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/ssd-text-progress.json",
+          "bytes": 114,
+          "sha256": "128c5d1dd7dfcca37a8e289c77c2a97be20265771436a375642ac1b082358a20"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/calibration.txt",
+          "bytes": 1,
+          "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/prompt.txt",
+          "bytes": 2048,
+          "sha256": "b2a3a502fdfc34f4e3edfa94b7f3109cd972d87a4fec63ab21a6673379ccf7ad"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/tokens.json",
+          "bytes": 8193,
+          "sha256": "d90389415ae930191e1ea7da14f97efec530b7ad0ec900ddc69c996c068ff8fc"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/measurements-calibration.jsonl",
+          "bytes": 2887,
+          "sha256": "981b5f0a9c6b941c12837b76e65f8faddf6a27420a39b7e4deff545af23973d4"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/measurements-fresh.jsonl",
+          "bytes": 4430,
+          "sha256": "20737dce35b4aa850ab5c72348c6d6d64a3ae9d613367a35ce90abeea9284e63"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/measurements-cold.jsonl",
+          "bytes": 9362,
+          "sha256": "8c8ab5ff553a8ecc29221ff0cba4d515aed3d3e3ed213b03d6166e4933524c26"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/measurements-hot.jsonl",
+          "bytes": 9344,
+          "sha256": "4167bdf1600cef93f6f9f5cf1f5be25bf557e09d0187f1d98083a00f4c31fc1d"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/bench-calibration.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/bench-fresh.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/bench-cold.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/bench-hot.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/stdout.log",
+          "bytes": 66634,
+          "sha256": "3615e0e44e0d43c6cd5197f412f50417c40ee6d776a875037e13314c3046d7b5"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/distrobox-create.log",
+          "bytes": 272,
+          "sha256": "943cf4fee7a4af557246df5ce55f858ecad7ab791dcf1aa18a396267e1ed608c"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/collection.json",
+          "bytes": 13273,
+          "sha256": "445ef82373cd22d56c5282ef78925a2fd387ba5983c6e9e7ee0184ca7a805d4e"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/controller-result.json",
+          "bytes": 647,
+          "sha256": "6ed53ed40ddf7bee4707a9ebb054b2ec9aefc292c33d87978099047fb4a9c29e"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/controller-stdout.log",
+          "bytes": 92979,
+          "sha256": "37189dcfaa1005c5bbfb4465dc4dc440394ce358f9db8838fc43710ad1a33fbb"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/controller-stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-ar-r1/plan.json",
+          "bytes": 629,
+          "sha256": "fe41aa06fcca4e9367a5c5367becc52e20e7601d8a29319438480f58b8759b8b"
+        }
+      ],
+      "raw_model_attempted_flag": false,
+      "temperature_peaks_c": {
+        "nvme": 71.85,
+        "amdgpu": 64.0,
+        "k10temp": 63.875
+      },
+      "whole_process_threads_max": 44,
+      "GTT_peak_bytes": 84109807616,
+      "calibration_token_id": 64,
+      "fresh_bpe_tokens": 256,
+      "saved_physical_tokens": 2048,
+      "fresh_bpe_ids_sha256": "5ec0eca4b23adf591bf0c51bab1dbfaae5edc7f07f1d0b2acb87c8bcbedb4b4a",
+      "saved_physical_ids_sha256": "32301727fdbc35153ba9b10dd76e8119314ac4d79ce7eddacd6393ef7703f50e",
+      "saved_history_longer_than_fresh_bpe": true,
+      "physical_ids_equal": true,
+      "output_ids_equal": true,
+      "hot_ssd_cached_tokens": 2048,
+      "hot_prefill_tokens": 0,
+      "physical_suffix_tokens": 0,
+      "qualification_state": "PASSED",
+      "processes": [
+        {
+          "phase": "calibration",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--prompt-file",
+            "/work/calibration.txt",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-calibration.jsonl"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "fresh",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-fresh.jsonl"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "cold",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--tokens-file",
+            "/work/tokens.json",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-cold.jsonl",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "hot",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-hot.jsonl",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "cold": {
+        "event": "job",
+        "rep": 0,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 2048,
+        "output_tokens": 32,
+        "output_bytes": 32,
+        "prefill_tokens": 2048,
+        "prefill_ns": 6358941179,
+        "decode_ns": 3215589659,
+        "cached_tokens": 0,
+        "cache_capture_ns": 46589307,
+        "cache_restore_ns": 0,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 411,
+        "max_decode_output_tokens": 1,
+        "mtp_drafted_tokens": 0,
+        "mtp_accepted_tokens": 0,
+        "prefill_calls": 8,
+        "decode_calls": 32,
+        "total_ns": 9694841613,
+        "first_token_ns": 6673991828,
+        "finish": "length",
+        "output_ids": [
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64
+        ]
+      },
+      "hot": {
+        "event": "job",
+        "rep": 0,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 2048,
+        "output_tokens": 32,
+        "output_bytes": 32,
+        "prefill_tokens": 0,
+        "prefill_ns": 0,
+        "decode_ns": 3131099569,
+        "cached_tokens": 2048,
+        "cache_capture_ns": 0,
+        "cache_restore_ns": 14032043,
+        "ssd_cached_tokens": 2048,
+        "ssd_read_ns": 143935710,
+        "max_decode_output_tokens": 1,
+        "mtp_drafted_tokens": 0,
+        "mtp_accepted_tokens": 0,
+        "prefill_calls": 0,
+        "decode_calls": 32,
+        "total_ns": 3376050218,
+        "first_token_ns": 388047811,
+        "finish": "length",
+        "output_ids": [
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64
+        ]
+      },
+      "cold_ssd_drained": {
+        "event": "ssd_drained",
+        "writes": 1,
+        "errors": 0,
+        "disk_bytes": 183570768,
+        "evictions": 0,
+        "skipped": 0,
+        "allocated_bytes": 183578624,
+        "entries": 1,
+        "write_ns": 270106822,
+        "pending": 0
+      }
+    },
+    {
+      "label": "context-r21-ssd-text-mtp-r1",
+      "mode": "mtp",
+      "state": "FAILED",
+      "actual_exit_code": 1,
+      "child_exit_code": 1,
+      "started_at": "2026-10-06T02:59:54.417768+00:00",
+      "ended_at": "2026-10-06T03:00:58.126495+00:00",
+      "lease_released_at": "2026-10-06T03:00:58.126478+00:00",
+      "supervisor_pid": 93445,
+      "supervisor_start_ticks": 12455078,
+      "router_restored": {
+        "MainPID": "94373",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "artifacts": [
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/manifest.json",
+          "bytes": 5497,
+          "sha256": "4e437bffc9dea556c0e19c3ffd935bacdfd4a9a1c0908fc55b07df52d6d6e88e"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/runner.py",
+          "bytes": 103245,
+          "sha256": "0be4dc27b744d71379ea4d52e5643f5b409fe2623bb7de1b0be5a7d2fb4d1fca"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/ssd-text-restart-gate.py",
+          "bytes": 11341,
+          "sha256": "b22fb7a876bd1ef82a4d4172b840eb76721fb41f8689a32a087a3b7618210e3d"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/result.json",
+          "bytes": 98011,
+          "sha256": "f695498372a9d840a9691bd4a78a566979cbf7108b57f979a87c37ab5ea9021e"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/telemetry.jsonl",
+          "bytes": 86180,
+          "sha256": "ba4d95f9a3413a888cf299d2f875a0d4fb3b790901619483985f3d0d2dd97c6e"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/ssd-text-restart-result.json",
+          "bytes": 1599,
+          "sha256": "2e1a048c1831828d208ff37569990069770e6486c9b4d400e05c203f2f6ba266"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/ssd-text-progress.json",
+          "bytes": 92,
+          "sha256": "93021fe90eb01c5db01910871434a860680f592e83a03bd64d7781d28e3f9edc"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/restart-started.marker",
+          "bytes": 33,
+          "sha256": "1df7cf1dfea2af31ef8bf044448bf2ebac1b33dd6c106f939613c139a41b7c12"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/calibration.txt",
+          "bytes": 1,
+          "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/prompt.txt",
+          "bytes": 2048,
+          "sha256": "b2a3a502fdfc34f4e3edfa94b7f3109cd972d87a4fec63ab21a6673379ccf7ad"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/measurements-calibration.jsonl",
+          "bytes": 1619,
+          "sha256": "9bde702e730763d63780918371489870eb5676f4ff902bd0bcbe93b1ac7199a6"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/bench-calibration.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/stdout.log",
+          "bytes": 66647,
+          "sha256": "39d2fb5527e6b26cee35ea73fe7743f636602949756de48b64a770e4da58e035"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/distrobox-create.log",
+          "bytes": 275,
+          "sha256": "89258d5b95f3e06aa00d959e8aeece924e5bc37ebd42a2395e689c937293a165"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/collection.json",
+          "bytes": 9598,
+          "sha256": "2c32f18ed1a216497075b9d42bd75585154e622b3e9b9baa72aeeb808eec2efa"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/controller-result.json",
+          "bytes": 648,
+          "sha256": "82ed9f8e4c11cd6719c6fa5d6794483c458229c3b867d76f9f05fef7346902e9"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/controller-stdout.log",
+          "bytes": 93817,
+          "sha256": "d8b012704355f4cef4bf0d2d6c556820d99c7578c957ce02da763ab112ed4921"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/controller-stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r1/plan.json",
+          "bytes": 630,
+          "sha256": "cf7929c40e0f5662285a011c1934d8355331f5192ff3079414259ef0beca4920"
+        }
+      ],
+      "raw_model_attempted_flag": true,
+      "temperature_peaks_c": {
+        "nvme": 45.85,
+        "amdgpu": 38.0,
+        "k10temp": 58.125
+      },
+      "whole_process_threads_max": 0,
+      "GTT_peak_bytes": 14401536,
+      "retained_failure": {
+        "event": "failed",
+        "exit_code": 1,
+        "error": "core readiness failed: Failed to open file: /mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf"
+      },
+      "numerical_failure_claim": false
+    },
+    {
+      "label": "context-r21-ssd-text-mtp-r2",
+      "mode": "mtp",
+      "state": "FAILED",
+      "actual_exit_code": 1,
+      "child_exit_code": 1,
+      "started_at": "2026-10-06T03:05:16.262857+00:00",
+      "ended_at": "2026-10-06T03:09:44.127788+00:00",
+      "lease_released_at": "2026-10-06T03:09:44.127776+00:00",
+      "supervisor_pid": 94689,
+      "supervisor_start_ticks": 12487263,
+      "router_restored": {
+        "MainPID": "95848",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "artifacts": [
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/manifest.json",
+          "bytes": 5667,
+          "sha256": "8c01250df556f3c13cac4daa590e3818effe6875c895ff419ac70245ba9b5e23"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/runner.py",
+          "bytes": 103277,
+          "sha256": "23b2bb9f4f916e21f0af63230961d21b6c2430917a2a1068e6833116d00872a8"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/ssd-text-restart-gate.py",
+          "bytes": 11341,
+          "sha256": "b22fb7a876bd1ef82a4d4172b840eb76721fb41f8689a32a087a3b7618210e3d"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/result.json",
+          "bytes": 98629,
+          "sha256": "3823349a7626f2c16174a31ab03b0820be9bdbbca1f26d85bd8fa758581dc742"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/telemetry.jsonl",
+          "bytes": 415045,
+          "sha256": "e139c885f10ed00447d98fbe2d120210b8743f6f46a5128e50427fe7e6509c06"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/ssd-text-restart-result.json",
+          "bytes": 4328,
+          "sha256": "adad5eaa7aba0f28dc7c35b3ab3cb766a6585074016dd45cda8bcb39e3a559e8"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/ssd-text-progress.json",
+          "bytes": 107,
+          "sha256": "93f5736bf493766022b8cd36979e96c0834d16a9138ca524e130c6e07a45c5bc"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/restart-started.marker",
+          "bytes": 33,
+          "sha256": "5726087dcfe131b83cae463f0543f6081006897d7df69a0656ffeb7741ac4e83"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/calibration.txt",
+          "bytes": 1,
+          "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/prompt.txt",
+          "bytes": 2048,
+          "sha256": "b2a3a502fdfc34f4e3edfa94b7f3109cd972d87a4fec63ab21a6673379ccf7ad"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/tokens.json",
+          "bytes": 8193,
+          "sha256": "d90389415ae930191e1ea7da14f97efec530b7ad0ec900ddc69c996c068ff8fc"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/measurements-calibration.jsonl",
+          "bytes": 2934,
+          "sha256": "be9b5cd40e2cddb9742388675b5448763daf923e19fe3c3d7f2f4de890a12c84"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/measurements-fresh.jsonl",
+          "bytes": 4476,
+          "sha256": "1d23085bc1d5026e16048a03204e628d714c88bed4bd36c24cbce4c7675b2db6"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/measurements-cold.jsonl",
+          "bytes": 9411,
+          "sha256": "7f3c57cce99ac476fb60a47f0350e232191b2d0efd625e8dcf3c53720ba18df8"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/bench-calibration.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/bench-fresh.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/bench-cold.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/stdout.log",
+          "bytes": 66890,
+          "sha256": "1e1abf308a70f478bd9dbdcefdee8a64851e30099ae81d5cc3c1a5528321ff65"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/distrobox-create.log",
+          "bytes": 275,
+          "sha256": "0aa36222eb333604a1fd5d532a0b7810bbcaba82600fd9676a2e3ef60b8c43e4"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/collection.json",
+          "bytes": 12705,
+          "sha256": "5cd61ca203a4d4576019c7086f1429bf3d0ee0f03201a976950a6d7f4b6ec0bd"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/controller-result.json",
+          "bytes": 648,
+          "sha256": "194a9a5d2f12d94770559dbc219662b203600c11af608f90a17c1e3547218412"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/controller-stdout.log",
+          "bytes": 94423,
+          "sha256": "ecab4574e23efad29685e726422d91d5ebe19211cecce5988752b230e9339307"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/controller-stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r2/plan.json",
+          "bytes": 630,
+          "sha256": "6be1e747d32d5ccc7b195d579e5c21fa3fb82b9ca2d7167f7ad252055f5c05f6"
+        }
+      ],
+      "raw_model_attempted_flag": true,
+      "temperature_peaks_c": {
+        "nvme": 71.85,
+        "amdgpu": 66.0,
+        "k10temp": 70.75
+      },
+      "whole_process_threads_max": 44,
+      "GTT_peak_bytes": 87053934592,
+      "retained_failure": "RuntimeError('MTP cache process did not accept a draft')",
+      "completed_cold_process": {
+        "event": "job",
+        "rep": 0,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 2048,
+        "output_tokens": 32,
+        "output_bytes": 32,
+        "prefill_tokens": 2048,
+        "prefill_ns": 6609818032,
+        "decode_ns": 3458404863,
+        "cached_tokens": 0,
+        "cache_capture_ns": 47500218,
+        "cache_restore_ns": 0,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 421,
+        "max_decode_output_tokens": 8,
+        "mtp_drafted_tokens": 7,
+        "mtp_accepted_tokens": 0,
+        "prefill_calls": 8,
+        "decode_calls": 32,
+        "total_ns": 10189150967,
+        "first_token_ns": 6981905516,
+        "finish": "length",
+        "output_ids": [
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64,
+          64
+        ]
+      },
+      "numerical_failure_claim": false
+    },
+    {
+      "label": "context-r21-ssd-text-mtp-r3",
+      "mode": "mtp",
+      "state": "FAILED",
+      "actual_exit_code": 1,
+      "child_exit_code": 1,
+      "started_at": "2026-10-06T03:16:16.107101+00:00",
+      "ended_at": "2026-10-06T03:22:03.511639+00:00",
+      "lease_released_at": "2026-10-06T03:22:03.511620+00:00",
+      "supervisor_pid": 96249,
+      "supervisor_start_ticks": 12553246,
+      "router_restored": {
+        "MainPID": "97498",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "artifacts": [
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/manifest.json",
+          "bytes": 6118,
+          "sha256": "7e96cc5fc468de439cef7a09ba3abae3ee4a1d36832e079d23d1a361cb1ff152"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/runner.py",
+          "bytes": 103918,
+          "sha256": "299f7e24276090d347f2a13d69d8a620e71f0d417d602c4fe336bafa630efbff"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/ssd-text-restart-gate.py",
+          "bytes": 12656,
+          "sha256": "f0c060003febca5ef744502b6c077f7d936cf230fa9c6fbbf4cfc8cd101acde3"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/result.json",
+          "bytes": 98433,
+          "sha256": "182df53fe40458ffdd54d83acf2c0e04bd41921187c75cb583d78717d6dd79b9"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/telemetry.jsonl",
+          "bytes": 528652,
+          "sha256": "ec5628d129f6ba6c0bfbe69bce998a3923b420d4839d4b8c9a6cfcd81a9b95c0"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/ssd-text-restart-result.json",
+          "bytes": 5963,
+          "sha256": "2a9974610a9d4eded5b3a15825ab64e64557e4cbd081eed8cc173961f0c4a8f6"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/ssd-text-progress.json",
+          "bytes": 114,
+          "sha256": "295eb2e40fcaee8ee215e1ed891f1ac1773e73b745a9dac20f4d1225654b6b01"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/restart-started.marker",
+          "bytes": 33,
+          "sha256": "ada79c19da582378a042ae03e7e014d1b7c7057b0d51fe9c89054652e8b510bf"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/calibration.txt",
+          "bytes": 45,
+          "sha256": "7b27085c66ddb137dc8fdde89d4c1e9d6f9bdf0962bd0e842ccb3f018ef23c88"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/prompt.txt",
+          "bytes": 2092,
+          "sha256": "bf5cf7bf085b304cdaa4ef33efbcca4ffe91f0bf5948694fb8b89aa205654a6a"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/tokens.json",
+          "bytes": 8275,
+          "sha256": "251e08848ee9ef1e4953facd685c22f0d13e1933ee03ad86c1e0d4effd4d8f4d"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/measurements-calibration.jsonl",
+          "bytes": 3002,
+          "sha256": "c3b8059aab16c78dfe834cbee004157b5d4fc260ee21340f35cf8e6a6d27ffd7"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/measurements-fresh.jsonl",
+          "bytes": 4548,
+          "sha256": "26abea683c3911f445b66f47d1e8f33d82bfbb99ddca885e9e7a8262c5754f28"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/measurements-cold.jsonl",
+          "bytes": 9526,
+          "sha256": "9daeb2b3da83251b63b5482c915ea09957c6bf85fd4a768b9cf530d360c70c85"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/measurements-hot.jsonl",
+          "bytes": 9508,
+          "sha256": "d3d83a089da4b4afc6f51bba8bbba1a026253bdb387f6c8956b73e3079b297b8"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/bench-calibration.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/bench-fresh.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/bench-cold.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/bench-hot.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/stdout.log",
+          "bytes": 66647,
+          "sha256": "35e9565091afe723c106f98f1e109821323c852dc11d10e7d6a62ee69dbfb45e"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/distrobox-create.log",
+          "bytes": 275,
+          "sha256": "47001f499bc5ea6148fbc7674421d73733f7756b8eed21d680c50fd1c2d69afd"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/collection.json",
+          "bytes": 13948,
+          "sha256": "40fc152b096d4b9803e758e56d133f53553fc1a440e1caed63a495df0a7913d7"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/controller-result.json",
+          "bytes": 648,
+          "sha256": "7fffbc7f172e3530926fec18b99fe7b7c6bfe664774477c7ba8238609476a200"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/controller-stdout.log",
+          "bytes": 94217,
+          "sha256": "b399946da1250ddef4ca7ad829c43454e821c2ff0fa493fc0c2a99ce4675ad2d"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/controller-stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r21-ssd-text-mtp-r3/plan.json",
+          "bytes": 630,
+          "sha256": "9a281fb34bd23b9fea5144bb5d265512a82e5dd7dfc8fe56caf18140f8b864bb"
+        }
+      ],
+      "raw_model_attempted_flag": true,
+      "temperature_peaks_c": {
+        "nvme": 71.85,
+        "amdgpu": 66.0,
+        "k10temp": 65.125
+      },
+      "whole_process_threads_max": 44,
+      "GTT_peak_bytes": 87053975552,
+      "retained_validator_expectation_failure": "RuntimeError('Incorrect restored or physically executed token count')",
+      "offline_revalidation": {
+        "path": "evidence/context-r21-mtp-r3-offline-validation-r1.json",
+        "bytes": 1198,
+        "sha256": "9dfe884461e1f3998e2bfd9c5edcff9966509634fe1e8ccc14b95e1b81b22a5a"
+      },
+      "calibration_token_id": 64,
+      "fresh_bpe_tokens": 272,
+      "saved_physical_tokens": 2064,
+      "fresh_bpe_ids_sha256": "d6f679391e33136685ecb471f4a288f863de9cafbc1a2ab08da2914671b7958a",
+      "saved_physical_ids_sha256": "971148e28218fe5584b56a8a0558c38e31a09486d7a08eed824dfaf02392a8f8",
+      "saved_history_longer_than_fresh_bpe": true,
+      "physical_ids_equal": true,
+      "output_ids_equal": true,
+      "hot_ssd_cached_tokens": 2064,
+      "hot_prefill_tokens": 0,
+      "physical_suffix_tokens": 16,
+      "qualification_state": "PASSED_OFFLINE_REVALIDATION_RAW_GATE_EXIT_1",
+      "processes": [
+        {
+          "phase": "calibration",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--kv-cache-cold-max-tokens",
+            "2048",
+            "--prompt-file",
+            "/work/calibration.txt",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-calibration.jsonl"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "fresh",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--kv-cache-cold-max-tokens",
+            "2048",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-fresh.jsonl"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "cold",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--kv-cache-cold-max-tokens",
+            "2048",
+            "--tokens-file",
+            "/work/tokens.json",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-cold.jsonl",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "hot",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--kv-cache-ram-mb",
+            "0",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--ignore-eos",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--timeout-ms",
+            "600000",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "512",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--kv-cache-cold-max-tokens",
+            "2048",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-hot.jsonl",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "cold": {
+        "event": "job",
+        "rep": 0,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 2064,
+        "output_tokens": 32,
+        "output_bytes": 131,
+        "prefill_tokens": 2064,
+        "prefill_ns": 6933571397,
+        "decode_ns": 2057914201,
+        "cached_tokens": 0,
+        "cache_capture_ns": 89188630,
+        "cache_restore_ns": 0,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ns": 301,
+        "max_decode_output_tokens": 8,
+        "mtp_drafted_tokens": 28,
+        "mtp_accepted_tokens": 21,
+        "prefill_calls": 9,
+        "decode_calls": 11,
+        "total_ns": 9188199053,
+        "first_token_ns": 7390426215,
+        "finish": "length",
+        "output_ids": [
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          198,
+          760,
+          1156,
+          369,
+          9859,
+          264,
+          4145,
+          6673,
+          3296,
+          25,
+          220,
+          17,
+          478,
+          220,
+          17,
+          13,
+          2302,
+          1318,
+          1132,
+          279,
+          15262,
+          430,
+          264,
+          1965,
+          13,
+          220
+        ]
+      },
+      "hot": {
+        "event": "job",
+        "rep": 0,
+        "warmup": 0,
+        "user": 0,
+        "prompt_tokens": 2064,
+        "output_tokens": 32,
+        "output_bytes": 131,
+        "prefill_tokens": 0,
+        "prefill_ns": 0,
+        "decode_ns": 2121402361,
+        "cached_tokens": 2064,
+        "cache_capture_ns": 0,
+        "cache_restore_ns": 21067829,
+        "ssd_cached_tokens": 2064,
+        "ssd_read_ns": 143426938,
+        "max_decode_output_tokens": 8,
+        "mtp_drafted_tokens": 28,
+        "mtp_accepted_tokens": 21,
+        "prefill_calls": 0,
+        "decode_calls": 11,
+        "total_ns": 2392490251,
+        "first_token_ns": 561274493,
+        "finish": "length",
+        "output_ids": [
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          198,
+          760,
+          1156,
+          369,
+          9859,
+          264,
+          4145,
+          6673,
+          3296,
+          25,
+          220,
+          17,
+          478,
+          220,
+          17,
+          13,
+          2302,
+          1318,
+          1132,
+          279,
+          15262,
+          430,
+          264,
+          1965,
+          13,
+          220
+        ]
+      },
+      "cold_ssd_drained": {
+        "event": "ssd_drained",
+        "writes": 2,
+        "errors": 0,
+        "disk_bytes": 379168340,
+        "evictions": 0,
+        "skipped": 0,
+        "allocated_bytes": 379174912,
+        "entries": 2,
+        "write_ns": 407454424,
+        "pending": 0
+      }
+    }
+  ],
+  "final_closure": {
+    "path": "evidence/context-r21-final-161-r4.json",
+    "bytes": 10074,
+    "sha256": "7bf41c5dbd453893254a5b55b67cf50d52917add9721cad108ad5ccf56feb4fc"
+  },
+  "coordination_and_host": [
+    {
+      "path": "evidence/context-r21-ar-local-validation-r1.json",
+      "bytes": 612,
+      "sha256": "0d08caac88ae076806562c38cd771c3379c68b9ba142cee6b0d784c9f1b83df4"
+    },
+    {
+      "path": "evidence/context-r21-ar-partial-r1.json",
+      "bytes": 2810,
+      "sha256": "7dd76b0d98317b44ee7aceaf2e0f08521e9f5f55690b38155962b8804aad99c6"
+    },
+    {
+      "path": "evidence/context-r21-before-ar-r1.json",
+      "bytes": 400,
+      "sha256": "b35f3f42ba7aec887a88e8cb50f5d51b8bb4b3e2d7fa468d0e8f92703f63f791"
+    },
+    {
+      "path": "evidence/context-r21-before-ar-r1.py",
+      "bytes": 4686,
+      "sha256": "08bead20d21442f8f792883d0c8f87cdfff2fcff0934c333c5f65624852370d0"
+    },
+    {
+      "path": "evidence/context-r21-before-ar-r2.json",
+      "bytes": 6834,
+      "sha256": "7e642deda632f6a49e8aa59ca3617589f1c5f1bc58f50c2407d95ed2aae3a905"
+    },
+    {
+      "path": "evidence/context-r21-before-ar-r2.py",
+      "bytes": 4686,
+      "sha256": "40374fd8eb82a55e9ad9b2af4d336570c1c9c808842726781de8d534646f4b2c"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r1.json",
+      "bytes": 6834,
+      "sha256": "63176d7f6276b3b14ec2b669fb3f9d056c68005f2195099eab0a405647a86cbc"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r1.py",
+      "bytes": 4688,
+      "sha256": "9c1408fdbe35d740b6037322c77ef4b46d15f9c0db3dbfa710343276b8d3d703"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r2.json",
+      "bytes": 6834,
+      "sha256": "c4cddd5d365b99ebfada36d05568845a7b95306833a558e212805604b056a5db"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r2.py",
+      "bytes": 4688,
+      "sha256": "3fab90b0e793f1ce41e6c79030a434a9c6fee19b93f14c460e9f2313d8794593"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r3.json",
+      "bytes": 6834,
+      "sha256": "1938e1dcf69c50bf5406ae020e7570b44fbeb7cd4cb99b5ede23d4242d548529"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r3.py",
+      "bytes": 4688,
+      "sha256": "7044781568a53b89a4618cad37110400cdbf8720e08c7f5d29e503b8092c833e"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r4.json",
+      "bytes": 6832,
+      "sha256": "d1994737fe97b3f92f961bc5b7cb3c060dbdf600578b07afbecc2317a2396434"
+    },
+    {
+      "path": "evidence/context-r21-before-mtp-r4.py",
+      "bytes": 4688,
+      "sha256": "395fff4dbcb0d5b92677d6d09cc1bdeddc1eb9f433b206251f8b4f5620e52c67"
+    },
+    {
+      "path": "evidence/context-r21-code-binding-r1.json",
+      "bytes": 1194,
+      "sha256": "dc4174d42039911c4a77d3f2961c4bf45b9cdfb86236a68b0fd44c3328e45267"
+    },
+    {
+      "path": "evidence/context-r21-discovery-diagnostics-r1.json",
+      "bytes": 1291,
+      "sha256": "a855f38f9f69a805eeb265e2f536253b52491c377cf4ed40bfbd31eb9ee9dced"
+    },
+    {
+      "path": "evidence/context-r21-final-161-r1.py",
+      "bytes": 6255,
+      "sha256": "6eee60445ddaf5fd80ceb80144f7b356973b322bdcb2fe1bf569547f8798504b"
+    },
+    {
+      "path": "evidence/context-r21-final-161-r2.py",
+      "bytes": 6424,
+      "sha256": "e9d92a39ac1001e92e3f2750d454d5e8157c5256c9e4847bc056fa4706735de1"
+    },
+    {
+      "path": "evidence/context-r21-final-161-r3.py",
+      "bytes": 6475,
+      "sha256": "8ea6fbb3a8f33367ed2cf4e252ecc76b2e7eff271725f2cb756755837f044138"
+    },
+    {
+      "path": "evidence/context-r21-final-161-r4.json",
+      "bytes": 10074,
+      "sha256": "7bf41c5dbd453893254a5b55b67cf50d52917add9721cad108ad5ccf56feb4fc"
+    },
+    {
+      "path": "evidence/context-r21-final-161-r4.py",
+      "bytes": 6493,
+      "sha256": "44fa9a53da23b073717c63bcbe891200768a95115431d312186ecd1b490496fa"
+    },
+    {
+      "path": "evidence/context-r21-mtp-r3-offline-validation-r1.json",
+      "bytes": 1198,
+      "sha256": "9dfe884461e1f3998e2bfd9c5edcff9966509634fe1e8ccc14b95e1b81b22a5a"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-live-1.json",
+      "bytes": 4706,
+      "sha256": "a011a6851ffdf85a66c0b3f1ee8d72ab927b65391e0bf1208fbf4ebf962a8667"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-live-2.json",
+      "bytes": 6022,
+      "sha256": "79c9a0567c9733337075a71957624ceb0c6046ddc9f1ffd316750597b3c49b4a"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-live-3.json",
+      "bytes": 6024,
+      "sha256": "f7de9d42d536022bb6687389e463a32b48f07f145a26bae430e4168fe740e260"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-live-4.json",
+      "bytes": 6048,
+      "sha256": "5b18f475458c059512fbe0ae18f4096d2b319b33c0569de82f58c63f7286aafd"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-live-5.json",
+      "bytes": 6048,
+      "sha256": "cdbe04dcae9f5c7d36769521811ce0f7895dfb264e033a6e031219b278447621"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-live-6.json",
+      "bytes": 17250,
+      "sha256": "04a5eab97c937965e6b3b68e8d978b15ecb488c40c13931f66a882a17fffa8ff"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-ar-r1-manifest.json",
+      "bytes": 4637,
+      "sha256": "45b51245588259c0d21564f40e61373593663976b0471660d77594ba234aeedf"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r1-live-1.json",
+      "bytes": 4706,
+      "sha256": "ec64ceceb04c7e7d81f788d7145d0d432d36ec05867a5300f477aa5e86432c84"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r1-live-2.json",
+      "bytes": 9020,
+      "sha256": "392b6aa14df392d278d21dbb958baca4743f0e0380dbc7e18a6ed8148a8d887e"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r1-manifest-qualified.json",
+      "bytes": 5497,
+      "sha256": "4e437bffc9dea556c0e19c3ffd935bacdfd4a9a1c0908fc55b07df52d6d6e88e"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r1-manifest.json",
+      "bytes": 5232,
+      "sha256": "a5ff9b84d55d5dbc1663765090173374df80b21799b50bd514f83fe6706c802f"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r2-live-1.json",
+      "bytes": 4708,
+      "sha256": "eeaa2d144e0283495a5437a1b81064fcea2fd786b2a12f645ecc5f7934edc1e0"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r2-live-2.json",
+      "bytes": 6024,
+      "sha256": "b4c86ab1a278ac67fc59e1a4c0168293e0bef1372adab4c6b1d1acd1cf9fc49d"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r2-live-3.json",
+      "bytes": 14372,
+      "sha256": "cfae198d2a1d2a99c9a13146708f87db450d70f89850a2b6284e67b437462950"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r2-manifest.json",
+      "bytes": 5667,
+      "sha256": "8c01250df556f3c13cac4daa590e3818effe6875c895ff419ac70245ba9b5e23"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r3-live-1.json",
+      "bytes": 5996,
+      "sha256": "1be26164820a2547c9283f0c010c07e0b4964504f212377f11d923418555d248"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r3-live-2.json",
+      "bytes": 6024,
+      "sha256": "27ef9329f05be57bcbcbfdc7fc6b1463cc8a8bf6aad58365abd5fb93ec70825d"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r3-live-3.json",
+      "bytes": 6048,
+      "sha256": "aa79cd5e2e852939641942da9a1f97050ef2087472fd349790d51bddc382d4b8"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r3-live-4.json",
+      "bytes": 17570,
+      "sha256": "6baa0b92d94502eb182b7630c1d699e7254d6612650df7e6937c9f300911bdca"
+    },
+    {
+      "path": "evidence/context-r21-ssd-text-mtp-r3-manifest.json",
+      "bytes": 6118,
+      "sha256": "7e96cc5fc468de439cef7a09ba3abae3ee4a1d36832e079d23d1a361cb1ff152"
+    },
+    {
+      "path": "evidence/context-r21-thread-handover.json",
+      "bytes": 1044,
+      "sha256": "503cfa68b0acbe3540d047ccf6b4d5231f03c76f5be8b798b8e04672ba97c50b"
+    },
+    {
+      "path": "evidence/package-ssd-text-point-r21.py",
+      "bytes": 13249,
+      "sha256": "dce3027e3822a7ff3c38adce611fd1262adfcd02da0d4a933bda548e602255a8"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r1/command.log",
+      "bytes": 8215,
+      "sha256": "1de418c63296e4785eb0e4e67f110880f5ad07a6c01e5af08c413c951c26f649"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r1/plan.json",
+      "bytes": 951,
+      "sha256": "fd901346129aa7659b79d96ee1172bd1963b394ea1ad33c35a9d07e53d7b140d"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r1/result.json",
+      "bytes": 449,
+      "sha256": "0296bee405c51dc958bd0e928473013cabbd1a8de6f9b51825654727c4924b8a"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r1/temperatures.jsonl",
+      "bytes": 1830,
+      "sha256": "6b072069903456ab9914d5bc0d365615b5237c6c3d379b8e45b062b34e6cdf51"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r2/command.log",
+      "bytes": 8215,
+      "sha256": "3fb48c2c8c6ba1b0b380862ade5d7e2d2707e33eb213b24ef1d0bd611351c569"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r2/plan.json",
+      "bytes": 951,
+      "sha256": "fd901346129aa7659b79d96ee1172bd1963b394ea1ad33c35a9d07e53d7b140d"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r2/result.json",
+      "bytes": 449,
+      "sha256": "0d7c54b4abb091e1d3c198856fccc31b04a7613db7469892e11a652948cdc1b7"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r2/temperatures.jsonl",
+      "bytes": 1831,
+      "sha256": "c3bc5aaaf1cc0aaa3cd229378a86af8ddfd38b0df959f42c2d6d814b0772d41a"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r3/command.log",
+      "bytes": 8215,
+      "sha256": "847da6970715a9b49d80cea01263b584a5c04e38c1f94c3f9cfb6c307e3df830"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r3/plan.json",
+      "bytes": 951,
+      "sha256": "fd901346129aa7659b79d96ee1172bd1963b394ea1ad33c35a9d07e53d7b140d"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r3/result.json",
+      "bytes": 446,
+      "sha256": "7aba8275bdcd2044c413bf6d66918b69c493b4cf20b69ff7e35c6c34ed3a9c4d"
+    },
+    {
+      "path": "evidence/ssd-text-campaign-host-r3/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "56ce14f86add2d5f098671b2d662964265433adea4807d40787356c03db46b07"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/command.log",
+      "bytes": 1283,
+      "sha256": "fb01aba7db4c962ea60896e6cec4c9b6e25a1ee8ceabecbbeafeaff2be868bc1"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/plan.json",
+      "bytes": 959,
+      "sha256": "13478ca41ff088b046d321fcc0867449f9afb225a125e84d6980a64a29549479"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/result.json",
+      "bytes": 455,
+      "sha256": "98a4d82c630955f418ac32f22e58117fba8f88bc0c13d8a294020824197cfe27"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "e36cebb5589788d4f79ba1bfcf51b59ec8ee60c302fc24ef2796fb9f94e17dd7"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r3/command.log",
+      "bytes": 1283,
+      "sha256": "140a7dee044866d4dc70ea8cbb970c40cf258e3e28c2cd56c0eade24a1d0798c"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r3/plan.json",
+      "bytes": 959,
+      "sha256": "13478ca41ff088b046d321fcc0867449f9afb225a125e84d6980a64a29549479"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r3/result.json",
+      "bytes": 457,
+      "sha256": "b8d33782676005e3b528e088a98e756e254ffd02b15c1d69128b3ab0cf7bbf3b"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r3/temperatures.jsonl",
+      "bytes": 1830,
+      "sha256": "d52e7c7af6da87cb99f27639ccffcae1a2f72d811c3ff4213c3feb74d8e7d8e9"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r4/command.log",
+      "bytes": 1445,
+      "sha256": "5d37646f03056ccc205bd2b1699c107e33dd107ac180b56fd87a91afccf68041"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r4/plan.json",
+      "bytes": 959,
+      "sha256": "13478ca41ff088b046d321fcc0867449f9afb225a125e84d6980a64a29549479"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r4/result.json",
+      "bytes": 457,
+      "sha256": "8b892d5a3b07f5e9a9b8a4d05101b97a56ee6f9fb29e7d143b904e710d1216e8"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r4/temperatures.jsonl",
+      "bytes": 1829,
+      "sha256": "bc5f8437a41ad57864c555d686fb1d5410e62ab3733673d8fa3df3f22eed45a2"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r5/command.log",
+      "bytes": 1583,
+      "sha256": "10d4f13d36bb375ed777ac7fe0a11edaf94d29b8e20cec34dc01a75dc65efa99"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r5/plan.json",
+      "bytes": 959,
+      "sha256": "13478ca41ff088b046d321fcc0867449f9afb225a125e84d6980a64a29549479"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r5/result.json",
+      "bytes": 454,
+      "sha256": "405068ee2e8f058f64808d8be7581f8d3ff57d1108fea4cb7eca2b230475b29a"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r5/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "46fd826f4f63a2e2b8390c44ef6faa8bea6e5b2a5886577ea4711ba156247125"
+    }
+  ],
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-ssd-text-restart-r21.tar.gz",
+    "bytes": 446522,
+    "sha256": "cb47b1d5ff48c08b9b0dfcd85adf88c4b6d10eaa0a8a7855d5a5e0d7e7428b2e"
+  },
+  "portable_archive_members": 189,
+  "archive_index_previous_bytes_sha256": "801b13c038b49cc5e000c040fb67a5203c150290df052d0b23414715db32ee47",
+  "archive_index_baseline_commit": "7ca0b0ad",
+  "archive_index_appended_only": true,
+  "observer_metadata_fix": "AR actual model_attempted=False is retained: its new helper originally omitted the standard supervisor marker. Four complete original-weight measurements are bound. The marker is added at b01fe66d, observed true in MTP. Missing MTP volume r1 is retained and corrected at0fffefd1. Plain MTP r2 drafts7/accepts0; its completed cold process and test refusal are retained. The distinct r3 question suffix is independently tokenized and physically prefilled after the saved prefix, with the same real draft acceptance gate. All four r3 core processes exit0: the raw gate/supervisor exit1 is retained because its2048 expectation omitted the complete2064 prompt checkpoint. Strict offline revalidation at7ca0b0ad requires that full persisted prompt, PP0 and exact IDs/draft acceptance. No GPU replay, inference code or validator relaxation.",
+  "runtime_ABI_format_or_dependency_changed": false,
+  "new_inference_threads": 0,
+  "root_157_non_use": true,
+  "Terminal_Bench": "Stopped/closed/deferred until modifications and qualification finish; no reservation.",
+  "pending": [
+    "Scheduled physical-token-index regression",
+    "Individual numeric/format branches and independent probability/fault/private allocation-exact/matched cost",
+    "Remaining typed containers/lexer/predicate/model/controller ownership",
+    "1M recall quality and matched Gufo/Halogen benchmark methods"
+  ],
+  "all_six_owned_tasks_open": true,
+  "goal_complete": false,
+  "publication": false
+}

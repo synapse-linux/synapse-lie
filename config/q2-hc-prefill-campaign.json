@@ -1,0 +1,106 @@
+{
+  "arms": [
+    {
+      "label": "q2-hc-prefill-host-r1",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 7,
+      "result_sha256": "e383884bef17822bcca5712d32c1a0ff162014b73eaf97c040c90e1fcfd461c1",
+      "model_access": false
+    },
+    {
+      "label": "q2-hc-prefill-host-r2",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 7,
+      "result_sha256": "bd704b8ec3d2f43b087a5f45922963a4189c2cdaa7aa9bbd7a51fa34faf0cae5",
+      "model_access": false
+    },
+    {
+      "label": "q2-hc-prefill-model-reference-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 26,
+      "result_sha256": "a6a4aa78e8af6858a1d3cf3b41dcf672cba861254ae1512b79c36591f21eb808",
+      "model_access": true
+    },
+    {
+      "label": "q2-hc-prefill-model-wmma-r1",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 26,
+      "result_sha256": "2cfff641237442c6cf3e96af4962fd4a33e03bc6a47b2bd1473c51bd50133192",
+      "model_access": true
+    },
+    {
+      "label": "q2-hc-prefill-reference-r1",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "verified_artifacts": 6,
+      "result_sha256": "3ef11794ac537e47119353d1e9f3f02a5d71bfd2c38e9481e83978ed89200d33",
+      "model_access": false
+    },
+    {
+      "label": "q2-hc-prefill-reference-r2",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "verified_artifacts": 48,
+      "result_sha256": "afe6d3f92e2931a09b8faddc27b1d35b973d261fe6cbd1a15e54918691df5ae1",
+      "model_access": false
+    },
+    {
+      "label": "q2-hc-prefill-wmma-r1",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "verified_artifacts": 48,
+      "result_sha256": "09b2f404acb63baf315d21c7107487e1c18dba516f8d22033bf88231483bf3c2",
+      "model_access": false
+    }
+  ],
+  "verified_artifacts": 168,
+  "commands": 29,
+  "closure": "evidence/q2-hc-prefill-window-release.json"
+}

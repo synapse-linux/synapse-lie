@@ -1,0 +1,87 @@
+{
+  "license": "MIT",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Observe actual prefill host selections and use C17 extent admission. Preserve the short sparse/dense kernel and add a separately instantiated bounded 8192-word sparse workspace through 1M, selected by default-ON LIE_LONG_CONTEXT_WMMA. Full row stride, selected-block order, WMMA/softmax arithmetic and reactive scheduling stay unchanged. Complete coherent builds and final original-weight numerical/resource/performance acceptance are required.",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "#include <cstdint>",
+      "new": "#include <cstdint>\n#include \"lie/dispatch.h\"\n#define LIE_GUFO_ATTENTION_DISPATCH 1\n#define LIE_GUFO_LONG_CONTEXT_WMMA 1"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "  ~Model();",
+      "new": "  ~Model();\n  // Owner-only borrowed observer. No device calls or allocation.\n  void LieBindAttentionDispatch(lie_attention_dispatch_counter* observer) noexcept;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "Model::~Model() = default;",
+      "new": "Model::~Model() = default;\n\nvoid Model::LieBindAttentionDispatch(lie_attention_dispatch_counter* observer) noexcept {\n  executor_->LieBindAttentionDispatch(observer);\n}"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  ~Executor();",
+      "new": "  ~Executor();\n  void LieBindAttentionDispatch(lie_attention_dispatch_counter* observer) noexcept {\n    lie_attention_dispatch_ = observer;\n  }"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  Options options_;",
+      "new": "  Options options_;\n  lie_attention_dispatch_counter* lie_attention_dispatch_{nullptr};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+      "old": "#include <hip/hip_runtime.h>",
+      "new": "#include <hip/hip_runtime.h>\n#include \"lie/dispatch.h\""
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+      "old": "                         bool last_only = false);",
+      "new": "                         bool last_only = false,\n                         lie_attention_refusal* refusal = nullptr);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "                         bool last_only) {\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0 ||\n      (mask != nullptr && mask_words > kWmmaMaxMaskWords)) {\n    return false;\n  }\n  if (mask != nullptr) {",
+      "new": "                         bool last_only, lie_attention_refusal* refusal) {\n  if (refusal) *refusal = LIE_ATTENTION_REFUSAL_NONE;\n  if (heads != kWmmaQueryHeads || kv_heads != kWmmaKvHeads ||\n      d != kWmmaHeadDim || ratio != kWmmaRatio || n_tokens == 0) {\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_GEOMETRY;\n    return false;\n  }\n  // Keep the original workspace for short visible frontiers, regardless\n  // of allocation pitch. A long specialization owns its larger storage.\n  const bool short_mask = mask == nullptr ||\n      lie_attention_mask_span_fits(start_pos, n_tokens, ratio, mask_words,\n                                    kWmmaMaxMaskWords);\n  if (!short_mask) {\n#if LIE_LONG_CONTEXT_WMMA\n    if (!lie_attention_mask_span_fits(start_pos, n_tokens, ratio, mask_words,\n                                      kWmmaLongMaskWords)) {\n      if (refusal) *refusal = LIE_ATTENTION_REFUSAL_MASK_PITCH;\n      return false;\n    }\n#else\n    if (refusal) *refusal = LIE_ATTENTION_REFUSAL_MASK_PITCH;\n    return false;\n#endif\n  }\n  if (mask != nullptr) {"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  if (MatrixRows(n_tokens) &&\n      WmmaCausalAttention(s_.q, s_.attn_gate, s.k_cache, s.v_cache, mask,\n                          mask_words_, s_.ctx, n_tokens, start_pos, c.num_heads,\n                          c.num_kv_heads, c.head_dim, c.compress_ratio, stream_,\n                          last_only)) {\n    return !project_output ||\n           Dense(l.attn_out, s_.ctx, out, n_tokens, error_msg);\n  }\n  // Narrow batches",
+      "new": "  lie_attention_refusal refusal = LIE_ATTENTION_REFUSAL_NONE;\n#if LIE_ATTENTION_DISPATCH_STATS\n  auto* observer = prefill_phase ? lie_attention_dispatch_ : nullptr;\n#else\n  lie_attention_dispatch_counter* observer = nullptr;\n#endif\n  if (MatrixRows(n_tokens) &&\n      WmmaCausalAttention(s_.q, s_.attn_gate, s.k_cache, s.v_cache, mask,\n                          mask_words_, s_.ctx, n_tokens, start_pos, c.num_heads,\n                          c.num_kv_heads, c.head_dim, c.compress_ratio, stream_,\n                          last_only, observer ? &refusal : nullptr)) {\n    if (observer) (void)lie_attention_dispatch_record(observer,\n        mask ? LIE_ATTENTION_MATRIX_SPARSE : LIE_ATTENTION_MATRIX_DENSE,\n        n_tokens, mask ? mask_words_ : 0, LIE_ATTENTION_REFUSAL_NONE);\n    return !project_output ||\n           Dense(l.attn_out, s_.ctx, out, n_tokens, error_msg);\n  }\n  if (observer) (void)lie_attention_dispatch_record(observer,\n      mask ? LIE_ATTENTION_SCALAR_SPARSE : LIE_ATTENTION_SCALAR_DENSE,\n      n_tokens, mask ? mask_words_ : 0, refusal);\n  // Narrow batches"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "constexpr std::uint32_t kWmmaMaxMaskWords = 2048;",
+      "new": "constexpr std::uint32_t kWmmaMaxMaskWords = 2048;\n// Separate long specialization; never enlarge the short kernel workspace.\nconstexpr std::uint32_t kWmmaLongMaskWords = 8192;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "template<std::uint32_t kQueryRows, std::uint32_t kKeys, bool kPackHeads,\n         bool kLateV = false>\n__launch_bounds__(256, 2) __global__ void WmmaCausalAttentionKernel(",
+      "new": "template<std::uint32_t kQueryRows, std::uint32_t kKeys, bool kPackHeads,\n         bool kLateV = false,\n         std::uint32_t kMaskCapacity = kWmmaMaxMaskWords>\n__launch_bounds__(256, 2) __global__ void WmmaCausalAttentionKernel("
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "  constexpr unsigned kListCapacity = 4 * 512 + 4;\n  __shared__ unsigned union_words[kListCapacity];",
+      "new": "  constexpr unsigned kListCapacity = 4 * 512 + 4;\n  // Keep compact selection semantics unchanged; wider operator masks use\n  // the separate full-word union storage. Every specialization is bounded.\n  static_assert(kMaskCapacity == kWmmaMaxMaskWords ||\n                (kPackHeads && kMaskCapacity == kWmmaLongMaskWords),\n                \"supported sparse mask workspace\");\n  constexpr unsigned kUnionCapacity =\n      kMaskCapacity > kListCapacity ? kMaskCapacity : kListCapacity;\n  constexpr unsigned kLocalWords = (kMaskCapacity + 255) / 256;\n  __shared__ unsigned union_words[kUnionCapacity];"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    unsigned local_words[8];",
+      "new": "    unsigned local_words[kLocalWords];"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    for (unsigned j = 0; j < 8; ++j) {\n      const unsigned w = tid * words_per_thread + j;",
+      "new": "    for (unsigned j = 0; j < kLocalWords; ++j) {\n      const unsigned w = tid * words_per_thread + j;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    for (unsigned j = 0; j < 8; ++j) {\n      const unsigned word = tid * words_per_thread + j;",
+      "new": "    for (unsigned j = 0; j < kLocalWords; ++j) {\n      const unsigned word = tid * words_per_thread + j;"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    // At deep sparse windows, staging the current V before fetching the\n    // next one shortens their overlapping register lifetimes.",
+      "new": "#if LIE_LONG_CONTEXT_WMMA\n    if (!short_mask) {\n      // Only long visible spans pay for 32 local words and an 8192-word\n      // union. Key gathering/reduction order is identical to the short path.\n      if (start_pos >= 65536) {\n        hipLaunchKernelGGL(\n            (WmmaCausalAttentionKernel<kPackedQueries, kWmmaKeys, true, true,\n                                       kWmmaLongMaskWords>),\n            grid, dim3(kThreads), 0, stream, q, gate, k_cache, v_cache, mask,\n            mask_words, out, start_pos, n_tokens, first_group);\n      } else {\n        hipLaunchKernelGGL(\n            (WmmaCausalAttentionKernel<kPackedQueries, kWmmaKeys, true, false,\n                                       kWmmaLongMaskWords>),\n            grid, dim3(kThreads), 0, stream, q, gate, k_cache, v_cache, mask,\n            mask_words, out, start_pos, n_tokens, first_group);\n      }\n      return true;\n    }\n#endif\n    // At deep sparse windows, staging the current V before fetching the\n    // next one shortens their overlapping register lifetimes."
+    }
+  ]
+}

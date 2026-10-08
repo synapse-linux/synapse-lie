@@ -1,0 +1,68 @@
+{
+  "schema": "synapse-lie.q2-iq2-register-stage-final.v1",
+  "plan_sha256": "4ebfa736f7e88627d659b0f71cf053ff81518e546b1bea781413ddb02d46a2dc",
+  "model_result_sha256": "314cbc3f565851ca16cfa9bbed58db3b299e7f854cba3b97a29b0e7f7b5914e9",
+  "component_result_sha256": "a7f9e340daacf5dc17a7aa378c9faff7256f291941ab85f7f4f5cc4b15d6fe9d",
+  "release_sha256": "57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "host_reused": false,
+  "frozen_fixtures_verified": 118,
+  "frozen_manifests_verified": 12,
+  "provider_files_verified": 1028,
+  "retired_identities": 1328,
+  "retired_groups": 1062,
+  "thermal_max_c": {
+    "q2-iq2-register-stage-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 65.625
+    },
+    "q2-iq2-register-stage-component-r1": {
+      "amdgpu": 62.0,
+      "k10temp": 65.375
+    },
+    "q2-iq2-register-stage-model-r1": {
+      "amdgpu": 75.0,
+      "k10temp": 84.875
+    }
+  },
+  "classified_preparation_failures": {
+    "static-audit-command.json": 1,
+    "checkpoint-whitespace-command.json": 2
+  },
+  "component_parent_exact": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-iq2-register-stage-component.csv": "994a24626e60a511bff4801c94a9a7518f97ec33a4affb3d45a5979104af816f",
+    "docs/figures/q2-iq2-register-stage-component.svg": "d947cb54fdb9a57177761f53e74c5cf2d5fd853a1ffd5bb48de24f1d685637a5",
+    "docs/figures/q2-iq2-register-stage-component.png": "54067329b377bef83f42f1c610c299fdb75596b2bc86525d2ec87b17563a1394",
+    "docs/figures/q2-iq2-register-stage-model.csv": "75f0de55d62e635984ba68c954133d220d0a971b62e5dd4f49c6a36f43ea32de",
+    "docs/figures/q2-iq2-register-stage-model.svg": "db1918d7de97ef87c6ad1667a6ae08943d6ae5c60b02790523ded5118a86821e",
+    "docs/figures/q2-iq2-register-stage-model.png": "e38f0bceb22d6ccba92b2923664b00d06d5ac0424ab22b11361bd6cbc13df485"
+  },
+  "raw_model_reanalysis": true,
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false
+}

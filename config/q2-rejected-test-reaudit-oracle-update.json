@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-rejected-test-reaudit-oracle-update.v1",
+  "previous_progress_sha256": "97c0cc18703db3ac8b0cb059fd63ae5fc1d8412b5affc26f9944047fdeb5fecc",
+  "original_reports_verified": 19,
+  "oracle_replay_report_sha256": "030a1004c72510d8d0be7464869cfe9a0932912e6f7d4a659f75cca8a19fb144",
+  "confirmed_false_gpu_format_rejection_families": [
+    "shared-q8"
+  ],
+  "original_r3_failed_shapes": [
+    127,
+    2048
+  ],
+  "ordered_exact": 40,
+  "legacy_corrupt": 39,
+  "fixture_arithmetic_changed": false,
+  "qualified_inference_controls_rerun": false,
+  "performance_already_counted_in": "config/q2-reaudit-composition-results.json",
+  "entire_reaudit_complete": false,
+  "goal_met": false,
+  "original_failures_preserved": true
+}

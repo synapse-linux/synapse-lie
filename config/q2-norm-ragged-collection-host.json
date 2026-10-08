@@ -1,0 +1,18 @@
+{
+  "started_at": "2026-10-04T14:43:58.867849+00:00",
+  "finished_at": "2026-10-04T14:43:58.953822+00:00",
+  "argv": [
+    "/usr/bin/python3",
+    "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-norm-ragged-collection-host-r1/tests/q2_remote_test.py",
+    "RemoteGuardTests.test_collection_bounds_and_paths"
+  ],
+  "exit_code": 0,
+  "files": {
+    "tools/q2-remote.py": "01ad6422b9cb7f1aa26cab432d2c5c985ed3f16b97521b1d9e39c38983c27f35",
+    "tools/q2_native_curve.py": "7255604bfa78cd1f3c2a960d00becb3df3991c4c918de670d958429e907fa6a4",
+    "tests/q2_remote_test.py": "1cb81fbaa32a3103fa3de1543f28478d8f370709e2449ab9a06696cf51a1cd70"
+  },
+  "log": ".\n----------------------------------------------------------------------\nRan 1 test in 0.002s\n\nOK\n",
+  "model_inference": false,
+  "gpu_access": false
+}

@@ -12,6 +12,8 @@ typedef lie_core_info lie_worker_info;
 #define LIE_WORKER_JOBS LIE_CORE_JOBS
 #define LIE_WORKER_MAX_CONTEXT LIE_CORE_MAX_CONTEXT
 #define lie_worker_create lie_core_create
+#define lie_worker_create_steered lie_core_create_steered
+#define lie_worker_steering_snapshot lie_core_steering_snapshot
 #define lie_worker_stop lie_core_stop
 #define lie_worker_destroy lie_core_destroy
 #define lie_worker_snapshot lie_core_snapshot

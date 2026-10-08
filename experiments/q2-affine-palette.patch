@@ -1,0 +1,46 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4390,9 +4390,42 @@
+           }
+         }
+         __half2 h[16];
++        uint2 palette[kQ2 && kPacked ? 2 : 1];
++        if constexpr (kQ2 && kPacked) {
++          // A sixteen-element affine group has only four possible weights.
++          // Preserve each F32 FMA and F16 rounding, then select its exact
++          // half bits instead of repeating the affine for every element.
++#pragma unroll
++          for (int part = 0; part < 2; ++part) {
++            const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                 2 * (((2 * kb + part) * BM) + row);
++            const float d = affine[0], bias = affine[1];
++            palette[part] = make_uint2(
++                __builtin_bit_cast(std::uint32_t,
++                                   __floats2half2_rn(fmaf(0.0F, d, bias),
++                                                     fmaf(1.0F, d, bias))),
++                __builtin_bit_cast(std::uint32_t,
++                                   __floats2half2_rn(fmaf(2.0F, d, bias),
++                                                     fmaf(3.0F, d, bias))));
++          }
++        }
+ #pragma unroll
+         for (int i = 0; i < 8; ++i) {
+-          if constexpr (kQ2) {
++          if constexpr (kQ2 && kPacked) {
++            const uint2 values = palette[i / 4];
++            // Duplicate each two-bit code into the two byte selectors for
++            // its half; perm indices 0..3 read the second source word.
++            const auto lo =
++                (__builtin_amdgcn_perm(nib[i], nib[i], 0x01010000U) << 1U) |
++                0x01000100U;
++            const auto hi =
++                (__builtin_amdgcn_perm(nib[i], nib[i], 0x03030202U) << 1U) |
++                0x01000100U;
++            h[2 * i] = __builtin_bit_cast(
++                __half2, __builtin_amdgcn_perm(values.y, values.x, lo));
++            h[2 * i + 1] = __builtin_bit_cast(
++                __half2, __builtin_amdgcn_perm(values.y, values.x, hi));
++          } else if constexpr (kQ2) {
+             const auto* affine = reinterpret_cast<const float*>(s_scale) +
+                                  2 * (((2 * kb + (i / 4)) * BM) + row);
+             const float d = affine[0], bias = affine[1];

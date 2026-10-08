@@ -1,0 +1,7 @@
+scope,cache,median_ms
+row_gather,reference,43.1226875
+row_gather,candidate,21.148278500000004
+prefill,reference,1578.6597920000002
+prefill,candidate,1561.402251
+decode,reference,41.373211
+decode,candidate,41.3752195

@@ -1,0 +1,2054 @@
+{
+  "schema": "synapse-lie.steering-physical-index-point-original.v1",
+  "state": "SELECTED_STEERING_PHYSICAL_INDEX_CASES_QUALIFIED",
+  "at_utc": "2026-10-06T04:04:39.026571+00:00",
+  "target": "pop@192.168.5.161",
+  "GPU_architecture": "gfx1150",
+  "source_commit": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "QA_source_commit": "353ab973fc6bdabd0937f75ed0485d4b0bd6c6b4",
+  "scope": "Original-weight AR/MTP shared core keeps fresh physical input indices with a declared nonzero sparse-fixture plan, refuses divergent SSD spelling and restores only the compatible128-token prefix before the first unapplied step. Three exact prefill/generation changes, exact cold/SSD confirmed outputs and final policy histories. Not learned DS4 direction quality, independent numeric/graph invalidation/correction oracle, vision, later mixed-history lookup or matched performance.",
+  "previous_matching_GPU_receipt": {
+    "path": "docs/development/validation/c17-binary64-point-gpu-2026-10-06.json",
+    "bytes": 41599,
+    "sha256": "f4ed064fb4b81a278f3cd91254e0188dc0a59e527bd3bb0a45c2116cd51e5081"
+  },
+  "previous_SSD_text_receipt": {
+    "path": "docs/development/validation/ssd-text-restart-point-gpu-2026-10-06.json",
+    "bytes": 61055,
+    "sha256": "0f795c129a79f67c9fc776495d8a2a4431fef7b9380437db93e305ad208e99ba"
+  },
+  "host_receipt": {
+    "path": "docs/development/validation/steering-restart-host-2026-10-06.json",
+    "bytes": 3723,
+    "sha256": "07c30576359dd95cc7e4985be0d6f10daef8b55687841a10cca928278dc95634"
+  },
+  "host_receipt_source_commit": "353ab973fc6bdabd0937f75ed0485d4b0bd6c6b4",
+  "host_gate_tests": 18,
+  "campaign_host_tests": 60,
+  "runs": [
+    {
+      "label": "context-r22-steering-ar-r1",
+      "mode": "ar",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "started_at": "2026-10-06T03:45:48.947547+00:00",
+      "ended_at": "2026-10-06T03:53:11.383109+00:00",
+      "lease_released_at": "2026-10-06T03:53:11.383092+00:00",
+      "supervisor_pid": 98134,
+      "supervisor_start_ticks": 12730531,
+      "router_restored": {
+        "MainPID": "99631",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "model_predictor_stats_unchanged": true,
+      "artifacts": [
+        {
+          "path": "evidence/context-r22-steering-ar-r1/manifest.json",
+          "bytes": 4639,
+          "sha256": "ab2a20198b0bd53a2e5132262260523b68445d40642fa9c12d70de52e945d204"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/runner.py",
+          "bytes": 106870,
+          "sha256": "5f2961a893c8216ed4d3205ba853ce471a370c3592397b48eb15f76838f09d1e"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/steering-restart-gate.py",
+          "bytes": 16382,
+          "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/result.json",
+          "bytes": 97004,
+          "sha256": "eb8c4e2cfc3538b8be38e13ed83bfaa9da1c7f2d5470641d92be499ed99ed889"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/telemetry.jsonl",
+          "bytes": 718594,
+          "sha256": "aea024ad6a6ec480b2541bd5df8bc7390764c2c9d3c969f989d45a572f5c2414"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/steering-restart-result.json",
+          "bytes": 16845,
+          "sha256": "1d5ab291f0ecfb81880acd98b1dfc4d8b93eb0308478b774fd6f56a1523dfb66"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/steering-progress.json",
+          "bytes": 148,
+          "sha256": "099abb7eb05ec1732de3df8ec8d04b435795574b085ca550ab375ffb267d82f2"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/restart-started.marker",
+          "bytes": 33,
+          "sha256": "249450287043f3818613df3ad9e32fcd146df116022ad9099b25b008676ef808"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/steering.f32",
+          "bytes": 491520,
+          "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/steering-plan.json",
+          "bytes": 150,
+          "sha256": "2c0afdc6068c56f8eba17052cde24ad23d00ced83fae884bef49290813abb3a7"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/calibration.txt",
+          "bytes": 45,
+          "sha256": "7b27085c66ddb137dc8fdde89d4c1e9d6f9bdf0962bd0e842ccb3f018ef23c88"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/prompt.txt",
+          "bytes": 2092,
+          "sha256": "bf5cf7bf085b304cdaa4ef33efbcca4ffe91f0bf5948694fb8b89aa205654a6a"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/tokens.json",
+          "bytes": 8275,
+          "sha256": "251e08848ee9ef1e4953facd685c22f0d13e1933ee03ad86c1e0d4effd4d8f4d"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/measurements-calibration.jsonl",
+          "bytes": 3090,
+          "sha256": "0655787f5c15dfe4db66edc1c199aae789043c5b5b8332e25fa0704d4d5f7017"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/measurements-fresh.jsonl",
+          "bytes": 4637,
+          "sha256": "fd404e05185bf44bf7a7d14b6e01f38b7d3079094c3da7f5c8bbe0f9b6ac2971"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/measurements-saved.jsonl",
+          "bytes": 9467,
+          "sha256": "3c9fc2451979b3cb4a4a92d70d071351d4c21d5fb31c0d533b2bd26b63f4cce5"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/measurements-reference.jsonl",
+          "bytes": 5548,
+          "sha256": "3d3d5824d8cac6fdf32107af3fbac1d319652070fd6227ebaac7b4a2da4d6932"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/measurements-divergent.jsonl",
+          "bytes": 5765,
+          "sha256": "cc0da142ab7d7e1a050e12508fdb4fc631665ae5510848f401d3bb650eba5323"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/measurements-compatible.jsonl",
+          "bytes": 5775,
+          "sha256": "7f66f3b1281290dfc073412b0857100888aea5fccd0ad8c96fb982bcf590200d"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/bench-calibration.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/bench-fresh.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/bench-saved.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/bench-reference.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/bench-divergent.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/bench-compatible.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/stdout.log",
+          "bytes": 66634,
+          "sha256": "56b400ab50ec4bcf4020d33ceb126fae81493af409b6fc6265b26b0b16cb0259"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/distrobox-create.log",
+          "bytes": 272,
+          "sha256": "ac6f2697b6cdfa95431a802d202bba8944429db97c390fc0bec58594ef391ba3"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/distrobox.stdout.log",
+          "bytes": 11509,
+          "sha256": "05f24c45bfb1f7904aa26b3a14fb9460c40b4c4b3821356128055504c6c70a1e"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/plan.json",
+          "bytes": 629,
+          "sha256": "52e698033033a7972128d2fe59a5062e244f402edb3ee2362d2cbf1ef24580fb"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/controller-result.json",
+          "bytes": 647,
+          "sha256": "d095b8e8ed544889f8bfbe90b108a9943e7a52dae6faddd034119de2c69d27b2"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/controller-stdout.log",
+          "bytes": 92962,
+          "sha256": "3326571f8032455dae08fb1dd6f01af4e2317b89d91cf3105def0ac8116d39a3"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/controller-stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-ar-r1/collection.json",
+          "bytes": 17734,
+          "sha256": "9599f8a702f27a7610e36e6222a68eda662e40de25a517d080c47cf2ba834d2c"
+        }
+      ],
+      "bank": {
+        "architecture": "qwen4exp",
+        "layers": 48,
+        "width": 2560,
+        "bytes": 491520,
+        "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9",
+        "nonzero_values": 48,
+        "fixture": "one 0.125 binary32 coordinate per layer"
+      },
+      "processes": [
+        {
+          "phase": "calibration",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-calibration.jsonl",
+            "--prompt-file",
+            "/work/calibration.txt"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "fresh",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-fresh.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "saved",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-saved.jsonl",
+            "--tokens-file",
+            "/work/tokens.json",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "reference",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-reference.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--dir-steering-plan",
+            "/work/steering-plan.json"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "divergent",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-divergent.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--dir-steering-plan",
+            "/work/steering-plan.json",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "compatible",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-compatible.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--dir-steering-plan",
+            "/work/steering-plan.json",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "steps": [
+        {
+          "position": 128,
+          "ffn": 0.5,
+          "attention": 0.0
+        },
+        {
+          "position": 273,
+          "ffn": -0.5,
+          "attention": 0.25
+        },
+        {
+          "position": 279,
+          "ffn": 0.0,
+          "attention": 0.0
+        }
+      ],
+      "scheduled_jobs": {
+        "reference": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1144163801,
+          "decode_ns": 3033344956,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 1,
+          "mtp_drafted_tokens": 0,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4197957346,
+          "first_token_ns": 1271339316,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ],
+          "steering_schedule": {
+            "completed": 3,
+            "applied": 3,
+            "terminal": true,
+            "steps": [
+              {
+                "position": 128,
+                "actual_position": 128,
+                "ffn": 0.5,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 273,
+                "actual_position": 273,
+                "ffn": -0.5,
+                "attention": 0.25,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 279,
+                "actual_position": 279,
+                "ffn": 0.0,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              }
+            ],
+            "final_ffn": 0.0,
+            "final_attention": 0.0,
+            "history_epochs": 3,
+            "completed_positions": 304,
+            "combined_scope_sha256": "3208d5a086e33cb790e014c396c035195dc7a96dd19b6a2c96ab60bb8aceb767"
+          }
+        },
+        "divergent": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1250379684,
+          "decode_ns": 3104738172,
+          "cached_tokens": 0,
+          "cache_capture_ns": 52625673,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 39795,
+          "max_decode_output_tokens": 1,
+          "mtp_drafted_tokens": 0,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 2,
+          "decode_calls": 32,
+          "total_ns": 4461715212,
+          "first_token_ns": 1531716799,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ],
+          "steering_schedule": {
+            "completed": 3,
+            "applied": 3,
+            "terminal": true,
+            "steps": [
+              {
+                "position": 128,
+                "actual_position": 128,
+                "ffn": 0.5,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 273,
+                "actual_position": 273,
+                "ffn": -0.5,
+                "attention": 0.25,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 279,
+                "actual_position": 279,
+                "ffn": 0.0,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              }
+            ],
+            "final_ffn": 0.0,
+            "final_attention": 0.0,
+            "history_epochs": 3,
+            "completed_positions": 304,
+            "combined_scope_sha256": "3208d5a086e33cb790e014c396c035195dc7a96dd19b6a2c96ab60bb8aceb767"
+          }
+        },
+        "compatible": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 144,
+          "prefill_ns": 706607076,
+          "decode_ns": 3063194691,
+          "cached_tokens": 128,
+          "cache_capture_ns": 22309187,
+          "cache_restore_ns": 10548194,
+          "ssd_cached_tokens": 128,
+          "ssd_read_ns": 120088466,
+          "max_decode_output_tokens": 1,
+          "mtp_drafted_tokens": 0,
+          "mtp_accepted_tokens": 0,
+          "prefill_calls": 1,
+          "decode_calls": 32,
+          "total_ns": 4000739223,
+          "first_token_ns": 1074291222,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ],
+          "steering_schedule": {
+            "completed": 3,
+            "applied": 3,
+            "terminal": true,
+            "steps": [
+              {
+                "position": 128,
+                "actual_position": 128,
+                "ffn": 0.5,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 273,
+                "actual_position": 273,
+                "ffn": -0.5,
+                "attention": 0.25,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 279,
+                "actual_position": 279,
+                "ffn": 0.0,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              }
+            ],
+            "final_ffn": 0.0,
+            "final_attention": 0.0,
+            "history_epochs": 3,
+            "completed_positions": 304,
+            "combined_scope_sha256": "3208d5a086e33cb790e014c396c035195dc7a96dd19b6a2c96ab60bb8aceb767"
+          }
+        }
+      },
+      "comparison": {
+        "fresh_physical_tokens": 272,
+        "saved_physical_tokens": 2064,
+        "fresh_ids_sha256": "d6f679391e33136685ecb471f4a288f863de9cafbc1a2ab08da2914671b7958a",
+        "saved_ids_sha256": "971148e28218fe5584b56a8a0558c38e31a09486d7a08eed824dfaf02392a8f8",
+        "scheduled_physical_ids_equal": true,
+        "scheduled_output_ids_equal": true,
+        "scheduled_policy_histories_equal": true,
+        "divergent_cached_tokens": 0,
+        "compatible_cached_tokens": 128,
+        "scheduled_positions": [
+          128,
+          273,
+          279
+        ]
+      },
+      "temperature_peaks_c": {
+        "nvme": 71.85,
+        "amdgpu": 68.0,
+        "k10temp": 64.0
+      },
+      "whole_process_threads_max": 44,
+      "GTT_peak_bytes": 84109844480,
+      "load_to_ready_ns": {
+        "calibration": 14859219547,
+        "fresh": 14561364098,
+        "saved": 98960065159,
+        "reference": 14847842753,
+        "divergent": 112125767560,
+        "compatible": 120843232533
+      }
+    },
+    {
+      "label": "context-r22-steering-mtp-r1",
+      "mode": "mtp",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "started_at": "2026-10-06T03:54:47.758442+00:00",
+      "ended_at": "2026-10-06T04:03:25.746219+00:00",
+      "lease_released_at": "2026-10-06T04:03:25.746203+00:00",
+      "supervisor_pid": 100249,
+      "supervisor_start_ticks": 12784411,
+      "router_restored": {
+        "MainPID": "101740",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "model_predictor_stats_unchanged": true,
+      "artifacts": [
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/manifest.json",
+          "bytes": 5234,
+          "sha256": "0804d79fee8163d387bc53c405d45030ae21b300c6cb5aab23d7a0a4d102e2de"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/runner.py",
+          "bytes": 106870,
+          "sha256": "5f2961a893c8216ed4d3205ba853ce471a370c3592397b48eb15f76838f09d1e"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/steering-restart-gate.py",
+          "bytes": 16382,
+          "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/result.json",
+          "bytes": 98522,
+          "sha256": "7574f4a8ac9ecc9a059ab9914acb38ead1cbfed4279c7d554c265585a4b264c6"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/telemetry.jsonl",
+          "bytes": 794966,
+          "sha256": "061f3e3d052c1065ab1d4e742e81cf69e61978418edd21438c022cb19c2eed7e"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/steering-restart-result.json",
+          "bytes": 17581,
+          "sha256": "9d34042d4e8015f9709feb7e8c65a87c39aa159a16e7b21ad4b012d142e6ad5c"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/steering-progress.json",
+          "bytes": 148,
+          "sha256": "ffbb7056e6b6809d782711831794488aa0af2d0a05e5fd2ba69312bae56a49f0"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/restart-started.marker",
+          "bytes": 33,
+          "sha256": "4bb25dfb179d17ef1aaaa505143dcd1555b41b7f683eff7a7afe6d2d850ead72"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/steering.f32",
+          "bytes": 491520,
+          "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/steering-plan.json",
+          "bytes": 150,
+          "sha256": "2c0afdc6068c56f8eba17052cde24ad23d00ced83fae884bef49290813abb3a7"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/calibration.txt",
+          "bytes": 45,
+          "sha256": "7b27085c66ddb137dc8fdde89d4c1e9d6f9bdf0962bd0e842ccb3f018ef23c88"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/prompt.txt",
+          "bytes": 2092,
+          "sha256": "bf5cf7bf085b304cdaa4ef33efbcca4ffe91f0bf5948694fb8b89aa205654a6a"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/tokens.json",
+          "bytes": 8275,
+          "sha256": "251e08848ee9ef1e4953facd685c22f0d13e1933ee03ad86c1e0d4effd4d8f4d"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/measurements-calibration.jsonl",
+          "bytes": 3137,
+          "sha256": "8643a497bd10f46c72fd05d577eacce3291bfca17703d7e9f057023f657caa2b"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/measurements-fresh.jsonl",
+          "bytes": 4683,
+          "sha256": "1620c9ababac4d3fe787a29bb7fb95ae0731e253b81bf874ae91d5db98807754"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/measurements-saved.jsonl",
+          "bytes": 9515,
+          "sha256": "c2b372eca83e4e624157a6f20514a5bee1607de249335ff47902b43f969f9c64"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/measurements-reference.jsonl",
+          "bytes": 5595,
+          "sha256": "0e8c755934f3de8022f1ce4ada4ca2c4430992e9f8feeb80134ebf5dfed7dd0a"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/measurements-divergent.jsonl",
+          "bytes": 5813,
+          "sha256": "efa562cd36a5ec8a6657a2f9c69d17d98399a0461318ebff0322f10ad263eb8c"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/measurements-compatible.jsonl",
+          "bytes": 5823,
+          "sha256": "0c1030137c96d043bb1c2ce7008c4a8cbd7086d0af1dbb5e29ce6d34f390e192"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/bench-calibration.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/bench-fresh.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/bench-saved.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/bench-reference.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/bench-divergent.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/bench-compatible.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/stdout.log",
+          "bytes": 66647,
+          "sha256": "ad7b6d003da16f2bb2334155e1922c07f7aa2aa372a715885a02ecd7efd3762f"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/distrobox-create.log",
+          "bytes": 275,
+          "sha256": "d10354d4f8cef9e4173c400aad7684bca17493f451b91c8934603cf2bd14d5c8"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/distrobox.stdout.log",
+          "bytes": 12053,
+          "sha256": "696bf3c7e7359866556c28f6af4f38fbcbb2da6c342d004d11842af83de26d9b"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/plan.json",
+          "bytes": 630,
+          "sha256": "a37b855c02d524f729fdfc4651b7d95264650f7874089cd875957cb7f2df68a8"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/controller-result.json",
+          "bytes": 648,
+          "sha256": "cdf38bd27645027fba8facae63618163bb27a09cf2f20f62e943097be8c66895"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/controller-stdout.log",
+          "bytes": 94276,
+          "sha256": "0d481b7fcc9a4b76d7f2f95252e1d10d02fe75e1f3f83b9346ba5a58c8eda37f"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/controller-stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r22-steering-mtp-r1/collection.json",
+          "bytes": 17790,
+          "sha256": "a5a6b381679714d033c9cea8eccd584b0388f04287bd035444bf8a1b0950730a"
+        }
+      ],
+      "bank": {
+        "architecture": "qwen4exp",
+        "layers": 48,
+        "width": 2560,
+        "bytes": 491520,
+        "sha256": "0a443471964795be46cca4f39501a12633c5b769c312148dec56eb99b72fffd9",
+        "nonzero_values": 48,
+        "fixture": "one 0.125 binary32 coordinate per layer"
+      },
+      "processes": [
+        {
+          "phase": "calibration",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-calibration.jsonl",
+            "--prompt-file",
+            "/work/calibration.txt"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "fresh",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-fresh.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "saved",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--tg",
+            "1",
+            "--output",
+            "/work/measurements-saved.jsonl",
+            "--tokens-file",
+            "/work/tokens.json",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "reference",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-reference.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--dir-steering-plan",
+            "/work/steering-plan.json"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "divergent",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-divergent.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--dir-steering-plan",
+            "/work/steering-plan.json",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "compatible",
+          "argv": [
+            "/bundle/runtime/bin/synapse-lie-bench",
+            "--suite",
+            "core",
+            "--model",
+            "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+            "--context",
+            "4096",
+            "--chunk",
+            "256",
+            "--users",
+            "1",
+            "--warmups",
+            "0",
+            "--repetitions",
+            "1",
+            "--ignore-eos",
+            "--kv-cache-ram-mb",
+            "0",
+            "--kv-cache-policy",
+            "ds4",
+            "--kv-cache-min-tokens",
+            "128",
+            "--kv-cache-cold-max-tokens",
+            "128",
+            "--kv-cache-boundary-trim-tokens",
+            "0",
+            "--kv-cache-boundary-align-tokens",
+            "1",
+            "--kv-cache-continued-interval-tokens",
+            "0",
+            "--kv-cache-capture-finish",
+            "off",
+            "--timeout-ms",
+            "600000",
+            "--dir-steering-file",
+            "/work/steering.f32",
+            "--dir-steering-ffn",
+            "0",
+            "--dir-steering-attn",
+            "0",
+            "--model-mtp",
+            "/mtp/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+            "--mtp-draft-tokens",
+            "7",
+            "--tg",
+            "32",
+            "--output",
+            "/work/measurements-compatible.jsonl",
+            "--prompt-file",
+            "/work/prompt.txt",
+            "--dir-steering-plan",
+            "/work/steering-plan.json",
+            "--kv-disk-dir",
+            "/work/kv",
+            "--kv-disk-space-mb",
+            "4096",
+            "--kv-disk-staging-mb",
+            "512"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "steps": [
+        {
+          "position": 128,
+          "ffn": 0.5,
+          "attention": 0.0
+        },
+        {
+          "position": 273,
+          "ffn": -0.5,
+          "attention": 0.25
+        },
+        {
+          "position": 279,
+          "ffn": 0.0,
+          "attention": 0.0
+        }
+      ],
+      "scheduled_jobs": {
+        "reference": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1190764344,
+          "decode_ns": 3278232290,
+          "cached_tokens": 0,
+          "cache_capture_ns": 0,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 0,
+          "max_decode_output_tokens": 8,
+          "mtp_drafted_tokens": 14,
+          "mtp_accepted_tokens": 3,
+          "prefill_calls": 2,
+          "decode_calls": 29,
+          "total_ns": 4498576363,
+          "first_token_ns": 1304113531,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ],
+          "steering_schedule": {
+            "completed": 3,
+            "applied": 3,
+            "terminal": true,
+            "steps": [
+              {
+                "position": 128,
+                "actual_position": 128,
+                "ffn": 0.5,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 273,
+                "actual_position": 273,
+                "ffn": -0.5,
+                "attention": 0.25,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 279,
+                "actual_position": 279,
+                "ffn": 0.0,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              }
+            ],
+            "final_ffn": 0.0,
+            "final_attention": 0.0,
+            "history_epochs": 3,
+            "completed_positions": 304,
+            "combined_scope_sha256": "3208d5a086e33cb790e014c396c035195dc7a96dd19b6a2c96ab60bb8aceb767"
+          }
+        },
+        "divergent": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 272,
+          "prefill_ns": 1284212210,
+          "decode_ns": 3299526567,
+          "cached_tokens": 0,
+          "cache_capture_ns": 52928541,
+          "cache_restore_ns": 0,
+          "ssd_cached_tokens": 0,
+          "ssd_read_ns": 33152,
+          "max_decode_output_tokens": 8,
+          "mtp_drafted_tokens": 14,
+          "mtp_accepted_tokens": 3,
+          "prefill_calls": 2,
+          "decode_calls": 29,
+          "total_ns": 4724643578,
+          "first_token_ns": 1519994589,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ],
+          "steering_schedule": {
+            "completed": 3,
+            "applied": 3,
+            "terminal": true,
+            "steps": [
+              {
+                "position": 128,
+                "actual_position": 128,
+                "ffn": 0.5,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 273,
+                "actual_position": 273,
+                "ffn": -0.5,
+                "attention": 0.25,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 279,
+                "actual_position": 279,
+                "ffn": 0.0,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              }
+            ],
+            "final_ffn": 0.0,
+            "final_attention": 0.0,
+            "history_epochs": 3,
+            "completed_positions": 304,
+            "combined_scope_sha256": "3208d5a086e33cb790e014c396c035195dc7a96dd19b6a2c96ab60bb8aceb767"
+          }
+        },
+        "compatible": {
+          "event": "job",
+          "rep": 0,
+          "warmup": 0,
+          "user": 0,
+          "prompt_tokens": 272,
+          "output_tokens": 32,
+          "output_bytes": 327,
+          "prefill_tokens": 144,
+          "prefill_ns": 781133031,
+          "decode_ns": 3345561574,
+          "cached_tokens": 128,
+          "cache_capture_ns": 28797466,
+          "cache_restore_ns": 10183892,
+          "ssd_cached_tokens": 128,
+          "ssd_read_ns": 108567172,
+          "max_decode_output_tokens": 8,
+          "mtp_drafted_tokens": 14,
+          "mtp_accepted_tokens": 3,
+          "prefill_calls": 1,
+          "decode_calls": 29,
+          "total_ns": 4369596924,
+          "first_token_ns": 1131674947,
+          "finish": "length",
+          "output_ids": [
+            248045,
+            846,
+            271,
+            248068,
+            271,
+            248069,
+            271,
+            19,
+            248044,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045,
+            248045
+          ],
+          "steering_schedule": {
+            "completed": 3,
+            "applied": 3,
+            "terminal": true,
+            "steps": [
+              {
+                "position": 128,
+                "actual_position": 128,
+                "ffn": 0.5,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 273,
+                "actual_position": 273,
+                "ffn": -0.5,
+                "attention": 0.25,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              },
+              {
+                "position": 279,
+                "actual_position": 279,
+                "ffn": 0.0,
+                "attention": 0.0,
+                "attempted": true,
+                "applied": true,
+                "status": 0
+              }
+            ],
+            "final_ffn": 0.0,
+            "final_attention": 0.0,
+            "history_epochs": 3,
+            "completed_positions": 304,
+            "combined_scope_sha256": "3208d5a086e33cb790e014c396c035195dc7a96dd19b6a2c96ab60bb8aceb767"
+          }
+        }
+      },
+      "comparison": {
+        "fresh_physical_tokens": 272,
+        "saved_physical_tokens": 2064,
+        "fresh_ids_sha256": "d6f679391e33136685ecb471f4a288f863de9cafbc1a2ab08da2914671b7958a",
+        "saved_ids_sha256": "971148e28218fe5584b56a8a0558c38e31a09486d7a08eed824dfaf02392a8f8",
+        "scheduled_physical_ids_equal": true,
+        "scheduled_output_ids_equal": true,
+        "scheduled_policy_histories_equal": true,
+        "divergent_cached_tokens": 0,
+        "compatible_cached_tokens": 128,
+        "scheduled_positions": [
+          128,
+          273,
+          279
+        ]
+      },
+      "temperature_peaks_c": {
+        "nvme": 75.85,
+        "amdgpu": 66.0,
+        "k10temp": 65.5
+      },
+      "whole_process_threads_max": 44,
+      "GTT_peak_bytes": 87048351744,
+      "load_to_ready_ns": {
+        "calibration": 15594916885,
+        "fresh": 22623814036,
+        "saved": 128810876882,
+        "reference": 27077797647,
+        "divergent": 124050070693,
+        "compatible": 132048003083
+      }
+    }
+  ],
+  "selected_greedy_AR_MTP_output_and_policy_equal": true,
+  "offline_cross_mode_comparison": {
+    "path": "evidence/context-r22-cross-mode-r1.json",
+    "bytes": 468,
+    "sha256": "afc9027f0841b3fb40753e343f7b4aa441ce7e0c289189a7bdb5f966afe2a070"
+  },
+  "coordination_and_observations": [
+    {
+      "path": "evidence/context-r22-ar-closure-r1.json",
+      "bytes": 7689,
+      "sha256": "d9cdf23b2da2b2f931e2418c1e7c17d666924b5908e52084eb1dd8e801dc1933"
+    },
+    {
+      "path": "evidence/context-r22-ar-closure-r1.py",
+      "bytes": 6241,
+      "sha256": "aa634210272d18d9db23a0e0c9379599acd44ed9e8371aaee109e8c09ee60db3"
+    },
+    {
+      "path": "evidence/context-r22-ar-partial-r1.json",
+      "bytes": 11470,
+      "sha256": "9f9ed8f84bc0f293039de049066dac11f08a62ad33a8d693ccf4dabd53dd2210"
+    },
+    {
+      "path": "evidence/context-r22-before-ar-r1.json",
+      "bytes": 6836,
+      "sha256": "b0beec42af0a3b8a973175c816ec822c81a6c34e41a842df32a655eb6f04d158"
+    },
+    {
+      "path": "evidence/context-r22-before-ar-r1.py",
+      "bytes": 4686,
+      "sha256": "c9794bfb934a2dfa6abba791e3b4665a1f34d5c27bf4f3df1f83e5e1e475ebd0"
+    },
+    {
+      "path": "evidence/context-r22-before-mtp-r1.json",
+      "bytes": 6834,
+      "sha256": "ef2b07b4150beb73c942e8a99d25c77b6ad169a572e39dc705e09eba62ea626c"
+    },
+    {
+      "path": "evidence/context-r22-before-mtp-r1.py",
+      "bytes": 4688,
+      "sha256": "c98cdb195ea8879decae97f0f2290e13e4183db48316def08eb5e284940fa39f"
+    },
+    {
+      "path": "evidence/context-r22-code-binding-r1.json",
+      "bytes": 222,
+      "sha256": "e344d41fa1b2c1183a10aa9d140e1ab8916a94de52bac90bbec9bcc0b1b6440e"
+    },
+    {
+      "path": "evidence/context-r22-cross-mode-r1.json",
+      "bytes": 468,
+      "sha256": "afc9027f0841b3fb40753e343f7b4aa441ce7e0c289189a7bdb5f966afe2a070"
+    },
+    {
+      "path": "evidence/context-r22-discovery-diagnostics-r1.json",
+      "bytes": 671,
+      "sha256": "6a40a28f70846d5d86aa67e35807a3ff155af8fccd57281f25e41ab13f0fe905"
+    },
+    {
+      "path": "evidence/context-r22-final-161-r1.json",
+      "bytes": 8490,
+      "sha256": "f3ae3ae5c178f80347411953809fea55d9b38c3467827710c7e5f6ab9c948a54"
+    },
+    {
+      "path": "evidence/context-r22-final-161-r1.py",
+      "bytes": 6270,
+      "sha256": "9aa4ed488774e62b03be9118cf81e07b944777dec8e69d9acfb3a72c33306bec"
+    },
+    {
+      "path": "evidence/context-r22-mtp-reference-r1.json",
+      "bytes": 3548,
+      "sha256": "f18db2b22b947c96a2b7b4a3aaebf590cc957bb6211665abf6e5649e3b196e64"
+    },
+    {
+      "path": "evidence/context-r22-peer-nonuse-mtp-r1.json",
+      "bytes": 900,
+      "sha256": "9db80094e6e8056bbdc847948895ff3240aaf91e3aff2f6925b827812011731f"
+    },
+    {
+      "path": "evidence/context-r22-peer-nonuse-r1.json",
+      "bytes": 1063,
+      "sha256": "bc0f9b40aacf5a120bee7de0c697dfb3e3541b6cc7ca42cf1d669a5496978bf3"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-1.json",
+      "bytes": 4706,
+      "sha256": "2ad8c2037bb4176567affe5844f9726e786a44e2b54fb3f02c8349f78d19851c"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-10.json",
+      "bytes": 6134,
+      "sha256": "eeb5f5d291a702a60e48b7a309de97800f7e3f61b0d52c64afb930850c212922"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-11.json",
+      "bytes": 6134,
+      "sha256": "2df598ba401b753a84feaf37424708864f138a000ba69ccee8dca4b2328edca2"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-12.json",
+      "bytes": 38290,
+      "sha256": "e4630aa2170749d8eec12efb141855d0942163e8e223c713d66c71285c3560d3"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-2.json",
+      "bytes": 5996,
+      "sha256": "a5fd9ede2573ec5a7fb15bdb24cd487bdceba3676306a7e91cb5a5d044cde1f1"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-3.json",
+      "bytes": 6022,
+      "sha256": "7661b34cc4c23ba11dc988bae9eaef262ac76c0f15145bd2343e03a2aa177665"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-4.json",
+      "bytes": 6024,
+      "sha256": "6ec904dcee86a744408833783fc36a076ba200bc1e0471f72aa72c7a3b34783c"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-5.json",
+      "bytes": 6054,
+      "sha256": "2a51db8533b0a4d2a8a4e0c0d059211af8f1593693ffef921da5f85da7e84700"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-6.json",
+      "bytes": 6094,
+      "sha256": "ee6eb99ee8e60f792a47797598fb24e564965d62ba226fcd8e7500a41128ffce"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-7.json",
+      "bytes": 6094,
+      "sha256": "2fb02519502dbbaa25b31e06dd283444c0820dfa9d2287c1f1add1329b37b7e5"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-8.json",
+      "bytes": 6094,
+      "sha256": "57cd98b0b62c17bafc05f9b311b055e1b374dbc7859d8ff731d41aa1042abc62"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-live-9.json",
+      "bytes": 6136,
+      "sha256": "9b5bd53728b8d6012c6fc2a895082000d8c6eef1df5514ac4e4c42e1770582c5"
+    },
+    {
+      "path": "evidence/context-r22-steering-ar-r1-manifest.json",
+      "bytes": 4639,
+      "sha256": "ab2a20198b0bd53a2e5132262260523b68445d40642fa9c12d70de52e945d204"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-1.json",
+      "bytes": 4706,
+      "sha256": "21582ec00f9feddfc20b567b4c15fa5b0309a600f556fbe72eb07a905277cddd"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-2.json",
+      "bytes": 6034,
+      "sha256": "a07d2e2523273b319697e3b37962a98da108e1700bf2c43410ea03ec324eacfe"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-3.json",
+      "bytes": 6034,
+      "sha256": "475671dbbf67a65a136cc78015ecfa300a0b072cd6415b0d0b03394472024df8"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-4.json",
+      "bytes": 6072,
+      "sha256": "263c2e122585e8b91379a2d50dbb3cad39dcb501bd08ff0f7b5ff89504e045fc"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-5.json",
+      "bytes": 6106,
+      "sha256": "4b4e8c632ce60241ce6b9d7d0023ce00b32538742e64a0946d16d60a8348d272"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-6.json",
+      "bytes": 6144,
+      "sha256": "b05c7153678ba64186c302547e63286ab90bea561297e6a2bb84f8d7ef9f86e2"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-7.json",
+      "bytes": 6142,
+      "sha256": "1cad395409cbbd03848e9f982fa70443df357322c273caa317b87e5850b6c6fe"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-8.json",
+      "bytes": 6144,
+      "sha256": "5063f5e72e33d655f4a6463b587a5f5c730acb36ab6e28455f9032d571a08bab"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-live-9.json",
+      "bytes": 6140,
+      "sha256": "0b61e841e1157b897932b0070936fe05e7f4f513df7fbd7f48455914a258a28e"
+    },
+    {
+      "path": "evidence/context-r22-steering-mtp-r1-manifest.json",
+      "bytes": 5234,
+      "sha256": "0804d79fee8163d387bc53c405d45030ae21b300c6cb5aab23d7a0a4d102e2de"
+    },
+    {
+      "path": "evidence/package-steering-point-r22.py",
+      "bytes": 10142,
+      "sha256": "a0ba8eb04d268e7c8bb70df46659672f57c446c9a80d30053ed0dd3b7d578332"
+    },
+    {
+      "path": "evidence/observe-context-r22-steering.py",
+      "bytes": 2723,
+      "sha256": "2f5ad7423b8a6d71424fd1140144f90d5d2b8ab9d689fc264338bdb606c3485a"
+    }
+  ],
+  "final_closure": {
+    "path": "evidence/context-r22-final-161-r1.json",
+    "bytes": 8490,
+    "sha256": "f3ae3ae5c178f80347411953809fea55d9b38c3467827710c7e5f6ab9c948a54"
+  },
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-physical-index-r22.tar.gz",
+    "bytes": 281366,
+    "sha256": "1be7d90c6e33078a00c22007553c49afd6e1b5fd7363ad955999cdc39ad0c13b"
+  },
+  "portable_archive_members": 124,
+  "archive_index_baseline_commit": "353ab973fc6bdabd0937f75ed0485d4b0bd6c6b4",
+  "archive_index_previous_bytes_sha256": "e26a444b3714f277de519922f91933bff7b95783340162bfb375af536e5ca189",
+  "archive_index_appended_only": true,
+  "new_GPU_build": false,
+  "new_inference_threads": 0,
+  "runtime_ABI_format_or_product_dependency_changed": false,
+  "root_157_non_use": true,
+  "Terminal_Bench": "Stopped/closed/deferred until modifications and qualification finish; no reservation.",
+  "all_six_owned_tasks_open": true,
+  "goal_complete": false,
+  "publication": false
+}

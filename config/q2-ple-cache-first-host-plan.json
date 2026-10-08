@@ -1,0 +1,39 @@
+{
+  "schema": "synapse-lie.q2-ple-cache-first-host-plan.v1",
+  "at": "2026-10-04T02:00:19.896670+00:00",
+  "state": "PREPARED_HOST_ONLY_PENDING_CORE_HANDOVER",
+  "command": [
+    "python3",
+    "tools/q2-remote.py",
+    "ple-cache-first-cpu",
+    "q2-ple-cache-first-host-r1"
+  ],
+  "checks": {
+    "debug_ctest": 21,
+    "asan_ubsan_ctest": 21,
+    "paired_readers": [
+      "unchanged canonical Q2",
+      "cache-first Q2"
+    ],
+    "formats": [
+      "BF16",
+      "IQ4_NL"
+    ],
+    "read_accounting": "actual linker-wrapped pread; no elapsed-time speed claim"
+  },
+  "source_receipt": "config/q2-ple-cache-first-source.json",
+  "static_receipt": "config/q2-ple-cache-first-host-preparation.json",
+  "analyzer": [
+    "python3",
+    "tools/analyze-q2-ple-cache-first.py",
+    "evidence/q2-ple-cache-first-host-r1",
+    "--output",
+    "config/q2-ple-cache-first-host-results.json"
+  ],
+  "runtime_validated": false,
+  "model_access": false,
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "staged": false,
+  "goal_met": false
+}

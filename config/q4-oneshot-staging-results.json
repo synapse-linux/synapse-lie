@@ -1,0 +1,23 @@
+{
+  "capsule_sha256": "bd7cafd147fa0cae869073499db802fad1152356358afd456918a538ee88baf6",
+  "plan_sha256": "2bfbb9a67040b8f5851e3eb9bf8381dde967eb830a24450b0772f5f544f73125",
+  "model_stat_exact": true,
+  "gpu_run": false,
+  "build_commands": 0,
+  "arms": {
+    "before": {
+      "binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "receipt_sha256": "5fc8f29875f5fc239b8758887f0bec6dd66391971785151e8864e76e1094e1b6",
+      "source_files_verified": 1022,
+      "build_commands": 0,
+      "runtime_libraries_verified": 51
+    },
+    "after": {
+      "binary_sha256": "5b9db7b26efb02c960729dc29837dbf8d3844fbe2ce20fedce67e40fc84c85bd",
+      "receipt_sha256": "a05fd61ec0b26247f64ea2d5c4227999edb3e4fc1cabb6e66ca855c93b642ab3",
+      "source_files_verified": 1025,
+      "build_commands": 0,
+      "runtime_libraries_verified": 51
+    }
+  }
+}

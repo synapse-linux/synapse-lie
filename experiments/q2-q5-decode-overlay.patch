@@ -1,0 +1,315 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
+@@ -15,6 +15,8 @@
+ /// One weight resident in device memory, still in its GGUF encoding.
+ struct DeviceTensor {
+   void* data{nullptr};
++  /// Private decode-only Q5_0 overlay; the original Q8_0 stays for prefill.
++  void* q5_decode{nullptr};
+   core::GgmlType type{core::GgmlType::kF32};
+   std::uint32_t cols{0};
+   std::uint32_t rows{0};
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
+@@ -3,7 +3,9 @@
+ #include <hip/hip_runtime.h>
+ 
+ #include <algorithm>
++#include <cstdlib>
+ #include <initializer_list>
++#include <string_view>
+ 
+ #include "src/core/hip/weight_upload.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+@@ -18,6 +20,8 @@
+ /// over-read stays inside the allocation (the extra bytes meet zeroed
+ /// activation padding and contribute nothing).
+ constexpr std::size_t kTailMargin = 4096;
++constexpr std::size_t kQ8BlockBytes = 34;
++constexpr std::size_t kQ5BlockBytes = 22;
+ 
+ struct Conversion {
+   void* source;
+@@ -26,14 +30,32 @@
+   bool widen{false};
+ };
+ 
++struct Q5Overlay {
++  const void* source;
++  void* destination;
++  std::size_t blocks;
++};
++
++std::string_view Q5Family(std::string_view name) {
++  if (name.ends_with(".attn_qkv.weight") ||
++      name.ends_with(".attn_gate.weight")) return "ssm-in";
++  if (name.ends_with(".attn_output.weight")) return "attn-out";
++  if (name.ends_with(".ffn_down_shexp.weight")) return "shared-down";
++  if (name.ends_with(".ffn_gate_shexp.weight") ||
++      name.ends_with(".ffn_up_shexp.weight")) return "shared-gated";
++  return {};
++}
++
+ struct Uploader {
+   hip::WeightUpload& stager;
+   std::vector<Conversion>& conversions;
++  std::vector<Q5Overlay>& q5_overlays;
+   std::vector<void*>& allocations;
+   std::size_t& bytes;
+   std::size_t& max_half_cols;
+   std::size_t& max_q8_cols;
+   std::string* error;
++  std::string_view q5_mode;
+   bool ok{true};
+   std::uint32_t shard_base{0};
+ 
+@@ -42,6 +64,29 @@
+       *error = message;
+     }
+     ok = false;
++  }
++
++  void MaybeQ5(DeviceTensor& d, std::string_view name, std::size_t q8_bytes) {
++    if (!ok || d.type != core::GgmlType::kQ8_0 || q5_mode.empty() ||
++        (q5_mode != "all" && Q5Family(name) != q5_mode) ||
++        Q5Family(name).empty()) return;
++    if (q8_bytes % kQ8BlockBytes != 0) {
++      Fail("Q5 overlay source is not whole Q8 blocks");
++      return;
++    }
++    const std::size_t blocks = q8_bytes / kQ8BlockBytes;
++    const std::size_t size = blocks * kQ5BlockBytes;
++    void* ptr = nullptr;
++    if (hipMalloc(&ptr, size + kTailMargin) != hipSuccess) {
++      Fail("hipMalloc failed for private Q5 decode overlay");
++      return;
++    }
++    allocations.push_back(ptr);
++    bytes += size + kTailMargin;
++    (void)hipMemsetAsync(static_cast<std::uint8_t*>(ptr) + size, 0,
++                         kTailMargin, nullptr);
++    d.q5_decode = ptr;
++    q5_overlays.push_back({d.data, ptr, blocks});
+   }
+ 
+   DeviceTensor Copy(const TensorRef& t) {
+@@ -76,6 +121,7 @@
+     if (t.type == core::GgmlType::kQ8_0 && t.experts == 1) {
+       max_q8_cols = std::max<std::size_t>(max_q8_cols, t.cols);
+     }
++    MaybeQ5(d, t.name, size);
+     return d;
+   }
+ 
+@@ -163,6 +209,7 @@
+       d.cols = static_cast<std::uint32_t>((*parts.begin())->cols);
+       d.rows = static_cast<std::uint32_t>(rows);
+       max_q8_cols = std::max<std::size_t>(max_q8_cols, d.cols);
++      MaybeQ5(d, (*parts.begin())->name, size);
+       return d;
+     }
+     const std::size_t count = size / sizeof(float);
+@@ -288,6 +335,14 @@
+     const ModelWeights& w, const core::GgufReader& reader,
+     const MtpWeights* mtp, const core::GgufReader* mtp_reader,
+     std::string* error_msg) {
++  const char* q5_setting = std::getenv("LIE_EXPERIMENTAL_Q5_DECODE");
++  const std::string_view q5_mode = q5_setting ? q5_setting : "";
++  if (!q5_mode.empty() && q5_mode != "ssm-in" &&
++      q5_mode != "attn-out" && q5_mode != "shared-down" &&
++      q5_mode != "shared-gated" && q5_mode != "all") {
++    if (error_msg) *error_msg = "invalid LIE_EXPERIMENTAL_Q5_DECODE family";
++    return nullptr;
++  }
+   // The CPU reference also reads Q6_K, but the production embedding, dense
+   // and routed kernels do not. Reject it before allocating device weights.
+   const auto supported = [&](const TensorRef& t) {
+@@ -325,8 +380,9 @@
+     return nullptr;
+   }
+   std::vector<Conversion> conversions;
+-  Uploader up{*stager,           conversions,     m->allocations_, m->bytes_,
+-              m->max_half_cols_, m->max_q8_cols_, error_msg};
++  std::vector<Q5Overlay> q5_overlays;
++  Uploader up{*stager, conversions, q5_overlays, m->allocations_, m->bytes_,
++              m->max_half_cols_, m->max_q8_cols_, error_msg, q5_mode};
+   m->token_embd_ = up.Copy(w.token_embd);
+   m->output_ =
+       w.output.data == w.token_embd.data ? m->token_embd_ : up.Copy(w.output);
+@@ -357,6 +413,13 @@
+                         false, c.count, nullptr);
+     }
+   }
++  for (const auto& c : q5_overlays) {
++    if (qfn_mmq_q8_0_to_q5_0_overlay(c.source, c.destination, c.blocks,
++                                      nullptr) != 0) {
++      if (error_msg) *error_msg = "private Q5 overlay conversion failed";
++      return nullptr;
++    }
++  }
+   const auto status = hipDeviceSynchronize();
+   if (status != hipSuccess) {
+     if (error_msg != nullptr) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -715,6 +715,15 @@
+       AssignError(error_msg, "quantized input width mismatch");
+       return false;
+     }
++    if (q.n == 1 && w.q5_decode != nullptr) {
++      if (qfn_mmq_q5_0_dense_vec_preq(
++              w.q5_decode, nullptr, q.data, out, static_cast<int>(w.rows),
++              static_cast<int>(q.n), static_cast<int>(w.cols), stream_) != 0) {
++        AssignError(error_msg, "private Q5_0 GEMV failed");
++        return false;
++      }
++      return true;
++    }
+     if (qfn_mmq_q8_0_dense_vec_preq(
+             w.data, nullptr, q.data, out, static_cast<int>(w.rows),
+             static_cast<int>(q.n), static_cast<int>(w.cols), stream_) != 0) {
+@@ -738,6 +747,17 @@
+     Q8Input xq;
+     if (!Quantize(x, n_tokens, up.cols, &xq, error_msg)) {
+       return false;
++    }
++    if (n_tokens == 1 && up.q5_decode != nullptr &&
++        gate.q5_decode != nullptr) {
++      if (qfn_mmq_q5_0_dense_vec_preq(
++              up.q5_decode, gate.q5_decode, xq.data, out,
++              static_cast<int>(up.rows), static_cast<int>(n_tokens),
++              static_cast<int>(up.cols), stream_) != 0) {
++        AssignError(error_msg, "private gated Q5_0 GEMV failed");
++        return false;
++      }
++      return true;
+     }
+     if (qfn_mmq_q8_0_dense_vec_preq(up.data, gate.data, xq.data, out,
+                                     static_cast<int>(up.rows),
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h
+@@ -67,6 +67,13 @@
+                                 const void* X_q8, float* out_f32, int M, int N,
+                                 int K, hipStream_t stream);
+ 
++// Private decode-only overlay experiment. The Q8 source is retained for PP.
++int qfn_mmq_q8_0_to_q5_0_overlay(const void* source, void* destination,
++                                 size_t blocks, hipStream_t stream);
++int qfn_mmq_q5_0_dense_vec_preq(const void* weights, const void* gate,
++                                const void* input, float* output, int rows,
++                                int n_tokens, int cols, hipStream_t stream);
++
+ int qfn_mmq_build_ids_maps(
+         const int32_t * ids, int32_t * ids_src1, int32_t * ids_dst, int32_t * expert_bounds,
+         int n_experts, int n_tokens, int n_expert_used, int nchannels_y, int si1, int sis1, hipStream_t stream);
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp
+@@ -6,6 +6,8 @@
+ #include "common.hpp"
+ #include "mmq.hpp"
+ #include "mmvq.hpp"
++#include "unary.hpp"
++#include "q5_dense_overlay.inc"
+ #include "quantize.hpp"
+ #include "mmid.hpp"
+ static int g_routed_max_expert_rows = 0;
+@@ -682,6 +684,34 @@
+                           out_f32, K, M, N, input_stride, stream);
+   return hipGetLastError() == hipSuccess ? 0 : -3;
+ }
++
++extern "C" int qfn_mmq_q8_0_to_q5_0_overlay(
++    const void* source, void* destination, size_t blocks,
++    hipStream_t stream) {
++  if (!source || !destination || blocks == 0) return -1;
++  requant_q8_0_to_q5_0<<<unsigned((blocks + 127) / 128), 128, 0, stream>>>(
++      static_cast<const block_q8_0*>(source),
++      static_cast<block_q5_0*>(destination), blocks);
++  return hipGetLastError() == hipSuccess ? 0 : -2;
++}
++
++extern "C" int qfn_mmq_q5_0_dense_vec_preq(
++    const void* weights, const void* gate, const void* input,
++    float* output, int rows, int n_tokens, int cols,
++    hipStream_t stream) {
++  if (!weights || !input || !output || rows <= 0 || n_tokens != 1 ||
++      cols <= 0 || cols % QK5_0 != 0) return -1;
++  if (gate) {
++    mul_mat_vec_q5_dense<true><<<rows, 32, 0, stream>>>(
++        weights, gate, static_cast<const block_q8_1*>(input), output,
++        unsigned(cols), unsigned(rows));
++  } else {
++    mul_mat_vec_q5_dense<false><<<rows, 32, 0, stream>>>(
++        weights, nullptr, static_cast<const block_q8_1*>(input), output,
++        unsigned(cols), unsigned(rows));
++  }
++  return hipGetLastError() == hipSuccess ? 0 : -2;
++}
+ template void mul_mat_q_case<GGML_TYPE_Q8_0>(
+     ggml_backend_hip_context&, const mmq_args&, hipStream_t);
+ template void mul_mat_q_case<GGML_TYPE_Q4_K>(
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/q5_dense_overlay.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/q5_dense_overlay.inc
+@@ -0,0 +1,62 @@
++// SPDX-License-Identifier: MIT
++// Private one-token Q5_0 decoder and in-memory Q8_0 overlay experiment.
++template<bool has_gate>
++__launch_bounds__(32, 1) static __global__ void mul_mat_vec_q5_dense(
++    const void* __restrict__ weights, const void* __restrict__ gate,
++    const block_q8_1* __restrict__ input, float* __restrict__ output,
++    const uint32_t ncols_x, const uint32_t nrows_x) {
++  constexpr int qi = QI5_0;
++  constexpr int vdr = VDR_Q5_0_Q8_1_MMVQ;
++  constexpr int blocks_per_iter = vdr * 32 / qi;
++  const int lane = threadIdx.x;
++  const int row = blockIdx.x;
++  const int blocks_per_row = ncols_x / QK5_0;
++  const int row_offset = row * blocks_per_row;
++  const int kqs = vdr * (lane % (qi / vdr));
++  float sum = 0.f;
++  float gate_sum = 0.f;
++  for (int kbx = lane / (qi / vdr); kbx < blocks_per_row;
++       kbx += blocks_per_iter) {
++    sum += vec_dot_q5_0_q8_1(weights, input + kbx, row_offset + kbx, kqs);
++    if constexpr (has_gate) {
++      gate_sum += vec_dot_q5_0_q8_1(gate, input + kbx,
++                                    row_offset + kbx, kqs);
++    }
++  }
++  sum = warp_reduce_sum<32>(sum);
++  if constexpr (has_gate) gate_sum = warp_reduce_sum<32>(gate_sum);
++  if (lane == 0) {
++    float value = sum;
++    if constexpr (has_gate) value *= ggml_hip_op_silu_single(gate_sum);
++    output[row] = value;
++  }
++}
++
++// One conversion per GGML block. Startup-only; the original Q8_0 allocation
++// remains resident for the unchanged batched prefill path.
++__global__ static void requant_q8_0_to_q5_0(
++    const block_q8_0* __restrict__ source,
++    block_q5_0* __restrict__ destination, size_t blocks) {
++  const size_t index = size_t(blockIdx.x) * blockDim.x + threadIdx.x;
++  if (index >= blocks) return;
++  const block_q8_0& in = source[index];
++  block_q5_0 out{};
++  const float d8 = __half2float(in.d);
++  int peak_code = 0;
++  for (int j = 0; j < QK8_0; ++j)
++    peak_code = max(peak_code, abs(int(in.qs[j])));
++  const float desired_scale = fabsf(d8) * float(peak_code) / 15.0f;
++  out.d = __float2half_rn(desired_scale);
++  const float d5 = __half2float(out.d);
++  uint32_t high = 0;
++  for (int j = 0; j < QK5_0; ++j) {
++    const float weight = d8 * float(in.qs[j]);
++    int code = d5 > 0.0f ? __float2int_rn(weight / d5) : 0;
++    code = max(-16, min(15, code));
++    const unsigned packed = unsigned(code + 16);
++    high |= ((packed >> 4) & 1u) << j;
++    out.qs[j & 15] |= uint8_t((packed & 15u) << (j < 16 ? 0 : 4));
++  }
++  for (int j = 0; j < 4; ++j) out.qh[j] = uint8_t(high >> (8 * j));
++  destination[index] = out;
++}

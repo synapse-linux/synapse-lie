@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-ssm-fixed-bounds-staging.v1",
+  "arms": [
+    {
+      "mode": "ssm-fixed-bounds-check",
+      "capsule_sha256": "843f35401dce2ec9edef66fbe6ad7663c416fea17a376c430f3a5117c36a9693",
+      "provider_files": 1027,
+      "fixture_files": 90,
+      "capsule_path": "evidence/q2-ssmfb-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-ssm-fixed-bounds",
+      "capsule_sha256": "0909a85708b997ca8d8975dfb114b628896a15d3dbe107041d7478e3e9cabb91",
+      "provider_files": 1027,
+      "fixture_files": 90,
+      "capsule_path": "evidence/q2-ssmfb-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

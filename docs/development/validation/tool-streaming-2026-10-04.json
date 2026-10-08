@@ -1,0 +1,221 @@
+{
+  "schema": "synapse-lie.host-validation.v1",
+  "scope": "CPU_FIXTURES_NOT_MODEL_INFERENCE",
+  "date_utc": "2026-10-04",
+  "branch": "feature/context-million-openai",
+  "source_parent": "78cfdfd5f158050e1113be40a64103af5f1a3f73",
+  "event_abi": 2,
+  "request_abi": 5,
+  "executor_abi": 3,
+  "checks": [
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 61.75
+      },
+      "elapsed_s": 2.0656498428434134,
+      "directory": "evidence/point-merge-20261004/tool-final-debug-build",
+      "command_log_sha256": "3115dffd8aa1250a170694ea1b78ba5936fc398bac759658aacbb7a2232b6101"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 60.5
+      },
+      "elapsed_s": 32.43567293416709,
+      "directory": "evidence/point-merge-20261004/tool-final-debug-tests",
+      "command_log_sha256": "a87343dc50e2ea6201cc3a71c1f3baa7686b3543019130bf08bc242a7f410615",
+      "ctest_passed": 51
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.0
+      },
+      "elapsed_s": 10.470021435059607,
+      "directory": "evidence/point-merge-20261004/tool-http-asan-build-guard",
+      "command_log_sha256": "88f1b2d63531b4f73c5299b36a146601f88ce1a002c89d99170cec73b1084fa3"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-R",
+        "openai-headless-controls-state|core-semantic-events|chat-parser-wire|tool-protocol|semantic-http-contract|semantic-mtp-http-contract|native-benchmark-contract"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.25
+      },
+      "elapsed_s": 24.113998198881745,
+      "directory": "evidence/point-merge-20261004/tool-http-asan-test-guard",
+      "command_log_sha256": "41417a8db8bfd6726745cd0a3ce8f179ef01fc5bd551ce65a8d22fd265f0331d",
+      "ctest_passed": 7
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 69.375
+      },
+      "elapsed_s": 3.1417271001264453,
+      "directory": "evidence/point-merge-20261004/tool-final-asan-build",
+      "command_log_sha256": "a086eb94a9a5312fa9887d0230f1f5ff21821e4cc85f8a50e065fad5338ccdbb"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-R",
+        "tool-protocol|semantic-http-contract|semantic-mtp-http-contract|core-semantic-events"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.625
+      },
+      "elapsed_s": 15.722863129340112,
+      "directory": "evidence/point-merge-20261004/tool-final-asan-tests",
+      "command_log_sha256": "a61c447e4919bed326b09b4c10aeba05c178629baff1c70b0d20832115d9de15",
+      "ctest_passed": 4
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_strix_point_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.25
+      },
+      "elapsed_s": 1.1255476521328092,
+      "directory": "evidence/point-merge-20261004/tool-campaign-final-r2",
+      "command_log_sha256": "3accbb9eb3c5d3a78e026359ab16911afd116a5990399b1061181f41c2c2c174",
+      "unittest_passed": 38
+    }
+  ],
+  "retained_failures": [
+    {
+      "log": "evidence/point-merge-20261004/tool-build-r5.log",
+      "exit": 2,
+      "sha256": "129aa35e55020f6fdea6d3c6b0a493a05853f8adcfb6026fdde69d257de86cc0"
+    },
+    {
+      "log": "evidence/point-merge-20261004/tool-focused-r1.log",
+      "exit": 8,
+      "sha256": "10b40aa9d708435fd6984805e1fe9eb7bfae9edf3a5981fb28a3c44d93bedd01"
+    },
+    {
+      "log": "evidence/point-merge-20261004/tool-focused-r3.log",
+      "exit": 8,
+      "sha256": "21942d7751443ec277f713f3ebddb2b5b378f901313f7cbf91cde67409fb9b40"
+    },
+    {
+      "log": "evidence/point-merge-20261004/tool-focused-r4.log",
+      "exit": 8,
+      "sha256": "fbd7175377ae5fe7671f54e27eb5269a9ef83906c3fb8ab4f24d286dba4ceaa7"
+    },
+    {
+      "log": "evidence/point-merge-20261004/tool-tests-build-r2.log",
+      "exit": 2,
+      "sha256": "26dec164cf19d12757ba64db50d34726a282887e8b85edea30e8ac0255799a97"
+    }
+  ],
+  "failure_notes": [
+    "Old fixture rejected any provisional output from a failed turn; corrected to refuse committing it.",
+    "Old journal quota fixture too small for expanded reservation; raised main fixture quota, keeping the tiny-quota rejection fixture.",
+    "A test used an invalid input-kind name and another omitted a struct initializer field; compiler exits and subsequent stale test failures remain preserved."
+  ],
+  "source_sha256": {
+    "include/lie/events.h": "dff13acbe7a67bfa5836c780b2846fe18eab2405c9b6d8680a72c3fd25ead2c0",
+    "src/core_events.c": "eace5d6ff162c5029b4f505e4394192c2b887930704be8dc8948c2ffaa68c42c",
+    "src/models/qwen_output.c": "7d48690d91690c383718b7166434146466053d18df9e6b5d95edd0f259adc7e7",
+    "src/chat_tools.c": "fff44f99eecf2d1e4fde23205ed33fa479f2e8ef7d1ad1df401d8344bc2bac3d",
+    "src/records.c": "d0c6b73bedc88cc37bbdf1543ea37a92c0946cd63d2bde27a75f1a2f88cc18ce",
+    "src/responses.c": "ab023a92b358b8739481a3bb332ec9d78a8622845c6204d4c387bc07c8535083",
+    "src/server.c": "d1a2ee64a2efc677b480d462b5edfed4c8d590d61bd2e81103d313e0fc1b4b55",
+    "src/wire.c": "3adc50025e3a146c38d3ec94a814ac69d2ddf460d4e0010d0be2d7323cae129c",
+    "tests/test_core_events.c": "605fa5f93907b531bc75b3b81fae3b25eb63e2a8d49c998293a96892ba209609",
+    "tests/test_event_http.c": "c58bc357bb0149bdc36f1cae2571009e7c3f6eec6167d1ad4fe6ce6fde3cef01",
+    "tests/test_openai_core.c": "149d58004dcebdbfa4b37997473d68e2c1dcd3da9665c613f9946b3b1c505af5",
+    "tests/test_tools.c": "a15287336bc1cd7747f5ce28feb59c1d2240c141ff033167a2c80f2d25823344",
+    "tools/strix-point-campaign.py": "8a346839677446a89e9eb5698703cc8ec7bd7be83d244104e67fca722624db89",
+    "tools/strix-point-http-gate.py": "b944d7e84d3ba4f7ca9699980508837f694ed86d8246f2b98b9adb4aa14e5775",
+    "tools/strix-point-launch.py": "6a2609114dca708de1a7db72299f8fd0ad642ca576c8e140c0fd04610deaa9d6",
+    "tools/strix-point-bench-collect.py": "3a0302116155c97f941d183deec54731a7125b8e73f6434549993a7c76e81c36"
+  },
+  "gpu": {
+    "execution": false,
+    "qualification": "prepared original-weight gate; new binary build required"
+  },
+  "model_access": false,
+  "host_tuning": false,
+  "publication": false
+}

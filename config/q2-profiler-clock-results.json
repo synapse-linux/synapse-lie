@@ -1,0 +1,56 @@
+{
+  "schema": "synapse-lie.q2-profiler-clock-results.v1",
+  "source_commit": "59574df649be1daa899756a71ab68a4e3f2dc81b",
+  "plan_sha256": "ed37fbee5a38407e61f7c34c696c22270998ac943be126624328c7b19bc87abd",
+  "binary_sha256": "72f824dcfdcfedb89c8f986f3f6b95d83e6f0918880d525253ccb902c1a888a8",
+  "profiler": {
+    "path": "/opt/rocm/bin/rocprofv3",
+    "sha256": "ecae3de73277b3c095b6c2fc1368e84241ea0a664f187ec3d983a5ea056d2efc"
+  },
+  "exit_code": 0,
+  "normal_finite_process_completion": true,
+  "trace_counts": {
+    "kernel": {
+      "records": 1472,
+      "positive_durations": 1472,
+      "zero_durations": 0,
+      "negative_durations": 0,
+      "min_ns": 840,
+      "max_ns": 2318020,
+      "nonzero_correlations": 1472,
+      "sha256": "8fd8fd9364f0f000108f9187c53750b155401f32dfc1b449a3889d5a4ae394c1"
+    },
+    "memory_copy": {
+      "records": 469,
+      "positive_durations": 469,
+      "zero_durations": 0,
+      "negative_durations": 0,
+      "min_ns": 3560,
+      "max_ns": 1522400,
+      "nonzero_correlations": 469,
+      "sha256": "494828b53311aad40b27dbd5dd4bb081a9ba0e0857fcc8e21772a1833886b5fb"
+    },
+    "hip_api": {
+      "records": 3037,
+      "positive_durations": 3037,
+      "zero_durations": 0,
+      "negative_durations": 0,
+      "min_ns": 30,
+      "max_ns": 168376639,
+      "nonzero_correlations": 3037,
+      "sha256": "d6e761c982fcd9bdd07733262aeed3fb9aec2c071ad877f38f9be0ec26ba3083"
+    }
+  },
+  "csv_rocpd_kernel_dispatch_ids_and_timestamps_exact": true,
+  "csv_rocpd_copy_timestamps_exact": true,
+  "positive_hip_event_intervals": 48,
+  "exact_field_comparisons": 60,
+  "independent_checks": 60,
+  "artifacts": 40,
+  "release_at": "2026-10-07T19:46:33.202617+00:00",
+  "release_sha256": "5543ce61e54686ce58e98f6cd8ac4acee3b9bc061a943c98e0c1046e0a92c578",
+  "closure_at": "2026-10-07T19:47:53.859150+00:00",
+  "headline_eligible": false,
+  "model_inference": false,
+  "decision": "Timestamp collection is valid for this current-boot finite component in both exporters. Proceed to a separately admitted original-input native128K diagnostic; do not claim that the previous failure cause or model server shutdown is fixed."
+}

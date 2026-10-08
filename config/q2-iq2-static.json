@@ -1,0 +1,34 @@
+{
+  "scope": "Static gfx1151 assembly only, no model/GPU runtime evidence",
+  "source": "evidence/q2-iq2-static.json",
+  "kernels": [
+    {
+      "group_segment_fixed_size": 11392,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 82,
+      "next_free_sgpr": 24,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 15488,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 94,
+      "next_free_sgpr": 30,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 17536,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 102,
+      "next_free_sgpr": 30,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    },
+    {
+      "group_segment_fixed_size": 25728,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 148,
+      "next_free_sgpr": 38,
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)"
+    }
+  ]
+}

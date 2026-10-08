@@ -1,0 +1,210 @@
+{
+  "schema": "synapse-lie.q2-c1-screen.v1",
+  "arms": {
+    "UD original": "evidence/q2-ud-base-r1",
+    "UD patched": "evidence/q2-ud-patched-r1",
+    "Q2": "evidence/q2-bench-r1"
+  },
+  "ud_exact_comparison": {
+    "files": 47,
+    "different": []
+  },
+  "measurements": [
+    {
+      "arm": "UD original",
+      "prompt_tokens": 512,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 920.9492939,
+      "median": 1046.709463,
+      "maximum": 1050.761532
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 512,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 24.97678456,
+      "median": 24.97681626,
+      "maximum": 24.99258601
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 2048,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 1646.748615,
+      "median": 1649.355464,
+      "maximum": 1649.406976
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 2048,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 24.33414541,
+      "median": 24.34278454,
+      "maximum": 24.35510831
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 8192,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 1620.437492,
+      "median": 1624.136694,
+      "maximum": 1631.978761
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 8192,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 24.23915368,
+      "median": 24.28357705,
+      "maximum": 24.28475917
+    },
+    {
+      "arm": "UD patched",
+      "prompt_tokens": 512,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 1044.888485,
+      "median": 1049.001383,
+      "maximum": 1051.829505
+    },
+    {
+      "arm": "UD patched",
+      "prompt_tokens": 512,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 24.97433689,
+      "median": 24.98086609,
+      "maximum": 24.98142666
+    },
+    {
+      "arm": "UD patched",
+      "prompt_tokens": 2048,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 1650.480403,
+      "median": 1652.542173,
+      "maximum": 1658.734265
+    },
+    {
+      "arm": "UD patched",
+      "prompt_tokens": 2048,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 24.18207727,
+      "median": 24.2970853,
+      "maximum": 24.33881716
+    },
+    {
+      "arm": "UD patched",
+      "prompt_tokens": 8192,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 1627.210553,
+      "median": 1629.053515,
+      "maximum": 1636.380548
+    },
+    {
+      "arm": "UD patched",
+      "prompt_tokens": 8192,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 24.26014435,
+      "median": 24.26263737,
+      "maximum": 24.27620039
+    },
+    {
+      "arm": "Q2",
+      "prompt_tokens": 512,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 546.96,
+      "median": 547.2,
+      "maximum": 548.72
+    },
+    {
+      "arm": "Q2",
+      "prompt_tokens": 512,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 20.75,
+      "median": 20.79,
+      "maximum": 20.8
+    },
+    {
+      "arm": "Q2",
+      "prompt_tokens": 2048,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 606.04,
+      "median": 606.29,
+      "maximum": 607.02
+    },
+    {
+      "arm": "Q2",
+      "prompt_tokens": 2048,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 20.38,
+      "median": 20.4,
+      "maximum": 20.4
+    },
+    {
+      "arm": "Q2",
+      "prompt_tokens": 8192,
+      "metric": "prefill_tok_s",
+      "n": 3,
+      "minimum": 559.59,
+      "median": 559.89,
+      "maximum": 560.05
+    },
+    {
+      "arm": "Q2",
+      "prompt_tokens": 8192,
+      "metric": "decode_steps_s",
+      "n": 3,
+      "minimum": 20.36,
+      "median": 20.38,
+      "maximum": 20.39
+    }
+  ],
+  "verdict": "Initial noninterleaved C1 screen; no formal zero-margin non-regression verdict",
+  "q2_teacher_parity": "Not established; independent operator checks plus semantic smoke only",
+  "cross_format_input_output_differences": [],
+  "relative_to_ud_original": {
+    "UD patched": {
+      "512": {
+        "prefill_tok_s": 1.0021896429534813,
+        "decode_steps_s": 1.000162143563769
+      },
+      "2048": {
+        "prefill_tok_s": 1.0019320935174711,
+        "decode_steps_s": 0.9981226782036826
+      },
+      "8192": {
+        "prefill_tok_s": 1.0030273443227802,
+        "decode_steps_s": 0.9991377019968316
+      }
+    },
+    "Q2": {
+      "512": {
+        "prefill_tok_s": 0.5227811721809188,
+        "decode_steps_s": 0.8323718997482827
+      },
+      "2048": {
+        "prefill_tok_s": 0.3675920765616113,
+        "decode_steps_s": 0.8380306684503891
+      },
+      "8192": {
+        "prefill_tok_s": 0.3447308358147347,
+        "decode_steps_s": 0.8392503278259822
+      }
+    }
+  },
+  "q2_practical_performance_gate": "FAIL: Q2 is slower than existing UD at every measured PP/TG profile"
+}

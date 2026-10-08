@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-decode-lds-window-plan.v1",
+  "label": "q2-iq2-decode-lds-component-r1",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "component_only": true,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "previous_release": "q2-decode-down-rows-native128-r3/release.json",
+  "previous_release_sha256": "d74a7eaa1455150d074458b3254603b4ca6d521beb45ba5b654117990cfde05a",
+  "staged_sha256": {
+    "q2-iq2-decode-lds-window.py": "946fc0487442d1b8c8022ad8cd307722371fc4804fe58c0685439960cf844219",
+    "q2-decode-down-rows-native128-performance-window.py": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "q2_iq2_decode_lds_check": "817ccf3ae3b3c154dd05051e33fc36d45b5352afc9f61e44bc4b723d282b11d1",
+    "fixture.hip": "e4b09462a6107fc3bbe770bd26e245395b4244c762c2d22b8a273d0f0f790011",
+    "candidate.inc": "b30166347856d86179a15ed6c9297c78b1b588402f023c280b0d24795e5851d5",
+    "probe.hip": "d2bd37ca74a61b3c9386faff7a539d4b99cadcb996ace9893d9301a2e394d163",
+    "iq2-grid.inc": "6c4dcfbba8f1fcc586b1402bab491a3f5381149dafca7e940853aabc7ac9e3aa",
+    "source-manifest.json": "dca898130031b87f0db1177f619204edc22b6708492b2274fd6daf9cc74386d3"
+  },
+  "scope": "Complete native Q8_1 producer and scalar IQ2_XXS gate/up: saved production archive versus literal clone versus unchanged codebook in LDS. 512 rotating experts,64 distinct outputs,two warmups,five measured rotations. Finite mismatch retains timings and exit1; guards/FP64/0.002. No original model inference, no new quantization."
+}

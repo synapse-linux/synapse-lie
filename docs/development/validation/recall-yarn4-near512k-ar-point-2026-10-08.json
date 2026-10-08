@@ -1,0 +1,820 @@
+{
+  "schema": "synapse-lie.original-recall-point.v1",
+  "state": "ORIGINAL_AR_YARN4_NEAR512K_PASSED_COLLECTED_INDEPENDENT_WIRE_VERIFIED_CLOSED",
+  "at_utc": "2026-10-08T04:36:55.175218+00:00",
+  "scope": "Original-weight synthetic associative recall and continued full-history Chat SSE; one seed/YaRN4 profile at the stated near-512K physical target on the current r70 runtime.",
+  "runtime_source_commit": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "coordinator_checkpoint": "6f1bc9d3ded6764b5002a31f1dcdb4763f22349e",
+  "bundle_manifest_sha256": "6aa4bd13296af8c2e02383e9c6c6fb40c4247ffe5497fe10e468ca0ed90537b0",
+  "runtime_artifacts": {
+    "runtime/bin/lie-attention-qualify": "76a30ac62bcf274ff1bd0fc0cabcb81c4c1100eea0eeb47818ee48930ce05623",
+    "runtime/bin/lie-hip-probe": "98b71ab97ef470bbf59e3eee7a56d578e5d10dc2fc53d5cb62aa5eaa7705fc01",
+    "runtime/bin/lie-sampling-capture": "8a9e3e84093a9a3ec95e325c5cd01cce8804fb955b5adc0199efe8d21f6ead74",
+    "runtime/bin/lie-steering-build": "d4f4ee1f98b031dc883546654c37e036dadcae7614fdac53633c8b59fb16e3e4",
+    "runtime/bin/synapse-lie-bench": "b9cd41993627d2d0337da3526d4e8b903b06a55daa252c4e9180decde29082f9",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "8935adb66865ba75f5afcbe8fe966a5b2d37c76ad6523c4ef7100fde210690ab",
+    "runtime/bin/synapse-lie-server": "136952d52765e96607e25878609f5bb74d3fe3dbfa8b25c1e257f2bdaa6c1191"
+  },
+  "settings": {
+    "context": 1048576,
+    "rope_scaling": "yarn4",
+    "size": 523776,
+    "chunk": 256,
+    "seed": 77,
+    "request_timeout_seconds": 3600,
+    "load_timeout_seconds": 900
+  },
+  "three_unscored_calibrations": 3,
+  "quality_summary": {
+    "checks": 2,
+    "passes": 2,
+    "warmup_checks": 0,
+    "warmup_passes": 0,
+    "exact_match_rate": 1.0
+  },
+  "observations": [
+    {
+      "turn": 0,
+      "prompt_tokens": 523774,
+      "output_tokens": 38,
+      "cached_tokens": 0,
+      "exact_match": true,
+      "expected": {
+        "key_c54279302e70d172": "v_70f10cc944c8c205"
+      },
+      "actual_answer": "{\"key_c54279302e70d172\": \"v_70f10cc944c8c205\"}",
+      "finish_reason": "stop",
+      "prefill_ms": 2493021.117566,
+      "decode_ms": 4210.05021,
+      "prefill_tokens_per_second": 210.09609437699987,
+      "decode_tokens_per_second": 9.02602061840968,
+      "ttft_seconds": 2494.856959699,
+      "wall_seconds": 2499.004851028
+    },
+    {
+      "turn": 1,
+      "prompt_tokens": 523882,
+      "output_tokens": 74,
+      "cached_tokens": 0,
+      "exact_match": true,
+      "expected": {
+        "key_a3f0748249b658eb": "v_72b59558b0023930",
+        "key_b48f1446e361caa9": "v_0426f252171645de"
+      },
+      "actual_answer": "{\"key_a3f0748249b658eb\": \"v_72b59558b0023930\", \"key_b48f1446e361caa9\": \"v_0426f252171645de\"}",
+      "finish_reason": "stop",
+      "prefill_ms": 2498055.337943,
+      "decode_ms": 8197.98352,
+      "prefill_tokens_per_second": 209.7159306452297,
+      "decode_tokens_per_second": 9.026609997381405,
+      "ttft_seconds": 2499.884353078,
+      "wall_seconds": 2508.019465182
+    }
+  ],
+  "source_model": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "model_stat_unchanged": true,
+  "thermal_sample_count": 4104,
+  "peak_C_by_sensor": {
+    "nvme": 65.85,
+    "amdgpu": 81.0,
+    "k10temp": 80.5
+  },
+  "current_owned_lifecycle_observation": {
+    "scope": "Actual contemporaneous supervisor/init/GPU identities; no management-latency or thread-role census.",
+    "actual_GPU_identity": {
+      "pid": 129537,
+      "start_ticks": 4491771,
+      "cgroup": "0::/system.slice/docker-2413f9f6730d2135d3e3ca159094292672de55aae4003415505a80411bfcfab3.scope\n",
+      "devices": [
+        "/dev/dri/renderD128",
+        "/dev/kfd"
+      ]
+    },
+    "actual_live_init_identity": {
+      "pid": 128334,
+      "start_ticks": 4485866,
+      "cgroup": "0::/system.slice/docker-2413f9f6730d2135d3e3ca159094292672de55aae4003415505a80411bfcfab3.scope\n"
+    }
+  },
+  "actual_exit_codes": {
+    "controller": 0,
+    "supervisor": 0,
+    "helper": 0,
+    "native_client": 0,
+    "server": 0,
+    "collector": 0,
+    "strong_closure": 0,
+    "independent_review_seal": 0
+  },
+  "lease_release_at": "2026-10-08T04:31:38.491258+00:00",
+  "closure": {
+    "state": "WHOLE_CONTAINER_AND_EXACT_GPU_IDENTITIES_CLOSED_NO_STANDING_RESERVATION",
+    "at_utc": "2026-10-08T04:34:42.546712+00:00",
+    "boot_id": "7a966774-3424-46c3-8045-34f759ea58a1",
+    "evidence_scope": "Entire recorded container cgroup absent, all actual GPU PID/start_ticks and launcher/supervisor absent; no inferred missing-PID success",
+    "observed_container_init_PID_available": true,
+    "original_init_PID_absence_claimed": true,
+    "identities": [
+      {
+        "role": "supervisor",
+        "pid": 128106,
+        "start_ticks": 4485741,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "Distrobox launcher",
+        "pid": 128206,
+        "start_ticks": 4485824,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed container init",
+        "pid": 128334,
+        "start_ticks": 4485866,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 129537,
+        "start_ticks": 4491771,
+        "cgroup": "0::/system.slice/docker-2413f9f6730d2135d3e3ca159094292672de55aae4003415505a80411bfcfab3.scope\n",
+        "exact_identity_absent": true
+      }
+    ],
+    "whole_container_process_scans": [
+      {
+        "pass": 0,
+        "processes_checked": 381,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      },
+      {
+        "pass": 1,
+        "processes_checked": 381,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      }
+    ],
+    "container_cgroup": {
+      "path": "/sys/fs/cgroup/system.slice/docker-2413f9f6730d2135d3e3ca159094292672de55aae4003415505a80411bfcfab3.scope",
+      "exists": false,
+      "empty": true
+    },
+    "container_inspect": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: 2413f9f6730d2135d3e3ca159094292672de55aae4003415505a80411bfcfab3\n"
+    },
+    "label_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "original_lease": {
+      "device": 66308,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "service": {
+      "MainPID": "175797",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "http8000_listeners": [],
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "model_stats_reverified_unchanged": true,
+    "models_at_strong_closure": [
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 66308,
+        "inode": 106208485,
+        "mtime_ns": 1790931367673069984,
+        "ctime_ns": 1790931367683069853
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 66308,
+        "inode": 106208488,
+        "mtime_ns": 1790937784808778309,
+        "ctime_ns": 1790937784821778100
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 66308,
+        "inode": 106208496,
+        "mtime_ns": 1790938850707596045,
+        "ctime_ns": 1790938850734595610
+      },
+      {
+        "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 66308,
+        "inode": 106208547,
+        "mtime_ns": 1790939114356256438,
+        "ctime_ns": 1790939114403255588
+      }
+    ],
+    "collected_artifacts_reverified": {
+      "manifest.json": {
+        "bytes": 6894,
+        "sha256": "72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7"
+      },
+      "runner.py": {
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      "http-recall-gate.py": {
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      "http-recall-settings.json": {
+        "bytes": 166,
+        "sha256": "0901cf6f9ca36d18961bfd159bdc74447b1b8e76cda69373133d6eb0edf1d5b2"
+      },
+      "result.json": {
+        "bytes": 2182700,
+        "sha256": "7c087cf6ad85afebbd30af039a5f39eca1206a2ff7c6d86badf82ed619021deb"
+      },
+      "telemetry.jsonl": {
+        "bytes": 7896540,
+        "sha256": "5a297bfdf1e0cc3d01b4913cfd050ec48cc13b2d1184ffc94509fc920cd64698"
+      },
+      "http-recall-result.json": {
+        "bytes": 2489,
+        "sha256": "532e578a2864088b1a911f29d4cb8c9cf6e80c83c6645ff8ab3cb71ccca8aea2"
+      },
+      "measurements.jsonl": {
+        "bytes": 1134332,
+        "sha256": "0a9b2d621f09fbdccb5dfd6dcabbfc14bc2b4665611de3d8b2a299d3dde2085a"
+      },
+      "requests.jsonl": {
+        "bytes": 541500,
+        "sha256": "388dfd13d88f59fae8ff2a03bcea7f0b669909cae53954020dfac7b15756b73a"
+      },
+      "server.log": {
+        "bytes": 92,
+        "sha256": "b54a1e10d468a7a303f07a72fcd2db2ae193d642c662f2472b21570c26df1806"
+      },
+      "client.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "client.stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout.log": {
+        "bytes": 70148,
+        "sha256": "59728681878a64422b4b3b12462485dd65dd4a353700f7625687a4c1be962058"
+      },
+      "stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox-create.log": {
+        "bytes": 308,
+        "sha256": "3626696b0d72ea6ca44e1007145d70e0d2f2bfe53734147a394ffef30061f93f"
+      },
+      "distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "http-started.marker": {
+        "bytes": 7,
+        "sha256": "d66b33d6ddbc206a85623cde8d9284bcfc9a56c13d3e3da90e88861b1d56818a"
+      }
+    },
+    "observation": {
+      "at": "2026-10-08T04:34:42.412888+00:00",
+      "kfd": [
+        {
+          "pid": 175797,
+          "start_ticks": 4996590,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 175797,
+          "start_ticks": 4996590,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 369,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 37.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 38.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 40.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 36.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 41.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 44.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 44.25,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542644224,
+        "MemAvailable": 123565375488,
+        "SwapTotal": 21474828288,
+        "SwapFree": 21346406400
+      },
+      "kernel_kfd": [
+        175797
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151183360
+      }
+    },
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false
+  },
+  "collection_artifacts": {
+    "manifest.json": {
+      "bytes": 6894,
+      "sha256": "72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7"
+    },
+    "runner.py": {
+      "bytes": 172977,
+      "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+    },
+    "http-recall-gate.py": {
+      "bytes": 21529,
+      "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+    },
+    "http-recall-settings.json": {
+      "bytes": 166,
+      "sha256": "0901cf6f9ca36d18961bfd159bdc74447b1b8e76cda69373133d6eb0edf1d5b2"
+    },
+    "result.json": {
+      "bytes": 2182700,
+      "sha256": "7c087cf6ad85afebbd30af039a5f39eca1206a2ff7c6d86badf82ed619021deb"
+    },
+    "telemetry.jsonl": {
+      "bytes": 7896540,
+      "sha256": "5a297bfdf1e0cc3d01b4913cfd050ec48cc13b2d1184ffc94509fc920cd64698"
+    },
+    "http-recall-result.json": {
+      "bytes": 2489,
+      "sha256": "532e578a2864088b1a911f29d4cb8c9cf6e80c83c6645ff8ab3cb71ccca8aea2"
+    },
+    "measurements.jsonl": {
+      "bytes": 1134332,
+      "sha256": "0a9b2d621f09fbdccb5dfd6dcabbfc14bc2b4665611de3d8b2a299d3dde2085a"
+    },
+    "requests.jsonl": {
+      "bytes": 541500,
+      "sha256": "388dfd13d88f59fae8ff2a03bcea7f0b669909cae53954020dfac7b15756b73a"
+    },
+    "server.log": {
+      "bytes": 92,
+      "sha256": "b54a1e10d468a7a303f07a72fcd2db2ae193d642c662f2472b21570c26df1806"
+    },
+    "client.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "client.stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.log": {
+      "bytes": 70148,
+      "sha256": "59728681878a64422b4b3b12462485dd65dd4a353700f7625687a4c1be962058"
+    },
+    "stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "distrobox-create.log": {
+      "bytes": 308,
+      "sha256": "3626696b0d72ea6ca44e1007145d70e0d2f2bfe53734147a394ffef30061f93f"
+    },
+    "distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "http-started.marker": {
+      "bytes": 7,
+      "sha256": "d66b33d6ddbc206a85623cde8d9284bcfc9a56c13d3e3da90e88861b1d56818a"
+    }
+  },
+  "four_current_peer_declarations": [
+    {
+      "peer": "Point",
+      "thread": "01a0fb73-1367-7313-b771-6e721a4155bc",
+      "evidence": "Completed specific turn 01a11975-b2d9-7ee2-a24b-8dd6fce63dd7 with exact full-SHA proposal",
+      "text": "Confermo per questa proposta: non ho job, handle, lease, finestra, waiter o prenotazioni su `.161` n\u00e9 su altri host; nessuna attivit\u00e0 pianificata o conflitto da segnalare. Non uso `.157`/`.155`/`.158` e non ho avviato operazioni remote. Questa dichiarazione non \u00e8 ammissione o grant; servono preflight globale e lease originali fresche."
+    },
+    {
+      "peer": "DGX",
+      "thread": "01a0fb43-105f-7bc3-98b8-84d12528db0d",
+      "evidence": "Actual direct reply delivered after full specific proposal",
+      "text": "DGX declaration for exact recall-yarn4-523776-s77-ar-20261008-r1 SHA72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7: current own .161/.157/.155/.158/TB NONE; no live job/process handle, lease, window, waiter, reservation or future grant. Explicit non-use of .161 through this proposal's enclosing collection/hash/release/strong-closure window. Local source-only artifact-loader wiring in owned feature/dgx-spark; no configuration/build/test/remote/GPU/model access, none scheduled. Owner test deferral remains in force. No other-host window."
+    },
+    {
+      "peer": "Q2",
+      "thread": "01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3",
+      "evidence": "Actual direct reply delivered after full specific proposal",
+      "text": "Q2 specific ACK .161 recall-yarn4-523776-s77-ar-20261008-r1 SHA72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7. CURRENT OWN .161 NONE: no PID/group/handle/lease/window/waiter/reservation or overlapping intent for this proposal; no future grant. My only current host is .157 q2-counting-curve128-r1/ca98934d: Q2 2K complete64/64, UD2K at16/64, thenQ2 4K/8K. Existing enclosing window through collection/hash/release/strong. Subsequent user-authorized .157 IOMMUoff reboot is only a local draft, not admitted/reserved; exact new plan will follow closure."
+    },
+    {
+      "peer": "GLM",
+      "thread": "01a1173b-a1f8-7012-a112-37039d798596",
+      "evidence": "Actual direct reply delivered after full specific proposal",
+      "text": "Specific NON-USE for .161 proposal72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7 through collection/hash/release/strong. OWN GLM .161 job/handle/lease/window/waiter/reservation ALL NONE; other-host OWN .157/.155/.158/TB also NONE. Owner GLM GPU hold persists, source/offline local only; no interleave or future grant. Nota identit\u00e0: il contesto del predecessore riportava boot7a966774-342a-46c3-8045-34f759ea58a1, il nuovo messaggio3424; verifica l'ID reale nel piano prima dell'admission."
+    }
+  ],
+  "raw": {
+    "path": "raw/recall-yarn4-near512k-ar-point-2026-10-08.tar.gz",
+    "bytes": 971172,
+    "sha256": "744c8848a6f994990375eb67183d6d436f246f14738119f0205e6310a1fa5ee7",
+    "members": 53,
+    "inventory": [
+      {
+        "path": "job/client.stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/client.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/collection.json",
+        "bytes": 9969,
+        "sha256": "ff818c59b94d92789252890ca073937a46665cecfba067d5b758787882fcb33f"
+      },
+      {
+        "path": "job/controller-result.json",
+        "bytes": 814,
+        "sha256": "4db4a42889e550d816da18f485bfe3209a037c485dd1a2caa79eca80009b2696"
+      },
+      {
+        "path": "job/controller-stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/controller-stdout.log",
+        "bytes": 1842658,
+        "sha256": "14b6c94c3148a2ca0aa610b3d4eb01a703c68e081cc4eb68b17ef74acda4b269"
+      },
+      {
+        "path": "job/distrobox-create.log",
+        "bytes": 308,
+        "sha256": "3626696b0d72ea6ca44e1007145d70e0d2f2bfe53734147a394ffef30061f93f"
+      },
+      {
+        "path": "job/distrobox.stderr.log",
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      {
+        "path": "job/distrobox.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/http-recall-gate.py",
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      {
+        "path": "job/http-recall-result.json",
+        "bytes": 2489,
+        "sha256": "532e578a2864088b1a911f29d4cb8c9cf6e80c83c6645ff8ab3cb71ccca8aea2"
+      },
+      {
+        "path": "job/http-recall-settings.json",
+        "bytes": 166,
+        "sha256": "0901cf6f9ca36d18961bfd159bdc74447b1b8e76cda69373133d6eb0edf1d5b2"
+      },
+      {
+        "path": "job/http-started.marker",
+        "bytes": 7,
+        "sha256": "d66b33d6ddbc206a85623cde8d9284bcfc9a56c13d3e3da90e88861b1d56818a"
+      },
+      {
+        "path": "job/manifest.json",
+        "bytes": 6894,
+        "sha256": "72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7"
+      },
+      {
+        "path": "job/measurements.jsonl",
+        "bytes": 1134332,
+        "sha256": "0a9b2d621f09fbdccb5dfd6dcabbfc14bc2b4665611de3d8b2a299d3dde2085a"
+      },
+      {
+        "path": "job/plan.json",
+        "bytes": 796,
+        "sha256": "2cba32b4a2b8ad93086e4ba1fb4d1a4365ce294b50065938172bc0b80aec4d81"
+      },
+      {
+        "path": "job/requests.jsonl",
+        "bytes": 541500,
+        "sha256": "388dfd13d88f59fae8ff2a03bcea7f0b669909cae53954020dfac7b15756b73a"
+      },
+      {
+        "path": "job/result.json",
+        "bytes": 2182700,
+        "sha256": "7c087cf6ad85afebbd30af039a5f39eca1206a2ff7c6d86badf82ed619021deb"
+      },
+      {
+        "path": "job/runner.py",
+        "bytes": 172977,
+        "sha256": "e5037ecd3ac15aa18b3871e8d4961854aad4089513330bcf641dc9da87df85c2"
+      },
+      {
+        "path": "job/server.log",
+        "bytes": 92,
+        "sha256": "b54a1e10d468a7a303f07a72fcd2db2ae193d642c662f2472b21570c26df1806"
+      },
+      {
+        "path": "job/stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "job/stdout.log",
+        "bytes": 70148,
+        "sha256": "59728681878a64422b4b3b12462485dd65dd4a353700f7625687a4c1be962058"
+      },
+      {
+        "path": "job/telemetry.jsonl",
+        "bytes": 7896540,
+        "sha256": "5a297bfdf1e0cc3d01b4913cfd050ec48cc13b2d1184ffc94509fc920cd64698"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-manifest.json",
+        "bytes": 6894,
+        "sha256": "72a4728832f961b91185e233a041635d549656a8916ce14d38ee0f9dd99812a7"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-settings.json",
+        "bytes": 166,
+        "sha256": "0901cf6f9ca36d18961bfd159bdc74447b1b8e76cda69373133d6eb0edf1d5b2"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-readiness.json",
+        "bytes": 1601,
+        "sha256": "8d910c2e88f7d8fb9798e26e9af4803e7e6898c446a5359c0d41d6acef9ede4b"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-preparation-recipes.json",
+        "bytes": 1251,
+        "sha256": "d19e1dfa7d2bc0ba5e863437b39d1139b210f778b847c76c184194fdf11c3a6d"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-jobs-prepared.json",
+        "bytes": 5554,
+        "sha256": "cb18ec6278988fdd4598f2aadaa746d3c55ea7bbf49e3f5ffc1f610cca4f1293"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-peer-coordination-r2.json",
+        "bytes": 6522,
+        "sha256": "1b95489d14f90a025a54ef1effc74ca5bc6c8901bdc64ad2ad7e5e578ec96277"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-closure-r2.json",
+        "bytes": 16903,
+        "sha256": "e857ff615d1e8ad8e599a14b9134cd763fb21fe4b390bb64f91379205bb8fcb4"
+      },
+      {
+        "path": "control/before-recall-yarn4-523776-s77-ar-20261008-r1-fresh-r1.json",
+        "bytes": 6784,
+        "sha256": "5266430ce0231c0cc03249732a5c6b338d34339bc10edfa4a7ebe5b07bcb0a7c"
+      },
+      {
+        "path": "control/launch-recall-yarn4-523776-s77-ar-20261008-r1.py",
+        "bytes": 3304,
+        "sha256": "b8c9cacbc1208d41c4fa6f215ff87c0f1d35ed9cce2ca172fec7bfa9ff1052d8"
+      },
+      {
+        "path": "control/observe-recall-yarn4-523776-s77-ar-20261008-r1.py",
+        "bytes": 4330,
+        "sha256": "90237b781754ab4a3b6256c0c379314b83e8e2d4217541c21cd02764c6ed9400"
+      },
+      {
+        "path": "control/close-recall-yarn4-523776-s77-ar-20261008-r1-r1.py",
+        "bytes": 8171,
+        "sha256": "1f5631337f3b210f582b5930ff262cc8d39a6de05858dd08e59356d136d4101a"
+      },
+      {
+        "path": "control/close-recall-yarn4-523776-s77-ar-20261008-r1-r2.py",
+        "bytes": 9624,
+        "sha256": "0e31ac6aa2032cc847d60cb7197b297532e0300d850e3a671fb206b956472844"
+      },
+      {
+        "path": "control/prepare-recall-yarn4-523776-s77-ar-20261008-r1-remote.py",
+        "bytes": 5264,
+        "sha256": "4693953115d97511540da6375b376604cb2ffe1d37dbc83c484917753d49d54a"
+      },
+      {
+        "path": "control/before-recall-yarn4-523776-s77-ar-20261008-r1-fresh-r1.py",
+        "bytes": 4945,
+        "sha256": "2059adf8c60b67f49c8f23d003147701a843512d687d5dbbe46ee631e9087fc8"
+      },
+      {
+        "path": "control/prepare-recall-yarn4-523776-s77-ar-20261008-r1-local.py",
+        "bytes": 5477,
+        "sha256": "f1d2bdb540f6519a5a950d3293bbc35e3ca7f155116c405180d84fc80844a894"
+      },
+      {
+        "path": "control/prepare-seal-recall-yarn4-523776-r1.py",
+        "bytes": 2591,
+        "sha256": "ecd392a4ee294907d35f278f46d07f75a2dafb378252e5a37b618b4d4ef55e60"
+      },
+      {
+        "path": "control/prepare-recall-yarn4-523776-s77-ar-20261008-r1-from-parent.py",
+        "bytes": 2390,
+        "sha256": "694e3607217bd48b1346fed29f0badf395be34d0b742350de6d11449550492ff"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-admission-notifications-r1.json",
+        "bytes": 2354,
+        "sha256": "cbf5f14adfad3f0758b6271183cc1925218bdaa3f107cc1f72fb1eb074a17ad5"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-proposal-notifications-r1.json",
+        "bytes": 2485,
+        "sha256": "813aa2c66cdbeac71ba163f0cf8d08d71bbab0a31be757be66efeb5efef3f090"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-release-notifications-r1.json",
+        "bytes": 2511,
+        "sha256": "ce770d3d783de33de42fb30abc7169c91fb341c6bd6a89b9f4cb5fdf35a4388e"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-1.json",
+        "bytes": 5752,
+        "sha256": "e478378b549ab9452fe70d35eb5b70f7c284abf57ce3b6b118f68479a308b022"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-2.json",
+        "bytes": 7488,
+        "sha256": "9842a19cfbfbf5064285f81f14938503ca6a4d226800d0eeb88c39721abcf7f9"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-3.json",
+        "bytes": 7486,
+        "sha256": "f36f555f87f1cf7df926da70e6204263f51b2920407c63f5c5edf6564add2873"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-4.json",
+        "bytes": 7486,
+        "sha256": "7f128b0dee4f7e7b5b8939b6addc80a8802562c69f962eeae981ad9a42c8d1db"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-5.json",
+        "bytes": 7484,
+        "sha256": "d92d03f46223045dd5cdb459d15cd13e476f7d86bb4f7c2a3218075bbaa279c5"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-6.json",
+        "bytes": 7488,
+        "sha256": "b7391fca5b1198598f1baa446f81042f56222662c4153dc1968d0c2dacb8e2cb"
+      },
+      {
+        "path": "control/recall-yarn4-523776-s77-ar-20261008-r1-live-7.json",
+        "bytes": 11747,
+        "sha256": "6221bc27b14dd7319d8061d1534e2accef262bdc61bc8e00f25bed5a4491fdc2"
+      },
+      {
+        "path": "recipe/seal-recall-yarn4-523776-s77-ar-20261008-r1.py",
+        "bytes": 13329,
+        "sha256": "0bd27e243a0f7716730028ac87f6eca1ba4dce92a32f543513f2bfccf1901f7b"
+      },
+      {
+        "path": "source/strix-point-bench-collect.py",
+        "bytes": 15600,
+        "sha256": "0a84261dcb52c2d82ff052a788da9304e4ae7b4139c0fa2bd80794e892bc1e59"
+      },
+      {
+        "path": "source/LICENSE",
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      }
+    ]
+  },
+  "limitations": [
+    "Does not qualify other seeds, 786K/1M physical inputs, other profiles or MTP.",
+    "Configured1048576 capacity is not a physical1M-input or long-recall result.",
+    "Quality outputs are not matched fixed-output performance.",
+    "Lifecycle witnesses do not establish concurrency, thread roles, latency distributions or reactive speedup.",
+    "No claim of vendor or natural-language quality.",
+    "All six root roadmap items remain open; Terminal Bench remains last."
+  ],
+  "current_root_remote_jobs_handles_leases_windows_waiters_reservations": [],
+  "actual_exit_code": 0
+}

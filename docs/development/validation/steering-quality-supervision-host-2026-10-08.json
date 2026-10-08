@@ -1,0 +1,242 @@
+{
+  "schema": "synapse-lie.steering-quality-supervision-host.v1",
+  "state": "HOST_SERIAL_SUPERVISION_AND_NATIVE_CLIENTS_VERIFIED_MODEL_SERVERS_SIMULATED",
+  "at_utc": "2026-10-08T02:40:30.569965+00:00",
+  "scope": "Own-child control/recording and strict synthetic HTTP wire review. No original weights, actual model server or numerical steering executed.",
+  "tests": {
+    "debug": 11,
+    "unsuppressed_native_asan_ubsan_lsan": 11,
+    "native_HTTP_samples_per_mode": 70,
+    "actual_native_client_children_per_mode": 2,
+    "simulated_model_server_lifetimes_per_mode": 2,
+    "focused_native_CTest_per_mode": 1
+  },
+  "covered_failures": [
+    "Native timeout and partial-file retention.",
+    "Model load failure before client/second model.",
+    "Stored HTTP404 saved before refusal.",
+    "Failed first-server retirement prevents second model.",
+    "Byte-identical bank inode replacement.",
+    "Actual self-SIGTERM and handler restoration.",
+    "Replay refusal and bounded one-day deadline.",
+    "Arithmetic quality failure preserves all70 observations and actual native0."
+  ],
+  "actual_guard_exits": {
+    "steering-quality-supervision-host-debug-r1": 0,
+    "steering-quality-supervision-host-asan-r1": 0,
+    "steering-quality-supervision-ctest-debug-r1": 0,
+    "steering-quality-supervision-ctest-asan-r1": 0
+  },
+  "local_peak_C_by_sensor_path": {
+    "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+    "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+    "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+    "/sys/class/hwmon/hwmon8/temp1_input": 64.875
+  },
+  "native_runtime_sources_byte_equal_to": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "native_fixture_binaries": {
+    "context-debug": {
+      "path": "build/context-debug/synapse-lie-bench",
+      "sha256": "c02b6ff0741d34f7020a854298061a04d5bde9441c0b2f72d6c6aab456c016e5"
+    },
+    "tool-http-asan": {
+      "path": "build/tool-http-asan/synapse-lie-bench",
+      "sha256": "94c884edbf71c9cc345b8ce6e560ea02d653987640cbd82627b0e58df650c301"
+    }
+  },
+  "product_Python_dependency_or_CMake_ABI_state_metrics_change": false,
+  "new_build_directories": [],
+  "original_model_loading_steering_quality_or_performance_qualified": false,
+  "pending": [
+    "Outer campaign artifact/settings/corpus/qualified-bank provenance binding.",
+    "Successful original100-pair FFN learning and independent reconstruction.",
+    "Original-weight held-out response execution and exact whole-container closure.",
+    "Wider MTP/graph/correction/fault/vision/model/platform and matched cost."
+  ],
+  "separate_current_GPU_job": {
+    "label": "recall-yarn4-261632-s77-ar-20261008-r1",
+    "manifest_sha256": "c63d2d144024ba784b49a6f050ea6f2c50de2568469ecd58bb1758c90db6e199",
+    "controller_handle": 37799,
+    "actual_observed_supervisor": 103258,
+    "actual_observed_GPU": 105251,
+    "qualification_pending": true
+  },
+  "GPU_run_build_model_hash_conversion_dependency_installation_or_publication_by_this_HOST_work": false,
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  },
+  "raw": {
+    "path": "docs/development/validation/raw/steering-quality-supervision-host-2026-10-08.tar.gz",
+    "bytes": 117500,
+    "sha256": "14068bcce4e1da65964831ca88cef7811b255d76a7691d30b981401f481ab051",
+    "regular_members": 39,
+    "members": {
+      "tools/strix-point-steering-quality-run.py": {
+        "bytes": 12460,
+        "sha256": "d137a04bb97b9a5a911f5e6bb9638141e07a6cb086dd0ead12dfded97e6e1e32"
+      },
+      "tools/strix-point-steering-quality-gate.py": {
+        "bytes": 22189,
+        "sha256": "d548a4cac15cb79e4f936f0d29808b80cf837d38efa773ad4be53f77b3027321"
+      },
+      "tools/strix-point-steering-build-gate.py": {
+        "bytes": 19154,
+        "sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f"
+      },
+      "tools/strix-point-http-recall-gate.py": {
+        "bytes": 21529,
+        "sha256": "5bce29df2a6d2f9f652986bd57dc61dbc31ee554157f353124c22d5285a678a4"
+      },
+      "tests/test_strix_point_steering_quality_run.py": {
+        "bytes": 13304,
+        "sha256": "10bb32ba00ae0e34fae80b576e08b84b8e901d13c3a7f533c96550afb56e0bb5"
+      },
+      "tests/test_strix_point_steering_quality.py": {
+        "bytes": 15002,
+        "sha256": "3c5761cfdb5f6b36910603f33cd6c492e71acc835f6b1dada2088c0d94c1d521"
+      },
+      "tests/fixtures/steering-conciseness-v1.json": {
+        "bytes": 6482,
+        "sha256": "602354e607a5738958b12f01913473aac6dd4e8ec08cef7f1dfd9023084b14a4"
+      },
+      "docs/development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md": {
+        "bytes": 5473,
+        "sha256": "31c93861debffff3ee4f3ad81e0de4e53d55c706ad892baaaa6eeaeddff89dc7"
+      },
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "CMakeLists.txt": {
+        "bytes": 64606,
+        "sha256": "c1afb2ed50cfefe213609352769c3af0205e5def6bcbbe6e27ac43c11d6f49f2"
+      },
+      "tools/native/bench_native.h": {
+        "bytes": 4853,
+        "sha256": "c023ddb467541fa2e44fe3fac7fc35e0cf31414540352e77cfcec4b38da1f122"
+      },
+      "tools/native/common.c": {
+        "bytes": 10089,
+        "sha256": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d"
+      },
+      "tools/native/gufo_workload.c": {
+        "bytes": 7371,
+        "sha256": "07fc9acbf762b68b58c7765fc50f3d89098ffebd9c7624ecfdc70ee945751412"
+      },
+      "tools/native/http_bench.c": {
+        "bytes": 25053,
+        "sha256": "0e701baa3561254ca8e9a4146449d1fae1a183b7948eccdabbd3dc66296722a9"
+      },
+      "tools/native/http_curve.c": {
+        "bytes": 39235,
+        "sha256": "5801d1d05e4c9497a0f0fd212f4db6a329e20cc75c4d460d9d838e249e760209"
+      },
+      "tools/native/http_multi.c": {
+        "bytes": 37572,
+        "sha256": "17b0380348b2953206964f2bc1d8898ace3ac492d9ef6843a41c34d493f00931"
+      },
+      "tools/native/http_transport.c": {
+        "bytes": 29515,
+        "sha256": "c9cb36aeaf6871c5c629d99a5ec2e49c3393663827e7ab5d7c0c197ce43e057c"
+      },
+      "tools/native/plot.c": {
+        "bytes": 11891,
+        "sha256": "1976d583dd9bf167227ae54520cb7e95074982f452885c3a76ef842168a1efc5"
+      },
+      "tools/native/recall.c": {
+        "bytes": 11520,
+        "sha256": "ae154a585d3d81a533fc31f8c144fdeacef64c76ef8a9922dff2cad3ae11775c"
+      },
+      "tools/native/report.c": {
+        "bytes": 71158,
+        "sha256": "fb19f6124ddeda1a29a6f0ba1e64e1b60e204cdcf59aae3fbfea921fafe337a5"
+      },
+      "tools/native/report_main.c": {
+        "bytes": 169,
+        "sha256": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b"
+      },
+      "tools/native/ssd_bench.c": {
+        "bytes": 34372,
+        "sha256": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77"
+      },
+      "evidence/steering-quality-supervision-host-debug-r1/command.log": {
+        "bytes": 110,
+        "sha256": "bf392e16ca97e5cca4237a8e557b69c41505c09bd59683c03386fe790a44c937"
+      },
+      "evidence/steering-quality-supervision-host-debug-r1/plan.json": {
+        "bytes": 1095,
+        "sha256": "9b0bed76927028b9acc4d9abae97a0b86b171d3f98030f3b574131601cf4f768"
+      },
+      "evidence/steering-quality-supervision-host-debug-r1/result.json": {
+        "bytes": 584,
+        "sha256": "61c69f05e80c38479380e7f394253402289eac97dfe0d732fb4f01983ff8e171"
+      },
+      "evidence/steering-quality-supervision-host-debug-r1/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "3ce18a8a2da3ae853907de2d381768d57d81652c3c2be5cb557950c35465e4c8"
+      },
+      "evidence/steering-quality-supervision-host-asan-r1/command.log": {
+        "bytes": 110,
+        "sha256": "7aedff3268cf8ece2df56fc1c0f7e439105c5e312c56a65295796598a2150e1d"
+      },
+      "evidence/steering-quality-supervision-host-asan-r1/plan.json": {
+        "bytes": 1204,
+        "sha256": "362975cc807e7802d70a10f3271d30e41c995cafb3043e7c5b3823e1274632fe"
+      },
+      "evidence/steering-quality-supervision-host-asan-r1/result.json": {
+        "bytes": 695,
+        "sha256": "e9eb8ceb9b909338bacc5c710cf244af711948ef66468a1989d2320783b93c2d"
+      },
+      "evidence/steering-quality-supervision-host-asan-r1/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "cdd203e6760e9ef8e401eb3a6a099d08fcfce6431a9ed53d0a78bdaa689079a2"
+      },
+      "evidence/steering-quality-supervision-ctest-debug-r1/command.log": {
+        "bytes": 303,
+        "sha256": "3fb12ee820886145dc4523a9c6a8f7ae70a6373c75a9138614b2cbdb68fbe17f"
+      },
+      "evidence/steering-quality-supervision-ctest-debug-r1/plan.json": {
+        "bytes": 970,
+        "sha256": "870f9d898613eabd8cf1b7d22f1369f566279de720a3c16f1b518727fcbd1cb7"
+      },
+      "evidence/steering-quality-supervision-ctest-debug-r1/result.json": {
+        "bytes": 462,
+        "sha256": "f7e04d819c2cc5cb763d392d77a1d0e2cc02fd413073e8e6e4a9a495abdf3c43"
+      },
+      "evidence/steering-quality-supervision-ctest-debug-r1/temperatures.jsonl": {
+        "bytes": 9116,
+        "sha256": "867d4593532b0c8ef4e4dd27cad94e66f7228fe0bfb531067efd06d11884bf57"
+      },
+      "evidence/steering-quality-supervision-ctest-asan-r1/command.log": {
+        "bytes": 304,
+        "sha256": "8ffaf8983c69d702707d813f51af6cc9eda56beb96fd82fff6b1e71c052d8c8e"
+      },
+      "evidence/steering-quality-supervision-ctest-asan-r1/plan.json": {
+        "bytes": 1090,
+        "sha256": "eb775691c172fb2d69ded9c0a8ea8e1920f5a4cd3ece2b83b6c018f341287d19"
+      },
+      "evidence/steering-quality-supervision-ctest-asan-r1/result.json": {
+        "bytes": 582,
+        "sha256": "54021a53d745dbe437c09da5c7d3bc5ba6a1ea6f674d971b210fd13063163947"
+      },
+      "evidence/steering-quality-supervision-ctest-asan-r1/temperatures.jsonl": {
+        "bytes": 9726,
+        "sha256": "67f209e0ccbafbb5d7c5c603ce2126c4b162860011243f808c8606d1e386968e"
+      },
+      "evidence/seal-steering-quality-supervision-host-r1.py": {
+        "bytes": 5837,
+        "sha256": "c5081ebb9a6bf624917b2b5a62ba0c43e235eb3830a29a30c36ce494a7b06768"
+      }
+    }
+  },
+  "actual_exit_code": 0
+}

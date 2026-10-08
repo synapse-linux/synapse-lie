@@ -1,0 +1,209 @@
+{
+  "scope": "Two complete same-model request histories, including calibration, warmup, prefix and measured requests",
+  "models": {
+    "q2": [
+      {
+        "index": 0,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 1,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 2,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 3,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 4,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 5,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 6,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 7,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 8,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 9,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 10,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 11,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 12,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 13,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 14,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 15,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 16,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 17,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 18,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 19,
+        "payload_exact": true,
+        "output_exact": true
+      }
+    ],
+    "ud": [
+      {
+        "index": 0,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 1,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 2,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 3,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 4,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 5,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 6,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 7,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 8,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 9,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 10,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 11,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 12,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 13,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 14,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 15,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 16,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 17,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 18,
+        "payload_exact": true,
+        "output_exact": true
+      },
+      {
+        "index": 19,
+        "payload_exact": true,
+        "output_exact": true
+      }
+    ]
+  }
+}

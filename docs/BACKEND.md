@@ -11,21 +11,948 @@ acceptable as an **explicit transitional implementation**, not something to
 rename and claim as an owned backend. Do not require a big-bang rewrite before
 learning from real workloads; do not let the prototype define the final limits.
 
-## Active priority — 2026-10-03
+## Current roadmap — 2026-10-08 UTC
 
-The owner postponed new performance campaigns while MTP and vision were built
-on separate feature branches from the shared-core/native-tools checkpoint
-`a262902`. `feature/mtp-vision-integration` now combines `feature/mtp` at
-`7d85b2f` and `feature/vision` at `806a790`. Existing benchmark results remain
-historical and unchanged.
+The frozen `90a88455`/r68 runtime passes the complete unchanged AR and MTP
+workloads: 71 tool-transition checks and five baseline controls in each mode.
+All three sampling
+profiles cover Chat and Responses JSON/SSE; twelve reversed-result continuations,
+eight refusals before model work and three byte-identical journal replays pass.
+An independent review checks the collected wire and retained Response controls
+([AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json),
+[MTP receipt](development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)).
+All actual process exits and verified closures pass. MTP records 362 actual
+Chat draft tokens and 230 accepted tokens; an enabled flag alone is not the
+evidence. A local review started before its closure receipt existed; exit1 is
+retained and the same review subsequently passes0, without repeating GPU work.
+These selected gates do not qualify wider quality, faults/resources or cost.
 
-| Branch | Implementation | Remaining acceptance gate |
+The earlier `64fa7c2a`/r65 runtime passes the unchanged greedy Chat two-call
+and reversed-results questions in JSON and SSE: alpha137/beta941 remains
+correct when results arrive in reverse order. Fourteen new checks and five
+baseline controls pass. The next Responses request fails with HTTP400 because
+the parser excludes its supplied `seed`; 56 new checks remain unexecuted.
+The [earlier failed AR receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+retains both observations, actual exits and verified machine closure. This is
+a protocol refusal at that recorded source; the new AR pass does not relabel it.
+The Responses parser now normalizes seed and frequency/presence penalties into
+the existing shared generation profile and retains their original values in
+response objects. Signed seed overflow is refused in both APIs. Eight grouped
+Release and eight unsuppressed sanitizer checks pass, including the unchanged
+failed request, strict negative controls and native AR/MTP HTTP fixtures
+([HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)).
+These fixtures are not model inference. The matching `90a88455`/r68
+[coherent HIP build](development/validation/responses-generation-controls-point-build-2026-10-07.json)
+passes both full providers and six consumers; collected commands bind the
+Chat/Responses parsers and server controls to C17 objects and the primary server.
+The unchanged original-weight AR and MTP workloads now pass, as above. The prepared r66
+MTP manifest is stale after this source change and remains unlaunched.
+The [earlier swapped-value failure](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+remains historical evidence. The
+[earlier one-call failure](development/validation/tool-transitions-ar-point-r2-2026-10-07.json)
+remains unchanged historical evidence. MTP is prepared but unadmitted.
+
+Source diagnosis finds that the pinned Qwen renderer omits tool call IDs and
+emits contiguous tool results in received order. Preserving their correlation
+in the model prompt is now an identified functional correction; neither the
+question nor acceptance criteria change. JSON format guidance already has
+[grouped HOST checks](development/validation/tool-prompt-guidance-host-2026-10-07.json)
+and a [coherent HIP build](development/validation/tool-prompt-guidance-point-build-2026-10-07.json).
+Result correlation now has a shared C17 index view, applied by the model binding
+after original-index image attachment and before rendering or strict guidance.
+It preserves borrowed history and complete message/image ownership, refuses
+invalid groups without changing output, and adds no instructions or answers.
+Six focused Release and six unsuppressed sanitizer checks pass in the
+[HOST receipt](development/validation/tool-result-correlation-host-2026-10-07.json).
+The matching `64fa7c2a` [coherent HIP build](development/validation/tool-result-correlation-point-build-2026-10-07.json)
+passes both complete private providers and all six consumers. Collected compiler
+commands verify the C17 helper and its linkage into server, bench and capture.
+The selected unchanged original-weight AR correlation checks now pass, as above;
+wider Responses, sampling-profile and MTP checks remain required. The earlier
+model-quality failures retain their original source identities and outcomes.
+Wider tool acceptance, steering quality, long-context recall/HTTP,
+fault/resource gates, matched comparisons and Terminal Bench remain open.
+Terminal Bench stays last.
+
+The newer `4c703b3d`/r70 source adds the native C17 paired-prompt steering builder.
+Its [coherent HIP build](development/validation/steering-build-point-build-2026-10-07.json)
+passes both complete providers and seven consumers, including the actual builder
+linked to the primary provider. Its first eight original-weight prompt pairs
+pass independent activation/bank reconstruction on `.161`
+([receipt](development/validation/steering-build-original-point-2026-10-08.json)).
+The same physical prompts also pass multiple chunks and four one-token tails,
+with byte-identical raw activations and banks
+([receipt](development/validation/steering-build-tail16-point-2026-10-08.json)).
+Held-out learned direction quality remains unqualified. The current r70 runtime
+also passes both cold turns of the YaRN4 short recall control, with 8190/8298
+physical inputs and capacity 1048576
+([receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)).
+The same runtime/profile passes a separate 128K cohort, physical inputs
+131070/131178, with independently verified answers, all 18 hashes and complete
+closure ([receipt](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)).
+The separate near-256K cohort also passes both turns at physical 261630/261738,
+with the same independent wire/phase/hash and whole-container closure checks
+([receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)).
+The near-512K cohort also passes both turns at physical 523774/523882 with
+prefill 210.096/209.716 tok/s, natural outputs 38/74 and complete independent
+wire/hash/closure proof
+([receipt](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)).
+Earlier tool and native-RoPE recall results retain their frozen r68 identity;
+these selected scaled cohorts do not qualify the complete long-input ladder or those tools
+on this later runtime.
+
+The same r70 runtime also passes the
+[near-1M cohort](development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json):
+physical inputs 1048062/1048170, natural outputs 38/74, seed 77 and cold cache-off
+requests. Independent saved-SSE reconstruction, all 18 artifact hashes, complete
+container retirement and original lease release pass. This is one selected
+quality cohort, not a fixed-output performance comparison.
+
+The same production runtime also passes selected Strix Halo native GPU
+[functional/parity checks](development/validation/halo-r70-functional-2026-10-08.json):
+original UD-Q4, physical2048/TG32, current C1 primary/reference logits and IDs,
+core C1/C2 output parity, real batch dispatch and borrowed-output peer progress.
+The 13 generated WMMA comparisons are component evidence, distinct from model
+long-context or task quality. No matched performance gain is inferred.
+
+Strix Point integration entered `develop` at `30598a3`. The source consolidation
+at `78e5833e` also includes the complete OpenAI/reactive, million-context,
+C17 sampling, native Gufo-curve and selected Q2 branch heads.
+Documentation conflicts retain current deadlines and qualifications;
+historical Q2 experiments stay outside canonical product inputs. These final
+history merges change no production source compared with the selected-format
+checkpoint `f902ad45`.
+Recorded GPU results belong to their stated source and binary identities. They do not
+automatically qualify a later runtime or another model/platform.
+
+The native C17 `ds4-walk` source transfer now passes focused Debug and
+unsuppressed sanitizer checks, with [current usage](guides/BENCHMARKS.md#incremental-raw-corpus-walk)
+and [HOST evidence](development/validation/ds4-walk-native-host-2026-10-08.json).
+Selected Q2/IQ2 numerical-format source integration also passes independent
+patch-equivalence, synthetic metadata and [HOST/sanitizer checks](development/validation/qwen-q2-formats-native-host-2026-10-08.json).
+The [combined gfx1151 HIP build](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
+now passes for primary C17 sampling and its matched OFF control, both with
+the selected Q2 formats ON, and seven linked consumers. All 3,015 frozen source
+files, original model stats and whole-window closure verify. The matching
+[original-weight functional gate](development/validation/develop-q2-halo-functional-2026-10-08.json)
+now passes all fourteen commands and independent review on Strix Halo.
+Q2 and UD-Q4 advancing walks have identical logits hashes and output IDs under
+snapshot/replay and the matched original-sampler control at 2K/4K/6K/8K.
+Current Q2 core C2 also matches the 8K C1 continuation with 128 real batch calls;
+UD-Q4 core C1/C2 and greedy MTP match the direct AR output. MTP drafts 28 tokens
+and accepts 12. Borrowed-output peer progress and cancellation pass.
+These selected checks close the new walk/format integration gate; the historical
+Q2 capsule's divergent outputs remain source-bound evidence.
+This source consolidation does not close the full context, quality or
+comparative-performance queue.
+
+This is the work queue owned by this thread. Separate DGX Spark/CUDA,
+Antirez weight-format/quantization and Strix Point port tasks stay with their
+assigned agents. Unspecified future weight streaming, additional model families
+and new client applications are not queued here. Their architectural boundaries
+do not constitute implementation tasks. GPU qualification in this queue uses
+`.161` or the additionally authorized `.157`, with fresh coordination and
+admission for every run.
+
+Item 1 records completed qualification. The active queue is items 2–7 below.
+The owner confirms this order: finish functional implementation, qualify the
+combined runtime, run the comparative benchmarks, then run Terminal Bench
+(item 2) last. Do not alternate component changes with full test campaigns.
+Complete and compile the remaining functional changes before running further
+tests. Group the required focused local CTest and ASan/UBSan checks at the end
+of that integration, then qualify the combined runtime on `.161`, run matched
+benchmarks and run Terminal Bench last. Qualification-only client preparation
+belongs to that final validation phase; do not turn it into another intermediate
+implementation campaign.
+GPU qualification uses `.161` with fresh admission. The earlier request
+deferred further GPU/test campaigns until functional integration was finished;
+the owner subsequently resumes final qualification explicitly with `procedi`.
+This permits the recorded current runs, with new specific admission each time.
+The old prepared r37 MTP manifest remains unlaunched. Subsequent
+final-phase r47 qualification uses a newly bound manifest and the current r45
+runtime; its selected MTP-enabled HTTP controls pass as recorded below. Peer
+non-use replies grant no future admission. No intermediate remote campaign,
+Terminal Bench restart or machine reservation is queued.
+
+The functional source audit now maps items 3–7 to integrated context/recall,
+benchmark/dispatch, steering, generation-profile and three C17 sampler paths.
+The build-coherence correction also covers typed observer identity and the
+canonical full-provider Point build route. Source integration, compilation and
+runtime acceptance are separate. Final
+combined local checks and current coherent `.161` private producer/consumer HIP
+compilation pass. At the integrated checkpoint, source hashes match all 650 files
+in the final HOST receipt. Later capture/replay tooling adds development clients,
+build targets and an owner-only stop-token metadata accessor. Executor ABI
+layouts, HTTP/reactive scheduling and numerical algorithms remain unchanged;
+the matching device-free r38 HIP build now links the new accessor/client along
+with the four existing consumers. Its [receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json)
+binds the exact source and all five artifacts; collection and strict machine
+closure pass without a model or GPU test. Original-weight qualification remains open.
+The final unavailable-backend stop metadata export is corrected at `229b1e13`,
+with focused Release and sanitizer linkage checks. That source audit was followed
+by the newly identified model-prompt result-correlation defect above. Its source
+correction passes local checks and matching coherent HIP compilation;
+its original-weight acceptance and the checks below remain open for final integrated
+qualification, with fresh admission for each remote window.
+Comparative performance follows those gates; Terminal Bench stays last.
+All six items remain open until their separate acceptance evidence is collected.
+
+The live prefill controls at `d6431db8` now have grouped local Release/sanitizer
+checks and matching coherent `.161` ROCm 10 compilation of both providers and
+all six consumers. The [current prefill build receipt](development/validation/prefill-runtime-point-build-2026-10-07.json)
+binds source, artifacts and verified machine release. This supersedes earlier
+build identities for the new feature; original-weight chunk parity, memory,
+cache, cancellation, fairness and performance still require final acceptance.
+
+The subsequent C17 sparse-prefill admission correction uses the actually visible
+mask extent while retaining its allocated stride and the existing workspace
+limit. Focused local policy checks, exact source composition and local HIP 7.2
+cross-compilation for `gfx1150` now pass. Both full providers and all five
+consumers compile/link with exit0, with devices hidden and no model execution
+([local compilation receipt](development/validation/prefill-visible-mask-local-hip-2026-10-07.json)).
+The [coherent `.161` ROCm10 build](development/validation/integrated-point-attention-hip-build-2026-10-07.json)
+includes this guard and the long-workspace recipe at source `120e2fce`.
+The prepared r40 GPU capture was
+rejected by automatic approval review before launch, citing an optimization/
+qualification priority conflict. r40/r41 remain unadmitted and stale after this
+source change. The owner's latest visible instruction confirms implementation
+before further tests and supersedes the pending sequencing question. No
+intermediate campaign is queued. Final original-weight gates remain required;
+the r39 numerical receipt qualifies its recorded binary only.
+
+The owned recipe subsequently adds a separately instantiated 8,192-word sparse
+WMMA workspace through 1M visible tokens. Default-ON `LIE_LONG_CONTEXT_WMMA`
+keeps the short kernel unchanged and supports an explicit OFF control. The
+receipt and Point build routes enforce the selected option in providers and
+clients. This completes the long-workspace source path; GPU numerical, quality,
+resource and performance acceptance remains in the final integrated phase.
+It changes neither reactive scheduling nor thread counts.
+The [local compilation receipt](development/validation/prefill-long-wmma-local-hip-2026-10-07.json)
+binds source `c9c79a70`, three complete providers and nine linked consumers;
+this is local HIP 7.2 evidence, not `.161` ROCm10 or inference qualification.
+
+The [generated attention GPU component](development/validation/attention-fixture-point-2026-10-07.json)
+subsequently passes 13 complete cases through 1M on `.161`, with 270,336 values
+matching the recorded fallback bit for bit. This qualifies generated attention
+after selection at its recorded runtime; original weights, indexer, resource
+fit, quality and comparative performance remain open.
+
+The shared core now separates a live selected prefill chunk from immutable
+provider scratch capacity, both bounded at 32,768. New requests capture the
+selection; queued/active requests retain theirs. RAM/SSD semantic identities
+isolate chunk choices. HTTP exposes the core setter on its management listener;
+native direct/core benchmarks record the reservation and actual chunk. Defaults
+remain 2,048 with unchanged existing public layouts and scheduler thread counts.
+These later provider changes require a fresh coherent build and original-weight
+qualification; the preceding r43/r44 receipts do not qualify larger chunks.
+The matching r45 build now passes selected original-weight PP8192/TG32 parity
+at chunks 2048/4096/8192 and fixed capacity 8192/context 16384/C1. All 32 output IDs
+are identical, completed prefill calls are 4/2/1 and native dispatch accounting
+has no geometry/mask-pitch refusal
+([functional receipt](development/validation/prefill-original-point-2026-10-07.json)).
+The subsequent PP32768/TG32 comparison passes exact greedy parity at chunks
+2048/16384/32768 with fixed capacity 32,768/context 65,536/C1, completed calls 16/2/1
+and no geometry/mask-pitch refusal
+([32K functional receipt](development/validation/prefill-original-32k-point-2026-10-07.json)).
+These selected configurations do not qualify live changes, cache/cancel/fairness,
+broader quality/fault/resource behavior or matched performance; those gates remain open.
+
+The native C17 benchmark now provides explicit `--prefill-probe live|ram|ssd`
+qualification clients for those remaining gates. Full physical input/output,
+in-flight owner counters, immutable queued choices, credit/cancellation recovery
+and five cache-namespace stages are saved. Performance report readers refuse
+these functional identities. Focused native Release and unsuppressed sanitizer
+checks pass 5/5 each; six AR/MTP synthetic probes, fourteen CLI refusals and a
+deliberate failed prefill are retained. All 82 optional mocked supervisor checks
+pass. The [HOST receipt](development/validation/prefill-probe-host-r2-2026-10-07.json)
+preserves corrected preparation/test failures. No engine ABI, scheduler, provider
+or numerical algorithm changes; a newly bound `.161` client build and actual
+original-weight live/cache runs are still required. All six items remain open.
+
+The matching r50 device-hidden `.161` build of `cb75a48f` now compiles both
+providers and all six consumers with exit 0. Source/recipe/linkage reconstruction,
+collection and strict machine closure pass in the
+[client build receipt](development/validation/prefill-probe-point-build-2026-10-07.json).
+A later host-only supervisor control isolates full input checkpoints for cache
+probes and passes 83 mocked checks; normal engine/cache defaults are unchanged.
+The compiled native client and that supervisor are bound separately. This is
+compilation and client-contract evidence; original-weight live/cache/cancel/
+fairness and broader acceptance still need fresh admission. All six items stay open.
+
+The r50 runtime subsequently passes original Q4 AR PP32768/TG32/C2 live
+selection with fixed context 65,536/capacity 32,768. Active/queued choices remain
+2,048/revision 1 and 32,768/revision 2 while the core returns to 2,048/revision 3.
+Complete peer output matches the cold baseline and fresh post-cancellation
+output. Withheld-credit peer progress, borrowed-output stability and actual
+zero-output cancellation during prefill pass. The
+[live functional receipt](development/validation/prefill-live-original-point-2026-10-07.json)
+binds actual exits, sampled resources, independent review and strict closure.
+RAM/SSD/MTP, broader quality/fault/resource and matched performance gates remain
+open; this selected functional pass does not establish a throughput gain.
+
+Separate original AR RAM/SSD probes now pass five chunk-namespace trials each
+at PP8192/TG32/C1/context 16,384/capacity 8,192. All ten full outputs match;
+prefill calls are 4/0/1/0/0 and hot restores cover all 8,192 tokens. SSD has
+RAM disabled, two drained writes, actual full reads and zero errors. The
+[cache functional receipt](development/validation/prefill-cache-original-point-2026-10-07.json)
+binds all exits, original model witnesses and strict closures. Exact DS4 raw
+payloads are retained; an enabled generic compression capability does not
+establish packing. MTP, broader quality/fault/resources and matched performance
+remain open; all six roadmap items stay open.
+
+Original Q4/Q8 MTP now passes the same 8K five-stage RAM/SSD probes, plus a C2
+live probe with an actual in-flight setter, immutable admitted selections,
+withheld-credit peer progress, borrowed-output stability and prefill cancellation
+with recovery. All complete outputs match the same-runtime serial AR reference.
+SSD restores full prefixes with RAM disabled and drains two writes without errors.
+The [MTP functional receipt](development/validation/prefill-mtp-original-point-2026-10-07.json)
+binds all 33 collected files, independent reviews and three strict closures.
+This qualifies selected greedy live/cache behavior at PP8192/TG32, not broader
+MTP probability/filter/grammar, quality/fault/resources or matched performance.
+All six roadmap items remain open; no remote window is reserved.
+
+The next MTP numerical gate now has an additive C17 owner-only observation
+contract. Private glue captures completed target/proposal/verification draws,
+RNG, history, penalties and grammar masks without changing sampling policy,
+core scheduling or worker counts. Focused ON/OFF Release and unsuppressed
+sanitizer HOST checks pass. Native AR wire formats stay unchanged; the explicit
+MTP writer/replay now passes grouped HOST controls across original/C17/OFF,
+including independent probability/RNG/grammar/controller oracles and negative
+fixtures ([HOST receipt](development/validation/mtp-capture-host-2026-10-07.json)).
+The matching device-hidden ROCm 10 build of `c6625f09` now compiles both
+coherent ON/OFF providers and all six consumers. Collection, independent source
+reconstruction and strict machine closure pass in the
+[build receipt](development/validation/mtp-capture-point-build-2026-10-07.json).
+The [selected original-weight text qualification](development/validation/sampling-mtp-text-point-2026-10-07.json)
+now captures six 16-token Q4/Q8 profiles and replays all 192 observations across
+original/C17/OFF Release and sanitizer programs. Actual proposal, acceptance,
+residual/deferred RNG and committed frontiers match independent oracles.
+The [required-tool MTP qualification](development/validation/sampling-mtp-tools-point-2026-10-07.json)
+also passes all six complete natural-EOS calls, 226 observations and 169 full
+target masks across Release and sanitizer programs. Compact proposals retain
+the original unconstrained policy; every target/verification mask bit and
+acceptance/residual/deferred frontier matches. Greedy covers the host head only.
+Wider tool transitions, quality/fault/resources and matched cost remain open;
+these diagnostic captures establish no speedup.
+
+An open qualification gate does not mean its implementation is absent:
+
+| Item | Source already integrated in this branch | Final qualification still open |
 | --- | --- | --- |
-| `feature/mtp` | Verified bursts, demand/cancellation, complete predictor/controller checkpoints and stable predictor identity. | Original-weight correctness, continuation and AR comparison. |
-| `feature/vision` | Owned image inputs, physical context, semantic cache/MRoPE and actual projector identity. | Original-weight quality, continuation and resource fit. |
-| `feature/mtp-vision-integration` | Atomic joint admission in core/HTTP/bench and one complete RAM/SSD checkpoint. | Original-weight mixed image/text MTP, rejection/rollback, cache parity and resource qualification. |
-| `feature/core-semantic-events` | Shared C17 text/progress/tool/turn events; HTTP and direct benchmark consume the same output policy. | Original-weight tool behavior and performance; incremental argument streaming remains open. |
-| `feature/c17-sampling` | Dense greedy/filtered selection, penalty/bias arithmetic and random draws extracted into the shared C17 sampler; explicit default-ON provider selection and legacy control. | Original-weight numerical/performance qualification; history, grammar and compact speculative state remain delegated. |
+| 3 | 1M context admission, explicit YaRN, client deadlines and native recall/continuation corpus with exact response oracles | Original-weight recall and HTTP at long context |
+| 4 | Native benchmark methods, metrics, graph generation, C17 prefill-dispatch observation and optional long sparse-WMMA workspace | Matched Gufo/Halogen runs through 1M and C1/2/4/6/8; long-workspace correctness/resources, actual sparse dispatch and reactive cost |
+| 5 | Steering bank, model/session policies, scheduled changes and RAM/SSD identities | Learned-direction quality, graph/correction/fault/vision cases and matched cost |
+| 6 | Temperature, top-k/min-p profiles and seeded AR/MTP controls | Wider tool transitions, broader quality/fault/resources and matched cost; selected AR/MTP text and required-function numerical witnesses pass at their recorded runtimes |
+| 7 | C17 grammar/masking, history and compact speculative distributions, including buffer ownership | Original-weight numerical/fault/resource/quality and cost gates |
+
+The integrated checkpoint `88d4c4e5` passes native functional 101/101 and complete
+provider 67/67 in both Release and unsuppressed sanitizer builds, plus ICU-OFF
+core 69/69 and all 68 strict C17/C++17 public headers. All 30 complete witness
+groups agree across builds; all 267 preceding captures remain unchanged. The
+[current combined HOST receipt](development/validation/integrated-final-host-2026-10-06.json)
+preserves four failed link attempts and binds their corrected dependencies.
+It qualifies local synthetic and algorithm paths only. The earlier
+[`77bcdc1c` HOST receipt](development/validation/c17-final-functional-host-2026-10-06.json)
+and closed r36 HIP build remain historical evidence; that build predates the
+observer's private ABI and cannot qualify this checkpoint. The matching
+[r37 HIP build](development/validation/integrated-point-hip-build-2026-10-06.json)
+now completes both full private providers and consumers with exit0; their exact
+variant maps and flags verify, and the run is collected/closed with the router
+restored. This is compilation evidence. Original-weight functional, fault and
+quality gates need fresh `.161` admission. Comparative performance follows them;
+Terminal Bench remains
+last. No further intermediate campaign is queued, and compilation alone closes
+none of the six items.
+
+1. **Completed: selected original-weight OpenAI GPU controls.**
+   The earlier paired runtime `dbdac28d` passes **37 general OpenAI checks
+   and 66 additional bounded-integer checks in each AR/MTP mode** on `.161`.
+   Tools, JSON/SSE, output budgets and retained Responses lifecycle pass;
+   integer checks cover 60 exact outputs and six expected HTTP400 refusals per
+   mode. Matching HIP ON/OFF builds, collected wire evidence, actual exits0
+   and exact process/service/lease closure are verified.
+   [Current qualification](development/validation/c17-json-slot-point-gpu-2026-10-06.json).
+   The coherent current runtime `d63b9b7b` / code `88d4c4e5` additionally passes
+   AR37+66, with collected wire, independent exact-rational integer checks and
+   strict process/service/lease closure
+   ([AR receipt](development/validation/integrated-point-ar-2026-10-06.json)).
+   The current prefill r45 runtime / code `d6431db8` now passes **37 OpenAI and
+   66 bounded-integer controls on an MTP-enabled server**, with original Q4
+   weights and Q8 predictor, unchanged model stats and exact process/service/
+   lease closure ([MTP receipt](development/validation/integrated-point-mtp-2026-10-07.json)).
+   Actual drafted/accepted counters are present. Existing stop/logprobs/bias
+   requests fall back to AR, so the pass does not imply every check executes MTP.
+   Independent saved-wire review verifies 60 outputs, six HTTP400 refusals and
+   30 JSON/SSE pairs. The older AR37+66 receipt uses a different runtime; it is
+   not a matched AR/MTP comparison with r45.
+   Broader task quality, probabilities, fault coverage and performance remain
+   separate acceptance gates in the six open items below.
+2. **Deferred: run Terminal Bench after the functional modifications.** Use the pinned
+   Terminal Bench Mini smoke task, then Core-19 with unchanged instructions and
+   verifiers. Record task rewards, transcripts, truncation and infrastructure
+   failures separately. Its Terminus text command protocol and native OpenAI
+   function calls have separate checks; clients execute the commands.
+   The shared core now resolves omitted/null HTTP output budgets after prompt
+   preparation, preserving the existing 4,096-token output ceiling, and exposes
+   model context/output limits. Nine Debug and nine sanitizer host checks pass.
+   The new r12 AR runtime passes 37 original-weight HTTP checks, including actual
+   327-token omitted/null output in both APIs; the new MTP gate is interrupted
+   by an external GPU client. The newer integrated `1bff953` runtime now passes
+   all 37 checks in both AR and MTP on `.161`; the interrupted result remains
+   evidence for r12. Earlier preparation verifies the unchanged smoke source,
+   client and cached image, plus 4/19 cached Core-19 images; it records no task
+   score. The newer finite-value/cache runtime `2359488`
+   also passes AR37/MTP37. Its unchanged Core-19 smoke now passes **1/1 task at
+   the first attempt**, with CPU/GPU/process/container/lease/HTTP-permit closure
+   verified. The full **19-task** run started at 20:08:35 UTC with CPU client
+   `.157` and GPU HTTP port 8000 `.161`, then was stopped by the owner at
+   21:42 UTC before any task completed. Processes, owned task containers,
+   HTTP8000 listener, original leases and the temporary HTTP permit are closed;
+   the preexisting router is restored. No full score is qualified. The later
+   run must use the finished runtime and a freshly coordinated placement,
+   preserving original conditional attempts, C1 and three hours per attempt.
+   [Smoke qualification](development/validation/terminal-smoke-point-gpu-2026-10-05.json) ·
+   [Full-run startup](development/validation/terminal-full-point-start-2026-10-05.json) ·
+   [Operator stop and closure](development/validation/terminal-full-stopped-point-2026-10-05.json).
+   [Current GPU receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json).
+3. **1M source integrated; qualify recall and long-context HTTP.**
+   The [recall protocol](development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+   now defines three seeds, profile-specific short controls and the native/YaRN
+   ladder through 1M. The optional one-case supervisor route is implemented and
+   checked against native-client HOST fixtures. The frozen r68 runtime
+   passes the [original-weight native 8K control](development/validation/recall-native-8k-ar-point-2026-10-07.json)
+   [128K control](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+   and [near-256K check](development/validation/recall-native-near256k-ar-point-2026-10-07.json):
+   seed 77, both cold turns at each size, physical 8190/8298, 131070/131178 and
+   261630/261738 tokens, complete collection, independent saved-wire answers and
+   exact retirement. Near-256K CPU/GPU/NVMe peaks are 80/81/67.85 C.
+   The newer r70 runtime also passes its own
+   [YaRN4 short control](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json),
+   seed 77, capacity 1048576 and physical inputs 8190/8298. Both saved SSE answers and
+   complete closure verify. A separate
+   [YaRN4 128K cohort](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+   also passes both answers at physical inputs 131070/131178 with complete saved-wire,
+   collection and whole-container closure. Separate
+   [near-256K](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+   and [near-512K](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)
+   current-runtime cohorts also pass both answers at physical 261630/261738
+   and 523774/523882, with the same complete independent wire/closure checks.
+   The frozen current-r70 AR matrix contains 39 profile/size/seed combinations:
+   six are verified, including near1M/YaRN4/seed77, and 33 are prepared locally
+   but unadmitted. The
+   [786K cohort](development/validation/recall-yarn4-786k-ar-point-2026-10-08.json)
+   passes both exact cold answers at physical786430/786538 and natural TG38/74,
+   with independent saved-wire review, complete collection and five-identity
+   container closure. Preparation creates no remote queue, waiter or future reservation.
+   The [near-1M cohort](development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)
+   also passes both exact answers at physical1048062/1048170, natural TG38/74,
+   with the same independent review and complete closure. Other seeds/profiles
+   and MTP remain pending; the historical native results keep their r68 binding.
+   The historical `1bff953` `.161` run completes all
+   **1,048,448 physical prefill tokens and 128 output tokens**
+   with explicit YaRN4 and `--ignore-eos`. The
+   [capacity/function receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+   verifies actual retirement, collection, model identities and service/lease
+   closure. The older natural-EOS43 failure remains unchanged. Long-context
+   recall checks still need completion; this single run is not a matched
+   performance comparison. Native live progress also reaches its confirmed
+   final snapshot, separately from process and lease retirement.
+   The native HTTP client deadline now covers the recorded duration: configurable
+   maximum 24 hours, long-context default four hours. Matching Release and
+   sanitizer fixtures pass; independent recall and HTTP GPU campaigns remain open.
+   The native `long-context-recall` client now prepares three seeded bindings
+   at start/middle/end, exact per-turn response oracles and a continuation that
+   asks for previously unanswered keys. Actual counts, copied corpus and quality
+   misses are retained separately from infrastructure failures. Client source
+   and local fixtures do not qualify original-weight long-context recall.
+4. **Benchmark methods integrated; run matched Gufo/Halogen comparisons.** Compare full cold
+   prefill and decode through 1M, and multi-user C1/2/4/6/8, with matched physical
+   work, cache policy, output length, repetitions and server lifecycle. Retain
+   PP, TG, TTFT, resources and correctly scaled graphs. Profile the prefill
+   decline above 256K and separate batching from reactive responsiveness.
+   [Pinned-source dispatch analysis](development/validation/long-context-sparse-dispatch-source-2026-10-06.json)
+   identifies the preceding provider's 2,048-word sparse-WMMA limit: configured capacity above
+   262,144 tokens can select the per-token fallback even at shallower
+   visible depth. The C17 observer and native core report now capture actual
+   matrix/scalar, dense/sparse selections, with confirmed/unconfirmed work and
+   explicit unsupported views. Focused host checks and exact source recipes
+   pass; coherent current HIP compilation also passes. The current policy
+   separates visible frontier from allocation pitch and adds a default-ON
+   8,192-word specialization through 1M. Its 13 generated `.161` GPU cases
+   pass complete bitwise output comparison and independent offline review
+   ([component receipt](development/validation/attention-fixture-point-2026-10-07.json)).
+   Original-weight GPU dispatch and matched observer cost remain open.
+   Capture actual dispatch before attributing
+   timings to
+   reactive scheduling; this finding is not measured causality or a
+   constant-prefill guarantee.
+5. **Steering integrated; qualify learned directions and runtime behavior.** Load its per-layer `.f32`
+   directions, validate geometry against the loaded model, and expose FFN and
+   attention scales through model-neutral shared-core contracts used by HTTP
+   and bench. The [owned C17 implementation](development/STEERING.md) now covers
+   immutable banks, scale transactions, history/cache identities and RAM/SSD
+   metadata. Direct C model admission and session policies are wired in the
+   provider source to prefill, AR and batch AR/MTP, committing only the actual
+   retained frontier. The provider source now binds policy metadata to model
+   capture/restore, retaining DS4 framing and validating combined semantic scope
+   before transfer. Shared-worker admission/resource projection, scoped text
+   lookup and initial server/native core bench controls are wired. Twenty-four Debug
+   and twenty-four sanitizer host checks pass, including synthetic AR/MTP/vision
+   RAM/SSD process restart and both HTTP APIs. Asynchronous shared-core job
+   changes now preserve past state, update mixed-history scopes and isolate
+   concurrent policies in host tests. The direct provider's graph/controller
+   invalidation passes syntax checks. Copied native benchmark schedules now
+   split prefill and cap each AR/MTP row at exact physical boundaries. Stored
+   requests have asynchronous live controls and confirmed snapshots, with an
+   explicit index for independent multi-choice controls. Both HTTP APIs accept
+   copied creation-time plans and report exact application/unreached steps.
+   Host tests cover cache-boundary limits, full plan identity and charged retained
+   choice lifetimes. Selected original-weight scheduled SSD restart cases now
+   pass in AR/MTP on the unchanged `20777005` runtime
+   ([receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json)).
+   Three FFN/attention changes apply at exact prefill/generation indices;
+   cold/SSD physical inputs, 32 output IDs and final policies match within and
+   across modes. Divergent saved spelling is refused and the compatible prefix
+   restores exactly 128 tokens. MTP accepts 3 of 14 proposals in each case.
+   Eighteen host gate and 60 campaign checks pass. The sparse nonzero fixture
+   qualifies this regression. The native C17 paired-prompt builder now composes
+   model-derived last-token capture and compensated direction learning, retains
+   raw rows/physical IDs and writes DS4-format banks with bounded input/host/output
+   resources. Four native CTest checks pass normally and with unsuppressed
+   sanitizers; twelve mocked build checks require its seventh consumer artifact
+   ([HOST receipt](development/validation/steering-build-host-2026-10-07.json)).
+   The matching `4c703b3d`/r70
+   [coherent HIP build](development/validation/steering-build-point-build-2026-10-07.json)
+   passes both full providers and all seven consumers. Actual C17 builder/core
+   objects and the primary-provider link verify. The separately
+   [bounded capture gate](development/STEERING.md#original-weight-capture-gate)
+   now has eighteen Debug/eighteen sanitizer HOST checks and 89 supervisor checks
+   ([receipt](development/validation/steering-build-gate-host-2026-10-07.json));
+   its independent raw-row oracle refuses incomplete captures and forged banks.
+   Eight original formal/casual prompt pairs now pass on `.161`: sixteen
+   short prefills yield 1536 attention/FFN rows, with all four FFN branches
+   retained. Independent local and remote reconstruction matches both
+   normalized 48-by-2560 banks
+   ([original receipt](development/validation/steering-build-original-point-2026-10-08.json)).
+   Actual prompts are 28–35 physical tokens. A separate chunk16 cohort now
+   passes multiple chunks and four final one-token chunks, preserving all
+   physical IDs and byte-identical raw activations and banks
+   ([tail receipt](development/validation/steering-build-tail16-point-2026-10-08.json)).
+   Both jobs are collected and strongly closed.
+   The optional reviewer now streams raw rows and admits up to 128 pairs/512 MiB.
+   Its analytic 100-pair native fixture passes in Debug and sanitizer modes;
+   both frozen original reviews match exactly
+   ([HOST receipt](development/validation/steering-build-scaled-review-host-2026-10-08.json)).
+   Bounded development artifact collection now supports FFN-only captures and
+   512 MiB raw files, with stable streamed hashes and complete local rechecks.
+   Sixteen HOST checks and two focused CTests pass per normal/native-sanitizer
+   mode, including synthetic 100-pair construction
+   ([receipt](development/validation/steering-build-collection-host-2026-10-08.json)).
+   This transfer path does not qualify original learning or strong closure.
+   A separate original 100-pair FFN cohort now passes 200 complete prefills and
+   independent reconstruction of 9,600 rows and the normalized bank on `.161`
+   ([receipt](development/validation/steering-conciseness-original100-point-2026-10-08.json)).
+   Nineteen hashes, four unchanged model stats, actual exits 0, exact identities/
+   whole-cgroup closure and all four release deliveries verify. The same receipt
+   satisfies the held-out profile's full model/runtime/corpus/bank provenance.
+   The [held-out response protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
+   and independent checker now pass HOST/native-client fixtures
+   ([receipt](development/validation/steering-quality-checker-host-2026-10-08.json));
+   serial own-child server/native-client supervision is also implemented and
+   checked against eleven HOST cases per normal/sanitizer mode
+   ([receipt](development/validation/steering-quality-supervision-host-2026-10-08.json)).
+   The separate campaign body now binds helpers, corpus, original 100-pair
+   training provenance and the bank to one model/runtime, and reconstructs the
+   complete saved wire independently. Seventeen profile and twelve updated
+   supervision HOST checks pass per normal/sanitizer mode, with two focused
+   CTests per mode
+   ([receipt](development/validation/steering-quality-profile-host-2026-10-08.json)).
+   The coordinator dispatch hook is now integrated after the near-512K recall
+   seal, with eight dispatch checks per mode and all 89 existing ownership/
+   restore checks passing
+   ([receipt](development/validation/steering-quality-campaign-host-2026-10-08.json)).
+   Those HOST model servers and training metadata are simulated. Separate
+   original 100-pair learning now passes. The first original response run saves
+   68/70 replies before HTTP429; the bank client exits1, and its applied-policy
+   snapshots remain unavailable
+   ([failed receipt](development/validation/steering-conciseness-quality-failed-point-2026-10-08.json)).
+   Independent partial wire reconstruction and full seven-identity/cgroup
+   closure pass. Baseline arithmetic is 6/10 and twenty negative-scale replies
+   reach the token limit; the full effect and learned quality remain unqualified.
+   Native synthetic serving reproduces the response-store refusal after 58
+   retained records at 64 MiB. The corrected optional supervisor uses 256 MiB;
+   all seventy records fit at both supported output-budget endpoints without
+   eviction. Thirteen supervision/seventeen profile checks and one CTest pass
+   per Debug/unsuppressed sanitizer mode
+   ([HOST receipt](development/validation/steering-quality-response-capacity-host-2026-10-08.json)).
+   This changes no native source or quality criterion. A separately admitted
+   original repeat now completes all seventy responses and actual stored
+   steering policies, with both native clients0
+   ([complete receipt](development/validation/steering-conciseness-quality-point-2026-10-08.json)).
+   Its original controller/container exit1 and quality fails: 31/70 arithmetic
+   answers, fifty natural stops and absent/zero parity10/10. Each negative scale
+   truncates all ten outputs. The frozen response-length effect is not evaluated
+   after its arithmetic/natural-stop prerequisites fail. Collection, independent
+   full-wire review, whole-container/seven-identity closure, all four releases
+   and portable archive postcheck pass0. This qualifies retention, observable
+   policy application and retirement; learned response quality remains failed.
+   The optional response collector now retains both phases' full/partial wire
+   with frozen-input checks, bounded transfer and complete local rehash. Twelve
+   [HOST checks](development/validation/steering-quality-collection-host-r2-2026-10-08.json)
+   pass; transfer remains separate from original response quality and closure.
+   Learned direction quality, independent graph/
+   correction/fault, vision and matched cost remain open.
+   Separate `modern-core-steering-admission` windows now qualify original-model
+   malformed-bank refusals and absent/zero/fresh-core recovery equality in AR/MTP
+   ([receipt](development/validation/steering-admission-point-gpu-2026-10-06.json)).
+   All 272 input/32 output IDs match. Each mode retains three native successes
+   with exit 0 and twelve expected loader refusals with exit 1. MTP drafts six
+   and accepts zero; this is no accepted-burst qualification. The original QA
+   rejection is preserved. Sixteen host/61 campaign checks pass; broader quality,
+   independent graph/correction/GPU faults, vision and cost remain open.
+   DS4's `--dir-steering-file`, `--dir-steering-ffn` and
+   `--dir-steering-attn` now select fixed initial model-wide scales through the
+   same core used by server and bench.
+   Cover both prompt evaluation and generation, session scale changes,
+   cache compatibility and AR/MTP interaction. Require unchanged baseline output
+   with steering off, malformed-vector refusal and measured quality/performance
+   with steering on. DS4 documents Qwen's 48-by-2560 bank and its HC branches;
+   that implementation is Metal-only, so it is not evidence for LIE HIP.
+   [Upstream steering contract](https://github.com/antirez/ds4/blob/main/dir-steering/README.md).
+6. **Generation profiles integrated; qualify independent sampling behavior.**
+   Temperature already exists in LIE. Qualify the greedy temperature-0 baseline
+   and the declared temperature-1 profile with top-p 1, top-k 0 and min-p 0.05. The
+   top-k/min-p controls are now exposed in the shared contract, both HTTP APIs
+   and native core bench, with CPU contract checks. Retain explicit seeds and
+   qualify the new profile on original weights in AR and exact
+   target-distribution MTP.
+   Require filter/probability oracles, correct tool-mode transitions and measured
+   cost; record the selected defaults rather than silently changing profiles.
+   The [declared GPU protocol](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md)
+   and optional supervisor pass 78 CPU fixtures. The integrated `1bff953`
+   runtime now completes two seeded PP1500/TG128 sessions for greedy AR and
+   the DS4 profile in AR/MTP, with exact per-profile token replay and actual MTP
+   drafts/acceptance. [GPU receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json).
+   Independent original-weight probability/tool-transition coverage and matched
+   cost remain pending.
+   The native [complete-row capture and offline replay](development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md#complete-row-capture-and-offline-probability-replay)
+   now prepare full probability/RNG/history witnesses and independent mathematical
+   filter/residual checks for the final phase. The required-function capture
+   also binds the complete vocabulary, masks, natural-stop frontier and validated
+   call arguments. Three private samplers and independent byte membership/
+   long-double mass oracles agree in local fixtures
+   ([tooling receipt](development/validation/sampling-tools-host-2026-10-07.json)).
+   The final r39 original-weight AR capture now passes 96 rows across the six
+   frozen profiles in original/C17/OFF Release and sanitizer replay. Full
+   probability/history/RNG witnesses match, with independent mass and forced
+   residual checks. [AR numerical receipt](development/validation/sampling-original-ar-point-2026-10-07.json).
+   This preceding receipt covers unconstrained AR only. The new current r45
+   runtime also passes 152 required-function rows across all six profiles in
+   original/C17/OFF Release and unsuppressed sanitizer replay, including full
+   vocabulary masks, mass, history, RNG, residual checks and complete calls.
+   All six calls choose the requested arguments and finish with natural EOS.
+   [Required-function AR receipt](development/validation/sampling-required-tools-ar-point-2026-10-07.json)
+   binds the new GPU runtime and unchanged qualified host-sampler sources.
+   Both runs are collected and strictly closed. Actual MTP-controller branches,
+   prose/parallel calls/results, broader quality, faults, resources and matched
+   cost remain open. The new capture uses the default 2,048-token prefill chunk;
+   larger live chunks retain their separate gates.
+   The optional Point supervisor now executes the native capture under the same
+   owned window and collects bounded raw rows, including failed partial evidence.
+   Fifteen focused transport/receipt and seven ownership/build regression controls
+   pass locally. [Preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
+   Native/runtime numerical sources and the matching HIP build remain unchanged;
+   structural receipt validation does not qualify the independent probabilities.
+   The [wider function transition client](development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md)
+   now prepares 71 frozen HTTP checks across greedy/DS4/filtered profiles,
+   including prose, parallel calls, distinct reversed results and eight
+   pre-forward refusals. Grouped HOST mock controls pass; original-weight
+   AR/MTP observations and matched cost remain open. It changes no native ABI,
+   numerical algorithm, reactive scheduling or product dependency.
+   [Sampling defaults](https://github.com/antirez/ds4/blob/main/docs/SERVER.md) ·
+   [MTP sampling semantics](https://github.com/antirez/ds4/blob/main/docs/SPECULATIVE_DECODING.md).
+7. **C17 sampler extractions integrated; qualify the combined runtime.**
+   Move provider-owned grammar/masking, sampler history and compact speculative
+   distributions behind LIE contracts, one component at a time. Require bounded
+   lifetimes, numerical oracles and GPU comparisons before replacing each
+   component. Preserve the shared reactive core and limit this task to those
+   three identified extractions.
+   The later default-ON source also moves token/penalty/probability buffer ownership,
+   growth, accounting, logical clones and exact move transfer into C17. Private
+   sampler/distribution layouts change; matching complete provider and consumer
+   builds are required. Production rows transfer without a C++ probability-vector
+   copy; original OFF layouts remain guarded. This increment has 20 edits and
+   a 120-file inventory. Combined Release/sanitizer HOST controls now pass the
+   ownership/refusal/MTP fixtures and complete original/ON/OFF witnesses.
+   The complete current private HIP producer/consumer build passes; original-weight
+   and resource/cost gates remain open. See
+   [native sampler storage](development/C17-SAMPLING.md#native-sampler-buffer-ownership).
+   Full model/controller/kernel replacement remains an architectural destination,
+   outside these three identified extractions and the current root queue.
+   Sampler history/penalty bookkeeping is now wired through an owned C17
+   contract under the default-ON sampler selection, retaining an OFF reference.
+   Host FIFO/count oracles and pristine/ON/OFF full witnesses pass; original-weight
+   AR/MTP/grammar continuation and cost remain unqualified. Ordered/compact
+   distributions, residual correction and host MTP proposal/verification arithmetic
+   now also use C17, with caller-owned storage and transactional RNG refusal.
+   [Host comparison evidence](development/validation/c17-distribution-host-2026-10-05.json)
+   covers complete rows, decisions and draw states; its GPU gates remain open.
+   The byte grammar runtime and dense/compact mask application now use C17,
+   with immutable programs, bounded snapshots and complete host state/mask
+   [witnesses](development/validation/c17-grammar-runtime-host-2026-10-05.json).
+   Exact-decimal numeric policy/prefix/LCM now also use C17, with complete
+   [host witnesses](development/validation/c17-grammar-number-host-2026-10-05.json).
+   JSON number representability now also uses the later C17 module below.
+   String/UTF8/escape/surrogate
+   predicates, whitespace and Unicode-DFA graph/query runtime now also use C17,
+   with complete [host witnesses](development/validation/c17-grammar-unicode-host-2026-10-05.json).
+   Vocabulary trie construction, token acceptance, iterative traversal, exact
+   transition interning and canonical-state mask-cache policy now use C17
+   ([host witnesses](development/validation/c17-grammar-vocabulary-host-2026-10-05.json)).
+   Regex expression simplification, memoized iterative derivatives, Unicode
+   partitioning and BFS DFA construction now also use the C17 core
+   ([host witnesses](development/validation/c17-grammar-compiler-host-2026-10-05.json)).
+   Syntax parsing and iterative assertion expansion now also use model-neutral
+   C17 contracts with bounded AST/work budgets
+   ([host witnesses](development/validation/c17-grammar-parser-host-2026-10-05.json)).
+   Unicode-set registry, range translation and UTF8 input buffers now use a
+   reusable C17 context through ICU C APIs
+   ([host witnesses](development/validation/c17-grammar-uset-host-2026-10-05.json)).
+   ICU remains the property/set/conversion dependency. Snapshot reader/writer
+   planning, validation and payload copies now use C17
+   ([host witnesses](development/validation/c17-grammar-snapshot-host-2026-10-05.json));
+   provider vector storage remains private typed translation. Concrete rule/
+   class/literal/repetition/JSON-primitive/generic-value/unsigned-interval
+   construction, productivity/nullable analysis, iterative cycle checks and
+   dead-alternative pruning now use the C17 builder
+   ([host witnesses](development/validation/c17-grammar-builder-host-2026-10-05.json)).
+   Structural JSON equality, local-reference resolution, supported-key validation
+   and schema conjunction/distribution/merging now use shared C17
+   ([host witnesses](development/validation/c17-schema-transform-host-2026-10-05.json)).
+   Provider container views/staging remain private; binary64 conversion now
+   uses the later shared C17 codec below.
+   Format and numeric leaf policies now use the later C17 modules below.
+   Finite-value filtering/canonicalization,
+   JSON quoting and object/array construction now use C17 with bounded shared
+   counts and independent host refusal/language tests. The compiled-schema cache now also uses C17 ordering, synchronization and
+   opaque ownership, with [host witnesses](development/validation/c17-grammar-cache-host-2026-10-05.json).
+   Per-compilation reference identity lookup, placeholder publication and bounded
+   storage now also use C17, with [host witnesses](development/validation/c17-schema-memo-host-2026-10-05.json).
+   Its 32 pristine/ON/OFF checks and recursive states agree. Type/nullable/keyword
+   compatibility, branch
+   selection and ordered rule composition now also use C17, with
+   [host witnesses](development/validation/c17-schema-dispatch-host-2026-10-05.json).
+   Identity-first Visit sequencing, recursive placeholder publication and
+   successful/empty body commitment now also use C17, with
+   [host witnesses](development/validation/c17-schema-visit-host-2026-10-05.json).
+   Ordered definitions, reference/anyOf distribution and enum/const body policy
+   now also use C17, with [host witnesses](development/validation/c17-schema-body-host-2026-10-05.json).
+   All 19 earlier complete witnesses remain unchanged. The matching memo/dispatch/
+   Visit/body build now passes selected AR37/MTP37 GPU controls
+   ([receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json)). Numeric
+   schema preparation, scalar acceptance, LCM representability and literal
+   publication now also use C17, with
+   [host checks](development/validation/c17-schema-number-host-2026-10-06.json).
+   Format selection, bounded pattern construction and schema expansion now also
+   use C17 ([host checks](development/validation/c17-schema-format-host-2026-10-06.json)).
+   Reasoning/tool composition cache ordering, duplicate-before-eviction policy
+   and synchronization now also use C17
+   ([host checks](development/validation/c17-composition-cache-host-2026-10-06.json)).
+   Immutable reasoning/tool grammar composition now also uses C17
+   ([host checks](development/validation/c17-composition-host-2026-10-06.json)), with
+   complete states/masks and allocation/refusal oracles. JSON binary64 number
+   formatting/parsing now also uses C17 with bundled pinned Ryu and independent
+   bit/rounding/refusal oracles
+   ([host checks](development/validation/c17-binary64-host-2026-10-06.json)). The
+   matching `20777005` 83-file inventory (71 first-party + 12 vendor/provenance
+   files) now passes selected original-weight AR37/MTP37 controls on `.161`
+   ([GPU receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json)).
+   Complete JSON syntax, UTF-8/escape decoding and decoded duplicate-key detection
+   now also use C17, with [host checks](development/validation/c17-json-parser-host-2026-10-06.json).
+   Its matching sealed `904774da` 86-file inventory passes selected original-weight
+   AR37/MTP37 controls on `.161`
+   ([GPU receipt](development/validation/c17-json-parser-point-gpu-2026-10-06.json)).
+   Typed JSON values, exact string/key bytes and ordered object/array storage
+   now also use the shared C17 core, including cloning, transactional assignment,
+   parsing and serialization
+   ([host receipt](development/validation/c17-json-value-host-2026-10-06.json)).
+   Private C++ facades preserve the existing callers and synchronize lazy string
+   projections for immutable parallel reads. The matching sealed `5227bf4f`
+   89-file provider/application build passes selected original-weight AR37/MTP37
+   controls on `.161`
+   ([GPU receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json)).
+   Immutable primitive storage, ordered predicate tables, construction-only
+   identity memo and hot dispatch now also use C17
+   ([host receipt](development/validation/c17-lexeme-host-2026-10-06.json)).
+   Six guarded edits preserve original OFF classes/vector/map; the inventory
+   now binds 92 files (80 first-party and 12 vendor/provenance). The matching
+   sealed `688b74c5` HIP build passes selected original-weight AR37/MTP37
+   controls on `.161`
+   ([GPU receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json)).
+   Request grammar snapshots now also remain C-owned across transitions/masks
+   and independent speculative copies, with saved-allocator duplication and
+   [host checks](development/validation/c17-request-state-host-2026-10-06.json).
+   Three guarded edits preserve original OFF state/algorithms. The newer
+   93-file inventory has a matching sealed `117cbae6` HIP build and selected
+   original-weight AR37/MTP37 controls
+   ([GPU receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json)).
+   Finished immutable grammar tables no longer have duplicate default-ON C++
+   rule/class payloads. Six guarded edits preserve OFF behavior; the new recipe
+   is provider-identity gated. [HOST checks](development/validation/c17-grammar-storage-host-2026-10-06.json)
+   pass 52 sanitizer and three Release controls, retaining all 29 complete
+   witnesses. Matching sealed `ad53e681` HIP ON/OFF providers and private
+   consumers pass unchanged AR37/MTP37 original-weight controls on `.161`
+   ([GPU receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)).
+   Broader grammar branches/faults/quality/resources and matched cost stay open.
+   Private construction/value/error/prompt facades and model/controller remain transitional.
+   Per-compilation derived values and transformation/normalization staging now
+   retain stable native roots in the shared C17 collection. The
+   [HOST receipt](development/validation/c17-schema-store-host-2026-10-06.json)
+   records 54 sanitizer checks, three corrected provenance gates and all 29
+   complete preceding witnesses unchanged. Original OFF compiler storage remains
+   guarded. Matching sealed `72e9e831` coherent 99-file HIP ON/OFF providers
+   and private consumers pass unchanged AR37/MTP37 original-weight controls
+   ([GPU receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json)).
+   The newer shared C17 compilation/publication workflow and independent native
+   prompt ownership pass 56/56 sanitizer HOST checks, one focused C check and
+   three provider gates. All 29 preceding complete witness groups remain
+   unchanged. [Current HOST scope](development/C17-SAMPLING.md#schema-compilation-and-prompt-publication)
+   now has matching sealed `33d12a02` HIP ON/OFF providers and private
+   LIE/model/reference consumers passing AR37/MTP37
+   ([GPU receipt](development/validation/c17-schema-compile-point-gpu-2026-10-06.json)).
+   The official Gufo HTTP frontend is not built in this gate. Signed integer-bound
+   interval construction now uses C17, including exact represented magnitudes
+   beyond int64 and exclusive endpoints. The new
+   [HOST receipt](development/validation/c17-schema-integer-host-2026-10-06.json)
+   records 58 sanitizer checks, one focused C check, four Release checks and
+   all 29 preceding complete witness groups unchanged. The matching sealed
+   `9a4f45b1` 105-file HIP ON/OFF/private-consumer build now passes unchanged
+   selected AR37/MTP37 on `.161`
+   ([GPU receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json)).
+   A new independent 66-check bounded-integer protocol passes its first 26 AR
+   checks, including binary64-maximum JSON/SSE output, then fails HTTP502 at
+   an exclusive lower endpoint near `1e18`. The final shared C validator's
+   rounded-double comparison now has a reproducing HOST regression and a C17
+   correction: 9,855 exact numeric checks, four Release and seven sanitizer
+   tests pass. The corrected `050ae826` runtime now has matching HIP ON/OFF
+   builds and passes all 66 integer checks plus the unchanged 37 general
+   controls in each AR/MTP mode on `.161`
+   ([current GPU receipt](development/validation/output-schema-integer-point-gpu-2026-10-06.json)).
+   The earlier failed AR window is preserved; MTP was not started for that failed
+   runtime. The corrected build and both successful windows are collected and
+   closed. General fractional-number constraints, numeric enum/const and
+   `multipleOf` precision remain separate open qualifications.
+   JSON root/borrowed ownership, lazy construction, scalar moved state,
+   copy/move assignment and root transfer now also use C17. The
+   [HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json)
+   records five Release, five sanitizer, 58 provider and three contract checks;
+   all 30 complete preceding groups/267 files are unchanged. Private facade
+   sizes remain unchanged. The matching `dbdac28d` coherent HIP ON/OFF build
+   now passes 37 general and 66 integer controls in each AR/MTP mode on `.161`
+   ([GPU receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json)).
+   Selected continuation is qualified; broader branches, faults and cost remain open.
+   Standard schema-number conversion now calls the C17 binary64 codec directly;
+   each conversion hook is an independent optional override. The
+   [HOST receipt](development/validation/c17-schema-codec-host-2026-10-06.json)
+   records Release5/sanitizer5/provider58/contracts3 and all 30 preceding groups/
+   267 files unchanged. Matching new-source HIP/AR/MTP qualification is pending
+   in the final phase. The later shared final validator now uses exact output
+   spans for fractional bounds, numeric enum/const and `multipleOf`, through
+   reusable C17 comparison/divisibility APIs. This later increment passes the
+   combined Release/sanitizer HOST fixtures and complete provider witnesses.
+   Grammar/final-validator agreement, original-weight AR/MTP, fault and cost
+   acceptance remain open alongside the other final gates.
+   A later `lie_schema_compiler` context now owns temporary
+   builder/memo/derived-root/predicate-memo lifetimes, primitive IDs, counters,
+   initialization and one-shot publication. The private adapter projects typed
+   callbacks/errors and borrowed state. Matching source inventories include
+   three new files; its native/typed HOST fixtures now pass.
+   A further native `lie_schema_arena` now creates/copies/mutates
+   staging JSON trees, supplies direct C readers and transfers roots through
+   C17 ownership. Default-ON transformations/normalization use this path, with
+   private typed/error projections and guarded original OFF construction.
+   Native/typed fixtures are written; 111-file source inventories are wired.
+   Native C17 string-leaf admission/construction now also replaces default-ON
+   typed length/pattern/format policy. Lazy unrestricted-program reuse and
+   original error ordering remain explicit. Its written native/typed fixtures
+   and later 114-file inventory pass combined HOST qualification; GPU remains pending.
+   The complete native C17 frontend now also binds all schema bodies/visitors/
+   containers/enum leaves, owns predicate registration and diagnostic retirement,
+   and publishes independent program/prompt/table results. Production default-ON
+   `Compile`/`Object` paths use native trees instead of typed factories/callbacks;
+   private error/shared-handle projection, original OFF and retained helper probes
+   remain. This further increment's fixtures pass combined Release/sanitizer HOST
+   qualification in the integrated 120-file inventory; matching GPU remains pending.
+   Remaining private typed grammar/error/shared-handle projections and model/controller
+   ownership remain transitional. These increments do not close any of the six items.
+   Remaining compiler bindings/typed facades/model ownership and broader branch,
+   fault, quality, private-resource and matched-cost gates remain open.
+   Root-reference cycle/admission policy and root whitespace/body composition
+   now also use C17, with [host checks](development/validation/c17-schema-root-host-2026-10-06.json).
+   The matching sealed `3c4cac56` 96-file HIP build verifies complete ON/OFF
+   providers and passes the unchanged 37 original-weight OpenAI controls in each
+   AR/MTP mode on `.161`
+   ([GPU receipt](development/validation/c17-schema-root-point-gpu-2026-10-06.json)).
+   Individual root GPU branches, faults and matched cost remain open. Private construction facades,
+   schema/regex wrappers, template projections and model/controller remain
+   transitional. Broader numerical/fault/resource/quality/matched-cost
+   gates remain open.
+   The Gufo benchmark control requires a separately verified complete OFF
+   provider, including numerical/controller archives, to keep private request
+   layouts coherent. The sealed `117cbae6` ON/OFF HIP builds and two short C1
+   controls pass with exact physical-input/output/frontier witnesses; these
+   warmup0/rep1 correctness controls do not establish a performance gain.
+   The earlier matching `a24875f` 66-file build passes selected original-weight
+   AR37/MTP37 controls on `.161`
+   ([GPU receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json)).
+   Individual numeric/format branches and independent probability/fault/private
+   resource/matched cost gates remain open.
+   The dedicated SSD text restart gate now qualifies selected original-weight
+   AR/MTP cases on the unchanged `20777005` runtime
+   ([receipt](development/validation/ssd-text-restart-point-gpu-2026-10-06.json)).
+   New processes restore 2,048/2,064 exact physical tokens from text, with zero
+   prefill and matching 32-token outputs; MTP accepts 21 drafts in each process.
+   Twelve parser and 59 campaign host tests pass. The raw MTP wrapper exit 1
+   remains retained: corrected offline validation requires the full persisted
+   prompt instead of the early checkpoint. Selected original-weight scheduled
+   physical-index/cache cases now also pass
+   ([receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json));
+   broader steering quality/fault/cost remains open. The earlier ten-test
+   [host receipt](development/validation/ssd-text-restart-host-2026-10-06.json)
+   retains its original host-only scope.
+   [Release/cache host checks](development/validation/release-cache-host-2026-10-05.json)
+   pass 79/79/35 with 20 unchanged complete witnesses. The device-free r17 provider
+   builds but its application fails a strict optimized C warning; the collected
+   build is retired. Corrected `6a48da3` builds and passes the selected GPU gates;
+   individual branches, faults, allocation-exact resources and matched cost remain open.
+   Earlier finite-value/cache slices have a matching
+   provider/application rebuild and pass their own AR37/MTP37 GPU controls
+   ([receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)).
+   The integrated `1bff953` runtime now passes 37 original-weight OpenAI controls
+   in both AR and MTP, including selected grammar/tool paths, and six seeded
+   native TG128 sessions. This does not close individual grammar-branch,
+   independent numerical, fault, allocation-exact resource or matched cost gates.
+
+Current commands, ownership and evidence are maintained in
+[progress](PROGRESS.md), [coordination](COORDINATION.md) and the
+[model/platform benchmark index](benchmarks/models/qwen3.8-flash-next/README.md).
+
+## Implemented capabilities and recorded qualification limits
+
+The earlier MTP and vision branches were integrated from `7d85b2f` and
+`806a790`. The shared contracts remain model-neutral; only the explicitly
+recorded Qwen numerical binding is qualified.
+
+These limits describe the evidence already collected. The numbered queue above
+defines this thread's tasks; this table does not assign additional broad campaigns.
+
+| Component | Implementation and recorded evidence | Recorded qualification limits |
+| --- | --- | --- |
+| MTP | Verified bursts, reactive cancellation, predictor/controller checkpoints, RAM/SSD continuation and recorded AR/MTP GPU comparisons. | Independent predictor oracle, broader rejection/fault/quality and long-context coverage. |
+| Vision and joint MTP | Owned images, semantic cache/MRoPE, projector identity and joint RAM/SSD state; Halo image/cache and Point AR/MTP direct gates pass. | Broader image quality, mixed-history/fault cases and allocation-exact resource/performance qualification. |
+| Semantic events/functions | Shared C17 text/progress/tool/turn events and incremental arguments. The current `33d12a02` build passes 37 selected original-weight controls in each AR/MTP mode, including automatic output budgets and retained Responses lifecycle. | Full agent task evaluation, broader API cases and performance. |
+| C17 sampling and grammar | Owned selection, history, speculative probabilities, grammar storage/runtime, Unicode input, JSON values, schema publication and prompt ownership. Latest integrated native frontend, exact decimal validator and sampler buffers pass combined Release/sanitizer HOST qualification. Earlier selected AR/MTP GPU controls retain their recorded source scope. | Matching latest-source HIP/AR/MTP, individual branches, faults, quality, private resources and matched cost. Private typed grammar/error/shared-handle projections and model/controller remain transitional. ICU remains the property/set/conversion dependency. |
+| Extended context | Explicit native/YaRN2/YaRN4 contracts. The frozen `1bff953` C1 YaRN4 run completes physical PP1,048,448 and fixed TG128 at capacity 1,048,576. | Independent long-context recall and matched performance remain open. The older natural-EOS43 failure is retained separately. |
 
 MTP and vision remain model-neutral capabilities. The C17 core owns policy,
 scheduling, lifetimes, storage and metrics; the model binding owns predictor,
@@ -366,8 +1293,9 @@ contracts and remains a libuv reactor; background/replay adds no model worker.
 The generation contract exposes sparse vocabulary bias, target reporting logits
 and JSON/tool constraints without upstream types.
 
-Constraint grammar compilation and token masking remain delegated to the
-pinned Gufo sampler. The independently fetched state variant also applies the
+Schema compilation and vocabulary trie/mask caching remain delegated to the
+pinned Gufo sampler. Byte-state expansion/transitions and applying resolved
+dense/compact masks now use the owned C17 runtime; new GPU gates remain open. The independently fetched state variant also applies the
 exact `adapters/gufo-state/sampling-edits.json` recipe for bias and reporting;
 source inventory and `sampling_edits_sha256` are verified before linking.
 Empty bias preserves upstream fast paths. Bias uses AR steps because compact

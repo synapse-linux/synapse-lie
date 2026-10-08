@@ -1,0 +1,42 @@
+{
+  "schema": "synapse-lie.q2-q5-overlay-converter-results.v1",
+  "label": "q2-q5-overlay-converter-r1",
+  "host": ".157",
+  "plan": "config/q2-q5-overlay-converter-window-plan.json",
+  "plan_sha256": "88f43e7bf87eea1de3b3b600b3d4f28302ba9d44dd1100bba303b0835ad2d259",
+  "previous_release_sha256": "6e6a7bc62d447edb7031cfa2b88f35680143c284be9e1f5f243435858671d940",
+  "raw_evidence": "evidence/q2-q5-overlay-converter-r1",
+  "raw_sha256": {
+    "preflight.json": "d990b38eb25e3f5025213aedf62bc66115620808539efe4f3c99c9f0d58e1ec5",
+    "admission.json": "2a53a8758a51dbadd26c339d6827f2c573adf6ea9dde00035c64f49e23c50f71",
+    "result.json": "cfc9bd2a4cfb0242b2d36929017d62f015490d5339af76ba89c508634f72d340",
+    "component.stdout": "124bd663b42ae77164934cbd691a7cdddefeb36947f76f35702d0859221d7650",
+    "component.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "release.json": "1296c307ea75e030be5cd25e34bc520f177ae6d98c5f53456d110395c8e1e5a2",
+    "registry-check.txt": "60e611255140af130c56bc8e610c6e0f871a70968758385518d2e5393664fd60"
+  },
+  "binary_sha256": "71728dd6b6e7ce2720eea4dba7e0139dddd828f5ee7acfdb002887c87038e042",
+  "component_exit_code": 0,
+  "rows": 257,
+  "cols": 2560,
+  "blocks": 20560,
+  "weight_relative_rms": 0.0318590314282,
+  "decode_oracle_relative_rms": 1.51269077603e-7,
+  "decode_oracle_max_scaled_error": 1.47528881833e-7,
+  "oracle_pass": true,
+  "peak_cpu_mc": 38000,
+  "peak_gpu_mc": 36000,
+  "release": {
+    "at": "2026-10-07T09:40:38.979249+00:00",
+    "state": "Q2_Q5_OVERLAY_WINDOW_RELEASED",
+    "kfd_empty": true,
+    "original_leases_free": 5,
+    "original_model_stats_unchanged": 7,
+    "remote_cleanup": false
+  },
+  "original_model_inference": false,
+  "original_model_quality": false,
+  "c1_throughput": false,
+  "cold_128k_prefill": false,
+  "production_dispatch_unchanged": true
+}

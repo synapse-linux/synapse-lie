@@ -1,0 +1,132 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-compose-retained.v1",
+  "retained_component_result_sha256": "8ecb318353abbc975cfed7e2652741ca3375ec31b57159f5c8f153ab3a4a9587",
+  "retained_plan_sha256": "4a0b103a6aab1e97c8ef5dd08fd5d2f7d3f3e13348a70f49fd8fa0d5fa7dca13",
+  "arms": {
+    "before": {
+      "label": "q2-live-stage-before-r1",
+      "capsule_sha256": "34e0baa32813715c8938ac9106c20b4222ac25b2c2da663abc5005d86223e127",
+      "archive_sha256": "684212000516e89685f734f578a05e05cec75c42d3b2210b48751b15b0c68f61",
+      "fixture_files_verified": 16,
+      "source_files_verified": 1020,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 106,
+      "outputs": 102,
+      "independent_checks": 51
+    },
+    "stage": {
+      "label": "q2-live-stage-candidate-r1",
+      "capsule_sha256": "1392efd4b1766c28c274a6a171cea24e02fe94b28a03aad01ab5cb4adffb4c25",
+      "archive_sha256": "b5ae675847b904f0b7dbe98921fb4c8752f4876b31139e6817b127e499602888",
+      "fixture_files_verified": 16,
+      "source_files_verified": 1020,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 106,
+      "outputs": 102,
+      "independent_checks": 51
+    },
+    "after": {
+      "label": "q2-live-stage-after-r1",
+      "capsule_sha256": "e4b910ff9c113b6025c47aa4c5e81b4e6bc11f8956a6af70ef5752b1ad8de822",
+      "archive_sha256": "2ce88e9db91de7c167dc0c909bfb10541b8062f8f567229f1d73fa910d31d87a",
+      "fixture_files_verified": 16,
+      "source_files_verified": 1020,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 106,
+      "outputs": 102,
+      "independent_checks": 51
+    }
+  },
+  "cells": {
+    "depth0-layer6": {
+      "median_us": {
+        "before": 5797.74609375,
+        "stage": 5631.64257812,
+        "after": 5751.31689453
+      },
+      "reference_drift_percent": -0.8008146350191203,
+      "time_change_percent": {
+        "before": -2.8649670569233954,
+        "after": -2.0808159001605597
+      },
+      "selection_bound_percent": 1.6016292700382406,
+      "passes_frozen_performance_selection": true
+    },
+    "depth0-layer0": {
+      "median_us": {
+        "before": 5974.78515625,
+        "stage": 5916.55908203,
+        "after": 5983.40966797
+      },
+      "reference_drift_percent": 0.1443484827396313,
+      "time_change_percent": {
+        "before": -0.97453000731067,
+        "after": -1.117265733915218
+      },
+      "selection_bound_percent": 1.0,
+      "passes_frozen_performance_selection": false
+    },
+    "depth131072-layer16": {
+      "median_us": {
+        "before": 5730.82324219,
+        "stage": 5664.45166016,
+        "after": 5730.72802734
+      },
+      "reference_drift_percent": -0.0016614515223389859,
+      "time_change_percent": {
+        "before": -1.1581509187262418,
+        "after": -1.1565086820350068
+      },
+      "selection_bound_percent": 1.0,
+      "passes_frozen_performance_selection": true
+    },
+    "depth131072-layer6": {
+      "median_us": {
+        "before": 6001.95458984,
+        "stage": 5976.27197266,
+        "after": 6025.51904297
+      },
+      "reference_drift_percent": 0.3926129859410876,
+      "time_change_percent": {
+        "before": -0.42790422345873047,
+        "after": -0.8173083506798684
+      },
+      "selection_bound_percent": 1.0,
+      "passes_frozen_performance_selection": false
+    },
+    "full-tiles": {
+      "median_us": {
+        "before": 4026.18212891,
+        "stage": 3943.54418945,
+        "after": 3947.07666016
+      },
+      "reference_drift_percent": -1.9647762127297574,
+      "time_change_percent": {
+        "before": -2.05251369198175,
+        "after": -0.08949587287359062
+      },
+      "selection_bound_percent": 3.929552425459515,
+      "passes_frozen_performance_selection": true
+    }
+  },
+  "saved_samples": 105,
+  "historical_selection": "NO_FURTHER_MODEL_RUN_FROM_THIS_COMPONENT",
+  "historical_selection_unchanged": true,
+  "retained_component_rerun": false,
+  "new_composition_qualified": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

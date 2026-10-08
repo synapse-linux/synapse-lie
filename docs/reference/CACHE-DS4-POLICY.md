@@ -40,6 +40,18 @@ SSD write is durable; STOPPED requires the writer to drain. Client cancellation
 skips a new capture. A graceful core stop captures a valid completed frontier
 before retiring an active sequence.
 
+With the progressive policy enabled and at least the minimum admitted token
+count, the core also captures the complete input prompt before decode, even if
+an earlier cold checkpoint was captured. `--cache-capture-finish off` disables
+generation-end captures; it does not disable this prompt checkpoint. Restore
+selects the longest compatible saved history. The selected original-weight
+[SSD text-restart cases](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#ssd-text-reconstruction-across-processes)
+qualify AR/MTP reconstruction when saved tokenization is longer than fresh BPE.
+The selected [scheduled steering cases](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md#scheduled-steering-with-ssd)
+also qualify token-key refusal of divergent spelling and restore of a compatible
+prefix up to the first unapplied physical step. Later mixed-history lookup
+remains unimplemented.
+
 ## Controls and accounting
 
 `LIE_DS4_CACHE_POLICY`, `LIE_CACHE_UTILITY` and

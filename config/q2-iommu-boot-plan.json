@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-iommu-boot.v1",
+  "source_commit": "ab54013da40c44c63616c09d41d7dbc7aea8d608",
+  "before_boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "before_window": "q2-iommu-on-native128-r1",
+  "before_release_sha256": "d4022589cd47dab9d7d44da702ac799a742e5604aaa997f66314641e1d67714a",
+  "window_helper_sha256": "2ce835ddfa04a5b4162166e2a6deb4683128162253c208d6a13a73768a6e395a",
+  "helper_sha256": "2df9d409c2d5e81d968e2ec70fefc521e990443372eccee30f4eb55e239ccb97",
+  "epoch_helper_sha256": "e9e478620c83f2b1a4248f1038cd2e2e5ff6ed1f2cc09f2f957ab269a5ba858b",
+  "files": {
+    "limine.original.conf": "8c7c638757fa2d6bb48533eef5c1dea317bea2eba92fd5cef9ea6c0dcf0e3349",
+    "limine.iommu-off.conf": "c4107662dddf07a40f6801178395cde4943831b82bcef81a914feca88456c46e",
+    "q2-iommu-boot.py": "2df9d409c2d5e81d968e2ec70fefc521e990443372eccee30f4eb55e239ccb97",
+    "q2-iommu-epoch.py": "e9e478620c83f2b1a4248f1038cd2e2e5ff6ed1f2cc09f2f957ab269a5ba858b"
+  },
+  "boot_entry": "Synapse-LIE-IOMMU-off",
+  "boot_parameter": "amd_iommu=off",
+  "default_kernel_unchanged": true,
+  "restore_exact_original_after_reconnect": true,
+  "gpu_run": false,
+  "user_authorized": true,
+  "future_admission": false
+}

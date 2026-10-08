@@ -362,15 +362,19 @@ uint64_t lie_store_read_key(lie_store *s,const int32_t *tokens,size_t n,uint32_t
 uint64_t lie_store_read(lie_store *s,const int32_t *tokens,size_t n,uint32_t chunk){
     return lie_store_read_key(s,tokens,n,chunk,0);
 }
-uint64_t lie_store_read_text_key(lie_store *s,const char *text,size_t n,uint32_t chunk,uint32_t flags){
+uint64_t lie_store_read_text_scoped_key(lie_store *s,const char *text,size_t n,uint32_t chunk,uint32_t flags,const unsigned char scope[32]){
     if(!s||!text||!n||n>LIE_CACHE_TEXT_MAX||!chunk||(flags&~15u))return 0;
     pthread_mutex_lock(&s->gate);uint64_t ticket=0;
     if(!s->stop&&!s->busy&&n<s->info.staging_budget_bytes){
         s->text=malloc(n);
         if(s->text){memcpy(s->text,text,n);s->text_bytes=n;s->count=0;s->chunk=chunk;s->key_flags=flags;memset(s->scope,0,32);
+            if(scope)memcpy(s->scope,scope,32);
             admitted(s,s->info.staging_budget_bytes,true);++s->info.lookups;ticket=s->ticket;}
     }
     pthread_mutex_unlock(&s->gate);return ticket;
+}
+uint64_t lie_store_read_text_key(lie_store *s,const char *text,size_t n,uint32_t chunk,uint32_t flags){
+    return lie_store_read_text_scoped_key(s,text,n,chunk,flags,NULL);
 }
 uint64_t lie_store_read_text(lie_store *s,const char *text,size_t n,uint32_t chunk){
     return lie_store_read_text_key(s,text,n,chunk,0);

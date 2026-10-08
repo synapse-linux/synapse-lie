@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-hc-norm-owner-host-results.v1",
+  "plan_sha256": "8aaa50640fb613261acca14ec188454892fe4a1822ab1101399e9348016288bb",
+  "host_result_sha256": "9f40ddcb124fca09ef4f12801e44bd6d25619cb7ab1848c98c9dc709df688ad6",
+  "finished_at": "2026-10-06T10:13:05.879520+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug": 36,
+  "asan_ubsan": 36,
+  "focused_owner_regression_methods": 9,
+  "fixtures_verified": 140,
+  "source_inventory_exact": 1027,
+  "GPU_run": false,
+  "model_inference": false,
+  "goal_met": false
+}

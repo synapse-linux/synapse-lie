@@ -17,11 +17,13 @@ projector files. Their original-weight and combined GPU qualification is pending
 
 ## Start the server
 
-After the GPU build, set the path to your first shard:
+After `make strix-halo`, set the path to your first shard. Examples below use
+`build/strix-halo/`; substitute `build/strix-point/` after `make strix-point`,
+or `build/release/` after the advanced CMake recipe.
 
 ```sh
 LIE_MODEL=/path/to/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf
-build/release/synapse-lie-server \
+build/strix-halo/synapse-lie-server \
   --model "$LIE_MODEL" --model-id qwen3.8-flash-next \
   --host 127.0.0.1 --port 8000 --context 262144 --max-active 1
 ```
@@ -41,6 +43,101 @@ curl --fail http://127.0.0.1:8000/v1/models
 The management endpoint listens on loopback, port 19880, separately from the
 inference API. Its development dashboard is at `http://127.0.0.1:19880/monitor`.
 Stop the foreground server with Ctrl+C.
+
+For context above the model's native limit, select an explicit
+[YaRN profile](CONTEXT.md). The configured ceiling is 1,048,576 tokens;
+actual original-weight capacity depends on memory and GPU qualification.
+
+## Directional steering
+
+Experimental steering uses DS4-compatible layer-major `.f32` directions:
+
+To prepare a direction from your own paired prompts, use the native
+`lie-steering-build` target from the [GPU build](BUILD.md#gpu-inference-build):
+
+```sh
+build/strix-halo/lie-steering-build --model "$LIE_MODEL" \
+  --target-prompts target.txt --contrast-prompts contrast.txt \
+  --output-dir learned-direction --components ffn
+```
+
+Each input file contains one nonempty UTF-8 prompt per line; corresponding lines
+form a pair. The output directory must be new. The default uses the model's
+chat template with thinking disabled; `--prompt-format raw` uses plain tokens.
+Only use `learned-direction/direction.ffn.f32` after process exit 0 and a
+`complete` event in `build.jsonl`. Prompt copies, physical token IDs and raw
+activation rows remain beside the bank. `--help` lists component, context,
+prefill, RoPE and memory/output bounds. Capture is diagnostic work and its
+duration is not a throughput benchmark. The native format/input/failure checks
+pass on HOST; original-weight capture and learned quality remain unqualified.
+See [capture and learning details](../development/STEERING.md#native-bank-builder).
+
+Load a prepared bank with the server:
+
+```sh
+build/strix-halo/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
+  --dir-steering-file /path/to/directions.f32 \
+  --dir-steering-ffn 1 --dir-steering-attn 0
+```
+
+Both scales are finite in [-100,100]. The flags set initial session defaults;
+they do not change completed prompt/state. File defaults
+are FFN 1 and attention 0; vector data has a 16 MiB admission budget. Use the same
+file and initial scales after restart to reuse steered RAM/SSD prefixes. Omit the
+file for ordinary inference. These controls also work in `--suite core` bench;
+direct executor suites do not accept them. Initial and dynamic controls have host
+tests; numerical GPU quality/performance qualification remains pending.
+
+For an active request created with `store:true`, use its returned ID to submit a
+live change. These `/steering` routes are LIE extensions to the two APIs:
+
+```sh
+LIE_REQUEST_ID=resp_ID_FROM_THE_RUNNING_REQUEST
+curl --fail http://127.0.0.1:8000/v1/responses/$LIE_REQUEST_ID/steering \
+  -H 'Content-Type: application/json' -d '{"ffn":-1,"attention":0.25}'
+curl --fail http://127.0.0.1:8000/v1/responses/$LIE_REQUEST_ID/steering
+```
+
+For Chat Completions, use `/v1/chat/completions/CHAT_ID/steering`. With `n > 1`,
+append the zero-based choice index, for example `/steering/1`; both GET and POST
+then target that choice only. Omitting the index on a multi-choice request
+returns **409**. Each choice has independent tickets, history and cache scope.
+POST returns **202** with an admission `ticket`; GET reports `pending`,
+`completed`, `last_result` and the last confirmed `policy`. Wait for
+`completed == ticket` and status `0` before treating the change as applied.
+`applied_position` is the retained physical boundary actually used. An already
+selected call can finish first; this API does not promise the next output-token
+index. A pending change or finished job returns **409**; an absent bank returns
+**501** on POST. Both scales are required. Past state and sampled
+corrections remain intact. Use a sufficiently long running request to exercise
+the control before retirement.
+
+To declare exact boundaries at creation, both APIs accept the LIE extension
+`dir_steering_plan` with the same array as the native benchmark:
+
+```json
+{
+  "dir_steering_plan": [
+    {"position":0,"ffn":1,"attention":0},
+    {"position":1024,"ffn":-1,"attention":0.25}
+  ]
+}
+```
+
+Positions count retained physical prompt/generated tokens. Supply 1–64 strictly
+increasing integer positions and both finite scales in [-100,100]. The server
+must have a direction bank. Each choice copies the plan and applies it through
+the shared inference owner. The last position must precede the prepared prompt
+length plus resolved output budget. GET `/steering` (or `/steering/{choice}`) returns the
+declared plan, attempted/applied steps, actual positions and terminal status.
+Early EOS can leave unapplied steps; inspect these results before treating the
+plan as complete. A planned job refuses additional live changes. Plans also work
+with `store:false`, but those requests have no retained control endpoint.
+
+The native core bench also accepts `--dir-steering-plan FILE.json` for changes
+at exact declared physical positions; see
+[scheduled benchmarks](BENCHMARKS.md#scheduled-steering).
+See [format and implementation](../development/STEERING.md).
 
 ## Chat, streaming and Responses
 
@@ -69,8 +166,9 @@ curl --fail http://127.0.0.1:8000/v1/responses \
 ```
 
 Clients execute function tools and submit correlated tool results in the next
-request. Tool-enabled SSE publishes a complete validated turn; function arguments
-are not streamed incrementally. Thinking is disabled. Inline PNG/JPEG image
+request. Tool-enabled SSE publishes provisional starts and argument fragments;
+clients execute only after successful final validation. See the
+[agent and tool guide](AGENT-CLIENTS.md). Thinking is disabled. Inline PNG/JPEG image
 parts are available with explicit vision admission; see the
 [vision guide](../development/VISION.md#use). The
 [API reference](../reference/OPENAI-REACTIVE.md) lists supported fields and error behavior.
@@ -80,7 +178,7 @@ parts are available with explicit vision admission; see the
 Configure both sidecars to use MTP verification on image-bearing requests:
 
 ```sh
-build/release/synapse-lie-server \
+build/strix-halo/synapse-lie-server \
   --model /models/target-00001-of-00004.gguf \
   --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
   --model-vision /models/projector.gguf \
@@ -97,7 +195,7 @@ that state. Prefix restore starts with the new request's sampler.
 The direct shared-core client accepts the same combination:
 
 ```sh
-build/release/synapse-lie-bench --suite core \
+build/strix-halo/synapse-lie-bench --suite core \
   --model /models/target-00001-of-00004.gguf \
   --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
   --model-vision /models/projector.gguf --image-file image.png \
@@ -114,10 +212,43 @@ The current integration is covered by native fixtures and HIP build/link tests.
 
 | Option | Meaning |
 | --- | --- |
-| `--context 262144` | Maximum tokens per sequence, including prompt and reserved output; valid range: 128–262,144. |
+| `--context 262144` | Maximum tokens per sequence, including prompt and reserved output; application range: 128–1,048,576; the model/profile sets the actual limit. |
+| `--rope-scaling native` | Explicit rotary profile: `native`, `yarn2` or `yarn4`; see [context configuration](CONTEXT.md). |
 | `--max-active 1` | Active sequences; set 2–8 to allow GPU decode batches when multiple requests are ready. |
-| `--prefill-chunk 2048` | Maximum prompt tokens handled in one prefill dispatch. |
+| `--prefill-chunk 2048` | Maximum new prompt tokens per completed prefill call; range 1–32,768. |
+| `--prefill-capacity N` | Scratch capacity reserved at model load; range 1–32,768, at least the initial chunk. Defaults to the initial chunk. |
 | `--request-timeout-ms 600000` | Request deadline, in milliseconds; allow enough time for long prompts. |
+
+The shared engine exposes `lie_core_set_prefill_chunk()` to change the chunk
+while READY, within the reserved capacity. For HTTP, reserve room at startup,
+for example `--prefill-chunk 2048 --prefill-capacity 32768`, then use the
+management listener (default loopback port 19880):
+
+```sh
+curl http://127.0.0.1:19880/actuator/llm/prefill
+curl http://127.0.0.1:19880/actuator/llm/prefill \
+  -H 'Content-Type: application/json' -d '{"prefill_chunk":16384}'
+```
+
+The response reports `prefill_chunk`, `prefill_capacity`, `revision` and
+`applies_to: "new_requests"`. A change affects subsequent admissions; active and
+queued requests keep their original chunk. An unchanged value keeps its revision.
+Exceeding the reserved capacity returns 409 without changing configuration.
+This control is available only on the management port. Capacity cannot grow
+without recreating the engine. Larger reservations increase provider scratch;
+larger chunks can delay cancellation and other ready requests. The provider and
+context bound actual calls; a larger chunk alone establishes no speedup.
+
+Omitting `max_tokens`/`max_completion_tokens` in Chat or `max_output_tokens` in
+Responses, or passing null, selects an automatic budget: remaining physical
+context after the complete prompt/template, up to the advertised 4,096-token
+engine output ceiling. Explicit positive limits are preserved; a prompt plus
+explicit output that exceeds context is rejected instead of silently capped.
+An explicit zero is invalid HTTP input. Natural EOS and stop strings still end
+generation early. The resolved limit is available in Chat's
+`lie_timings.output_token_limit` and the completed Responses object's
+`max_output_tokens`, including stored replay. `/v1/models` and individual model
+details advertise the configured `context_length` and `max_output_tokens`.
 
 The maximum requested output is 4,096 tokens. The model's chat template also
 consumes context, so a 262,144-token capacity does not admit a user message of
@@ -224,6 +355,29 @@ Chat accepts `n`, `stop`, `logit_bias`, `logprobs`, `top_logprobs`, and
 `response_format`. Responses uses `text.format` for JSON/schema constraints and
 `top_logprobs` for optional probability reporting. Strict functions use
 `strict:true` in their definition. Unsupported schema features are errors.
+
+Both APIs accept the LIE sampling extensions `top_k` (integer 0..2147483647)
+and `min_p` (number 0..1). Zero disables that filter. Null, strings, booleans and
+out-of-range values are errors. Defaults remain `temperature:0`, `top_p:1`,
+`top_k:0`, `min_p:0`; requesting the DS4 sampling profile is explicit:
+
+```sh
+curl http://127.0.0.1:8000/v1/chat/completions \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"qwen3.8-flash-next","messages":[{"role":"user","content":"Hello!"}],"temperature":1,"top_p":1,"top_k":0,"min_p":0.05,"seed":123,"max_tokens":128}'
+```
+
+Both APIs also accept `seed` (integer 0..9223372036854775807) and
+`frequency_penalty`/`presence_penalty` (finite numbers in -2..2). An omitted seed
+uses the engine default; omitted penalties are zero. Null, other types and
+out-of-range values are errors. Responses retains supplied filters, seed and
+penalties in completed and stored objects. The seed makes sampling repeatable
+within the qualified runtime and model; it does not promise equality across
+different models or decoding implementations.
+
+Top-k limits candidate count; min-p drops candidates below
+its fraction of the highest retained probability. These controls use the shared
+core; original-weight qualification of this new client exposure is pending.
 
 ```sh
 curl http://127.0.0.1:8000/v1/responses \

@@ -1,8 +1,11 @@
 /* SPDX-License-Identifier: MIT */
 /* Simplified Gufo-style workloads over completed GPU executor calls. */
 #include "lie/executor.h"
+#include "lie/prefill.h"
 #include "native/bench_native.h"
 #include "lie/inference.h"
+#include "lie/state.h"
+#include "lie/text.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <float.h>
@@ -19,9 +22,11 @@
 #include <string.h>
 #include <time.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
-#define MAX_POINTS 32u
+#define MAX_POINTS 512u
+#define MAX_LEGACY_POINTS 32u
 #define MAX_USERS 8u
 #define MAX_CONTEXT 262144u
 #define MAX_OUTPUT 4096u
@@ -47,15 +52,17 @@ static bool list(const char *s,unsigned maximum,unsigned *values,unsigned *count
     }
     free(copy);return ok&&*count>0;
 }
-struct config {const char *model,*output,*suite,*graphs,*compare,*execution;unsigned pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
+struct config {const char *model,*output,*suite,*graphs,*compare,*execution,*corpus,*restore;unsigned chunk,pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context,walk_context;lie_rope_profile rope;bool sizes_given,walk_options,users_given,depths_given,warmups_given;};
 static json_object *identity(const struct config *c) {
     json_object *j=event("identity");str(j,"schema","synapse-lie.bench.v1");str(j,"program","synapse-lie-bench");str(j,"build_id",LIE_BUILD_ID);
     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
     str(j,"dense_sampling",lie_backend_dense_sampling());
     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
+    str(j,"measurement_contract",!strcmp(c->suite,"ds4-walk")?"ds4-walk-v1":!strcmp(c->suite,"fresh")?"full-prefill-v1":"legacy-incremental-v1");
     str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
-    num(j,"prefill_chunk",2048);
+    num(j,"prefill_chunk",c->chunk);
+    num(j,"prefill_capacity",c->chunk);
     str(j,"timing_clock","CLOCK_MONOTONIC");
     str(j,"wall_clock_scope","CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds");
     str(j,"unsupported","MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle");
@@ -75,7 +82,7 @@ static bool open_model(const struct config *c,unsigned context,unsigned users,li
 #else
     (void)users;
 #endif
-    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,2048};uint64_t begin=ns();
+    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),context,c->chunk,c->rope};uint64_t begin=ns();
 #ifdef LIE_BENCH_REFERENCE
     if(lie_backend_open(c->model,&o,m,e)!=LIE_OK)return false;
 #else
@@ -109,8 +116,8 @@ static bool make_prompt(lie_model *m,unsigned target,unsigned capacity,struct pr
     if(status==LIE_OK||status==LIE_BUFFER_SMALL)status=lie_model_chat_tokens(m,&msg,1,p->ids,capacity,&p->n,e);
     free(padding);free(content);return status==LIE_OK&&p->n<=target&&target-p->n<=32;
 }
-static bool prefill(lie_sequence *s,const struct prompt *p,size_t from,size_t end,lie_error *e) {
-    while(from<end){from=end-from>2048?from+2048:end;if(interrupted||lie_sequence_prefill(s,p->ids,from,e)!=LIE_OK)return false;}return true;
+static bool prefill(lie_sequence *s,const struct prompt *p,size_t from,size_t end,unsigned chunk,lie_error *e) {
+    while(from<end){from=end-from>chunk?from+chunk:end;if(interrupted||lie_sequence_prefill(s,p->ids,from,e)!=LIE_OK)return false;}return true;
 }
 static bool frontier(lie_sequence *s,float *out,unsigned vocab,char digest[65],lie_error *e) {
     size_t n=0;if(lie_sequence_logits(s,out,vocab,&n,e)!=LIE_OK||n!=vocab)return false;
@@ -145,7 +152,10 @@ static bool reactive_step(lie_sequence **seq,lie_flow **flows,unsigned users,uns
 }
 #endif
 struct witness {char pp[65],tg[65];int32_t *ids;unsigned count,stop;bool set;};
-static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned users,unsigned point,unsigned rep,bool warmup,const struct config *c,unsigned vocab,struct witness *w,FILE *f,lie_error *e) {
+/* Captured before TG; consumed outside both timed intervals on a pristine
+ * sequence. One logical C1 walk; the direct reference always replays. */
+struct walk_checkpoint {lie_sequence *sequence;lie_state *state;bool capture;};
+static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned users,unsigned point,unsigned rep,bool warmup,const struct config *c,unsigned vocab,struct witness *w,struct walk_checkpoint *walk,FILE *f,lie_error *e) {
     lie_sequence *seq[MAX_USERS]={0};unsigned handles=users;
 #ifndef LIE_BENCH_REFERENCE
     lie_flow *flows[MAX_USERS]={0};struct dispatch_counts stats={0};
@@ -161,13 +171,31 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
     if(!sample_begin||!wall_begin){snprintf(e->message,sizeof(e->message),"benchmark clock unavailable");goto done;}
     json_object *begin=event("sample_begin");num(begin,"point",point);num(begin,"rep",rep);num(begin,"depth",depth);num(begin,"users",users);num(begin,"warmup",warmup);
     num(begin,"monotonic_ns",(int64_t)sample_begin);num(begin,"wall_time_ns",(int64_t)wall_begin);if(!emit(f,begin))goto done;
-    for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,e))goto done;
+    if(walk){seq[0]=walk->sequence;walk->sequence=NULL;if(users!=1||!seq[0])goto done;}
+    else for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,c->chunk,e))goto done;
     uint64_t pp_begin=ns();
-    for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,e))goto done;
+    for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,c->chunk,e))goto done;
     uint64_t pp_end=ns();
     if(!pp_begin||pp_end<=pp_begin){snprintf(e->message,sizeof(e->message),"invalid prefill clock interval");goto done;}
     uint64_t pp_ns=pp_end-pp_begin;
     if(!frontier(seq[0],logits,vocab,pp_hash,e))goto done;
+    uint64_t capture_begin=0,capture_end=0,capture_bytes=0;
+    const char *capture_method="none";
+    if(walk&&walk->capture){
+        capture_method="replay";
+#ifndef LIE_BENCH_REFERENCE
+        if(strcmp(c->restore,"replay")&&lie_backend_prefix_state_supported()){
+            lie_state_layout layout;uint64_t retained=0;
+            capture_begin=ns();
+            lie_status status=lie_state_plan(seq[0],&layout,&retained,e);
+            if(status==LIE_OK&&retained<=UINT64_C(1073741824))
+                status=lie_state_capture(seq[0],&layout,UINT64_C(1073741824),&walk->state,e);
+            if(status!=LIE_OK&&status!=LIE_UNSUPPORTED&&status!=LIE_RESOURCE_LIMIT)goto done;
+            if(walk->state){capture_bytes=lie_state_bytes(walk->state);capture_method="snapshot";}
+            capture_end=ns();if(!capture_begin||capture_end<=capture_begin)goto done;
+        }
+#endif
+    }
 #ifndef LIE_BENCH_REFERENCE
     if(reactive)for(unsigned i=0;i<users;++i){lie_flow_options o={1,1,4096};if(lie_flow_create(&o,&flows[i])!=LIE_FLOW_OK||lie_flow_request(flows[i],1)!=LIE_FLOW_OK)goto done;}
 #endif
@@ -208,6 +236,7 @@ static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned u
 #ifndef LIE_BENCH_REFERENCE
     if(reactive){num(j,"decode_single_calls",stats.single);num(j,"decode_batches",stats.batches);num(j,"decode_batch_rows",stats.rows);}
 #endif
+    if(walk){str(j,"checkpoint_method",capture_method);num(j,"checkpoint_begin_monotonic_ns",capture_begin);num(j,"checkpoint_end_monotonic_ns",capture_end);num(j,"checkpoint_ns",capture_end-capture_begin);num(j,"checkpoint_bytes",capture_bytes);}
     num(j,"full_output_budget",counts[0]==c->tg);ok=emit(f,j);
     fprintf(stderr,"point=%u depth=%u users=%u warmup=%u output=%u completed\n",point,depth,users,warmup,counts[0]);
 done:
@@ -217,6 +246,7 @@ done:
     for(unsigned i=0;i<handles;++i)if(seq[i]&&lie_sequence_close(&seq[i],e)!=LIE_OK)ok=false;
     free(output);free(logits);return ok;
 }
+#include "walk-bench.inc"
 int main(int argc,char **argv) {
 #ifndef LIE_BENCH_REFERENCE
     extern int lie_core_bench_main(int,char **);
@@ -227,17 +257,44 @@ int main(int argc,char **argv) {
     for(int i=1;i+1<argc;++i)if(!strcmp(argv[i],"--suite")){
         if(!strcmp(argv[i+1],"http"))return nb_http_main(argc,argv);
         if(!strcmp(argv[i+1],"http-multi"))return nb_http_multi_main(argc,argv);
+        if(!strcmp(argv[i+1],"http-curve"))return nb_http_curve_main(argc,argv);
         if(!strcmp(argv[i+1],"http-ssd")||!strcmp(argv[i+1],"http-kv-disk"))return nb_ssd_main(argc,argv);
         if(!strcmp(argv[i+1],"report"))return nb_report_main(argc,argv);
     }
     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
-    struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
+    struct config c={.chunk=LIE_PREFILL_DEFAULT_CHUNK,.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
+    c.restore="auto";c.walk_context=MAX_CONTEXT;
     for(int i=1;i<argc;++i){
-        if(!strcmp(argv[i],"--help")){puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL [--suite single|multi|loading|memory|fresh] [--sizes 1500,8000,8192,32768,131072,258794] [--depths 0,4096,8192,12288,16384,32768,65536,131072] [--users 1,2,4,6,8] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1] [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n--build-info opens no model. AR, greedy, thinking off; MTP unavailable.\nDirect GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\nShared GPU requires the coordinated lease supervisor. Synthetic builds are NOT-INFERENCE.\nCore: --suite core --help (shared C engine, no HTTP).\nHTTP: --suite http --help (native C client, requires a running authorized server).\nPrepared HTTP cohorts: --suite http-multi --help (C1/2/4/6/8, canonical Gufo prompts).\nKV disk HTTP: --suite http-kv-disk --help (restart, cache accounting and concurrent consumers).\nReports: --suite report --help. Native C CSV/JSON/SVG/PNG export; no Python.");return 0;}
+        if(!strcmp(argv[i],"--help")) {
+            puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL "
+                 "[--suite single|multi|loading|memory|fresh|ds4-walk]\n"
+                 "  [--depths 0,4096,8192,12288,16384,32768,65536,131072]\n"
+                 "  [--sizes 1500,8000,8192,32768,131072,258794] [--users 1,2,4,6,8]\n"
+                 "  [--prefill-chunk 1..32768] [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1]\n"
+                 "  [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n"
+                 "DS4 walk: --suite ds4-walk --corpus UTF8-FILE [--sizes 2048,4096,...,131072]\n"
+                 "  [--context 262144] [--rope-scaling native|yarn2|yarn4] [--restore auto|replay]\n"
+                 "C1 only; contiguous frontiers at --pp increments. Raw corpus tokenized once; no chat template.\n"
+                 "Checkpoint/replay excluded from PP/TG and recorded separately. Natural EOS remains visible.\n"
+                 "--build-info opens no model. Direct suites: AR, greedy, thinking off; MTP unavailable.\n"
+                 "Direct GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\n"
+                 "Shared GPU requires coordinated leases. Synthetic builds are NOT-INFERENCE.\n"
+                 "Core: --suite core --help (shared C engine).\n"
+                 "HTTP: --suite http --help (native client, long-context throughput and recall).\n"
+                 "Canonical Gufo curve: --suite http-curve --help (cached conversation through 128K).\n"
+                 "Prepared cohorts: --suite http-multi --help (C1/2/4/6/8).\n"
+                 "KV disk HTTP: --suite http-kv-disk --help (restart and concurrent consumers).\n"
+                 "Reports: --suite report --help (native CSV/JSON/SVG/PNG; no Python).");
+            return 0;
+        }
         if(!strcmp(argv[i],"--build-info"))return emit(stdout,identity(&c))?0:1;
         if(i+1==argc)goto usage;
         const char *key=argv[i],*value=argv[++i];
         if(!strcmp(key,"--model"))c.model=value;else if(!strcmp(key,"--output"))c.output=value;else if(!strcmp(key,"--suite"))c.suite=value;
+        else if(!strcmp(key,"--corpus")){c.corpus=value;c.walk_options=true;}
+        else if(!strcmp(key,"--restore")){c.restore=value;c.walk_options=true;}
+        else if(!strcmp(key,"--context")){if(!integer(value,LIE_CONTEXT_LIMIT,&c.walk_context)||c.walk_context<128)goto usage;c.walk_options=true;}
+        else if(!strcmp(key,"--rope-scaling")){if(!lie_rope_profile_parse(value,&c.rope))goto usage;c.walk_options=true;}
         else if(!strcmp(key,"--graphs"))c.graphs=value;else if(!strcmp(key,"--compare"))c.compare=value;
         else if(!strcmp(key,"--execution")){
 #ifdef LIE_BENCH_REFERENCE
@@ -246,18 +303,22 @@ int main(int argc,char **argv) {
             c.execution=value;
 #endif
         }
-        else if(!strcmp(key,"--depths")){if(!list(value,131072,c.depths,&c.depth_count))goto usage;}
-        else if(!strcmp(key,"--sizes")){if(!list(value,MAX_CONTEXT,c.sizes,&c.size_count))goto usage;for(unsigned k=0;k<c.size_count;++k)if(c.sizes[k]<128)goto usage;}
-        else if(!strcmp(key,"--users")){if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;}
+        else if(!strcmp(key,"--depths")){if(!list(value,131072,c.depths,&c.depth_count))goto usage;c.depths_given=true;}
+        else if(!strcmp(key,"--sizes")){if(!list(value,LIE_CONTEXT_LIMIT,c.sizes,&c.size_count))goto usage;for(unsigned k=0;k<c.size_count;++k)if(c.sizes[k]<128)goto usage;c.sizes_given=true;}
+        else if(!strcmp(key,"--users")){if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;c.users_given=true;}
+        else if(!strcmp(key,"--prefill-chunk")||!strcmp(key,"--chunk")){if(!integer(value,LIE_PREFILL_MAX_CHUNK,&c.chunk)||!c.chunk)goto usage;}
         else if(!strcmp(key,"--pp")){if(!integer(value,8192,&c.pp)||!c.pp)goto usage;}
         else if(!strcmp(key,"--tg")){if(!integer(value,MAX_OUTPUT,&c.tg)||!c.tg)goto usage;}
-        else if(!strcmp(key,"--warmups")){if(!integer(value,10,&c.warmups))goto usage;}
+        else if(!strcmp(key,"--warmups")){if(!integer(value,10,&c.warmups))goto usage;c.warmups_given=true;}
         else if(!strcmp(key,"--repetitions")){if(!integer(value,100,&c.repetitions)||!c.repetitions)goto usage;}
         else goto usage;
     }
-    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")&&strcmp(c.suite,"fresh")))goto usage;
+    bool iswalk=!strcmp(c.suite,"ds4-walk");
+    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")&&strcmp(c.suite,"fresh")&&!iswalk)||(!iswalk&&c.walk_options))goto usage;
+    if(!iswalk&&(c.size_count>MAX_LEGACY_POINTS||c.depth_count>MAX_LEGACY_POINTS||c.user_count>MAX_LEGACY_POINTS))goto usage;
     if(!strcmp(c.suite,"fresh"))for(unsigned k=0;k<c.size_count;++k)if((uint64_t)c.sizes[k]+c.tg>MAX_CONTEXT)goto usage;
     struct sigaction sa={0};sa.sa_handler=stop;sigemptyset(&sa.sa_mask);if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL))return 1;
+    if(iswalk)return walk_main(&c);
     int fd=open(c.output,O_WRONLY|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);if(fd<0){perror("exclusive output");return 1;}FILE *f=fdopen(fd,"w");if(!f){close(fd);return 1;}
     lie_model *m=NULL;lie_model_info info={0};lie_error e={{0}};int code=1;
     if(!emit(f,identity(&c)))goto done;
@@ -271,7 +332,7 @@ int main(int argc,char **argv) {
         if(strcmp(c.suite,"loading")){
             struct prompt p={0};struct witness w={.ids=calloc(c.tg,sizeof(int32_t))};bool ok=w.ids&&make_prompt(m,depth+pp,context,&p,&e)&&p.n>depth;
             if(ok){char digest[65];ok=hash(p.ids,p.n*sizeof(*p.ids),digest);json_object *j=event("input");num(j,"point",point);num(j,"depth",depth);num(j,"users",users);num(j,"target_prompt_tokens",depth+pp);num(j,"context_capacity",context);num(j,"prompt_tokens",(int64_t)p.n);str(j,"physical_ids_sha256",digest);json_object_object_add(j,"physical_ids",ids_json(p.ids,p.n));ok=ok&&emit(f,j);}
-            for(unsigned rep=0;ok&&rep<c.warmups+c.repetitions;++rep)ok=sample(m,&p,depth,users,point,rep,rep<c.warmups,&c,info.vocab_tokens,&w,f,&e);
+            for(unsigned rep=0;ok&&rep<c.warmups+c.repetitions;++rep)ok=sample(m,&p,depth,users,point,rep,rep<c.warmups,&c,info.vocab_tokens,&w,NULL,f,&e);
             free(p.ids);free(w.ids);if(!ok)goto done;
         }
         if(strcmp(c.suite,"single")&&strcmp(c.suite,"fresh")&&lie_model_close(&m,&e)!=LIE_OK)goto done;

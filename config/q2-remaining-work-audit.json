@@ -1,0 +1,52 @@
+{
+  "schema": "synapse-lie.q2-remaining-work-audit.v1",
+  "retained_PP": 1587.893545,
+  "fixed_UD_PP": 1685.777092,
+  "required_prefill_ms_saved": 74.8890152008963,
+  "profile": "config/q2-current-best-profile-results.json",
+  "profile_sha256": "efb16d4015e3fce00af978374573b17aa4bbc3b2250007bf126eb459651b2f7f",
+  "profile_saved_PP": 1571.716479,
+  "profile_is_current_parent": false,
+  "source_files": {
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "21060c653310f5cb7fcfd214890b3cc699f9f8b8b6403365996cf888e134239b",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "361722189d69208bd03b1ca64265a9e11b6fc159975574b36cc43ec105a8e4e6",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc": "07314a9dd06c99bb09f6a121bc290967e23bc5a0df34e59f9ace35af38bcafde",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc": "72a5ab5c6e3d6a974faff12ba6b8663b2a5fb7cdedf7fd89babe5c0d23d288d2",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "b442b8349504307aae51569f75cba5864fd508e2cf7e49bdc5a99ef1a193cdc2",
+    ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h": "ae04cd47fd9c30f8ac25418a48e31b1ca38cae46b3d4333c3d7dfe51e4568668"
+  },
+  "exact2048_dispatches": [
+    {
+      "path": ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "line": 1138,
+      "mechanism": "produce_half: HC F16/deferred-norm publication"
+    },
+    {
+      "path": ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "line": 1813,
+      "mechanism": "compact_down: F16 down storage and its MoE/HC consumer"
+    }
+  ],
+  "canonical_recipe_unchanged": true,
+  "guard_extension_implemented": false,
+  "context_curve_requested": true,
+  "new_performance_claim": false,
+  "goal_met": false,
+  "additional_exact2048_state_contract": {
+    "path": ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h",
+    "publication_line": 27,
+    "matching_line": 38,
+    "partial_extension_requires_all_four_guards": true
+  },
+  "contiguous_prefill": "All intermediate chunks are2048; only the final chunk may be partial. A cached-prefix continuation can be one partial chunk.",
+  "partial_extension_closes_fixed_point_gap": false,
+  "existing_partial_evidence": [
+    "config/q2-norm-ragged-results.json",
+    "config/q2-hc-library-ragged-model-results.json",
+    "config/q2-rejected-test-reaudit-progress.json"
+  ],
+  "curve_results": "config/q2-curve256-results.json",
+  "curve_results_sha256": "69ddfd1630151769ccced3a481474e78aac65c73c2c2d4e919be863f295141ab",
+  "capacity_changes_sparse_attention_dispatch": true,
+  "historical_curve_speedup_isolated": false
+}

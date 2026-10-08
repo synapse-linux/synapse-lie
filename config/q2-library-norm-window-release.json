@@ -1,0 +1,141 @@
+{
+  "at": "2026-10-03T16:50:57.568177+00:00",
+  "state": "Q2_LIBRARY_NORM_WINDOW_RELEASED",
+  "labels": [
+    "q2-library-norm-component-r1",
+    "q2-library-norm-host-r1",
+    "q2-library-norm-host-r2",
+    "q2-library-norm-model-reference-r1",
+    "q2-library-norm-model-candidate-r1",
+    "q2-library-norm-model-ud-r1"
+  ],
+  "command_exits": {
+    "q2-library-norm-component-r1": [
+      0,
+      0,
+      1
+    ],
+    "q2-library-norm-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-library-norm-host-r2": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-library-norm-model-reference-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-library-norm-model-candidate-r1": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-library-norm-model-ud-r1": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3150742,
+    3150774,
+    3150848,
+    3150971,
+    3151174,
+    3151244,
+    3151395,
+    3152872,
+    3152873,
+    3153069,
+    3153210,
+    3153713,
+    3153714,
+    3153784,
+    3153869,
+    3154128,
+    3154198,
+    3154292,
+    3154822,
+    3154829,
+    3155032,
+    3156140,
+    3156145,
+    3156840,
+    3156847,
+    3157042,
+    3158220,
+    3158225,
+    3158951,
+    3158952,
+    3159147,
+    3160013,
+    3160018
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 38000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 40000,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "restart_scheduled": false,
+  "model_access": true,
+  "qualification": "Paired norm with library consumer and fresh Q2/UD model comparisons; numerical failures retained, no parity or promotion claim"
+}

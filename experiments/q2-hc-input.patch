@@ -1,0 +1,104 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5335,9 +5335,10 @@
+ /// and use the same ordered K16 products. y is [batch][m].
+ template<int BM, int BN, int BK, int WM, int WN, int kRowGroup = 1,
+          bool kHcMix = false, bool kSsmConv = false, bool kAttention = false,
+-         bool kHalfWeights = false>
++         bool kHalfWeights = false, bool kFloatInput = false>
+ __launch_bounds__(256) __global__ void DenseF16GEMMKernel(
+-    const void* __restrict__ w, const __half* __restrict__ x,
++    const void* __restrict__ w,
++    const std::conditional_t<kFloatInput, float, __half>* __restrict__ x,
+     float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
+     const std::conditional_t<kHalfWeights, float, __half>* xn = nullptr,
+     __half* mixed_half = nullptr, void* mixed_q8 = nullptr,
+@@ -5404,7 +5405,7 @@
+                static_cast<std::size_t>(a_live[p] ? weight_row : (m_i - 1)) *
+                    static_cast<std::size_t>(num_kb) * (kHalfWeights ? 64 : 34);
+   }
+-  const __half* b_ptr[kBPer];
++  const std::conditional_t<kFloatInput, float, __half>* b_ptr[kBPer];
+ #pragma unroll
+   for (int p = 0; p < kBPer; ++p) {
+     const int idx = (p * 256) + tid;
+@@ -5442,10 +5443,25 @@
+     for (int p = 0; p < kBPer; ++p) {
+       const int kb = kb0 + (((p * 256) + tid) % BK);
+       if (b_ptr[p] != nullptr && kb < num_kb) {
+-        const auto* src = reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
+-#pragma unroll
+-        for (int c = 0; c < 4; ++c) {
+-          b_data[p][c] = src[c];
++        if constexpr (kFloatInput) {
++          // Preserve the separate NarrowKernel's IEEE F16 rounding at the
++          // consumer boundary. Every WMMA operand and both K16 sum chains
++          // remain unchanged; no persistent narrowed tensor is written.
++          const auto* src = reinterpret_cast<const float4*>(b_ptr[p] + kb * 32);
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            const float4 a = src[2 * c], b = src[2 * c + 1];
++            const __half2 halves[4] = {
++                __floats2half2_rn(a.x, a.y), __floats2half2_rn(a.z, a.w),
++                __floats2half2_rn(b.x, b.y), __floats2half2_rn(b.z, b.w)};
++            __builtin_memcpy(&b_data[p][c], halves, 16);
++          }
++        } else {
++          const auto* src = reinterpret_cast<const uint4*>(b_ptr[p] + kb * 32);
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            b_data[p][c] = src[c];
++          }
+         }
+       } else {
+ #pragma unroll
+@@ -5945,6 +5961,17 @@
+   return true;
+ }
+ 
++bool HcDownF32InputGemm(const void* w, const float* x, float* out,
++                        std::size_t batch, hipStream_t stream) {
++  if (batch < 96 || w == nullptr || x == nullptr || out == nullptr)
++    return false;
++  hipLaunchKernelGGL((DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false,
++                                         false, true, true>),
++                     dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream, w,
++                     x, out, batch, std::size_t(320), std::size_t(10240));
++  return true;
++}
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -210,6 +210,11 @@
+ 
+ /// F16 activation rows [batch][k], Q8_0 weights dequantized to F16 in LDS,
+ /// F32 accumulation. out is [batch][m]. Unsupported shapes launch nothing.
++/// Original F16 HC down with the existing narrowing in its load stage.
++/// Fixed M320/K10240, batch >=96; F32 input remains owned by the caller.
++bool HcDownF32InputGemm(const void* w, const float* x, float* out,
++                        std::size_t batch, hipStream_t stream);
++
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream);
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1165,7 +1165,14 @@
+       return false;
+     }
+   } else {
+-    if (xn_half_) {
++    if (fused_raw_projection) {
++      // Consume the already-live F32 norm without a separate half-buffer
++      // pass. The kernel preserves the original F16 operand rounding.
++      if (!HcDownF32InputGemm(m.down.data, s_.xn, s_.lo, n_tokens, stream_)) {
++        AssignError(error_msg, "HC F32-input down projection failed");
++        return false;
++      }
++    } else if (xn_half_) {
+       if (!W8A8Gemm(m.down.data, s_.xn_q8t, s_.lo, n_tokens, m.down.rows,
+                     m.down.cols, stream_)) {
+         AssignError(error_msg, "W8A8 mixer down projection failed");

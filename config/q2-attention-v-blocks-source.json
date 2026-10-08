@@ -1,0 +1,51 @@
+{
+  "schema": "synapse-lie.q2-attention-v-blocks-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "verified_parent_files": 1032,
+  "files": {
+    "experiments/q2-attention-v-control.inc": "c0a3dcfd2bbfc5a456bb0cdc742421310b04bddc699696ee2e4e21cc501c4142",
+    "experiments/q2-attention-v-blocks.inc": "ad20e6b6ea22a28972cb66570c5f3c952eb4c34844298c4a2eb1cc7e926f4e99",
+    "tests/q2_attention_v_blocks.hip": "f9c93645fd0ff9329c9883dd2f9c841c56d0e1c475673eb5dde5321179e70efc",
+    "tools/q2-attention-v-blocks-window.py": "e3c8b0e40035ad1d2805785a5abf7218dc825f40aaf4ec1e52cd0707556e6a9b",
+    "tests/q2_attention_v_blocks_window_test.py": "e5ef7204c0f718cd3ea3bcc44f168151fd613386e2400e67146ef2dab0e06e49",
+    "tools/q2-native128-profile-window.py": "fadf40de9ef661cfab2e703c3219224269724148483dbf4e51aa91caf0702c73",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "scope": "Synthetic prefill attention only. Original sorted masks, QK/softmax/PV arithmetic, early/late V dispatch and 2048 token rows. Transient lossless V layout [four-key block][head][slice16][key4][16]; full-context packing included every candidate cycle. Last temporary block zero-padded, original input allocation ends unchanged. No persistent KV or decode change.",
+  "component_only": true,
+  "model_access": false,
+  "model_dispatch_changed": false,
+  "gpu_run": false,
+  "allocation_end_operands": true,
+  "warmup_pairs": 2,
+  "measured_pairs": 6,
+  "balanced_order": true,
+  "finite_mismatch_retains_timing": true,
+  "full_timed_output_comparison": true,
+  "shapes": [
+    {
+      "rows": 2048,
+      "start_pos": 28672,
+      "timed": true
+    },
+    {
+      "rows": 2048,
+      "start_pos": 126976,
+      "timed": true
+    },
+    {
+      "rows": 1901,
+      "start_pos": 129024,
+      "timed": false
+    },
+    {
+      "rows": 3,
+      "start_pos": 4093,
+      "timed": false
+    }
+  ],
+  "previous_negative_result": "config/q2-attention-v-tiles-results.json",
+  "previous_negative_result_sha256": "3300a09b1550a8b171634702d50997ec7ab05a4225c6cc96e54732118b5fed93"
+}

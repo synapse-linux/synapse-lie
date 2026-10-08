@@ -1,0 +1,390 @@
+{
+  "schema": "synapse-lie.steering-core-host-qualification.v1",
+  "at_utc": "2026-10-05T03:25:30.711202+00:00",
+  "baseline_checkpoint": "1af401b090c27c551259e47dbc3df778a58f5314",
+  "scope": "Host-only shared C17 core/client/cache admission and lifetime protocols; synthetic model frontiers and tensors, no numerical inference or GPU qualification.",
+  "implementation": [
+    "Additive copied steering constructor and READY-only client snapshot; existing core options/info layouts and request ABI 8 unchanged.",
+    "One existing inference owner; validated immutable model bank options and host/device vector data reported separately.",
+    "Complete policy/image scope composed before RAM/SSD text or token lookup; zero-scope legacy wrappers retained.",
+    "Shared native DS4 CLI parser and initial model-wide server/core-bench flags; no live scale mutation exposed.",
+    "Native reports validate request/admission identity and refuse matched scale/bank mismatches; old metadata-free records remain unsteered."
+  ],
+  "host_coverage": [
+    "Both aligned and DS4 KVC state framing; actual RAM and asynchronous SSD store.",
+    "AR, MTP, vision and joint MTP/vision synthetic prefix restart and bank/scale/image scope misses before upload.",
+    "Borrowed core options/path mutated and freed while the owner is held before admission; copied options still load.",
+    "Zero-scale bank reuse of ordinary text/image legacy SSD state.",
+    "Private native server Chat/Responses JSON and SSE completion after bank source unlink; correct zero device allocation in fixtures.",
+    "Native parser refusals, graphs/report identity matching, corrupt admission and historical report compatibility.",
+    "16 Debug, 16 ASan/UBSan/LeakSanitizer full-client checks; 3 build-off checks; 32 public C++ headers."
+  ],
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "e5de2fd5c23fb9b7d750f4030511fbab3e3a212e79505319601fc7062349e841"
+    },
+    {
+      "path": "include/lie/core.h",
+      "sha256": "4a0996f6c9f89590b15feb7a4f731aadcd253b983ac386e9af7ec9343c35b133"
+    },
+    {
+      "path": "include/lie/steering.h",
+      "sha256": "fb4c13f034970bd704750b7f74fb439c607fc011444a53a024ac1eb36a2da6e1"
+    },
+    {
+      "path": "include/lie/store.h",
+      "sha256": "98e4192fe821a31774b675b8252238b620c3bb651daaa72f60ff97b8bae2ce53"
+    },
+    {
+      "path": "include/lie/worker.h",
+      "sha256": "52eb2dcb5f05bab3aeaf0ffbc31a745bf4fe0ac39689a7ddc1e640b2c365a1d1"
+    },
+    {
+      "path": "src/prefix_cache.c",
+      "sha256": "1235393923a2ef47be879988a12ea87a865f8ce65481b4467c4d2ba61a257f9f"
+    },
+    {
+      "path": "src/prefix_cache.h",
+      "sha256": "ec4d8742b4b02582fbdf0eb3f1a62e7cd626c98ea5cff8de92558e8f44b652b1"
+    },
+    {
+      "path": "src/server.c",
+      "sha256": "8e319d8f08beaf56612942384a80cf172aafe11f39b9c0a6fadf484412260fc4"
+    },
+    {
+      "path": "src/steering_policy.c",
+      "sha256": "a722e59fbd65cd3b51a56fea41182262e342ba249247ef7c93e8cd0df275f637"
+    },
+    {
+      "path": "src/store.c",
+      "sha256": "898b7a67ff6312978a911586bc4af19e6f1aa6ee5744ef47f0116e569a67f278"
+    },
+    {
+      "path": "src/worker.c",
+      "sha256": "249df99b30d400c5b744c2d0b4b89b024a9edb53f57f2ad55218b4dd2f27f422"
+    },
+    {
+      "path": "tests/bench_executor.c",
+      "sha256": "38d11678385cde009542944dcb5f69c245f73c8347f12bdf22635ad158175288"
+    },
+    {
+      "path": "tests/fake_executor.c",
+      "sha256": "74cda559b1e10bd837b2426bf2e14786bf03df87b7a7ab60a39700a93b8c7d62"
+    },
+    {
+      "path": "tests/fake_executor.h",
+      "sha256": "4ccf03c7a80a4dafabfaecfcd25d2c458c601d70783ba3ff5b725dd40fe08cf8"
+    },
+    {
+      "path": "tests/test_native_bench.c",
+      "sha256": "cc49cce52ca01c7a4041bdaedc34f66b53a86129e87254692f41f9e29c3e23a0"
+    },
+    {
+      "path": "tests/test_steering_core.c",
+      "sha256": "0ec8824f7588d5e10ce786324d0b14ed1cacc6cf9ca0983a5bc0330d9460c600"
+    },
+    {
+      "path": "tools/core-bench.c",
+      "sha256": "94a82c32d44f73a381d8200ff10d4dc283f2cd8d0ec28c3bd7aebcde5dcb5870"
+    },
+    {
+      "path": "tools/native/report.c",
+      "sha256": "6a6914f4b910f03f35de2da98da9caffdd2404bdbf681438443c1b4a09a2f8c2"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/steering-core-debug-build-r7",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 60.375,
+      "result_sha256": "bf84ca3443088757dbfa76bc47537c55451c244d740ae45d7ef05014af0e5fd0",
+      "log_sha256": "df1c87ee207977328f216b194965fad90145b38ff41992a23e11606b0b9188b3",
+      "temperature_log_sha256": "e2239e8b3ce82f419438e833129d381597afca1b224146e8c39a68b69021fbe2"
+    },
+    {
+      "directory": "evidence/steering-clients-asan-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 60.375,
+      "result_sha256": "4e4828f4f4a039732f583c42151bc7387001bdbf1de24f6435044e045af9db9e",
+      "log_sha256": "69621bd0f89789377a347dc8938ed97b76553353b6ec913dc41fe85e23a02d0d",
+      "temperature_log_sha256": "28c349af62842b243c3b19792f93e31da8e91a7f12b764aebc35a98f1a3b5e55"
+    },
+    {
+      "directory": "evidence/steering-core-debug-test-r5",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 59.875,
+      "result_sha256": "16e81d3992085306e14ffaee16acf7eb0d325621ecffde131f4286e95062d7f8",
+      "log_sha256": "c69d64b2cb4066315f6116d83c76b44973daa6dc8f3a5042703a4abcd252f549",
+      "temperature_log_sha256": "aa963190a043de19d82dfa396b7a1fc251101c584087b4061a39099cd61ab52d"
+    },
+    {
+      "directory": "evidence/steering-clients-asan-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 58.75,
+      "result_sha256": "c0366eb2c48f508f949988c494b7233b7db0f349ac455f30308bda40088e80f0",
+      "log_sha256": "1e745493707ca7d18ae72ee9dbe9d91edfea9237b150759834b91108adebf18c",
+      "temperature_log_sha256": "a4923c808190c1ffced01cfe1dcc71e269396caae3d58bc922826331a546e5af"
+    },
+    {
+      "directory": "evidence/steering-core-off-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/steering-core-off",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_CORE_ONLY=ON",
+        "-DLIE_DIRECTIONAL_STEERING=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 56.75,
+      "result_sha256": "604400e6596e203087aa62747d760472325a7f4ceef1adf08ed9fefec9aa8d3b",
+      "log_sha256": "fa2eee90442d85ecdb4328f8b0adb897b87f65af5e43a298934ad5cacf3ca2d4",
+      "temperature_log_sha256": "58525943b90176a02a120c6d1b14c43bdfd7bb472d9a240c654ccd08de3589b2"
+    },
+    {
+      "directory": "evidence/steering-core-off-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/steering-core-off",
+        "-j2",
+        "--target",
+        "test-steering-core-aligned",
+        "test-steering-core-kvc",
+        "test-context-profile"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 60.375,
+      "result_sha256": "27184bf1a523663d7bfe8fa642a0810337cf5b769e5a8e7832bb6316929dae7c",
+      "log_sha256": "3dcbc5884a753e0fdc203319bc913fa189b230736ea4a65f6361cf75841a652d",
+      "temperature_log_sha256": "98366344b0b7b2aebcf69443a79386bc9bf75e4f014d16fa81b91de5eb2b5bda"
+    },
+    {
+      "directory": "evidence/steering-core-off-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/steering-core-off",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-core-.*|context-million-admission-lifecycle)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 53.75,
+      "result_sha256": "deeb4658d72b9f71d2a6a0d8ad584a06541115aa92fab78bcb3527a9cce73c5b",
+      "log_sha256": "759a9f6d8ec7a638a5c52be8c88c64425a618a7d0103c53122354e401bf38962",
+      "temperature_log_sha256": "9199dbf94e9f7910620a81940979f29143ea8a020f07c03b40351063f7607469"
+    },
+    {
+      "directory": "evidence/steering-core-public-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "evidence/steering-binding-public-headers-r1.cpp"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "cpu_max_c": 54.125,
+      "result_sha256": "bb07d1fdfb860380c276c041e314a217868204e06bd699ca02e7376b80eee314",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "c438370a70b9bda590b1026bef24736785ffdd8adbe00211d7b16ca0ee1cfc46"
+    }
+  ],
+  "retained_failed_checks": [
+    {
+      "directory": "evidence/steering-core-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-core-.*|steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 60.0,
+      "result_sha256": "0ff23468324f0f9323ab01144808447f8308efa85d9695f8d38a3d1fcd07489e",
+      "log_sha256": "47f0b54aec7d5a1e858c066b7509e05695023afb5a4bc69a5f44cb617053b521",
+      "temperature_log_sha256": "f48cb11a85beb38fbc92b73bcf8f99c1a078c8780a7e11215c29c6923540ca58",
+      "reason": "Sandbox refused the private loopback socket; retained child/supervisor exit 8."
+    },
+    {
+      "directory": "evidence/steering-core-debug-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 54.875,
+      "result_sha256": "78b81032b49efbb6d23a59988d9490d1e9b96b764d13e7aaa7f41813f5844eeb",
+      "log_sha256": "1e1f9ee77011e9690892ea457dd092205ce4c402bf677a684a5aa8ad0721e164",
+      "temperature_log_sha256": "0ae7ae4d389229440b6d4d6fc1bd9460582861121dc9fb6ee7727b8245b098b0",
+      "reason": "Fixture used integer nb_number for fractional attention 0.25; corrected to the floating-point accessor."
+    },
+    {
+      "directory": "evidence/steering-core-debug-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 56.25,
+      "result_sha256": "b780456b660cb66720b8eeac29a88a8b92c90be7566fde7e3c1d2bfeec439ee0",
+      "log_sha256": "f7c54af6948cef5bcd85aa4e2e6c93678b21aa966b97976a171cd3b9c13baa35",
+      "temperature_log_sha256": "252d47b4126333c19a29439e3d969fd2da01e8d06c0feee9428a8445c760700c",
+      "reason": "Fixture omitted the provider required by strict HTTP fingerprint comparison, causing a null argument/segfault; corrected fixture options."
+    },
+    {
+      "directory": "evidence/steering-clients-asan-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 59.875,
+      "result_sha256": "f37d6e96eb4d72a98dd3c97435a58f51e447e0e400c16fbf6cf6888101940d2b",
+      "log_sha256": "b9763819f275c5bb2726ba1529ce20b92f5664e41eb0cc4b3b893f8dae9c2ad8",
+      "temperature_log_sha256": "faee768dcf5386e30e11234fe0efc9ca385bc9217b2433d318b9326c884ddbc2",
+      "reason": "Same missing strict-provider fixture field; ASan/UBSan diagnostic retained, fixture corrected."
+    },
+    {
+      "directory": "evidence/steering-core-debug-test-r4",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 61.625,
+      "result_sha256": "cbf08d8ce6949ea45d5cc6e52a80d54b5c917d8b8f61297711cc54733768f91c",
+      "log_sha256": "2f3807ef526fc92851ba504b292086962fc351b067c7fe96c8be5853e01d2a5b",
+      "temperature_log_sha256": "89500efcc3b516214fccefc892b0d1e6a4e53135e3f65cf6faf489a41ff41340",
+      "reason": "Fixture requested Chat SSE without include_usage, which the strict benchmark observation requires; corrected request."
+    },
+    {
+      "directory": "evidence/steering-clients-asan-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(steering-.*|core-prefix-cache|core-ssd-reactive|core-kvc-ssd-reactive|vision-semantic-cache.*|mtp-ssd-prefix-reactive|context-million-admission-lifecycle|native-benchmark-contract)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "cpu_max_c": 60.5,
+      "result_sha256": "0148103f231765e6e227aeb8190b33983cb5e0cc636c48b447cb19ab046a6714",
+      "log_sha256": "2e45466f55094115f20308b3262005680fa25b25bdd5d93aef9af7d2e5190231",
+      "temperature_log_sha256": "ca23220941a87a1150d48ed62ffd1a0f661fdebc1e155c40f6ed851b585e53fe",
+      "reason": "Same incomplete Chat SSE usage fixture request; corrected request, protocol unchanged."
+    }
+  ],
+  "local_cpu_max_c": 78.5,
+  "gpu_witness": {
+    "path": "evidence/context-steering-availability-r10.json",
+    "sha256": "d78fd85f679e980e8e86e30b128958ca91bcdf8e84ddbaeed5f6ceb070f479f2",
+    "at_utc": "2026-10-05T03:20:53.768099+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "gpu_admission": false
+  },
+  "limits": [
+    "No actual model inference, original-weight continuation, neural quality, GPU fault or performance claim.",
+    "Provider/HIP operators unchanged in this increment; no new provider library or remote GPU build/run/hash/conversion.",
+    "Live scales, graph invalidation and speculative reconciliation remain open.",
+    "No Python product/default-test dependency, runtime inference thread, model/state format ABI change, deployment, tuning or publication."
+  ],
+  "retained_intermediate_directories": [
+    "evidence/steering-clients-asan-build-r1",
+    "evidence/steering-clients-asan-build-r2",
+    "evidence/steering-clients-asan-build-r3",
+    "evidence/steering-core-asan-build-r1",
+    "evidence/steering-core-asan-build-r2",
+    "evidence/steering-core-asan-test-r1",
+    "evidence/steering-core-debug-build-r1",
+    "evidence/steering-core-debug-build-r2",
+    "evidence/steering-core-debug-build-r3",
+    "evidence/steering-core-debug-build-r4",
+    "evidence/steering-core-debug-build-r5",
+    "evidence/steering-core-debug-build-r6",
+    "evidence/steering-core-off-build-r1",
+    "evidence/steering-core-off-test-r1"
+  ]
+}

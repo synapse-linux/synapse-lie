@@ -1,0 +1,605 @@
+{
+  "schema": "synapse-lie.native-http-deadlines-host.v1",
+  "at_utc": "2026-10-06T14:11:19.091919+00:00",
+  "state": "HOST_VALIDATED_NOT_GPU_QUALIFIED",
+  "source_parent_commit": "96dc202d61e5cac5e4184e20a678abfdc29cc13c",
+  "source_delta_sha256": "fb1f19672a096e97c0e5f8f4db00fbefdc99d7ac22bd1dd5d211691a7e07c861",
+  "branch": "feature/context-million-openai",
+  "scope": "Native C client timeout admission and report contracts only; synthetic child HTTP servers, no model forward, GPU performance or recall evidence.",
+  "timeout_seconds": {
+    "previous_maximum": 7200,
+    "maximum": 86400,
+    "http_ordinary_default": 630,
+    "http_long_context_default": 14400,
+    "http_curve_default": 3600,
+    "http_multi_default": 630
+  },
+  "coverage": [
+    "Every HTTP client completes its synthetic contract with timeout 86400",
+    "Ordinary HTTP default remains 630 in emitted identity",
+    "Long-context default 14400 is retained with three real synthetic HTTP calibration probes and the expected nonlinear-calibration refusal",
+    "HTTP CLI rejects 86400.001, zero, negative, NaN and infinity with exit 2",
+    "Shared transport rejects an excessive timeout before network work",
+    "Existing native HTTP/report/parser/PNG/SVG, prepared cohort and canonical curve contracts pass"
+  ],
+  "tests": {
+    "release": [
+      "native-benchmark-contract",
+      "native-http-multi-contract",
+      "native-http-curve-contract"
+    ],
+    "asan_ubsan_lsan": [
+      "native-benchmark-contract",
+      "native-http-multi-contract",
+      "native-http-curve-contract"
+    ],
+    "passes": 6,
+    "unexpected_failures": 0,
+    "private_ephemeral_loopback": true,
+    "child_path_without_python": true,
+    "sanitizer_options_unset": true,
+    "suppressions": false,
+    "asan_ubsan_lsan_executed_outside_sandbox_ptrace": true
+  },
+  "commands": [
+    {
+      "configuration": "release",
+      "stage": "configure",
+      "argv": [
+        "env",
+        "-u",
+        "ASAN_OPTIONS",
+        "-u",
+        "LSAN_OPTIONS",
+        "-u",
+        "UBSAN_OPTIONS",
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-http-timeout-release",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_CORE_ONLY=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=OFF",
+        "-DLIE_BUILD_ID=context-http-timeout-release-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 52.5
+      },
+      "elapsed_s": 1.11714506149292,
+      "sanitizer_test_outside_sandbox_ptrace": false
+    },
+    {
+      "configuration": "release",
+      "stage": "build",
+      "argv": [
+        "env",
+        "-u",
+        "ASAN_OPTIONS",
+        "-u",
+        "LSAN_OPTIONS",
+        "-u",
+        "UBSAN_OPTIONS",
+        "cmake",
+        "--build",
+        "build/context-http-timeout-release",
+        "--parallel",
+        "2",
+        "--target",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "test-steered-lie-bench",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-http-curve-native",
+        "synapse-lie-bench"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.5
+      },
+      "elapsed_s": 9.45414230413735,
+      "sanitizer_test_outside_sandbox_ptrace": false
+    },
+    {
+      "configuration": "release",
+      "stage": "ctest",
+      "argv": [
+        "env",
+        "-u",
+        "ASAN_OPTIONS",
+        "-u",
+        "LSAN_OPTIONS",
+        "-u",
+        "UBSAN_OPTIONS",
+        "ctest",
+        "--test-dir",
+        "build/context-http-timeout-release",
+        "-R",
+        "^(native-benchmark-contract|native-http-multi-contract|native-http-curve-contract)$",
+        "--output-on-failure",
+        "--no-tests=error"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.125
+      },
+      "elapsed_s": 16.79359530750662,
+      "sanitizer_test_outside_sandbox_ptrace": false
+    },
+    {
+      "configuration": "asan",
+      "stage": "configure",
+      "argv": [
+        "env",
+        "-u",
+        "ASAN_OPTIONS",
+        "-u",
+        "LSAN_OPTIONS",
+        "-u",
+        "UBSAN_OPTIONS",
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-http-timeout-asan",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_CORE_ONLY=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_BUILD_ID=context-http-timeout-asan-r1"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 58.125
+      },
+      "elapsed_s": 1.1261037811636925,
+      "sanitizer_test_outside_sandbox_ptrace": false
+    },
+    {
+      "configuration": "asan",
+      "stage": "build",
+      "argv": [
+        "env",
+        "-u",
+        "ASAN_OPTIONS",
+        "-u",
+        "LSAN_OPTIONS",
+        "-u",
+        "UBSAN_OPTIONS",
+        "cmake",
+        "--build",
+        "build/context-http-timeout-asan",
+        "--parallel",
+        "2",
+        "--target",
+        "test-ssd-http-server",
+        "test-synthetic-lie-bench",
+        "test-steered-lie-bench",
+        "test-native-bench",
+        "test-http-multi-native",
+        "test-http-curve-native",
+        "synapse-lie-bench"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 76.75
+      },
+      "elapsed_s": 6.27815848775208,
+      "sanitizer_test_outside_sandbox_ptrace": false
+    },
+    {
+      "configuration": "asan",
+      "stage": "ctest",
+      "argv": [
+        "env",
+        "-u",
+        "ASAN_OPTIONS",
+        "-u",
+        "LSAN_OPTIONS",
+        "-u",
+        "UBSAN_OPTIONS",
+        "ctest",
+        "--test-dir",
+        "build/context-http-timeout-asan",
+        "-R",
+        "^(native-benchmark-contract|native-http-multi-contract|native-http-curve-contract)$",
+        "--output-on-failure",
+        "--no-tests=error"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 72.125
+      },
+      "elapsed_s": 18.851562537252903,
+      "sanitizer_test_outside_sandbox_ptrace": true
+    }
+  ],
+  "maximum_local_cpu_c": 76.75,
+  "historical_1m_reference": {
+    "binding": {
+      "path": "docs/development/validation/physical1m-fixed-point-gpu-2026-10-05.json",
+      "bytes": 9011,
+      "sha256": "deb6a30362315af007bba1299bcb9ba5efd9fbbf62f9b890c60f770940b7acac"
+    },
+    "source_commit": "1bff953c779b7ccdbef387020f9362fa9fd725a7",
+    "total_seconds": 7478.55957978,
+    "prefill_seconds": 7454.74445048,
+    "scope": "One original-weight cold native shared-reactive-core C1 AR physical PP1048448 plus fixed TG128 at YaRN4; capacity/function evidence, not recall quality or matched/repeated performance. No HTTP."
+  },
+  "previous_gpu_receipt": {
+    "path": "docs/development/validation/c17-schema-compile-point-gpu-2026-10-06.json",
+    "bytes": 53987,
+    "sha256": "2b2b205c2ce46574fdb1329b5f54aa619e20aafb8b8dd7fc533268c5623eaf52"
+  },
+  "new_gpu_run": false,
+  "new_remote_job_lease_waiter_reservation": false,
+  "server_runtime_or_model_state_change": false,
+  "public_abi_or_ds4_cache_framing_change": false,
+  "new_inference_worker_or_reactive_speedup_claim": false,
+  "all_six_owned_tasks_open": true,
+  "terminal_bench": "Stopped/collected/closed/deferred last",
+  "publication": false,
+  "bindings": [
+    {
+      "path": "tools/native/bench_native.h",
+      "bytes": 4479,
+      "sha256": "f2b889b88ead7bb2b5d12f9d2207da3a4891238d1947578d00dcf5fbf71610ec"
+    },
+    {
+      "path": "tools/native/http_transport.c",
+      "bytes": 29515,
+      "sha256": "c9cb36aeaf6871c5c629d99a5ec2e49c3393663827e7ab5d7c0c197ce43e057c"
+    },
+    {
+      "path": "tools/native/http_bench.c",
+      "bytes": 21423,
+      "sha256": "a59abb8f2b12492be856dbf8deab428b8f638a958f988acaf2f450c8fff65908"
+    },
+    {
+      "path": "tools/native/http_curve.c",
+      "bytes": 39235,
+      "sha256": "5801d1d05e4c9497a0f0fd212f4db6a329e20cc75c4d460d9d838e249e760209"
+    },
+    {
+      "path": "tools/native/http_multi.c",
+      "bytes": 37572,
+      "sha256": "17b0380348b2953206964f2bc1d8898ace3ac492d9ef6843a41c34d493f00931"
+    },
+    {
+      "path": "tests/test_native_bench.c",
+      "bytes": 70404,
+      "sha256": "675247db926a46483906db0c06a2c1ded2fc026acf7c93e82fda03d86b0c8854"
+    },
+    {
+      "path": "tests/test_http_curve_native.c",
+      "bytes": 21073,
+      "sha256": "0aa4590da3708267e785ad8bbc1a46c09c475b565f364c9a552416f1b5b4f4ce"
+    },
+    {
+      "path": "tests/test_http_multi_native.c",
+      "bytes": 24575,
+      "sha256": "dd396325e66fe4b8eb37b7e22da3af2715fa6f03cadbcb0239a7730b23289808"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 50999,
+      "sha256": "30766a50b59e9c71a77707bf6c6049a2b5c98386e7433b7aba39a81df7a5c7d0"
+    },
+    {
+      "path": "tests/fake_executor.c",
+      "bytes": 37686,
+      "sha256": "740f5b1acb594b413936494337f6232606fb86fa6954f2e83344b5ddf0c227e4"
+    },
+    {
+      "path": "tests/bench_executor.c",
+      "bytes": 16297,
+      "sha256": "b203e00ccaf01a0f9ce2c2b54ac05b70953082c41698ee5c0e1a6b312c815590"
+    },
+    {
+      "path": "tests/ssd_read_gate.c",
+      "bytes": 1294,
+      "sha256": "4b2ed872fcb980468d13878dbdb2d1107ee4a219617fffcb4220e07ec2f66222"
+    },
+    {
+      "path": "tools/thermal-run.py",
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    },
+    {
+      "path": "evidence/http-timeout-preparation-failures-r1.json",
+      "bytes": 1133,
+      "sha256": "effc5c098c097a031189d24c6758840f5f45ef6877b9b1ccda13a0a1ca6228de"
+    },
+    {
+      "path": "evidence/make-native-http-deadlines-host-r1.py",
+      "bytes": 8841,
+      "sha256": "404bbf6e9a2281dfde1ec74414d2e6733d79130a4f92959e2a2dca6329ee9df6"
+    },
+    {
+      "path": "build/context-http-timeout-release/CMakeCache.txt",
+      "bytes": 38733,
+      "sha256": "2da93b1adae76eb32063acaaf676dd3dca0270e146800241ff0489a8b9e2e5af"
+    },
+    {
+      "path": "build/context-http-timeout-release/build.ninja",
+      "bytes": 567168,
+      "sha256": "af81815d347971d5c1a20429fd73bed77d2ef937eeda08a87b0673e7610b324b"
+    },
+    {
+      "path": "build/context-http-timeout-release/Testing/Temporary/LastTest.log",
+      "bytes": 5249,
+      "sha256": "2d21b0c0753478059e8f8cca819d9c6bea825c3210b75b9b52496404a8b48404"
+    },
+    {
+      "path": "build/context-http-timeout-release/Testing/Temporary/CTestCostData.txt",
+      "bytes": 114,
+      "sha256": "8b74f18192c27a2a53c58ad98a4e9dc9a3e5f0b5b2b188f4c713a390a90b2fb7"
+    },
+    {
+      "path": "build/context-http-timeout-release/synapse-lie-bench",
+      "bytes": 518168,
+      "sha256": "c65c64b6eb94ac2a620f0894e7dfeca1315c3e37c3550cae3e52bb992d6ba701"
+    },
+    {
+      "path": "build/context-http-timeout-release/test-ssd-http-server",
+      "bytes": 664992,
+      "sha256": "288654ea3ec2d4bdbfcd6498bdce62afde27d18e64c35da8afb2327445e2ba45"
+    },
+    {
+      "path": "build/context-http-timeout-release/test-synthetic-lie-bench",
+      "bytes": 526304,
+      "sha256": "57d97725303713c961e71f21b0b01279ca1262fef28e233711366b89a9066e66"
+    },
+    {
+      "path": "build/context-http-timeout-release/test-steered-lie-bench",
+      "bytes": 554928,
+      "sha256": "bfb5dad7672655fc770accf33ffa324fec61be33d0acb28e5ffa00319fd2a8b9"
+    },
+    {
+      "path": "build/context-http-timeout-release/test-native-bench",
+      "bytes": 272440,
+      "sha256": "f67120d523e499662967cc978c58d34571eaf9ccb87affd9089c54c7ece6f1f5"
+    },
+    {
+      "path": "build/context-http-timeout-release/test-http-multi-native",
+      "bytes": 200608,
+      "sha256": "aff97db79bf4434f41338f05aa05a06dd3eafc9f30e8029b6443e54c1341acc5"
+    },
+    {
+      "path": "build/context-http-timeout-release/test-http-curve-native",
+      "bytes": 204088,
+      "sha256": "e95f2909d085ed15e294eabc90137a3f64f476703283e46388e5a2b581aa8bfd"
+    },
+    {
+      "path": "evidence/http-timeout-release-configure-r1/plan.json",
+      "bytes": 1253,
+      "sha256": "f967f3a96d7ca95b9958f84ce68bc9b6f43cd8fb9f8ce87f35438b794be793de"
+    },
+    {
+      "path": "evidence/http-timeout-release-configure-r1/result.json",
+      "bytes": 747,
+      "sha256": "c7f5bfc4d69b3019d2e3037dfbc64449877349f6e5c2fdafe9ec6f4d6378f0d6"
+    },
+    {
+      "path": "evidence/http-timeout-release-configure-r1/temperatures.jsonl",
+      "bytes": 1826,
+      "sha256": "452716734d6986ea044387def80cf801dd245ca315124ab4b0d8d763bfd913c5"
+    },
+    {
+      "path": "evidence/http-timeout-release-configure-r1/command.log",
+      "bytes": 3408,
+      "sha256": "4cfa100a93d15aeedf782ca05a6c5679f556564c725475152cc5dee7ba616211"
+    },
+    {
+      "path": "evidence/http-timeout-release-build-r1/plan.json",
+      "bytes": 1249,
+      "sha256": "9736bb5fee281e76973a1a26392b988ac7be439919ef87b963d96c613e9e461e"
+    },
+    {
+      "path": "evidence/http-timeout-release-build-r1/result.json",
+      "bytes": 743,
+      "sha256": "823db64590ca86225a78f88230b0a60fe6bdfcfecb8c700bf4e3af6916e48209"
+    },
+    {
+      "path": "evidence/http-timeout-release-build-r1/temperatures.jsonl",
+      "bytes": 6684,
+      "sha256": "17d6a8f447c95f68f54bd8d0deb6c53e2a3b5ff42852f42bd30f03844206b9d7"
+    },
+    {
+      "path": "evidence/http-timeout-release-build-r1/command.log",
+      "bytes": 11543,
+      "sha256": "3907a0b2dd2794d5357a76e9a597fed93513a29599411eec592de5052dc2ad5d"
+    },
+    {
+      "path": "evidence/http-timeout-release-ctest-r1/plan.json",
+      "bytes": 1167,
+      "sha256": "79f8c418dea54bc3e03b3e4557661229c667583212aa8b2670caa0ad2ebc7324"
+    },
+    {
+      "path": "evidence/http-timeout-release-ctest-r1/result.json",
+      "bytes": 658,
+      "sha256": "60903f63bdaf2dba1ff401d9d7e349873a40231b472cfdd8081ef3657cc885d6"
+    },
+    {
+      "path": "evidence/http-timeout-release-ctest-r1/temperatures.jsonl",
+      "bytes": 10944,
+      "sha256": "af52ad3990a60ad3185915c6aedd3dfd50012d3e813a599841b4d32cc1113f32"
+    },
+    {
+      "path": "evidence/http-timeout-release-ctest-r1/command.log",
+      "bytes": 538,
+      "sha256": "a4b9a4d112c8b2e6123931c74a10270b14a960febba03e3a8469f54f03bee218"
+    },
+    {
+      "path": "build/context-http-timeout-asan/CMakeCache.txt",
+      "bytes": 38712,
+      "sha256": "54455f3fe5d325774ef496e9a2d74e83ba9949ba33ab1452969bc082cea046e8"
+    },
+    {
+      "path": "build/context-http-timeout-asan/build.ninja",
+      "bytes": 577495,
+      "sha256": "dc513a9a363260b7169ee113cd73f6e1250b92b2849741fee2fcdc9a593b75ea"
+    },
+    {
+      "path": "build/context-http-timeout-asan/Testing/Temporary/LastTest.log",
+      "bytes": 5210,
+      "sha256": "5322550ff99c3c6c406699b5fd9ba7b10b9b30de739df3f0840ac648d1cfba39"
+    },
+    {
+      "path": "build/context-http-timeout-asan/Testing/Temporary/CTestCostData.txt",
+      "bytes": 114,
+      "sha256": "170f25a1e290b37caef16359d1a214892a798606d927f81f55f4540ab3acaa5f"
+    },
+    {
+      "path": "build/context-http-timeout-asan/synapse-lie-bench",
+      "bytes": 6433352,
+      "sha256": "f78803ba7b004ab92e8e263d6a4a8d24fffff4e57b4ccb3f7cefc50342159378"
+    },
+    {
+      "path": "build/context-http-timeout-asan/test-ssd-http-server",
+      "bytes": 10914320,
+      "sha256": "61e8ea794b90a7fc57e63d03bb58dafdab74d5c961e27e3d6369ac3d6fe77154"
+    },
+    {
+      "path": "build/context-http-timeout-asan/test-synthetic-lie-bench",
+      "bytes": 6653048,
+      "sha256": "8f5a4f156bf631e09e1198ec6b01e7574e825e6d4a05a5e6bd0aaa11b52809b2"
+    },
+    {
+      "path": "build/context-http-timeout-asan/test-steered-lie-bench",
+      "bytes": 6977072,
+      "sha256": "dc2b6c6268288771fff9cc75ac79cc90f56abe198b27c9a890c365318d12a9cc"
+    },
+    {
+      "path": "build/context-http-timeout-asan/test-native-bench",
+      "bytes": 1970216,
+      "sha256": "2d401797e729451b2d4357a70f7bf9a68818c7e3e68eea4a2d20fe40777241d3"
+    },
+    {
+      "path": "build/context-http-timeout-asan/test-http-multi-native",
+      "bytes": 1508896,
+      "sha256": "a125bae61edf7c6116e09a8f5e82c848d3c672d67909f489afe9d6fffbac3986"
+    },
+    {
+      "path": "build/context-http-timeout-asan/test-http-curve-native",
+      "bytes": 1496112,
+      "sha256": "c6cedcd1ea1455b85cef85d0ff94a618b5a22a65964b42f85d83e54de1fa6129"
+    },
+    {
+      "path": "evidence/http-timeout-asan-configure-r1/plan.json",
+      "bytes": 1244,
+      "sha256": "8ece5f722ee8151d9b5f00b04bad43b3e94887b85332c61c15a0310b6a7f7fb4"
+    },
+    {
+      "path": "evidence/http-timeout-asan-configure-r1/result.json",
+      "bytes": 742,
+      "sha256": "340da469699d3753446f6ad9f749d1004dce9b6f207066d4ca41c489f36a3d63"
+    },
+    {
+      "path": "evidence/http-timeout-asan-configure-r1/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "17638fcc862cb9b7445b6b9e539ff108fd48d5266826eb6fdb9094547b81b3a1"
+    },
+    {
+      "path": "evidence/http-timeout-asan-configure-r1/command.log",
+      "bytes": 3405,
+      "sha256": "cc824a3ca2a5b1020017b62037ebdb974fcbc77e9ffd858cc3a277532b0cf27e"
+    },
+    {
+      "path": "evidence/http-timeout-asan-build-r1/plan.json",
+      "bytes": 1246,
+      "sha256": "af02f3c63f61547c94e9b8383f4dac6d62b3c369adeb5bdaf391ae19d337bfe5"
+    },
+    {
+      "path": "evidence/http-timeout-asan-build-r1/result.json",
+      "bytes": 741,
+      "sha256": "2e34e3980f20d78967ed03a1c055448c1b0a7799086c5032a24c4290e868ef5d"
+    },
+    {
+      "path": "evidence/http-timeout-asan-build-r1/temperatures.jsonl",
+      "bytes": 4869,
+      "sha256": "761f325fb8192729cf555beacb81651359ec45b1f3d145b62b90dabfc7444479"
+    },
+    {
+      "path": "evidence/http-timeout-asan-build-r1/command.log",
+      "bytes": 11543,
+      "sha256": "f01554b6701ddd51efd3036ab4be9a9e4a04d2be8e6b541968e2f7c38a5485f4"
+    },
+    {
+      "path": "evidence/http-timeout-asan-ctest-r1/plan.json",
+      "bytes": 1164,
+      "sha256": "0fc0d312742bfb901761c8ba861b116a68509a63d6564e847a6e0fc0b3e359e9"
+    },
+    {
+      "path": "evidence/http-timeout-asan-ctest-r1/result.json",
+      "bytes": 656,
+      "sha256": "e527f82cff3511b48222ffe3ed0a95834aae61c342ece410b8e1dab38cb98075"
+    },
+    {
+      "path": "evidence/http-timeout-asan-ctest-r1/temperatures.jsonl",
+      "bytes": 12160,
+      "sha256": "2a17f745f66518cbe9773f4958a138df3786f516fe78a8a9971117fafcffb435"
+    },
+    {
+      "path": "evidence/http-timeout-asan-ctest-r1/command.log",
+      "bytes": 535,
+      "sha256": "db43afd25b4c64299e28fa8d4b9f9399c3ca2f71e5a7bca99c7645fb21a07b50"
+    },
+    {
+      "path": "docs/development/validation/physical1m-fixed-point-gpu-2026-10-05.json",
+      "bytes": 9011,
+      "sha256": "deb6a30362315af007bba1299bcb9ba5efd9fbbf62f9b890c60f770940b7acac"
+    },
+    {
+      "path": "docs/development/validation/c17-schema-compile-point-gpu-2026-10-06.json",
+      "bytes": 53987,
+      "sha256": "2b2b205c2ce46574fdb1329b5f54aa619e20aafb8b8dd7fc533268c5623eaf52"
+    }
+  ],
+  "portable_raw_archive": {
+    "path": "docs/development/validation/raw/native-http-deadlines-host-2026-10-06.tar.gz",
+    "bytes": 198571,
+    "sha256": "77942c85c70fa99c00f62b65f7bd6cd9be841444f0812759a430f5efa4bf0d9d",
+    "members": 51,
+    "scope": "Sources, commands, logs, thermal telemetry, build inputs, historical receipts and manifest; binary hashes remain in receipt, binaries are not redistributed."
+  }
+}

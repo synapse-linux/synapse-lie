@@ -1,0 +1,26 @@
+{
+  "scope": "CPU fixtures only on .157; Q2_HIP=OFF; no GPU/model evidence",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug": {
+    "passed": 10,
+    "total": 10
+  },
+  "asan_ubsan": {
+    "passed": 10,
+    "total": 10
+  },
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-down64-host-r1/results.tar.gz",
+    "sha256": "77e33c40065e7f0f3c52aab1c65667afda5e72d7070a09ed28ef42f118e42678",
+    "verified_artifacts": 7
+  },
+  "source_capsule_sha256": "32a2f0e487044bff1c4b4a2f11c8c149eb3d59772d88edd69727a911a8dbdda1",
+  "finished_at": "2026-10-02T16:57:53.441880+00:00"
+}

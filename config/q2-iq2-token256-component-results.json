@@ -1,0 +1,221 @@
+{
+  "schema": "synapse-lie.q2-iq2-token256-component-results.v1",
+  "plan_sha256": "41f872d1063b834626860af0752fb50f47fe28b79c1668e91334ec35a6da3f13",
+  "admission_sha256": "147f1c8c2ecc0d97b20e5ca8c10b512ec4f6db38a433ac9311ef3c40f8d5e665",
+  "release_sha256": "f2b163b68e87cf5cfa1e68733fd41c9535e2818a9c794c7fc7771c91813381a6",
+  "component_receipt_sha256": "9d2c93c0fa2211efb5b9e20024cf16f4758818b59e72a46d7133880ae1926cfc",
+  "archive_sha256": "ef60f17ef7e3489522147e057e5e314de3af44aeaee9e2e2243cafbedc8d4214",
+  "raw_log_sha256": "71b29b554e0629cc8ef07938f0b830acb5b37ab48f800a794ff75ee8c30a7c15",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "events": {
+    "iq2_token256_map": 15,
+    "iq2_token256_replay": 51,
+    "iq2_token256_timing": 84,
+    "iq2_token256_complete": 1
+  },
+  "maps_exact": 15,
+  "replays_exact": 51,
+  "gpu_event_valid_count": 0,
+  "gpu_event_invalid_count": 84,
+  "measurements": {
+    "uniform-e160": {
+      "retained128": {
+        "samples_completed_wall_us": [
+          3622.63666667,
+          3628.87666667,
+          3633.25633333,
+          3666.509,
+          3637.913
+        ],
+        "median_us": 3633.25633333,
+        "range_us": [
+          3622.63666667,
+          3666.509
+        ]
+      },
+      "candidate256": {
+        "samples_completed_wall_us": [
+          3614.10366667,
+          3643.71633333,
+          3618.757,
+          3620.20333333,
+          3640.29633333
+        ],
+        "median_us": 3620.20333333,
+        "range_us": [
+          3614.10366667,
+          3643.71633333
+        ]
+      },
+      "time_change_percent": -0.35926449450475184
+    },
+    "uniform-e512": {
+      "retained128": {
+        "samples_completed_wall_us": [
+          5509.78133333,
+          5478.029,
+          5512.708,
+          5479.45866667,
+          5492.852
+        ],
+        "median_us": 5492.852,
+        "range_us": [
+          5478.029,
+          5512.708
+        ]
+      },
+      "candidate256": {
+        "samples_completed_wall_us": [
+          5482.58566667,
+          5485.78533333,
+          5466.41266667,
+          5487.70533333,
+          5459.59933333
+        ],
+        "median_us": 5482.58566667,
+        "range_us": [
+          5459.59933333,
+          5487.70533333
+        ]
+      },
+      "time_change_percent": -0.1869035126014662
+    },
+    "skew-e64": {
+      "retained128": {
+        "samples_completed_wall_us": [
+          3779.386,
+          3737.034,
+          3784.34233333,
+          3696.325,
+          3776.666
+        ],
+        "median_us": 3776.666,
+        "range_us": [
+          3696.325,
+          3784.34233333
+        ]
+      },
+      "candidate256": {
+        "samples_completed_wall_us": [
+          3946.32166667,
+          3893.30966667,
+          3922.84566667,
+          3848.41766667,
+          3927.30566667
+        ],
+        "median_us": 3922.84566667,
+        "range_us": [
+          3848.41766667,
+          3946.32166667
+        ]
+      },
+      "time_change_percent": 3.8706008598589303
+    },
+    "real-layer0": {
+      "retained128": {
+        "samples_completed_wall_us": [
+          5293.437,
+          5180.45666667,
+          5193.263,
+          5192.01633333,
+          5204.39266667
+        ],
+        "median_us": 5193.263,
+        "range_us": [
+          5180.45666667,
+          5293.437
+        ]
+      },
+      "candidate256": {
+        "samples_completed_wall_us": [
+          5330.07966667,
+          5315.64633333,
+          5320.933,
+          5290.757,
+          5318.39966667
+        ],
+        "median_us": 5318.39966667,
+        "range_us": [
+          5290.757,
+          5330.07966667
+        ]
+      },
+      "time_change_percent": 2.409596176238349
+    },
+    "real-layer3": {
+      "retained128": {
+        "samples_completed_wall_us": [
+          4153.33333333,
+          4123.80366667,
+          4136.297,
+          4135.857,
+          4137.41333333
+        ],
+        "median_us": 4136.297,
+        "range_us": [
+          4123.80366667,
+          4153.33333333
+        ]
+      },
+      "candidate256": {
+        "samples_completed_wall_us": [
+          4259.15733333,
+          4295.033,
+          4290.72933333,
+          4255.26066667,
+          4287.383
+        ],
+        "median_us": 4287.383,
+        "range_us": [
+          4255.26066667,
+          4295.033
+        ]
+      },
+      "time_change_percent": 3.652687415821454
+    },
+    "real-layer22": {
+      "retained128": {
+        "samples_completed_wall_us": [
+          5549.434,
+          5509.38133333,
+          5483.27533333,
+          5467.67933333,
+          5489.21866667
+        ],
+        "median_us": 5489.21866667,
+        "range_us": [
+          5467.67933333,
+          5549.434
+        ]
+      },
+      "candidate256": {
+        "samples_completed_wall_us": [
+          5636.408,
+          5667.221,
+          5622.712,
+          5621.002,
+          5627.81833333
+        ],
+        "median_us": 5627.81833333,
+        "range_us": [
+          5621.002,
+          5667.221
+        ]
+      },
+      "time_change_percent": 2.5249434405221205
+    }
+  },
+  "model_inference": false,
+  "production_dispatch_changed": false,
+  "promoted": false,
+  "decision": "Reject token256 gate/up producer: all three saved-routing layers regress in completed component wall time. Keep the retained128/64 path.",
+  "limits": [
+    "Synthetic rotating weights with saved routing counts; no original-model inference.",
+    "Completed host wall times include GPU submission and synchronization; all HIP events are invalid zero.",
+    "Gate/up component time cannot be converted to whole-model PP or TG."
+  ]
+}

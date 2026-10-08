@@ -1,0 +1,121 @@
+{
+  "scope": "Local syntax/reconstruction only; no runtime or GPU execution",
+  "checks": [
+    {
+      "name": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/run/q2-packed-includes",
+        "-isystem",
+        "/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "q2_shared_fork.cpp",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/run/q2-packed-includes",
+        "-isystem",
+        "/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-static-include",
+        "-DLIE_Q2_SHARED_FORK=1",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_shared_fork.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "q2_model.cpp",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/run/q2-packed-includes",
+        "-isystem",
+        "/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-shared-overlap/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-static-include",
+        "-DLIE_Q2_SHARED_FORK=1",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_model.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "c17",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-fsyntax-only",
+        "-Iexperiments",
+        "experiments/gpu_fork.c",
+        "tests/gpu_fork.c"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-shared-overlap.patch"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "reconstructed_files": 1022,
+  "unchanged_numerical_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/w8a8_wave64.hip": "7314d5ac3accf546149ae3c9f94a956a3d9d1cf654a1de372afe7397f060a3b0",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmid.hip.cpp": "c1b8f825da82c8e07bb2628155875014f64fbc986f8b4b7b65f01443c1f06dfd",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp": "f868ab8ae8fb55a520aed7eaf695fa8197db1ce322f9906559ed45fa9bff166a",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/moe_wave64.hip.cpp": "98e35595732b45ba4b96b10d9769dc11bc2e9be3d44d5a6607f2dfa35e703510",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_ggml_stubs.hip.cpp": "ca4efcaa2b6286068f364f759a1a1dac14e007eda478d8cffb2c8e808c189e78",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp": "5085ade562ff65c0260229b4981c9aa83a131ed4112d1d013f38730903dae09b",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/quantize.hip.cpp": "984332a72a689511810aff9a272ea1afa873f39c50f4ed105ddf84838ba67cbb"
+  },
+  "all_checks_pass": true,
+  "format_exit_code": 0
+}

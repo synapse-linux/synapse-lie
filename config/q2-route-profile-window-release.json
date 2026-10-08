@@ -1,0 +1,180 @@
+{
+  "at": "2026-10-04T04:21:50.647379+00:00",
+  "state": "Q2_ROUTE_PROFILE_WINDOW_RELEASED",
+  "cohorts": [
+    {
+      "label": "q2-route-profile-host-r1",
+      "finished_at": "2026-10-04T04:11:26.536296+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 7
+    },
+    {
+      "label": "q2-route-profile-model-r1",
+      "finished_at": "2026-10-04T04:21:08.217276+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 30
+    }
+  ],
+  "retired_identities": [
+    {
+      "pid": 3400448,
+      "start_ticks": null
+    },
+    {
+      "pid": 3400456,
+      "start_ticks": 165245165
+    },
+    {
+      "pid": 3400527,
+      "start_ticks": 165245268
+    },
+    {
+      "pid": 3400688,
+      "start_ticks": 165245820
+    },
+    {
+      "pid": 3400905,
+      "start_ticks": 165246524
+    },
+    {
+      "pid": 3400975,
+      "start_ticks": 165246577
+    },
+    {
+      "pid": 3401157,
+      "start_ticks": 165247379
+    },
+    {
+      "pid": 3401659,
+      "start_ticks": null
+    },
+    {
+      "pid": 3401660,
+      "start_ticks": 165253190
+    },
+    {
+      "pid": 3402096,
+      "start_ticks": 165253543
+    },
+    {
+      "pid": 3403577,
+      "start_ticks": 165271374
+    },
+    {
+      "pid": 3403578,
+      "start_ticks": 165271427
+    },
+    {
+      "pid": 3403579,
+      "start_ticks": 165271480
+    },
+    {
+      "pid": 3403580,
+      "start_ticks": 165271488
+    },
+    {
+      "pid": 3403676,
+      "start_ticks": 165272654
+    }
+  ],
+  "retired_groups": [
+    3400456,
+    3400527,
+    3400688,
+    3400905,
+    3400975,
+    3401157,
+    3401660,
+    3402096,
+    3403577,
+    3403578,
+    3403579
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "model_stats_unchanged": true,
+  "artifacts_verified": 37,
+  "restart_scheduled": false,
+  "observer_or_waiter": false,
+  "hardware_tuning": false
+}

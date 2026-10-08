@@ -1,0 +1,49 @@
+{
+  "schema": "synapse-lie.q2-compact-expert-chain-disposition.v1",
+  "decision": "RETAIN_EXPERIMENT_AND_KEEP_SAVED1574",
+  "next_composition_variant": "scaled-wave-pack",
+  "source_manifest": "config/q2-compact-expert-chain-source.json",
+  "retained_parent_manifest": "config/q2-scaled-wave-pack-source.json",
+  "model_result_sha256": "28cf207f401d9d9dc58d59a8fe065c65994c2e9f390dea176e9fec080d3d4bb4",
+  "component_result_sha256": "9622295c59ccfa4b7383bc491a864c371e6eef44b321f79c7835f2221bfa3274",
+  "final_audit_sha256": "d391d3344d0fa0574fbdfdcbdd9b8eb2d08b400d60614c3cb443e6149e648dc3",
+  "release_sha256": "88dcb8d8d4ef79e78ec412f4e346a63ae125b179d6c5e7cc2a538a0faddf9e5a",
+  "prefill_tok_s": 1572.95673,
+  "decode_steps_s": 25.1751488,
+  "nominal_pp_gain_percent": -0.0983611722464861,
+  "nominal_decode_change_percent": -0.002944126303805472,
+  "absolute_pp_gain": -1.548701999999821,
+  "observed_historical_pp_ranges_overlap": false,
+  "required_pp_increase_to_fixed_ud_percent": 7.1725025773595075,
+  "component_cycle_time_changes_percent": {
+    "balanced/gate_up": 0.28378791386476365,
+    "balanced/expert_chain": 0.2868532961185055,
+    "skew/gate_up": 0.040920556325585444,
+    "skew/expert_chain": 0.41321422404299035
+  },
+  "all21_parent_files_exact": true,
+  "all96_component_pairs_exact": true,
+  "strict_oracle_pass": true,
+  "reported_oracle_errors_signed_zero_only": true,
+  "inherited_quality_record": "config/q2-down-half-storage-disposition.json",
+  "thermal_max_c": {
+    "q2-compact-expert-chain-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 64.75
+    },
+    "q2-compact-expert-chain-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 61.625
+    },
+    "q2-compact-expert-chain-model-r1": {
+      "amdgpu": 70.0,
+      "k10temp": 79.75
+    }
+  },
+  "independent_quality": false,
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "Saved historical model comparators; scalar decode unchanged and observed TG differences not causally assigned. Component cycle gains are separate, not additive. Preserve actual numerical exits and complete-array diagnoses; inherited F16 task quality and full context/concurrency parity remain open."
+}

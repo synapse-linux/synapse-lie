@@ -1,0 +1,540 @@
+{
+  "schema": "synapse-lie.develop-q2-halo-hip-build.v1",
+  "at_utc": "2026-10-08T19:29:36.848130+00:00",
+  "state": "COHERENT_HIP_BUILD_COMPLETE_CLOSED_NOT_MODEL_QUALIFIED",
+  "source_commit": "9e95e4c49e1aa71e71f50003760ac14d96a3232e",
+  "source_qualified_from": "f902ad45",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "host": "paperboy@192.168.5.157",
+  "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+  "filesystem_uuid": "e828b148-fd51-44a7-b85d-2207c4df92e8",
+  "hip_architecture": "gfx1151",
+  "sdk": "existing-native-ROCm-7.2.4",
+  "manifest_sha256": "2e08ae7116e33a4a20cec19ddf0e7d421756d338c2651837d048430c868147cb",
+  "source_archive": {
+    "bytes": 8956505,
+    "sha256": "eb4722d5cbcc7cd257c37ddd21574cf942e90353727f20aa32f219e43edf4b35"
+  },
+  "source_inventory_sha256": "9213abe9babaad5337a05fc11c3b614633815e3d7e3756495acc8ba5299d912b",
+  "input_files_verified_unchanged": 3015,
+  "upstream_files_independently_verified": 1019,
+  "selection": {
+    "original_qwen_q2_formats": true,
+    "c17_sampling_primary": true,
+    "c17_sampling_control": false,
+    "state_access": true,
+    "ds4_runtime_cache": true,
+    "vision_weight_decode": true,
+    "directional_steering": true,
+    "attention_dispatch_stats": true,
+    "long_context_wmma": true,
+    "legacy_python_tests": false,
+    "python_discovery_disabled_for_products": true
+  },
+  "selected_format_inputs": {
+    "adapters/gufo-state/qwen-q2-format-edits.json": "3c5898b6a7b93255c1d39c2c0de058efa76915549ffcec6cbb3b407095e7edd6",
+    "patches/gufo-q2.patch": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473"
+  },
+  "actual_compiler_commands": [
+    {
+      "name": "halo-develop-q2-provider-r1",
+      "argv": [
+        "cmake",
+        "-DLABEL=halo-develop-q2-provider-r1",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_DIRECTIONAL_STEERING=ON",
+        "-DLIE_ATTENTION_DISPATCH_STATS=ON",
+        "-DLIE_LONG_CONTEXT_WMMA=ON",
+        "-DLIE_QWEN_Q2_FORMATS=ON",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "started_at": "2026-10-08T19:17:00.436205+00:00",
+      "actual_exit_code": 0,
+      "ended_at": "2026-10-08T19:19:51.750299+00:00"
+    },
+    {
+      "name": "halo-develop-q2-reference-r1",
+      "argv": [
+        "cmake",
+        "-DLABEL=halo-develop-q2-reference-r1",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-DLIE_C17_SAMPLING=OFF",
+        "-DLIE_VISION_WEIGHT_DECODE=ON",
+        "-DLIE_DIRECTIONAL_STEERING=ON",
+        "-DLIE_ATTENTION_DISPATCH_STATS=ON",
+        "-DLIE_LONG_CONTEXT_WMMA=ON",
+        "-DLIE_QWEN_Q2_FORMATS=ON",
+        "-P",
+        "cmake/provider/Build.cmake"
+      ],
+      "started_at": "2026-10-08T19:19:51.750650+00:00",
+      "actual_exit_code": 0,
+      "ended_at": "2026-10-08T19:22:51.313607+00:00"
+    },
+    {
+      "name": "configure-products",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/halo-develop-q2-linked-r1",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTING=OFF",
+        "-DLIE_GUFO_RUNTIME=ON",
+        "-DLIE_Q2_QUALIFICATION_ONLY=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DCMAKE_DISABLE_FIND_PACKAGE_Python3=ON",
+        "-DLIE_GUFO_STATE_ACCESS=ON",
+        "-DLIE_DS4_RUNTIME_CACHE=ON",
+        "-DLIE_HIP_ARCHITECTURE=gfx1151",
+        "-DLIE_C17_SAMPLING=ON",
+        "-DLIE_ATTENTION_DISPATCH_STATS=ON",
+        "-DLIE_LONG_CONTEXT_WMMA=ON",
+        "-DLIE_QWEN_Q2_FORMATS=ON",
+        "-DLIE_BUILD_ID=halo-develop-q2-linked-r1",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/.deps/gufo-state-access-halo-develop-q2-provider-r1",
+        "-DGUFO_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-provider-r1",
+        "-DGUFO_REFERENCE_BUILD=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-reference-r1"
+      ],
+      "started_at": "2026-10-08T19:22:51.314084+00:00",
+      "actual_exit_code": 0,
+      "ended_at": "2026-10-08T19:22:59.765585+00:00"
+    },
+    {
+      "name": "link-products",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/halo-develop-q2-linked-r1",
+        "--parallel",
+        "1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "synapse-lie-bench-gufo-reference",
+        "lie-hip-probe",
+        "lie-sampling-capture",
+        "lie-attention-qualify",
+        "lie-steering-build"
+      ],
+      "started_at": "2026-10-08T19:22:59.765964+00:00",
+      "actual_exit_code": 0,
+      "ended_at": "2026-10-08T19:23:23.080939+00:00"
+    }
+  ],
+  "actual_controller_exit_code": 0,
+  "actual_collection_exit_code": 0,
+  "binaries": {
+    "synapse-lie-server": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/synapse-lie-server",
+      "bytes": 49534600,
+      "sha256": "732f14b283a58f4bb1c564b459967149ad57ba6b6a4e4844ac80210a7fada915"
+    },
+    "synapse-lie-bench": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/synapse-lie-bench",
+      "bytes": 49474672,
+      "sha256": "3343a60d7e5d1702815eced13ef6bde0084da84485dbe111d17c867005dbe169"
+    },
+    "synapse-lie-bench-gufo-reference": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/synapse-lie-bench-gufo-reference",
+      "bytes": 55295504,
+      "sha256": "a5ab932d7688f0997e5dc193191c829c6455f163b4299fee8b16c037e5383d77"
+    },
+    "lie-hip-probe": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/lie-hip-probe",
+      "bytes": 18064,
+      "sha256": "b7b98ea4b9b66b7077e6ef937d2e2354c8e7816d41a26231450d1ffceb8510e0"
+    },
+    "lie-sampling-capture": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/lie-sampling-capture",
+      "bytes": 49465824,
+      "sha256": "0bd7320afa9c8ba8e05b1b09c3e1c7000ae30dfed265e06a153c46a666a11d09"
+    },
+    "lie-attention-qualify": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/lie-attention-qualify",
+      "bytes": 3953056,
+      "sha256": "1ac060f1c86b08b6a58652d1af6664216b5af0e013c8afc6dfe11c21a693303b"
+    },
+    "lie-steering-build": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/source/build/halo-develop-q2-linked-r1/lie-steering-build",
+      "bytes": 49431872,
+      "sha256": "620f80fa451c88bbc2abcc3fcb21987c41a474ed9f91c3b1e2c994049e8e0562"
+    }
+  },
+  "provider_archives": {
+    "halo-develop-q2-provider-r1/libgufo_core.a": {
+      "bytes": 26702344,
+      "sha256": "8cea985a647872b3020035d0efff0ca0d968466d306ee224480e70fe93f80413"
+    },
+    "halo-develop-q2-provider-r1/src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": {
+      "bytes": 14934570,
+      "sha256": "acdf7eb3ceb0c0b1b7b3601ba2558e81494a6f2c2ccd4dee47177d1c6cf18ece"
+    },
+    "halo-develop-q2-provider-r1/src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": {
+      "bytes": 22375566,
+      "sha256": "de0c64c3db7ac927a61d0388770edb2aa7f313c828a47fb0d73da556b00f5b4e"
+    },
+    "halo-develop-q2-reference-r1/libgufo_core.a": {
+      "bytes": 35530328,
+      "sha256": "5a2be20b660210f5004c7d55651cb8a853fe147b65ab14121b7a53a49f38ed12"
+    },
+    "halo-develop-q2-reference-r1/src/models/qwen38_flash_next/libgufo_qwen38_flash_next.a": {
+      "bytes": 15017730,
+      "sha256": "5a0459c56cf1a2627bb7a42a5f6088a17449275b7e6953474464b38ce05e3b3f"
+    },
+    "halo-develop-q2-reference-r1/src/models/qwen38_flash_next/libgufo_qwen38_flash_next_mmq.a": {
+      "bytes": 22375670,
+      "sha256": "062afd77ca9dd8874567f62b199cff82fa47df8c0fbd9d64270dc3f8e5168206"
+    }
+  },
+  "thermal": {
+    "cpu_guard_c": 98,
+    "nvme_guard_c": 85,
+    "lower_exposed_hardware_limits_retained": true,
+    "gpu_observe_only": true,
+    "peaks_by_sensor_name_c": {
+      "nvme": 47.85,
+      "amdgpu": 39.0,
+      "k10temp": 76.125
+    },
+    "guard_trip": false
+  },
+  "closure": {
+    "original_lease_descriptors_closed_at": "2026-10-08T19:23:23.742237+00:00",
+    "release_sha256": "b55379fb3929ebc13eae68dbbe2a42f9df031c462deb8ffcee3f863de9d62c0d",
+    "strong_at_utc": "2026-10-08T19:24:50.182704+00:00",
+    "strong_sha256": "4561be443011a2eb2517120917f4b425ed4f26ad147d0f1fc7f1d47318418a2a",
+    "two_complete_process_scans": [
+      {
+        "pass": 0,
+        "processes_scanned": 487,
+        "exact_identity_matches": [],
+        "original_group_matches": []
+      },
+      {
+        "pass": 1,
+        "processes_scanned": 487,
+        "exact_identity_matches": [],
+        "original_group_matches": []
+      }
+    ],
+    "identities_checked": [
+      {
+        "pid": 14764,
+        "state": "R",
+        "group": 14761,
+        "session": 14761,
+        "start_ticks": 4665266
+      },
+      {
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/halo-develop-q2-build-20261008-r1/build.py"
+        ],
+        "pid": 14769,
+        "start_ticks": 4665318,
+        "exit_code": 0
+      }
+    ],
+    "original_groups_checked": [
+      14761,
+      14769
+    ],
+    "five_original_leases_verified_free_and_released": [
+      {
+        "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+        "device": 53,
+        "inode": 4486194
+      },
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 53,
+        "inode": 3232146
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 53,
+        "inode": 3206482
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 53,
+        "inode": 3228451
+      },
+      {
+        "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-coordination/epochs/be3e89fd-955b-47a4-a385-11c3ad98bb78/gpu.lock",
+        "device": 53,
+        "inode": 5078770
+      }
+    ],
+    "all_eight_model_stats_unchanged": true,
+    "kfd_empty": true,
+    "four_final_notices_delivered": true,
+    "future_grant": false
+  },
+  "scope": {
+    "compilation_linking_only": true,
+    "model_payload_read_hash_conversion": false,
+    "gpu_kernel_or_original_weight_run": false,
+    "numerical_quality_or_performance_qualification": false,
+    "service_installation_tuning": false,
+    "terminal_bench": false,
+    "develop_merged": false
+  },
+  "raw": {
+    "path": "raw/develop-q2-halo-hip-build-2026-10-08.tar.gz",
+    "bytes": 478669,
+    "sha256": "9bd2cfc482a81b39baff5d095fbc38cb24ae7038c3989637eefc285b87ba1ada",
+    "files": {
+      "admission-notifications-r1.json": {
+        "bytes": 1949,
+        "sha256": "3a7d822d822e614c444ddb61d61551a57da1dba428cf6be3b268a862247ca1dc"
+      },
+      "archive-command.json": {
+        "bytes": 367,
+        "sha256": "701080f1528be66c35ac3d950df7b2187866660c2ca57e735ff35e942cbb8b8e"
+      },
+      "build.py": {
+        "bytes": 4004,
+        "sha256": "fb2088cbee8785e8b12134ea53b46986c7c7934cc751e187967589310be01d7f"
+      },
+      "collect-close-result-r1.json": {
+        "bytes": 458,
+        "sha256": "2e9c0e0f13ecc52b6484e7a2c75332065d7b5a8f970428a0dbd1a12b2b7677bd"
+      },
+      "collect-close.py": {
+        "bytes": 8328,
+        "sha256": "0fbe7b661e3546c92f15d0c35162b9b00130f0b1ea18f283dc39fafda0b2135d"
+      },
+      "collected/admission.json": {
+        "bytes": 3273,
+        "sha256": "1d0f2b355cd7a9b9f9932493ebe7229e936416fd1082d91de235bc969e6e5e60"
+      },
+      "collected/compiler-result.json": {
+        "bytes": 4713,
+        "sha256": "b4eeb5f406bc09e5315921d42c1ce6dbc315a8ebb3ec79b5898a1209c6f95ae7"
+      },
+      "collected/compiler-supervisor.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "collected/configure-products.log": {
+        "bytes": 4105,
+        "sha256": "17b20e4026e8e3ca4d575d1167ea9a6ce40cd5a654ae0c21510376e8e8989f73"
+      },
+      "collected/fresh.json": {
+        "bytes": 7900,
+        "sha256": "03b8f1b7895c32bad96473de6f6f54385f39c03a60ae94f42bf268f8f00dc611"
+      },
+      "collected/halo-develop-q2-provider-r1.log": {
+        "bytes": 65,
+        "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+      },
+      "collected/halo-develop-q2-reference-r1.log": {
+        "bytes": 65,
+        "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+      },
+      "collected/link-products.log": {
+        "bytes": 13343,
+        "sha256": "b0f083bea7e9776c2fce81f7f1db959713529ea8d9bf78a53a3c10ebedf32061"
+      },
+      "collected/manifest.json": {
+        "bytes": 3758,
+        "sha256": "2e08ae7116e33a4a20cec19ddf0e7d421756d338c2651837d048430c868147cb"
+      },
+      "collected/peer-declarations.json": {
+        "bytes": 8518,
+        "sha256": "606645e121eec41038e0dfa7bf2125db73b4df2557eaa8cf59aa33902c92afc5"
+      },
+      "collected/release.json": {
+        "bytes": 4277,
+        "sha256": "b55379fb3929ebc13eae68dbbe2a42f9df031c462deb8ffcee3f863de9d62c0d"
+      },
+      "collected/result.json": {
+        "bytes": 4277,
+        "sha256": "b55379fb3929ebc13eae68dbbe2a42f9df031c462deb8ffcee3f863de9d62c0d"
+      },
+      "collected/source/build/halo-develop-q2-linked-r1/CMakeCache.txt": {
+        "bytes": 41699,
+        "sha256": "1ac4c527af7b236d090cfdebdfdb7ab532f295a2c98774fd671e881916883656"
+      },
+      "collected/source/build/halo-develop-q2-provider-r1/BUILD-RECEIPT.json": {
+        "bytes": 142427,
+        "sha256": "bca7cf5a2ea652f466a297ee8a60bd688198d99dd0493f2291b480e467fbcd69"
+      },
+      "collected/source/build/halo-develop-q2-provider-r1/CMakeCache.txt": {
+        "bytes": 32136,
+        "sha256": "6692c3774c107005a49d0a7a73a4a19af5fc69e7fb1f55718459d4f67fe74b02"
+      },
+      "collected/source/build/halo-develop-q2-reference-r1/BUILD-RECEIPT.json": {
+        "bytes": 142434,
+        "sha256": "b471f36fad0d7903cd6a95cf1b1f3f8ff656faabc2eec40cbb95ded0c68f2e8c"
+      },
+      "collected/source/build/halo-develop-q2-reference-r1/CMakeCache.txt": {
+        "bytes": 32142,
+        "sha256": "ae1864abea9a76777b6bca4fbf1de38db82d9e861bec928f3247160bb6a8ab33"
+      },
+      "collected/source/evidence/halo-develop-q2-provider-r1/build.log": {
+        "bytes": 20838,
+        "sha256": "f8d872aaf3275f4de1e9ae7c870ed09a8aec07bffa63711ac5187626a572f5e7"
+      },
+      "collected/source/evidence/halo-develop-q2-provider-r1/configure.log": {
+        "bytes": 1676,
+        "sha256": "e054c3275850489619f629d3036714b9312b05d1f041497ead3840e8acc32dda"
+      },
+      "collected/source/evidence/halo-develop-q2-provider-r1/result.json": {
+        "bytes": 142427,
+        "sha256": "bca7cf5a2ea652f466a297ee8a60bd688198d99dd0493f2291b480e467fbcd69"
+      },
+      "collected/source/evidence/halo-develop-q2-reference-r1/build.log": {
+        "bytes": 20881,
+        "sha256": "f79ad24f6f01215ecdca720421ab3f34979222f75f7a2c711763b1f8a6261cce"
+      },
+      "collected/source/evidence/halo-develop-q2-reference-r1/configure.log": {
+        "bytes": 1677,
+        "sha256": "81a2604eac2fabd6d3300d605aacc8e610c5b785853204cbcc663874c32e969f"
+      },
+      "collected/source/evidence/halo-develop-q2-reference-r1/result.json": {
+        "bytes": 142434,
+        "sha256": "b471f36fad0d7903cd6a95cf1b1f3f8ff656faabc2eec40cbb95ded0c68f2e8c"
+      },
+      "collected/telemetry.jsonl": {
+        "bytes": 208472,
+        "sha256": "ccff398ef2762bd03deb3303d138b6e3b4916182ac8f40e29e79c9a79004dab7"
+      },
+      "controller-result.json": {
+        "bytes": 407,
+        "sha256": "2cf45c5170e09ec87d8455d6788dc4992d73b0f8f6d4d4d127e131d8b88a3031"
+      },
+      "controller-stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "controller-stdout.log": {
+        "bytes": 3685,
+        "sha256": "b7967e1e7c992a97c634b40fcae49595b1008067407b8ddbe73b77a58cef5478"
+      },
+      "discover.py": {
+        "bytes": 1006,
+        "sha256": "d7f8ee762234d8f1edd03b6feeb8f7df0cb7d5ead4521565bffa075974b6236d"
+      },
+      "discovery-r1.json": {
+        "bytes": 23701,
+        "sha256": "e89936788e081584e115fc18900213a5f985f24fca6e4ef870e6c0940c74b350"
+      },
+      "discovery-remote.py": {
+        "bytes": 2824,
+        "sha256": "33ef704a34ec4b2b69d12acde47f917367dd068ac3e461854789eb6033b1a363"
+      },
+      "discovery-result-r1.json": {
+        "bytes": 20240,
+        "sha256": "a27b182f95dc96ec72e52a4ae150c1e59a5c14f8a142726d275302c8d40da99d"
+      },
+      "fresh-result-r1.json": {
+        "bytes": 15971,
+        "sha256": "3bf41fb8235dca87b90fab77fa4a0cccfda375caf59f856f990da29db9db6993"
+      },
+      "fresh.py": {
+        "bytes": 6221,
+        "sha256": "ef7b55de8be26bb88b62485eade8d9af5a7566c1c5687e98734f6f30f0d0b753"
+      },
+      "launch.py": {
+        "bytes": 1633,
+        "sha256": "f0b658eae265544b9648deabc93bd104c7c9d04896ce98d7d8f6b403a0546018"
+      },
+      "live-1.json": {
+        "bytes": 15931,
+        "sha256": "3d280745ec8c66d9b539dd891b8fb29141411253fa43ee70f65bc367b1516f91"
+      },
+      "live-2.json": {
+        "bytes": 15927,
+        "sha256": "97aad3923d13f098983f273c1481e423413290a925ce26f0d236ac28b5c376e6"
+      },
+      "live-3.json": {
+        "bytes": 22091,
+        "sha256": "a3e2db9d7954604a619e74fd6630db8ab8597c586a28285b97f6dfa640561c57"
+      },
+      "local-closure-review.json": {
+        "bytes": 2853,
+        "sha256": "ca8445d077333871e443d272ffff9f1b15ce6c9a94d12d0473bb03f1bb7ca338"
+      },
+      "manifest-preparation.json": {
+        "bytes": 916,
+        "sha256": "d9b123fff4e928ab5c3eabba99b219e81ebfb9b22d7f58d28a0bdbaec594625c"
+      },
+      "manifest.json": {
+        "bytes": 3758,
+        "sha256": "2e08ae7116e33a4a20cec19ddf0e7d421756d338c2651837d048430c868147cb"
+      },
+      "observe.py": {
+        "bytes": 3302,
+        "sha256": "18a3974e022542e3a76ae2309b4cefa82592d6a8558e6b686fa94ae4a57493ef"
+      },
+      "peer-declarations-upload-r1.json": {
+        "bytes": 531,
+        "sha256": "d080ce0905119875a597e67a28ded43e18875dc295d0c10cd51213ab97562455"
+      },
+      "peer-declarations.json": {
+        "bytes": 8518,
+        "sha256": "606645e121eec41038e0dfa7bf2125db73b4df2557eaa8cf59aa33902c92afc5"
+      },
+      "peer-proposals-r1.json": {
+        "bytes": 2473,
+        "sha256": "b2fd06a9f7b507228660d922a2a09bf815ad57b508311be1d3db0f93cb44ec8c"
+      },
+      "prepare-window.py": {
+        "bytes": 4498,
+        "sha256": "30e1012a8e67ba65913b0a6ee3777755f74c596318fd0351faab9dca19d0b2f0"
+      },
+      "prepare.py": {
+        "bytes": 2822,
+        "sha256": "2a4ccbc9e391110e8adb39ee81d8d4d9d67c6a9c071701febd8ccb32cccb0da3"
+      },
+      "release-notifications-r1.json": {
+        "bytes": 2353,
+        "sha256": "51726eff18a89bb65cdf3ab3f8d4cbb12e8daf3dad3845c3f79ea45ab3eb1a54"
+      },
+      "runner.py": {
+        "bytes": 10116,
+        "sha256": "0f01f77f9611296d7b8af62e0b53f334df12f618329ce642afbda9df3b2c32ef"
+      },
+      "seal.py": {
+        "bytes": 6214,
+        "sha256": "968f3b5207e353cf0060b0bb3898184313b9f4b6fdb9064ebcff25bccaa1c534"
+      },
+      "source-inventory.json": {
+        "bytes": 470163,
+        "sha256": "9213abe9babaad5337a05fc11c3b614633815e3d7e3756495acc8ba5299d912b"
+      },
+      "source-preparation.json": {
+        "bytes": 736,
+        "sha256": "a8ba122eb972eec574899afb1baf009a57d073a9c5e19960b84bf7d262df368c"
+      },
+      "stage-result.json": {
+        "bytes": 3488,
+        "sha256": "c35400db7c1d36af7444826c49911626db116eb363076aa6e1ad55099204799b"
+      },
+      "stage.py": {
+        "bytes": 2082,
+        "sha256": "98fc6d4a06a392499489c731d533c748d00653bda142bccccab2253a3edc3114"
+      },
+      "strong-closure.json": {
+        "bytes": 11701,
+        "sha256": "4561be443011a2eb2517120917f4b425ed4f26ad147d0f1fc7f1d47318418a2a"
+      }
+    },
+    "members_verified": 59
+  },
+  "remaining": "Original-weight current-provider Q2/IQ2 and native walk, UD-Q4 regressions, then final develop integration. Broader benchmark/quality queue remains separate."
+}

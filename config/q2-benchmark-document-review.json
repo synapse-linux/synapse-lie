@@ -1,0 +1,15 @@
+{
+  "schema": "synapse-lie.q2-benchmark-document-review.v1",
+  "documents": {
+    ".deps/gufo-q2-prefill-chunks/.agents/skills/benchmark-model/SKILL.md": "ce3c3ee24c50664883634ecd820289983f2417a87ac6664df6f1059e759b72bc",
+    ".deps/gufo-q2-prefill-chunks/docs/BENCHMARKS.md": "eeb9b4cca3872cdd1b42e9663868a283b02c64a0b5cde4cf0ef77e78f4d7f262",
+    ".deps/gufo-q2-prefill-chunks/docs/models/qwen3.8-flash-next/README.md": "714cd0bb115dde6fd07c94f781af1814d033e9f7cd6c03ad6663c58b49c94cf2",
+    ".deps/gufo-q2-prefill-chunks/docs/models/qwen3.8-flash-next/BENCHMARKS.md": "5c9a7e72b7d0035101efcaa042f4bd126b7c4fd473b0157257a7033a2f4f9885",
+    ".deps/gufo-q2-prefill-chunks/docs/models/qwen3.8-flash-next/QUALITY.md": "c77b6a5ad7d5f05dee7266874925a89cc6f9c78d26df1f958b8da59ead2b3410",
+    "evidence/q2-exact-bench-preparation/ds4_bench.c": "f8cc29d57c1e37748273274611b85cad8fd71d1896e0f7c00a109f20ade57ad0",
+    "tests/q2_model.cpp": "a8326fff9c5d6eb96dff749150b0c303d59a5391bcc3b4b29400e588dd381c66"
+  },
+  "basis": "docs/Q2-BENCHMARK-CORRECTION.md",
+  "source_parent_commit": "0c0d0a1e93a07cc272ace71af57e0d9fc5779fe6",
+  "gpu_run": false
+}

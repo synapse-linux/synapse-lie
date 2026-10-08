@@ -1,0 +1,19 @@
+{
+  "schema": "synapse-lie.q2-select-key-tile-source.v1",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "parent_manifest": "config/q2-decode-down-rows-model-source.json",
+  "parent_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "source": ".deps/gufo-q2-decode-down-rows-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+  "source_sha256": "361722189d69208bd03b1ca64265a9e11b6fc159975574b36cc43ec105a8e4e6",
+  "candidate": "experiments/q2-select-key-tile.inc",
+  "candidate_sha256": "846826d838539faef0c608e15830057e2d8057b328bbebc9aecc7a23fd28495a",
+  "fixture_sha256": "aeb7c91084384752858071249fa7ba6cf8527a55a348b22b5ad743df33d888c0",
+  "layout": "[key/8][feature/8][key%8][feature%8], exact uint4 copies",
+  "scratch_bytes": 8560640,
+  "packing_inside_timer": true,
+  "query_type": "FP32",
+  "key_type": "F16 original bits",
+  "arithmetic_order_unchanged": true,
+  "model_dispatch_changed": false,
+  "gpu_run": false
+}

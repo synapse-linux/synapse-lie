@@ -1,0 +1,49 @@
+{
+  "scope": "Timestamped partial first-attempt observation, not a final Core-19 score or a scaled-input quality verdict",
+  "label": "q2-terminal-qualified-full-r1",
+  "observed_at": "2026-10-03T11:56:34.449732+00:00",
+  "snapshot_sha256": "1e92b0a6686bf65a4e4fe1f506a7136690e88b19b242e19186a3185ea135ac9f",
+  "supervisor_state": "RUNNING",
+  "live_owned_process_rows": 4,
+  "full_task_denominator": 19,
+  "first_attempts_completed": 2,
+  "first_attempt_passes": 1,
+  "conditional_second_attempt_pending": true,
+  "trials": [
+    {
+      "trial": "break-filter-js-from-html__7qcSKnD",
+      "complete": true,
+      "reward": {
+        "rewards": {
+          "reward": 0.0
+        }
+      },
+      "exception": null,
+      "finished_at": "2026-10-03T10:59:00.804669Z",
+      "steps": 6,
+      "last_write": "2026-10-03T10:58:02.401550+00:00"
+    },
+    {
+      "trial": "build-cython-ext__TMxsGLK",
+      "complete": true,
+      "reward": {
+        "rewards": {
+          "reward": 1.0
+        }
+      },
+      "exception": null,
+      "finished_at": "2026-10-03T11:45:52.746874Z",
+      "steps": 32,
+      "last_write": "2026-10-03T11:45:04.898191+00:00"
+    },
+    {
+      "trial": "cobol-modernization__o98ttA3",
+      "complete": false,
+      "steps": 15,
+      "last_write": "2026-10-03T11:56:27.357469+00:00"
+    }
+  ],
+  "retained_full_started": false,
+  "scaled_full_started": false,
+  "goal_met": false
+}

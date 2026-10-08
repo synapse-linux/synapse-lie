@@ -1,0 +1,136 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "LIE static YaRN frequencies and amplitude in fused attention, fallback and pooled indexer; explicit runtime context growth; GPU qualification separate; C-owned prefill capacity bounds scratch, with decode/MTP row floor",
+  "edits": [
+    {
+      "path": "src/models/qwen38_flash_next/engine.hpp",
+      "old": "struct ModelOptions {\n  std::uint32_t max_context = 4096;",
+      "new": "struct ModelOptions {\n  std::uint32_t max_context = 4096;\n  // LIE-owned static RoPE plan; empty keeps native numerical execution.\n  std::uint32_t lie_context_limit{0};\n  std::uint32_t lie_prefill_capacity{2048};\n  std::vector<float> lie_rope_inv_frequency;\n  float lie_rope_attention{1.0F};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "options.max_context > c.context_length",
+      "new": "options.max_context > (options.lie_context_limit ? options.lie_context_limit : c.context_length)"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  m->device_ = rocm::DeviceModel::Upload(",
+      "new": "  // Predictor metadata binds against the original trunk before runtime growth.\n  if (!options.lie_rope_inv_frequency.empty())\n    m->weights_->config.context_length = std::max(c.context_length, options.max_context);\n  m->device_ = rocm::DeviceModel::Upload("
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  rocm::Executor::Options exec;\n",
+      "new": "  rocm::Executor::Options exec;\n  exec.lie_rope_inv_frequency = options.lie_rope_inv_frequency;\n  exec.lie_rope_attention = options.lie_rope_attention;\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "    std::uint32_t max_speculative{1};",
+      "new": "    std::uint32_t max_speculative{1};\n    std::vector<float> lie_rope_inv_frequency;\n    float lie_rope_attention{1.0F};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "old": "  Options options_;",
+      "new": "  Options options_;\n  float* lie_rope_frequencies_{nullptr};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  Scratch& s = e->s_;\n",
+      "new": "  Scratch& s = e->s_;\n  if (!options.lie_rope_inv_frequency.empty()) {\n    if (options.lie_rope_inv_frequency.size() != c.rotary_dim / 2 ||\n        !std::isfinite(options.lie_rope_attention) || options.lie_rope_attention <= 0) {\n      AssignError(error_msg, \"invalid LIE static RoPE plan\");\n      return nullptr;\n    }\n    e->lie_rope_frequencies_ = Alloc<float>(a, c.rotary_dim / 2, error_msg);\n    if (!e->lie_rope_frequencies_ ||\n        !Check(hipMemcpyAsync(e->lie_rope_frequencies_, options.lie_rope_inv_frequency.data(),\n               c.rotary_dim / 2 * sizeof(float), hipMemcpyHostToDevice, e->stream_),\n               \"LIE RoPE upload\", error_msg) ||\n        !Check(hipStreamSynchronize(e->stream_), \"LIE RoPE completion\", error_msg))\n      return nullptr;\n  }\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  s->max_context_ = max_context;",
+      "new": "  s->max_context_ = max_context;\n  if (lie_rope_frequencies_) {\n    try {\n      s->vision_input_.SetRopeScaling(lie_rope_frequencies_, c.rotary_dim,\n                                      options_.lie_rope_attention, stream_);\n    } catch (const std::exception& ex) {\n      AssignError(error_msg, ex.what()); return nullptr;\n    }\n  }"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "      auto& at = s->attention_[il];",
+      "new": "      auto& at = s->attention_[il];\n      at.rope = s->vision_input_.rope();"
+    },
+    {
+      "path": "src/models/qwen/vision/rope.hpp",
+      "old": "  std::int32_t delta{0};",
+      "new": "  std::int32_t delta{0};\n  const float* lie_frequencies{nullptr};\n  float lie_attention{1.0F};\n  std::uint32_t lie_rotary_dim{0};"
+    },
+    {
+      "path": "src/models/qwen/vision/rope.hpp",
+      "old": "#if defined(__HIPCC__)\n",
+      "new": "#if defined(__HIPCC__)\n__device__ inline float LieRopeFrequency(const DeviceRope* rope, float theta,\n                                        std::uint32_t pair, std::uint32_t dim) {\n  if (rope && rope->lie_frequencies && rope->lie_rotary_dim == dim)\n    return rope->lie_frequencies[pair];\n  return powf(theta, -2.0F * static_cast<float>(pair) / static_cast<float>(dim));\n}\n__device__ inline void LieRopeScale(const DeviceRope* rope, float* sine, float* cosine) {\n  if (rope && rope->lie_frequencies) {\n    *sine *= rope->lie_attention;\n    *cosine *= rope->lie_attention;\n  }\n}\n"
+    },
+    {
+      "path": "src/models/qwen/vision/device_input.hpp",
+      "old": "  void RestoreLayout(const RopeLayout& layout, hipStream_t stream);",
+      "new": "  void RestoreLayout(const RopeLayout& layout, hipStream_t stream);\n  void SetRopeScaling(const float* frequencies, std::uint32_t rotary_dim,\n                      float attention, hipStream_t stream);"
+    },
+    {
+      "path": "src/models/qwen/vision/device_input.hpp",
+      "old": "  RopeLayout layout_;",
+      "new": "  const float* lie_frequencies_{nullptr};\n  float lie_attention_{1.0F};\n  std::uint32_t lie_rotary_dim_{0};\n  RopeLayout layout_;"
+    },
+    {
+      "path": "src/models/qwen/vision/device_input.hip",
+      "old": "void DeviceInput::RestoreLayout(",
+      "new": "void DeviceInput::SetRopeScaling(const float* frequencies, std::uint32_t rotary_dim,\n                                 float attention, hipStream_t stream) {\n  if (!frequencies || !rotary_dim || (rotary_dim & 1) || !(attention > 0))\n    throw std::invalid_argument(\"invalid LIE RoPE descriptor\");\n  lie_frequencies_ = frequencies;\n  lie_attention_ = attention;\n  lie_rotary_dim_ = rotary_dim;\n  if (!descriptor_) Check(hipMalloc(&descriptor_, sizeof(DeviceRope)));\n  const DeviceRope descriptor{positions_, layout_.PrefixLength(), layout_.Delta(),\n                              lie_frequencies_, lie_attention_, lie_rotary_dim_};\n  Check(hipMemcpyAsync(descriptor_, &descriptor, sizeof(descriptor),\n                       hipMemcpyHostToDevice, stream));\n  Check(hipStreamSynchronize(stream));\n}\n\nvoid DeviceInput::RestoreLayout("
+    },
+    {
+      "path": "src/models/qwen/vision/device_input.hip",
+      "old": "  const DeviceRope descriptor{positions_, length, layout.Delta()};",
+      "new": "  const DeviceRope descriptor{positions_, length, layout.Delta(),\n                              lie_frequencies_, lie_attention_, lie_rotary_dim_};"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    const float freq = powf(\n        theta, -2.0f * static_cast<float>(tid) / static_cast<float>(rotary));",
+      "new": "    const float freq = qwen::vision::LieRopeFrequency(rope, theta, tid, rotary);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    const float freq = powf(\n        theta, -2.0f * static_cast<float>(i) / static_cast<float>(rotary_dim));",
+      "new": "    const float freq = qwen::vision::LieRopeFrequency(rope, theta, i, rotary_dim);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    const float freq = powf(\n        theta, -2.0f * static_cast<float>(p) / static_cast<float>(rotary_dim));",
+      "new": "    const float freq = qwen::vision::LieRopeFrequency(rope, theta, p, rotary_dim);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "            const float freq = powf(\n                attention.theta, -2.0F * static_cast<float>(lane_id) / 64.0F);",
+      "new": "            const float freq = qwen::vision::LieRopeFrequency(attention.rope, attention.theta, lane_id, 64);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "            &cosine);\n",
+      "new": "            &cosine);\n    qwen::vision::LieRopeScale(rope, &sine, &cosine);\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    sincosf(qwen::vision::RopePosition(rope, *start_pos + t, i) * freq, &s, &c);",
+      "new": "    sincosf(qwen::vision::RopePosition(rope, *start_pos + t, i) * freq, &s, &c);\n    qwen::vision::LieRopeScale(rope, &s, &c);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "    sincosf(qwen::vision::RopePosition(rope, b * ratio, p) * freq, &s, &c);",
+      "new": "    sincosf(qwen::vision::RopePosition(rope, b * ratio, p) * freq, &s, &c);\n    qwen::vision::LieRopeScale(rope, &s, &c);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "old": "                    &sn, &cs);\n",
+      "new": "                    &sn, &cs);\n            qwen::vision::LieRopeScale(attention.rope, &sn, &cs);\n"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "  return std::min(kPrefillChunkTokens, options_.max_context);",
+      "new": "  // LIE C17 resource policy bounds scratch while retaining all admitted rows.\n  const auto draft = mtp_weights_ ? options_.max_draft_tokens + 1 : 1;\n  const auto rows = std::max({options_.lie_prefill_capacity,\n                              options_.decode_concurrency, draft});\n  return std::min(rows, options_.max_context);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "old": "  e->options_.max_batch = std::max<std::uint32_t>(1, options.max_batch);",
+      "new": "  e->options_.max_batch = std::max<std::uint32_t>(1, options.max_batch);\n  e->select_chunk_ = std::min(e->select_chunk_, e->options_.max_batch);"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "constexpr std::uint32_t kPrefillChunkTokens = 2048;\n",
+      "new": ""
+    }
+  ]
+}

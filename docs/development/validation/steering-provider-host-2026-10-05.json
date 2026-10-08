@@ -1,0 +1,877 @@
+{
+  "schema": "synapse-lie.steering-provider-host-validation.v1",
+  "date_utc": "2026-10-05",
+  "recorded_at_utc": "2026-10-05T00:17:30.339003+00:00",
+  "scope": "HOST_ACTIVATION_CONTRACT_PROVIDER_COMPOSITION_SYNTAX_ONLY_NOT_GPU_NUMERICAL_OR_PERFORMANCE",
+  "parent_checkpoint": "80ebc18695e07b67f55f215de8c029646805734f",
+  "branch": "feature/context-million-openai",
+  "activation_abi": 1,
+  "bank_abi": 1,
+  "policy_abi": 1,
+  "executor_abi": 3,
+  "request_abi": 8,
+  "generation_abi": 3,
+  "source_files_sha256": {
+    "CMakeLists.txt": "e9896e1c955cd78a128db4fdb4cb619104cbde611e81a4e4ad7fc59030441c4d",
+    "include/lie/steering_activation.h": "fb1e1df449eecb13aa6601a5ac5b5099c23574fee5dac0697c127a6c85550cfc",
+    "src/steering_activation.c": "1ff264377b9c1f5b5e03a31e974190f14a975ca4e3ea26325cddf5370223427f",
+    "adapters/hip/steering.hpp": "509e8d3c9414ac322bc2b4af443ebb7fd17e21cca8d7e216c524949e09fef526",
+    "adapters/hip/steering.hip": "7b8a152f6b3fba6ee596158ed27622db7001b7f1e5c8e776dd0d0873e19278cd",
+    "adapters/gufo-state/steering-edits.json": "a501d06f75f5a3b6fbc65afbc1fb61eb13816fec998de2fdf8e2adbb191ff135",
+    "adapters/gufo-state/access.hpp": "93333fa99089d59424fcc06755161ceb80a7b7874bf8c7d00030c3aa9d40f45c",
+    "cmake/provider/Source.cmake": "98bfa0b772e94007e4551e4d8867050ff4971354f937f56c135fd140777f34c2",
+    "cmake/provider/Build.cmake": "03a1c090e061ff9893fd26a2fb79ecac25491f58be5dfae16d976f0f2763c9e5",
+    "cmake/provider/Verify.cmake": "f52fdcfce402f1b4e7e065d4e3cf0290ac24c3cf3954ac9c95b61c0b2b1a804a",
+    "cmake/gufo-runtime/CMakeLists.txt": "8cbce589d298488fdefc62e0f0a4107944d3d77272a66f09df5125d8fdf77dab",
+    "cmake/point/Build.cmake": "5fbb8c3bc3796599f348291890df6d11188e09cf41cbc9c1737b38a05dfb4d3b",
+    "tests/test_steering_activation.c": "17c97f5c9bcfb2f34e874ec86aa6c811400744583e72c9ff0e52195127f6c8b1",
+    "tests/provider_contract.cmake": "82ca6bacf5b1458d17a2a984d6169a37f78f93778a39705c624d2a2271761ba9"
+  },
+  "host": {
+    "hostname": "cachyos-x8664",
+    "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+    "kernel": "7.1.8-1-cachyos",
+    "gpu_masked": true,
+    "cpu_guard_c": 98,
+    "nvme_guard_c": 85,
+    "gpu_guard": "observe-only",
+    "peak_cpu_c": 82.0,
+    "inference_thread_count": "No inference runs; no added scheduler/HTTP/device threads"
+  },
+  "checks": [
+    {
+      "directory": "evidence/steering-provider-compose-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "-P",
+          "evidence/prepare-steering-provider-r1.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.75
+        },
+        "elapsed_s": 5.233403205871582
+      },
+      "result_sha256": "7a9e96964b928b86d4284a0a97c07fd3f22c7ca1f7d9af63722cb3d247efa65e",
+      "log_sha256": "a5bec2a2407a4aaf1b5c58e949064abe9afdf51fd0189a07d14e100eb2d8fed3",
+      "temperature_log_sha256": "0ea8fb08980c7143319c919d72a225c68b4e51524f2cd02990dd08c9c7b1229d"
+    },
+    {
+      "directory": "evidence/steering-provider-compose-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "-P",
+          "evidence/prepare-steering-provider-r2.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 82.0
+        },
+        "elapsed_s": 5.221036463975906
+      },
+      "result_sha256": "a57cb65710ef138dbb4de1e4d0ee7298a66b58c17413152d8c53fb153b931f25",
+      "log_sha256": "a5bec2a2407a4aaf1b5c58e949064abe9afdf51fd0189a07d14e100eb2d8fed3",
+      "temperature_log_sha256": "df7997096693c2c3389e8eedbfcd7c647872ca5f112564cdacd851a7a8be9346"
+    },
+    {
+      "directory": "evidence/steering-provider-compose-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "-P",
+          "evidence/prepare-steering-provider-r3.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 77.5
+        },
+        "elapsed_s": 5.126111438497901
+      },
+      "result_sha256": "18a7f55fea7e0b08adde5a67a586ea85b38af4685d7ed3b39e9d6158a32f4a85",
+      "log_sha256": "a5bec2a2407a4aaf1b5c58e949064abe9afdf51fd0189a07d14e100eb2d8fed3",
+      "temperature_log_sha256": "ef205d6de04d8d9797fedde1720af92392354a2fe4f2cd04c2a260e8c7294d85"
+    },
+    {
+      "directory": "evidence/steering-provider-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 63.0
+        },
+        "elapsed_s": 2.087874500080943
+      },
+      "result_sha256": "7bc529bf0d4a95c07da908c84616805eb5eaf41a6db48b7d456a7ee1c2ab1b8e",
+      "log_sha256": "6fe6dffdb29c0509b1c4f5e1300afefdbb4a0789f6706500d90b1e29fc556b99",
+      "temperature_log_sha256": "4170b7f5060d9cf4fcc4de75c330847c6c991d74226cc406ce39e6828c588939"
+    },
+    {
+      "directory": "evidence/steering-provider-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|native-provider-verification|core-headless-lifecycle|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.75
+        },
+        "elapsed_s": 5.176131906919181
+      },
+      "result_sha256": "79f5e5fbcbeeae78b548ace12d390477830a3e633dc0ad6d2e5e7278a233f10f",
+      "log_sha256": "e98679fa7fd3b2fc4bf57378a163044acbac6aaa881d428f2ed2775fca3eec61",
+      "temperature_log_sha256": "263d32bc76c366c225e9b0a3d532794680d466c93914028929e613ed04b5c78b"
+    },
+    {
+      "directory": "evidence/steering-provider-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 75.75
+        },
+        "elapsed_s": 4.1345380106940866
+      },
+      "result_sha256": "cb034b91b4159ba269fa5567274e0ae129cb0fc806b6a1b8f57aa6abaee861c1",
+      "log_sha256": "c9db6a13fe6aeb557447728e15e2d7bbb1f884eaf0fd892823b4ac79c319ac13",
+      "temperature_log_sha256": "6949aa450320462904c26ffca6940c019b4dc5eceacc4ca5f8a83b0254cc9624"
+    },
+    {
+      "directory": "evidence/steering-provider-asan-test-r1",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+          "UBSAN_OPTIONS=halt_on_error=1",
+          "ctest",
+          "--test-dir",
+          "build/context-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|native-provider-verification|core-headless-lifecycle|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 61.375
+        },
+        "elapsed_s": 5.310137944296002
+      },
+      "result_sha256": "a90c2fb5dbe7796ed5a93a08c3e82a56f96f30c3a7416c259e9d18ba45b8196f",
+      "log_sha256": "75b1b528e0663450214dd614f6005d7f11565db2599990af639030b100e29197",
+      "temperature_log_sha256": "26c187588e17a3ece3a09c1716e6c6d7394cb2c8c5d2c164a7b6531e22388873"
+    },
+    {
+      "directory": "evidence/steering-provider-asan-test-r2",
+      "result": {
+        "argv": [
+          "env",
+          "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+          "UBSAN_OPTIONS=halt_on_error=1",
+          "ctest",
+          "--test-dir",
+          "build/context-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|steering-activation-span-contract|native-provider-verification|core-headless-lifecycle|context-million-admission-lifecycle)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.25
+        },
+        "elapsed_s": 5.306212292984128
+      },
+      "result_sha256": "773237b3346bd0ab96dfc14be7a062a9f43b6412b76678fb8e5c145d1d8e5a3f",
+      "log_sha256": "60d40ed6b9728c5dbb76b8fec8e773543feef4f4f28b76fe052009b99d6e7823",
+      "temperature_log_sha256": "64c01aa6150fd6a0c72b3c810028eeacb9ba6a80acb61cc5228a952d57b5cf5b"
+    },
+    {
+      "directory": "evidence/steering-provider-syntax-r1",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "evidence/steering-provider-syntax-r1.py"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.375
+        },
+        "elapsed_s": 7.367579132318497
+      },
+      "result_sha256": "518f1b394b6efae8a02505944f18642886ce3f2e53cfad735f3ec457945dc546",
+      "log_sha256": "2f1f18ee9a3db7b68c29fb7e52d021e434a3df7edefac9b385d183127d74294f",
+      "temperature_log_sha256": "08fd20f63648500b2bd558456e4305ffe0672b9180445de2e1390ead07b861e7"
+    },
+    {
+      "directory": "evidence/steering-provider-syntax-r2",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "evidence/steering-provider-syntax-r2.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.875
+        },
+        "elapsed_s": 8.509539309889078
+      },
+      "result_sha256": "e993f44bbf9194f84b6e9e6e000e47174ed6008427497d5033214cec54b88c5b",
+      "log_sha256": "51c4d66a17ee84e6cd4ecdb5fa34c133bd1ffdbc7f2d15f991c0f89c1bf192bf",
+      "temperature_log_sha256": "847ec39da9d2b7b4f998bb4fb211e31f373b80349ea868835d0ec39539267299"
+    },
+    {
+      "directory": "evidence/steering-provider-syntax-r3",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "evidence/steering-provider-syntax-r3.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 71.0
+        },
+        "elapsed_s": 7.434914352372289
+      },
+      "result_sha256": "8f01d4f018787a4df0fd72e4cbd7e9c196f7a6d2309bb2d90f0dfa0d77838683",
+      "log_sha256": "51c4d66a17ee84e6cd4ecdb5fa34c133bd1ffdbc7f2d15f991c0f89c1bf192bf",
+      "temperature_log_sha256": "dd0ae1edea686ec9192492e545949706e458fb343dc2089a1fbf45b6443be9ef"
+    },
+    {
+      "directory": "evidence/steering-provider-public-headers-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-Wall",
+          "-Wextra",
+          "-Wpedantic",
+          "-Werror",
+          "-fsyntax-only",
+          "-Iinclude",
+          "evidence/steering-provider-public-headers-r1.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.75
+        },
+        "elapsed_s": 1.1241946313530207
+      },
+      "result_sha256": "3b7d847b3ff70cabe5069beac8b3cdd44da89549c558a8f6f8ba72ae2ecbf993",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "f190cd4557287944583e16303c0fcdd24b1e7f4e398a21293eade1da536ef5b3"
+    },
+    {
+      "directory": "evidence/steering-provider-adapter-off-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r3",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 62.875
+        },
+        "elapsed_s": 1.119368945248425
+      },
+      "result_sha256": "a35c0ea806277b9ef17023a5f1c3e0d1d97562dc4188d6590459995d252bbede",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "54c2554c6ffc57f02f78c34574bf5f06b3ba932697a673f30cb2482f11571d36"
+    },
+    {
+      "directory": "evidence/steering-provider-compose-r4",
+      "result": {
+        "argv": [
+          "cmake",
+          "-P",
+          "evidence/prepare-steering-provider-r4.cmake"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 81.125
+        },
+        "elapsed_s": 5.204366820864379
+      },
+      "result_sha256": "fe2b188bc97edf4082cabc6d6913dac85ce8a84992b2a3f88447ac1d46fc33c8",
+      "log_sha256": "a5bec2a2407a4aaf1b5c58e949064abe9afdf51fd0189a07d14e100eb2d8fed3",
+      "temperature_log_sha256": "591b0ffb2ee5011746f7f1debf03c61a425524652d8812b683b35a6798ece168"
+    },
+    {
+      "directory": "evidence/steering-provider-syntax-r4",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "evidence/steering-provider-syntax-r4.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.875
+        },
+        "elapsed_s": 8.413681554608047
+      },
+      "result_sha256": "633ef75d27326d37a89fc189ac6a25bd27ba1f0daeb1d6440536277ffc8c9b8f",
+      "log_sha256": "51c4d66a17ee84e6cd4ecdb5fa34c133bd1ffdbc7f2d15f991c0f89c1bf192bf",
+      "temperature_log_sha256": "d5dca31fb86b3fb93c4e77dcea7092fff4ca64351dc49c6635c0d5ee3d322963"
+    },
+    {
+      "directory": "evidence/steering-provider-adapter-off-r2",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 62.25
+        },
+        "elapsed_s": 2.166381145827472
+      },
+      "result_sha256": "873a0903b6610921f5b58650712d57e1a0ae520f788e97419ededa745cd077c2",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "0044bd9e58671efa0a4441e8a92e97eea4ef5573d8118bf3a1daf50eac67bca9"
+    },
+    {
+      "directory": "evidence/steering-provider-reference-syntax-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-DLIE_C17_SAMPLING=0",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "adapters/gufo_reference_bench.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 62.375
+        },
+        "elapsed_s": 1.108415019698441
+      },
+      "result_sha256": "9ffe5c2c9add248fe8015d0cb5e8d81095245c8b27757149ce18e90d324b5034",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "1a739e5c3f095799c186528f395e4f4dacf085839bf2d4e1e5d723b54258797d"
+    }
+  ],
+  "focused_tests": {
+    "Debug": 6,
+    "ASan_UBSan_LSan": 6,
+    "meaning": "C17 span/scale/ABI/refusal, bank and policy lifetimes, provider identity drift, shared core admission and lifecycle; CPU fixtures only"
+  },
+  "syntax": {
+    "commands": [
+      {
+        "label": "engine-steering-1",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_VISION_WEIGHT_DECODE=1",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          ".deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/engine.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "executor-steering-1",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_VISION_WEIGHT_DECODE=1",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          ".deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "batch-steering-1",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_VISION_WEIGHT_DECODE=1",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          ".deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/batch.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "engine-steering-0",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_VISION_WEIGHT_DECODE=1",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          ".deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/engine.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "executor-steering-0",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_VISION_WEIGHT_DECODE=1",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          ".deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "batch-steering-0",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_VISION_WEIGHT_DECODE=1",
+          "-DLIE_DIRECTIONAL_STEERING=0",
+          ".deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/batch.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "complete-adapter",
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-include",
+          "chrono",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-DENGINE_ENABLE_HIP=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/steering-provider-source-check-r4",
+          "-I/opt/rocm/include",
+          "-I.deps/steering-provider-source-check-r4/src/models/qwen38_flash_next/kernels/rocm/mmq",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_DIRECTIONAL_STEERING=1",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "adapters/gufo.cpp"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "hip-host-syntax",
+        "argv": [
+          "/opt/rocm/llvm/bin/clang++",
+          "-std=c++20",
+          "-x",
+          "hip",
+          "--offload-host-only",
+          "-fsyntax-only",
+          "--rocm-path=/opt/rocm",
+          "-Iinclude",
+          "-Iadapters/hip",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "adapters/hip/steering.hip"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "hip-device-syntax-gfx1150",
+        "argv": [
+          "/opt/rocm/llvm/bin/clang++",
+          "-std=c++20",
+          "-x",
+          "hip",
+          "--offload-device-only",
+          "--offload-arch=gfx1150",
+          "-fsyntax-only",
+          "--rocm-path=/opt/rocm",
+          "-Iinclude",
+          "-Iadapters/hip",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "adapters/hip/steering.hip"
+        ],
+        "exit_code": 0
+      },
+      {
+        "label": "hip-device-syntax-gfx1151",
+        "argv": [
+          "/opt/rocm/llvm/bin/clang++",
+          "-std=c++20",
+          "-x",
+          "hip",
+          "--offload-device-only",
+          "--offload-arch=gfx1151",
+          "-fsyntax-only",
+          "--rocm-path=/opt/rocm",
+          "-Iinclude",
+          "-Iadapters/hip",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "adapters/hip/steering.hip"
+        ],
+        "exit_code": 0
+      }
+    ],
+    "extra_adapter_off": [
+      "c++",
+      "-std=c++20",
+      "-fsyntax-only",
+      "-include",
+      "chrono",
+      "-D__HIP_PLATFORM_AMD__=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+      "-DLIE_GUFO_STATE_ACCESS=1",
+      "-DLIE_DS4_RUNTIME_CACHE=1",
+      "-DLIE_C17_SAMPLING=1",
+      "-DLIE_DIRECTIONAL_STEERING=0",
+      "-DLIE_MTP=1",
+      "-DLIE_VISION=1",
+      "-Iinclude",
+      "-Iadapters",
+      "-I.deps/steering-provider-source-check-r4",
+      "-I/opt/rocm/include",
+      "adapters/gufo.cpp"
+    ],
+    "reference_consumer": [
+      "c++",
+      "-std=c++20",
+      "-fsyntax-only",
+      "-include",
+      "chrono",
+      "-D__HIP_PLATFORM_AMD__=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-DLIE_C17_SAMPLING=0",
+      "-DLIE_DIRECTIONAL_STEERING=1",
+      "-Iinclude",
+      "-Iadapters",
+      "-I.deps/steering-provider-source-check-r4",
+      "-I/opt/rocm/include",
+      "adapters/gufo_reference_bench.cpp"
+    ],
+    "public_headers": 31,
+    "objects_or_linked_device_binaries_created": false
+  },
+  "composition": {
+    "pristine_source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "source_manifest_sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51",
+    "pristine_files_verified": 1019,
+    "edit_count": 25,
+    "edited_upstream_paths": [
+      "src/models/qwen38_flash_next/engine.cpp",
+      "src/models/qwen38_flash_next/engine.hpp",
+      "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+    ],
+    "all_composed_changed_paths": [
+      "src/core/sampling.cpp",
+      "src/core/sampling.hpp",
+      "src/models/qwen/vision/device_input.hip",
+      "src/models/qwen/vision/device_input.hpp",
+      "src/models/qwen/vision/encoder.hip",
+      "src/models/qwen/vision/encoder.hpp",
+      "src/models/qwen/vision/rope.hpp",
+      "src/models/qwen38_flash_next/engine.cpp",
+      "src/models/qwen38_flash_next/engine.hpp",
+      "src/models/qwen38_flash_next/kernels/rocm/batch.cpp",
+      "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+      "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+    ],
+    "variant_inventory_sha256": "7c64d6bfc912b408120b9f24d8c269a347f8525828cbb8a9328dbc2059af1704",
+    "immutable_syntax_directory": ".deps/steering-provider-source-check-r4",
+    "ds4_source_copied": false,
+    "primitive_provenance": "Independently written implementation of documented directional projection; no DS4 kernel/source imported"
+  },
+  "preserved_failures": [
+    {
+      "directory": "evidence/steering-provider-asan-test-r1",
+      "child_exit_code": 8,
+      "cause": "LeakSanitizer cannot run under sandbox ptrace. Same six tests with leak detection enabled pass outside ptrace; no oracle weakened."
+    },
+    {
+      "directory": "evidence/steering-provider-syntax-r1",
+      "child_exit_code": 1,
+      "failed_commands": [
+        "executor-steering-1",
+        "executor-steering-0"
+      ],
+      "cause": "Missing actual provider ENGINE_ENABLE_HIP=1 compile definition hides LaunchBatchedGPUArgmax declaration. Correct build definition passes; failure retained."
+    }
+  ],
+  "semantic_limits": {
+    "target_hook_locations": "Projected hidden attention output before HC combine; every FFN HC residual branch after combine",
+    "predictor_steered": false,
+    "normalization": "Active FFN skips stale fused norm and clears cached F16/Q8 views; following mixer recomputes",
+    "absent_zero": "No inserted GPU activation launch; output/cost GPU qualification pending",
+    "direction_device_bytes": "Separate provider-only LieSteeringBytes; public core budget/metrics wiring pending",
+    "scale_updates": "Private pristine-session setter only; live policy history/device updates pending",
+    "active_capture_restore": "Refused before both provider snapshot APIs and LIE state-view transfers until history-aware wiring",
+    "payload_formats_changed": false,
+    "public_HTTP_bench_controls_available": false,
+    "Python_product_dependency_added": false
+  },
+  "point_readonly_witness": {
+    "path": "evidence/context-steering-availability-r1.json",
+    "sha256": "01cbe59fc889d2e5cab5e226297130389dde9996a1edffdea6db8f6af3b1651d",
+    "at_utc": "2026-10-04T23:53:53.369505+00:00",
+    "kfd": [
+      {
+        "pid": 29223,
+        "start_ticks": 2470351,
+        "cgroup": "0::/user.slice/user-1000.slice/session-424.scope\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      },
+      {
+        "pid": 29377,
+        "start_ticks": 2474081,
+        "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+        "devices": [
+          "/dev/dri/renderD128",
+          "/dev/kfd"
+        ]
+      }
+    ],
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "cpu_temperatures": [
+      78.5
+    ],
+    "available_ram_bytes": 87978463232,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "gpu_admission": false
+  },
+  "remote_build_or_GPU_run": false,
+  "goal_complete": false,
+  "next_gates": [
+    "C17 owned model/session policy admission and resource accounting",
+    "History-aware RAM/SSD compatibility and live-scale invalidation",
+    "Public HTTP and native bench controls",
+    "Fresh .161 lease, original-weight baseline/steered AR/MTP, numerical/quality/cost gates",
+    "Remaining seven-item roadmap preserved"
+  ],
+  "retained_provisional_receipt": {
+    "path": "evidence/steering-provider-receipt-provisional-r1.json",
+    "sha256": "69e9aa7b0d1057ddb4b1909dd409d5d6f4c8a3022be96ad2f3d1b1639397837e",
+    "reason": "Final review appends ModelOptions bank after existing fields; previous source/syntax receipt retained."
+  }
+}

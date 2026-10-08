@@ -1,0 +1,216 @@
+{
+  "label": "q2-narrow-vector-r1",
+  "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "source_variant": "narrow-vector",
+  "source_files_verified": 1021,
+  "source_capsule_sha256": "a2aa1019e820da38ea6431c586f74d03cbc472a5fd4561a69e7dd7f32a22973e",
+  "binary_sha256": "8ebb2f3426c2906f547d099a2135581aaaa88c66386434a409695a328358320b",
+  "artifacts_verified": 4,
+  "archive_sha256": "18759359c75c25d5ff1bf2d2e9df8b9f795d9186bbcecdbc0b7b35cda3acc186",
+  "temperature_max_c": {
+    "amdgpu": 40.0,
+    "k10temp": 69.5
+  },
+  "model_access": false,
+  "promoted": false,
+  "fixture_sha256": {
+    "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+    "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424"
+  },
+  "summary": {
+    "event": "narrow_summary",
+    "conversion_cases": 192,
+    "special_input_values": 321536,
+    "consumer_shapes": 2
+  },
+  "checks": [
+    {
+      "event": "narrow_consumer_check",
+      "m": 320,
+      "k": 10240,
+      "n": 2048,
+      "copies": 4,
+      "exact_values": 2621440,
+      "oracle_samples": 128,
+      "relative_rms": 3.45786215135e-06,
+      "error_over_peak": 3.7631135343e-06
+    },
+    {
+      "event": "narrow_consumer_check",
+      "m": 513,
+      "k": 2560,
+      "n": 2048,
+      "copies": 4,
+      "exact_values": 4202496,
+      "oracle_samples": 128,
+      "relative_rms": 6.81815592194e-07,
+      "error_over_peak": 1.16149066983e-06
+    }
+  ],
+  "cohorts": [
+    {
+      "m": 320,
+      "k": 10240,
+      "scope": "conversion_only",
+      "reference": {
+        "samples": [
+          552.637398243,
+          552.142262459,
+          552.312374115,
+          552.577376366,
+          551.787376404
+        ],
+        "min": 551.787376404,
+        "median": 552.312374115,
+        "max": 552.637398243
+      },
+      "candidate": {
+        "samples": [
+          530.837893486,
+          531.05288744,
+          530.532896519,
+          531.337738037,
+          529.977858067
+        ],
+        "min": 529.977858067,
+        "median": 530.837893486,
+        "max": 531.337738037
+      },
+      "time_change_percent": -3.8881042025194046,
+      "paired_time_change_percent": [
+        -3.9446307517926216,
+        -3.8195545700626443,
+        -3.943326026489702,
+        -3.8437401235427826,
+        -3.9525221615493766
+      ],
+      "median_paired_time_change_percent": -3.943326026489702,
+      "ranges_overlap": false
+    },
+    {
+      "m": 320,
+      "k": 10240,
+      "scope": "conversion_and_consumer",
+      "reference": {
+        "samples": [
+          1891.83628559,
+          1957.62979984,
+          1938.70019913,
+          1859.09700394,
+          1917.54066944
+        ],
+        "min": 1859.09700394,
+        "median": 1917.54066944,
+        "max": 1957.62979984
+      },
+      "candidate": {
+        "samples": [
+          1961.82966232,
+          1904.63101864,
+          1849.77221489,
+          1891.18123055,
+          1852.90718079
+        ],
+        "min": 1849.77221489,
+        "median": 1891.18123055,
+        "max": 1961.82966232
+      },
+      "time_change_percent": -1.3746482309393793,
+      "paired_time_change_percent": [
+        3.6997586558168427,
+        -2.707293340361472,
+        -4.586989998758284,
+        1.7257962624867673,
+        -3.370644997525696
+      ],
+      "median_paired_time_change_percent": -2.707293340361472,
+      "ranges_overlap": true
+    },
+    {
+      "m": 513,
+      "k": 2560,
+      "scope": "conversion_only",
+      "reference": {
+        "samples": [
+          145.126745105,
+          140.286743641,
+          140.051871538,
+          139.931753278,
+          139.871746302
+        ],
+        "min": 139.871746302,
+        "median": 140.051871538,
+        "max": 145.126745105
+      },
+      "candidate": {
+        "samples": [
+          135.01188159,
+          134.946867824,
+          134.99699533,
+          135.591879487,
+          134.901881218
+        ],
+        "min": 134.901881218,
+        "median": 134.99699533,
+        "max": 135.591879487
+      },
+      "time_change_percent": -3.6092885817869735,
+      "paired_time_change_percent": [
+        -6.969675718753177,
+        -3.8064008604155486,
+        -3.6092885817869735,
+        -3.101421721185793,
+        -3.5531586724237063
+      ],
+      "median_paired_time_change_percent": -3.6092885817869735,
+      "ranges_overlap": false
+    },
+    {
+      "m": 513,
+      "k": 2560,
+      "scope": "conversion_and_consumer",
+      "reference": {
+        "samples": [
+          426.400244236,
+          426.865130663,
+          429.985135794,
+          429.660111666,
+          430.540114641
+        ],
+        "min": 426.400244236,
+        "median": 429.660111666,
+        "max": 430.540114641
+      },
+      "candidate": {
+        "samples": [
+          422.435373068,
+          429.175138474,
+          428.78511548,
+          425.855129957,
+          426.170259714
+        ],
+        "min": 422.435373068,
+        "median": 426.170259714,
+        "max": 429.175138474
+      },
+      "time_change_percent": -0.8122354990013236,
+      "paired_time_change_percent": [
+        -0.9298473022931852,
+        0.5411563618260784,
+        -0.27908413898635187,
+        -0.8855794628564118,
+        -1.0149704472122711
+      ],
+      "median_paired_time_change_percent": -0.8855794628564118,
+      "ranges_overlap": true
+    }
+  ],
+  "numerical_component_pass": true,
+  "decision": "No model dispatch: full consumer samples overlap and paired changes have mixed signs.",
+  "scope": "Synthetic component under fan82 policy; no model throughput or cooling speedup claim"
+}

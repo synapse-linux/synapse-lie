@@ -1,0 +1,144 @@
+{
+  "at": "2026-10-02T19:29:48.264076+00:00",
+  "state": "Q2_PLE_LOOKAHEAD_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2650878,
+      "absent": true,
+      "finished_at": "2026-10-02T19:20:09.176156+00:00"
+    },
+    {
+      "label": "q2-ple-lookahead-model-r1",
+      "pid": 2652239,
+      "absent": true,
+      "finished_at": "2026-10-02T19:27:42.769903+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2650913,
+      "start_ticks": 153417677,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2650986,
+      "start_ticks": 153417780,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2651063,
+      "start_ticks": 153418233,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2651256,
+      "start_ticks": 153418887,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2651326,
+      "start_ticks": 153418940,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-cpu-r1",
+      "pid": 2651467,
+      "start_ticks": 153419693,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-model-r1",
+      "pid": 2652240,
+      "start_ticks": 153432374,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-model-r1",
+      "pid": 2652465,
+      "start_ticks": 153432577,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-model-r1",
+      "pid": 2653545,
+      "start_ticks": 153448004,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-ple-lookahead-model-r1",
+      "pid": 2653550,
+      "start_ticks": 153448056,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2655356,
+    "state": "R",
+    "group": 2655353,
+    "session": 2655353,
+    "start_ticks": 153478247
+  },
+  "result_sha256": {
+    "q2-ple-lookahead-cpu-r1": "5f7d3af3d7b66111b06259f5d64e07efe775ddbaca54bdb013d4bbc0b2045b53",
+    "q2-ple-lookahead-model-r1": "1bb34ffd28839ce36cff519a832943a6ab18f458bf364a62c2ecb6fc83a76beb"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "51500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "50000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "52000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "50625",
+    "/sys/class/hwmon/hwmon1/temp6_input": "45850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "45850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "46850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "46850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "46850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "46850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "46850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "57850"
+  }
+}

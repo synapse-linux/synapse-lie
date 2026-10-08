@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-up-mix-source.v1",
+  "parent_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "parent_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "provider": ".deps/gufo-q2-iq2-fixed-bounds-run",
+  "provider_files": 1028,
+  "bindings": {
+    "experiments/q2-hc-scalar-up-mix.inc": "232c4e2e421296d1e6b9b724ceb4dac0136d7cd0f7ec28eab6c81e42111a01f0",
+    "tests/q2_hc_scalar_up_mix.hip": "e20549b11ae9d147eedff8d598d9b8cd3537108a30aeb354a9d73a4aa6e05e4f",
+    "tools/q2-hc-scalar-up-mix-window.py": "17bb9fe90fa5ff2f63706dedd1b4cbb48ddc3dc6ac775cd66733d5aea328a3cc",
+    "tests/q2_hc_scalar_up_mix_window_test.py": "5a1aa855fdeed299ce5ed4d141d6ef5d780baa44fe764566fa545c5cc3261f9c"
+  },
+  "shape": {
+    "hidden": 2560,
+    "low_rank": 320,
+    "streams": 4,
+    "injection_parts": 10
+  },
+  "original_weights": "F16",
+  "accumulation": "Original ordered F32 FMA and wave/block reductions, requires GPU exact replay",
+  "changed_production_dispatch": false,
+  "gpu_run": false,
+  "model_run": false,
+  "artifacts": {
+    "evidence/q2-hc-scalar-up-mix-preparation/fixture.o": "ab69abeef2f27266fb7ae8885937c6e23b890996f493bda03553ccd86a6ae77f",
+    "evidence/q2-hc-scalar-up-mix-preparation/candidate.s": "7ead061a269e7fd1269aa8a916a52046e860c9ec96f0f5ac657909a26cd311f7",
+    "evidence/q2-hc-scalar-up-mix-preparation/q2_hc_scalar_up_mix_check": "692b03790f0bd675225b6fa4926acfddaf5c5133ff7e55a930c1be053c1901d8",
+    "evidence/q2-hc-scalar-up-mix-preparation/commands.json": "b20e4b478b4945c63ab7eb3ad561dfab32cc81cd03ea026b52727e980bb0d43d",
+    "evidence/q2-ssm-wave-balance-preparation/w8a8.o": "410781439b5b6403876087051f55dcad43431bc0c97fddd816fde0bb03d024cc",
+    "evidence/q2-ssm-wave-balance-preparation/sha256.o": "13f11708a0e993be1e57b9a659a28adcfdaf3c58a0b8e3bbfa675104c6d516de"
+  }
+}

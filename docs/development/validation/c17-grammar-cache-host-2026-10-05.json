@@ -1,0 +1,2664 @@
+{
+  "schema": "synapse-lie.c17-grammar-cache-host-qualification.v1",
+  "at_utc": "2026-10-05T18:06:14.588923+00:00",
+  "baseline_checkpoint": "70919ad700a4bfb66a10933f1b5d03d879a405fe",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Executed shared C17 compiled-schema cache policy, synchronization and opaque-value ownership; actual pinned Compile pristine/default-ON/OFF witnesses, independent C oracles and real private-holder failure. HOST_NOT_INFERENCE, no new GPU correctness/quality/fit/fault/allocation-exact/performance qualification.",
+  "implementation": [
+    "Separate model-neutral cache ABI1; keys copied as bounded binary spans, max16entries/2MiB key by default. Values stay opaque; retained copies outlive eviction. Inspection counts only resident keys/entries, not opaque/program/transient storage.",
+    "Preserve successful pinned policy: full put evicts lexicographically smallest before duplicate lookup. A surviving duplicate returns existing value and leaves one fewer entry; replacing the minimum installs the new value. Cache miss compiles outside the lock in the selected provider; OFF preserves complete original body.",
+    "Prepare key/owned handle/output before commit so allocation/hook refusal preserves resident entries and published output. Retain/copy under pthread mutex, eviction/failed staging retirement after unlock. Release hooks/allocator must support concurrent calls, all hooks must not throw or reenter, destruction requires quiescence. Transient storage can include one extra key/handle.",
+    "Private C++ template only owns shared_ptr opaque handles and translates status/errors; actual new-holder allocation failure and allocation-free hit/lifetime paths pass. Main schema Visit/VisitBody/reference memo, leaf policy and private composition/model/controller still transitional.",
+    "Two exact pin-checked edits,45-file matching source/header/glue inventory and named grammar_cache_edits_sha256. New matching sealed provider/application GPU build required. Source1bff953 active1M and AR37/MTP37 GPU receipt does not qualify this newer host slice.",
+    "No engine/request/generation/worker/event/RNG changes, no CPU model forward, no DS4 RAM/SSD payload/cache identity changes, no upstream/DS4/sibling mutation, no Python product/default-CTest dependency, no new reactive speedup claim."
+  ],
+  "coverage": {
+    "independent_policy_lookup_oracles": 28822,
+    "refusal_checks": 23,
+    "C_allocation_refusals": 3,
+    "callback_refusals": 4,
+    "invalid_input_limit_refusals": 16,
+    "concurrent_C_operations": 24000,
+    "actual_private_holder_refusals": 1,
+    "complete_compilation_witnesses": 360,
+    "concurrent_provider_identity_checks": 1600,
+    "previous_complete_witnesses_unchanged": 15,
+    "public_cpp_headers": 46,
+    "private_inventory_files": 45,
+    "final_check_counts": [
+      6,
+      6,
+      31,
+      5
+    ]
+  },
+  "checks": [
+    {
+      "directory": "evidence/grammar-cache-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "--target",
+        "test-grammar-cache",
+        "test-gufo-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 57.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-build-r1/result.json",
+          "sha256": "56d55eeb51726a762ed55192fcb768e1e9226a916c99db912fedb9a991507cea"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-build-r1/plan.json",
+          "sha256": "33a1d68f56a33588ca48af193faf0627080bbb55dbdf13b0bb84ab71f4667875"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-build-r1/command.log",
+          "sha256": "66d27beaf23a9191b5606b9fc96fa8064f3f5953ccbcbed1c506bb2d6f64d0b3"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-build-r1/temperatures.jsonl",
+          "sha256": "bdc9ce21d2d15e3d5c5483c65e22efcdbb494f5faeaa580f77eaea1806709496"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/tool-http-asan"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 75.5,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-config-r1/result.json",
+          "sha256": "23d9ca5844792b82e411e720520e702b41ad4e0b48f2f9a3b341a25a58430b20"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-config-r1/plan.json",
+          "sha256": "f28f259ae676ca2d2bd093a3cb4d5e44c5009ca609220a78d9f26048b00a60d8"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-config-r1/command.log",
+          "sha256": "f6841d99fc2145d309f173687be54e35c637c9866b51f1258d262ae33aff4106"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-config-r1/temperatures.jsonl",
+          "sha256": "cf11c1518252eeeda2c9b4ba322171d7f8c8d5e858d163d8a413bd58e6dd34e2"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-final-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "--target",
+        "test-grammar-cache",
+        "test-gufo-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 48.125,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-final-build-r2/result.json",
+          "sha256": "dec64382cdaab5e0b91b45de6af181523c4eee16a6c8870385eb4bbff62a62cc"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-build-r2/plan.json",
+          "sha256": "33a1d68f56a33588ca48af193faf0627080bbb55dbdf13b0bb84ab71f4667875"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-build-r2/command.log",
+          "sha256": "ccba84a591175d3bc6934f40d7177f6df5cdfd972dd95f3129aa9b3c3ef46307"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-build-r2/temperatures.jsonl",
+          "sha256": "49f15f207115f9cdc8680fe5e1408cd7736045d343a69aa4d812fece6461fee1"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-final-config-r2",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/tool-http-asan"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 81.125,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r2/result.json",
+          "sha256": "af9846dc91dc9da12f9fccfb2f68d2fa4bd60e3352e6d6539c7b19970f152ba9"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r2/plan.json",
+          "sha256": "f28f259ae676ca2d2bd093a3cb4d5e44c5009ca609220a78d9f26048b00a60d8"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r2/command.log",
+          "sha256": "f6841d99fc2145d309f173687be54e35c637c9866b51f1258d262ae33aff4106"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r2/temperatures.jsonl",
+          "sha256": "920777530ce4dc75f028e601f06f2bd569df14890beddebda21718aa29a15f59"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-final-config-r3",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/tool-http-asan"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.875,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r3/result.json",
+          "sha256": "17a62631e19814201a5b856ce0e419b72cbbc32def67fa610c2bdddf3a9beaaa"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r3/plan.json",
+          "sha256": "f28f259ae676ca2d2bd093a3cb4d5e44c5009ca609220a78d9f26048b00a60d8"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r3/command.log",
+          "sha256": "f6841d99fc2145d309f173687be54e35c637c9866b51f1258d262ae33aff4106"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-final-config-r3/temperatures.jsonl",
+          "sha256": "b09b7fbf3b84c318d9976277b3c2d97c4643c02b93f02defd0a790f8f2e25f07"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-provider-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^native-provider-verification$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 81.75,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-provider-r2/result.json",
+          "sha256": "d6bfc242167807497133277875fce7c7a50a16a4c13c166fb1ea60797e3bdb13"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-provider-r2/plan.json",
+          "sha256": "c27df5ffb19d2fa936e2c4384dd7cdef007a88a6284cdf37e4d4fb473f9335ea"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-provider-r2/command.log",
+          "sha256": "82e7772bb05b04bf7725c8e3e9ed12d0f604c59682115cf58de8c1660e93e32a"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-provider-r2/temperatures.jsonl",
+          "sha256": "3765cc7c84589ece4f129cf93ab8b7f69b691c9889cd5bc634c4f5ad513a1884"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "c17-grammar-cache-contract|private-grammar-cache-glue|c17-schema-(values|transform)-contract|native-provider-(verification|source-paths)"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 6,
+      "cpu_max_c": 52.625,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-test-r1/result.json",
+          "sha256": "6a2990cc66123699c4ddafd58cccd46f9e5014bd23e71c53b5b3501c5a850015"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-test-r1/plan.json",
+          "sha256": "1e9b259ca727b2c225378cde870c3edf551afc52abd60ac432e84c20103f48d2"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-test-r1/command.log",
+          "sha256": "72cf1c8f379c99ae6106b9cc5b73c28dcf4937eb400660258090faa37e5ec26e"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-test-r1/temperatures.jsonl",
+          "sha256": "03ecbd0062501d48b4f3694f455499e0c10be7fceed2af329e292d95aef4cf27"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-asan-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "c17-grammar-cache-contract|private-grammar-cache-glue|c17-schema-(values|transform)-contract|native-provider-(verification|source-paths)"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 6,
+      "cpu_max_c": 71.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-asan-test-r2/result.json",
+          "sha256": "db73f25069256f55c0def03c4f4975be17c169a1d90256a9cea79eb9e67a7533"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-test-r2/plan.json",
+          "sha256": "12b6c70a2f09cf10d72b013b1ee45933582bbdb3e76e23092c607c39d9d21acd"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-test-r2/command.log",
+          "sha256": "3f8ba68f14bf103d4ed55e55e73ac11a9fb91a1d135c92d947e01b856d66dce6"
+        },
+        {
+          "path": "evidence/grammar-cache-asan-test-r2/temperatures.jsonl",
+          "sha256": "9ac67d360f8b3d8da8f29e517edefa8d62c5c603f824aff3ba2168ff98d30957"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-c17-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-pthread",
+        "-Iinclude",
+        "-c",
+        "src/grammar_cache.c",
+        "-o",
+        "evidence/grammar-cache-strict-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 57.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-c17-strict-r1/result.json",
+          "sha256": "ea79d66473c47d5e0c72ba461db300608e0f57c7bdd0fbdc9cbc6a9f33a31240"
+        },
+        {
+          "path": "evidence/grammar-cache-c17-strict-r1/plan.json",
+          "sha256": "de88bba635f9b98da5c193bfd8766f58ac5d6c06b604f8776a3a234c309d3cf0"
+        },
+        {
+          "path": "evidence/grammar-cache-c17-strict-r1/command.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/grammar-cache-c17-strict-r1/temperatures.jsonl",
+          "sha256": "74cb17547c71b4cab2ecb779d8095df6fd1e81f3e6058d6c1c731f34a1d156ab"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-c17-symbols-r1",
+      "argv": [
+        "nm",
+        "-u",
+        "evidence/grammar-cache-strict-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 90.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-c17-symbols-r1/result.json",
+          "sha256": "bb4bbba0cdcf868b8606a8150ee4500d957a7bd638166eaf142a64008a65a07d"
+        },
+        {
+          "path": "evidence/grammar-cache-c17-symbols-r1/plan.json",
+          "sha256": "0a723b5ec7000727cedb4827f7dbefee5550b35f4a4c0083899442fa2d9997c0"
+        },
+        {
+          "path": "evidence/grammar-cache-c17-symbols-r1/command.log",
+          "sha256": "29f78ec0fce04df987dfdd6ce389f9a69de66a3e903f5b328facca025773c081"
+        },
+        {
+          "path": "evidence/grammar-cache-c17-symbols-r1/temperatures.jsonl",
+          "sha256": "06c61d4420a8fdccbdec747af881b280bdacd1b7a3b3c6e5a0139cacb72c3db7"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-cxx-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-fsyntax-only",
+        "evidence/grammar-cache-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 80.875,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-cxx-headers-r1/result.json",
+          "sha256": "7d440ef0559713d8403c24692a864e797da8d45da4118fdcaadcce8b4feab9ec"
+        },
+        {
+          "path": "evidence/grammar-cache-cxx-headers-r1/plan.json",
+          "sha256": "c2aa5dcbb7a5d412a7f2a1c32caa337e68c9b63d4d6f7245eb564fe1317d2425"
+        },
+        {
+          "path": "evidence/grammar-cache-cxx-headers-r1/command.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/grammar-cache-cxx-headers-r1/temperatures.jsonl",
+          "sha256": "7919c9399a35a9162abe65eaa19a3bcfc790db62d781eee8ae499eced49474b3"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "--target",
+        "test-grammar-cache",
+        "test-gufo-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 53.5,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-build-r2/result.json",
+          "sha256": "4bc8c13ec05ccdc6df90bb491affc8ba1d2ea4a151e046ec830df7e0c8b2b8aa"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-build-r2/plan.json",
+          "sha256": "60352448333bd27767e2f970dffab3c314bde0929102149faf4d0a0392e3f361"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-build-r2/command.log",
+          "sha256": "66d27beaf23a9191b5606b9fc96fa8064f3f5953ccbcbed1c506bb2d6f64d0b3"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-build-r2/temperatures.jsonl",
+          "sha256": "7f4076362dae0ede6e82062c80e1ae10c405897ca0815340bf9ff190cc0eac6c"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 49.5,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-config-r1/result.json",
+          "sha256": "0654bf009d6202796fd0e308c3faac6db90a5cc647f82ebcfca480a625123369"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-config-r1/plan.json",
+          "sha256": "f26d6ea2c992a6593b1439f896f5b292c34d1f8204d0cf6a06fbc406bfe89d11"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-config-r1/command.log",
+          "sha256": "1303636c94f392ae3d80be46561ef4ae76010f4a09aff7fc8a23cc0aa7bdf770"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-config-r1/temperatures.jsonl",
+          "sha256": "a46ed4f4b0d60f2d3bf1a3bf5a696fdc16f3f19aef4e04ca4d0b77a9f183ae73"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-config-r2",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 50.0,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-config-r2/result.json",
+          "sha256": "6ead37e0ecc7b0fd42e704c5ab1926142559ef8a36b32038fd076aa745ce22d9"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-config-r2/plan.json",
+          "sha256": "f26d6ea2c992a6593b1439f896f5b292c34d1f8204d0cf6a06fbc406bfe89d11"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-config-r2/command.log",
+          "sha256": "fd42ad26ca54501ad391e9f73a6a917110d0eb7f87b96cb9421fda347fa37851"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-config-r2/temperatures.jsonl",
+          "sha256": "8776fe2779f74f64dce7da5bc01637e347812ffeaf4bd5a5e1fcb1fa33d34079"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-final-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "--target",
+        "test-grammar-cache",
+        "test-gufo-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 47.75,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-final-build-r3/result.json",
+          "sha256": "df0a7dc8416fa48fdda07b90f84e07eb1077c6385556066703d77e754ac09874"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-build-r3/plan.json",
+          "sha256": "60352448333bd27767e2f970dffab3c314bde0929102149faf4d0a0392e3f361"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-build-r3/command.log",
+          "sha256": "ccba84a591175d3bc6934f40d7177f6df5cdfd972dd95f3129aa9b3c3ef46307"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-build-r3/temperatures.jsonl",
+          "sha256": "c02c6202f46d01479a4cb5d476dfc070d4e9f2765ddd2ed82bb773c2c24987d0"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-final-config-r3",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r3/result.json",
+          "sha256": "af20972dedeea071ffcbc49e17391f24fd05b93f4e67b3e604d46448ee7530e5"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r3/plan.json",
+          "sha256": "f26d6ea2c992a6593b1439f896f5b292c34d1f8204d0cf6a06fbc406bfe89d11"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r3/command.log",
+          "sha256": "1303636c94f392ae3d80be46561ef4ae76010f4a09aff7fc8a23cc0aa7bdf770"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r3/temperatures.jsonl",
+          "sha256": "7c665c24c0273ef35257acca08115384f5b76655a7ec35192c4c6d176537779f"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-final-config-r4",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r4/result.json",
+          "sha256": "f7cb783f84091e4b21e4ce99a0a6a5b2e7438f82cb97d69cd92c134d8ae5a888"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r4/plan.json",
+          "sha256": "f26d6ea2c992a6593b1439f896f5b292c34d1f8204d0cf6a06fbc406bfe89d11"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r4/command.log",
+          "sha256": "1303636c94f392ae3d80be46561ef4ae76010f4a09aff7fc8a23cc0aa7bdf770"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-final-config-r4/temperatures.jsonl",
+          "sha256": "b9db62dfc217b244767e56247392e761cb518618838676fed7bda3ffba89a61e"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-provider-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^native-provider-verification$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 86.875,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-provider-r2/result.json",
+          "sha256": "e9e9be4fe7629e6db1dbabf56e04eae06c252396f1b02268a0300696930c0b64"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-provider-r2/plan.json",
+          "sha256": "b2e6d6d0685881efc62d87f92ad4290d4ecaddc4a8d6477084459cf485b3b07b"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-provider-r2/command.log",
+          "sha256": "adf18a9de697d7a3ce8104610df574c0e58c26a201b1dee79a29e904fdf4a114"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-provider-r2/temperatures.jsonl",
+          "sha256": "5c6f81b230ee3c2d0c267995454de72ac41a703b5a05afff5c7c3d9c3d1d9664"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "c17-grammar-cache-contract|private-grammar-cache-glue|c17-schema-(values|transform)-contract|native-provider-(verification|source-paths)"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 6,
+      "cpu_max_c": 75.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-test-r1/result.json",
+          "sha256": "b83665026170e14722d6cd8a1f4e39db40a1b54063235d8fba664210d5d450a5"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-test-r1/plan.json",
+          "sha256": "18017c494fa71c86cc1f27391ad74a589cb7a35dc52a3ee2ee9f053eba395d08"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-test-r1/command.log",
+          "sha256": "1021f2cbde0ad768508c881420c6d29b74d9c7f119d067f46f91d4de2ce55780"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-test-r1/temperatures.jsonl",
+          "sha256": "be15024f19a6212a1309b0b9afcd55d45a4b1ef6c8fe01253be7629174e81bb0"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-debug-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "c17-grammar-cache-contract|private-grammar-cache-glue|c17-schema-(values|transform)-contract|native-provider-(verification|source-paths)"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 6,
+      "cpu_max_c": 50.625,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-test-r2/result.json",
+          "sha256": "f8678fa0977e77f10d66d1b494ac1032948acda029a63ec9b8f7f972367e82b1"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-test-r2/plan.json",
+          "sha256": "18017c494fa71c86cc1f27391ad74a589cb7a35dc52a3ee2ee9f053eba395d08"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-test-r2/command.log",
+          "sha256": "eef0e2c1220f22a8bf0726395830544efc8d91f0a43f905710ab7c009e083001"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-test-r2/temperatures.jsonl",
+          "sha256": "0880f2c810bfcac99b5c0a152c6ea3ecd124ccd1d63fd1b8b666d7b444509e02"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-icu-off-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-uset-off-core",
+        "--target",
+        "test-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.25,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r2/result.json",
+          "sha256": "6d53078d89a4877fbcfb2912f3df3aa06222ace5631025cb612042578b89c238"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r2/plan.json",
+          "sha256": "47429db14173cff96aa49c5fc1084acbfc337e412a6baaf005660357d861efb6"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r2/command.log",
+          "sha256": "fb2a811b40532a6cc04038e233e6aaabc636d1727dcf03e03e6e2f37afa3e841"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r2/temperatures.jsonl",
+          "sha256": "caa40c5d8f6d61ca0b94fe40caf3154828c9f60228343b4f3f8c07bd81f2e999"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-icu-off-config-r2",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/grammar-uset-off-core"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.125,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r2/result.json",
+          "sha256": "807d0a1abaf67f589e68ff85386ffdfcb73285033584b46a4c364621bb6e1bf4"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r2/plan.json",
+          "sha256": "2a6ed0a897ecd805259d7d39d9f6ed3d6f06ffea9ea31ad64d39a1a0d563cc3e"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r2/command.log",
+          "sha256": "32875de1b634e9323ad51203192990a872e10697e666474fbd48e030faf4c6e2"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r2/temperatures.jsonl",
+          "sha256": "ed103ddb33d6fdb25650c5f9a97b715b93f33f548c1c11425bf65c1543c66234"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-icu-off-final-config-r3",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/grammar-uset-off-core"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 73.25,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-icu-off-final-config-r3/result.json",
+          "sha256": "f46923db785e4709cd74c75ecd5a9df9f3ed7a79b6576c5c50af51a1a9210fea"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-final-config-r3/plan.json",
+          "sha256": "2a6ed0a897ecd805259d7d39d9f6ed3d6f06ffea9ea31ad64d39a1a0d563cc3e"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-final-config-r3/command.log",
+          "sha256": "32875de1b634e9323ad51203192990a872e10697e666474fbd48e030faf4c6e2"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-final-config-r3/temperatures.jsonl",
+          "sha256": "7bec967bc07f8b6a4d33e0d0d7543ef110da437f2cd5f931d82d00eeeeee9903"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-icu-off-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/grammar-uset-off-core",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "c17-grammar-cache-contract|c17-schema-(values|transform)-contract|native-provider-(verification|source-paths)"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 5,
+      "cpu_max_c": 50.875,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-icu-off-test-r1/result.json",
+          "sha256": "1b706692d5fe8c89de913213da1da941e264940cf6cd81c5bb1c81083d28ebb9"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-test-r1/plan.json",
+          "sha256": "16ba2e0bf8650ad33f52263d857f7c53d2768b2004bcdbeaa150a1e5827d7fd9"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-test-r1/command.log",
+          "sha256": "fcb49becc04a89bc9b25b8fe0240f731275463dfc72021ba08fabe8ef8d30257"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-test-r1/temperatures.jsonl",
+          "sha256": "24ddfc40cd05cdf118d1a72f7b6ad85f3b2cf35ab9adb9aebd10359a5308399c"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-reference-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/schema-values-host",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 77.0,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-reference-build-r1/result.json",
+          "sha256": "94f025048b778686660b180295c94ae3dd5d2d5d96d4a47577f429589d55dcd6"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-build-r1/plan.json",
+          "sha256": "219cfbf01ec6610a1aeb8224cfaccd736c296d863445f47d61c040523cb72d4b"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-build-r1/command.log",
+          "sha256": "046cb7911114b7b66e2efcd6348de44d17562e7cd9e2bb1225eef835759115da"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-build-r1/temperatures.jsonl",
+          "sha256": "6a6777d983c439bdee1274b7f866df597d7332536a615d9509f3e990b6db3226"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-reference-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/schema-values-host",
+        "-DLIE_SANITIZERS=ON",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.875,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-reference-config-r1/result.json",
+          "sha256": "88991e531676fdf62bc6810b3175ae12bea325a07320604bb43adab9f0ac85c5"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-config-r1/plan.json",
+          "sha256": "642a560bb07ac933149eef368ec63bb9ab9737df2f9bf371adbf5cfc39b7ce3b"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-config-r1/command.log",
+          "sha256": "f1da033692415597037b6d2fd2907cf8fef208fd4c9c5562dcb2cf5b6cb914dc"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-config-r1/temperatures.jsonl",
+          "sha256": "1fb00975b1fbf78381aee4ff29e0f0b25a93fbd251d025546f2625e178864f95"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-reference-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/schema-values-host",
+        "--output-on-failure",
+        "-V"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 31,
+      "cpu_max_c": 90.875,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-reference-test-r1/result.json",
+          "sha256": "f786c29e762c80b88e633a54e717ff2bbb954cce474f5c1e4a190c18024ab849"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-test-r1/plan.json",
+          "sha256": "9935e87b9be9c2067d560343472c296d36c5ce82377f4661d65f84771e53969c"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-test-r1/command.log",
+          "sha256": "7c63ac5fe1596e048b91d9752a6ef7e082ead4f05ec71bec5296aed7cb938f93"
+        },
+        {
+          "path": "evidence/grammar-cache-reference-test-r1/temperatures.jsonl",
+          "sha256": "ecf141dc9a3c7c60456e1da09612158fd1f62bfb82b7e35e5867a0028e13b600"
+        }
+      ]
+    }
+  ],
+  "failed_checks": [
+    {
+      "directory": "evidence/grammar-cache-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "--target",
+        "test-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 2,
+      "child_exit_code": 2,
+      "test_count": null,
+      "cpu_max_c": 49.625,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-debug-build-r1/result.json",
+          "sha256": "915790fa91a424ecbf750d751e400cd747b6c457c1dbbbf81b904d83d5921cfb"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-build-r1/plan.json",
+          "sha256": "f433c3b6c43502ee30d267895169aa80ab1e5ba49ff6bb040cd0db7e47f96878"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-build-r1/command.log",
+          "sha256": "bf0ed74072d1287dd33108d254defb94bb9579d28ab81d23f743dbd5d5476259"
+        },
+        {
+          "path": "evidence/grammar-cache-debug-build-r1/temperatures.jsonl",
+          "sha256": "95606fcf809ebccdf3516bdb1df4048e1ef5f763932f9a4c70809bfb142239f3"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-icu-off-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-uset-off-core",
+        "--target",
+        "test-grammar-cache",
+        "test-gufo-grammar-cache",
+        "test-schema-values",
+        "test-schema-transform",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 1,
+      "child_exit_code": 1,
+      "test_count": null,
+      "cpu_max_c": 86.375,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r1/result.json",
+          "sha256": "d38b51f90b5609e336737bf98ed7dc8f1743f2136faa39fc4e739651f8188813"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r1/plan.json",
+          "sha256": "f04538bda20f3622b44add0a7b9f0b20814ffeaba0a7d7741c4271c1e64b6a2b"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r1/command.log",
+          "sha256": "c5f72a8f6c80d1123fad9ba58969f511796016f839b30165226318f5b68db01f"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-build-r1/temperatures.jsonl",
+          "sha256": "9f0771d8dd92a77b531b160d330ff0a99e5b2127788331a476d1e8b785530e6f"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/grammar-cache-icu-off-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/grammar-uset-off-core"
+      ],
+      "exit_code": 1,
+      "child_exit_code": 1,
+      "test_count": null,
+      "cpu_max_c": 90.125,
+      "files": [
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r1/result.json",
+          "sha256": "941bbfaee9d2429f2f209c530ed85cd593bbbf21474655a7efd50bcca57a28b3"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r1/plan.json",
+          "sha256": "2a6ed0a897ecd805259d7d39d9f6ed3d6f06ffea9ea31ad64d39a1a0d563cc3e"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r1/command.log",
+          "sha256": "07aec60912f37ebb8b0d45662ec8ac8a4478075c64863783bb675ffb8f8323cd"
+        },
+        {
+          "path": "evidence/grammar-cache-icu-off-config-r1/temperatures.jsonl",
+          "sha256": "b1f369964c3948fe4d96366a4fbe55e1446c0e50ff375d02eb3db448331855a5"
+        }
+      ]
+    }
+  ],
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/parity/CANDIDATE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/schema-values-host/parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/parity/FALLBACK.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/schema-values-host/parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/parity/REFERENCE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/biased-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/biased-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/biased-parity/CANDIDATE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/schema-values-host/biased-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/biased-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/biased-parity/REFERENCE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/CANDIDATE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/FALLBACK.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/vocabulary-parity/REFERENCE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/history-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/CANDIDATE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/FALLBACK.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/history-parity/REFERENCE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    },
+    {
+      "suite": "distribution-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/distribution-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/CANDIDATE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/FALLBACK.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/distribution-parity/REFERENCE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/grammar-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/CANDIDATE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/FALLBACK.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/grammar-parity/REFERENCE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        }
+      ]
+    },
+    {
+      "suite": "number-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/number-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/CANDIDATE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/FALLBACK.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/number-parity/REFERENCE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        }
+      ]
+    },
+    {
+      "suite": "unicode-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/unicode-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/CANDIDATE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/FALLBACK.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/unicode-parity/REFERENCE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-vocabulary-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/CANDIDATE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/FALLBACK.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/grammar-vocabulary-parity/REFERENCE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        }
+      ]
+    },
+    {
+      "suite": "compiler-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/compiler-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/CANDIDATE.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/FALLBACK.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/compiler-parity/REFERENCE.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        }
+      ]
+    },
+    {
+      "suite": "parser-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/parser-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/CANDIDATE.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/FALLBACK.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/parser-parity/REFERENCE.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        }
+      ]
+    },
+    {
+      "suite": "uset-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/uset-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/CANDIDATE.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/FALLBACK.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/uset-parity/REFERENCE.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        }
+      ]
+    },
+    {
+      "suite": "snapshot-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/snapshot-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/CANDIDATE.txt",
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/FALLBACK.txt",
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/snapshot-parity/REFERENCE.txt",
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        }
+      ]
+    },
+    {
+      "suite": "schema-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/schema-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/CANDIDATE.txt",
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/FALLBACK.txt",
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/schema-parity/REFERENCE.txt",
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        }
+      ]
+    },
+    {
+      "suite": "values-parity",
+      "previous_hash_unchanged": true,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/values-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/CANDIDATE.txt",
+          "sha256": "b0949f1f839863f8f74143749aa19b03902a5bab37c9c5ae3a429c68e1b8e280"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/FALLBACK.txt",
+          "sha256": "b0949f1f839863f8f74143749aa19b03902a5bab37c9c5ae3a429c68e1b8e280"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/values-parity/REFERENCE.txt",
+          "sha256": "b0949f1f839863f8f74143749aa19b03902a5bab37c9c5ae3a429c68e1b8e280"
+        }
+      ]
+    },
+    {
+      "suite": "cache-parity",
+      "previous_hash_unchanged": null,
+      "all_exits_zero": true,
+      "all_text_witnesses_identical": true,
+      "files": [
+        {
+          "path": "build/schema-values-host/cache-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/CANDIDATE.txt",
+          "sha256": "66e7ba2c1f4583d5aa2d2545f4e864ecfe4d0b1e6998d4a6f0c0b7936cbed9a6"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/FALLBACK.txt",
+          "sha256": "66e7ba2c1f4583d5aa2d2545f4e864ecfe4d0b1e6998d4a6f0c0b7936cbed9a6"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/schema-values-host/cache-parity/REFERENCE.txt",
+          "sha256": "66e7ba2c1f4583d5aa2d2545f4e864ecfe4d0b1e6998d4a6f0c0b7936cbed9a6"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "5d667c906830e845703e72cada6aa9785a1ff084c94bc034d7e9fc60952800db"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "c4e13b1407cec8daf9277b8ce407edbe7e82a2e3ad350a0ad44e00e4bdf60dce"
+    },
+    {
+      "path": "README.md",
+      "sha256": "406701dd8018fccd6ae157d928075191a013c52c8dcdcc3f1c3b20df319f2831"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-cache-edits.json",
+      "sha256": "720f1224864c1578dc2b24fc31b201c53ee5be6b1301642d5e12ef50dcc23d1a"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-compiler-edits.json",
+      "sha256": "9a7f03b9166a61d0282a258debed3e1b47c6136b3dff844b9b37d41c10febfe0"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-number-edits.json",
+      "sha256": "c1129f9699244a01375a6835eb612ab8b63269c030009309c91c01b951b02828"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-parser-edits.json",
+      "sha256": "8c46d45a4203a8ba63ef41ed408d2696ae915dafe1d925230c73c07895b66d3a"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-regex-edits.json",
+      "sha256": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-runtime-edits.json",
+      "sha256": "19562a5dcf5dcb7a3dfc83a96e77aafce299eafe9f2d5b6c12c41be9dff1d83f"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-string-edits.json",
+      "sha256": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-vocabulary-edits.json",
+      "sha256": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885"
+    },
+    {
+      "path": "adapters/gufo-state/schema-transform-edits.json",
+      "sha256": "20e1e08b9e32f1dea9c47d1c633f66fcdb812ddeb6f58bcfb7135c970ee70bdc"
+    },
+    {
+      "path": "adapters/gufo-state/schema-values-edits.json",
+      "sha256": "806ec9cbb2fba33f6035ecb0d6a2fc52c140c7140139eec4f77ab1374267b199"
+    },
+    {
+      "path": "adapters/gufo_distribution.hpp",
+      "sha256": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d"
+    },
+    {
+      "path": "adapters/gufo_grammar.hpp",
+      "sha256": "5a1b26a1dd27ae806a86de08c94caabbc98e989f6afe4eb15a4e5f79bed77125"
+    },
+    {
+      "path": "adapters/gufo_grammar_builder.hpp",
+      "sha256": "c30d48f0845eb5a6b02b1592450fdc5a36b3c9b1fbe63153420c438148742cd5"
+    },
+    {
+      "path": "adapters/gufo_grammar_cache.hpp",
+      "sha256": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a"
+    },
+    {
+      "path": "adapters/gufo_grammar_number.hpp",
+      "sha256": "ceb9b43371f7c2369fcf220a7bbdfaa12b2b39366cc51904ea70cc7c9f5eae65"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex.hpp",
+      "sha256": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_compile.hpp",
+      "sha256": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_parse.hpp",
+      "sha256": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96"
+    },
+    {
+      "path": "adapters/gufo_grammar_string.hpp",
+      "sha256": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2"
+    },
+    {
+      "path": "adapters/gufo_grammar_vocabulary.hpp",
+      "sha256": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "adapters/gufo_schema_transform.hpp",
+      "sha256": "cb977a05cdc98937d332d6e0e4ac497a32fdd4d4e3222d19d88b61435fc231fa"
+    },
+    {
+      "path": "adapters/gufo_schema_values.hpp",
+      "sha256": "addb570d4197de23ca1bf8713f718671feea3c142cdb6524e7275fdb3fdb9f3e"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "sha256": "fff45ccae9fba7352782f4025326d376fae818f0fdce9c428fa5a10847e03db5"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "sha256": "4baa2101dd52d4b15cd7558f96a557fb269df330c58a7853044737e8918e372c"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "792f425eb29d417d0212ff0fa845c44189ca14f7a198a5226415f4ffc700edd3"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "sha256": "13c644021d57a59358c25a99030f10c8224cd93804cd1c6a54f92487bd22ca3f"
+    },
+    {
+      "path": "docs/BACKEND.md",
+      "sha256": "07c42fc83ec54724d8f7d230dd54ee956761902e8ba8ce83289632207baa8012"
+    },
+    {
+      "path": "docs/COORDINATION.md",
+      "sha256": "48551aeb7f394127d5bf30873349a64bf9c92c08266ff4f1a9fc795f66238c28"
+    },
+    {
+      "path": "docs/PROGRESS.md",
+      "sha256": "cd1412e3d60bfb429a3a67e182c3ce0741a665f702546b83a4450d2196bc6929"
+    },
+    {
+      "path": "docs/development/C17-SAMPLING.md",
+      "sha256": "cf203f3becad144d1d14db5da194345efa5a12b7c48c4e03a8efa0d240cc4587"
+    },
+    {
+      "path": "docs/guides/BUILD.md",
+      "sha256": "f12e2c8f57fbb08c003420612f16cb8a2081bc3d792e8bc8ed13fde6b7dcd81b"
+    },
+    {
+      "path": "docs/reference/ABI.md",
+      "sha256": "5f78cd9242af09f5ee0f79f179b764b917e2b063ccc5dd8c678980c82d9ec513"
+    },
+    {
+      "path": "docs/reference/METRICS.md",
+      "sha256": "17ebbeb9776393a70b4c60bf698c4f208e87328f3f69c1619c6233b80d975ceb"
+    },
+    {
+      "path": "docs/reference/STATE.md",
+      "sha256": "0ca4bb25482443d9890da98ab9dd09f0f9f7b3d4551a694244d39dc3d8ef9965"
+    },
+    {
+      "path": "evidence/grammar-cache-public-headers-r1.cpp",
+      "sha256": "4aa584a4c12b41debed3c3df77c832909e9d7c278b5586814e4ea4f9052c3ce6"
+    },
+    {
+      "path": "evidence/make-grammar-cache-receipt-r1.py",
+      "sha256": "7e72b807cd9c3a4cb5bb8ed7168071e2b0942c1b38bcea8aed5b976693fecc3e"
+    },
+    {
+      "path": "evidence/prepare-grammar-cache-r1.py",
+      "sha256": "338d7ffcde589b9150bdb54ddb109ccf685b4bf11801f288ae8bdc3d4c081d1d"
+    },
+    {
+      "path": "evidence/update-grammar-cache-docs-r1.py",
+      "sha256": "aa1d1ecbd01397522c4ff4c7d5a4c9766f0771081d29e1134b9883fad7d933e0"
+    },
+    {
+      "path": "include/lie/cache_policy.h",
+      "sha256": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26"
+    },
+    {
+      "path": "include/lie/chat.h",
+      "sha256": "82472f625b54ad0500d49826e38d4a71373185ff299bc00473526a63335a5928"
+    },
+    {
+      "path": "include/lie/choices.h",
+      "sha256": "f7ee9270485bdf70aa790367cb4b0b6b37e0dfab21ace036424dd27bd5327e06"
+    },
+    {
+      "path": "include/lie/core.h",
+      "sha256": "9a77d47b7976e49d29a5c7f59857d360dadf0889ffcfcaf8b5b7fb2579576b83"
+    },
+    {
+      "path": "include/lie/events.h",
+      "sha256": "dff13acbe7a67bfa5836c780b2846fe18eab2405c9b6d8680a72c3fd25ead2c0"
+    },
+    {
+      "path": "include/lie/executor.h",
+      "sha256": "b383e011e374f46f0de752e679d568c2844ca5850504eef59b47ee80c6e62dfd"
+    },
+    {
+      "path": "include/lie/flow.h",
+      "sha256": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5"
+    },
+    {
+      "path": "include/lie/grammar.h",
+      "sha256": "ffa1e0c91788fac658e4b6ffb6d8e1b5a597cf415b79f7989a82e49174ab9631"
+    },
+    {
+      "path": "include/lie/grammar_builder.h",
+      "sha256": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a"
+    },
+    {
+      "path": "include/lie/grammar_cache.h",
+      "sha256": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0"
+    },
+    {
+      "path": "include/lie/grammar_number.h",
+      "sha256": "894708afc6b7c57d756f04814666fd74278e55366dfd58d4957a34fa52f4048d"
+    },
+    {
+      "path": "include/lie/grammar_regex.h",
+      "sha256": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c"
+    },
+    {
+      "path": "include/lie/grammar_regex_compile.h",
+      "sha256": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838"
+    },
+    {
+      "path": "include/lie/grammar_regex_parse.h",
+      "sha256": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8"
+    },
+    {
+      "path": "include/lie/grammar_string.h",
+      "sha256": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9"
+    },
+    {
+      "path": "include/lie/grammar_unicode.h",
+      "sha256": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86"
+    },
+    {
+      "path": "include/lie/grammar_vocabulary.h",
+      "sha256": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619"
+    },
+    {
+      "path": "include/lie/inference.h",
+      "sha256": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8"
+    },
+    {
+      "path": "include/lie/kvc.h",
+      "sha256": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1"
+    },
+    {
+      "path": "include/lie/kvc_qwen.h",
+      "sha256": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b"
+    },
+    {
+      "path": "include/lie/kvc_qwen_map.h",
+      "sha256": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f"
+    },
+    {
+      "path": "include/lie/kvc_state.h",
+      "sha256": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab"
+    },
+    {
+      "path": "include/lie/metrics.h",
+      "sha256": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba"
+    },
+    {
+      "path": "include/lie/mtp.h",
+      "sha256": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372"
+    },
+    {
+      "path": "include/lie/output.h",
+      "sha256": "a3690237f02fdd15964e68b8c55cef4a4d413b0c8926900a23a526177d38788d"
+    },
+    {
+      "path": "include/lie/prometheus.h",
+      "sha256": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a"
+    },
+    {
+      "path": "include/lie/qwen_state.h",
+      "sha256": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae"
+    },
+    {
+      "path": "include/lie/records.h",
+      "sha256": "aeba28c5b14b0b1fb4eb2164adca4f9f7e096cf3437e9dbc26b10003f6053519"
+    },
+    {
+      "path": "include/lie/responses.h",
+      "sha256": "dc4856e7ffe7c081bfa9aa454d7b33480c60b4d40d4ec8bbd4655f2f62ac0d06"
+    },
+    {
+      "path": "include/lie/rope.h",
+      "sha256": "8ca6cb6297f587fafa4ae5ea7ef0ec6441f63297fac80a01b026dab36c4f1186"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "include/lie/sampling_distribution.h",
+      "sha256": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555"
+    },
+    {
+      "path": "include/lie/sampling_history.h",
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "include/lie/schema_transform.h",
+      "sha256": "9eb58f6eba63b0b2fa3d9678c312bf3097f81f30c3a583221bd7bf424704fd7d"
+    },
+    {
+      "path": "include/lie/schema_values.h",
+      "sha256": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164"
+    },
+    {
+      "path": "include/lie/state.h",
+      "sha256": "2b1e1733ec114b69ac84bdbf25a0dc2d4b51812a30b299c3d671e9c56259a815"
+    },
+    {
+      "path": "include/lie/steering.h",
+      "sha256": "665c3c12bb7c4a64d29fa76b8904afff5aa0ed011dc42399e31b58d6d8d15103"
+    },
+    {
+      "path": "include/lie/steering_activation.h",
+      "sha256": "fb1e1df449eecb13aa6601a5ac5b5099c23574fee5dac0697c127a6c85550cfc"
+    },
+    {
+      "path": "include/lie/steering_state.h",
+      "sha256": "2b652e888965e7f0175028eb83b91214b00b159c9056bb42af1211b5e4e63f87"
+    },
+    {
+      "path": "include/lie/store.h",
+      "sha256": "98e4192fe821a31774b675b8252238b620c3bb651daaa72f60ff97b8bae2ce53"
+    },
+    {
+      "path": "include/lie/text.h",
+      "sha256": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b"
+    },
+    {
+      "path": "include/lie/tools.h",
+      "sha256": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408"
+    },
+    {
+      "path": "include/lie/vision.h",
+      "sha256": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e"
+    },
+    {
+      "path": "include/lie/weight_decode.h",
+      "sha256": "7024d7e5ed34f51b2e737902882de186e9843890554c679472c5160921777906"
+    },
+    {
+      "path": "include/lie/wire.h",
+      "sha256": "14d87a652a7ad8a900cf1c0a90bf182f53a2d251d1a3b3644209de1b0e9534ff"
+    },
+    {
+      "path": "include/lie/worker.h",
+      "sha256": "52eb2dcb5f05bab3aeaf0ffbc31a745bf4fe0ac39689a7ddc1e640b2c365a1d1"
+    },
+    {
+      "path": "src/grammar.c",
+      "sha256": "8916abc13c0450befb55bb624737167916f54be37cd217845d2b0884ab83a4f3"
+    },
+    {
+      "path": "src/grammar_builder.c",
+      "sha256": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8"
+    },
+    {
+      "path": "src/grammar_cache.c",
+      "sha256": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349"
+    },
+    {
+      "path": "src/grammar_number.c",
+      "sha256": "1d0aa31ef73b2f8b81d61de0f2d931d09c54cdf5c4aef996489546b9e200b95d"
+    },
+    {
+      "path": "src/grammar_regex.c",
+      "sha256": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f"
+    },
+    {
+      "path": "src/grammar_regex_compile.c",
+      "sha256": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb"
+    },
+    {
+      "path": "src/grammar_regex_parse.c",
+      "sha256": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112"
+    },
+    {
+      "path": "src/grammar_string.c",
+      "sha256": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef"
+    },
+    {
+      "path": "src/grammar_unicode.c",
+      "sha256": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23"
+    },
+    {
+      "path": "src/grammar_vocabulary.c",
+      "sha256": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b"
+    },
+    {
+      "path": "src/sampling.c",
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "src/sampling_distribution.c",
+      "sha256": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "src/schema_internal.h",
+      "sha256": "98984dc297293c664a9a076d968711212697e7591c2cffe1c348e7c79c30cbac"
+    },
+    {
+      "path": "src/schema_transform.c",
+      "sha256": "1ffd1d3a589b5678d1277d2c4ccb225eccf6a6947c58e7751f12e12f1bbce371"
+    },
+    {
+      "path": "src/schema_values.c",
+      "sha256": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "sha256": "ca1bfc84d46e1c13a0710152e71133576db14da19874f31c2cce1179a43113d2"
+    },
+    {
+      "path": "tests/provider_sources.cmake",
+      "sha256": "3d3724096895e8bb98affd124e30a10a147298a47b192ec08d41cbcd1a64c033"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "sha256": "d32e5bf462f2ca37f0f38d42304b641c52ce188588d93ff3058f76f9b6d0bddd"
+    },
+    {
+      "path": "tests/sampling/cache.cpp",
+      "sha256": "0927d8d990e4b5f9ed83204b60f42d625cb6a2595c333739a0450e663936a33e"
+    },
+    {
+      "path": "tests/sampling/compare.cmake",
+      "sha256": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db"
+    },
+    {
+      "path": "tests/sampling/compiler.cpp",
+      "sha256": "5eeeae0760393fd2902f0c78c8e6ad66ba657410cc39ad47b46fd908ac428de6"
+    },
+    {
+      "path": "tests/sampling/grammar_vocabulary.cpp",
+      "sha256": "a90a3f1bd332e701c5cc3a5960ae7d6de3236e27efcfcd7d09a950525811e154"
+    },
+    {
+      "path": "tests/sampling/number.cpp",
+      "sha256": "64a02b18488d599dc218ad8d48649dee30bacef2176112bcd67c4e46f95ba2c7"
+    },
+    {
+      "path": "tests/sampling/parser.cpp",
+      "sha256": "1b350b4580111e596eebd235c883b9815b034ba6a3e030a8fc54296d43afcc7f"
+    },
+    {
+      "path": "tests/sampling/schema.cpp",
+      "sha256": "b28397b2f84ca4297a81602b914aa36269b429376559cf4772e32322f997f883"
+    },
+    {
+      "path": "tests/sampling/snapshot.cpp",
+      "sha256": "df561f6379c37012bd032cf298d1c9f8bfd3398be3dc48dd29892fd2355807b7"
+    },
+    {
+      "path": "tests/sampling/unicode.cpp",
+      "sha256": "6bcd80115ea2b3967df27dbe7e723e302546072c8533dc5690e8b72877a87589"
+    },
+    {
+      "path": "tests/sampling/uset.cpp",
+      "sha256": "831c715a5a885c35ef0730b8ad8740ee010c04057e69d238ad4b79459f323d95"
+    },
+    {
+      "path": "tests/sampling/values.cpp",
+      "sha256": "b07f99237c3ae5d24b162e66c71d433a4cb88f63e09f192cc1f9da4941a72e5a"
+    },
+    {
+      "path": "tests/sampling/vocabulary_layout.cpp",
+      "sha256": "4be8ef4994fc9835c7d2d582a83fcc41aed60592aebbedc91224e6618cec5b82"
+    },
+    {
+      "path": "tests/test_grammar_builder.c",
+      "sha256": "56cdbb2393b8b48d6c85da2e9997c64574c80cec9e3013aa95b78b26ce4b8b28"
+    },
+    {
+      "path": "tests/test_grammar_cache.c",
+      "sha256": "83ebd1e2023d43197143b1eee28493b5036a678b29da114dcc02f538a551fd03"
+    },
+    {
+      "path": "tests/test_grammar_compiler.c",
+      "sha256": "df8beaf8ad016ca2d01d7cc13cc598218246ccce555bcd9af9c0494ad8c0d034"
+    },
+    {
+      "path": "tests/test_grammar_number.c",
+      "sha256": "d801e3c6c501d7884da5204d60bf571bfd961d83729b56ca5350047f2389460b"
+    },
+    {
+      "path": "tests/test_grammar_parser.c",
+      "sha256": "3a48d8b73d0479ed0c1d396000dad77f1728936fb309e0edf1097a81476efa0d"
+    },
+    {
+      "path": "tests/test_grammar_snapshot.c",
+      "sha256": "280faf93a93442acf7e357a2aa6dd10e0682d9dbc2913cc5247698927d638ddc"
+    },
+    {
+      "path": "tests/test_grammar_unicode.c",
+      "sha256": "3679c7a8603a1127e25f1e2173091b6c890d209940ba4f43c3d601253917b8b0"
+    },
+    {
+      "path": "tests/test_grammar_uset.c",
+      "sha256": "8aab26b573971b78e8378082864533ab914cf4937bab345c3cf313f40ad511ed"
+    },
+    {
+      "path": "tests/test_grammar_vocabulary.c",
+      "sha256": "17dbda0a1e0d49e7e125cc43986595195440954bd254fbeeb4eb33484a2fe502"
+    },
+    {
+      "path": "tests/test_gufo_grammar_cache.cpp",
+      "sha256": "3a1725cbfcfb8577bef9720197eca18abee3a54e02aa631afdbaa1f914640dc7"
+    },
+    {
+      "path": "tests/test_schema_transform.c",
+      "sha256": "dc62dc4a045e76357471995a5d235098b2545a9ce879c4b568a93178d1c2b5c7"
+    },
+    {
+      "path": "tests/test_schema_values.c",
+      "sha256": "5a6f0e55804a74ac241e894abbd607e0391235211ef429296d0660a9615c9e3a"
+    },
+    {
+      "path": "third_party/gufo-LICENSE",
+      "sha256": "dc53ee4f56ce33a1587e64df04b0d9ace8abd3e875e2b00f6f9f292405bf1001"
+    },
+    {
+      "path": "third_party/gufo-NOTICE",
+      "sha256": "093bd8600b6f97ecea6e6a0e2895c6e22ede7e1a876dfafd885d43d3c035ac94"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    }
+  ],
+  "binaries": [
+    {
+      "path": "build/schema-values-host/candidate-cache-probe",
+      "sha256": "88679c0571c2188763579df5057cefb7e34ed05a8d9ff5d10170bb078b28dbd7"
+    },
+    {
+      "path": "build/schema-values-host/candidate-compiler-probe",
+      "sha256": "c46c6a766ab4228b5b2c69fb4cbd1cac272ebc2874717ac6eebb202c0273bae8"
+    },
+    {
+      "path": "build/schema-values-host/candidate-controls",
+      "sha256": "a6aa53a267f383f618a9b63e704b244c7ba990e037d55f807c4033df06f6d5a1"
+    },
+    {
+      "path": "build/schema-values-host/candidate-distribution",
+      "sha256": "2b0668799af0e75a860d0c3d42d5244dafcc6ba136f506ab420d047a0e6ddb9e"
+    },
+    {
+      "path": "build/schema-values-host/candidate-grammar",
+      "sha256": "7ebe5d543120fa6e9f82849ebbc8f8c2bf0118dada2202e17c3fe7e58254f946"
+    },
+    {
+      "path": "build/schema-values-host/candidate-grammar-probe",
+      "sha256": "ace86f51564cf010f05dcf7ecc5059db38d31c1fb94396ece03625ced1a68241"
+    },
+    {
+      "path": "build/schema-values-host/candidate-grammar-vocabulary",
+      "sha256": "a9710f3e74beb80dd61b5b1c856eeff0b345fce2f28ac8e3d0ce562fffca6d47"
+    },
+    {
+      "path": "build/schema-values-host/candidate-history",
+      "sha256": "385e6ea8c9e87871b1a1ad92979e79d80f59636b93bf0c35362097e480fae141"
+    },
+    {
+      "path": "build/schema-values-host/candidate-logit",
+      "sha256": "da2045b5c14509be99075f593a65452ba727a78261050db3b525d908be5a47f4"
+    },
+    {
+      "path": "build/schema-values-host/candidate-mtp",
+      "sha256": "55879b7576c0ae3191ef1a053d0dcce02b6252445266c37f85c919c5bcab7fb5"
+    },
+    {
+      "path": "build/schema-values-host/candidate-number-probe",
+      "sha256": "6cf890b4d71581f409b9b2d9cda8a24c9befcc7a5e2dffbbdad11d35603fa022"
+    },
+    {
+      "path": "build/schema-values-host/candidate-parser-probe",
+      "sha256": "b73f13f729fbb302e26c067c7c2de228ceccec403e274ad6e034d71501583931"
+    },
+    {
+      "path": "build/schema-values-host/candidate-probe",
+      "sha256": "68bb30fd666d0e6fbb218aa48d79552a5282940b75fb8ae0fba44de701bda859"
+    },
+    {
+      "path": "build/schema-values-host/candidate-schema-probe",
+      "sha256": "7f256300462789a9eb21363d5d81fa4a7c18fb9b44b8e5a3c21f1ae4b2ae03fe"
+    },
+    {
+      "path": "build/schema-values-host/candidate-snapshot-probe",
+      "sha256": "fd37ec31c9e0bda92bbe5e88d87554376961d265738f49ace378fb8016dc0603"
+    },
+    {
+      "path": "build/schema-values-host/candidate-unicode-probe",
+      "sha256": "6953d0d84bc49900092be46eb5f3f3ea6043ba2b88b1222d28e7ef3d9b23afcd"
+    },
+    {
+      "path": "build/schema-values-host/candidate-uset-probe",
+      "sha256": "6c4149ec56ff10e00a7e63917cfdd3d1c80a478366c2e32b7f714fa314f91f87"
+    },
+    {
+      "path": "build/schema-values-host/candidate-values-probe",
+      "sha256": "c0e05c75a2b6391cf3e9541cf8714ab2336ecbf64c2cd380d99b3e8ed5021c7e"
+    },
+    {
+      "path": "build/schema-values-host/candidate-vocabulary",
+      "sha256": "6a993024577e7413d30f182cf51583bb2fc6bdc8ced395b115e28e27ddfeb950"
+    },
+    {
+      "path": "build/schema-values-host/candidate-vocabulary-layout",
+      "sha256": "73c0290322603219d34edf39bae84fd1207f2d1c582eb300c2f45fbfdbb883fc"
+    },
+    {
+      "path": "build/schema-values-host/fallback-cache-probe",
+      "sha256": "9778d310ae8d895754ec4c72a8b028e0546624d65b9c116349c952103a66e0de"
+    },
+    {
+      "path": "build/schema-values-host/fallback-compiler-probe",
+      "sha256": "37a482ec41dcba5cf79c4a4acb1f73d0df835480ff03bdd19c19175322b565ac"
+    },
+    {
+      "path": "build/schema-values-host/fallback-controls",
+      "sha256": "70dce30ced88591ca47184d71bc85cf866fe104dea37f45652245fcaa013d247"
+    },
+    {
+      "path": "build/schema-values-host/fallback-distribution",
+      "sha256": "313f0d4859e6bad86368fb7f8d81a6ab46b39e43a58f7023fc7d28e341776ef6"
+    },
+    {
+      "path": "build/schema-values-host/fallback-grammar",
+      "sha256": "7bec906e320762a5aeed649bf6ffc3db2c4b92f2e6f8ce8c9b0c7bd7505ad833"
+    },
+    {
+      "path": "build/schema-values-host/fallback-grammar-probe",
+      "sha256": "360bcbaacbd90ea3a8d90fc0493a0c296b63d4b52810a34be048ddb53f05caaf"
+    },
+    {
+      "path": "build/schema-values-host/fallback-grammar-vocabulary",
+      "sha256": "53b2cc99df7a6bd779c6fe6c422e7cfb69fec53f9acc04512b0f616c61b1ab0f"
+    },
+    {
+      "path": "build/schema-values-host/fallback-history",
+      "sha256": "98bcc75cd0d39474f0701c10bc06521df47cccb4e4a1c580b52c81d1287a6e2f"
+    },
+    {
+      "path": "build/schema-values-host/fallback-logit",
+      "sha256": "3bd341d8e8a532ed0a21a3e3cdeafe7aed2eb804bcf32248ccfb019ffba3376d"
+    },
+    {
+      "path": "build/schema-values-host/fallback-mtp",
+      "sha256": "ae9451808942b56cf45fa7c592f17713a41318a7034c8f05e4933ccbb01eeb59"
+    },
+    {
+      "path": "build/schema-values-host/fallback-number-probe",
+      "sha256": "2655f9a26672d07eaeb407467b54cb3a1618d0458decd65ec27ccffcefde28da"
+    },
+    {
+      "path": "build/schema-values-host/fallback-parser-probe",
+      "sha256": "556dc460b6a007a755caf1c1fa4dd77dfd2ff98011edb3e7249a5eb4e21f159f"
+    },
+    {
+      "path": "build/schema-values-host/fallback-probe",
+      "sha256": "010ee4a3d86f96f4b3095e44ad0ffe0cef4564f708ee931c132dfa3f0e09e30a"
+    },
+    {
+      "path": "build/schema-values-host/fallback-schema-probe",
+      "sha256": "5ac5d96e8ecf914744ed2ce53f24e64b4930a43aef2e5d244356114f5465c74a"
+    },
+    {
+      "path": "build/schema-values-host/fallback-snapshot-probe",
+      "sha256": "fd37ec31c9e0bda92bbe5e88d87554376961d265738f49ace378fb8016dc0603"
+    },
+    {
+      "path": "build/schema-values-host/fallback-unicode-probe",
+      "sha256": "47007a2c143f5c2bc57bb0462fd4590527a9894fbca87b95be5b01a3b7762a19"
+    },
+    {
+      "path": "build/schema-values-host/fallback-uset-probe",
+      "sha256": "715b8afadb59762c97e55c635d878821351f6d69eb9a440171e6bc9d0849d17c"
+    },
+    {
+      "path": "build/schema-values-host/fallback-values-probe",
+      "sha256": "dc451de154b879b8d27b1c856133ed06bc68a7fe3c1a8e910b16f4c80d655f25"
+    },
+    {
+      "path": "build/schema-values-host/fallback-vocabulary",
+      "sha256": "a99029b0852e3f12b164cd4968cee1a8986df9e9ef0734278840a20f0724e096"
+    },
+    {
+      "path": "build/schema-values-host/fallback-vocabulary-layout",
+      "sha256": "580200e82f6a095dbdded1ca5fb4b2fddc774a68918e1f0a2dfff6979d429875"
+    },
+    {
+      "path": "build/schema-values-host/reference-cache-probe",
+      "sha256": "5bd8a6b1a030504c29a0b52c24ac36a3b7000d280d883bf027b02fc95791547d"
+    },
+    {
+      "path": "build/schema-values-host/reference-compiler-probe",
+      "sha256": "fc711933505de18723846ec73c2bcf7714e05561ef2857891d1dfaf0caae6615"
+    },
+    {
+      "path": "build/schema-values-host/reference-distribution",
+      "sha256": "af20b622ee7a80bd27758727796baff9782c3cce5af2ce3a26b1a865f601eeac"
+    },
+    {
+      "path": "build/schema-values-host/reference-grammar",
+      "sha256": "1def7cbb1d033d17f3992774b3d97f43b5adc6f232480771ee3c570d8d77eb57"
+    },
+    {
+      "path": "build/schema-values-host/reference-grammar-probe",
+      "sha256": "cf69471f05d4e3409a64dad9c26f2589a5be6ebe3e94c739c1a443a03253d34d"
+    },
+    {
+      "path": "build/schema-values-host/reference-grammar-vocabulary",
+      "sha256": "35e9a93abe869e62f428233e6fbc55420ba9e67f9e8110c2313b145007168e38"
+    },
+    {
+      "path": "build/schema-values-host/reference-history",
+      "sha256": "c341cabb2c3d427934dc5939f3a6bc940aefed5e6416aa1a0cdb096cbb6ae5b0"
+    },
+    {
+      "path": "build/schema-values-host/reference-logit",
+      "sha256": "0b995cc1126a03b09ebd1f74e8ee58f7b931a90f4a38b162eda6fe8f2aa49ce3"
+    },
+    {
+      "path": "build/schema-values-host/reference-mtp",
+      "sha256": "be5f269e036f2268737d1fa1084f1268ec8af4464fec5078a3105aa074409669"
+    },
+    {
+      "path": "build/schema-values-host/reference-number-probe",
+      "sha256": "ec4d345d226091a3f3660af85c6744a9121da4d502efcfe7a5ce6fbe0489453f"
+    },
+    {
+      "path": "build/schema-values-host/reference-parser-probe",
+      "sha256": "dd61435445c07abba10c6ba9b1cf7f1fc0cd141e90582b0c2123f30c8eb9f32b"
+    },
+    {
+      "path": "build/schema-values-host/reference-probe",
+      "sha256": "a6592be2636f09173b093342d163552c36a34b7083c824a661720a86c0e178c5"
+    },
+    {
+      "path": "build/schema-values-host/reference-schema-probe",
+      "sha256": "89b43b96cbe4a942faac589778d1a900c49250655708558cbda2f5379f2fb195"
+    },
+    {
+      "path": "build/schema-values-host/reference-snapshot-probe",
+      "sha256": "ea62188bc069f97c6960726129580393cc1767f2dc60477ad499fd93716d236d"
+    },
+    {
+      "path": "build/schema-values-host/reference-unicode-probe",
+      "sha256": "393b44e45b9038817094a8194326fe573a1a32f0dd4606870cf9a46a1fe0141e"
+    },
+    {
+      "path": "build/schema-values-host/reference-uset-probe",
+      "sha256": "715b8afadb59762c97e55c635d878821351f6d69eb9a440171e6bc9d0849d17c"
+    },
+    {
+      "path": "build/schema-values-host/reference-values-probe",
+      "sha256": "02b40eb2cdda5356f6f5ada74f132160305b54aee291fb88483dabdd2cc472ee"
+    },
+    {
+      "path": "build/schema-values-host/reference-vocabulary",
+      "sha256": "7635b3c211e833a54476cd0b24fbcd9ece2099cf9076382df7bfc3ed78d41849"
+    },
+    {
+      "path": "build/context-debug/test-grammar-cache",
+      "sha256": "040c80a32e12b947dcbd439210ae5deea8dbedafd84d755a9b854b323abd11ef"
+    },
+    {
+      "path": "build/context-debug/test-schema-values",
+      "sha256": "04632a7d4bd2a955d7aebdc063b7ccf0dc879f71debbb1a3c7e9c19fdeb9640f"
+    },
+    {
+      "path": "build/context-debug/test-schema-transform",
+      "sha256": "9541cb6bd1678a9fb14d6b1138871b248bff039357c6537d291b2dcbe141c64a"
+    },
+    {
+      "path": "build/context-debug/test-gufo-grammar-cache",
+      "sha256": "30a0d3b3f480104dc0183aa79e42b30ef04aa797856dba4b2976f46151bbd9f8"
+    },
+    {
+      "path": "build/tool-http-asan/test-grammar-cache",
+      "sha256": "4059766bdae1327ba7c10337b7aa61a1cc9ae486a17e626f0dd4d05e829805ad"
+    },
+    {
+      "path": "build/tool-http-asan/test-schema-values",
+      "sha256": "1d208d98e8c584b875eee28a4ef0b7a39730ffec3e2e4abb446ddacc90616200"
+    },
+    {
+      "path": "build/tool-http-asan/test-schema-transform",
+      "sha256": "d661155e83bbc29d7fb2c5a3381708fcf1684c52dbeaa009155d945cdbf219df"
+    },
+    {
+      "path": "build/tool-http-asan/test-gufo-grammar-cache",
+      "sha256": "0d0017db243d30536401b4b0e296971eca5ca8be17c9df5ef4f223ad1d05732e"
+    },
+    {
+      "path": "build/grammar-uset-off-core/test-grammar-cache",
+      "sha256": "11ce42916427c5b145e47059c60520cdddc4abc649f6e695ddfc8676421600a1"
+    },
+    {
+      "path": "build/grammar-uset-off-core/test-schema-values",
+      "sha256": "d56460dbfa66ab2b55f56219c5d9f9b0534b75b2d838df051577e7278de505ed"
+    },
+    {
+      "path": "build/grammar-uset-off-core/test-schema-transform",
+      "sha256": "c850bb322ca61754a6dcc501f8206d4e700b6f007ed06462bb4278b2f3297095"
+    },
+    {
+      "path": "evidence/grammar-cache-strict-r1.o",
+      "sha256": "f57cac7f0e8db97254b6f90a4e4ac76a525dc385be47d574b57cc68e7224f6b6"
+    }
+  ],
+  "build_inputs": [
+    {
+      "path": "build/schema-values-host/variant-files.json",
+      "sha256": "cbdfffeb8884c09d6c3b717600d99735b64ff009e62d7eab9ddb8b6946973fda"
+    },
+    {
+      "path": "build/schema-values-host/CMakeCache.txt",
+      "sha256": "d956662e14e63b9a78c64039c0fea5ab327b779bf917b60bce7335796ceb5673"
+    },
+    {
+      "path": "build/schema-values-host/reference-schema-constraint.cpp",
+      "sha256": "35eb3cefc261796e0805a185a3f0a260b63f42fd8bae8bd2200ea314195dc982"
+    },
+    {
+      "path": "build/schema-values-host/candidate-schema-constraint.cpp",
+      "sha256": "80065234e8ff681ff6ccf43c33b25c0ecbaedfeee4f5324102686d49343290a8"
+    },
+    {
+      "path": "build/schema-values-host/fallback-schema-constraint.cpp",
+      "sha256": "80065234e8ff681ff6ccf43c33b25c0ecbaedfeee4f5324102686d49343290a8"
+    },
+    {
+      "path": "build/context-debug/CMakeCache.txt",
+      "sha256": "a4c52aaa58794d9a03a7d7d23d9c8b91d711b4e77f932dc2228f5f776833a946"
+    },
+    {
+      "path": "build/context-debug/CTestTestfile.cmake",
+      "sha256": "c10f8a0a04fcb637555da34202755f382f690cecd99fd33d884ac6e33c0965a4"
+    },
+    {
+      "path": "build/tool-http-asan/CMakeCache.txt",
+      "sha256": "112a38a54938a6fe8cc569395cc2d074939df9ae255ff77a4308ce480cd80639"
+    },
+    {
+      "path": "build/tool-http-asan/CTestTestfile.cmake",
+      "sha256": "33231a2106433eb176c997b5ca00c994fb294457613e17b0c29bb676e9e23741"
+    },
+    {
+      "path": "build/grammar-uset-off-core/CMakeCache.txt",
+      "sha256": "2d86fe096f6b4a8d767e08f681ea38a3282459d341fef5165457bafd07d090e8"
+    },
+    {
+      "path": "build/grammar-uset-off-core/CTestTestfile.cmake",
+      "sha256": "12635bb5d13fbfe4b5e58d4e0649ab1c2d221363244546228570fc896cd805c3"
+    }
+  ],
+  "previous_receipt": {
+    "path": "docs/development/validation/c17-schema-values-host-2026-10-05.json",
+    "sha256": "01a1255e7a1e7fb74f80cc305338c2821ab451dfa99957b496b2281ba897d28e"
+  },
+  "strict_imports": [
+    "__stack_chk_fail",
+    "free",
+    "malloc",
+    "memcmp",
+    "memcpy",
+    "memmove",
+    "memset",
+    "pthread_mutex_destroy",
+    "pthread_mutex_init",
+    "pthread_mutex_lock",
+    "pthread_mutex_unlock"
+  ],
+  "orchestration_failures": [
+    {
+      "path": "evidence/grammar-cache-discovery-failures-r1.json",
+      "sha256": "14fb554f58b451eb17b6c85acf6da8fa028da2f9da40a35c20f61a7f93012f82"
+    },
+    {
+      "path": "evidence/grammar-cache-doc-patch-failure-r1.json",
+      "sha256": "dbd7dab0872d076ad8386131585876189a2c11c205dcb41a9df53c1c2fa819a0"
+    }
+  ],
+  "failures_and_limits": [
+    "Initial build target unavailable before CMake regeneration: exit2 retained. Minimal C-only configure/build exits1 because newly added private C++ fixture lacked enabled language; register only after optional compositions enabled C++. No library/runtime feature disabled.",
+    "Missing discovery paths/glob-suite assumption and one malformed patch retained; actual exit codes preserved and corrected against discovered paths/prior receipt.",
+    "All ASan/UBSan/LeakSanitizer stay enabled. Sanitized runtime checks execute outside sandbox ptrace. Earlier native-bench closed-stderr signal6 remains unresolved; this slice does not claim a fix.",
+    "pthread/ICU/provider leaf allocation failures beyond selected own C/holder paths, allocation-exact whole-process resources and matched GPU cost remain unqualified."
+  ],
+  "local_cpu_max_c": 90.875,
+  "gpu_visible_devices": "Masked by optional host thermal runner.",
+  "remote_mutations_for_this_host_slice": [],
+  "publication": false,
+  "goal_complete": false,
+  "unqualified": [
+    "New matching original-weight AR/MTP/tools/grammar continuation, quality/fault/fit/resources/cost on .161 after fresh admission and current1M retirement.",
+    "Main schema dispatch/reference memo, binary-double leaf policy, private reasoning/tool composition/model/controller ownership.",
+    "Physical1M TG128/recall, unchanged Terminal Bench smoke/Core19 rewards, matched Gufo/Halogen depth/concurrency graphs, nonzero DS4 steering, independent original-weight temperature/probability/tool-transition gates. All six root tasks remain open."
+  ]
+}

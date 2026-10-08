@@ -1,0 +1,115 @@
+{
+  "schema": "synapse-lie.automatic-output-gpu-protocol-host.v1",
+  "date_utc": "2026-10-04",
+  "scope": "CPU_ONLY_OPTIONAL_POINT_PROTOCOL_NOT_GPU_INFERENCE_OR_TASK_EVALUATION",
+  "runtime_checkpoint": "a3066a795f2ac2fd71078d63ea834709827be51f",
+  "tests_passed": 63,
+  "checks": [
+    {
+      "directory": "evidence/automatic-output-gpu-protocol-host-r1",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_strix_point*budget*.py"
+        ],
+        "child_exit_code": 1,
+        "exit_code": 1,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.0
+        },
+        "elapsed_s": 1.0775071680545807
+      },
+      "tests_total": 5,
+      "log_sha256": "a38d8c8616066ab3a5d647d7a038b139163514250e9a936fdc177afb812052b0",
+      "temperature_log_sha256": "2ba80dad54bfcfac7123ec29b17e3860a6ef985b893e70d816052808869bb1d9",
+      "plan_sha256": "da85ff2c91b9b969f59271c008bf37c7ba4f0fa6f184affa66ffbe6aac301dc0"
+    },
+    {
+      "directory": "evidence/automatic-output-gpu-supervisor-host-r1",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.125
+        },
+        "elapsed_s": 1.2457023467868567
+      },
+      "tests_total": 58,
+      "log_sha256": "9022d387415935656a89a83b6163782920bf39b9b2f5182694c7f1bbc399df8e",
+      "temperature_log_sha256": "a66e3d1cac06325a9417f524415a5efeaa10b91692cf75c6cd492fb7b01f5867",
+      "plan_sha256": "10611d649a1ae4808bcc220c98f55c17c248446e145b7990912a603d95e9b502"
+    },
+    {
+      "directory": "evidence/automatic-output-gpu-protocol-host-r2",
+      "result": {
+        "argv": [
+          "python3",
+          "-B",
+          "tests/test_strix_point_output_budget.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.75
+        },
+        "elapsed_s": 1.074264626018703
+      },
+      "tests_total": 5,
+      "log_sha256": "6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6",
+      "temperature_log_sha256": "e415facdb0e19c233cb9aec5b4e6c654d6f9a4a6286da4b5ca25646e43f4b251",
+      "plan_sha256": "f0f9d3d65f2d1824092b092c308f66f1ea16608958d9d74b053b9dfa4e645ed0"
+    }
+  ],
+  "source_files_sha256": {
+    "CMakeLists.txt": "274cd11a4fec749cbcde272ee68ef8ce8b9af3eb8bafc77e16a11c952a181936",
+    "tools/strix-point-output-budget-gate.py": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311",
+    "tools/strix-point-http-gate.py": "906c205db1d966221e810deb659357a078e14e758993316b7b792ee52784ad3e",
+    "tools/strix-point-campaign.py": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+    "tools/strix-point-launch.py": "d5fdeef19146854f395b28375a03cb8945d0825ad3224bcc7fabb10462bd863c",
+    "tools/strix-point-bench-collect.py": "cf1338093aeb754b2cfa0f0fda09d15dd5a923937a69db297e765d77e3958765",
+    "tests/test_strix_point_output_budget.py": "a49738db73496ddb9ec2c35ec6c00d5dd08f0cb2b2408c95badc02e64e2c9cb5",
+    "tests/test_strix_point_campaign.py": "c22019c0be7b76884665c6dbd4e4e9ffa97bc7c12645237517e5ba52b016d912"
+  },
+  "cpu_peak_c": 56.125,
+  "retained_failure": {
+    "directory": "evidence/automatic-output-gpu-protocol-host-r1",
+    "actual_exit_code": 1,
+    "reason": "Malformed truncated JSON raised JSONDecodeError rather than the gate RuntimeError.",
+    "resolution": "Normalize malformed text to explicit refusal; preserve failure and repeat the five focused tests."
+  },
+  "protocol": [
+    "Fresh separately coordinated AR and MTP windows on .161; pinned a3066a7 binary and all optional helpers.",
+    "Model list/detail must agree with declared 16384 context and existing 4096 output ceiling.",
+    "Independent 180-word enum constraint requires complete output with more than128 actual generated tokens; no quality claim.",
+    "Omitted JSON and null SSE on both APIs must match text, usage and resolved min(remaining context, engine ceiling).",
+    "Reject malformed numeric types, short/truncated/partial output, metadata/helper drift and incomplete/duplicate sidecar checks.",
+    "Keep exact prior34 controls and record these three additional checks separately, for37 total."
+  ],
+  "gpu_status": "PENDING_NEW_ADMISSION",
+  "product_runtime_dependencies_added": [],
+  "default_tests_require_python": false
+}

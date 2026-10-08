@@ -427,3 +427,285 @@ fail:
     snprintf(error, 256, "%s", why);
   return false;
 }
+
+/* Conservative prefix binding. Complete calls use the authoritative parser;
+ * JSON arguments retain their exact source bytes. The last
+ * possible closing-tag suffix and one CR/LF are held, so later normalization
+ * cannot retract bytes already emitted. Nullable/untyped strings wait for the
+ * parameter close because their JSON representation is ambiguous until then. */
+static bool preview_call(lie_output_turn *t, const char *identity,
+                         const char *name, buffer *args) {
+  size_t index = t->count;
+  char id[160];
+  int n = snprintf(id, sizeof(id), "call-%s-%zu", identity, index);
+  if (n < 0 || n > 128 || index >= LIE_CHAT_MAX_CALLS)
+    return false;
+  lie_output_call *call = &t->calls[t->count++];
+  call->id = strdup(id);
+  call->name = strdup(name);
+  call->arguments_json = args->data;
+  call->arguments_bytes = args->bytes;
+  call->index = index;
+  args->data = NULL;
+  args->bytes = args->capacity = 0;
+  return call->id && call->name && call->arguments_json;
+}
+static const char *quoted_end(const char *s) {
+  if (*s++ != '"')
+    return NULL;
+  for (; *s; ++s) {
+    if (*s == '"')
+      return s + 1;
+    if (*s == '\\' && !*++s)
+      return NULL;
+  }
+  return NULL;
+}
+/* Inspect only the outer frame's name/arguments fields. Keys inside nested
+ * arguments or quoted text cannot be mistaken for the function name. If name
+ * follows arguments, publication waits until the name is complete. */
+static bool json_prefix(const char *s, char name[129], const char **arguments,
+                        size_t *bytes) {
+  bool named = false, args = false;
+  name[0] = 0;
+  *arguments = NULL;
+  *bytes = 0;
+  if (*s++ != '{')
+    return false;
+  for (;;) {
+    spaces(&s);
+    const char *end = quoted_end(s);
+    if (!end || end - s > 1024)
+      break;
+    oj_node *key = oj_parse(s, (size_t)(end - s));
+    bool is_name = key && !strcmp(key->string, "name"),
+         is_args = key && !strcmp(key->string, "arguments");
+    oj_free(key);
+    s = end;
+    spaces(&s);
+    if (*s++ != ':' || (!is_name && !is_args))
+      break;
+    spaces(&s);
+    if (is_name) {
+      if (named)
+        break;
+      end = quoted_end(s);
+      if (!end || end - s > 1024)
+        break;
+      oj_node *v = oj_parse(s, (size_t)(end - s));
+      bool ok = v && v->type == OJ_STRING && name_valid(v->string);
+      if (ok)
+        strcpy(name, v->string);
+      oj_free(v);
+      if (!ok)
+        break;
+      named = true;
+    } else {
+      if (args || *s != '{')
+        break;
+      args = true;
+      *arguments = s;
+      end = json_end(s);
+      *bytes = end ? (size_t)(end - s) : strlen(s);
+      if (!end)
+        break;
+    }
+    s = end;
+    spaces(&s);
+    if (*s != ',')
+      break;
+    ++s;
+  }
+  return named;
+}
+bool lie_output_preview(const lie_output_policy *p, const char *text,
+                        size_t bytes, const char *identity,
+                        lie_output_turn *out) {
+  lie_output_turn t = {0};
+  buffer args = {0};
+  oj_node *schema = NULL;
+  char *copy = NULL;
+  const char *first = NULL;
+  if (!p || !text || !identity || !out || out->count || out->text ||
+      bytes > LIE_CHAT_BODY_BYTES || !lie_utf8_valid(text, bytes, false))
+    return false;
+  copy = strndup(text, bytes);
+  if (!copy)
+    return false;
+  const char *cursor = copy;
+  spaces(&cursor);
+  /* A JSON text answer can contain literal tags; it is not a function frame. */
+  if (*cursor == '{' || p->choice == LIE_TOOLS_NONE)
+    goto done;
+  cursor = strstr(copy, "<tool_call>");
+  first = cursor;
+  while (cursor && *cursor && t.count < LIE_CHAT_MAX_CALLS) {
+    spaces(&cursor);
+    if (!*cursor || (t.count && !p->parallel) ||
+        strncmp(cursor, "<tool_call>", 11))
+      break;
+    const char *payload = cursor + 11;
+    spaces(&payload);
+    const char *closed = NULL;
+    if (*payload == '{') {
+      const char *end = json_end(payload);
+      if (end) {
+        spaces(&end);
+        if (!strncmp(end, "</tool_call>", 12))
+          closed = end;
+      }
+    } else
+      closed = strstr(payload, "</tool_call>");
+    if (closed) {
+      lie_output_turn one = {0};
+      char error[256];
+      if (!lie_output_parse(p, cursor, (size_t)(closed + 12 - cursor), true,
+                            identity, &one, error) ||
+          one.count != 1) {
+        lie_output_turn_clear(&one);
+        break;
+      }
+      args.data = (char *)one.calls[0].arguments_json;
+      args.bytes = one.calls[0].arguments_bytes;
+      one.calls[0].arguments_json = NULL;
+      bool ok = preview_call(&t, identity, one.calls[0].name, &args);
+      lie_output_turn_clear(&one);
+      if (!ok)
+        goto fail;
+      cursor = closed + 12;
+      continue;
+    }
+    cursor += 11;
+    spaces(&cursor);
+    char name[129];
+    if (*cursor == '{') {
+      const char *raw = NULL;
+      size_t n = 0;
+      if (!json_prefix(cursor, name, &raw, &n) || !definition(p, name))
+        break;
+      if (!append(&args, raw ? raw : "", n) ||
+          !preview_call(&t, identity, name, &args))
+        goto fail;
+      break;
+    }
+    if (!tag(&cursor, "<function=", name))
+      break;
+    const lie_chat_tool *fn = definition(p, name);
+    if (!fn)
+      break;
+    schema = oj_parse(fn->parameters_json, strlen(fn->parameters_json));
+    if (!schema || schema->type != OJ_OBJECT)
+      break;
+    const oj_node *props = oj_field(schema, "properties");
+    if (!append(&args, "{", 1))
+      goto fail;
+    char keys[LIE_CHAT_MAX_ARGUMENTS][129];
+    size_t count = 0;
+    while (*cursor) {
+      spaces(&cursor);
+      if (!strncmp(cursor, "</function>", 11)) {
+        if (!append(&args, "}", 1))
+          goto fail;
+        break;
+      }
+      char key[129];
+      if (count >= LIE_CHAT_MAX_ARGUMENTS || !tag(&cursor, "<parameter=", key))
+        break;
+      bool duplicate = false;
+      for (size_t i = 0; i < count; ++i)
+        duplicate |= !strcmp(keys[i], key);
+      if (duplicate)
+        break;
+      strcpy(keys[count], key);
+      char *qkey = oj_quote(key, strlen(key));
+      bool ok = qkey && (!count || append(&args, ",", 1)) &&
+                append(&args, qkey, strlen(qkey)) && append(&args, ":", 1);
+      free(qkey);
+      if (!ok)
+        goto fail;
+      const char *end = strstr(cursor, "</parameter>");
+      size_t n = end ? (size_t)(end - cursor) : strlen(cursor);
+      if (!end) {
+        const char *close = "</parameter>";
+        for (size_t k = 11; k; k--)
+          if (n >= k && !memcmp(cursor + n - k, close, k)) {
+            n -= k;
+            break;
+          }
+      }
+      if (n && cursor[n - 1] == '\n') {
+        --n;
+        if (n && cursor[n - 1] == '\r')
+          --n;
+      } else if (!end && n && cursor[n - 1] == '\r')
+        --n;
+      const oj_node *s = oj_field(props, key);
+      bool string = oj_type_is(s, "string"), nullable = oj_type_is(s, "null");
+      char *value = NULL;
+      if (end) {
+        char *raw = strndup(cursor, n);
+        if (!raw)
+          goto fail;
+        if (string && !(nullable && !strcmp(raw, "null")))
+          value = oj_quote(raw, n);
+        else {
+          oj_node *v = oj_parse(raw, n);
+          if (v) {
+            value = strndup(v->start, v->bytes);
+            oj_free(v);
+          } else if (!oj_field(s, "type") && !oj_field(s, "anyOf") &&
+                     !oj_field(s, "oneOf"))
+            value = oj_quote(raw, n);
+        }
+        free(raw);
+      } else if (n && string && !nullable) {
+        value = oj_quote(cursor, n);
+        if (value)
+          value[strlen(value) - 1] = 0; /* Keep the opening quote. */
+      } else if (n && !string &&
+                 (oj_field(s, "type") || oj_field(s, "anyOf") ||
+                  oj_field(s, "oneOf"))) {
+        const char *raw = cursor;
+        size_t leading = 0;
+        while (leading < n && (raw[leading] == ' ' || raw[leading] == '\t' ||
+                               raw[leading] == '\r' || raw[leading] == '\n'))
+          ++leading;
+        while (n > leading && (raw[n - 1] == ' ' || raw[n - 1] == '\t' ||
+                               raw[n - 1] == '\r' || raw[n - 1] == '\n'))
+          --n;
+        value = strndup(raw + leading, n - leading);
+      }
+      if (!value)
+        break;
+      ok = append(&args, value, strlen(value));
+      free(value);
+      if (!ok)
+        goto fail;
+      if (!end)
+        break;
+      ++count;
+      cursor = end + 12;
+    }
+    if (!preview_call(&t, identity, name, &args))
+      goto fail;
+    break;
+  }
+done:
+  if (t.count && first) {
+    t.bytes = (size_t)(first - copy);
+    t.text = strndup(copy, t.bytes);
+    if (!t.text)
+      goto fail;
+  }
+  free(copy);
+  free(args.data);
+  oj_free(schema);
+  *out = t;
+  return true;
+fail:
+  free(copy);
+  free(args.data);
+  oj_free(schema);
+  lie_output_turn_clear(&t);
+  return false;
+}

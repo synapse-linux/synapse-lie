@@ -1,0 +1,46 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-isolated-static.v1",
+  "native_sha256": "a4afb757bf04302f6036b7eabe8f76c7c88911d3d239d29d5ea5cb1c639e9d20",
+  "fixture_sha256": "a94977da69e0ac8148ea6e43d1562455fda11ed86c4394f25ed4188311d130e6",
+  "common_functions": 920,
+  "common_byte_exact": 918,
+  "common_changed_functions": [
+    "_ZN7qfn_mmqL14no_device_codeEPKciS1_S1_",
+    "__ockl_printf_append_string_n"
+  ],
+  "common_size_changes": [],
+  "common_resource_changes": [],
+  "isolated_functions": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm19HcScalarUpMixKernelILb0EEEvPK6__halfPKfS8_S8_PfS9_S9_",
+      "component_exact_to_production": true,
+      "exact_to_first_component": true,
+      "bytes": 3000,
+      "resources": {
+        "num_vgpr": 44,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm19HcScalarUpMixKernelILb1EEEvPK6__halfPKfS8_S8_PfS9_S9_",
+      "component_exact_to_production": true,
+      "exact_to_first_component": true,
+      "bytes": 3080,
+      "resources": {
+        "num_vgpr": 44,
+        "num_agpr": 0,
+        "private_seg_size": 0
+      }
+    }
+  ],
+  "executor_exact_to_phase_guarded_parent": true,
+  "source_files": 1030,
+  "source_manifest_sha256": "eb12a4783802ee991f88d896b8698f7f61abc6dac68b2ae7372d0795ee850810",
+  "runtime_qualified": false,
+  "new_precision_boundary": false,
+  "gpu_run": false,
+  "provider_format_exit_code": 1,
+  "changed_hip_format_exit_code": 0,
+  "provider_format_limit": "Existing inherited files fail; new isolated HIP and fixture pass."
+}

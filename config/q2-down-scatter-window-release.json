@@ -1,0 +1,194 @@
+{
+  "at": "2026-10-03T08:12:19.882695+00:00",
+  "state": "Q2_DOWN_SCATTER_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2920652,
+      "absent": true,
+      "finished_at": "2026-10-03T08:04:00.379102+00:00"
+    },
+    {
+      "label": "q2-down-scatter-operators-r1",
+      "pid": 2921802,
+      "absent": true,
+      "finished_at": "2026-10-03T08:05:09.609671+00:00"
+    },
+    {
+      "label": "q2-down-scatter-reference-r1",
+      "pid": 2922475,
+      "absent": true,
+      "finished_at": "2026-10-03T08:06:36.081076+00:00"
+    },
+    {
+      "label": "q2-down-scatter-candidate-r1",
+      "pid": 2923346,
+      "absent": true,
+      "finished_at": "2026-10-03T08:08:45.590524+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2920653,
+      "start_ticks": 158000849,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2920726,
+      "start_ticks": 158000902,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2920831,
+      "start_ticks": 158001354,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2921036,
+      "start_ticks": 158002008,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2921106,
+      "start_ticks": 158002061,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-host-r1",
+      "pid": 2921244,
+      "start_ticks": 158002813,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-operators-r1",
+      "pid": 2921803,
+      "start_ticks": 158008629,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-operators-r1",
+      "pid": 2922002,
+      "start_ticks": 158008832,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-operators-r1",
+      "pid": 2922141,
+      "start_ticks": 158010237,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-reference-r1",
+      "pid": 2922477,
+      "start_ticks": 158017226,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-reference-r1",
+      "pid": 2922675,
+      "start_ticks": 158017429,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-reference-r1",
+      "pid": 2922815,
+      "start_ticks": 158018834,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-candidate-r1",
+      "pid": 2923356,
+      "start_ticks": 158030178,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-candidate-r1",
+      "pid": 2923551,
+      "start_ticks": 158030380,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-scatter-candidate-r1",
+      "pid": 2923684,
+      "start_ticks": 158031785,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2924755,
+    "state": "R",
+    "group": 2924752,
+    "session": 2924752,
+    "start_ticks": 158053414
+  },
+  "models": [],
+  "result_sha256": {
+    "q2-down-scatter-host-r1": "52a90690d844b4c41772b8e9c53f3c316aa2d62931877123ca08df91664bd204",
+    "q2-down-scatter-operators-r1": "58a5071e24cf0d59b7929229c42db139b01f8e1aae9feb2868637889cdb3bc95",
+    "q2-down-scatter-reference-r1": "0cef4b6de23536135bf6eeab034232e1d747440196b0b7207c655a1c166cb24b",
+    "q2-down-scatter-candidate-r1": "947509fb1530bc187f6557408cf1f00c93cf205c28d84b221cb222df77848eea"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+  }
+}

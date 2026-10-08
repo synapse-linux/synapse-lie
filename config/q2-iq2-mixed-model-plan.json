@@ -1,0 +1,44 @@
+{
+  "schema": "synapse-lie.q2-iq2-mixed-model-plan.v1",
+  "at": "2026-10-04T09:07:17.007755+00:00",
+  "source_manifest": "config/q2-iq2-mixed-model-source.json",
+  "source_manifest_sha256": "8b45bea7e4f7557372a7bd044587c9e3350f2566398c764e7e1ddd47edbfae26",
+  "host": "evidence/q2-iq2-mixed-model-host-r1",
+  "host_capsule_sha256": "f28d2b8073dde3815e8290a81626cb4d3d56737cff1ff62576fff5f700b848af",
+  "host_tests": {
+    "debug": 22,
+    "asan_ubsan": 22
+  },
+  "host_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "provider_files": 1022,
+  "unchanged_parent_files": 1017,
+  "depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536,
+    131072
+  ],
+  "order": [
+    "q2-iq2-mixed-curve-before-r1",
+    "q2-iq2-mixed-curve-candidate-r1",
+    "q2-iq2-mixed-curve-after-r1",
+    "q2-iq2-mixed-curve-ud-r1"
+  ],
+  "scope": "Complete canonical Gufo prose HTTP C1, 128 completed outputs per cell, full original context preparation, identical frozen C17 timers and core.",
+  "rebuild_mmq": true,
+  "cache_policy": "Unchanged RAM prefix cache; no filesystem cache drops or coldness claim.",
+  "independent_model_quality": "Existing numerical/task acceptance remains unresolved; component exactness does not close it.",
+  "gpu_admitted": false,
+  "goal_met": false
+}

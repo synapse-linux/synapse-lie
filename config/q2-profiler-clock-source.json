@@ -1,0 +1,26 @@
+{
+  "schema": "synapse-lie.q2-profiler-clock-source.v1",
+  "binary": "evidence/q2-select-key-tile-steady-preparation/q2_select_key_tile_steady_check",
+  "binary_sha256": "72f824dcfdcfedb89c8f986f3f6b95d83e6f0918880d525253ccb902c1a888a8",
+  "component_source": "config/q2-select-key-tile-steady-source.json",
+  "component_source_sha256": "405a9867c299e7b025e9a843d151e06dd0266bce089cc0174e06b6823e781a2e",
+  "static_manifest_sha256": "391fed68af5e367c349dcaede628bed7986cf57a7167c3738aeaba4f96ccc553",
+  "files": {
+    "tools/q2-profiler-clock-window.py": "bc79c94c97c2eac89c5d8639970c1436359bd01f3ec60f52a0426a22cc7013b7",
+    "tests/q2_profiler_clock_window_test.py": "94abb54a9d106051d8fb5c6c037a4a84e30415beb497c45061ca4a5595c512d5"
+  },
+  "profiler": {
+    "path": "/opt/rocm/bin/rocprofv3",
+    "sha256": "ecae3de73277b3c095b6c2fc1368e84241ea0a664f187ec3d983a5ea056d2efc"
+  },
+  "output_formats": [
+    "csv",
+    "rocpd"
+  ],
+  "purpose": "Validate actual GPU timestamp durations and complete normal process exit; compare exported timings with48 known positive HIP intervals. No performance ranking or model run.",
+  "new_device_code": false,
+  "new_model_run": false,
+  "remote_build": false,
+  "profile_only": true,
+  "headline_eligible": false
+}

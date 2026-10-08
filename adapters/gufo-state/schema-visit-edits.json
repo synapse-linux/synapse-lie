@@ -1,0 +1,16 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "C17 identity lookup, new rule reservation, recursive placeholder publication, synchronous body status, empty-rule commitment and final ID. Body-specific definitions/reference/anyOf/finite recursion and leaf/storage stay private. Exact OFF reference; no GPU/model/thread/RNG/engine/KV ABI change.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_dispatch.hpp\"\n#endif",
+      "new": "#include \"gufo_schema_dispatch.hpp\"\n#include \"gufo_schema_visit.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  std::uint32_t Visit(const json::Value& schema, std::size_t depth) {\n#if LIE_C17_SAMPLING\n    if (auto found = compiled_.get(&schema))\n      return *found;\n    const auto id = New();\n    compiled_.assign(&schema, id);\n#else\n    if (const auto found = compiled_.find(&schema); found != compiled_.end())\n      return found->second;\n    const auto id = New();\n    compiled_[&schema] = id;\n#endif\n    try {\n      const auto body = VisitBody(schema, depth);\n      Set(id, {{body}});\n    } catch (const JsonSchemaEmpty&) {\n      Set(id, {});\n    }\n    return id;\n  }\n",
+      "new": "  std::uint32_t Visit(const json::Value& schema, std::size_t depth) {\n#if LIE_C17_SAMPLING\n    return lie_gufo::visit_rule(compiled_.handle(),builder_.get(),schema,depth,\n      [this](const json::Value &node,size_t at) { return VisitBody(node,at); });\n#else\n    if (const auto found = compiled_.find(&schema); found != compiled_.end())\n      return found->second;\n    const auto id = New();\n    compiled_[&schema] = id;\n    try {\n      const auto body = VisitBody(schema, depth);\n      Set(id, {{body}});\n    } catch (const JsonSchemaEmpty&) {\n      Set(id, {});\n    }\n    return id;\n#endif\n  }\n"
+    }
+  ]
+}

@@ -1,14 +1,215 @@
 # Actuator / Micrometer-inspired contract v1 (implemented subset)
 
+## Prefill configuration
+
+`lie_core_prefill_snapshot()` and `lie_job_prefill_snapshot()` expose selected
+chunk, immutable capacity and revision independently of timing/counter ABIs.
+The management endpoint `/actuator/llm/prefill` projects the core's current
+selection; it applies to new requests. A queued or active job may retain an
+earlier revision. Native core JSONL records `prefill_chunk`, `prefill_capacity`
+and `prefill_revision` per job, with chunk/capacity also in the run identity.
+Capacity describes reservation, not executed tokens or throughput. Existing
+PP/TG clocks and counters retain their meanings; changing the chunk performs
+no numerical work. See [configuration](../guides/USAGE.md#context-and-concurrency).
+
+Explicit native `--prefill-probe live|ram|ssd` results are functional records.
+`prefill_transition` binds before/after owner-call counters and queued/admitted
+chunk/capacity/revision; `prefill_live_result` binds completed calls and the full
+peer output. `prefill_cancel` records actual cancellation during prefill and
+retirement without output or engine failure. Cache probes emit five ordered
+`prefill_cache_step` records with full-prefix cold/hot reuse and SSD drain status.
+`prefill_probe_complete` retains all baseline output IDs. Sample timings remain
+observations, and report readers refuse this run identity as performance input.
+AR batch counters and MTP drafted/accepted counters describe different executor
+paths; a successful MTP credit probe need not increase AR `decode_batches`.
+See [native qualification commands](../guides/BENCHMARKS.md#full-prompt-prefill).
+
+## Prefill attention dispatch
+
+The independent `lie/dispatch.h` C17 observer counts actual host selections of
+matrix/scalar, dense/sparse attention. The pinned producer records only trunk
+prefill: decode, graph capture/replay and predictor attention are excluded.
+One transaction encloses a changing `lie_sequence_prefill`; successful numerical
+completion confirms its staged calls. A refusal/exception before completion
+retains them as unconfirmed. Cancellation after numerical completion retains
+confirmed physical work even when no output is published. Counts describe
+attention calls and rows summed across layers, not launched-device completion
+proof per kernel, prompt tokens, graph launches, throughput or reactive speedup.
+
+The core publishes only after the owner returns; an in-flight client sees the
+previous view without waiting for the device. Model-cohort deltas require the
+same epoch, available endpoints, monotonic counters and no pending/overflow
+flag. Additions saturate instead of wrapping; saturation makes exact deltas
+unavailable. Maximum rows/mask words are lifetime maxima, including unconfirmed
+calls, and are labelled accordingly. Geometry and mask-pitch refusals come from
+the actual matrix-helper refusal. The original 2,048-word guard is unchanged.
+
+Native core samples emit `prefill_attention_dispatch` with scope
+`model-cohort-delta`; progress emits `model-cumulative`. Unsupported or non-exact
+windows carry a reason and null totals. Fully cached supported cohorts may
+validly have zero new attention calls. Standard synthetic fixtures and the direct Gufo-reference
+client report unsupported; this does not imply zero GPU work. No HTTP meter,
+inference thread or scheduling policy is added. `LIE_ATTENTION_DISPATCH_STATS`
+is default ON; OFF disables production observer binding/recording. Its cost and
+actual GPU dispatch still require final integrated qualification. Public C17
+and C++17 contracts and focused host controls pass; the producer recipe is only
+source-verified, with a coherent HIP rebuild deferred.
+
 `dense_sampling` is a build/backend identity in actuator and benchmark metadata,
 not a timer, counter or proof of GPU execution. Values distinguish the owned
 C17 dense selector, Gufo control, unavailable backend and synthetic fixture.
 It changes no inference-worker count or existing timing/count semantics.
 
+Signed integer-bound compilation uses synchronous C17 construction work and
+bounded stack scratch. Its reader work budget is a refusal bound; it is not PP,
+TG, latency or a speedup metric. Builder allocation remains under the existing
+builder accounting. The new contract introduces no serving metric or worker;
+HOST parity does not establish whole-process or GPU cost.
+
+The `1bff953` [Point GPU receipt](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+records 37 AR/37 MTP controls and six fixed-TG128 sessions. Up to 44 observed
+process threads include provider/runtime helpers; this is not a reactive-worker
+count or speedup claim. Native `--progress-ms` snapshots are emitted on stderr,
+independently of final measurement JSONL. `prefill_started`/`prefill_returned`
+and confirmed per-job token counts remain progress, not completion or a finished
+throughput sample. Sampled GTT/temperatures are observational resources, not
+allocation-exact or device-fault qualification.
+
+The matching `20777005` [composition/codec GPU controls](../development/validation/c17-binary64-point-gpu-2026-10-06.json)
+observe up to 44 whole-process threads in both AR/MTP, including runtime helpers.
+No inference worker is added. GTT/temperature samples remain observational;
+these functional results establish no matched timing, allocation-exact cost or
+reactive speedup.
+
+C17 binary64 text/work bounds are admission limits, with no new HTTP timing,
+counter or inference worker. Codec scratch is bounded stack storage; allocator
+hooks in the [host oracle](../development/validation/c17-binary64-host-2026-10-06.json)
+observe zero heap calls only during the selected public formatter/parser calls.
+The complete QA process, provider containers, ICU, MPFR/GMP, model/device and
+allocator-exact resources are outside that scope. No throughput or matched
+original-weight cost improvement is inferred from host parity.
+
+C17 immutable grammar composition reports construction `work`, `owned_bytes`
+and `peak_owned_bytes` through its local view, without adding HTTP counters,
+timers or inference workers. Byte accounting includes the C object, requested
+array capacities, temporary quotes/symbols, tables and lexeme-origin storage;
+it excludes allocator metadata, provider templates/predicates, ICU, process and
+device memory. Work is an admission budget, not elapsed time or throughput.
+[Host accounting/refusal checks](../development/validation/c17-composition-host-2026-10-06.json)
+leave original-weight allocation-exact resources and matched cost open.
+
+The C17 compiled-schema cache adds no HTTP metric, inference worker or timing
+claim. Its optional inspection reports resident entries and key bytes only;
+opaque handles, programs and transient insertion storage are excluded. Matching
+allocation-exact resources and cost remain separate qualification gates.
+
+The new sampler-history extraction adds no counter/timer or worker. Its selected
+source/header/glue and exact integration recipe are bound in the provider build
+receipt; this does not extend older dense-selector GPU qualification to history.
+The new compact/speculative probability extraction likewise adds no worker or
+metric. Its additional source/header/glue and exact recipe are receipt-bound;
+`dense_sampling` still identifies the dense selector, not complete sampler or
+model ownership. Caller storage includes transient bulk and probability scratch;
+allocation-exact provider cost remains a separate gate. The new byte-grammar
+runtime adds no worker or metric; its copied program tables, owned snapshots
+and vector marshalling are extra bounded storage, still requiring measured
+allocation-exact resources and matched cost. Schema/predicate/trie/cache
+ownership is not implied by `dense_sampling`.
+
+Numeric grammar extraction adds no metric or worker. Its copied policy and
+per-call arithmetic workspace count as additional bounded allocations. The
+current 45-file provider inventory and numeric edit recipe bind its selection;
+`dense_sampling` does not identify complete grammar/compiler ownership. Actual
+allocation cost and original-weight GPU comparisons remain separate gates.
+
+The Unicode extraction adds no metric/worker. Copied DFA tables, unique graph
+edges and optional reachability scratch are owned C allocations. The provider
+retires transitional construction vectors after sealing; this is not a measured
+GPU memory or speed claim. State canonicalization touches only a copied mask key.
+The 45-file inventory and owned recipes bind the source selection. Vocabulary
+trie/transition/cache policy and regex expression/derivative/partition/BFS
+algorithms and regex syntax/assertion expansion are now C17. Unicode-set registry,
+range translation and input buffers are C17 using ICU C APIs. ICU remains the
+property/set/conversion dependency; JSON Schema compilation and provider container
+storage remain transitional. Snapshot bridge planning/validation/copies use C17.
+
+Vocabulary queries expose optional local counters for visited nodes, advances,
+interned states (including dead/input slots), direct nodes, transition hits and
+peak depth. These are not new
+HTTP metrics or inference worker counters. Failed queries leave caller counters
+unchanged. Fixture allocator peaks count requested payload only; they do not
+establish whole-process allocations, GPU memory fit or provider latency.
+
+Regex compilation adds no HTTP metric or inference worker. Its counted work
+budget is a construction admission limit, not elapsed time or throughput.
+Expression/derivative hash tables and temporary partition/BFS storage belong to
+the C17 compiler. Fixture allocator peaks exclude helper headers, the provider,
+whole-process and GPU allocations; original-weight resources and cost remain
+separate gates.
+
+Parser AST/expansion vectors are bounded C17 transient allocations and are retired
+on success/refusal. The Unicode context owns UTF16 input, handles and registry arrays; ICU
+allocates its own set internals. Own allocator hooks exclude ICU allocations. Counted work and fixture peaks do not establish whole-process
+cost, GPU fit or speedup. No HTTP metric or inference worker is introduced.
+
+Snapshot bridge planning adds bounded transient C storage for writable frame
+views and input/output intervals. Heap-sort work is a construction budget,
+not timing or throughput. Import states retire on any callback refusal;
+private provider vector/string staging retires at the exception boundary.
+No inference worker, HTTP metric or DS4 tensor/cache identity changes. Actual
+whole-provider allocation cost and GPU continuation remain separate gates.
+
+Grammar construction adds bounded C rule/class/table and
+productivity/cycle scratch allocations. Its 64-million-unit default work budget
+is admission accounting, not elapsed time or throughput. The provider retains
+typed provider templates/predicates and leaf translation. The independent
+fixture peak counts requested owned payload only, excluding helper headers,
+provider/ICU/process/GPU allocations. No new HTTP metric or inference worker
+is introduced; original-weight allocation-exact cost remains unqualified.
+
+Schema equality/reference/conjunction adds bounded C scratch and private provider
+staging, with no HTTP metric or inference worker. Sixteen inline equality pairs
+avoid heap storage for small comparisons; larger frontiers use bounded growth.
+The 64-million-unit work limit is a refusal budget, not timing or throughput.
+Own allocator checks exclude provider/ICU/process/GPU allocations. Original-weight
+allocation-exact resources and matched cost remain separate gates.
+
+Finite-value/container construction adds a separate bounded C scratch stack,
+quoted-byte/symbol buffers and required-name sorting. Sixteen inline traversal
+frames avoid scratch allocation for shallow values; deeper values grow only
+up to their declared limit. Shared property/character counts include nested
+visitor work. Callback staging, cached predicates, binary-double serialization
+and builder allocations have distinct ownership; the C refusal checks do not
+measure their whole-process cost. This adds no inference worker or HTTP metric,
+and its 64-million-unit work budget is not elapsed time or throughput.
+
 This is a C registry and an Actuator v3 JSON shape, not a JVM or a full Spring
 implementation. The official Actuator reference and Micrometer timer source
 were retrieved; URLs, hashes and timestamps are in local evidence. Default
 management listener: `127.0.0.1:19880`.
+
+The HOST grammar handoff probe reports C++ calls and requested peak bytes only.
+It excludes C buffers, whole compilation cost and model/device performance; the
+private object size is host ABI specific. Existing runtime metrics/worker
+accounting are unchanged. See
+[ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
+
+`lie_json_store_describe()` reports live roots, cumulative accepted roots,
+collection requested live/peak bytes and successful allocation calls. Byte
+accounting includes the collection context, identity table and growth overlap;
+it excludes root-domain heap, private projection allocations and allocator
+overhead. Taking a root reduces live roots without refunding cumulative
+admission. These synchronous diagnostics add no HTTP metric or inference worker
+and measure no model cost or GPU speed. See
+[derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
+
+`lie_schema_prompt_describe()` reports exact prompt bytes, retained capacity,
+requested live/peak owned bytes and successful allocation calls. Context,
+terminating NUL, capacity and geometric growth overlap are charged; input,
+builder/program heaps and allocator overhead are excluded. These diagnostics
+add no HTTP metric or inference thread and establish no model speedup or whole
+compilation cost. See
+[prompt ownership](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
 
 ## Registry
 
@@ -137,6 +338,70 @@ queueing, inference and consumption; its first-token clock is not first SSE writ
 An internal core queue-duration clock and complete resource accounting remain
 pending. Direct-core and HTTP results must label these different timing scopes.
 
+`lie_job_info.output_token_limit` records the generation budget resolved after
+full prompt preparation; zero means the job is not prepared yet. A direct
+`max_tokens=0` or omitted/null HTTP limit selects min(remaining context, the
+existing 4096-token engine ceiling). Explicit limits remain exact. This is a
+budget, not an executed-token count; EOS, stop and cancellation may end earlier.
+Chat projects it as `lie_timings.output_token_limit`; completed Responses and
+stored replay use `max_output_tokens`. Model list/detail metadata advertise
+configured `context_length` and the engine `max_output_tokens` ceiling so an
+evaluation client can discover its actual limits.
+
+The native direct-core client can sample these metadata with `--progress-ms N`.
+Its stderr JSONL schema `synapse-lie.core-progress.v1` records per-job completed
+prefill tokens/calls, cached tokens, confirmed model output, consumer-observed
+tokens and executor-call durations. Global execution phase and started/returned
+counters come from the core snapshot; each job has its own metadata lock, so
+the collection is not a single atomic snapshot across all jobs. An in-flight
+call contributes no new completed-input count until it returns successfully.
+A failed call can increase the returned-call count with zero completed input.
+`final_snapshot` marks the client's last observation before job release, including
+deadline/failure; `retired` separately reports the job's retirement state.
+These observations are not the credit-bearing `LIE_EVENT_PROGRESS` output event,
+GPU kernel clocks or benchmark samples. Interval `0` disables them by default.
+Result identity records `progress_interval_ms`; paired native reports require
+the same value, treating a missing historical field as zero.
+
+Independent steering-policy snapshots report completed retained target positions,
+revision, effective history epochs, at most two outstanding plans, policy bytes
+and staged bytes. The shared bank's vector bytes are separate. These are host
+policy/resource metadata, not executed-token counters, GPU timing or evidence
+that a numerical steering edit occurred. `lie_job_steering_snapshot` projects the
+latest owner-confirmed policy, submitted/completed tickets, pending status,
+application status and retained application position. The semantic image scope
+is separate from the combined scope. The retained-request HTTP `/steering`
+extension projects these snapshots without waiting for inference. Its optional
+`/{choice}` suffix identifies one independent child. `schedule` reports a
+creation-time plan's declared scales, attempted/applied status, actual positions
+and terminal completion; an unreached step has a cancellation status and null
+actual position. Extra stored-choice retention is charged to the record budget
+only with an admitted bank. Native core
+identity carries the complete binary32 scale schedule; every planned job reports
+attempted/applied steps, actual positions, final scales and confirmed history/scope.
+Optional progress includes the same schedule snapshot. Reports refuse unfulfilled
+or crossed steps and compare the complete plan, treating absent historical plans
+as empty. These host projections do not qualify numerical changes.
+[Core/provider/cache binding](../development/STEERING.md).
+The direct C model query reports immutable bank geometry/host vector bytes and
+the private provider's owned device vector allocation separately from model
+weights; allocator overhead and workspace are not included. The sequence query
+reports the C17 policy metadata. `lie_core_steering_snapshot`, the backend's
+`steering` object in actuator info/LLM snapshots, and native `core_ready.steering`
+project the READY model admission. `host_vector_bytes` and `device_vector_bytes`
+are vector-data counts, not allocation peaks or additions to reported weight
+residency. Bank file/geometry hashes and initial FFN/attention scales identify
+the admission; a synthetic fixture correctly reports zero device bytes.
+No public GPU steering counters or performance
+samples are qualified by the activation descriptor or syntax checks.
+The 192-byte policy metadata serializes semantic history/scales/frontier only;
+it does not restore source revision, capacity, allocation or executed-token
+counters. A restore uses the destination's capacity and advances its own local
+revision once. Typed policy/scope tails use ordinary retained RAM/SSD accounting;
+the source binding adds no tensor scratch copy or runtime thread. Shared-worker
+HTTP/bench live-policy projection is wired; GPU continuation remains pending. Host state
+roundtrips and checksum validation are not numerical or performance samples.
+
 The native core report requires positive prefill time and call count when new
 prompt tokens are processed. Decode time and call count must agree, and confirmed
 output requires a decode call. Prefill plus decode time must fit inside the
@@ -145,6 +410,14 @@ a batch. These checks include warmups. A fully cached prompt still has zero
 executed prefill time/calls and no PP rate. An EOS decode may have no confirmed
 output while retaining its actual call time. Invalid phase records are refused
 before a summary or graph is written.
+
+Core result identity additionally records `eos_policy`. The default `stop`
+can end with an un-emitted EOS while retaining the completed call time.
+Explicit `ignore` treats EOS as a confirmed token, including zero text bytes,
+and requires the full declared output budget and a length finish. It does not
+remove EOS from the sampling distribution. Paired reports refuse different
+policies; a missing historical field means `stop`. This policy is independent
+of the generation filters and progress interval.
 
 The direct `single`/`multi`/`fresh` benchmark records `timing_clock` as
 `CLOCK_MONOTONIC`. A sample carries `sample_begin_monotonic_ns`,
@@ -229,6 +502,11 @@ successful packs and `compression_attempts` counts eligible capture-path calls
 (including calls refused by size/budget or the bounded benefit probe). A true
 build capability does not imply any state was packed: current admission requires
 at least 50% retained saving. These are not active GPU KV savings.
+Exact DS4/KVC states, including semantic-scope bindings, remain raw and are
+excluded from this generic aligned-state packer. The original-weight
+RAM/SSD chunk-namespace probes record zero compressed captures even though
+the build capability is ON
+([functional receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
 `/actuator/llm` projects this object and reports the actual
 `ssd_enabled` flag, false by default, plus a separate `ssd` object.
 The budget covers the immutable descriptor/payload allocations, including the
@@ -418,7 +696,10 @@ The shared core counts `output_validation_errors` when a semantic client rejects
 a complete turn. `/actuator/llm.scheduler.output_validation_errors` exposes that
 count for direct clients and HTTP together. The existing HTTP tool-error meter
 counts errors projected to HTTP; physical completed/failed executor counters
-remain separate. No semantic parsing time is relabelled as GPU decode time.
+remain separate. Provisional starts and argument deltas contribute no additional
+token credits or committed tool-call count. Their copied journal payloads count
+toward the response record quota. No semantic parsing time is relabelled as GPU
+decode time.
 Job fields `semantic_checked`, `output_invalid` and `tool_calls`, plus the typed
 terminal reason, are specified in the [event contract](EVENTS.md).
 
@@ -438,3 +719,50 @@ retirement barrier as foreground cancellation. JSON/schema violations use
 `output_validation_errors`; successful object compilation and host sampler
 checks do not mark `hardware_qualified` true. Response history has its own
 conservative RAM quota and TTL, independent of the KV cache statistics.
+
+## Canonical cached conversation benchmark
+
+`synapse-lie.http-curve-bench.v1` records the pinned Gufo recipe separately from
+the simplified direct-executor and prepared-cohort protocols. Its identity binds
+model alias, declared context, depth list, task, seed, output/prompt budgets,
+warmups, repetitions, endpoint profile, requested AR/MTP mode and tolerance.
+`request` events retain calibration, warmup, non-streaming prefix preparation and
+streamed measured attempts, including the complete request, payload hash, actual
+assistant text, raw response chunks, usage and monotonic HTTP bounds. The client
+is a single curl-multi event loop and introduces no worker per request.
+
+Each accepted `point` references its measured request index and records physical
+prompt/cached/new-prefill/output counts, completion hash and draft counters.
+`pp_tps = (prompt_tokens - cached_tokens) × 1000 / prefill_ms` and
+`tg_tps = output_tokens × 1000 / decode_ms` use executed server phases.
+`timing_source` identifies validated LIE `synchronous_executor_calls` or Gufo
+`usage.gufo` phases; their implementations retain their distinct boundaries.
+HTTP wall time, client TTFT and output over HTTP wall are separate metrics.
+Phase sums cannot exceed complete request wall time. Measured output must fill
+its budget; an EOS-shortened response fails the curve. Preparations retain their
+actual reply even if their 8-token budget ends early, matching the Gufo recipe.
+
+The offline report reconstructs calibration and all expected prompts, replies,
+attempts and accepted points before aggregation. It requires the final successful
+request/point counts and rejects missing events, altered payloads, output budgets,
+terminals, timings and point aggregates. Statistics expose every sample, mean,
+sample standard deviation, median and min/max. Unexecuted phases remain JSON
+null and plot gaps. PP, TG, HTTP wall and TTFT use four independent plot panels.
+
+Comparisons require matching protocol declarations and disclose exact request,
+completion and physical-count equality per depth. Gufo's adaptive history may
+differ between model quantizations; such a comparison is a workload comparison,
+not numerical equivalence or an inference-quality certificate. These records do
+not measure server cold loading or peak allocation. CPU fixture values remain
+explicitly `NOT-INFERENCE`; they must never be published as GPU results.
+
+Native HTTP benchmark identities retain the effective `timeout_seconds` for
+each complete request. The configurable maximum is 86,400 seconds. The `http`
+long-context preset defaults to 14,400 seconds; ordinary HTTP, curve and
+multi-user defaults retain their documented values. A larger deadline does not
+change PP/TG timing boundaries, inference workers or throughput, and does not
+configure the server or the supervising campaign deadline.
+
+C17 [root schema admission](../development/C17-SAMPLING.md#root-schema-admission)
+adds no serving metric or inference thread. Its bounded work counter is a
+construction refusal budget; it is not prefill/decode throughput or GPU cost.

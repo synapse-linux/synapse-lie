@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
           "--model-mtp", ":wide-fixture:",
 #endif
           "--host", "127.0.0.1", "--port", aps, "--management-port", mps,
-          "--context", "128", "--prefill-chunk", "4", "--max-active", "2",
+          "--context", "128", "--prefill-chunk", "4", "--prefill-capacity", "16", "--max-active", "2",
           "--kv-cache-ram-mb", "1", "--kv-cache-min-tokens", "1",
           "--kv-cache-boundary-trim-tokens", "0", "--kv-cache-boundary-align-tokens", "0", "--kv-cache-capture-finish", "off", (char *)NULL);
     _exit(127);

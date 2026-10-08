@@ -1,0 +1,20 @@
+--- a/src/models/qwen38_flash_next/ngram.cpp
++++ b/src/models/qwen38_flash_next/ngram.cpp
+@@ -97,8 +97,15 @@
+   // Direct I/O bypasses the page cache; the mapping used for the rest of the
+   // model must not be used here or every touched row would stay resident.
+   const auto path = "/proc/self/fd/" + std::to_string(file_descriptor);
+-  t->fd_ = ::open(path.c_str(), O_RDONLY | O_CLOEXEC | O_DIRECT);
+-  t->direct_ = t->fd_ >= 0;
++  // BF16/160 rows contain only320 bytes. On the tested compressed file,
++  // O_DIRECT already falls back to buffered I/O, but our aligned window
++  // still copies4096/8192 bytes. Use the existing exact-row read path.
++  // This private descriptor permits reclaimable file-cache residency; it
++  // changes neither the encoded row cache nor any embedding arithmetic.
++  const bool exact_row = type == core::GgmlType::kBF16 && row_dim == 160;
++  t->fd_ = ::open(path.c_str(), O_RDONLY | O_CLOEXEC |
++                                  (exact_row ? 0 : O_DIRECT));
++  t->direct_ = !exact_row && t->fd_ >= 0;
+   if (t->fd_ < 0) {
+     t->fd_ = ::open(path.c_str(), O_RDONLY | O_CLOEXEC);
+   }

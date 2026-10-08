@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-counting-curve128-final-audit.v1",
+  "state": "COMPLETE_RELEASED",
+  "at": "2026-10-08T06:12:44.832708+00:00",
+  "measured_points": 176,
+  "total_samples": 352,
+  "collection_files": 61,
+  "collection_bytes": 111488084,
+  "collection_verified_at": "2026-10-08T06:06:29.115267+00:00",
+  "collection_sha256": "72c95b533521bcc981cd19b152bdeec71880341ee60590adb7dd5d969a4948be",
+  "release_sha256": "36a39711c484b9db9da4a364889b7bc9d3a5dcc2fd4983c7335a222476f06b7f",
+  "strong_closure": {
+    "at": "2026-10-08T06:07:17.552635+00:00",
+    "release_sha256": "36a39711c484b9db9da4a364889b7bc9d3a5dcc2fd4983c7335a222476f06b7f",
+    "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+    "retired_identities": 77,
+    "retired_groups": 77,
+    "kfd_empty": true,
+    "original_five_leases_free": true,
+    "reference_model_stats_unchanged": true,
+    "glm_model_stats_unchanged": true,
+    "iommu_groups": 32,
+    "gpu_reserved": false
+  },
+  "analysis_command": {
+    "argv": [
+      "python3",
+      "tools/analyze-q2-counting-curve128.py"
+    ],
+    "started_at": "2026-10-08T06:08:54.234626+00:00",
+    "finished_at": "2026-10-08T06:08:55.454801+00:00",
+    "exit_code": 0
+  },
+  "analysis_results_sha256": "b454a621e7b865140da809e56b704494c98eb4643f8b6677949a40974900d7b2",
+  "all_shared_physical_inputs_identical": true,
+  "full_output_budget_points": 176,
+  "counting_output_differences": 0,
+  "gpu_reserved": false,
+  "current_own_all_hosts": "NONE",
+  "boot_change_applied": false
+}

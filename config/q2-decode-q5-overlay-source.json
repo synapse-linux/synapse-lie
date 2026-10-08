@@ -1,0 +1,56 @@
+{
+  "schema": "synapse-lie.q2-q5-decode-overlay-source.v1",
+  "at": "2026-10-07T09:33:06.530006+00:00",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "private_base": ".deps/gufo-q2-iq2-token160-probe",
+  "private_candidate": ".deps/gufo-q2-q5-overlay-probe",
+  "base_source_manifest_sha256": "8c64f13c89f9e47a33ca79510aaeeb5d98b90c69ab2529eb23c387695583bf32",
+  "tracked_sha256": {
+    "cmake/hip/CMakeLists.txt": "30fec612a0bfa212dbb0d2c62d224ac4e392d69e69049f30162420b69a676819",
+    "experiments/q2-q5-decode-overlay.patch": "13fccb68dcf7c7e2f4a661e50f865822cc5b1f9233167e93e857be3b6f620e94",
+    "tests/q2_q5_overlay_conversion.hip": "152d51ce2de934585c2e9c1377bbd23693ff20665be412a81d782685b98f510e"
+  },
+  "candidate_source_sha256": {
+    "src/models/qwen38_flash_next/kernels/rocm/device_model.hpp": "0520c9974459698e23a0e4cfa1b88cfb940a4792b67cde3a2115fbfe7ad588e4",
+    "src/models/qwen38_flash_next/kernels/rocm/device_model.cpp": "0dd7b4b68ccb51f4cd1b4735b68e43a0418d3c2761d5298c29ab4a5689182473",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "6d1b0464ddbe8df0f5db24b1095f3ab99c03b376f3ef9380f210c90b78f38748",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h": "3b5356e26b1914948bdbbfb751e4e171d913e125f5c83bc189c24463ffb977df",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp": "aceb0aa38e77249444b60f5a1fc901992e1cbab6d57103c55305011f3a4e0a90",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/q5_dense_overlay.inc": "09f451f1608dd2761bb217385c1215b12d0c0bd56d71e7aea9e0956aa6c4d85d"
+  },
+  "local_builds": {
+    ".deps/build-q5-overlay-lie/cmake/hip/q2_model": {
+      "sha256": "c215761d324937c16b25c000716f6d710d19f1f031cac660ba4fb80e588e16c9",
+      "exit_code": 0,
+      "target": "gfx1151",
+      "gpu_run": false
+    },
+    ".deps/build-q5-overlay-lie/cmake/hip/q2_q5_overlay_conversion": {
+      "sha256": "71728dd6b6e7ce2720eea4dba7e0139dddd828f5ee7acfdb002887c87038e042",
+      "exit_code": 0,
+      "target": "gfx1151",
+      "gpu_run": false
+    },
+    ".deps/build-q5-overlay-lie/cmake/original-baseline/q2_original_baseline": {
+      "sha256": "94ad75b531b706dc36f6f61f33ff3fd9539f86f33661607f983bb37e3de9eef4",
+      "exit_code": 0,
+      "target": "gfx1151",
+      "gpu_run": false
+    }
+  },
+  "patch_reconstruction_match_files": 6,
+  "opt_in_environment": "LIE_EXPERIMENTAL_Q5_DECODE",
+  "valid_families": [
+    "ssm-in",
+    "attn-out",
+    "shared-down",
+    "shared-gated",
+    "all"
+  ],
+  "default_production_dispatch_unchanged": true,
+  "original_q8_retained_for_prefill": true,
+  "model_inference": false,
+  "model_quality": false,
+  "remote_gpu_run": false,
+  "remote_cleanup": false
+}

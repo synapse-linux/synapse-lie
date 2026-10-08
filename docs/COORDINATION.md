@@ -1,5 +1,2737 @@
 # DS4 / synapse-lie coordination
 
+## Current Q2/walk functional window verified and released — 2026-10-08
+
+Four actual specific declarations cover
+`halo-develop-q2-functional-20261008-r2`, manifest `49cea499`, through
+staging, fourteen serial commands, collection, independent oracle, whole-group
+closure, the five original FD releases and four final notices. The r1 plan is
+superseded before any staging or admission. Fresh global observation at
+20:12:17.829905 UTC and the repeated in-lease check bind the `9e95e4c4`
+compiled inputs, seven binaries, original model stats and boot/filesystem.
+Supervisor17633/start4998355 holds unchanged FD3..7.
+
+All fourteen commands and original controller31728 finish0. Independent
+local review finishes0, covering generated components, original Q2/UD-Q4
+walk snapshot/replay/reference parity, current Q2 C2 output equality at 8K,
+UD-Q4 C1/C2/MTP equality and actual reactive peer progress/cancellation.
+The original descriptors close at 20:20:37.061544 UTC. Registry release is
+20:20:37.063963 UTC, receipt SHA `cc67e1a3`.
+
+Collection/strong closure at 20:21:09.657704 UTC, SHA `e617614f`, verifies
+104 artifacts, 27 identity records and 15 complete groups absent in two scans,
+empty KFD, all eight original model stats and five unchanged leases acquired
+nonblocking, verified free and released. All four final notices are delivered.
+CPU/GPU/NVMe peaks are 87.75/89/72.85 C, with CPU98 and lower SSD bounds.
+
+The [portable functional receipt](development/validation/develop-q2-halo-functional-2026-10-08.json)
+contains actual exits and full hashes. Root owns no job, handle, GPU client,
+lease, waiter, reservation or future grant on any host. Later users need their
+own exact proposal and fresh admission. This window runs no HTTP service,
+Terminal Bench, dependency installation, tuning, model conversion or payload
+hash. Diagnostic timings are not comparative performance qualification.
+
+## Combined Q2/walk Halo compile window verified and closed — 2026-10-08
+
+Four new exact declarations cover `halo-develop-q2-build-20261008-r1`, manifest
+`2e08ae71`, source `9e95e4c4` with current original Q2/IQ2 formats and native
+DS4 walk. Fresh global observation at 19:16:36.502128 UTC and the repeated
+in-lease check precede admission. Supervisor14764/start4665266 holds the five
+original leases on FD3..7; child14769 compiles only, with GPU visibility masked.
+Both sampler ON/OFF providers select Q2 formats ON. Four compiler commands,
+seven consumer links and controller34966 finish0; no model or kernel executes.
+
+The five original descriptors close at 19:23:23.742237 UTC, release SHA
+`b55379fb`. Independent collection/strong closure at 19:24:50.182704 UTC,
+SHA `4561be44`, verifies 24 artifacts, 3,015 unchanged source files, seven
+binaries/six provider archives, all eight original model stats, two complete
+process/group scans, empty KFD and all five original leases acquired nonblocking
+and released. All four final notices are delivered. CPU/NVMe/GPU peaks are
+76.125/47.85/39 C; CPU98 and lower exposed NVMe bounds do not trip.
+
+The [portable compilation receipt](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
+does not qualify inference or performance. Root owns no job, handle, lease,
+waiter, reservation or future grant on any host. A new original-weight window
+requires a new exact proposal, declarations, fresh global and in-lease checks.
+No dependency/service/tuning, model conversion/hash or Terminal Bench occurs.
+
+## Current r70 Strix Halo functional window closed — 2026-10-08
+
+Four actual exact-scope declarations admit `halo-r70-functional-20261008-r2`,
+manifest `5be81479`, using unchanged source `f5ca173c`/runtime `4c703b3d` and
+the already-compiled native ROCm7.2.4/gfx1151 consumers. Initial r1 preparation
+never acquires a lease or runs GPU work; its binary-size bound refusal is retained.
+Fresh global checks at 16:25:30.799978 UTC bind the prior Q2 release
+`3b8764a6`/strong closure `53cb819e`, all input/binary identities and five original
+leases. Supervisor13336/start3640852 holds those leases at FD3..7.
+
+All seven bounded native commands and controller91074 exit0. Original lease
+descriptors close at 16:28:42.084904 UTC. Independent collection/strong closure
+at 16:29:35.677619 UTC verifies all 88 native artifacts, eight exact identities
+and eight whole process groups absent in two complete scans, empty KFD, unchanged
+model stats and all five original leases free and released. Release SHA is
+`7913da30`; strong-closure SHA is `c3ba5e05`. Independent offline review exits0.
+
+All four peers receive actual final release. Root owns no job, handle, lease,
+waiter, reservation or future grant on any remote host. The
+[complete receipt](development/validation/halo-r70-functional-2026-10-08.json)
+limits acceptance to generated GPU components and selected original UD-Q4
+functional/output parity. No build, dependency installation, tuning, model
+hash/conversion, DS4 mutation, HTTP service or Terminal Bench occurs.
+
+## Current r70 YaRN4 near-1M recall verified and retired — 2026-10-08
+
+Manifest `57e76ff82` completes both exact cold answers at physical1048062/1048170,
+natural TG38/74. Original controller87744 and watcher55234 retire exit0; explicit
+HTTP collection saves and verifies all 18 artifacts. Original lease release is
+16:07:24.373711 UTC. Strong closure at 16:08:53.519479 UTC verifies supervisor,
+launcher, init, GPU server and native-client PID/start identities absent, the
+complete container/cgroup absent in two global scans and ports8000/46787/60465
+empty. Four original model stats match; router391245 is restored and the
+original lease66308/105946405 is free and released.
+
+All four peers receive final release. Independent complete saved-SSE sealing
+and portable archive postcheck exit0
+([receipt](development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)).
+Root owns no job, handle, lease, waiter, reservation or future grant on any
+remote host. A later window needs a new exact proposal and fresh admission;
+Terminal Bench remains last.
+
+## Current r70 YaRN4 near-1M recall admitted — 2026-10-08
+
+The complete 786K cohort is independently verified and checkpointed at
+`bddff391` before proposing one new `.161` window, manifest `57e76ff82`.
+All four peers declare exact-scope non-use through run, collection, independent
+oracle, whole-container closure, original lease release and four-peer notices.
+Point's failed outgoing transport is retained; its actual completed declaration
+is received by direct thread read and explicitly acknowledged.
+
+Initial automatic review rejects the launch by applying another agent's `.157`
+stop request to this `.161` task. No launcher process is created. The owner
+clarifies that the instruction concerned the other agent; the unchanged action
+then passes review using a new 12:57:41 UTC global observation and original
+in-lease checks. The initial refusal, original recipes and both fresh records
+are preserved, with no source/runtime/workload criteria change.
+
+Actual controller87744 runs the frozen C1/greedy AR/YaRN4/seed77 cohort at
+capacity1048576, physical target1048064 and chunk/scratch256, three unscored
+calibrations plus two cold natural-TG128 turns, prefix caching off. The
+12:59:07 witness observes supervisor282037/start8037304 holding original
+lease66308/105946405 on FD3 and init282267/start8037442 in container
+`dc23c98e978b145acac203f699a8800517a6e3ad678a3bf5f0a27658ad5fa796`.
+No native GPU owner is observed yet. All four peers receive actual admission
+identities. Root owns `.161` only through collection/oracle/full closure and
+all four releases; `.155/.157/.158/TB` are NONE, with no future grant.
+
+## Current r70 YaRN4 786K recall verified and retired — 2026-10-08
+
+After the complete steering failure is collected, independently reviewed,
+strongly closed, released to all four peers and checkpointed at `0fd741e6`,
+root proposes `recall-yarn4-786432-s77-ar-20261008-r1`, manifest `4fc4b1e5`.
+Four new current specific non-use declarations cover the original run through
+collection, independent oracle, complete cgroup closure and four-peer release.
+Separate Q2 activity stays on `.157`; root accesses only `.161`.
+
+Persistent staging verifies unchanged r70/`4c703b3d` artifacts and stat-only
+model identities. The 10:26:17 UTC global observation verifies pinned boot/FS,
+original lease66308/105946405 free and released, helper/manifest hashes,
+image/memory admission, router202966 active and no foreign compute, guarded hot
+sensor or HTTP8000 listener. Fresh in-lease admission then starts the original
+controller92498; no restart or future grant is created.
+
+The 10:28:17 UTC witness observes supervisor203585/start7125960 holding FD3,
+init203816/start7126087 and actual GPU owner205318/start7135478 in complete
+container `05e19a0bd97f4a16e18ba6ebb17222d98102e0550652e6ce96165136dfe6aed2`.
+Native C1/greedy AR/YaRN4/context1048576/target786432/chunk256/seed77, three
+calibrations and two cold natural-TG128 turns are unchanged. CPU98/NVMe85 guards
+and GPU observation remain active. A 10:30:36 read-only C-core view sees active
+prefill after three completed calibrations; no recall acceptance is claimed.
+All four peers receive actual admission identities. Root owns this `.161`
+scope; all other hosts and Terminal Bench are NONE. Collection, final exits and
+strong closure were pending at that observation; there was no lease waiter or
+future reservation.
+
+The 11:35:06 UTC read-only saved-wire observation sees the first scored response
+complete at physical786430/TG38 with an exact answer and natural stop. The
+second cold turn continues in the same original server/container/window.
+Full independent cohort review and all closure/release obligations were then
+pending. Near1M inputs and private operations are prepared locally only;
+their launcher requires verified current collection/closure/four releases and
+archive postcheck before fresh specific peer/global/in-lease admission.
+
+Original controller92498 and observer73386 retire with exit0. Both cold answers
+pass at physical786430/786538, with natural outputs38/74. The lease is released
+at 12:41:19.193050 UTC. The initial generic seven-file collection and subsequent
+local pre-execution closure failure are retained; explicit `--kind http-recall`
+collects all 18 artifacts without GPU replay.
+
+The 12:43:37.773490 UTC strong closure verifies the actual supervisor, launcher,
+init, GPU server and native-client PID/start identities absent, the complete
+container/cgroup absent in two process scans, ports8000/60937/37939 empty,
+all 18 artifact hashes and four unchanged model stats. Original lease66308/105946405
+is free and released; router281566 is restored active and no foreign compute or
+guarded hot sensor remains. All four peers receive actual verified release.
+Independent saved-wire sealing and complete archive postcheck exit0. Root owns
+no host/window/lease/waiter/reservation; no future admission is inherited.
+
+## Corrected held-out cohort collected and strongly closed — 2026-10-08
+
+The owner's explicit `procedi` resumes the prepared GPU qualification. After
+fully retiring the first run, root checkpoints its actual failure and the
+HOST-qualified response-store correction at `6deadec6`. New job
+`steering-conciseness-quality-point-20261008-r2`, manifest `bfdb4a39`, retains
+the original r70 binaries, model, learned bank and complete frozen quality
+criteria. Response retention is 256 MiB. No future run is admitted.
+
+All four peers renew exact-scope non-use through both serial servers, collection,
+independent review, complete cgroup closure and four-peer release. The fresh
+09:59:16 UTC global observation verifies pinned boot/filesystem, original lease
+66308/105946405, all eleven staged identities, bundle/image, memory admission,
+router191210 and absence of foreign compute, hot guarded sensors or HTTP8000.
+The direct launch succeeds; controller32304 is the original handle.
+
+At 10:09:47 UTC supervisor191867/start6966148 holds the unchanged lease at FD3.
+Init192114/start6966274 and full container
+`c28f19b477193d01ae630393a1ad16f6b3cbc43ee7c9f6ad38945030aca69292`
+are observed live. Second serial GPU owner194646/start6986172 occupies that full
+cgroup; CPU/GPU/NVMe readings are 65.625/65/38.85 C. All seventy responses then
+complete, with native clients0 but original controller/supervisor/container1
+and retained `QUALITY_FAILED`. Full saved-wire and stored-policy review exits0;
+31/70 arithmetic answers are correct and absent/zero parity passes10/10.
+
+Release at 10:17:42.215872 UTC and strong closure at 10:18:37.539933 retire all
+seven actual identities, the complete container/cgroup in two full scans and
+all five recorded ports. All 38 artifact hashes and four model stats match.
+The unchanged original lease is free/released, router202966 is active and no
+foreign compute or hot guarded sensor remains. All four peers receive verified
+release. The [complete receipt](development/validation/steering-conciseness-quality-point-2026-10-08.json)
+retains 82 portable members with a successful independent postcheck. Root owns
+no remote job, handle, lease, window, waiter, reservation or future grant. The
+786K recipes remain local and unadmitted. Historical failures and automatic
+review rejections below remain unchanged. Terminal Bench stays last.
+
+## Held-out steering test fails before full collection; .161 retired — 2026-10-08
+
+After the summary of completed work, remaining GPU checks and the automatic
+review block, the owner explicitly replies `procedi`. This authorizes the
+prepared 70-response `.161` test. The frozen manifest `bb7c4fb8`, native
+`4c703b3d`/r70 and coordinator `e68672b4` are unchanged; current checkpoint
+`113cf1b4` adds only local collection and documentation.
+All four current exact-scope non-use declarations are retained at 09:05:01 UTC.
+The 09:05:05 UTC global observation verifies the pinned boot/filesystem,
+original lease 66308/105946405, source/bundle hashes, image and memory admission.
+The direct launch then succeeds; controller 84308 is the original handle.
+The earlier 08:58:41 UTC observation expires unused and remains evidence.
+
+At 09:10:35 UTC supervisor 180263/start6639385 holds the original lease at FD3.
+Init 180508/start6639496 and full container
+`b9f8a7a06dbcc6db847cc82269b2bd81823d6864ad310a31630010905513d78c`
+are observed alive. The second serial GPU server 183016/start6659140 owns KFD
+in that complete cgroup. The absent client exits 0; the bank client exits 1
+after 58/60 responses with HTTP429. All 68 complete SSE observations are
+independently reconstructed, but only the ten absent-policy snapshots exist.
+The full quality gate is not evaluated or accepted. Controller, supervisor and
+container exit 1; collector, partial review and strong closure exit 0.
+
+Lease release at 09:22:53.763626 UTC and strong closure at 09:25:10.605878 verify
+all seven actual identities absent: supervisor, launcher, init, two serial GPU
+servers and both native clients. The complete container/cgroup is absent in two
+full scans; all 37 hashes and four model stats reverify. Router191210 is active,
+the unchanged original lease is free, and foreign compute, guarded hot sensors
+and all five recorded ports are empty. Four peers receive verified release.
+Root now owns no remote job, handle, lease, window, waiter, reservation or future
+grant. The [failed receipt](development/validation/steering-conciseness-quality-failed-point-2026-10-08.json)
+retains 97 portable members and actual failures. A new run requires its own
+manifest, qualified helper and fresh specific peer/global/original-lease admission.
+Historical rejections below remain unchanged evidence. Terminal Bench stays last.
+
+## Held-out steering response launch rejected before admission — 2026-10-08
+
+The frozen `steering-conciseness-quality-point-20261008-r1` manifest `bb7c4fb8`
+binds the independently verified original 100-pair FFN bank to unchanged
+`4c703b3d`/r70 binaries and coordinator `e68672b4`. All four peers renew exact
+scope non-use for two serial servers, collection, independent review, strong
+closure and release. The 05:58:56 UTC read-only global observation verifies the
+pinned boot/filesystem, original lease 66308/105946405 free then released, router
+179296 active, resource admission and no foreign compute/hot sensors/HTTP8000.
+
+Automatic approval review rejects the direct launch before process creation,
+citing previous requests to defer tests and avoid occupying shared machines.
+The earlier rejection and renewed attempt are retained under local `evidence/`;
+neither creates a process, controller result, handle, lease, waiter or reservation.
+An explicit owner confirmation was requested and subsequently received, as
+recorded above. No indirect launch or workaround is used, and the expired
+observation cannot admit a later run. Other threads'
+source-only deferrals remain scoped to their respective owners. Root owns no
+host activity; all six tasks remain open and Terminal Bench stays last.
+
+## Original 100-pair FFN learning verified and retired — 2026-10-08
+
+Four fresh specific Point/DGX/Q2/GLM non-use declarations and the 05:15:16 UTC
+global check admit `steering-conciseness-train100-point-20261008-r2`, manifest
+`3886b4da`, on `.161`. The native runtime remains `4c703b3d`/r70; coordinator
+`50c57efb`/`e68672b4` is the applied HOST-qualified route. Training uses 100
+frozen paired questions, FFN-only captures, native context8192/chat/chunk256,
+host256MiB/output512MiB and a 3600-second native deadline. It performs no decode,
+MTP, performance benchmark, model hash/conversion or remote build.
+
+At 05:16:18 UTC controller54396 is live; exact supervisor176361/start5262713
+owns original lease66308/105946405 at FD3. Init176628/start5262844 and full
+container `0a3542b093ed229958b0b9fcec523f6b3f5480b819bd5b4b366e6b204fb12e89`
+are observed alive. The first witness precedes model execution and establishes
+no original capture or learned quality result. The second witness observes the
+actual GPU owner 178165/start5272429 in that complete cgroup. Boot and filesystem
+identities remain pinned; native thermal/resource sampling and memory admission pass.
+
+All controller/native/collector/independent-review/strong-closure exits are 0.
+Two hundred successful prefills yield 9,600 FFN rows and an independently
+reconstructed 491,520-byte bank. Nineteen hashes and four model stats reverify.
+Lease release at 05:19:29.768901 UTC and strong closure at 05:27:11.683004 prove
+all four observed identities and the complete container/cgroup absent in two
+complete scans. Router 179296 is restored, original lease unchanged/free and
+foreign compute, guarded hot sensors and HTTP8000 empty. Four peers receive release.
+
+The [receipt](development/validation/steering-conciseness-original100-point-2026-10-08.json)
+retains 67 portable members in five parts of at most 80 MiB. Native telemetry
+records CPU 68.375/GPU 69/NVMe 65.85 C; an additional witness records CPU 86.375 C
+during the synchronous post-native oracle. Continuous thermal coverage applies
+to the owned child phase; all observed guarded readings remain within limits.
+Root now owns no remote job, handle, lease, window, waiter, reservation or future
+grant on any host. Held-out responses need fresh specific admission. All six
+tasks remain open; Terminal Bench stays last. Prepared-only r1 inputs stay unchanged.
+
+## Current r70 YaRN4 near-512K recall verified and retired — 2026-10-08
+
+Four proposal-specific Point/DGX/Q2/GLM non-use declarations and fresh global
+03:05:55 UTC checks admit `recall-yarn4-523776-s77-ar-20261008-r1`, manifest
+`72a47288`, on `.161`. Actual boot/filesystem identities match the frozen plan;
+the original lease is unchanged. Source remains `4c703b3d`/r70, checkpoint
+`6f1bc9d3`. Target 523776/capacity 1048576, YaRN4, seed 77, chunk 256, C1 and
+cold AR/cache-off questions are unchanged. Request/load/container bounds are
+3600/900/18990 seconds, rather than expected durations.
+
+At 03:06:36, exact supervisor 128106/start 4485741 owns original lease FD3;
+init 128334/start 4485866 and container `2413f9f6` are alive. This first read
+precedes model admission and contains no native GPU owner or saved reply.
+At 03:08:47, the same exact supervisor/init and lease remain live; native
+GPU owner 129537/start 4491771 is observed in that full cgroup, with four
+wire rows saved and the actual server/client running.
+Both cold turns now pass independent saved-SSE reconstruction at physical
+523774/523882 tokens with natural outputs 38/74. Controller/native/collector/
+review/strong-closure exits are 0; 18 hashes and four model stats reverify.
+
+Lease release at 04:31:38.491258 UTC and strong closure at 04:34:42.546712 UTC
+prove supervisor 128106/start 4485741, launcher 128206/start 4485824,
+init 128334/start 4485866 and GPU 129537/start 4491771 absent. The entire
+recorded container/cgroup is absent in two complete 381-process scans with no
+unreadable entries. Router 175797 is restored; original lease 66308/105946405
+unchanged/free. Foreign compute, guarded hot sensors and HTTP8000 are empty.
+All four peers receive verified release. The
+[receipt](development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)
+retains actual witnesses and 53 portable members. Root owns no remote job,
+handle, lease, window, waiter or reservation; Q2's separate `.157` scope remains
+under its owner. This grants no subsequent or future window.
+
+## Current r70 YaRN4 near-256K recall verified and retired — 2026-10-08
+
+Four specific Point/DGX/Q2/GLM current non-use declarations and fresh global
+02:13:21 UTC/in-lease checks admit `recall-yarn4-261632-s77-ar-20261008-r1`,
+manifest `c63d2d14`, on `.161`. Source remains `4c703b3d`/r70; the checkpoint is
+`8d13e682`. Target 261632/capacity 1048576, YaRN4, seed 77, chunk 256, C1, cold AR
+recall and three unscored calibrations are unchanged from the frozen protocol.
+
+Actual supervisor 103258/start 4170328 owns original lease FD3; init 103484/start 4170461
+and container `dcdca466` are witnessed alive. The first two reads precede native
+inference. At 02:17:38, the original GPU owner 105251/start 4182273 is observed in
+that complete cgroup, with the server/client running and four wire rows saved.
+Both cold turns now pass independent saved-SSE reconstruction at physical
+261630/261738 tokens. Controller/native/collector/review/strong-closure exits
+are 0; 18 collected hashes and four model stats verify.
+
+Lease release at 02:55:35.911271 UTC and strong closure at 02:56:25.339602 UTC
+prove supervisor 103258/start 4170328, launcher 103356/start 4170421,
+init 103484/start 4170461 and GPU 105251/start 4182273 absent. The whole recorded
+container/cgroup is absent in two complete scans. Router 127684 is restored;
+original lease 66308/105946405 is unchanged/free. Foreign compute, guarded hot
+sensors and HTTP8000 are empty. All four peers receive verified release. The
+[receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+retains actual witnesses and 55 portable members. Root owns no remote job,
+handle, lease, window, waiter or reservation. This grants no subsequent window.
+
+## Current r70 YaRN4 128K recall verified and retired — 2026-10-08
+
+All four specific peer non-use declarations and fresh global/in-lease checks
+admit `recall-yarn4-131072-s77-ar-20261008-r1`, manifest `77f53a53`, on `.161`.
+Both cold turns pass with independently reconstructed saved SSE. All process,
+collector and closure exits are 0; 18 collected hashes and four model stats
+reverify. Actual supervisor/init/GPU identities were observed during inference.
+
+Lease release at 01:47:02.167403 UTC and strong closure at 01:50:48.200241 UTC verify
+supervisor 90550, launcher 90646, init 90775 and GPU 91894 retired by exact start
+identity. Entire container/cgroup is absent in two complete process scans;
+router 102819 is restored and the original 66308/105946405 lease is unchanged/free.
+All four peers receive verified release. The
+[receipt](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+contains actual witnesses and 47 portable members. Root owns no remote job,
+handle, lease, window, waiter or reservation. This grants no subsequent window.
+
+## Current r70 YaRN4 short control verified and retired — 2026-10-08
+
+Specific Point/DGX/Q2/GLM non-use declarations and fresh global/in-lease checks
+admit `recall-yarn4-8192-s77-ar-20261008-r1`, manifest `2ca393d5`, on `.161`.
+Both cold recall turns pass on `4c703b3d`/r70. All actual process/collector/closure
+exits are 0; 18 collected hashes and four model stats reverify on the target.
+Early and inference-time reads witness the supervisor, init and GPU identities.
+
+The original lease releases at 01:10:00.752098 UTC; strong closure at
+01:12:52.293129 verifies all four observed identities and the complete
+container/cgroup absent, two complete scans empty, router 90167 restored and
+unchanged original lease device 66308/inode 105946405 free. All four peers receive verified
+release. The [receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
+binds the complete saved wire and closure. Root owns no job/handle/lease/window/
+waiter/reservation on any host. This short scaled control grants no later size,
+model or test; each later GPU window requires separately fresh admission.
+
+## Original multi-chunk capture window verified and retired — 2026-10-08
+
+Four specific current non-use declarations and fresh global/in-lease checks
+admit `steering-build-multichunk-tail-point-20261008-r1`, plan `786510c8`, on `.161`.
+The same `4c703b3d`/r70 builder passes chunk16/four final one-token chunks;
+all actual controller/native/collector/review/closure exits 0. Nineteen artifacts
+hash-verify; unchanged physical IDs/raw/banks and four model stats verify.
+
+The lease releases at 00:38:11.257783 UTC; strong closure at 00:45:03.828491
+proves supervisor/launcher/init/original GPU identities retired, whole container
+and recorded GPU cgroup absent, two scans empty, router restored and unchanged
+original lease free. The frontend first polls after retirement; no invented live
+witness is substituted. Actual coordinator PID/start and 57 saved Docker states
+corroborate the init; original GPU telemetry supplies the full cgroup. The
+[receipt](development/validation/steering-build-tail16-point-2026-10-08.json)
+retains that limitation and all closure conditions. All four owners receive
+verified release. Root owns no job/handle/lease/window/waiter/reservation on any
+host. No future grant remains; new work needs fresh specific admission. All six
+tasks stay open, and Terminal Bench remains last.
+
+## Original steering capture window verified and retired — 2026-10-08
+
+Specific current non-use declarations from Point, DGX, Q2 and the separate GLM
+thread plus fresh global/in-lease checks admit the frozen native capture job
+`steering-build-original-pairs-point-20261007-r1` on `.161`, plan `5d1893e5`.
+The `4c703b3d`/r70 builder and `80152419` coordinator pass eight prompt pairs.
+All 19 artifacts hash-verify and independent reconstruction verifies both banks.
+No decode, MTP, HTTP, performance or learned response quality is tested.
+
+The original lease releases at 00:11:28.331755 UTC; strong closure at
+00:14:16.203089 verifies all four observed supervisor/launcher/init/GPU identities
+retired, the whole container/cgroup absent, two complete scans empty, router
+restored, original lease unchanged/free and four model stats unchanged. All four
+peer owners receive verified release. The
+[receipt](development/validation/steering-build-original-point-2026-10-08.json)
+retains exact identities, thermal peaks and a corrected local checking-path
+failure without repeated GPU work. Root owns no job/handle/lease/window/waiter/
+reservation on any host. Further original captures and generated quality require
+a new specific proposal and fresh admission; no future grant is retained.
+All six root tasks stay open and Terminal Bench remains last.
+
+## Native steering capture gate prepared locally — 2026-10-07
+
+The optional `modern-steering-build` route runs the native C17 client directly
+with bounded SHA-bound settings/datasets and the already compiled r70 runtime.
+The independent reviewer checks complete actual prefill/rows/raw bytes and
+reconstructs both normalized banks. Eighteen Debug/eighteen unsuppressed sanitizer
+HOST checks and 89 supervisor checks pass. The initial fixture authorization
+setup failure is retained in the
+[HOST receipt](development/validation/steering-build-gate-host-2026-10-07.json).
+Only the two existing local C17 fixture builds are used. No original-weight
+capture, model/GPU run, remote build or new admission is performed. A future
+original capture needs a fresh specific proposal to all four peer owners and
+fresh boot/filesystem/global/in-lease observations. Root owns no remote job,
+handle, lease, window, waiter or reservation; all six tasks remain open and
+Terminal Bench remains last.
+
+## Native steering builder HIP build verified and retired — 2026-10-07
+
+Fresh explicit own-state replies from Point, DGX, Q2 and the separate GLM thread,
+same-boot/filesystem observations and the original lease protocol precede the
+device-hidden `4c703b3d`/r70 build on `.161`. Both complete providers and seven
+consumers pass with controller/supervisor/child exit 0. Four terminal, 25 compile
+and three Ninja artifacts hash-verify; independent reconstruction verifies the
+pinned source, 43 recipes and actual C17 builder/core objects and primary link.
+No model or GPU executable runs. CPU/GPU/NVMe peaks are 75.125/46/50.85 C.
+
+The original lease 66308/105946405 releases at 23:01:02.356287 UTC. Strong closure
+at 23:06:24.352120 verifies supervisor 75751/start2981269 and observed init
+75824/start2981355 retired, the exact container and whole cgroup absent, two
+complete process scans empty, router 81497 restored, port 8000 empty and the
+unchanged lease free. All four peer owners receive verified release. The
+[receipt](development/validation/steering-build-point-build-2026-10-07.json)
+preserves portable raw evidence. Original captures and learned quality need a
+separate fresh proposal/admission. All six root tasks remain open and Terminal
+Bench remains last. Root owns no remote job, lease, window, waiter or reservation;
+there is no future grant.
+
+## Native near-256K recall passed and retired — 2026-10-07
+
+After the verified 128K closure, all four current non-use declarations and fresh
+boot/FS/original-lease/global/in-lease checks admit the separate AR window
+`recall-native-261632-s77-ar-20261007-r1` on `.161`. Frozen `90a88455`/r68,
+seed 77, native capacity 262144, chunk/scratch 256, C1 and cache off pass both
+cold turns at physical 261630/261738 tokens. Three calibrations are unscored.
+All 18 artifacts, independently assembled saved SSE, four model stats and
+controller/supervisor/helper/client/server/collector/closure exits 0 verify.
+CPU/GPU/NVMe peaks are 80/81/67.85 C.
+
+Original lease 66308/105946405 releases at 21:35:07.383980 UTC. Strong closure
+at 21:39:49.956361 verifies supervisor 51956/start2258329, launcher52054/start2258425,
+observed init52183/start2258458 and actual GPU53274/start2263244 absent. Container
+`f0d9d25a` and its entire cgroup are gone; two complete process scans have no
+members or unreadable entries. Router75008 is restored, original lease free,
+HTTP8000/foreign compute/guarded hot empty. All four peers receive verified
+release. The [receipt](development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+binds 47 raw members, the 28-thread management observation and an interim-reader
+exit1 after supervisor retirement. Complete collected wire verifies without a
+GPU repeat. This qualifies the frozen runtime, not the new steering capture code.
+
+Root has no remote job/build/client/handle/lease/window/waiter/reservation on
+`.161/.157/.155/.158/TB`. Other seeds, YaRN/MTP and new provider code require
+fresh proposals and admission. All six tasks remain open; Terminal Bench stays last.
+
+## Native 128K recall passed and retired — 2026-10-07
+
+Fresh Point/DGX/Q2/GLM current non-use declarations, explicit boot/FS/original
+lease binding and fresh global/in-lease checks precede the separate AR window
+`recall-native-131072-s77-ar-20261007-r1`. Original Q4 and qualified `90a88455`/r68
+pass both cold turns at physical 131070/131178 tokens. All 18 artifacts,
+separately assembled saved SSE, four model stats and actual exits 0 verify.
+Peaks are CPU 78.75 / GPU 80 / NVMe 64.85 C.
+
+Original lease 66308/105946405 releases at 20:41:34.767979 UTC. Strong closure at
+20:43:14.953675 verifies supervisor 39081/start 2053279, launcher 39181/start 2053369,
+observed init 39310/start 2053379 and GPU 40802/start 2062391 absent. Container
+`9938d067` and whole cgroup are absent; two complete scans find no members or
+unreadable entries. Router51500 is restored, original lease free/released,
+HTTP 8000 empty and foreign compute/guarded hot empty. All four peers receive
+verified release. The [receipt](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+binds 49 raw members and the contemporaneous 28-thread management observation.
+
+Root has no remote job/build/client/handle/lease/window/waiter/reservation on
+`.161/.157/.155/.158/TB`. Local preparation near 256K is not admission. Other
+seeds, remaining native/YaRN ladder, MTP and comparisons require fresh proposals
+and admission. All six tasks remain open and Terminal Bench remains last.
+
+## Native 8K recall control passed and retired — 2026-10-07
+
+Current own-state declarations from Point/DGX/Q2/GLM, explicit current boot/FS/
+original-lease declaration and fresh global/in-lease checks precede the separate
+AR window `recall-native-8192-s77-ar-20261007-r1`. Original Q4 and the qualified
+`90a88455`/r68 runtime pass both cold recall turns at physical 8190/8298 tokens.
+All 18 collected artifacts, independent saved SSE assembly and actual exits 0
+verify; four model stats are unchanged. Peaks CPU/GPU/NVMe: 72.625/73/63.85 C.
+
+Original lease 66308/105946405 releases at 19:50:16.548733 UTC. Strong closure at
+19:53:59.186772 verifies supervisor 36257/start1853876, launcher 36357/start1853964,
+observed init 36482/start1854013 and GPU 37537/start1858468 absent. Container
+`16f1472b` and its whole cgroup are absent; two complete 383-process scans find
+no members/unreadable entries. Router 38612 is restored, original lease free/
+released, HTTP 8000 empty and foreign compute/guarded hot empty. All four peers
+receive the verified release.
+
+The [receipt](development/validation/recall-native-8k-ar-point-2026-10-07.json)
+qualifies one 8K/native/seed 77 AR control. The initial boot-declaration bookkeeping
+mistake and local sealing EOS assertion exit 1 remain preserved; both are corrected
+before acceptance, without a GPU repeat. Root has no remote job/build/client/
+handle/lease/window/waiter/reservation on `.161/.157/.155/.158/TB`. Later seeds,
+128K–1M quality, YaRN/MTP and comparisons need fresh admission. All six tasks
+remain open and Terminal Bench remains last.
+
+## Complete MTP tool-transition window passed and retired — 2026-10-07
+
+New Point/DGX/Q2 and separate GLM own-state declarations plus fresh global/
+in-lease checks precede r69 MTP on `.161`. The unchanged 71-check workload and
+five baseline controls pass on the original Q4/Q8 files and `90a88455`/r68
+runtime. All 15 artifacts and independent wire/draft checks pass; all actual
+process/collector exits0, all five model stats unchanged. Peaks CPU/GPU/NVMe:
+73.5/75/65.85 C.
+
+Original lease66308/105946405 releases at 18:38:51.762308 UTC. Strong closure at
+18:44:36.270371 verifies supervisor32237/start1413359, launcher32335/start1413446,
+observed init32446/start1413490 and actual GPU33962/start1422783 absent. Container
+`70e889d3` and its whole cgroup are absent; two complete scans find no members
+or unreadable entries. Router35665 is restored, original lease free/released,
+HTTP8000 empty and no foreign compute or guarded hot sensor. All four peers
+receive the verified release.
+
+A local review begins before the yielded closure helper finishes and exits1
+for its missing receipt. That checking error is preserved; after the same closure
+handle returns0, the unchanged local review passes0. No GPU work repeats.
+The [MTP receipt](development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+qualifies this workload only. Root has no remote job/build/client/handle/lease/
+window/waiter/reservation on `.161/.157/.158/.155/TB`. Further windows require
+fresh coordination/admission. All six tasks stay open; Terminal Bench stays last.
+
+## Complete AR tool-transition window passed and retired — 2026-10-07
+
+Fresh declarations from Point/DGX/Q2 and separate GLM plus global/in-lease checks
+precede r69 AR on `.161`. The unchanged workload passes 71 new checks and five
+baseline controls on the `90a88455`/r68 runtime. All 15 artifacts and independent
+complete-wire review verify. Controller/supervisor/helper/server/collector exit0;
+four original-model stat identities are unchanged. Peaks CPU/GPU/NVMe:
+73.125/74/64.85 C.
+
+Original lease66308/105946405 releases at 18:08:46.710446 UTC. Strong closure at
+18:10:40.928739 verifies supervisor28691/start1236276, launcher28790/start1236370,
+observed init28902/start1236379 and GPU29930/start1240452 absent. Container
+`43fe9d47` and whole cgroup are absent; two complete process scans find no members
+or unreadable entries. Router31873 is restored, original lease free/released,
+HTTP8000 empty and no foreign compute or guarded hot sensor. All four peers
+receive the verified release.
+
+The [AR receipt](development/validation/tool-transitions-ar-point-r5-2026-10-07.json)
+qualifies this frozen workload and runtime only. Root has no remote job/build/
+client/handle/lease/window/waiter/reservation on `.161/.157/.158/.155/TB`.
+The r69 MTP job is prepared but unadmitted; its original-weight run requires
+separately fresh coordination and global/in-lease checks. No future window is
+reserved. All six tasks remain open; Terminal Bench stays last.
+
+## Responses generation controls Point build retired — 2026-10-07
+
+Fresh Point/DGX/Q2 and separate GLM own-state declarations plus global/in-lease
+checks precede the `90a88455`/r68 device-hidden ROCm10 build. Both providers and
+all six consumers finish with controller/supervisor/child exit0; all 32 artifacts
+and independent source/linkage checks pass. No model or GPU executable runs.
+CPU/GPU/NVMe peaks are 73.5/46/55.85 C.
+
+Original lease66308/105946405 releases at 17:51:33.282257 UTC. Strong closure at
+17:53:36.417574 verifies supervisor22232/start1124559 and observed init22304/
+start1124647 absent, container `b298b6cd` and its whole recorded cgroup absent,
+and two complete 389-process scans without members or unreadable entries.
+Router27938 is restored and the sole observed KFD owner; lease unchanged/free,
+HTTP8000 empty, no foreign compute or guarded hot sensor. All four peers receive
+the verified release.
+
+The [build receipt](development/validation/responses-generation-controls-point-build-2026-10-07.json)
+grants no original-weight qualification or future admission. Root has no remote
+job/build/client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+New AR/MTP manifests require current bundle bindings, unchanged checking workload,
+fresh coordination and global/in-lease checks. Old r66 MTP remains stale and
+unlaunched. All six tasks stay open; Terminal Bench stays last.
+
+## Responses generation normalization checked locally; no remote admission — 2026-10-07
+
+The Responses seed/penalty correction and shared signed-seed refusal pass
+eight grouped Release and eight unsuppressed sanitizer checks, including
+native AR/MTP HTTP fixtures on private ephemeral loopback ports
+([HOST receipt](development/validation/responses-generation-controls-host-2026-10-07.json)).
+The initial checking-fixture exit8 is retained separately. No model/GPU/remote
+operation occurs; all local handles are terminal. The r66 AR outcome keeps its
+recorded source identity, and its prepared MTP manifest is now stale/unlaunched.
+Further GPU gates require a new committed source, matching coherent HIP bundle,
+fresh current coordination and global/in-lease admission. Root has no remote
+job/build/client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+All six tasks remain open and Terminal Bench stays last.
+
+## Correlated AR tool window failed at Responses seed and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 and separate GLM own-state non-use declarations plus global/
+in-lease checks precede r66 AR on `.161`. Fourteen new checks and five baseline
+controls pass; one Responses request fails HTTP400 and 56 remain unexecuted.
+The corrected reversed-result Chat JSON/SSE checks pass on original weights.
+Controller/supervisor/helper exit1, owned server exit0; all 15 collected files
+hash-verify. CPU/GPU/NVMe peaks are 63.75/66/65.85 C.
+
+The original lease66308/105946405 releases at 17:12:05.721340 UTC. Strong closure
+at 17:13:21.452722 verifies supervisor19733/start908442, launcher19831/start908533,
+observed init19940/start908542 and actual GPU21157/start914670 absent. Container
+`2967cc01` and its entire recorded cgroup are absent; two complete process scans
+find no members or unreadable entries. Router21757 is restored and the sole
+observed KFD owner; original lease free/released, HTTP8000 empty, no foreign
+compute or guarded hot sensor. All four peers receive the verified release.
+
+The [failed receipt](development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+grants no full tool acceptance or future window. Root has no remote job/build/
+client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`. MTP stays
+prepared but unadmitted. The Responses parser correction requires a new coherent
+runtime and unchanged AR/MTP checking workload with fresh admission. All six
+tasks remain open; Terminal Bench stays last.
+
+## Correlation correction Point build retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations, current boot identity and global/
+in-lease checks precede the `64fa7c2a`/r65 build. Both complete private providers
+and all six consumers finish with controller/supervisor/child exit0. Devices
+and network are hidden; no model or GPU executable runs. All 32 collected
+compile/control/coherence artifacts verify, including shared C17 correlation
+compilation and its server/bench/capture linkage.
+
+The original lease66308/105946405 releases at 16:49:06.629233 UTC. Strong closure
+at 16:54:50.900189 verifies supervisor13226/start750220, observed init13300/
+start750293, container `51f7ed85` and its entire recorded cgroup absent. Two
+complete process scans of 383 entries each find no members or unreadable entries.
+Router18900 is active and the sole observed KFD owner, original lease free and
+released, HTTP8000 empty; no foreign compute or guarded hot sensor is observed.
+CPU/GPU/NVMe peaks are 74.375/46/49.85 C. Peers receive the verified release.
+
+The [build receipt](development/validation/tool-result-correlation-point-build-2026-10-07.json)
+grants no original-weight qualification or future window. Root has no remote
+job/build/client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+New AR/MTP manifests must bind this corrected bundle and the unchanged workload,
+with fresh coordination/admission. The r63 prepared MTP manifest remains stale
+and unlaunched. All six tasks stay open; Terminal Bench remains last.
+
+## Result-correlation source correction checked locally; no remote admission — 2026-10-07
+
+The shared C17 render-index helper and text/vision model binding pass six focused
+Release and six unsuppressed sanitizer HOST checks
+([receipt](development/validation/tool-result-correlation-host-2026-10-07.json)).
+No model/GPU/remote operation runs. The r62 native bundle predates this source
+correction and cannot qualify it; a new coherent provider/consumer build and
+unchanged original-weight AR/MTP checks require fresh coordination and admission.
+The r63 prepared MTP manifest is stale and remains unlaunched. Root has no
+remote job/client/build/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`.
+All six items remain open and Terminal Bench stays last.
+
+## Corrected prompt AR tool gate failed at result correlation and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations and global/in-lease checks precede
+r63 AR using the original Q4 files and the coherent acfb9d26/r62 runtime. The
+unchanged greedy Chat JSON two-call case passes. The next reversed-result
+follow-up swaps values and fails; controller/supervisor/helper exit1 and owned
+server exit0 are retained. All 15 remote files verify; model stats are unchanged.
+
+Lease66308/105946405 releases at 15:29:28.932923 UTC. Strong closure at
+15:32:52.776775 verifies supervisor10401/start290299, launcher10496/start290408,
+observed init10607/start290418 and native GPU owner12148/start300126 absent.
+Container `0f800e84` and its entire recorded cgroup are absent; two complete
+387-process scans find no members or unreadable entries. Router12606 is active,
+original lease free/released, HTTP8000 empty; no foreign compute or guarded hot
+sensor is observed. Peaks are CPU59.5/GPU62/NVMe63.85 C. Peers receive the release.
+
+The [failed receipt](development/validation/tool-transitions-ar-point-r3-2026-10-07.json)
+grants no future window. MTP is prepared only; no plan/admission/run is present.
+Root has no remote job/client/build/handle/lease/window/waiter/reservation on
+`.161/.157/.158/TB`. The identified result-correlation source correction and
+subsequent original-weight AR/MTP checks need new coherent bindings and fresh
+admission. All six items remain open; Terminal Bench stays last.
+
+## Corrected tool prompt Point build retired — 2026-10-07
+
+The first r62 read-only preflight exits1 before staging/build because `.161`
+has rebooted. Boot `7a966774-3424-46c3-8045-34f759ea58a1` retains filesystem UUID
+`720d3f3a-db4b-4287-bf9c-77cc76bcb7cb` and original lock inode `105946405`/uid1000;
+mount device changes from 66307 to 66308. No lock is replaced or unlinked.
+Point/DGX/Q2 acknowledge this identity correction and declare their current
+`.161` non-use; fresh global/in-lease checks precede the acfb9d26 build.
+The canonical deadline is 7,200 seconds, corrected before admission from the
+initial 1,800-second proposal. Devices/network are hidden and no model runs.
+
+Both providers and all six consumers finish with controller/supervisor/child
+exit0. All 32 collected artifacts verify. Lease66308/105946405 releases at
+15:12:21.694566 UTC. Strong closure at 15:14:50.593440 verifies supervisor
+3891/start169682, observed init3964/start169772, container `6a310673` and its
+entire recorded cgroup absent; two complete process scans find no members or
+unreadable entries. Router9672 is active, original lease free/released, HTTP8000
+empty and no foreign compute or guarded hot sensor is observed. Peaks are
+CPU74.5/GPU46/NVMe55.85 C. Peers receive the verified release.
+
+The [build receipt](development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+grants no model qualification or future window. Root has no remote job/build/
+client/handle/lease/window/waiter/reservation on `.161/.157/.158/TB`. The unchanged
+original two-call question and subsequent AR/MTP checks need new bound manifests
+and fresh admission. All six items stay open; Terminal Bench remains last.
+
+## Strict tool prompt correction qualified locally — 2026-10-07
+
+Root corrects the model-layer JSON format guidance without numerical, ABI or
+reactive scheduling changes. Native formatter/parser/cache and exact-schema
+original/C17/OFF controls pass in Release and unsuppressed sanitizers in the
+[HOST receipt](development/validation/tool-prompt-guidance-host-2026-10-07.json).
+The initial checking-fixture failure and approval-review deadline are preserved;
+no remote or GPU operation occurs. All local handles are terminal.
+
+Root holds no remote job/build/client/handle/lease/window/waiter/reservation on
+`.161/.157/.158/TB`. A subsequent `.161` build requires a committed source,
+new coherent bindings, current peer coordination and fresh global/in-lease
+admission. The old r60 MTP preparation remains unadmitted and is superseded by
+this source change. The failed AR observation is not relabeled as passing.
+All six items stay open; Terminal Bench remains last.
+
+## Wider AR tool gate failed and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations and global/in-lease preflights precede
+r60 AR on `.161`. The frozen two-call question fails; controller/supervisor/
+helper exit1 and server exit0 are preserved in the
+[failed receipt](development/validation/tool-transitions-ar-point-r2-2026-10-07.json).
+All 15 remote files collect and verify. The original lease 66307/105946405
+releases at 13:51:53 UTC. Strong closure at 13:59:00 verifies supervisor
+306760/start24997357, launcher 306864/start24997433, observed init
+306973/start24997481 and native GPU owner 308209/start25003915 absent. Container
+`d61d2eaf` and its full recorded cgroup are absent, and two complete process
+scans find no members. Router 308644 is active, lease unchanged/free, HTTP8000
+empty; no foreign compute or guarded hot sensor is observed.
+
+Peers receive the verified release. MTP remains prepared but unadmitted; no
+retry or second run is launched. Root holds no remote job/client/handle/lease/
+window/waiter/reservation on `.161/.157/.158/TB`. Closure grants no future
+admission. All six items remain open; Terminal Bench stays last.
+
+## Wider tool transition qualification prepared locally — 2026-10-07
+
+Root finishes the optional final-phase 71-check HTTP client with 121 grouped
+HOST mock checks. The source changes affect development clients, collection,
+ownership observations and fixtures only; the r56 native runtime is unchanged.
+No GPU/model/build/remote operation runs during these checks. The new supervisor
+records actual Distrobox init PID/start ticks and refuses replacement; an
+unobserved PID remains unknown. All local test handles are terminal.
+
+Point, DGX and Q2 return fresh own-state declarations with no `.161` activity,
+plans or conflicts for this proposal. They grant no admission or reservation.
+Root currently holds no remote job/client/lease/window/waiter/reservation on
+`.161/.157/.158/TB`. The prospective separate AR/MTP windows require an exclusive
+job, bound current client/runtime, fresh global/in-lease admission and the
+original lease. No shared machine is reserved between preparation and launch.
+See the [frozen protocol](development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md).
+All six roadmap items remain open; Terminal Bench remains last.
+
+## Original required-tool MTP capture and replay retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state declarations and global preflight precede r58
+original Q4/Q8 required-tool capture on `.161`. Controller/supervisor/native
+exit 0, all six calls match `LIFO`/3, and complete original/C17/OFF Release and
+sanitizer witnesses pass. The [numerical receipt](development/validation/sampling-mtp-tools-point-2026-10-07.json)
+binds all 407 files, actual failures and their corrections.
+
+The original lease 66307/105946405 releases at 12:32:20 UTC. The initial strict
+closure refuses: Distrobox omits init PID and the live observation was late.
+At 12:46:43 the stronger whole-container check verifies exact supervisor
+299024/start 24520638, launcher 299129/start 24520760 and recorded GPU owner
+299852/start 24525784 absent. The GPU witness binds cgroup/container
+9a5e65606074f590572b9c7c4a302c6442933c0c5bc5b2aebcc9aec8b315828b;
+its cgroup is absent and two complete host process scans find no members or
+unreadable entries. Container and label listing are absent/empty, original lease
+free, HTTP8000 empty and router 300010 active. Init PID stays unknown; generic
+collector absent(-1) fields are not evidence. No GPU run repeats. Peers receive
+the release. No root remote job/client/handle/lease/window/waiter/reservation
+remains; next admission requires fresh coordination. All six items stay open.
+
+## Original MTP text capture passed and retired — 2026-10-07
+
+Fresh explicit Point/DGX/Q2 own-state declarations and a global preflight
+precede r57 original Q4/Q8 capture on `.161`. The six 16-token profiles complete
+with native/controller/supervisor exit 0. All 203 files collect and verify;
+original/C17/OFF Release and unsuppressed sanitizer witnesses agree in the
+[numerical receipt](development/validation/sampling-mtp-text-point-2026-10-07.json).
+
+Original lease 66307/105946405 releases at 12:06:53 UTC. Strict closure at
+12:08:08 verifies supervisor 294714/start 24370683, observed container init
+294924/start 24370810 and container 8220220a absent, port 8000 empty, original
+lease free and router 295733 active. Init identity comes from an exact live
+observer; the legacy Distrobox supervisor omits init fields and generic
+collector absent(-1) flags are not used as evidence. Model/predictor stats stay
+unchanged. No root remote process/client/lease/window/waiter/reservation remains;
+peers receive the release. Next admission requires fresh coordination. All six
+items remain open; matched comparisons precede Terminal Bench, which stays last.
+
+## Native MTP capture Point build verified and retired — 2026-10-07
+
+Fresh Point/DGX/Q2 own-state non-use replies and two global preflights precede
+r56 admission. Device-hidden ROCm 10 compilation completes both providers and
+six consumers with exit 0; no model or GPU executable runs. The original lease
+66307/105946405 releases at 11:48:00 UTC. Collection and independent source,
+recipe and linkage verification pass in the
+[build receipt](development/validation/mtp-capture-point-build-2026-10-07.json).
+
+Strict closure at 11:53:58 UTC verifies supervisor 288239/start 24232523,
+container init 288313/start 24232596 and the owned container absent, port 8000
+empty, the unchanged lease free and router 293903 active. No foreign compute
+client or guarded hot sensor is observed. Peers receive the release. Root has
+no job/build/client/handle/lease/waiter/reservation on `.161/.157/.158/TB`.
+Original-weight MTP capture requires fresh coordination and admission; this
+closure grants no future window. All six items remain open; Terminal Bench last.
+
+## Native MTP capture/replay prepared locally — 2026-10-07
+
+Root finishes C17 MTP capture and independent offline replay with grouped
+Release and unsuppressed sanitizer controls (11 each), plus 18 optional mocked
+supervisor/collector checks. Initial fixture failures and every actual exit are
+retained in the [HOST receipt](development/validation/mtp-capture-host-2026-10-07.json).
+The new binary/projection sources require a fresh coherent HIP build before
+original-weight observations. Historical r50/r53 binaries cannot qualify them.
+
+All owned local check groups are retired. This phase uses no model/GPU/remote
+operation and holds no remote lease, reservation or machine window. Root has no
+job/build/client/handle/waiter on `.161/.157/.158/TB`; peer messages report their
+own current state only. The next `.161` operation requires fresh coordination
+and original lease admission. All six roadmap items remain open; Terminal
+Bench stays last. No previous grant reserves a future window.
+
+## MTP live/RAM/SSD prefill passed and retired — 2026-10-07
+
+Fresh explicit Point, DGX and Q2 non-use replies and separate global preflights
+precede r53 live/RAM/SSD admission. Each runner acquires original lease
+66307/105946405 independently and repeats resource/thermal checks. All three
+original Q4/Q8 MTP probes pass; complete outputs match the r52 serial reference.
+Controller/supervisor/native exits, collection and independent reviews are 0
+in the [functional receipt](development/validation/prefill-mtp-original-point-2026-10-07.json).
+
+Live supervisor 283499/start 23609913 and init 283824/start 23610040 retire;
+strict closure at 10:02:20 UTC verifies the unchanged lease free and router
+284690 restored. RAM supervisor 284950/start 23634755 and init
+285311/start 23634901 retire; strict closure at 10:06:30 verifies router 286141.
+SSD supervisor 286435/start 23660112 and init 286814/start 23660240 retire;
+lease releases at 10:11:54 and strict closure at 10:13:30 verifies router 287677.
+Each closure checks exact supervisor/client/init and container absence, no
+foreign compute, no guarded hot sensor and port 8000 empty. Peers receive
+verified closure. Root has no remote job/build/client/handle/lease/window/waiter/
+reservation on `.161/.157/.158/TB`. Further gates need fresh admission.
+The subsequent owner-only sampling-observer source has HOST checks only and
+creates no remote operation or reservation. An observed MTP GPU gate must bind
+a newly coherent provider/consumer build and repeat fresh admission; the r53
+receipt continues to qualify its recorded runtime only.
+
+## Original RAM/SSD prefill cache passed and retired — 2026-10-07
+
+Fresh explicit Point/DGX non-use and global preflights at 09:40:39 and
+09:44:50 UTC precede separate r52 RAM/SSD admission. Q2 non-use on `.161`
+remains an inference from its current local/sole `.157` scope, not an explicit
+target reply or grant. Each runner acquires original lease 66307/105946405
+separately. Both PP8192/TG32/C1 probes pass all five namespace stages.
+
+RAM supervisor 280353/start 23501154 and init 280704/start 23501273 retire;
+lease releases at 09:42:57 and strict closure at 09:44:10 verifies exact process/
+container absence, free unchanged lease, HTTP8000 empty and router 281529.
+SSD supervisor 281822/start 23524954 and init 282190/start 23525086 retire;
+lease releases at 09:49:17 and strict closure at 09:49:51 verifies the same
+conditions with router 283108. Both clients and containers are absent. Actual
+controller/supervisor/native exits and collection/review are 0 in the
+[functional receipt](development/validation/prefill-cache-original-point-2026-10-07.json).
+Peers receive verified closure. Root has no remote job/build/client/handle/
+lease/window/waiter/reservation on `.161/.157/.158/TB`; no future window is
+reserved. MTP and broader gates need fresh admission. All six roadmap items
+remain open; comparative benchmarks and Terminal Bench remain last.
+
+## Original-weight live prefill passed and retired — 2026-10-07
+
+Fresh explicit Point/DGX own-state replies and the 09:23:46 UTC global preflight
+precede r51 admission. Q2 non-use on `.161` is inferred from its current local
+work and sole declared `.157` scope; it is not an explicit per-target reply or
+grant. The evidence preserves that limitation. The runner acquires original
+lease 66307/105946405 separately and repeats resource/thermal admission.
+
+The original Q4 AR PP32768/TG32/C2 live probe passes on the r50 runtime with
+controller/supervisor/native exits 0. Full peer, baseline and post-cancellation
+output IDs match; in-flight selection, immutable admitted choices, withheld
+credit, borrowed-output stability and zero-output prefill cancellation pass.
+The [functional receipt](development/validation/prefill-live-original-point-2026-10-07.json)
+retains complete measurements, all 11 collected artifacts and independent review.
+
+Supervisor 278745/start 23408329, its client, init 279058/start 23408459 and
+container `bc0fb6c0b8f937c8124683f2d4e1f239d1a5433a5622083da1e71fefc206aed7`
+retire. Lease releases at 09:32:08 UTC; strict closure at 09:32:55 verifies all
+exact identities absent, unchanged lease free, HTTP8000 empty and router 280054
+restored. Peers receive verified closure. Root holds no remote job/build/client/
+handle/lease/window/waiter/reservation on `.161/.157/.158/TB`. RAM/SSD/MTP and
+other original-weight gates need fresh admission. All six roadmap items remain
+open; matched benchmarks and Terminal Bench follow functional qualification.
+
+## Native prefill client Point build passed and retired — 2026-10-07
+
+Fresh Point/DGX own-state replies and 09:00:23 UTC global preflight precede the
+device-hidden r50 `.161` build of `cb75a48f`. Q2 non-use is an inference from its
+current local and sole `.157` scope, not an explicit per-target reply or grant;
+the evidence preserves that limitation. The original lease is independently
+acquired. Both providers and all six consumers compile/link with exit 0; no
+model or GPU executable runs. CPU/GPU/NVMe peaks are 74/44/47.85 C.
+
+Supervisor 272204/start 23263114 and init 272280/start 23263191 retire with
+container `f8941bb00da6fbb646a424b6917d604e10a27ac9f7d02df4d2a0a177f171a675`.
+Original lease 66307/105946405 releases at 09:06:28 UTC. Strict closure at
+09:09:03 verifies both exact identities and container absent, the unchanged
+lease free, HTTP8000 empty and router 277870 restored. The initial closure
+refuses before the bundle exists; its exit 1 is preserved, with no build repeated.
+All 25 compile, four control and three linkage artifacts collect and verify in
+the [build receipt](development/validation/prefill-probe-point-build-2026-10-07.json).
+
+Peers receive the verified release. Root now has no remote job/build/client/
+handle/lease/window/waiter/reservation on `.161/.157/.158/TB`, and no future
+window is acquired. Subsequent original-weight live/RAM/SSD gates require
+fresh coordination/global preflight/original lease. The later local supervisor
+cache-frontier control creates no remote operation or GPU admission. All six
+roadmap items remain open; comparative benchmarks and Terminal Bench follow
+functional qualification.
+
+## Original-weight 32K prefill chunk parity passed and retired — 2026-10-07
+
+Fresh explicit Point, DGX and Q2 own-state replies declare no activity or plans
+on `.161`. The read-only 07:51:40 UTC global preflight precedes r49's first
+admission. Each arm obtains the original lease separately; strict closures
+precede each subsequent fresh in-lease admission. No future window is reserved.
+
+All PP32768/TG32 AR arms pass at chunks 2048/16384/32768, fixed capacity 32,768,
+context 65,536 and C1. Complete 32-token greedy output IDs match; completed
+prefill calls are 16/2/1. Controller, supervisor and native exits are 0. All 33
+remote files collect and hash-verify; the independent offline review also exits 0.
+The [32K functional receipt](development/validation/prefill-original-32k-point-2026-10-07.json)
+binds exact processes, containers, model witnesses, runtime and complete raw data.
+The preceding [8K receipt](development/validation/prefill-original-point-2026-10-07.json)
+remains historical evidence for its exact configurations.
+
+Lease releases occur at 07:54:44, 07:57:58 and 08:01:11 UTC; strict closures at
+07:55:03, 07:58:38 and 08:01:37 verify the respective exact supervisor/init/container
+identities absent, original 66307/105946405 lease unchanged/free, port 8000 empty
+and the router restored. The final router PID is 271653. Peers receive verified
+releases. Root holds no remote job, lease, window, waiter, reservation or handle
+on `.161/.157/.158/TB`. The portable proof is sealed and independently verified.
+
+Live setter/queued-job/cache/cancellation/fairness and broader numerical,
+quality/fault/resource gates require fresh admission. Comparative benchmarks
+follow qualification; Terminal Bench remains last. All six roadmap items remain open.
+
+## Current-runtime MTP HTTP controls passed and retired — 2026-10-07
+
+Fresh Point/DGX own-state replies, Q2's fresh released/offline-only scope and
+global preflight precede the new r47 `.161` admission at 06:56:59 UTC. Q2's
+`.161` non-use is explicitly an inference from its declared scope and current
+local-only work, not an explicit per-target reply or global grant. The receipt
+preserves that limitation. The original lease is acquired separately; the old
+r37 MTP manifest remains unlaunched.
+
+The current r45 runtime passes 37 OpenAI and 66 bounded-integer controls with
+the original Q4 weights and Q8 predictor. Controller, supervisor, HTTP helper
+and server exit 0; the idle container init ends with 143 during owned cleanup.
+Lease66307/105946405 releases at 07:03:07 UTC. Fresh strict closure at 07:04:06
+verifies supervisor261665/start22515456, init261879/start22515589 and container
+absent, the unchanged lease free, HTTP8000 empty and router262885 restored as
+the sole compute client. Peers receive verified release. Collection verifies
+all 19 files; independent saved-wire and scoped-counter reviews pass in the
+[functional receipt](development/validation/integrated-point-mtp-2026-10-07.json).
+
+Root holds no remote job, lease, window, waiter, reservation or handle on
+`.161/.157/.158/TB`. Future GPU gates require new admission. Larger-chunk and
+MTP numerical/fault/quality/cost acceptance remain open; comparative benchmarks
+and Terminal Bench follow those gates. Source integration and this selected
+functional pass do not close the six active roadmap items.
+
+## Current required-function AR capture passed and retired — 2026-10-07
+
+Fresh Point/DGX own-state replies, Q2's fresh declared scope and global preflight
+precede r46 admission on `.161` at 06:23:16 UTC. Q2's `.161` non-use is a recorded
+inference from its no-GPU declaration and sole next `.157` target, rather than an
+explicit per-target reply; the receipt preserves that limitation. The original
+lease is independently acquired and resource/thermal observations remain active.
+The current r45 runtime completes six original-weight profiles and 152 tool rows
+with native/controller/supervisor exit0. Lease66307/105946405 releases at
+06:24:33 UTC. Fresh strict closure at 06:30:17 verifies supervisor257815/start22315240,
+init258022/start22315340 and container absent, the unchanged lease free, HTTP8000
+empty and router258817 restored as the sole compute client. Peers receive verified
+release. Saved-data Release/sanitizer replay and independent numerical review pass
+in the [receipt](development/validation/sampling-required-tools-ar-point-2026-10-07.json).
+Root holds no remote job, lease, window, waiter, reservation or handle. Future GPU
+gates require fresh admission; comparative benchmarks and Terminal Bench stay last.
+
+## Current prefill Point build passed and retired — 2026-10-07
+
+Fresh peer own-state and global preflight at 05:32:52 UTC precede the device-free
+`.161` r45 build of `2ec9798b`, binding prefill code `d6431db8`. Both providers,
+all six consumer links and the controller/supervisor/container finish with exit 0.
+No model or LIE GPU executable runs. The original lease releases at 05:39:33 UTC;
+strict closure at 05:41:48 verifies the exact supervisor and container identities
+absent, lease free and unchanged, HTTP8000 empty and the named router restored.
+CPU peaks at 73.875 C with no thermal stop. The
+[build receipt](development/validation/prefill-runtime-point-build-2026-10-07.json)
+retains all compile, coherence and closure artifacts, including the local source
+preparation failure and its correction. Peers receive verified release. Root
+holds no remote job, lease, window, waiter, reservation or handle. Original-weight
+numerical/quality/fault/resource gates require separate fresh admission;
+comparative benchmarks and Terminal Bench remain last.
+
+## Shared-engine prefill implementation — 2026-10-07
+
+The owner's live-chunk request resumes local source development. The new shared
+C17 control and bounded provider reservation supersede the r43/r44 runtime for
+this feature. That local increment created no remote manifest, build/run,
+waiter, lease or GPU window. Old required-tool plans remain unlaunched. Matching remote
+compilation and original-weight qualification require new identities and fresh
+coordinated admission after functional integration and local checks.
+
+Checkpoint `d6431db8` now passes the grouped local native controls and coherent
+device-hidden HIP provider/client links, recorded in the
+[local receipt](development/validation/prefill-runtime-local-2026-10-07.json).
+This is CPU/HIP compilation evidence, not `.161` execution or numerical acceptance.
+No remote ownership or future window is acquired by these local checks.
+
+## Generated attention component passed and retired — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 04:22:09 UTC precede
+the `.161` r44 generated component qualification of the exact r43 bundle.
+All 13 cases through 1M pass, with 270,336 complete float values matching bit
+for bit. No model, original-weight forward or performance run is involved.
+Supervisor249179/start21590987 and container init249253/start21591080 retire;
+the original lease66307/105946405 releases at 04:22:36 UTC. Fresh strict closure
+at 04:23:11 verifies both exact identities and container absent, the original
+lease free and unchanged, HTTP8000 empty and router249393 restored as the sole
+compute client. All 73 collected files and 107 portable archive members verify.
+CPU peaks at 37.125 C under the unchanged CPU/NVMe guards.
+
+The [component receipt](development/validation/attention-fixture-point-2026-10-07.json)
+preserves complete outputs/masks/key order, independent rational zero-query
+review, actual exits and the initial local observer preparation1 before SSH.
+Peers receive verified release. Root holds no remote job, lease, window,
+waiter, reservation or handle; no future window is reserved. Full model,
+indexer, quality, faults, resources and comparative performance remain open.
+The model-free component is distinct from the rejected old required-tool
+capture and does not replay that stale manifest.
+
+## Corrected current-source final build passed and retired — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 04:08:30 UTC precede
+the device-free `.161` r43 build of `120e2fce`. Both providers, configure,
+all six consumer links, controller, supervisor and container finish with exit0.
+No model or LIE GPU program runs. Supervisor242843/start21506959 and container
+init242913/start21507051 are retired. Original lease66307/105946405 releases at
+04:13:45 UTC; strict closure at 04:18:03 verifies it free and unchanged,
+HTTP8000 empty and router248523 restored as the sole compute client. All four
+control/telemetry, 25 compile and three coherence artifacts collect and verify.
+Remote CPU peaks at 73.75 C under the unchanged CPU/NVMe guards.
+
+The [coherent build receipt](development/validation/integrated-point-attention-hip-build-2026-10-07.json)
+binds all 41 independently reconstructed recipes, complete providers and the six
+consumer identities. Matching compilation is complete; final GPU acceptance
+remains separate and open. Root holds no remote job, lease, window, waiter,
+reservation or handle. Peers receive the verified closure; it grants no future
+window. A later component/model run requires fresh admission.
+
+## Current-source final build failed and retired — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 03:48:40 UTC precede
+the device-free `.161` r42 build of `c2a9697f`. Both providers and configure exit0;
+native attention's HIP link exits1 because of incompatible default PIE mode.
+No model or LIE GPU program runs. Supervisor236364/start21390774 and container
+init236438/start21390873 are retired. Original lease66307/105946405 releases at
+03:54:24 UTC; strict closure at 03:57:26 verifies it free, HTTP8000 empty and
+router242081 restored as the sole compute client. All 25 compile artifacts and
+four control/telemetry files are collected and hashes verified.
+
+The local `60370fc3` link/package-target correction passes HIP7.2 ON/OFF links
+with devices hidden and no binary execution. The [portable receipt](development/validation/point-attention-link-2026-10-07.json)
+preserves the remote link1, stale observer-hash collection1 and initial missing-
+telemetry packaging1, together with corrected offline verification and actual
+closure. Matching `.161` compilation and final GPU gates remain pending. Root
+holds no remote job, lease, window, waiter, reservation or handle. A later run
+needs fresh admission; the failed source/campaign is never replayed unchanged.
+
+## Long sparse-WMMA source prepared locally — 2026-10-07
+
+Root implements the separate 1M sparse workspace under default-ON
+`LIE_LONG_CONTEXT_WMMA`, with coherent provider/Point build selection and an OFF
+control. Local HIP 7.2 cross-compilation for `gfx1150` hides devices; no model or
+resulting executable is run. Required focused extent/receipt/transport controls
+pass. The `.161` ROCm10 build and original-weight acceptance remain pending.
+This work does not alter another agent's source, work or admission. Q2 receives
+fresh root own non-use on `.157/.161/.158/TB`; no global admission is implied.
+Root has no remote job, lease, window, waiter, reservation or live remote handle.
+Final campaigns follow completion of functional implementation, then matched
+benchmarks and Terminal Bench last. The rejected r40 capture remains unlaunched;
+its stale manifest is not retried or reused as current-runtime qualification.
+
+## Required-tool launch rejected before creation — 2026-10-07
+
+Fresh Q2/Point/DGX own non-use and global preflight at 01:52:58 UTC observe
+the original lease66307/105946405 free, no foreign compute, HTTP8000 empty and
+router234120 as the sole compute client. Automatic approval review then rejects
+the r40 GPU capture before process creation, citing a newer owner decode/prefill
+priority with qualification on standby. No supervisor/container/client, model
+access, lease or router mutation starts. All peers receive this non-launch notice.
+Root holds no remote job, lease, reservation or live handle on `.161/.157/.158/TB`.
+
+Subsequent work is local only: the C17 visible-mask-span policy and its owned
+source recipe, with focused Release/sanitizer controls and source composition.
+No kernel body or reactive scheduler changes. Local device-hidden HIP 7.2
+cross-compilation for `gfx1150` now builds both providers and links five consumers
+without executing a GPU program or loading a model. Matching `.161` ROCm10
+compilation, GPU numerical and performance gates are pending; r40/r41 manifests predate this new guard and
+are unadmitted. There is no indirect retry or bypass of the review rejection.
+The owner's visible instruction confirms implementation before test campaigns;
+the priority question is superseded. Earlier preflights grant no future window.
+
+## Current sequencing and closure — 2026-10-07
+
+The owner explicitly repeats that further tests wait until all remaining
+functional implementation is complete. No intermediate GPU, quality, benchmark,
+Terminal Bench or full-suite campaign is queued. Only focused local checks
+accompany corrections; final integrated
+GPU qualification precedes matched benchmarks, with Terminal Bench last.
+Root has no queued or active remote job, lease, reservation or live handle.
+
+The already finished r39 AR capture releases the original lease at 01:19:47 UTC;
+strict closure at 01:21:14 verifies owned identities/container retired, HTTP8000
+unbound and router234120 restored. Collection and offline replay are complete;
+broader acceptance gates remain open. The unavailable stop-metadata export is
+corrected locally with one Release and one sanitizer ABI control, without model
+or GPU use. [Focused receipt](development/validation/executor-stop-host-2026-10-07.json).
+Any later remote run needs fresh admission; this closure grants none.
+
+The [sealed AR numerical receipt](development/validation/sampling-original-ar-point-2026-10-07.json)
+preserves 96 raw rows, all six Release/sanitizer executable identities and
+complete original/C17/OFF witnesses. All 191 archive members verify; packaging
+starts no inference, build or test. Functional implementation in the owned queue
+is integrated after `229b1e13`; the later visible-mask guard is now compiled
+locally. Required-tool and MTP acceptance remain in the deferred final phase,
+under fresh coordination. Earlier unused plans grant no admission.
+
+## Native capture supervisor prepared locally — 2026-10-07
+
+Root closes the final capture orchestration gap in owned development tools:
+native AR text/required-function execution, bounded receipt validation and full
+raw-data collection, including failed partial rows. Only focused CPU fixtures
+run, with every remote/container command mocked: 15 capture controls and seven
+ownership/build regressions pass. GPU is masked; peak CPU53.75 C. The native
+client/replay sources, core/ABI/reactive/numerical code and qualified r38 build
+remain unchanged. [Preparation receipt](development/validation/sampling-capture-supervisor-host-2026-10-07.json).
+Root has no remote job/client/build/lease/window/waiter/reservation/live handle
+on `.161/.157/.158/TB`. No capture campaign is admitted, launched or queued.
+Functional source/preparation comes first; final integrated qualification needs
+fresh peer/global/original-lease admission, then matched benchmarks and Terminal
+Bench last. All six root acceptance items remain open.
+
+## Final device-free Point build closed; test campaigns deferred — 2026-10-07
+
+The owner again requests finishing all remaining functional implementation
+before full test campaigns. Only required focused local checks accompany source
+changes. Final integrated GPU qualification comes afterward, followed by matched
+benchmarks and Terminal Bench last. No new campaign or machine reservation is queued.
+
+The already admitted r38 compilation of `df0780dd` completes both private
+ON/OFF providers and all five consumers, including `lie-sampling-capture`.
+All stages and supervisor/container/controller exit 0. Collection verifies the
+full variants, C17 capture linkage and all 126 portable archive members.
+[Build receipt](development/validation/integrated-point-capture-hip-build-2026-10-07.json).
+GPU devices, network and model mounts were absent; no model was attempted.
+CPU peaks at 74 C under CPU98/NVMe85/lower guards; GPU is observed only.
+
+Original lease **dev66307/inode105946405** releases at **00:55:11 UTC**.
+Fresh strict closure at **00:56:41 UTC** verifies supervisor226899/start20316157
+and init226974/start20316262 retired, the owned container removed, HTTP8000
+unbound and router232427 restored as the sole compute client. Q2/Point/DGX are
+informed of release; no reply or reservation is requested. Root holds no remote
+job/client/build/lease/window/waiter/reservation/live handle on `.161/.157/.158/TB`.
+Any future original-weight run requires fresh admission. All six items stay open.
+
+## Required-tool capture preparation; no remote campaign — 2026-10-07
+
+Root completes the native required-function/vocabulary/stop capture and offline
+full-mask/probability replay preparation. Only focused local synthetic controls
+run: Release3/3, unsuppressed ASan/UBSan/LSan3/3, main-project1/1; CPU79 C,
+GPU masked/observed only, CPU98/NVMe85/lower guards unchanged. The
+[receipt](development/validation/sampling-tools-host-2026-10-07.json) retains
+the two initial link failures, corrected exits and unchanged text witnesses.
+All 2,339 raw archive members independently verify. The new host metadata entry
+and client still need matching final HIP compilation and original-weight gates.
+Root holds no remote job/client/build/lease/window/waiter/reservation or live
+handle on `.161/.157/.158/TB`. Prepared r37 MTP remains unadmitted/unlaunched;
+no campaign is queued. Numerical/quality/fault/resource/cost and all six root
+items stay open. Benchmarks follow final functional qualification; Terminal
+Bench stays last. This local checkpoint grants no future machine admission.
+
+## Local numerical tooling; GPU campaigns still deferred — 2026-10-07
+
+Root prepares the native capture/offline replay needed by the final numerical
+phase. Only focused local synthetic parser/lifetime/math checks run, with GPU
+masked and CPU98/NVMe85 guards; peak CPU is 78.25 C.
+[Tooling receipt](development/validation/sampling-capture-host-2026-10-07.json).
+There is no root remote build/model/client/lease/window/waiter/reservation and
+no new GPU campaign is admitted. The prepared r37 MTP remains unlaunched.
+Original-weight probabilities, MTP controller, quality/fault/resource/cost and
+long-context gates stay open. Earlier machine closures are not future admission.
+
+## Further campaigns deferred; completed AR released — 2026-10-06
+
+The owner's latest request puts all remaining functional implementation before
+new test campaigns. Prepared r37 MTP is not admitted or launched. Root informs
+Q2/Point/DGX of this sequencing and holds no job/client/build/lease/window/waiter/
+reservation on `.161/.157/.158/TB`; fresh peer replies are not a reservation.
+Only required focused local checks accompany subsequent source corrections.
+
+The completed r37 AR37+66 run is collected and verified; its
+[receipt](development/validation/integrated-point-ar-2026-10-06.json) preserves
+the wire, actual exits and local observer/packaging failures. Original lease
+66307/105946405 releases at 23:30:59.442254 UTC. Strict closure at 23:32:40.343154
+verifies supervisor224982/start19793505 and init225192/start19793598 absent,
+container removed, HTTP8000 unbound and router226235 restored as the only KFD
+client. Offline wire review and archiving repeat no inference or test.
+All six root acceptance items stay open. Final integrated qualification precedes
+matched benchmarks; Terminal Bench stays last. This closure admits no new run.
+
+## Current integrated HIP build released — 2026-10-06
+
+Fresh Q2/Point/DGX own non-use and separate global preflight precede the `.161`
+build of `d63b9b7b` / code `88d4c4e5`. Supervisor218729/start19701862 holds the
+original lease66307/105946405; container init218802/start19701978 has no GPU
+devices. Complete ON/OFF120 providers, observer2 and consumers compile with
+exit0. Six base, 25 compile and three coherence artifacts are collected and
+verified; the full variant maps equal all 41 independently reconstructed recipes.
+[Build receipt](development/validation/integrated-point-hip-build-2026-10-06.json).
+
+Lease release is 23:12:47.549668 UTC. Fresh closure at 23:13:53.876245 UTC
+verifies both exact owned identities gone, the container removed, HTTP8000
+unbound, original lease unchanged/free and router224255 restored/only KFD.
+Peak CPU is 72.625 C under CPU98/NVMe85/lower guards; GPU is observed only.
+No model/hash/conversion, deployment, dependency installation or tuning occurs.
+Root holds no job/build/client/lease/window/plan/waiter/reservation/handle on
+`.161/.157/.158/TB`. This dated closure grants no future admission. Original-weight
+functional/quality/fault qualification needs fresh coordination; benchmarks
+follow and Terminal Bench stays last. All six root items remain open.
+
+## Integrated HOST collection closed — 2026-10-06
+
+Current source `88d4c4e5` passes native 101/101 and complete provider 67/67 in
+Release and unsuppressed ASan/UBSan/LSan, core ICU-OFF 69/69 and strict public
+headers. The [HOST receipt](development/validation/integrated-final-host-2026-10-06.json)
+binds completed local checks, preserved link failures and full unchanged witnesses.
+Offline collection and archive verification repeat no tests; peak local CPU
+is 94.625 C under CPU98/NVMe85/lower guards, with GPU masked/observe-only.
+
+Root has no live local tool handle or remote job/build/client/lease/window/plan/
+waiter/reservation/handle and uses neither `.157` nor `.158`. No remote campaign
+is prepared or admitted. All six items remain open. Source implementation comes
+first; final current-source HIP/original-weight functional/quality/fault gates
+need fresh peer/global/lease admission on `.161`, followed by benchmarks and
+Terminal Bench last. Historical closures are not admission.
+
+## Functional source ready for combined qualification — 2026-10-06
+
+The final source audit covers the six owned roadmap items, with build-receipt
+coherence corrected for the new observer and the Point coordinator using the
+complete canonical providers. Only focused local manifest/source/target controls
+and a compiler-mocked command fixture have run for this correction. Root has no
+remote job/build/client/lease/window/plan/waiter/reservation/handle and uses neither
+`.157` nor `.158`. No `.161` admission follows from an earlier closure or peer
+own non-use. Final combined local checks precede fresh `.161` global/lease
+admission for the coherent build and functional/quality/fault qualification.
+Benchmarks follow; Terminal Bench remains last. All six root items remain open.
+
+## Local dispatch-observer increment — 2026-10-06
+
+The owner again requests completing functionality before test campaigns.
+Root adds C17 model/core dispatch snapshots and a native bench projection;
+only three required focused local controls run in Release and sanitizer builds,
+with GPU masked and CPU98/NVMe85/lower guards. No new remote build, client, model
+run, lease, window, waiter, reservation or handle is created. The older r36
+bundle predates this private producer ABI change and cannot qualify it.
+Full coherent ON/OFF producer/consumer HIP compilation and original-weight
+checks remain in the final integrated phase. Benchmarks follow functional
+qualification; Terminal Bench remains last. All six root items stay open.
+
+## Current sequencing and closed r36 build — 2026-10-06
+
+The owner confirms implementation before further test campaigns. Root queues no
+new AR/MTP, GPU quality/fault, benchmark or Terminal Bench campaign while source
+work remains; only required focused local checks accompany corrections. Final
+qualification precedes comparative benchmarks, with Terminal Bench last.
+
+The later native recall client has focused local Release/sanitizer fixture
+coverage only ([receipt](development/validation/native-recall-host-2026-10-06.json)).
+It adds no remote job, build, lease, window or reservation. The frozen r36 bundle
+predates this client change and does not qualify its original-weight recall.
+
+The matching r36 HIP provider ON/OFF120 and private consumers build with exit 0.
+All 25 copied compilation artifacts verify; both complete 1,019-file variant
+maps equal an independent reconstruction from the sealed recipes and pinned
+pristine source. The collection checker's earlier exit 1 remains preserved:
+three assumed individual recipe fields are absent, while the actual receipt
+binds their results through `variant_files`. Corrected local verification passes
+without a remote operation, rebuild or model execution.
+
+The owned supervisor/container are retired; the original `.161` lease
+`66307/105946405` is released at 21:37:29 UTC and the router is restored.
+Closure is observed at 21:39:38 UTC. Root holds no job/client/build/window/lease/
+waiter/reservation/handle on `.161`, uses neither `.157` nor `.158`, and has no
+prepared or admitted follow-up inference window. This closure is historical
+evidence, not global admission for another run. Fresh peer/global checks and the
+original lease remain mandatory for every later GPU window. All six items stay
+open. No performance or original-weight result is claimed for r36.
+
+## Combined local HOST qualification collected — 2026-10-06
+
+Checkpoint `77bcdc1c` passes native functional 98/98 in Release and unsuppressed
+ASan/UBSan/LSan, complete provider 67/67 in each build, and core ICU-OFF 68/68.
+Strict C17/C++17 public headers and source/provenance/coherence controls pass.
+The verified HOST receipt binds all 120 provider files, 1,019 official upstream
+files, 30 full witness groups per build and the complete portable archive.
+These are local synthetic/algorithm controls, not original-weight inference.
+Peak CPU is 95.125 C under CPU 98 C/NVMe 85 C/lower guards; GPU stays masked.
+
+At this HOST checkpoint, no root remote job/client/build/window/lease/waiter/
+reservation is prepared or held on `.157/.158/.161/TB`. Fresh peer/global
+admission and the original `.161` lease are required for the subsequent r36
+HIP build and every original-weight/fault/quality/performance window.
+All six root items stay open; Terminal Bench remains deferred last. Earlier
+receipts and actual failures remain unchanged. Q2 receives fresh root own-non-use
+at 21:17 UTC, explicitly separate from global admission.
+
+## Source correction before further qualification — 2026-10-06
+
+Source review maps root items 3–7 to the context/client limits, native benchmark
+methods, steering/sampling paths and three sampler extractions at `a4bc6a8a`.
+Initial local GPU-masked checks retain 13/13 selected C17 Release and 13/13
+unsuppressed sanitizer passes. The full host provider run is 66/67 with CTest
+exit 8: lazy JSON null normalization differs from matching pristine/OFF controls.
+The first strict build failure and sandbox LSan/ptrace refusal are also preserved;
+the latter passes unchanged with unsuppressed instrumentation outside ptrace.
+Local CPU peaks at 87.25 C under CPU 98 C/NVMe 85 C/lower guards.
+
+Root resumes source correction, keeping further configure/build/test campaigns
+deferred until implementation is ready. The native arena null-copy correction
+and written regressions are unverified. No remote job/client/build/window/lease/
+waiter/reservation or model run is prepared or held on `.157/.158/.161/TB`.
+Fresh `.161` GPU/quality/performance admission follows final local qualification;
+Terminal Bench remains last. All six root tasks and acceptance gates stay open.
+Earlier receipts keep their frozen source scope and are not overwritten.
+
+## Owner defers new tests until functional implementation is ready — 2026-10-06
+
+Root continues functional source work without new intermediate CPU/GPU test
+campaigns. Final qualification retains focused CTest, sanitizer and model gates;
+GPU work uses `.161` with fresh peer coordination and lease admission at that
+time. No build/run/client/waiter/reservation is queued on `.161/.157/.158`.
+New source stays unverified until those gates pass. Historical closures and
+receipts grant no future admission. All six owned tasks remain open; Terminal
+Bench stays stopped, collected, closed and deferred last. This sequencing applies
+to root-owned work and does not change another agent's tasks or leases.
+The later exact-decimal final-validator source increment is unverified; its
+fixtures are written but no build, test or remote window has been started.
+The subsequent C17 compiler-context/initialization increment has the same
+unverified status and sequencing. No remote capsule/window is prepared or queued.
+Native C17 schema construction/staging now also has source integration and
+written fixtures only; no configure/build/test or remote window is started.
+Native C17 string-leaf construction is likewise implemented but unverified;
+its fixtures/source inventories are written with no new intermediate campaign.
+The complete native schema frontend now has source/production integration and
+written fixtures only; no configure/build/test/remote window is started.
+
+## Native schema-number codec: HOST only — 2026-10-06
+
+Root advances the C17 extraction locally: default numeric conversion and its
+error records stay inside C17, while custom hooks and typed projection retain
+their declared owners. Five Release, five sanitizer, 58 provider and three
+contract checks pass, with 30 preceding witness groups/267 files unchanged.
+Local CPU peaks at 92.25 C under CPU98/NVMe85/lower guards; GPU is masked and
+observed only. No model forward, remote GPU build, model hash/conversion,
+dependency installation, service mutation or tuning occurs.
+
+Root holds no remote job/client/build/lease/waiter/reservation or live handle on
+`.161/.157/.158/TB`. Matching new-source HIP/AR/MTP gates are deferred to final
+qualification and need fresh admission;
+the r35 closure below is historical only. All six owned tasks remain open and
+Terminal Bench stays stopped, collected, closed and deferred last.
+
+## R35 matching build, AR and MTP collected and closed — 2026-10-06
+
+Fresh Point/Q2/DGX own non-use and separate global preflights admit each `.161`
+window for sealed `dbdac28d`. The build supervisor (PID 199404 / start 17970580)
+holds the original lease (device 66307 / inode 105946405) and releases it at 18:24:11.900811 UTC.
+Coherent HIP ON/OFF105 providers and private consumers pass; six base, 25 compile
+and three coherence files are collected and SHA-verified against the current
+HOST inventory. AR supervisor (PID 205534 / start 18013610) and MTP supervisor
+(PID 207134 / start 18077057) each pass 37 general plus 66 integer controls and release at
+18:34:49.881753 / 18:43:19.448666 UTC. Nineteen files per mode are collected and
+SHA-verified. Server, child, controller and supervisor exit codes are 0.
+[Qualification receipt](development/validation/c17-json-slot-point-gpu-2026-10-06.json).
+
+Fresh closure at 18:43:45.687731 UTC verifies the exact three supervisor and
+container-init identities gone and containers removed, HTTP port 8000 unbound,
+the original lease (device 66307 / inode 105946405) free and released, and router PID 208314 active
+as the only KFD client. No foreign compute or guarded-hot sensor is observed.
+Root holds no job/client/build/lease/waiter/reservation or live handle and does
+not use `.157/.158`. This dated closure is not future admission. All six owned
+tasks remain open; Terminal Bench stays stopped, collected, closed and deferred
+last. CPU98/NVMe85/lower guards and GPU observation remain unchanged; no
+deployment, dependency installation, model conversion or tuning occurs.
+
+## R35 JSON ownership slice: HOST only — 2026-10-06
+
+Root advances the C17 extraction locally: JSON root/borrowed ownership, lazy
+initialization, copy/move and scalar moved state now use the shared C core.
+Five Release, five sanitizer, 58 provider and three contract checks pass;
+30 complete preceding groups/267 files are unchanged. Maximum local CPU is
+91.875 C under CPU98/NVMe85/lower guards; local GPU is masked and observed only.
+[HOST receipt](development/validation/c17-json-slot-host-2026-10-06.json).
+
+No original model forward, remote build/run, model hash/conversion, dependency
+installation or service mutation occurs. Root has no job/client/build/lease/
+waiter/reservation on `.161/.157/.158`. Matching `.161` HIP and AR/MTP gates
+need fresh coordinated admission; r34 closure below is historical only.
+All six tasks remain open; Terminal Bench stays stopped/collected/closed/deferred last.
+
+## R34 matching build, AR and MTP collected and closed — 2026-10-06
+
+Fresh peer non-use and global admission precede each separate `.161` window.
+Sealed source `050ae826` rebuilds coherent HIP ON/OFF105/private consumers;
+AR and MTP each pass 37 general and 66 integer original-weight controls.
+Server/child/controller/supervisor and final collections exit0. The initial
+compile collector's stale HOST inventory mismatch exits1 and is retained;
+matching local validation passes without a new transfer, build or GPU run.
+[Receipt](development/validation/output-schema-integer-point-gpu-2026-10-06.json).
+
+Fresh closure at 16:59:57.826465 UTC verifies build189498/start17289409,
+AR195870/start17354844 and MTP197557/start17429533 supervisors gone; respective
+init189572/start17289526, init196081/start17354936 and init197774/start17429669
+identities are also absent and all three containers removed. HTTP8000 is unbound;
+original device66307/inode105946405 is free/released; router198758 is restored,
+active and the only KFD client. Root has no job/client/build/lease/waiter/
+reservation on `.161/.157/.158`; no Terminal Bench restart is queued. This is
+a historical closure observation, not admission for another run. All six owned
+tasks remain open; Terminal Bench stays stopped/collected/closed/deferred last.
+
+## R34 shared final-validation correction: HOST only — 2026-10-06
+
+A local regression reproduces r33's integer precision failure before correction.
+The additive C17 comparator and shared-core validation correction now pass
+9,855 numeric checks, Release4, sanitizer7 and provider3. CPU98/NVMe85/lower
+guards remain active; local GPU is masked and observed only. No original model
+forward, remote build/run, heavyweight hash, conversion, dependency installation
+or service mutation occurs. Root holds no remote job/client/build/lease/waiter/
+reservation and does not use `.157/.158`. A later `.161` HIP build and AR66/MTP66
+require fresh coordinated admission; r33 closure below is historical only.
+All six tasks stay open; Terminal Bench remains stopped/collected/closed/deferred last.
+
+## R33 integer AR failure collected and window closed — 2026-10-06
+
+Fresh peer non-use and global admission authorize a separate `.161` AR window
+using the unchanged r32 `9a4f45b1` runtime and `7fb62c5a` protocol. Its 26 passed
+integer checks precede an HTTP502 at the large positive exclusive endpoint.
+Server exit is 0; child/controller/supervisor exits are 1; collection exits 0.
+The original failure and complete returned witnesses remain under local
+`evidence/context-r33-integer-ar-r1/`. MTP is not started. Root next works on the
+shared C final validator with HOST fixtures, without reserving any GPU.
+
+Fresh closure at 2026-10-06T15:52:14.222826 UTC verifies supervisor
+187668/start17049986 and init187870/start17050072 gone, container54d541e6 removed,
+HTTP8000 unbound, original device66307/inode105946405 lease free then released
+and router188718 restored/only KFD. This historical closure grants no future
+admission. Root has no remote job/client/build/lease/waiter/reservation and does
+not use `.157/.158`. All six tasks remain open; Terminal Bench stays deferred last.
+
+## R33 bounded-integer campaign prepared; no GPU admission — 2026-10-06
+
+The optional supervisor/oracle increment passes three HOST CTest groups and
+declares 66 bounded-integer API/membership checks separate from the general37.
+All105 provider hashes match the r32 `9a4f45b1` runtime; reuse does not waive
+fresh AR/MTP `.161` ownership/lease/resource/CPU98/NVMe85/GPU-observation admission.
+No remote run/client/build/lease/waiter/reservation is created by preparation;
+root does not use `.157/.158`. The r32 closure below stays historical. Source
+helpers and binary identities must be bound separately in each receipt.
+All six tasks stay open; Terminal Bench stays stopped/collected/closed/deferred last.
+
+## R32 signed integer bounds build and selected GPU controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global preflights admit sealed `9a4f45b1`
+on `.161`. Device-free HIP ON/OFF/private-consumer build and original-weight
+AR37/MTP37 hold the original device66307/inode105946405 lease in separate
+windows. All actual exits are 0; complete collected files are SHA verified.
+[Receipt](development/validation/c17-schema-integer-point-gpu-2026-10-06.json).
+The official Gufo HTTP frontend is not built. These selected controls do not
+independently qualify all bounded-integer branches, faults, quality or cost.
+
+Fresh 2026-10-06T15:22:54.143956+00:00 closure verifies all three exact supervisor/container-init
+identities gone, containers removed, HTTP8000 unbound, original lease free then
+released and router 187232 restored/only KFD. Model stats remain unchanged.
+CPU98/NVMe85/lower guards and GPU observation stay active. Root has no remaining
+remote job/client/build/lease/waiter/reservation/handle and does not use `.157/.158`.
+This dated closure is not future admission. All six tasks remain open; Terminal
+Bench stays stopped/collected/closed/deferred last. No tuning or push occurs.
+
+## C17 signed integer bounds: HOST only — 2026-10-06
+
+The 105-file source increment passes HOST58, one focused sanitizer C check and
+four Release checks. Its
+[source-bound receipt](development/validation/c17-schema-integer-host-2026-10-06.json)
+does not admit a remote build or qualify original-weight inference. No root
+remote job/client/build/CPU/GPU/lease/window/waiter/reservation is created.
+All actual local handles are collected. Matching new-source HIP ON/OFF and
+private consumers require fresh `.161` coordination and admission. Root does
+not use `.157/.158`. The earlier r31 closure is historical, not a future permit.
+CPU98/NVMe85/lower guards and masked/observe-only GPU remain unchanged.
+All six tasks stay open; Terminal Bench remains stopped/collected/closed/
+deferred last, without a restart or machine reservation. No tuning or push occurs.
+
+## R31 schema publication build and selected GPU controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global preflights admit `33d12a02` on `.161`.
+Device-free build and original-weight AR/MTP windows each hold the original
+device66307/inode105946405 lease. Coherent HIP ON/OFF providers/private consumers
+compile; AR37/MTP37 pass. All actual exits are 0; exact logs are collected and
+SHA verified. [Receipt](development/validation/c17-schema-compile-point-gpu-2026-10-06.json).
+The official Gufo HTTP frontend is not built; these controls do not qualify
+independent numerical branches, quality, faults or performance.
+
+Fresh 2026-10-06T13:54:18.806004+00:00 closure verifies all three exact supervisor/container-init
+identities gone, owned containers removed, HTTP8000 unbound, lease free then
+released and router 177938 restored/only KFD. Models retain
+their stat identities. CPU98/NVMe85/lower guards and GPU observation stay intact.
+Root has no remaining remote job/client/build/lease/waiter/reservation/handle;
+`.157/.158` remain unused. This dated closure is not future admission. All six
+tasks remain open; Terminal Bench stays stopped/collected/closed/deferred last.
+
+## C17 compilation publication: HOST only — 2026-10-06
+
+The new 102-file increment passes local HOST sanitizer and provenance controls.
+Its [source-bound receipt](development/validation/c17-schema-compile-host-2026-10-06.json)
+does not admit or qualify a remote build/run. All actual local test handles are
+collected; root has no remote job/client/CPU/GPU/build/lease/waiter/reservation.
+The r30 closure below remains historical and is not future admission. Matching
+HIP ON/OFF providers/private frontend consumers require a fresh coordinated
+`.161` window. `.157/.158` remain unused by root. CPU98/NVMe85/lower guards and
+GPU observation stay intact. All six owned tasks remain open; Terminal Bench
+stays stopped/collected/closed/deferred last, with no restart or reservation.
+
+## R30 derived schema root build and selected controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global preflights admit sealed `72e9e831`
+on `.161`. The device-free build verifies coherent 99-file HIP ON/OFF providers,
+matching private consumers and whole OFF reference linkage. Original-weight
+AR/MTP each pass 37 unchanged OpenAI controls. All three windows have actual
+server/child/controller/supervisor exits 0 and SHA-verified collected files.
+[Receipt](development/validation/c17-schema-store-point-gpu-2026-10-06.json). The initial wrong-kind log collection exits 1 and is retained;
+corrected collection exits 0, without a build/inference restart.
+
+Fresh 2026-10-06T12:41:26.066915+00:00 closure independently verifies exact supervisor/container-init
+retirement, owned containers removed, HTTP8000 unbound, original lease device
+66307/inode105946405 briefly free then released, and router
+168702 restored/only KFD. No foreign client or hot guard is
+observed. Models remain stat-bound unchanged. CPU98/NVMe85/lower guards and GPU
+observation remain active; no tuning, install, deployment or root `.157/.158`
+work occurs. Root has no standing remote job/client/build/lease/waiter/
+reservation or live local handle. This dated closure is not future admission.
+Peer work stays separately owned. All six tasks remain open; Terminal Bench
+stays stopped/collected/closed/deferred last, without restart or reservation.
+
+## R29 immutable grammar storage build and selected controls closed — 2026-10-06
+
+Fresh peer own non-use and independent global preflights admit sealed `ad53e681`
+on `.161`. The device-free build verifies complete 96-file HIP ON/OFF providers,
+matching private model/frontend layouts and whole OFF reference linkage. AR/MTP
+each pass the unchanged 37 original-weight OpenAI controls. All three windows
+have server/child/controller/supervisor exits 0 and collected hash-bound files.
+[Receipt](development/validation/c17-grammar-storage-point-gpu-2026-10-06.json).
+
+Fresh 2026-10-06T11:37:22.320008+00:00 closure independently verifies exact
+supervisor/container-init retirement, owned containers removed, HTTP8000
+unbound, original lease device66307/inode105946405 free then released,
+and router 159528 restored/only KFD. No foreign client or hot
+guard is observed. Models remain stat-bound unchanged; no tuning, install,
+deployment or root `.157/.158` work occurs. Root has no standing job/build/
+client/lease/waiter/reservation/handle. This dated closure is not future
+admission. Broader gates and all six tasks remain open; Terminal Bench is
+stopped/collected/closed/deferred last, without restart or reservation.
+
+## R27 request-state build and selected controls closed — 2026-10-06
+
+Fresh peer own non-use and separate global observations admit sealed `117cbae6`
+on `.161`. The device-free build compiles complete coherent ON/OFF providers;
+25 compile artifacts and three Ninja files verify both 93-file inventories,
+private consumers and OFF archive linkage. Original-weight AR/MTP each pass
+37 unchanged OpenAI controls. The direct LIE/Gufo C1 controls match complete
+inputs, 128 output IDs per point and full prefill/final-decode frontier hashes
+at prefix depths 0/4,096. This is selected correctness evidence, not a speedup.
+[Receipt](development/validation/c17-request-state-point-gpu-2026-10-06.json).
+
+All five server/child/supervisor/controller windows exit 0 and are collected.
+Fresh 2026-10-06T09:24:11.035305+00:00 closure verifies their exact supervisors
+and observed container-init identities retired, owned containers removed,
+original lease device66307/inode105946405 briefly free then released, router
+140911 active/only KFD and HTTP8000 unbound. No foreign client/hot guard is
+observed. CPU98/NVMe85/lower guards and GPU observation remain intact. No tuning,
+installation, deployment or `.157/.158` activity occurs. Read-only observer and
+offline QA failures retain actual exits, with no inference restart. Root has
+no current/planned/admitted remote job/client/CPU/GPU/build/lease/waiter/
+reservation or remote handle on `.161/.157/.158`. This dated closure is not
+future admission. Peer/DS4 work stays separately owned. All six root tasks
+remain open. Terminal Bench stays stopped/collected/closed/deferred until
+modifications and qualification finish; no restart, migration or reservation.
+
+## R26 primitive ownership build and AR/MTP closed — 2026-10-06
+
+Fresh Point/DGX own non-use and separate 07:50:15 / 07:57:40 / 08:05:49 UTC
+global observations admit the sealed `688b74c5` 92-file source. Device-free HIP
+build, then original-weight AR/MTP each complete with server/child/supervisor/
+controller exits 0; each inference mode passes the unchanged 37 controls.
+Six build files, 17 compile artifacts and 17 files per inference mode are
+collected and hash-verified. The final MTP lease releases at 08:09:31 UTC.
+
+Fresh 2026-10-06T08:10:48.230228+00:00 closure verifies all three exact supervisor
+and container-init identities retired, owned containers removed, original lease
+device 66307 / inode 105946405 briefly free then released, router 128711 active
+as the only KFD client and HTTP8000 unbound. AR/MTP init identities were captured
+by actual live observers; unrecorded identities in older receipts stay unknown.
+No foreign compute client or hot guard is observed.
+[Receipt](development/validation/c17-lexeme-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active. No tuning,
+installation, deployment or `.157` activity occurs. Root has no standing remote
+job/client/CPU/GPU/build/lease/waiter/reservation or admitted restart on
+`.161/.157/.158`. This dated closure is not future admission. Point/DGX/Q2 and
+DS4 work remains separately owned. Terminal Bench stays stopped/collected/closed/
+deferred until modifications and qualification finish; no restart or migration.
+
+## R25 typed JSON build and AR/MTP closed — 2026-10-06
+
+Fresh Point/DGX own non-use and separate 06:42:37 / 06:47:23 / 06:52:28 UTC global
+observations admit the sealed `5227bf4f` 89-file source only. Device-free build
+supervisor 115200 / start 13796040 exits 0 and releases at 06:46:18 UTC. AR
+119146 / start 13821118 and MTP 120559 / start 13851449 each pass 37 unchanged
+original-weight controls and release at 06:51:39 / 06:55:27 UTC. All actual
+child/server/supervisor/controller exits are 0. Six build files, 17 compile
+artifacts and 17 files per inference mode are collected and hash-verified.
+
+Fresh 2026-10-06T06:55:39.917734+00:00 closure verifies all three exact supervisors
+retired and owned containers removed. Unrecorded AR/MTP init identities remain
+unknown. Original lease device 66307 / inode 105946405 is briefly free then
+released, router 121639 is active/only KFD and HTTP8000 is unbound. No foreign
+compute client or hot guard is observed.
+[Receipt](development/validation/c17-json-value-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active; no tuning,
+installation, deployment or `.157` activity occurs. Root has no standing job,
+client, CPU/GPU/build, lease, waiter, reservation or restart on `.161/.157/.158`.
+This closure is a dated observation, not future admission. Peer activities are
+separately owned. Terminal Bench stays stopped/collected/deferred until
+functional modifications and qualification finish.
+
+## R24 parser build and AR/MTP actually closed — 2026-10-06
+
+Fresh Point/DGX own non-use and separate 05:16:01 / 05:26:39 / 05:33:05 UTC global
+observations admit only the sealed `904774da` source. Build supervisor 108199 /
+start 13281372 compiles the exact 86-file provider/application without GPU devices
+and releases at 05:20:28 UTC. AR 112165 / start 13336239 and MTP 113588 / start
+13374588 each pass 37 unchanged original-weight controls and release at 05:30:26 /
+05:36:09 UTC. All actual child/supervisor/controller exits are 0. Six build files,
+17 compile artifacts and 17 files per inference mode are collected and verified.
+
+Fresh 2026-10-06T05:37:41.957419+00:00 closure verifies all exact supervisors
+retired and owned containers removed. Unrecorded AR/MTP init identities remain
+unknown. The original lease device 66307 / inode 105946405 is free briefly then
+released, router 114617 is active/only KFD, HTTP8000 is unbound, and no foreign
+client or hot guard is observed.
+[Receipt](development/validation/c17-json-parser-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active. Observer/display/
+peer-status errors retain their actual scope and corrected observations; none
+restarts inference. Root has no standing remote job/client/build/lease/waiter/
+reservation or `.157` activity. Terminal Bench stays stopped/deferred.
+
+## Local JSON parser; eval remains deferred — 2026-10-06
+
+Root performs only local host builds/tests for the complete C17 JSON parser.
+Its [86-file host receipt](development/validation/c17-json-parser-host-2026-10-06.json)
+requires a matching sealed HIP build and original-weight controls under a new
+fresh `.161` admission. Root creates no remote job/client/build/lease/waiter or
+reservation on `.161` or `.157`. The r23 closure below remains a dated observation,
+not current admission. Terminal Bench stays stopped/collected/closed/deferred
+until functional modifications and matching qualification finish.
+
+## R23 bank admission windows retired — 2026-10-06
+
+Fresh peer own non-use and separate 04:21:38 / 04:26:07 / 04:30:44 UTC global
+observations admit AR r1, MTP r1 and corrected MTP r2 on unchanged bundle r20
+(`20777005`). Actual supervisor/child exits are 0, 1, 0. MTP r1 completes its
+native process with exit 0 but QA rejects zero accepted drafts; raw failure is
+collected unchanged. Successful AR/MTP windows each retain three native exits 0
+and twelve expected admission refusal exits 1. They use QA `05cf8874` / `6ea348af`
+and collect 46 files each; the rejected MTP window collects 18.
+
+Fresh 2026-10-06T04:33:39.072280+00:00 closure verifies all exact supervisor
+identities retired, their owned containers removed, HTTP8000 unbound, the original
+lease device 66307 / inode 105946405 free then released, and router 107144 active
+as the only KFD client. Unrecorded init identities are explicitly unknown.
+[Receipt](development/validation/steering-admission-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain active. No GPU rebuild,
+tuning/install/deployment/heavy model hash or `.157` activity occurs. Root has no
+job/client/build/lease/waiter/reservation. Terminal Bench stays stopped/deferred.
+
+## R22 scheduled steering AR/MTP actually closed — 2026-10-06
+
+Fresh Point/DGX own non-use and separate 03:45:35 / 03:54:25 UTC global preflights
+admit two `.161` windows on the unchanged r20 bundle (`20777005`), with QA source
+`353ab973`. AR supervisor 98134 / start 12730531 and MTP supervisor 100249 /
+start 12784411 each hold the original lease device 66307 / inode 105946405.
+All six native processes per mode and both supervisors/children exit 0. They
+release at 03:53:11 / 04:03:25 UTC, respectively; 30 remote files per mode are
+collected and target/predictor stats remain unchanged.
+
+Fresh 2026-10-06T04:04:00.241474+00:00 closure verifies both exact supervisor and
+container identities retired, original lease free then released, HTTP8000
+unbound and router 101740 active/only KFD, with no foreign client or hot guard.
+[Receipt](development/validation/steering-physical-index-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards and GPU observation remain intact. No new build,
+tuning, installation, deployment or `.157` activity occurs. All actual handles
+are collected; root has no job/client/build/lease/waiter/reservation. This closes
+selected physical-index/cache regressions, with broader quality/fault/cost gates
+open. Terminal Bench remains stopped/deferred until modifications and matching
+qualification finish.
+
+## R21 SSD text-restart windows retired — 2026-10-06
+
+Separate fresh admissions and the original lease device 66307 / inode 105946405
+cover four `.161` windows on the unchanged qualified r20 bundle (`20777005`).
+Actual supervisor exits are AR 0, MTP 1/1/1. The earlier MTP attempts retain a
+missing predictor mount and a zero-accepted-draft test refusal. All four core
+processes in the final MTP case exit 0; corrected offline validation qualifies
+the full saved prompt while preserving its raw wrapper exit 1. No GPU replay,
+new remote build, tuning, installation or deployment occurs.
+
+All run artifacts and actual tool handles are collected. Fresh
+2026-10-06T03:26:37.886440+00:00 closure verifies all four exact supervisor/container
+identities retired, original lease free then released, HTTP8000 unbound and
+router 97498 active/only KFD, with no foreign client or hot guard.
+[Receipt](development/validation/ssd-text-restart-point-gpu-2026-10-06.json).
+CPU98/NVMe85/lower guards remain active; GPU temperature is observed only.
+Root has no job/client/build/lease/waiter/reservation and retains `.157` non-use.
+Scheduled physical-index steering and broader quality/fault/cost gates remain
+open. Terminal Bench remains stopped and deferred until functional modifications
+and qualification finish.
+
+## R20 matching composition/codec build and AR/MTP closed — 2026-10-06
+
+Fresh Point/DGX own non-use and 02:10:06 UTC global observation admit only the
+new root `20777005` source. The original lease device 66307 / inode 105946405 is
+briefly free then released, only router 84458 is on KFD, no foreign client/hot
+guard/HTTP8000 listener is observed and the exclusive r20 paths are absent.
+
+Build supervisor 85062 / start 12165699 holds the original lease and compiles the
+matching 83-file provider/application with no GPU devices; it exits 0 / releases
+at 02:14:28 UTC. Six run files and 17 compile artifacts are collected; fresh
+02:15:27 closure verifies exact identities retired and router 88406 restored.
+AR supervisor 88900 / start 12192900 and MTP supervisor 90223 / start 12221456 use
+separate fresh 02:16:08 / 02:20:29 admissions. Both pass 37 unchanged original-weight
+controls, exit 0 and release at 02:19:48 / 02:24:38 UTC, with 17-file collection and unchanged
+target/predictor stats. A read-only AR observer error is corrected on the same
+owner without restarting inference; its actual failed exit remains retained.
+
+Fresh 02:25:58 UTC final closure verifies all three supervisors/container labels
+absent, the original lease free briefly then released, HTTP8000 unbound and
+router 91291 active/only KFD. No foreign client or hot guard is observed.
+[Receipt](development/validation/c17-binary64-point-gpu-2026-10-06.json).
+CPU 98 / NVMe 85 / lower exposed guards and GPU observation stay intact; no tuning,
+installation, deployment or foreign mutation occurs. There is no standing
+root job/client/build/lease/waiter/reservation or `.157` activity. Selected
+integrated paths qualify; broader branches/faults/resources/cost/quality/SSD BPE
+remain open. Terminal Bench stays stopped and deferred until modifications and
+matching qualification finish.
+
+
+## R19 matching build and AR/MTP actually closed — 2026-10-06
+
+Point and DGX supply fresh own `.161` non-use; root continues `.157` non-use.
+Fresh 00:43:21 UTC observation verifies the original lease device 66307 /
+inode 105946405 briefly free then released, only router 77726 on KFD, no foreign
+client/hot guard/HTTP8000 listener, and exclusive r19 destinations absent.
+The sealed `a24875f` source is staged in a separate persistent root.
+
+Build supervisor 78211 / start ticks 11643437 owns the original lease and compiles the
+matching 66-file provider/application without GPU devices, then exits 0 / releases
+at 00:47:27 UTC. Collection binds six run and 17 compile files; fresh 00:48:31
+closure verifies exact supervisor/container retirement and router 81574 restored.
+The first closure observer fails on an already absent PID; corrected identity
+handling is read-only and preserves the actual failed script/exit.
+
+AR supervisor 82089 / start ticks 11680463 and MTP supervisor 83449 / start ticks 11711065 follow
+separate fresh 00:50:12/00:55:15 preflights and nonblocking original-lease
+admissions. Each passes 37 original-weight OpenAI controls and releases at
+00:54:27/00:58:42 UTC, respectively. Each 17-file collection verifies actual
+supervisor/child retirement, unchanged model stats and router restoration.
+An initial AR monitor assumes ADMITTED instead of RUNNING_DISTROBOX; failure
+is retained, its corrected observation reports the same live owner/lease and
+no inferencing job is restarted.
+
+Fresh 00:59:10 UTC final closure verifies all three supervisor/container
+identities retired, HTTP8000 unbound, original lease briefly free/released,
+router 84458 active/only KFD and no foreign compute client or hot guard.
+[Receipt](development/validation/c17-schema-policy-point-gpu-2026-10-06.json).
+CPU 98 / NVMe 85/lower exposed guards remain active, with GPU temperature observed
+only. No dependency installation, tuning, foreign mutation or deployment occurs.
+Selected integrated paths qualify; individual numeric/format/SSD BPE/probability/
+fault/resource/quality/cost gates remain open. All actual tool handles are
+collected. Root has no `.157` activity or standing reservation. Terminal Bench
+remains stopped and deferred until functional changes and qualification finish.
+
+## R18 build and AR/MTP actually closed — 2026-10-05
+
+Point supplies fresh own non-use through turn01a10e5b-2674; DGX confirms
+`.161/.157` non-use and separate `.158` scope. Fresh 23:18:04 UTC observation
+finds original lease dev66307/inode105946405 briefly free then released, only
+router71493 on KFD, no foreign client/hot guard/HTTP8000 listener and exclusive
+r18 destinations absent. Source `6a48da3` is staged in its own persistent root.
+
+The device-free build supervisor71816/start11128413 owns the original lease,
+compiles the matching 57-file provider/application and exits zero at
+23:21:39 UTC. Fresh closure verifies it and its container absent, lease free
+and router75174 restored. AR and MTP are admitted separately after their own
+fresh resource/lease observations. Each passes 37 OpenAI controls and exits
+zero, releases at 23:27:54 and 23:32:50 UTC respectively, preserves model stats
+and restores the named router. All three actual handles and 40 run files plus
+17 compile files are collected. No window is inferred closed from HTTP success.
+
+Fresh final 23:34:40 UTC observation verifies HTTP8000 unbound, original lease
+free then released, router77726 active/only KFD and no foreign compute client or
+guard breach. [Receipt](development/validation/c17-schema-body-point-gpu-2026-10-05.json).
+CPU98/NVMe85/lower guards and GPU observation remain intact; no tuning/install/
+deployment or foreign mutation occurs. Root has no `.157` activity or standing
+reservation. Terminal Bench remains stopped and deferred until functional
+modifications and qualification finish; no automatic restart is scheduled.
+
+## Failed r17 build retired; corrected host source qualified — 2026-10-05
+
+The device-free `.161` build of `9add7bb` starts at 22:46:19 UTC under the
+original lease and authorized named router stop/restore. The HIP provider builds;
+application C compilation fails under `-O3 -Werror` on a possibly uninitialized
+schema-body local. Supervisor/container exit 1 at 22:48:40 UTC; no model is
+attempted. Seventeen compile files are collected. No r17 bundle is created.
+
+Fresh read-only closure at 23:04:08 UTC verifies supervisor 68787/start10933564,
+container init 68861/start10933677 and old router68087 absent, exact own container
+absent, HTTP8000 unbound and original lease dev66307/inode105946405 briefly free
+then released. Restored router71493 is active and the only current KFD client.
+The first closure script guessed Docker diagnostic capitalization and failed;
+the fresh corrected witness also checks the exact owned container label.
+[Build failure and host receipt](development/validation/release-cache-host-2026-10-05.json).
+
+Corrected local source passes 79 Release/79 sanitizer/35 three-arm host checks;
+20 prior hashes remain unchanged and CPU peak is 90.25 C with GPU devices masked.
+This is no new original-weight qualification. Root retains `.157` non-use,
+with no client/job/lease/waiter/reservation there. Point/DGX receive the actual
+`.161` closure; a corrected build needs fresh admission. Terminal Bench remains
+stopped and deferred until functional modifications and qualification finish.
+
+## Local C17 body qualification; eval stays deferred — 2026-10-05
+
+The [body host receipt](development/validation/c17-schema-body-host-2026-10-05.json)
+records 10 Debug/10 sanitizer/35 pristine-ON-OFF checks, 57 owned provider files,
+50 public headers and CPU peak 94.375 C with GPU devices masked. All 19 earlier
+full witness hashes remain unchanged. This source is absent from frozen GPU
+`2359488`; matching sealed provider/application and original-weight qualification
+still require a fresh `.161` admission. No new thread or model call is added.
+
+Root preserves `.157` non-use after verified eval CPU handover. Q2 separately
+reports its bounded new SSM releases/admissions; those are not root numerical
+qualification or resource ownership. Root starts no remote build/run/client,
+GPU job, lease, waiter or standing reservation for this local slice. Terminal
+Bench stays stopped, collected and deferred until functional changes and
+qualification finish. No automatic migration or restart is scheduled.
+
+## Local C17 Visit qualification after eval retirement — 2026-10-05
+
+The [Visit host receipt](development/validation/c17-schema-visit-host-2026-10-05.json)
+records 9 Debug/9 sanitizer/34 pristine-ON-OFF checks, 54 owned provider files,
+49 public headers and CPU peak 94.125 C with GPU devices masked. It adds no
+thread, model call or runtime deployment. Its new source still needs a matching
+sealed provider/application build and original-weight gates in a fresh `.161`
+window. The earlier GPU source `2359488` does not include it.
+
+Terminal Bench remains stopped and deferred by the owner; root starts no
+client, server, migration, GPU build/run, waiter or standing reservation on
+`.157` or `.161` for this host slice. Q2 receives the verified `.157` CPU
+handover and separately reports its next collected GPU release at 21:55 UTC.
+That separate assignment is not root ownership or numerical qualification.
+
+## Operator stop; Terminal Bench deferred — 2026-10-05
+
+The owner's immediate-stop request is applied to the exact CPU/GPU supervisors
+at 21:42 UTC. Fresh closure at 21:45:02 UTC verifies `.157` supervisor 20794/start
+179631020 and all 287 known identities/two groups absent, own trial container
+absent, official source 232 unchanged and original CPU lease dev52/inode4486194
+briefly free then released. Q2 receives this handover and root non-use. Root
+performed no `.157` GPU work and did not update its foreign GPU register.
+
+Fresh `.161` verification at 21:46:36 UTC confirms supervisor 65159/start9972757,
+model 65982/start9978951 and permit 66074/start9984711 absent, HTTP8000 unbound,
+original lease dev66307/inode105946405 free briefly then released and restored
+router 68087 active. Its router is the only current kernel-KFD process. The
+earlier shutdown sample still contained 65982; it is retained rather than
+called an empty-KFD pre-restore witness. The stale endpoint READY file remains
+historical. The own HTTP rule is retired with identical firewall before/after.
+[Stop and collection receipt](development/validation/terminal-full-stopped-point-2026-10-05.json).
+
+Terminal Bench is deferred until functional modifications and qualification
+finish, as the owner now requests. No client migration, automatic restart,
+waiter or standing reservation occurs. Future windows require fresh admission.
+
+## Local type/route extraction while unchanged Core-19 stays live — 2026-10-05
+
+The 21:06 UTC read-only witnesses match CPU client `20794`/start `179631020`,
+runner `20860`/start `179631128`, Harbor `20925`/start `179631192`, GPU supervisor
+`65159`/start `9972757`, model `65982`/start `9978951` and own permit guardian
+`66074`/start `9984711`. Own descriptor 3 still holds each original CPU/GPU
+lease: device52/inode4486194 and device66307/inode105946405 respectively.
+Core-19 is still running its first task with eighteen pending and no final
+score/retirement. Q2 reconfirms actual CPU identities and maintains `.157`
+non-use until actual client/children/container/lease closure and fresh handover.
+No second root GPU job/build/waiter/reservation or remote runtime change occurs.
+
+New local [C17 type/ordered-route host qualification](development/validation/c17-schema-dispatch-host-2026-10-05.json)
+binds the 51-file inventory, 48 headers, Debug/sanitizer and complete corrected
+pristine/ON/OFF states. It is absent from frozen `2359488`, as is the newer
+memo. Local CPU maximum is 91.375 C with GPUs masked; CPU98/NVMe85/lower guards
+remain active. Actual new original-weight qualification awaits the endpoint's
+effective retirement, collection and a freshly admitted `.161` window.
+
+## Local schema memo extraction during unchanged Core-19 — 2026-10-05
+
+Read-only observation at 20:42 UTC confirms GPU supervisor `65159` / start
+`9972757`, model `65982` / start `9978951` and own HTTP-permit guardian `66074`
+/ start `9984711` alive. Endpoint source remains frozen `2359488`; its original
+lease is retained. CPU client `20794` / start `179631020`, runner `20860` /
+start `179631128` and Harbor `20925` / start `179631192` are alive on `.157`.
+Core-19 remains on its first task with eighteen pending and zero infrastructure
+errors. An unfinished aggregate is progress, not a task score or release.
+Q2 continues `.157` non-use until actual root client/children/container/lease
+closure and fresh handover. No second GPU build/run is admitted.
+
+The new [C17 memo host receipt](development/validation/c17-schema-memo-host-2026-10-05.json)
+binds 48 owned provider files, 47 headers and passing 7 Debug / 7 sanitizer /
+32 pristine/ON/OFF checks. This local source does not enter the frozen GPU eval.
+Local CPU maximum is 90.75 C, with GPU devices masked; CPU98/NVMe85/lower guards
+and sanitizer checks stay enabled. No dependency installation, tuning, foreign
+signal/cache/source/service mutation or publication occurs. GPU qualification
+of the new source requires a later freshly admitted `.161` window.
+
+## Smoke actual closure and fresh full19 admission — 2026-10-05
+
+The earlier `.157` CPU smoke supervisor `4191489` (start ticks `179295094`)
+and all owned process groups/task containers are absent at 19:30:42 UTC; its
+original CPU lease device 52 / inode 4486194 is briefly free and released.
+Reward 1/1 and 34 generated client files are collected before the nonce-bound
+GPU release. `.161` supervisor `63047` (start ticks `9598139`) actually retires,
+twenty GPU files are collected, models stay unchanged, router restores and the
+original lease releases at 19:35:47.787692 UTC. The own HTTP8000 permit retires
+with identical before/after firewall status. No release is inferred from a task
+reward alone. [Closure receipt](development/validation/terminal-smoke-point-gpu-2026-10-05.json).
+
+Q2 separately runs its bounded register-scatter window, then reports collected
+release `b9e05fd2` at 19:46:56.076123 UTC and fresh `.157` non-use. Root's fresh
+read-only admission verifies 1,099 identities / 876 groups retired, kernel KFD
+empty, four original locks unchanged/free EX|NB briefly and seven unchanged
+model stat witnesses. Foreign GPU locks are not retained by the CPU client.
+The Point thread confirms no `.161` job/build/client/lease/waiter/reservation.
+
+The own full19 GPU supervisor starts at 20:06:11 UTC: `65159` (start ticks
+`9972757`), original lease device 66307 / inode 105946405, fresh admission and
+authorized named router stop/restore. Model `65982` (start ticks `9978951`)
+actually becomes READY at 262,144 context. The own `.157` persistent CPU client
+starts at 20:08:35 UTC: `20794` (start ticks `179631020`), original CPU lease
+device 52 / inode 4486194, own `run/root-terminal-bench-r16/full-r1` source/job/
+cache. Doctor exits zero; Harbor `20925` (start ticks `179631192`) actually runs
+the unchanged 19-task suite. [Startup receipt](development/validation/terminal-full-point-start-2026-10-05.json).
+
+GPU work remains `.161` only. Q2 maintains non-use of `.157` until actual root
+CPU closure, not a progress/reward snapshot. Original attempts/timeouts/C1,
+CPU98/NVMe85/lower sensor guards and GPU observation remain intact. The separate
+own HTTP permit supervisor `66074` (start ticks `9984711`) admits only `.157`
+to `.161:8000` until exact eval-owner retirement; no tunnel, installation,
+foreign signal/cache/source/deployment/tuning mutation or global firewall
+disable occurs. Both current leases remain held; there is no completed full
+score or release at this startup record.
+
+## Real Terminal smoke CPU/GPU window — 2026-10-05
+
+New `2359488` build, AR37 and MTP37 finish, collect and retire under their own
+fresh `.161` leases; the [receipt](development/validation/c17-finite-cache-point-gpu-2026-10-05.json)
+does not inherit qualification from the earlier `1bff953` capacity run.
+
+Fresh Q2 release/non-use plus actual `.157` verification sees 1,083 identities /
+863 groups retired, original four locks free briefly, kernel KFD empty and seven model
+stat identities unchanged. No foreign lock is held for the CPU client.
+The own persistent client `4191489` (start ticks `179295094`) starts at 19:12:36 UTC with
+CPU-only lease device 52 / inode 4486194. Doctor and actual Harbor 0.20 startup pass.
+The unchanged Core-19 smoke runs against `.161` HTTP port 8000, not a tunnel.
+No dependency installation, Q2 environment/cache modification or `.157` GPU
+work occurs. Q2 reconfirms non-use until actual root CPU closure; no release
+or standing reservation is inferred from a progress snapshot.
+
+The GPU eval supervisor `63047` (start ticks `9598139`) retains the original `.161` lease
+device 66307 / inode 105946405. Its model process `63857` (start ticks `9601616`) is READY at 262,144 context;
+there is no final task reward or endpoint release yet. CPU 98 C / NVMe 85 C guards and
+owned retirement remain active. Initial external GETs fail on UFW's missing port 8000
+permit. The own scoped permit admits only `192.168.5.157` to `192.168.5.161:8000`,
+supervised by `64078` (start ticks `9638531`) and automatically retired when the exact eval
+owner closes. No global firewall disable or foreign rule removal occurs.
+
+## Physical1M closure and fresh r16 window — 2026-10-05
+
+The frozen `1bff953` physical1M supervisor `53019` (start ticks `8719211`) completes the
+declared PP1,048,448/TG128 run and actually retires. Collection verifies eleven
+files, supervisor/owned children absent, original lease free, unchanged model
+stats and router restored. The [receipt](development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+records release at 18:42:53.125145 UTC. The previous EOS43 failure is retained.
+
+The Point thread supplies fresh non-use with no `.161` job/client/lease/waiter/
+reservation. Root then stages sealed source `2359488`, code `5bdd405`, in its
+own r16 root. The new GPU-device-free build supervisor `56982` (start ticks `9482399`)
+acquires the original lease device 66307 / inode 105946405 and follows fresh actual
+KFD/resource/CPU 98 C / NVMe 85 C admission plus the already authorized named router
+stop/restore. This build is separate from original-weight qualification.
+
+Q2 reports `.157` terminal release `b52d7308` at 18:39:19.580005 UTC and fresh
+non-use for the root CPU-only external Terminal client. Root verifies that
+release SHA and existing Harbor 0.20/Docker29.7.2/Compose5.5/source prerequisites
+read-only. No root `.157` GPU job/build/model access, installation, foreign
+signal or Q2 environment/cache change occurs. The future own CPU client needs
+its fresh admission; no job or task score has started at this record.
+
+## Compiled-schema C17 host slice during the 1M window — 2026-10-05
+
+Root advances cache code/tests locally while the existing `.161` physical1M
+supervisor 53019/start 8719211 keeps its original lease and frozen `1bff953`
+runtime. Read-only observation at 18:03:12 UTC confirms 769,024 prefill tokens,
+CPU 76 C and no decode/final snapshot. This is progress, not completion or a
+lease release. No second GPU build/run is admitted during that window.
+
+The [cache host receipt](development/validation/c17-grammar-cache-host-2026-10-05.json)
+binds the C17 policy/lifetimes, 45-file inventory and 46 headers. Matching new
+provider/application GPU builds remain required; workers/events/RNG and DS4
+RAM/SSD formats do not change. Local CPU maximum is 90.875 C without tuning.
+
+Q2 separately reports checkpoint `c6ef68b` and actual `.157` release
+`88dcb8d8` at 17:50:10.710664 UTC. Root reconfirms no `.157` job/build/client/
+lease/waiter/reservation. Its future Terminal Bench CPU client remains unstarted
+and requires a fresh coordinated window; no admission is inherited from Q2.
+
+## New Point GPU handover and integrated runtime — 2026-10-05
+
+The owner again states `.161` is available. Root recovers the already recorded
+explicit `llama si può stoppaare` grant below for the named router's temporary
+stop/restore, combined with this fresh handover. No additional permission is
+required. Every window acquires the original lease dev 66307/inode 105946405
+EX|NB, validates actual/kernel KFD retirement and resources, and restores the
+initially active router. No other foreign service/process, installation or
+tuning is changed. Root GPU work remains `.161` only.
+
+Two terminal builds fail and are collected, restored and released. Fixed
+checkpoint `1bff953` then builds/seals r15. Its AR37, MTP37 and three two-session
+native profile gates all exit zero, retain unchanged original model/predictor
+stat identities and have SHA-verified collection/process/service/lease closure.
+The [receipt](development/validation/c17-sampling-point-gpu-2026-10-05.json)
+records these five completed windows and their precise limits. The private
+finite-value draft is preserved separately in Git; no draft source enters r15.
+
+The new physical1M fixed-TG128 window is active on `.161` with supervisor
+53019/start 8719211 and owned container `3e0b2888247f63d9f9e1760d8987bb7ad75940f5456151d67d14d92f2748319b`.
+Its original lease remains held until actual retirement; progress is not
+completion. CPU guard is 98 C, NVMe 85 C and GPU temperature is observed only.
+There is no root `.157` GPU job, build, client, lease, waiter or reservation.
+Terminal Bench's `.157` CPU-only client is coordinated separately and remains
+unstarted while the physical1M gate runs. Q2's reported `.157` release
+`6abd77bc` at 16:35:19.738986 UTC is separate evidence, not inherited ownership
+or root numerical qualification. No root `.157` client slot is reserved.
+
+
+## JSON Schema C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only observation sees training PID 29223 gone and router
+PID 29377/start 2474081 still in actual/kernel KFD. Available RAM is
+120,803,872,768 bytes and CPU 44.25 C at that observation. The original campaign
+lease is briefly probed EX|NB and released; this admits/reserves no GPU work.
+The Point thread confirms no GPU/router use or reservation and no explicit
+router-stop authorization held. Root mutates no service and performs no GPU
+build/run/model hash/conversion or foreign signal on `.161` or `.157`.
+
+The [host receipt](development/validation/c17-schema-transform-host-2026-10-05.json)
+binds actual C17 equality/reference/key/conjunction algorithms, 29 Debug,
+29 sanitizer, 29 pristine/ON/OFF and five minimal ICU-OFF checks. All thirteen
+previous witnesses stay unchanged; 1996 new complete transformations agree.
+Local CPU maximum is 92 C without tuning. The 38-file inventory and five exact
+schema edits require new matching sealed provider/application builds. No new
+worker/event/RNG/engine/DS4 layout, original-weight or performance gate is claimed.
+All six root tasks remain open; further schema visiting/normalization can proceed
+locally while fresh `.161` GPU admission remains unavailable.
+
+Q2 separately reports terminal release `986ffa09` at 15:04:53.959507 UTC,
+13 exits zero/37 artifacts and a slower aligned-pair candidate. Root sends fresh
+non-use after that report, with no `.157` job/build/client/KFD/lease/waiter/
+reservation/restart/cleanup/interleaving. Separate reports are neither root
+qualification nor inherited ownership/admission.
+
+
+## Grammar construction C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only observations still identify Gemma training PID 29223/
+start 2470351 and router PID 29377/start 2474081 in actual/kernel KFD. A brief
+nonblocking probe of the original lease is released; it is no GPU admission or
+reservation. Root advances C17 grammar construction and validation locally,
+with GPUs masked. No root GPU build/run/model hash/conversion, foreign signal,
+service/dependency/tuning mutation, standing lease or waiter occurs.
+
+The [source-bound host receipt](development/validation/c17-grammar-builder-host-2026-10-05.json)
+records 28 Debug, 28 sanitizer, 28 pristine/ON/OFF and four minimal ICU-OFF
+checks, plus 43 headers/strict C17. All thirteen prior complete witnesses remain
+unchanged. Local CPU peak is 91.5 C; own allocator refusals are 113. The 35-file
+inventory and 21 additional exact runtime edits require new matching sealed
+provider/application builds. Shared worker/events/RNG/engine and DS4 layouts
+are unchanged. All six root tasks remain open; new GPU gates use `.161` after
+fresh coordinated admission. Schema transformations and private provider
+composition/model/controller storage remain transitional.
+
+Q2 separately reports terminal release `a8e0d9f6` at 14:11:27.395434 UTC from
+source `a831c87`, followed by result `931ce30`: its fixed-width candidate retains
+numerical differences, a component exit 1 and measured regression. Root sends
+fresh non-use and has no `.157` GPU job/build/client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving. Those are separate assignments and reported
+results, not root tasks, root qualification or inherited ownership.
+
+
+## Snapshot bridge C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only witness still observes Gemma training PID 29223/start
+2470351 and router PID 29377/start 2474081 in actual/kernel KFD, GPU 100%.
+Original lease dev 66307/inode 105946405 is briefly free EX|NB and released; no GPU admission or
+reservation follows. Boot/filesystem/four original shard stat identities remain
+unchanged. Root performs no GPU build/run/hash/conversion, service mutation,
+foreign signal, waiter or standing lease on `.161` or `.157`.
+
+Root advances C17 snapshot read/write construction/planning/overlap validation/
+payload copies with [host evidence](development/validation/c17-grammar-snapshot-host-2026-10-05.json).
+27 Debug, 27 sanitizer, 28 pristine/ON/OFF and final 2 Debug/2 sanitizer contracts
+pass, including 8192 frames and 84 actual C++ staging allocation refusals.
+Three minimal-core ICU-OFF checks also pass. All twelve previous full witnesses
+remain unchanged; 42 headers and strict C17 pass. Local CPU peak is 90.5 C,
+without tuning. The 32-file inventory/runtime recipe needs new matching sealed
+provider/application builds. Original provider vector/string State layout is
+preserved; callbacks only translate views/growth/errors. Shared worker/events/
+RNG/engine ABIs and DS4 framing are unchanged. All six root tasks stay open.
+
+Q2 separately reports terminal release
+`f2415f576f49438911a070b53fd43fb2b937e83a7837854a916fb4e1fe2092e9`
+at 12:59:27.317557 UTC from half-pair source `e71a834`: 13 exits zero/37 artifacts,
+926 identities/735 groups retired, KFD empty, four leases free and seven model
+stats unchanged. Q2 then separately reports eight-half admission `4776f984`
+at 13:13:35.365884 UTC/source `746605f`, followed by terminal release
+`bfc1475dbf18309dbdbb6dd27746e1681aaaf309e8664a72032834950dd31cc9`
+at 13:22:07.300470 UTC: 13 exits zero/37 artifacts, 942 identities/748 groups
+retired, KFD empty, four leases free and seven model stats unchanged. Result
+checkpoint is `15bbcc9`. Root sends fresh non-use handover and has no `.157` job/
+build/client/KFD/lease/waiter/reservation/signals/restart/cleanup/interleaving.
+These are separately assigned/reported results, not root qualification/tasks;
+inherited F16 quality remains open and no ownership is inherited.
+
+## Unicode-set/input C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only witness still observes Gemma training PID 29223/start
+2470351 and router PID 29377/start 2474081 in actual/kernel KFD, GPU 100%.
+Original lease dev 66307/inode 105946405 is briefly free EX|NB and released;
+this is neither GPU admission nor reservation. Boot/filesystem/four original
+model stat identities remain unchanged. No root GPU build/run/model hash/
+conversion, service mutation, foreign signal, waiter or standing lease occurs.
+
+Root advances C17 Unicode registry/input storage through public ICU C APIs;
+ICU remains the actual property/set/conversion dependency. The
+[host receipt](development/validation/c17-grammar-uset-host-2026-10-05.json)
+records 26 Debug, 26 sanitizer, 25 pristine/ON/OFF and 5 minimal-core OFF checks,
+42 headers and strict C17/symbol checks. CPU maximum is 89.875 C, without tuning.
+The 32-file inventory and corrected source-list recipe require matching new
+provider/application builds. ICU internal faults and all new GPU gates remain
+open. Worker/events and DS4 framing are unchanged; all six root tasks are open.
+
+Q2 separately reports half-storage source `66cc162`, then terminal release
+`f2e1504f82efe4f118ab687272735ac761b2f9c27be590b88c308bedd12483bf`
+at 12:25:17.460508 UTC: 13 exits zero/37 artifacts, 910 identities/722 groups
+retired, KFD empty, four original leases free and seven model stat tuples
+unchanged. Root sends a fresh non-use handover and has no `.157` job/build/client/
+KFD/lease/waiter/reservation/restart/cleanup/interleaving. These are separately
+reported ownership/results, not root tasks or root numerical qualification.
+
+## Regex parser C17 host-only ownership — 2026-10-05
+
+Fresh `.161` read-only witness still observes Gemma training
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD, GPU 100%. Original lease dev 66307/inode 105946405 is briefly free EX|NB
+and released; this admits or reserves no GPU work. Boot/filesystem and four
+original model stat identities remain unchanged. No root GPU build/run/model
+hash/conversion, service mutation, foreign signal, waiter or standing lease
+occurs on `.161` or `.157`.
+
+Root advances owned C17 syntax parsing and iterative assertion expansion with
+[host evidence](development/validation/c17-grammar-parser-host-2026-10-05.json).
+Final 24 Debug, 24 sanitizer and 24 pristine/ON/OFF tests, 41 headers and strict
+symbols pass with GPUs masked. Local CPU maximum is 91.875 C, without tuning.
+The 30-file inventory/parser recipe requires a new matching provider/application
+build. Worker/events and DS4 framing remain unchanged; all six root tasks are open.
+
+Q2 separately reports down-live admission at 11:38:59.242478 UTC from
+`78d66fd`, followed by release `fa9d67ad511e9083944312521bda4f9e0278aec987f2dc4e488729675ed9d029`
+at 11:47:01.122226 UTC. Root has no `.157` job/build/client/KFD/lease/waiter/
+reservation/restart/cleanup/interleaving. This is separately assigned ownership
+and reported evidence, not root qualification or a root task.
+
+## Regex compiler C17 host-only ownership — 2026-10-05
+
+The latest `.161` read-only witness still observes Gemma LoRA training
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD, with GPU 100%. Original lease dev 66307/inode 105946405 is briefly free
+EX|NB and released; no reservation or GPU admission follows. Boot/filesystem
+and four original model stat identities are unchanged. No root GPU build/run/
+model hash/conversion, service mutation, foreign signal, waiter or standing
+lease occurs on `.161` or `.157`.
+
+Root advances owned C17 expression/derivative/Unicode-partition/BFS algorithms
+with [source-bound host evidence](development/validation/c17-grammar-compiler-host-2026-10-05.json).
+Final 23 Debug, 23 sanitizer and 23 pristine/ON/OFF tests, 40 headers and strict
+symbols pass with GPUs masked. Local CPU maximum is 90.125 C, without tuning.
+The 27-file inventory/compiler recipe requires a new verified provider/application
+build. Worker/events and DS4 framing remain unchanged; all six root tasks are open.
+
+Root freshly confirms no `.157` job/build/eval client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving after Q2 reported release `1626b7e4` at
+11:03:17.478662 UTC. Q2 separately reports live-compose admission at
+11:21:43.529360 UTC from `526a8db`, receipt `48f7cf91b2b0f8dcdb7204ac0a602b3523a385196a0ca396ad5962171bf5977d`.
+This is separately assigned ownership, not root qualification or a root task.
+
+## Vocabulary C17 host-only ownership — 2026-10-05
+
+Fresh readonly `.161` witness at 10:32:59.150260 UTC still observes foreign
+Gemma training PID 29223/start 2470351 and router PID 29377/start 2474081 in
+actual/kernel KFD, GPU 100%, CPU 89.25 C and available RAM 85,969,305,600 bytes.
+Original lease dev 66307/inode 105946405 is briefly free EX|NB; this is not a
+reservation or GPU admission. Boot/filesystem and four model stat identities
+are unchanged. No root GPU build/run/model hash/conversion, service mutation,
+foreign signal, waiter or standing lease occurs on `.161` or `.157`.
+
+Root advances only the owned C17 vocabulary/trie/transition/mask-cache slice,
+with source-bound [host evidence](development/validation/c17-grammar-vocabulary-host-2026-10-05.json).
+Final 22 Debug, 22 ASan/UBSan/LeakSanitizer and 22 pristine/ON/OFF checks, 39 public
+headers and strict symbols pass. Local CPU maximum is 92.125 C, with no tuning.
+These synthetic tests are not numerical GPU or performance qualification. The
+24-file provider private inventory/new exact recipe requires a new verified
+archive/application rebuild. Events/worker count and DS4 framing stay unchanged;
+all six root tasks remain open and GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/KFD/lease/waiter/reservation/
+restart/cleanup/interleaving after Q2 reported release `5011dbe0`. Q2 separately
+reports wide-pair admission at 10:30:32.925931 UTC from `41e5a1d`, receipt
+`61f42f167d9e528740babc58ad63a999e8103c1adbafd213b2d2cc8394397a85`.
+This is its own ownership, not root qualification, reservation or task.
+
+## C17 Unicode host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 09:34:11.650086 UTC observes foreign Gemma
+training PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD. GPU is 100%, CPU 91.875 C, available RAM 86,045,315,072 bytes. Original lease
+dev 66307/inode 105946405 is free; boot/filesystem/four shard stats are unchanged.
+The brief nonblocking probe reserves nothing and admits no GPU work.
+
+Root extracts string/UTF8/escape/surrogate/whitespace predicates and copied
+Unicode-DFA graph/query runtime into C17. Final 21 Debug, 21 sanitizer and
+19 pristine/ON/OFF host tests and 38 public headers pass with GPUs masked;
+local Strix Halo CPU peak is 90.625 C. The
+[receipt](development/validation/c17-grammar-unicode-host-2026-10-05.json) binds
+commands, complete witnesses and limits. Compiler/trie/cache extraction and
+original-weight continuation/resources/cost stay open. No root GPU build/run/
+hash/conversion, service change, foreign signal, waiter or standing lease occurs.
+Root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/KFD/lease/waiter/reservation/
+restart or interleaving after Q2 release ddac7b0d. Q2 separately reports a new
+short48 admission from checkpoint `0e642c8`; that report is not root qualification
+or a root task. Ownership/admission/release are separate for every agent window.
+
+## C17 numeric grammar host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 08:51:41.633432 UTC observes foreign Gemma
+training PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD. GPU is 100%, CPU 89.25 C, available RAM 86,091,735,040 bytes. Original lease
+dev 66307/inode 105946405 is free, and boot/filesystem/four shard stats are
+unchanged. The brief nonblocking probe reserves nothing and admits no GPU work.
+
+Root extracts exact-decimal numeric policy/prefix/LCM algorithms into C17.
+20 Debug, 20 sanitizer and 18 pristine/ON/OFF host checks and 36 headers pass
+with GPUs masked; local CPU peak is 91.875 C. The
+[receipt](development/validation/c17-grammar-number-host-2026-10-05.json) binds
+commands, source, complete witnesses and failures. Compiler/string/regex/trie/cache
+and original-weight continuation/resources/cost remain open. No root remote GPU
+build/run/hash/conversion, service change, foreign signal, waiter or standing
+lease occurs. Root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/lease/waiter/reservation/
+restart or interleaving. Q2 separately reports release
+`ddac7b0d0a6c210dd2c03ab06ab1337c627bde773583f725764de22a8e121fe4`
+at 08:50:49 UTC after its compact IQ2 window. Those reports are not root
+qualification/tasks; every further agent window requires fresh ownership/admission.
+
+## C17 byte-grammar host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 08:12:22.016655 UTC observes external Gemma training
+PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel KFD.
+CPU is 90.5 C, available RAM 86,135,402,496 bytes. Original lease dev 66307 /
+inode 105946405 is free; boot/filesystem/four shard stats remain unchanged.
+The brief nonblocking probe reserves nothing and admits no GPU work.
+
+Root extracts the byte-state runtime and mask application into C17. Final
+19 Debug, 19 sanitizer, 17 pristine/ON/OFF host checks and 35 headers pass with
+GPUs masked; local CPU peak is 90.75 C. [Receipt](development/validation/c17-grammar-runtime-host-2026-10-05.json)
+binds commands, sources and complete byte/mask witnesses. Compiler/predicate/
+trie/cache extraction and original-weight continuation/resources/cost remain open.
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs. Root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/lease/waiter/reservation/
+restart or interleaving. Q2 separately reports mirror source `c6b637c` and
+release `2fa8f9c0e8268dcf44800ad1494faa79eb14723af786b6d7c9f56d893a86a709`
+at 07:57:20.795336 UTC, followed by local checkpoint `252a2d8` and a new local
+compact-producer candidate. Those reports are not root qualification/tasks;
+every further agent window requires its own fresh ownership/admission.
+
+## C17 probability host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 07:28:56.951902 UTC observes external Gemma
+training PID 29223/start 2470351 and router PID 29377/start 2474081 in actual/kernel
+KFD. CPU is 89.25 C, available RAM 86,238,363,648 bytes. Original lease dev 66307 /
+inode 105946405 is free; boot/filesystem/four shard stats are unchanged. Its
+brief nonblocking probe reserves nothing and does not admit GPU work.
+
+Root extracts compact/residual/host MTP probability arithmetic into C17.
+Final 18 Debug, 18 sanitizer, 16 pristine/ON/OFF host checks and 34 public headers
+pass with GPUs masked; local CPU peak 88.375 C.
+[Receipt](development/validation/c17-distribution-host-2026-10-05.json) binds
+commands, source and witnesses. GPU continuation/cost remain pending.
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs; root GPU work remains assigned to `.161`.
+
+Root freshly confirms no `.157` job/build/eval client/lease/waiter/reservation/
+restart or interleaving. Q2 separately reported source `c3164a2` and release
+`effb3e6f046de261e8b89cce5d94cbc9aa8c12882d539965c43a57bc5b1f3b05`
+at 06:58:48.219732 UTC; those reports are not root qualification or a root task.
+Every further agent window requires its own fresh ownership/admission.
+
+## C17 sampler-history host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 06:24:10.934843 UTC observes the external
+training PID29223/start2470351 and router PID29377/start2474081 in actual/kernel
+KFD inventories. CPU is 91.625 C, available RAM 86,383,816,704 bytes. The original
+lease device 66307 / inode 105946405 is free; boot/filesystem/four shard stats are
+unchanged. The brief nonblocking probe reserves nothing and does not admit GPU work.
+
+Root extracts sampler-history bookkeeping into C17 and preserves the original
+inference owner. Seventeen Debug, seventeen sanitizer, fifteen reference-project
+checks and 33 public headers pass with GPUs masked. Local CPU peak is 90.875 C;
+[commands, witnesses and failures](development/validation/c17-history-host-2026-10-05.json)
+are retained. Original-weight continuation, resources and cost remain pending.
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs; root GPU work remains assigned to `.161`.
+
+Root's fresh `.157` handovers confirm no job/build/eval client/lease/waiter/
+reservation/restart or interleaving. Q2 separately reports the attempted Q4 gate
+failed before Upload/Forward and was released at 06:09:10.187334 UTC, release
+f1eaaaece9aab1f305d58d888a522e7ac505b9b4dd855434709d29b6f9d35424.
+It reports a separately admitted Q2 fused-grid window at source00b38d0 after
+that release. These are agent reports, not root qualification or a root task;
+its ownership/admission/release are separate from the six tasks here.
+
+## HTTP plan/choice host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 05:43:05.088403 UTC observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. CPU is 80.375 C, available RAM 87,005,990,912 bytes. Original lease
+device 66307 / inode 105946405 is free; boot, filesystem and original model stats remain
+unchanged. The brief nonblocking probe is neither a reservation nor admission.
+
+Root completes local HTTP creation-time steering plans and individual stored
+choice controls through the same C17 inference owner. Final 24 Debug, 24
+sanitizer, three build-off tests and 32 public headers pass with GPUs masked;
+local CPU peak is 71.875 C. Failures and limits are retained in the
+[receipt](development/validation/steering-http-plan-host-2026-10-05.json).
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs. Root GPU work remains assigned to `.161`.
+
+After root's fresh `.157` non-use handover, Q2 separately reports admission of
+source e1decdb and closure of its composition window at 05:39:08.060027 UTC,
+release 4d34e1e62f487e2069e5503fe343bcab5c80030166a5b50f6fc644275f95fb2a.
+Root has no `.157` job/build/eval client/lease/waiter/reservation/restart or
+interleaving. Q2's reported artifacts are not root qualification; every further
+window requires fresh ownership/admission.
+
+## Scheduled steering host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 05:01:54.702189 UTC observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. CPU is 79.25 C, available RAM 86,524,407,808 bytes. Original lease
+device 66307 / inode 105946405 is free; boot, filesystem and original model stats remain
+unchanged. The brief nonblocking probe is neither a reservation nor admission.
+
+Root's source/host increment adds copied deterministic core/bench steering plans
+and asynchronous single-choice HTTP controls on the existing inference owner.
+Final 21 Debug, 21 sanitizer, three build-off tests and 32 public headers pass
+with GPUs masked; local CPU peak is 75 C. Actual commands, failures and limits
+are retained in the [receipt](development/validation/steering-schedule-host-2026-10-05.json).
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs. Root GPU work remains assigned to `.161`.
+
+Q2 separately reports its Q8 K16 window closed after source239272ca, followed by
+local checkpoint c0cf5f2 and release
+11ba034fa212a7b4668c8d831b4c87feac383dc7c8ff94d0e2f1561825236a1b.
+Root has no `.157` GPU build/job, eval client, lease, waiter, reservation or
+interleaving. These reported results are not root qualification; every new
+window requires fresh ownership/admission.
+
+## Live steering host checks; no GPU admission — 2026-10-05 UTC
+
+Fresh read-only `.161` witness at 04:06:49.060745 UTC observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. CPU is 79.75 C, available RAM 86,713,753,600 bytes. Original lease
+device 66307 / inode 105946405 is free; boot, filesystem and original model stats remain
+unchanged. The brief nonblocking probe is neither a reservation nor admission.
+
+Root's source/host increment adds asynchronous per-job steering on the existing
+owner, scope/history refresh and concurrent isolation. Final 16 Debug, 16
+sanitizer, three build-off, 32 headers and nine provider syntax checks pass with
+GPUs masked; local CPU peak is 80.875 C. Retained closed-stderr abort and diagnostic
+limits are explicit in the [receipt](development/validation/steering-live-host-2026-10-05.json).
+No remote GPU build/run/hash/conversion, service change, foreign signal, waiter
+or standing lease occurs. GPU work here remains assigned to `.161`.
+
+Q2 separately reports its r2 release 79cb5091 at 04:04:02.651364 UTC after source
+checkpoint703386d. Root has no `.157` GPU build/job, eval client, lease, waiter,
+reservation or interleaving. Its reported result is not root qualification;
+every new window requires fresh ownership/admission.
+
+## Shared-core steering host checks; no GPU admission — 2026-10-05 UTC
+
+The fresh read-only witness at 03:20:53.768099 UTC observes external
+PID29223/start2470351 and restored router PID29377/start2474081 in descriptor and
+kernel KFD inventories. CPU is 80.625 C, available RAM 86,254,231,552 bytes;
+original lease device 66307 / inode 105946405 is free, with boot/filesystem/model stats
+unchanged. The brief nonblocking probe is not a reservation or GPU admission.
+
+Root completes initial shared-core/server/bench steering source and 16 Debug,
+16 sanitizer, three build-off and 32 public-header host checks, GPUs masked;
+local CPU peak is 78.5 C. No remote build/run, heavyweight model hash, conversion,
+service mutation, foreign signal, waiter or standing lease occurs.
+Q2 separately reports release 58d6fd7e at 03:24:18.993858 UTC for its new row-128
+window; root has no `.157` GPU build/job, eval client, waiter or reservation.
+Any further window needs fresh ownership/admission. Root GPU work uses `.161`.
+[Host receipt](development/validation/steering-core-host-2026-10-05.json).
+
+## Steering model-state host binding; no GPU admission — 2026-10-05 UTC
+
+The read-only witness at 01:49:21.180644 UTC still observes external
+PID29223/start2470351 and router PID29377/start2474081 in descriptor/kernel KFD
+inventories. CPU is 79.625 C, available RAM 87,580,016,640 bytes. Original lease
+device 66307 / inode 105946405 is free; boot/filesystem/model stats are unchanged.
+No remote GPU build/run, heavyweight model hash, conversion, service mutation,
+foreign signal, retry, waiter or reservation follows this witness.
+
+Root completes model-prefix state source binding and ten Debug plus ten sanitizer
+host checks, with GPUs masked and local CPU maximum 65.125 C. No inference
+runtime thread is added. Q2 separately reports release b776d025 at 01:57:25 UTC
+and clean checkpoint 5132162 for its half-byte candidate; root retains no `.157`
+job, build, eval client, waiter, lease or reservation. Any further window needs
+fresh ownership/admission. Root GPU qualification remains scoped to `.161`.
+[Host receipt](development/validation/steering-binding-host-2026-10-05.json).
+
+## Steering admission host work; no new GPU window — 2026-10-05 UTC
+
+The read-only `.161` witness at 01:26:22.453930 UTC still observes external
+PID29223/start2470351 in session-424 and router PID29377/start2474081 in descriptor
+and kernel KFD inventories. CPU is 79.625 C, available RAM 87,568,154,624 bytes;
+original lease device 66307 / inode 105946405 is free. Boot/filesystem/model stats are
+unchanged. This witness does not reserve a lease or admit GPU work.
+
+Root completes direct C steering admission/retained-forward source binding and
+nine Debug plus nine sanitizer host checks with GPUs masked; local CPU maximum
+is 67.375 C. No remote build/run, heavyweight hash, conversion, service mutation,
+foreign signal, retry, waiter or reservation occurs. Root has no GPU ownership
+on `.161` or `.157`. Q2 reports release eb0d6785 at 01:11:17.660053 UTC and now
+prepares a separate half-byte candidate; root hands over without interleaving,
+requiring a fresh Q2 admission. No root eval client starts on `.157`.
+[Host receipt](development/validation/steering-admission-host-2026-10-05.json).
+
+## Steering state host work; no new GPU admission — 2026-10-05 UTC
+
+At 00:52:53.054202 UTC the read-only `.161` inspection still observes external
+PID29223/start2470351 in session-424 and restored router
+PID29377/start2474081 in both descriptor and kernel KFD inventories. CPU is
+81 C, available RAM 87,629,848,576 bytes, and the original private lease
+device 66307 / inode 105946405 is free. The boot, filesystem and original model stats
+are unchanged. This witness does not reserve a lease or authorize GPU work.
+
+Root completes C17 metadata/staged-restore host development and eight Debug plus
+eight ASan/UBSan/LSan checks, with local CPU maximum 75 C and GPUs masked.
+No remote build/run, model hash, conversion, restart, automatic retry, waiter,
+service mutation or foreign signal occurs. Root has no GPU ownership on `.157`
+or `.161`. Q2's separately reported `.157` window remains released; no root
+client evaluation starts there. New source leaves all frozen runtime receipts
+unchanged. [Host receipt](development/validation/steering-state-host-2026-10-05.json).
+
+## Steering host work; no new GPU window — 2026-10-05 UTC
+
+Root continues only host activation/provider development. The read-only witness
+at 2026-10-04 23:53:53.369505 UTC still observes external PID29223/start2470351 in
+session-424 and the restored router PID29377/start2474081 in both descriptor and
+kernel KFD inventories. CPU is 78.5 C, available RAM 87,978,463,232 bytes; the
+original private `.161` lease is free. This is no GPU admission. There is no
+new root build/run, retry, waiter, lease reservation, service mutation or foreign
+signal on `.161`, and no root GPU ownership on `.157`.
+
+Six Debug and six sanitizer host checks and provider/kernel syntax pass, with
+local CPU maximum 82 C and GPU masked. This writes a new unqualified source
+increment, without changing the frozen r12 AR/MTP receipts or their closure.
+[Host receipt](development/validation/steering-provider-host-2026-10-05.json).
+
+## Automatic-budget r12 windows released — 2026-10-04 UTC
+
+Fresh admission at 22:57:20.466869 UTC verifies empty actual/kernel KFD clients
+after stopping only the authorized router. The device-free r12 compilation of
+`a3066a7` exits 0 and releases at 22:59:56.903782 UTC. Its six collected artifacts
+verify; router PID26789 is restored and lease device 66307 / inode 105946405 is free.
+
+The separately admitted AR37 window passes all original-weight checks and
+releases at 23:11:50.074654 UTC. Seventeen artifacts verify, models are unchanged,
+owned processes retire and router PID28052 is restored. Collection SHA-256:
+`8e3b670072e24b44819423b5c31bfc955e33d849adce370e1746174b8f51a288`.
+
+Fresh MTP admission at 23:14:10.712962 UTC initially verifies empty KFD.
+External PID29223/start2470351 subsequently opens KFD/renderD128 in `session-424`,
+outside the owned container. The guard stops only the root window and preserves
+supervisor/controller 1, owned child 137, container-init 143 and `OOMKilled=false`.
+Release is 23:16:24.366038 UTC, with router PID29377 restored and the original
+lease free. Sixteen artifacts verify; collection SHA-256:
+`8dd6b5f981615a1cf296ab2f3a7c5f2d0a37f1f0732a3a3099267bd7716df8b4`.
+Separate read-only closure at 23:19:18 UTC verifies actual owned GPU
+PID29140/start2464442 absent and the foreign executable `/usr/bin/python3.12`
+still present. Point confirms it owns no remote process or reservation.
+
+The MTP37 window remains unqualified. Foreign processes are unchanged; no root
+GPU job, waiter, automatic retry or reservation remains on `.161` or `.157`.
+Further GPU work requires fresh availability and admission. CPU 98 C / NVMe 85 C and
+GPU observation remain; no tuning or dependency installation occurs.
+[Receipt](development/validation/automatic-output-point-gpu-2026-10-04.json).
+
+## OpenAI MTP controls released — 2026-10-04 UTC
+
+Read-only inspection at 22:19:44 UTC finds the unrelated training process gone,
+only router PID20206/start1101436 holding KFD/renderD128, the original boot/FS
+identity and private lease free. Point confirms no job, waiter or reservation.
+Fresh in-lease admission at 22:20:32.928068 UTC verifies empty actual/kernel
+GPU client lists after stopping only the authorized router.
+
+The frozen r11 original-weight MTP window passes the same 34 OpenAI checks as
+AR and releases at 22:22:10.325729 UTC. Server/client/controller/supervisor exits
+are 0; collection exits 0 and fifteen artifacts hash-verify. Model/predictor
+stats stay unchanged, all owned processes retire, router PID23248 is restored
+and lease device 66307 / inode 105946405 is free. The owned container init's subsequent
+stop exit 143 is preserved separately. Collection SHA-256 is
+`4a10a330e1973dd221bb56e0afcf031eb760e407788ef34c2f2012a6a1db012b`.
+CPU/GPU/NVMe maxima are 61.5/66/66.85 C under CPU 98 C / NVMe 85 C and GPU observation.
+
+The earlier refused MTP window remains failed; this new gate qualifies r11
+wire/lifetimes only. Root has no standing GPU lease, job, waiter or reservation
+on `.161` or `.157`. Further work requires fresh admission.
+[Receipt](development/validation/openai-controls-mtp-point-gpu-2026-10-04.json).
+
+## OpenAI AR controls released; MTP admission refused — 2026-10-04 UTC
+
+The corrected r11 device-free build passes and releases `.161` at
+19:13:14.855612 UTC. The separately admitted original-weight AR control gate
+passes all 34 checks and releases at 19:21:29.872800 UTC. Fifteen collected
+artifacts hash-verify, original model stats stay unchanged, owned processes are
+absent, the named router is restored and the private lease is free.
+
+MTP r2 admission at 19:27:37 UTC observes an unrelated GPU client,
+PID19916/start1073961 in `session-326.scope`. The supervisor refuses before
+model or container launch, restores only `llama-router.service` (PID20206) and
+releases the lease at 19:27:37.908694 UTC. Four collected artifacts hash-verify;
+controller/supervisor exits remain 1 and collection exits 0. Read-only inspection
+identifies `/usr/bin/python3.12`; Point confirms this is not a Point job.
+No foreign process is terminated or given an ownership exception.
+
+Root has no GPU job, waiter or reservation on `.161` or `.157` at closure.
+Further MTP work requires fresh actual available-state checks and admission.
+[Receipt](development/validation/openai-controls-point-gpu-2026-10-04.json).
+
+## GTT112 reboot verified; physical 1M window released — 2026-10-04 UTC
+
+The owner explicitly authorizes reboot. `.161` returns with boot ID
+`c82c90ed-7f94-4212-bc52-681c63eac395`, unchanged kernel and 112 GiB effective
+GTT. Router and monitor containers return without service configuration changes.
+The original ext4 UUID and lease inode verify; the kernel renumbers the filesystem
+device from 66308 to 66307. The first capacity attempt refuses that change before
+model launch and retains exit 1 with successful ownership closure. An explicit
+boot/UUID/device binding preserves pinned receipts and all remaining stat fields;
+44 CPU-only fixtures pass.
+
+A fresh original-weight capacity-1M PP1500/TG32 gate passes and releases at
+16:31:43.810798 UTC. Eleven collected files hash-verify, model stats stay
+unchanged, the router is restored and the lease free. Peak GTT/minimum available
+RAM are 109.18/7.98 GiB, with CPU/GPU/NVMe maxima 67.75/70/64.85 C. The subsequent
+physical PP1,048,448 stress window completes prefill and stops naturally after
+43 output tokens. Child exit 0 and failed TG128 supervisor/controller exits 1
+remain preserved. Collection exits 0 and eleven artifact hashes verify; models
+are unchanged, owned processes are absent, router PID12323 is restored and the
+lease is free at 18:38:51.721369 UTC. Collection SHA-256 is
+`fdabf2408b6c9c4b6a041d26a47a9e87f786d112ff9aa94a3f0459b2270253ba`.
+Any further `.161` work needs a new coordinated admission. Root has no
+`.157` reservation/job/waiter and does not interleave Q2's exact2048 campaign.
+[Receipt](development/validation/gtt112-boot-capacity-2026-10-04.json).
+
+## Earlier GTT configuration and rejected reboot — 2026-10-04 UTC
+
+Root's fresh `.161` maintenance inspection reacquires original lease
+dev66308/inode105946405 and verifies active GRUB plus unchanged kernel/boot.
+The isolated GTT112 input is installed with backed-up originals; generated
+normal/recovery argument lists and GRUB syntax verify. Controller and collection
+exit 0. Automatic review refuses the reboot for missing explicit interruption
+approval; no reboot command executes or is bypassed. Boot ID remains
+`00a38eef-12f6-4354-8aec-6783c34c7208` and effective GTT stays 96 GiB.
+The router remains PID255761 active/running, the lease is free and there is no
+GPU child, observer, waiter or automatic restart. DS4 model/configuration files
+and monitor service configuration are unchanged. Q2 reports its `.157`
+qualification is independent of the `.161` monitor services.
+
+Prepared capacity and physical-position 1M gates remain unsubmitted. New
+optional RAM/GTT admission control passes 41 CPU-only fixtures, including
+pre-stop refusal and owned-window restoration under pressure.
+[Receipt](development/validation/gtt-memory-admission-2026-10-04.json).
+
+## Function streaming and scratch gates released — 2026-10-04 UTC
+
+Root's corrected `e6f537f` r10 device-free ROCm 10 `gfx1150` build passes and
+releases `.161` at 14:41:56.997958 UTC. A separately admitted original-weight
+HTTP gate passes thirteen checks and releases at 14:48:36.413337 UTC. A fresh
+C1 AR YaRN4 PP1500/TG32 chunk256 gate passes and releases at
+14:54:15.813829 UTC. A separate capacity-524288 gate with the same short
+PP1500/TG32 input releases at 15:18:00.319017 UTC. Collections hash-verify
+six/thirteen/eleven/eleven files, respectively; all owned processes are absent,
+the named router is active and the private lease is free. Original model stat
+witnesses are unchanged.
+
+The HTTP gate produces five argument fragments in each API and exactly equal
+retired Responses replay. The scratch gate preserves the previous chunk256
+output IDs while sampling 78.33 GiB GTT; the enlarged-capacity gate samples
+93.68 GiB and preserves the same short output IDs. Original-weight gate CPU/GPU/NVMe
+maxima are 63/66/67.85 C; the device-free build CPU maximum is 72.125 C.
+CPU 98 C / NVMe 85 C guards apply, with GPU observed only. The earlier r9 HTTP
+incrementality failure remains exit 1 with successful closure. These short
+gates do not qualify physical 1M, full task evaluation or replicated performance.
+
+No `.157` reservation, standing `.161` ownership, GTT tuning, reboot or
+publication follows. Proposed GTT112 and a physical 1M window still require
+explicit maintenance and fresh host-memory admission. Read-only inspection
+identifies active GRUB, not installed kernelstub, as the boot configuration
+to update; no bootloader option has been written.
+[Receipt](development/validation/tool-context-point-gpu-2026-10-04.json).
+
+## Context profile integration released — 2026-10-04 UTC
+
+Root's `.161` r7 device-free build refuses pristine source hash drift before
+compilation or model load; child/controller exit 1 and cleanup exit 0 remain
+preserved. Root restores only its exact independently identified source edits
+from a fresh official archive, verifying all 1,019 pristine files in both
+checkouts. The private derive helper now copies files, not a directory symlink.
+
+The fresh r8 ROCm 10 `gfx1150` build exits 0 and releases at
+13:23:03.701908 UTC. Three separately admitted original-weight C1 PP1500/TG32
+gates pass at capacity 4096 with `native`, `yarn2` and `yarn4`, releasing at
+13:37:36.194598, 13:40:15.760254 and 13:43:49.973201 UTC. Each collection
+hash-verifies eleven files, unchanged model stats, absent owned GPU processes,
+active named router and free lease. Sampled CPU/GPU/NVMe maxima are
+63.875/64/67.85 C; GPU is observed only. These gates establish short-profile
+integration, not 1M memory, quality or performance. No standing ownership or
+host tuning follows. [Receipt](development/validation/context-point-gpu-2026-10-04.json).
+
 ## Point cold HTTP depth campaign released — 2026-10-04 UTC
 
 The `.161` Point thread retires all 16 AR/MTP LIE/official Gufo C1

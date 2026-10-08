@@ -7,10 +7,12 @@
 #include "lie/tools.h"
 #include "lie/wire.h"
 #include "lie/worker.h"
+#include "output_json.h"
 #include <errno.h>
 #include <json-c/json.h>
 #include <llhttp.h>
 #include <locale.h>
+#include <math.h>
 #include <poll.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -38,7 +40,7 @@ typedef struct stored_request stored_request;
 typedef struct {
   uv_poll_t poll;
   connection *parent;
-  bool initialized, done;
+  bool initialized, done, semantic_streamed;
   char *text;
   size_t bytes;
   uint64_t logprob_cursor;
@@ -78,6 +80,8 @@ struct connection {
   uint64_t logprob_cursor;
   json_object *wire_options;
   bool buffer_tool_turn, responses;
+  bool semantic_streamed, response_text_started;
+  size_t tool_start_count;
   bool await_cancel;
   bool replay, replay_started;
   size_t replay_index;
@@ -108,6 +112,7 @@ struct server {
   bool worker_poll_initialized;
   uint64_t request_counter, generated_seen, inference_timeout_ns;
   unsigned max_active;
+  bool steering_enabled;
   lie_meter rejected_capacity, rejected_invalid, tool_errors;
 };
 struct stored_request {
@@ -120,6 +125,8 @@ struct stored_request {
   json_object *completion;
   uint64_t started;
   connection *foreground;
+  unsigned choices;
+  lie_job *steering_choices[LIE_CORE_JOBS]; /* Retained extra choices; record owns 0. */
 };
 static void close_connection(connection *c);
 static void pump_job(connection *c);
@@ -136,6 +143,10 @@ static const char *reason(int code) {
   switch (code) {
   case 200:
     return "OK";
+  case 202:
+    return "Accepted";
+  case 501:
+    return "Not Implemented";
   case 400:
     return "Bad Request";
   case 404:
@@ -353,8 +364,125 @@ static stored_request *stored_find(server *s, const char *id, bool responses) {
   }
   return NULL;
 }
+static bool steering_plan_parse(connection *c,json_object *root,
+                                lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX],
+                                lie_steering_schedule *plan){
+  json_object *array=NULL;
+  if(!json_object_object_get_ex(root,"dir_steering_plan",&array))return true;
+  /* Reject duplicate keys before json-c normalization, including the field itself. */
+  oj_node *unique=oj_parse(c->body,c->body_size);if(!unique)return false;oj_free(unique);
+  if(!json_object_is_type(array,json_type_array))return false;
+  size_t count=json_object_array_length(array);
+  if(!count||count>LIE_STEERING_SCHEDULE_MAX)return false;
+  lie_worker_info wi;lie_worker_snapshot(c->owner->worker,&wi);
+  for(size_t i=0;i<count;++i){
+    json_object *row=json_object_array_get_idx(array,i),*position=NULL;
+    if(!json_object_is_type(row,json_type_object)||json_object_object_length(row)!=3||
+       !json_object_object_get_ex(row,"position",&position)||!json_object_is_type(position,json_type_int)||
+       json_object_get_int64(position)<0)return false;
+    steps[i].position=json_object_get_uint64(position);
+    if(steps[i].position>=wi.model.context_tokens||(i&&steps[i-1].position>=steps[i].position))return false;
+    lie_steering_settings_init(&steps[i].settings,true);
+    const char *keys[]={"ffn","attention"};float *values[]={&steps[i].settings.ffn,&steps[i].settings.attention};
+    for(unsigned k=0;k<2;++k){json_object *v=NULL;
+      if(!json_object_object_get_ex(row,keys[k],&v)||
+         (!json_object_is_type(v,json_type_int)&&!json_object_is_type(v,json_type_double)))return false;
+      double x=json_object_get_double(v);if(!isfinite(x)||fabs(x)>100)return false;
+      *values[k]=(float)(x==0?0:x);
+    }
+  }
+  *plan=(lie_steering_schedule){LIE_STEERING_SCHEDULE_ABI,sizeof(*plan),count,steps};return true;
+}
+/* Optional LIE extension for a retained generation/choice. Admission
+ * and snapshots only: this libuv thread never runs or waits for inference. */
+static void stored_steering(connection *c,stored_request *r,const char *id,
+                            unsigned choice,bool explicit_choice){
+  if(r->choices>1&&!explicit_choice){error_response(c,409,"steering_choice_required");return;}
+  if(choice>=r->choices){error_response(c,400,"invalid_steering_choice");return;}
+  if(choice&&!c->owner->steering_enabled){error_response(c,501,"steering_unavailable");return;}
+  lie_job *job=choice?r->steering_choices[choice]:lie_record_job(r->record);
+  if(!job){error_response(c,409,"steering_job_unavailable");return;}
+  uint64_t ticket=0;
+  if(c->parser.method==HTTP_POST){
+    bool valid=false;oj_node *unique=c->body_size<=2048?oj_parse(c->body,c->body_size):NULL;
+    json_object *root=unique?lie_json_parse(c->body,c->body_size,&valid):NULL;oj_free(unique);
+    lie_steering_settings settings;lie_steering_settings_init(&settings,true);
+    valid=valid&&json_object_is_type(root,json_type_object)&&json_object_object_length(root)==2;
+    const char *keys[]={"ffn","attention"};float *values[]={&settings.ffn,&settings.attention};
+    for(unsigned i=0;valid&&i<2;++i){json_object *v=NULL;json_object_object_get_ex(root,keys[i],&v);double x=json_object_get_double(v);
+      valid=(json_object_is_type(v,json_type_int)||json_object_is_type(v,json_type_double))&&isfinite(x)&&fabs(x)<=100;
+      if(valid)*values[i]=(float)(x==0?0:x);
+    }
+    json_object_put(root);
+    if(!valid){error_response(c,400,"invalid_steering_scales");return;}
+    lie_error error={0};lie_status status=lie_job_change_steering(job,&settings,&ticket,&error);
+    if(status!=LIE_OK){
+      int code=status==LIE_UNSUPPORTED?501:status==LIE_INVALID?400:status==LIE_BACKEND_FAILED?500:409;
+      error_detail(c,code,status==LIE_UNSUPPORTED?"steering_unavailable":status==LIE_RESOURCE_LIMIT?"steering_change_pending":"steering_change_refused",error.message);return;
+    }
+  }
+  lie_job_steering_info info={.abi_version=LIE_JOB_STEERING_ABI,.struct_bytes=sizeof(info)};
+  if(lie_job_steering_snapshot(job,&info,NULL)!=LIE_OK){error_response(c,500,"steering_snapshot_unavailable");return;}
+  json_object *out=json_object_new_object(),*policy=NULL,*last=NULL;
+  json_object_object_add(out,"object",json_object_new_string("synapse-lie.steering"));
+  json_object_object_add(out,"id",json_object_new_string(id));
+  json_object_object_add(out,"choice",json_object_new_int64(choice));
+  if(ticket)json_object_object_add(out,"ticket",json_object_new_uint64(ticket));
+  json_object_object_add(out,"pending",json_object_new_boolean(info.pending));
+  json_object_object_add(out,"submitted",json_object_new_uint64(info.submitted));
+  json_object_object_add(out,"completed",json_object_new_uint64(info.completed));
+  json_object *requested=NULL;
+  if(info.submitted){requested=json_object_new_object();
+    json_object_object_add(requested,"ffn",json_object_new_double(info.requested.ffn));
+    json_object_object_add(requested,"attention",json_object_new_double(info.requested.attention));
+  }
+  json_object_object_add(out,"requested",requested);
+  if(info.completed){last=json_object_new_object();
+    json_object_object_add(last,"ticket",json_object_new_uint64(info.completed));
+    json_object_object_add(last,"status",json_object_new_int(info.status));
+    json_object_object_add(last,"applied_position",info.status==LIE_OK?json_object_new_uint64(info.applied_position):NULL);
+    json_object_object_add(last,"error",info.error[0]?json_object_new_string(info.error):NULL);
+  }
+  json_object_object_add(out,"last_result",last);
+  if(info.policy_ready){policy=json_object_new_object();char scope[65],image[65];
+    for(unsigned i=0;i<32;++i){snprintf(scope+2*i,3,"%02x",info.combined_scope[i]);snprintf(image+2*i,3,"%02x",info.semantic_scope[i]);}
+    json_object_object_add(policy,"ffn",json_object_new_double(info.policy.settings.ffn));
+    json_object_object_add(policy,"attention",json_object_new_double(info.policy.settings.attention));
+    json_object_object_add(policy,"completed_positions",json_object_new_uint64(info.policy.completed_positions));
+    json_object_object_add(policy,"history_epochs",json_object_new_uint64(info.policy.history_epochs));
+    json_object_object_add(policy,"combined_scope_sha256",json_object_new_string(scope));
+    json_object_object_add(policy,"image_scope_sha256",json_object_new_string(image));
+  }
+  json_object_object_add(out,"policy",policy);
+  lie_steering_schedule_info planned={.abi_version=LIE_STEERING_SCHEDULE_ABI,.struct_bytes=sizeof(planned)};
+  if(lie_job_steering_schedule_snapshot(job,&planned,NULL)!=LIE_OK){json_object_put(out);error_response(c,500,"steering_snapshot_unavailable");return;}
+  json_object *schedule=NULL;
+  if(planned.count){schedule=json_object_new_object();json_object *steps=json_object_new_array();
+    json_object_object_add(schedule,"count",json_object_new_uint64(planned.count));
+    json_object_object_add(schedule,"completed",json_object_new_uint64(planned.completed));
+    json_object_object_add(schedule,"applied",json_object_new_uint64(planned.applied));
+    json_object_object_add(schedule,"terminal",json_object_new_boolean(planned.terminal));
+    for(size_t i=0;i<planned.count;++i){json_object *row=json_object_new_object();
+      json_object_object_add(row,"position",json_object_new_uint64(planned.steps[i].position));
+      json_object_object_add(row,"ffn",json_object_new_double(planned.steps[i].settings.ffn));
+      json_object_object_add(row,"attention",json_object_new_double(planned.steps[i].settings.attention));
+      json_object_object_add(row,"attempted",json_object_new_boolean(planned.results[i].attempted));
+      json_object_object_add(row,"applied",json_object_new_boolean(planned.results[i].applied));
+      json_object_object_add(row,"status",planned.results[i].attempted||planned.terminal?json_object_new_int(planned.results[i].status):NULL);
+      json_object_object_add(row,"actual_position",planned.results[i].attempted?json_object_new_uint64(planned.results[i].actual_position):NULL);
+      json_object_array_add(steps,row);
+    }
+    json_object_object_add(schedule,"steps",steps);
+  }
+  json_object_object_add(out,"schedule",schedule);
+  char *body=json_text(out);respond(c,ticket?202:200,"application/json",body);free(body);
+}
+static void stored_release_choices(stored_request *r){
+  for(unsigned i=1;i<r->choices;++i){if(r->steering_choices[i])lie_job_release(r->steering_choices[i]);r->steering_choices[i]=NULL;}
+}
 static void stored_closed(uv_handle_t *h) {
   stored_request *r = h->data;
+  stored_release_choices(r);
   lie_record_release(r->record);
   json_object_put(r->options);
   json_object_put(r->completion);
@@ -373,6 +501,7 @@ static void stored_dispose(stored_request *r) {
     uv_poll_stop(&r->poll);
     uv_close((uv_handle_t *)&r->poll, stored_closed);
   } else {
+    stored_release_choices(r);
     lie_record_release(r->record);
     json_object_put(r->options);
     json_object_put(r->completion);
@@ -421,6 +550,8 @@ static json_object *stored_options(lie_chat_request *request, bool responses) {
   }
   const char *keys[] = {
       "instructions", "previous_response_id", "metadata", "temperature",
+      "top_k",        "min_p",
+      "seed",         "frequency_penalty",   "presence_penalty",
       "top_p",        "max_output_tokens",    "text",     "tools",
       "tool_choice",  "parallel_tool_calls",  "user",     "safety_identifier",
       "service_tier"};
@@ -429,7 +560,8 @@ static json_object *stored_options(lie_chat_request *request, bool responses) {
         strcmp(keys[i], "service_tier"))
       continue;
     json_object *v = NULL;
-    if (json_object_object_get_ex(root, keys[i], &v))
+    if (json_object_object_get_ex(root, keys[i], &v) &&
+        (v || strcmp(keys[i], "max_output_tokens")))
       json_object_object_add(options, keys[i], json_object_get(v));
   }
   json_object *tier = NULL;
@@ -699,6 +831,15 @@ static void pump_choices(connection *c) {
         release_loan(c);
         continue;
       }
+      if(c->event.kind==LIE_EVENT_TOOL_START || c->event.kind==LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+        if(c->streaming) {
+          char *chunk=lie_wire_reindex(lie_wire_tool_event(c->request_id,c->owner->model_id,
+              c->created,c->event.call,c->event.kind==LIE_EVENT_TOOL_START),i,false);
+          row->semantic_streamed=true;c->choice_cursor=(i+1)%c->choice_count;
+          queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM);return;
+        }
+        release_loan(c);continue;
+      }
       if (c->event.kind == LIE_EVENT_TOOL_CALL) {
         if (!row->calls)
           row->calls = json_object_new_array();
@@ -722,7 +863,8 @@ static void pump_choices(connection *c) {
         memcpy(row->text + row->bytes, c->event.text, c->event.bytes);
       row->bytes += c->event.bytes;
       if (!terminal) {
-        if (c->streaming && !c->buffer_tool_turn && c->event.bytes) {
+        if (c->streaming && c->event.bytes) {
+          row->semantic_streamed=true;
           c->choice_cursor = (i + 1) % c->choice_count;
           c->logprob_cursor = row->logprob_cursor;
           char *chunk = lie_wire_reindex(
@@ -779,7 +921,7 @@ static void pump_choices(connection *c) {
       if (c->streaming) {
         c->logprob_cursor = 0;
         chunk =
-            c->buffer_tool_turn
+            c->buffer_tool_turn && !row->semantic_streamed
                 ? lie_wire_message(c->request_id, c->owner->model_id,
                                    c->created, message, &row->info, true, false)
                 : lie_wire_end(c->request_id, c->owner->model_id, c->created,
@@ -884,24 +1026,29 @@ static void pump_replay(connection *c) {
       c->replay_started = true;
       part = lie_response_begin(v.id, c->owner->model_id, v.created,
                                 &c->response_sequence, !c->buffer_tool_turn);
-    } else if (!c->buffer_tool_turn &&
-               c->replay_index < lie_record_event_count(c->record)) {
+      c->response_text_started=!c->buffer_tool_turn;
+    } else if (c->replay_index < lie_record_event_count(c->record)) {
       if (!lie_record_replay(c->record, c->replay_index++, &c->event)) {
         close_connection(c);
         return;
       }
-      if (c->event.kind != LIE_EVENT_TEXT || !c->event.bytes)
-        continue;
-      part = lie_response_delta(v.id, c->event.text, c->event.bytes,
-                                &c->response_sequence);
+      if(c->event.kind==LIE_EVENT_TOOL_START || c->event.kind==LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+        bool start=c->event.kind==LIE_EVENT_TOOL_START;
+        part=lie_response_tool_event(v.id,c->event.call,start,
+            c->event.call->index+(c->response_text_started?1:0),&c->response_sequence);
+        if(start)c->tool_start_count=c->event.call->index+1;
+      } else if(c->event.kind==LIE_EVENT_TEXT && c->event.bytes)
+        part=lie_response_text_event(v.id,c->event.text,c->event.bytes,
+                                    &c->response_sequence,&c->response_text_started);
+      else continue;
     } else if (v.done) {
       json_object *calls = record_calls(&v);
       bool valid = v.info.finish == LIE_FINISH_STOP ||
                    v.info.finish == LIE_FINISH_LENGTH;
-      part = lie_response_end(v.id, c->owner->model_id, v.created,
+      part = lie_response_end_streamed(v.id, c->owner->model_id, v.created,
                               valid ? v.text : "", valid ? v.bytes : 0,
                               valid ? calls : NULL, &v.info,
-                              &c->response_sequence, !c->buffer_tool_turn);
+                              &c->response_sequence, c->response_text_started,c->tool_start_count);
       json_object_put(calls);
       terminal = true;
     } else
@@ -979,6 +1126,7 @@ static void pump_job(connection *c) {
                                  &c->response_sequence, !c->buffer_tool_turn)
             : lie_wire_chunk(c->request_id, c->owner->model_id, c->created, "",
                              0, true);
+    c->response_text_started=c->responses && !c->buffer_tool_turn;
     intro = decorate_wire(c, intro, true);
     if (!intro) {
       close_connection(c);
@@ -1012,6 +1160,19 @@ static void pump_job(connection *c) {
       release_loan(c);
       continue;
     }
+    if(c->event.kind==LIE_EVENT_TOOL_START || c->event.kind==LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+      if(c->streaming) {
+        bool start=c->event.kind==LIE_EVENT_TOOL_START;
+        char *chunk=c->responses
+            ? lie_response_tool_event(c->request_id,c->event.call,start,
+                c->event.call->index+(c->text_bytes?1:0),&c->response_sequence)
+            : lie_wire_tool_event(c->request_id,c->owner->model_id,c->created,c->event.call,start);
+        c->semantic_streamed=true;
+        if(start) c->tool_start_count=c->event.call->index+1;
+        queue_write(c,chunk,chunk?strlen(chunk):0,WRITE_STREAM);return;
+      }
+      release_loan(c);continue;
+    }
     if (c->event.kind == LIE_EVENT_TOOL_CALL) {
       json_object *call = lie_output_call_json(c->event.call);
       if (!c->calls)
@@ -1040,9 +1201,12 @@ static void pump_job(connection *c) {
         memcpy(c->text + c->text_bytes, text, bytes);
       c->text_bytes += bytes;
       if (!terminal) {
-        if (c->responses && c->streaming && !c->buffer_tool_turn && bytes) {
-          char *chunk = lie_response_delta(c->request_id, text, bytes,
-                                           &c->response_sequence);
+        if (c->streaming && bytes) {
+          char *chunk = c->responses
+              ? lie_response_text_event(c->request_id,text,bytes,
+                    &c->response_sequence,&c->response_text_started)
+              : lie_wire_chunk(c->request_id,c->owner->model_id,c->created,text,bytes,false);
+          c->semantic_streamed=true;
           queue_write(c, chunk, chunk ? strlen(chunk) : 0, WRITE_STREAM);
           return;
         }
@@ -1089,14 +1253,16 @@ static void pump_job(connection *c) {
         char *response =
             c->responses
                 ? (c->streaming
-                       ? lie_response_end(c->request_id, c->owner->model_id,
+                       ? lie_response_end_streamed(c->request_id, c->owner->model_id,
                                           c->created, c->text, c->text_bytes,
                                           c->calls, &info,
-                                          &c->response_sequence, false)
+                                          &c->response_sequence, c->response_text_started,c->tool_start_count)
                        : json_text(lie_response_object(
                              c->request_id, c->owner->model_id, c->created,
                              c->text, c->text_bytes, c->calls, &info)))
-                : lie_wire_message(c->request_id, c->owner->model_id,
+                : c->streaming && c->semantic_streamed
+                    ? lie_wire_end(c->request_id,c->owner->model_id,c->created,&info,c->include_usage)
+                    : lie_wire_message(c->request_id, c->owner->model_id,
                                    c->created, message, &info, c->streaming,
                                    c->include_usage);
         json_object_put(message);
@@ -1189,6 +1355,12 @@ static void submit_chat(connection *c) {
     error_response(c, 400, error);
     return;
   }
+  lie_steering_step steering_steps[LIE_STEERING_SCHEDULE_MAX]={0};
+  lie_steering_schedule steering_plan={0};
+  if(!steering_plan_parse(c,request.json_owner,steering_steps,&steering_plan)){
+    lie_chat_free(&request);lie_counter_add(s->metrics,s->rejected_invalid,1);
+    error_response(c,400,"invalid_steering_plan");return;
+  }
   c->streaming = request.stream;
   c->include_usage = request.include_usage;
   c->logprobs = request.generation.logprobs != 0;
@@ -1240,6 +1412,7 @@ static void submit_chat(connection *c) {
     stored->responses = c->responses;
     stored->store = request.store;
     stored->background = request.background;
+    stored->choices = request.choices;
     stored->options = stored_options(&request, c->responses);
     size_t options_charge =
         stored->options ? strlen(json_object_to_json_string_ext(
@@ -1263,9 +1436,11 @@ static void submit_chat(connection *c) {
     c->record = lie_records_get(s->records, c->request_id, c->created);
   }
   int result = c->choice_count > 1
-                   ? lie_core_submit_choices(s->worker, &input, c->choice_count,
+                   ? lie_core_submit_choices_steering(s->worker, &input, c->choice_count,
+                                             steering_plan.count?&steering_plan:NULL,
                                              &c->choices)
-                   : lie_core_submit(s->worker, &input, &c->job);
+                   : lie_core_submit_steering(s->worker, &input,
+                                             steering_plan.count?&steering_plan:NULL,&c->job);
   lie_chat_free(&request);
   if (!result && c->choices)
     c->job = lie_choices_job(c->choices, 0);
@@ -1291,7 +1466,13 @@ static void submit_chat(connection *c) {
   if (stored) {
     if (c->choices)
       lie_job_retain(c->job);
-    if (!lie_record_attach(stored->record, c->job)) {
+    size_t extra_charge=0;
+    for(unsigned i=1;s->steering_enabled&&c->choices&&i<c->choice_count;++i){
+      size_t bytes=lie_job_retention_bytes(lie_choices_job(c->choices,i));
+      if(bytes>SIZE_MAX-extra_charge){extra_charge=SIZE_MAX;break;}
+      extra_charge+=bytes;
+    }
+    if (!lie_record_charge(stored->record,extra_charge)||!lie_record_attach(stored->record, c->job)) {
       if (c->choices)
         lie_job_release(c->job);
       lie_job_cancel(c->job);
@@ -1309,6 +1490,10 @@ static void submit_chat(connection *c) {
       c->record = NULL;
       error_response(c, 429, "response_store_full");
       return;
+    }
+    for(unsigned i=1;s->steering_enabled&&c->choices&&i<c->choice_count;++i){
+      stored->steering_choices[i]=lie_choices_job(c->choices,i);
+      lie_job_retain(stored->steering_choices[i]);
     }
   }
   if (c->choices) {
@@ -1394,7 +1579,7 @@ static bool query_tags(char *query, lie_tag *filters, size_t *count) {
 }
 static char *discovery(void) {
     const char *names[] = {"self", "health", "liveness", "readiness", "info", "metrics", "metrics-requiredMetricName", "prometheus", "llm", "monitor"};
-    const char *paths[] = {"/actuator", "/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness", "/actuator/info", "/actuator/metrics", "/actuator/metrics/{requiredMetricName}", "/actuator/prometheus", "/actuator/llm", "/monitor"};
+    const char *paths[] = {"/actuator", "/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness", "/actuator/info", "/actuator/metrics", "/actuator/metrics/{requiredMetricName}", "/actuator/prometheus", "/actuator/llm", "/actuator/llm/prefill", "/monitor"};
     json_object *j = json_object_new_object(), *links = json_object_new_object();
     for (size_t i = 0; i < sizeof(names) / sizeof(*names); ++i) {
         json_object *link = json_object_new_object();
@@ -1451,6 +1636,7 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"tools",json_object_new_boolean(true));
     json_object_object_add(b,"tool_streaming",json_object_new_string("buffered-complete-turn"));
     json_object_object_add(b,"context_tokens",json_object_new_int64(info.model.context_tokens));
+    json_object_object_add(b,"rope_scaling",json_object_new_string(lie_rope_profile_name(info.rope_profile)));
     json_object_object_add(b,"max_output_tokens",json_object_new_int64(LIE_CHAT_MAX_OUTPUT));
     json_object_object_add(b,"max_request_bytes",json_object_new_int64(LIE_CHAT_BODY_BYTES));
     json_object_object_add(b,"max_messages",json_object_new_int64(LIE_CHAT_MAX_MESSAGES));
@@ -1461,6 +1647,23 @@ static json_object *backend_json(server *s) {
     json_object_object_add(b,"snapshot_restore",json_object_new_boolean(false));
     json_object_object_add(b,"prefix_state",json_object_new_boolean(lie_backend_prefix_state_supported()&&(!info.model.speculative_supported||info.mtp.prefix_state_supported)&&(!info.vision.max_images||info.vision.prefix_state_supported)));
     json_object_object_add(b,"state_format",json_object_new_string(lie_backend_state_format()));
+    lie_steering_model_info steering={.abi_version=LIE_STEERING_MODEL_ABI,.struct_bytes=sizeof(steering)};
+    if(lie_worker_steering_snapshot(s->worker,&steering,NULL)==LIE_OK){
+        json_object *direction=json_object_new_object();char file[65]={0},scope[65]={0};
+        if(steering.admitted)for(unsigned k=0;k<32;++k){
+            snprintf(file+2*k,3,"%02x",steering.bank.file_sha256[k]);
+            snprintf(scope+2*k,3,"%02x",steering.bank.scope_sha256[k]);}
+        json_object_object_add(direction,"admitted",json_object_new_boolean(steering.admitted));
+        json_object_object_add(direction,"ffn",json_object_new_double(steering.defaults.ffn));
+        json_object_object_add(direction,"attention",json_object_new_double(steering.defaults.attention));
+        json_object_object_add(direction,"host_vector_bytes",json_object_new_uint64(steering.bank.bytes));
+        json_object_object_add(direction,"device_vector_bytes",json_object_new_uint64(steering.device_vector_bytes));
+        json_object_object_add(direction,"bank_file_sha256",json_object_new_string(file));
+        json_object_object_add(direction,"bank_scope_sha256",json_object_new_string(scope));
+        json_object_object_add(direction,"prefix_state_supported",json_object_new_boolean(steering.prefix_state_supported));
+        json_object_object_add(direction,"scope",json_object_new_string("model_admission_vector_data_excludes_allocator_overhead_and_workspaces"));
+        json_object_object_add(b,"steering",direction);
+    }
     json_object_object_add(b,"error",info.error[0]?json_object_new_string(info.error):NULL);
     return b;
 }
@@ -1553,6 +1756,42 @@ static char *llm_json(server *s) {
     for (size_t i=0;i<sizeof(unknown)/sizeof(*unknown);++i) json_object_object_add(j,unknown[i],NULL);
     return json_text(j);
 }
+static void prefill_control(connection *c) {
+  if(c->parser.method!=HTTP_GET&&c->parser.method!=HTTP_POST){
+    error_response(c,405,"method_not_allowed");return;
+  }
+  if(!c->owner->worker){error_response(c,503,"core_unavailable");return;}
+  if(c->parser.method==HTTP_POST){
+    bool valid=false;
+    oj_node *unique=c->body_size<=1024?oj_parse(c->body,c->body_size):NULL;
+    json_object *root=unique?lie_json_parse(c->body,c->body_size,&valid):NULL;
+    oj_free(unique);json_object *value=NULL;
+    valid=valid&&json_object_is_type(root,json_type_object)&&
+      json_object_object_length(root)==1&&json_object_object_get_ex(root,"prefill_chunk",&value)&&
+      json_object_is_type(value,json_type_int);
+    uint64_t tokens=valid?json_object_get_uint64(value):0;
+    valid=valid&&tokens>0&&tokens<=LIE_PREFILL_MAX_CHUNK;
+    json_object_put(root);
+    if(!valid){error_response(c,400,"invalid_prefill_chunk");return;}
+    lie_error error={0};
+    lie_status rc=lie_core_set_prefill_chunk(c->owner->worker,(uint32_t)tokens,&error);
+    if(rc!=LIE_OK){
+      error_detail(c,rc==LIE_RESOURCE_LIMIT?409:rc==LIE_INVALID?400:503,
+        rc==LIE_RESOURCE_LIMIT?"prefill_capacity_exceeded":"prefill_change_refused",error.message);
+      return;
+    }
+  }
+  lie_prefill_info info;lie_prefill_info_init(&info);
+  if(lie_core_prefill_snapshot(c->owner->worker,&info,NULL)!=LIE_OK){
+    error_response(c,503,"prefill_unavailable");return;
+  }
+  json_object *body=json_object_new_object();
+  json_object_object_add(body,"prefill_chunk",json_object_new_uint64(info.chunk_tokens));
+  json_object_object_add(body,"prefill_capacity",json_object_new_uint64(info.capacity_tokens));
+  json_object_object_add(body,"revision",json_object_new_uint64(info.revision));
+  json_object_object_add(body,"applies_to",json_object_new_string("new_requests"));
+  char *text=json_text(body);respond(c,200,JSON_TYPE,text);free(text);
+}
 static void route(connection *c) {
   server *s = c->owner;
   char *query = strchr(c->url, '?');
@@ -1570,6 +1809,12 @@ static void route(connection *c) {
         json_object_object_add(m, "object", json_object_new_string("model"));
         json_object_object_add(m, "owned_by",
                                json_object_new_string(lie_backend_name()));
+        lie_core_info info;
+        lie_core_snapshot(s->worker, &info);
+        json_object_object_add(m, "context_length",
+                               json_object_new_uint64(info.model.context_tokens));
+        json_object_object_add(m, "max_output_tokens",
+                               json_object_new_uint64(LIE_CHAT_MAX_OUTPUT));
         json_object_array_add(data, m);
       }
       json_object_object_add(j, "data", data);
@@ -1615,6 +1860,15 @@ static void route(connection *c) {
         return;
       }
       const char *tail = prefix + n;
+      if((!strcmp(tail,"/steering")||!strncmp(tail,"/steering/",10))&&!query&&(c->parser.method==HTTP_GET||c->parser.method==HTTP_POST)){
+        unsigned choice=0;bool explicit_choice=tail[9]=='/';
+        if(explicit_choice){const char *p=tail+10;
+          if(!*p||(p[0]=='0'&&p[1])){error_response(c,400,"invalid_steering_choice");return;}
+          for(;*p;++p){if(*p<'0'||*p>'9'||choice>LIE_CORE_JOBS/10){error_response(c,400,"invalid_steering_choice");return;}
+            choice=choice*10+(unsigned)(*p-'0');if(choice>=LIE_CORE_JOBS){error_response(c,400,"invalid_steering_choice");return;}}
+        }
+        stored_steering(c,r,id,choice,explicit_choice);return;
+      }
       if (!*tail && c->parser.method == HTTP_GET && (responses || !query)) {
         bool stream = false;
         int64_t after = -1;
@@ -1799,6 +2053,12 @@ static void route(connection *c) {
       json_object_object_add(m, "created", json_object_new_int64(0));
       json_object_object_add(m, "owned_by",
                              json_object_new_string(lie_backend_name()));
+      lie_core_info info;
+      lie_core_snapshot(s->worker, &info);
+      json_object_object_add(m, "context_length",
+                             json_object_new_uint64(info.model.context_tokens));
+      json_object_object_add(m, "max_output_tokens",
+                             json_object_new_uint64(LIE_CHAT_MAX_OUTPUT));
       char *body = json_text(m);
       respond(c, 200, "application/json", body);
       free(body);
@@ -1806,6 +2066,10 @@ static void route(connection *c) {
     }
     error_response(c, 404, "not_found");
     return;
+  }
+  if (!strcmp(c->url,"/actuator/llm/prefill")) {
+    if(query){error_response(c,400,"unexpected_query");return;}
+    prefill_control(c);return;
   }
   if (c->parser.method != HTTP_GET) {
     error_response(c, 405, "method_not_allowed");
@@ -2150,6 +2414,11 @@ int main(int argc, char **argv) {
       lie_backend_is_synthetic() ? "cpu-test-fixture" : "qwen3.8-flash-next";
   lie_worker_options options;
   lie_core_options_init(&options);
+  lie_prefill_options prefill;
+  lie_prefill_options_init(&prefill);
+  lie_steering_model_options steering;
+  lie_steering_model_options_init(&steering);
+  unsigned steering_seen=0;
   lie_records_options record_options = {128, 64u * 1024u * 1024u, 3600};
   int timeout_ms = (int)(INFERENCE_TIMEOUT_NS / 1000000);
   for (int i = 1; i < argc; ++i) {
@@ -2173,7 +2442,7 @@ int main(int argc, char **argv) {
            "[--management-host IPv4] [--management-port N]\n  [--model "
            "FIRST-SHARD.gguf] [--model-mtp PREDICTOR.gguf --mtp-draft-tokens "
            "N] [--model-vision PROJECTOR.gguf] [--model-id ID] [--context "
-           "128..262144] [--prefill-chunk N] [--max-active 1..8] "
+           "128..1048576] [--rope-scaling native|yarn2|yarn4] [--prefill-chunk 1..32768] [--prefill-capacity 1..32768] [--max-active 1..8] "
            "[--request-timeout-ms N] [--response-store-ram-mb 64] "
            "[--response-store-records 128] [--response-store-ttl-seconds 3600] "
            "[--kv-cache-ram-mb 4096] "
@@ -2184,7 +2453,12 @@ int main(int argc, char **argv) {
            "[--kv-cache-boundary-align-tokens 2048] [--kv-cache-text-prefix "
            "on|off] [--kv-cache-capture-finish on|off]\n  [--kv-disk-dir "
            "ABSOLUTE-DIRECTORY --kv-disk-space-mb N --kv-disk-staging-mb "
-           "N]\nWithout --model: management only. Embedded Gufo requires an "
+           "N]\n  [--dir-steering-file LAYER-MAJOR.f32 "
+           "--dir-steering-ffn -100..100 --dir-steering-attn -100..100]\n"
+           "Steering uses fixed initial model-wide scales (defaults FFN 1, attention 0), "
+           "a bounded 16 MiB vector bank and shared RAM/SSD semantic identity. "
+           "Live scale changes and numerical GPU qualification remain pending.\n"
+           "Without --model: management only. Embedded Gufo requires an "
            "opt-in HIP build.\nAR, explicit MTP and vision (also combined) "
            "with per-sequence sampling, thinking disabled. OpenAI function "
            "tools (execution by client). Credit-driven native decode batching. "
@@ -2222,8 +2496,16 @@ int main(int argc, char **argv) {
       model_id = argv[++i];
     else if (!strcmp(key, "--context"))
       options.context = (uint32_t)number(argv[++i], LIE_WORKER_MAX_CONTEXT);
+    else if (!strcmp(key, "--rope-scaling")) {
+      if(!lie_rope_profile_parse(argv[++i], &options.rope_profile)) return 2;
+    }
     else if (!strcmp(key, "--prefill-chunk"))
-      options.chunk = (uint32_t)port_number(argv[++i]);
+      options.chunk = (uint32_t)number(argv[++i], LIE_PREFILL_MAX_CHUNK);
+    else if (!strcmp(key, "--prefill-capacity")) {
+      int value=number(argv[++i], LIE_PREFILL_MAX_CHUNK);
+      if(value<1)return 2;
+      prefill.capacity_tokens=(uint32_t)value;
+    }
     else if (!strcmp(key, "--response-store-ram-mb")) {
       int value = number(argv[++i], 4096);
       if (value < 1)
@@ -2264,7 +2546,13 @@ int main(int argc, char **argv) {
       else
         options.ssd.staging_bytes = (uint64_t)mib * 1024u * 1024u;
     } else if (!strcmp(key, "--request-timeout-ms"))
-      timeout_ms = number(argv[++i], 1800000);
+      timeout_ms = number(argv[++i], 86400000);
+    else if (!strncmp(key,"--dir-steering-",15)) {
+      unsigned bit=!strcmp(key,"--dir-steering-file")?1u:!strcmp(key,"--dir-steering-ffn")?2u:4u;
+      if((steering_seen&bit)||lie_steering_model_option(&steering,key,argv[++i])!=1){
+        fputs("Invalid, duplicate or unavailable directional steering option\n",stderr);return 2;}
+      steering_seen|=bit;
+    }
     else {
       int rc = lie_cache_policy_option(&options.cache_policy, key, argv[i + 1]);
       if (rc != 1) {
@@ -2274,6 +2562,9 @@ int main(int argc, char **argv) {
       }
       ++i;
     }
+  }
+  if(steering_seen&&(!steering.file||!options.model_path)){
+    fputs("Directional steering requires --model and --dir-steering-file\n",stderr);return 2;
   }
   if ((options.ssd.directory &&
        (!options.model_path || *options.ssd.directory != '/' ||
@@ -2291,7 +2582,8 @@ int main(int argc, char **argv) {
     return 2;
   }
   if (options.context < 128 || options.context > LIE_WORKER_MAX_CONTEXT ||
-      options.chunk < 1 || options.chunk > 2048 || options.max_active < 1 ||
+      options.chunk < 1 || options.chunk > LIE_PREFILL_MAX_CHUNK ||
+      (prefill.capacity_tokens && options.chunk > prefill.capacity_tokens) || options.max_active < 1 ||
       options.max_active > LIE_DECODE_MAX_ROWS || timeout_ms < 100 ||
       !*model_id || strlen(model_id) > 128 ||
       !lie_utf8_valid(model_id, strlen(model_id), false) ||
@@ -2360,7 +2652,8 @@ int main(int argc, char **argv) {
   s.terminate.data = &s;
   uv_signal_start(&s.terminate, shutdown_server, SIGTERM);
   if (options.model_path) {
-    s.worker = lie_worker_create(&options);
+    s.steering_enabled=steering.file!=NULL;
+    s.worker = lie_core_create_prefill(&options,&prefill,steering.file?&steering:NULL);
     rc = s.worker
              ? uv_poll_init(&s.loop, &s.worker_poll, lie_worker_fd(s.worker))
              : UV_ENOMEM;

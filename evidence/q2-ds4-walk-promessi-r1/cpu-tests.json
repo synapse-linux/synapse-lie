@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.ds4-walk-cpu-tests.v1",
+  "at_utc": "2026-10-08T13:35:26.118774+00:00",
+  "exit_code": 0,
+  "synthetic": true,
+  "gpu_access": false,
+  "model_access": false,
+  "debug_ctest": {
+    "name": "ds4-walk-accounting",
+    "exit_code": 0,
+    "passed": 1
+  },
+  "asan_ubsan_ctest": {
+    "name": "ds4-walk-accounting",
+    "exit_code": 0,
+    "passed": 1,
+    "ASAN_OPTIONS": "detect_leaks=0:halt_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "scope": "CPU synthetic fixture: exact advancing calls, monotonic timer enclosure, snapshot and replay; no original-weight inference"
+}

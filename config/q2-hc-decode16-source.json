@@ -1,0 +1,18 @@
+{
+  "scope": "Static preparation; numerical drift and runtime benefit unmeasured",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-hc-decode16",
+  "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+  "candidate_sha256": "be038fa353b26feaa45aa9fde8d23bcb03a454639edeb6a5634f7d72f7ef4a37",
+  "patch_sha256": "5d83117eb7dc4c8eb535d0fa65da9b12de1e53314dcb416a9ca70b29631285ab",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "waves": 16,
+  "threads_per_row": 512,
+  "groups_per_thread": 5,
+  "mechanism": "Increase scalar HC down row parallelism; preserve F16 weights and F32 products/accumulation",
+  "rounding": "Per-thread assignments and cross-wave reduction change; independent numerical checks required",
+  "dispatch": "Only F16 SmallGemm with one token, M320 and K10240"
+}

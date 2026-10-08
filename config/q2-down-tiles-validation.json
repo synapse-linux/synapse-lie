@@ -1,0 +1,89 @@
+{
+  "scope": "Existing Q2 tile48/tile64 synthetic comparison on .157",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "runs": {
+    "q2-down-tiles-host-r1": {
+      "mode": "cpu",
+      "host_guard_cohort": 1,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "ec082c427a904e88ce5b72a205a42bf142009d26229be046f61e7afdfab135cd",
+      "collection_sha256": "30458421a639178d236d3e4f93e38b2c365db688f2632f8366b91bd64d50129f",
+      "source_variant": "qualified",
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76500
+      }
+    },
+    "q2-down-tiles-micro-r1": {
+      "mode": "packed-tiles-bench",
+      "host_guard_cohort": 1,
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "76790bc436e8bdeb4120a324b9e1de004ef2977d9b701b776b92257ae5844c76",
+      "collection_sha256": "c0bdfa52641e0e9bbc0b12e98498ca3610fcc0ac5fff70607b11996a24f9279c",
+      "source_variant": "hc-up-chains",
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": "687f706f9033c6bc30214cead49eb20b7ce105b56b0d9e2c8b9ed946528d24c3",
+      "thermal_max_mc": {
+        "amdgpu": 78000,
+        "k10temp": 77250
+      }
+    },
+    "q2-down-tiles-host-r2": {
+      "mode": "cpu",
+      "host_guard_cohort": 2,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "ae908612f4ea8a9cb63d1f39a32d022029af25a85a4e40719494a9fd40874091",
+      "collection_sha256": "27d947a4f6cef98d096cec95add8201e9bdbf552de9231f356359777c8341de6",
+      "source_variant": "qualified",
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77500
+      }
+    }
+  },
+  "closure": {
+    "released_at": "2026-10-03T04:17:41.779789+00:00",
+    "observer_retired_at": "2026-10-03T04:18:26.196922+00:00",
+    "original_models_opened": 0,
+    "original_leases_free": 4,
+    "absent_runners": 3,
+    "absent_command_groups": 15
+  },
+  "checks": {
+    "exit_code": 0,
+    "runners": 3,
+    "commands": 15,
+    "artifacts": 21,
+    "host_tests": "Two cohorts, each 12/12 Debug and 12/12 ASan/UBSan on .157",
+    "exact_complete_outputs_per_routing": 52428800,
+    "independent_fp64_dots": 3072,
+    "tile16_gpu_run": false,
+    "selected_candidate": false
+  }
+}

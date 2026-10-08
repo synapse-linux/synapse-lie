@@ -1,0 +1,21 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-compact-fixture.v1",
+  "bindings": {
+    "tests/q2_decode_q8_compact.hip": "f04d6e520e9bafacc6271e68c54d7dea569f7a40415209ec5ab20f8058765619",
+    "experiments/q2-decode-q8-control.inc": "3f91d04b00bab5e62d4f9b5370e453b5c5f0152a560e65312ae79e3d2cae1fcb",
+    "experiments/q2-decode-q8-compact.inc": "9e4dc40f34a0455a899aa206922163533c2383368af3aaebad29d97b238cd921"
+  },
+  "compile_receipt": "evidence/q2-decode-q8-compact-preparation/fixture-command.json",
+  "compile_receipt_sha256": "1827ae0a6a724cf82c855ec982da3341f135ba5bb6b6bfb865a13fe82032a6bd",
+  "cases": 8,
+  "timing_cases": 4,
+  "pair_records": 2038,
+  "oracle_records": 4076,
+  "timing_records": 56,
+  "independent_formula": "FP64 encoded Q8_0 dot Q8_1, optional gated SiLU, limit2e-5",
+  "allocation": "Production hipMalloc; rotating weights above48MiB; distinct outputs for at least64 calls per timed sample",
+  "quantizer_tested": false,
+  "actual_model_dispatch_tested": false,
+  "all_timed_outputs_checked_before_reuse": true,
+  "controls_rebuilt_or_rerun": false
+}

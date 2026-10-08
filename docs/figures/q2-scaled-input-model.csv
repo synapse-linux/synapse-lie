@@ -1,0 +1,37 @@
+arm,source,metric,repetition,value
+Q2 compensated,evidence/q2-scaled-input-reference-r1,prefill_tok_s,1,1336.120648
+Q2 compensated,evidence/q2-scaled-input-reference-r1,prefill_tok_s,2,1336.376261
+Q2 compensated,evidence/q2-scaled-input-reference-r1,prefill_tok_s,3,1334.297193
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,prefill_tok_s,1,1379.117706
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,prefill_tok_s,2,1378.318646
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,prefill_tok_s,3,1377.659733
+Fresh UD,evidence/q2-scaled-input-ud-r1,prefill_tok_s,1,1682.975427
+Fresh UD,evidence/q2-scaled-input-ud-r1,prefill_tok_s,2,1683.351863
+Fresh UD,evidence/q2-scaled-input-ud-r1,prefill_tok_s,3,1597.986291
+Q2 compensated,evidence/q2-scaled-input-reference-r1,decode_steps_s,1,24.0923461
+Q2 compensated,evidence/q2-scaled-input-reference-r1,decode_steps_s,2,24.07617398
+Q2 compensated,evidence/q2-scaled-input-reference-r1,decode_steps_s,3,24.09013277
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,decode_steps_s,1,24.10368965
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,decode_steps_s,2,24.10560073
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,decode_steps_s,3,24.09643311
+Fresh UD,evidence/q2-scaled-input-ud-r1,decode_steps_s,1,24.34127387
+Fresh UD,evidence/q2-scaled-input-ud-r1,decode_steps_s,2,24.3296405
+Fresh UD,evidence/q2-scaled-input-ud-r1,decode_steps_s,3,24.3192222
+Q2 compensated,evidence/q2-scaled-input-reference-r1,prefill_s,1,1.532795712
+Q2 compensated,evidence/q2-scaled-input-reference-r1,prefill_s,2,1.532502529
+Q2 compensated,evidence/q2-scaled-input-reference-r1,prefill_s,3,1.534890436
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,prefill_s,1,1.485007401
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,prefill_s,2,1.485868312
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,prefill_s,3,1.48657898
+Fresh UD,evidence/q2-scaled-input-ud-r1,prefill_s,1,1.216892396
+Fresh UD,evidence/q2-scaled-input-ud-r1,prefill_s,2,1.216620271
+Fresh UD,evidence/q2-scaled-input-ud-r1,prefill_s,3,1.281612997
+Q2 compensated,evidence/q2-scaled-input-reference-r1,decode_s,1,5.271383679
+Q2 compensated,evidence/q2-scaled-input-reference-r1,decode_s,2,5.274924501
+Q2 compensated,evidence/q2-scaled-input-reference-r1,decode_s,3,5.271867998
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,decode_s,1,5.268902888
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,decode_s,2,5.268485171
+Q2 scaled input,evidence/q2-scaled-input-candidate-r1,decode_s,3,5.270489596
+Fresh UD,evidence/q2-scaled-input-ud-r1,decode_s,1,5.217475497
+Fresh UD,evidence/q2-scaled-input-ud-r1,decode_s,2,5.219970266
+Fresh UD,evidence/q2-scaled-input-ud-r1,decode_s,3,5.222206489

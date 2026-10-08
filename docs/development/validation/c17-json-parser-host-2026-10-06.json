@@ -1,0 +1,4325 @@
+{
+  "schema": "synapse-lie.c17-json-parser-host.v1",
+  "at_utc": "2026-10-06T05:10:32.245157+00:00",
+  "state": "HOST_QUALIFIED_NOT_GPU_QUALIFIED",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source_parent_commit": "001f0e6f34568b2a354d4fa9195c6e041623a879",
+  "scope": "Shared C17 complete JSON syntax, UTF8/escape/surrogate decoding and decoded duplicate-key detection. Private CPP sink constructs typed ordered trees; no model executor, CPU forward, original-weight inference, GPU fault, fit, private allocation-exact resource or performance claim.",
+  "public_ABI": {
+    "json_parser": 1,
+    "entrypoint": "lie_json_parse_events",
+    "existing_tools_lie_json_parse_unchanged": true,
+    "existing_breaking_change": false
+  },
+  "defaults": {
+    "container_levels": 128,
+    "max_input_bytes": 67108864,
+    "max_owned_bytes": 67108864,
+    "max_work_units": 268435456,
+    "binary64_conversion": "Independent bounded C17 codec, existing default limits."
+  },
+  "default_selection": "LIE_C17_SAMPLING=ON; complete original OFF parser retained through three exact recipe edits after binary64 recipe.",
+  "KV_cache_payload_format_changed": false,
+  "shared_worker_event_RNG_changed": false,
+  "new_inference_threads": 0,
+  "allocation_scope": "Paired allocator fault tests cover requested owned C heap bytes including old/new growth overlap; per-object key tables retire at close, all allocations retire on every return. Fixed stack, allocator overhead, private sink trees, provider/process and GPU bytes excluded. Discard complete sink staging on any refusal.",
+  "dependencies": {
+    "Ryu": {
+      "manifest": {
+        "path": "third_party/ryu-source.json",
+        "bytes": 1929,
+        "sha256": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e"
+      },
+      "pin": "4c0618b0e44f7ef027ebae05d2cc7812048f7c8f",
+      "unchanged_files": 11,
+      "bytes": 102039,
+      "license_selected": "BSL-1.0; upstream dual license texts and notices retained"
+    },
+    "MPFR": "4.2.2 installed QA only; combined decimal MPFR and standard shortest/bit probe",
+    "default_products_and_default_CTest_require_MPFR_or_Python": false,
+    "production_system_dependency_added": false
+  },
+  "coverage": {
+    "independent_C_checks": 1301,
+    "allocator_refusal_points": 368,
+    "callback_refusal_points": 602,
+    "actual_complete_JSON_parser_cases": 34071,
+    "previous_complete_witness_groups_unchanged": 25,
+    "complete_witness_groups": 26,
+    "public_C17_headers": 56,
+    "public_CPP17_headers": 56,
+    "provider_inventory_files": 86,
+    "first_party_inventory_files": 74,
+    "vendor_and_provenance_inventory_files": 12,
+    "previous_provider_files_unchanged": 83,
+    "unique_parser_recipe_edits": 3,
+    "focused_Release_checks": 18,
+    "focused_sanitizer_checks": 18,
+    "full_host_checks": 43,
+    "source_files_at_immutable_Gufo_pin_verified": 1019,
+    "unchanged_Ryu_files": 11,
+    "server_and_bench_linked_without_model": true
+  },
+  "checks": [
+    {
+      "directory": "evidence/json-parser-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-asan",
+        "--parallel",
+        "1",
+        "--target",
+        "test-json-parse",
+        "test-binary64",
+        "test-grammar-composition",
+        "test-ordered-cache",
+        "test-schema-format",
+        "test-schema-number",
+        "test-schema-transform",
+        "test-schema-values",
+        "test-schema-body",
+        "test-schema-visit",
+        "test-schema-dispatch",
+        "test-schema-memo",
+        "test-grammar-number",
+        "test-grammar-cache",
+        "test-grammar-builder"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 83.125,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-build-r1/command.log",
+          "bytes": 3945,
+          "sha256": "c41175bdab48b3414989ba9708902805de74a7b70f838f175a3e5e33071f56b6"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r1/plan.json",
+          "bytes": 1326,
+          "sha256": "dcef3728996f7b280b23ca0dcd9ddf17134869662c559eef8bca12c10bdcfb8c"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r1/result.json",
+          "bytes": 823,
+          "sha256": "56a877990026bb86411ab70200b3ea5463d21eb8e08e7ef348376f0eb244f450"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r1/temperatures.jsonl",
+          "bytes": 3655,
+          "sha256": "2e2ac07ae400af8e550cbaafdcfa9dbb2f24ea4577bc976da888e54fc9576a5d"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-asan",
+        "--parallel",
+        "1",
+        "--target",
+        "test-json-parse"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 80.25,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-build-r2/command.log",
+          "bytes": 124,
+          "sha256": "9ae53c2f271c381ebad483e4d5f3f74853405fc31db1049925df464ee6be0fa6"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r2/plan.json",
+          "bytes": 958,
+          "sha256": "84a889be3ddb2d07d19786b37708c85025883bca9ae5793a1506bf8c6f65eb0c"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r2/result.json",
+          "bytes": 454,
+          "sha256": "6471100e6dbedf60dbf63830f754a8ae293194d93bfe31eb6f7998de7b1ff745"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r2/temperatures.jsonl",
+          "bytes": 1831,
+          "sha256": "b4a2578f4329583c889b5e404bbcb1d847c4582c11f167f6b5051c79f58c914d"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-asan",
+        "--parallel",
+        "1",
+        "--target",
+        "test-json-parse",
+        "test-binary64",
+        "test-grammar-composition",
+        "test-ordered-cache",
+        "test-schema-format",
+        "test-schema-number",
+        "test-schema-transform",
+        "test-schema-values",
+        "test-schema-body",
+        "test-schema-visit",
+        "test-schema-dispatch",
+        "test-schema-memo",
+        "test-grammar-number",
+        "test-grammar-cache",
+        "test-grammar-builder"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 54.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-build-r3/command.log",
+          "bytes": 919,
+          "sha256": "2ce914a311f8b4e383f9be264bc34de919f233c182f9b93e42b69491f7019334"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r3/plan.json",
+          "bytes": 1326,
+          "sha256": "3de7df396ed260b5212335fb82ec0b8ae6b7de1f4bd6d2e65a0a282122f678f1"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r3/result.json",
+          "bytes": 822,
+          "sha256": "3d08f1e06fe75a463372f34fdd24ccde7aaade708ed6f2de597f86037cbe1604"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r3/temperatures.jsonl",
+          "bytes": 1830,
+          "sha256": "486148834e73c4ade499bdc7c86addefc3ab63642fd946052b89eb5fc351792a"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-asan",
+        "--parallel",
+        "1",
+        "--target",
+        "test-json-parse",
+        "test-binary64",
+        "test-grammar-composition",
+        "test-ordered-cache",
+        "test-schema-format",
+        "test-schema-number",
+        "test-schema-transform",
+        "test-schema-values",
+        "test-schema-body",
+        "test-schema-visit",
+        "test-schema-dispatch",
+        "test-schema-memo",
+        "test-grammar-number",
+        "test-grammar-cache",
+        "test-grammar-builder"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 78.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-build-r4/command.log",
+          "bytes": 919,
+          "sha256": "2ce914a311f8b4e383f9be264bc34de919f233c182f9b93e42b69491f7019334"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r4/plan.json",
+          "bytes": 1326,
+          "sha256": "3de7df396ed260b5212335fb82ec0b8ae6b7de1f4bd6d2e65a0a282122f678f1"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r4/result.json",
+          "bytes": 822,
+          "sha256": "cd47ac9d776e77b579a125946130392e23e9efb31999dae96354b70f65cf3b99"
+        },
+        {
+          "path": "evidence/json-parser-asan-build-r4/temperatures.jsonl",
+          "bytes": 1830,
+          "sha256": "047b45ff1cea778ed9883fc3543909d6784400650e29d956514ac78c94dbd743"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/json-parser-asan",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 76.375,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-configure-r1/command.log",
+          "bytes": 3396,
+          "sha256": "e8a8e819154dcabca2b9a60579cabcdc2040adfbf25447875782c46aa16930ba"
+        },
+        {
+          "path": "evidence/json-parser-asan-configure-r1/plan.json",
+          "bytes": 1055,
+          "sha256": "17cfdb83ca660e5958dcc177d3ac473ee2ca0cd1d961b1bb5fe86748d36f01f6"
+        },
+        {
+          "path": "evidence/json-parser-asan-configure-r1/result.json",
+          "bytes": 553,
+          "sha256": "461630e2c1598e3e0603587449ecc141d96afc263e84a50134c39cfc48d7dea2"
+        },
+        {
+          "path": "evidence/json-parser-asan-configure-r1/temperatures.jsonl",
+          "bytes": 1831,
+          "sha256": "88eb6d9023cc6e54d2e965c055099ee742ae8771c76e5a14967d733a293d525c"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-asan",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "test_count": 18,
+      "CPU_max_C": 83.625,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-test-r1/command.log",
+          "bytes": 5968,
+          "sha256": "9629fd01a6278e36e6860d662f3bfa216b569016dabec1f4876a49c162bff31b"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r1/plan.json",
+          "bytes": 1246,
+          "sha256": "1d0b44e953e55515357ba81fdde37684b30b48355e1d526c5d7dd00c18ff7b6a"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r1/result.json",
+          "bytes": 737,
+          "sha256": "d99da287cbba61b77cdf1b19bdcdbdc9ae608ada5e44b8c381e9a353d5226ebb"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r1/temperatures.jsonl",
+          "bytes": 3044,
+          "sha256": "93251173c0af6133a855476d33e6c9add80caaa105fc6fea0e055501432783e9"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-asan",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 75.625,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-test-r2/command.log",
+          "bytes": 2313,
+          "sha256": "ac73b474aa55f02a4e66ef427b7eb83d772f5f64d3ce008403ff81ade3307440"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r2/plan.json",
+          "bytes": 1246,
+          "sha256": "7f3534c820d7ea82a9826ab76db2ceef93ae703313f55f14b06b3f8cfc2ca684"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r2/result.json",
+          "bytes": 739,
+          "sha256": "61999d18fac39baecf4bcdcd98da38b541f719ebe8e524779b0ebc039b89cad3"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r2/temperatures.jsonl",
+          "bytes": 3047,
+          "sha256": "d6be9c34dfe93ec7edb70a6b6d2a9ae81ea56bb5e0fd84f195e7d97cd16f79db"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-asan",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 72.375,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-test-r3/command.log",
+          "bytes": 2313,
+          "sha256": "9b509a411edb9be417ea9f797a321116e79869254709fd0ce6e783b49b93ab68"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r3/plan.json",
+          "bytes": 1246,
+          "sha256": "71c90d233a2c7f8151609ab5843dd9f0f144621004ba0eca0c4f545541ea41ac"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r3/result.json",
+          "bytes": 739,
+          "sha256": "a6c9df63a1a84e15cbf33f4d5629bc9f2cd8c627aa03506c770cae8193067a8e"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r3/temperatures.jsonl",
+          "bytes": 3041,
+          "sha256": "176edb536af4e00856f20f359fa18eb248e8421145ead778ecc8e368e46688a4"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-asan-test-r4",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-asan",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 78.375,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-asan-test-r4/command.log",
+          "bytes": 2313,
+          "sha256": "98b33f0007e51cfde565c8064a366310c6ca62ce5705a43cb3ea1f042911db06"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r4/plan.json",
+          "bytes": 1246,
+          "sha256": "24ed22bd98ad2e87d078346da500e35ccc507d7a3b05e5931c9a3dd6a14a481a"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r4/result.json",
+          "bytes": 739,
+          "sha256": "67ac0e38e397d5e7cc4d24fc9d717cc5be09c091181c8d6d6ca290d4f8cd6ca1"
+        },
+        {
+          "path": "evidence/json-parser-asan-test-r4/temperatures.jsonl",
+          "bytes": 3043,
+          "sha256": "b4ce73472af79c0fc1b60cad75c7332e852ca5bf106b4aad529560551130b5d2"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-c-headers-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "evidence/json-parser-public-headers-r1.c",
+        "-o",
+        "evidence/json-parser-public-headers-r1.o"
+      ],
+      "exit_code": 1,
+      "child_exit_code": 1,
+      "test_count": null,
+      "CPU_max_C": 47.625,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-c-headers-r1/command.log",
+          "bytes": 958,
+          "sha256": "474aef72a804b353c4dbeacfc36395b9370c3bf448bba501a5c7f7fa03d500dd"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r1/plan.json",
+          "bytes": 1054,
+          "sha256": "3f47a869050e980b7a9f790d415299e747b67e83efcfded3788167e386ba52f2"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r1/result.json",
+          "bytes": 552,
+          "sha256": "e679071bf6353dd29593150e0b0087c5455b9457ec90b75eb8a7127725011b09"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r1/temperatures.jsonl",
+          "bytes": 1828,
+          "sha256": "4b899ff21bb46e6c4e7db72746ecf655aa6a552b7748e69be5454ca869a01388"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-c-headers-r2",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "evidence/json-parser-public-headers-r1.c",
+        "-o",
+        "evidence/json-parser-public-headers-r2.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 47.25,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-c-headers-r2/command.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r2/plan.json",
+          "bytes": 1054,
+          "sha256": "ca89283ad29fadfa05e77e8c9b1b59794532e5e56faeb4e0f4ce5c3fd25be837"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r2/result.json",
+          "bytes": 551,
+          "sha256": "9f843d4afec4729a15c33c4603cfc6702bebcb9281ec7aeea963bb843716ee45"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r2/temperatures.jsonl",
+          "bytes": 1829,
+          "sha256": "4c9c1ba16de45181ce80584fd140a0b89a65ca950cd53091aaa2776e1145a4db"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-c-headers-r3",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "evidence/json-parser-public-headers-r1.c",
+        "-o",
+        "evidence/json-parser-public-headers-r3.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 78.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-c-headers-r3/command.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r3/plan.json",
+          "bytes": 1054,
+          "sha256": "087ccbc3779e6256a7db4cfd11bfe843d7f72b25bc26ddc473e1b5909ad71004"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r3/result.json",
+          "bytes": 550,
+          "sha256": "c3db9605752d7ffbd6798df0228a159e05ddadd0e2452df4f592fee85962b250"
+        },
+        {
+          "path": "evidence/json-parser-c-headers-r3/temperatures.jsonl",
+          "bytes": 1828,
+          "sha256": "fe01bc878c4424b64f8fcbc22b2d146c187b4f6dddce7009d6fa7ac471c34969"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-cpp-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "evidence/json-parser-public-headers-r1.cpp",
+        "-o",
+        "evidence/json-parser-public-headers-r1.cpp.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 47.5,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-cpp-headers-r1/command.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r1/plan.json",
+          "bytes": 1063,
+          "sha256": "4371c35e0128c82a2506b222ce88406fafac1e40ca7e8ddf49358b4b6fa637fc"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r1/result.json",
+          "bytes": 559,
+          "sha256": "a27128a8aa7ba58ac8c94622c4a75c2c6d7df3b64f4f65e154a5cec1946e077b"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r1/temperatures.jsonl",
+          "bytes": 1828,
+          "sha256": "ffff8a6b9af7aac6a36241dbbe7420630f66b9d821557079ba08036d07f9216f"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-cpp-headers-r2",
+      "argv": [
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "evidence/json-parser-public-headers-r1.cpp",
+        "-o",
+        "evidence/json-parser-public-headers-r2.cpp.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 54.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-cpp-headers-r2/command.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r2/plan.json",
+          "bytes": 1063,
+          "sha256": "fe5e85f526f5f48f732b90d5bb0505612f1e670fc3213b636be35c39643c7c38"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r2/result.json",
+          "bytes": 558,
+          "sha256": "ccbbdb8f695ca6a54a833e89eaf20591d0d12cc53ec30209be7c29cc96365358"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r2/temperatures.jsonl",
+          "bytes": 1831,
+          "sha256": "aa2a0373d7264b5b1408ce50ef4cfe61ca6b1a8d01c63593d3e4fc5a5aafa009"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-cpp-headers-r3",
+      "argv": [
+        "c++",
+        "-std=c++17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "evidence/json-parser-public-headers-r1.cpp",
+        "-o",
+        "evidence/json-parser-public-headers-r3.cpp.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 78.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-cpp-headers-r3/command.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r3/plan.json",
+          "bytes": 1063,
+          "sha256": "d6d8cafa332ef3b1174441f94038a86db16f08e0b961dd181dbe6edd9ae13baa"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r3/result.json",
+          "bytes": 559,
+          "sha256": "8572bbe79723dfa003a9478fcaf88ff69b763e714dfd8af25996ecbc91aab7cf"
+        },
+        {
+          "path": "evidence/json-parser-cpp-headers-r3/temperatures.jsonl",
+          "bytes": 1829,
+          "sha256": "fc7a52571928dc72a056c30a526dc0523f4c3ec3df19344efd173a3729f13119"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-differential-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-host",
+        "--output-on-failure",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 43,
+      "CPU_max_C": 87.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-differential-test-r1/command.log",
+          "bytes": 5543,
+          "sha256": "0716aaf030fda52d061f58773798dbf687ab9dbe4f39bbce7ff34208906c4548"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r1/plan.json",
+          "bytes": 954,
+          "sha256": "a6be82441c365ec7459ee9aed8bbcc9b14afae8341f0a6eaf5d37554b36d09fe"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r1/result.json",
+          "bytes": 445,
+          "sha256": "0c0984d1283900f1f482d48254ce7afa554d3ed3cee6191ee0f54796c9c05f47"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r1/temperatures.jsonl",
+          "bytes": 21270,
+          "sha256": "32e96da51d0892c359f00fd76b2b5b416032b6e4ef51e2fcdde708df113348f5"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-differential-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-host",
+        "--output-on-failure",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 43,
+      "CPU_max_C": 90.125,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-differential-test-r2/command.log",
+          "bytes": 5543,
+          "sha256": "2a7b9e068976c00a3a9486dca40be687117bec9e9a8af79e1fcb13fc84d06c94"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r2/plan.json",
+          "bytes": 954,
+          "sha256": "342701fdb7df9971b2f9b51df2596ec4acf7761752a4c04a5356b2f923f4b192"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r2/result.json",
+          "bytes": 446,
+          "sha256": "ab854136faf72128966352d16158fed922104e2e4245fc4f4a4c9e49259ed3b0"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r2/temperatures.jsonl",
+          "bytes": 20658,
+          "sha256": "d3b10808b5b8579a83c177ba62a13a1fb14e123de54c6b7bca2df3da3696fd20"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-differential-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-host",
+        "--output-on-failure",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 43,
+      "CPU_max_C": 86.875,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-differential-test-r3/command.log",
+          "bytes": 5543,
+          "sha256": "7dc1dd8be48ad1eda4abb53d4956a7e6d86f394b759e6f18a0ea873023c5e043"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r3/plan.json",
+          "bytes": 954,
+          "sha256": "ed7c45c1c723d64c207f00a35bfefeb18abfb9136528620c44349c58849ffd1a"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r3/result.json",
+          "bytes": 447,
+          "sha256": "cea837c275fb5c569af7545b4b7e44523194e7ab8b296c08cc2ff34c7b6fddab"
+        },
+        {
+          "path": "evidence/json-parser-differential-test-r3/temperatures.jsonl",
+          "bytes": 20677,
+          "sha256": "df445f1c19e9a7c72cfacbda688f8123156d11ee3d3a13ac07927451e4f4c444"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-host-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-host",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 83.75,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-host-build-r1/command.log",
+          "bytes": 120297,
+          "sha256": "55aed8b822ca071c1118a888d18ce6af4868123636037ecf768891173f55a551"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r1/plan.json",
+          "bytes": 920,
+          "sha256": "9a9991071f3cad6f299d38c4b830b3d737428e0e328a1a018a150d797ffc0757"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r1/result.json",
+          "bytes": 416,
+          "sha256": "4268e9bdbea8c6c92b25f96728718d2e44c77e48f522c9aeb5a50e1cefb6d2c7"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r1/temperatures.jsonl",
+          "bytes": 134946,
+          "sha256": "8ede33c2c6d3fcac22efeb7a73368eadb4ff7a0e79de5f8b95700804d879d5e8"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-host-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-host",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 82.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-host-build-r2/command.log",
+          "bytes": 44362,
+          "sha256": "86b08884c371b3cff49d5e3a81e3add326f8c2529b081cf59cba85ae74ba8851"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r2/plan.json",
+          "bytes": 920,
+          "sha256": "4dd0505d237818cd95a59989eef052dc01c0818d1e18cbe70f50af48a9b1aa49"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r2/result.json",
+          "bytes": 414,
+          "sha256": "fbe90335505b6998f17ad2a72f31226a5ed73005c1d7a9708dc7a5d1b2e2a72b"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r2/temperatures.jsonl",
+          "bytes": 34033,
+          "sha256": "7c0da6fb51c22b1a474b36a897c4cc5ca9ec7491875226b03c9d187befaad087"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-host-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-host",
+        "--parallel",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 81.125,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-host-build-r3/command.log",
+          "bytes": 44362,
+          "sha256": "33793a2578205368002449e7d9c44df2b55293be9bd0999b6c9efc83fd42791f"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r3/plan.json",
+          "bytes": 920,
+          "sha256": "4dd0505d237818cd95a59989eef052dc01c0818d1e18cbe70f50af48a9b1aa49"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r3/result.json",
+          "bytes": 417,
+          "sha256": "9c31d7fbd4f8be2ad642fdef1dc1dd70504d9b881fb3668ec35943c3b82121c5"
+        },
+        {
+          "path": "evidence/json-parser-host-build-r3/temperatures.jsonl",
+          "bytes": 34641,
+          "sha256": "c694a3a47f2f8159d6665698f099a10eb7f236be18678568c6dd563d48ee0b45"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-host-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/json-parser-host",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 76.25,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-host-configure-r1/command.log",
+          "bytes": 1031,
+          "sha256": "e2325226defbf4d8d871df4428310b4cc8cfbdaba8e03f076e041e1b1a3293c6"
+        },
+        {
+          "path": "evidence/json-parser-host-configure-r1/plan.json",
+          "bytes": 1003,
+          "sha256": "e13c27b01911a486c018a2452fe92c8fabbf4a314b7e9a9b6839a6a37b43a602"
+        },
+        {
+          "path": "evidence/json-parser-host-configure-r1/result.json",
+          "bytes": 500,
+          "sha256": "0467361081d276b118ecd56cba841b76a589307d05a11c8915ffbfd0cb465a49"
+        },
+        {
+          "path": "evidence/json-parser-host-configure-r1/temperatures.jsonl",
+          "bytes": 3045,
+          "sha256": "767a6c89eca68033dd5043d5ec353f95cf57a6db32286d07ba98aeccb7db25d8"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-release",
+        "--parallel",
+        "2",
+        "--target",
+        "test-json-parse",
+        "test-binary64",
+        "test-grammar-composition",
+        "test-ordered-cache",
+        "test-schema-format",
+        "test-schema-number",
+        "test-schema-transform",
+        "test-schema-values",
+        "test-schema-body",
+        "test-schema-visit",
+        "test-schema-dispatch",
+        "test-schema-memo",
+        "test-grammar-number",
+        "test-grammar-cache",
+        "test-grammar-builder"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 71.5,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-build-r1/command.log",
+          "bytes": 3945,
+          "sha256": "9ec7ed1877d63db89ab14e676d0ad57ec34273f14ccfa1b799aabb9cd917b47a"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r1/plan.json",
+          "bytes": 1329,
+          "sha256": "0c41457d6cf9f985510268a3c3a8c6d49773fab3631389b77d46509293f52c1f"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r1/result.json",
+          "bytes": 823,
+          "sha256": "36cf70b8e6af1ae7bf21c834d75ae178d25af40a37ee377a7eca611c0be8d3ea"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r1/temperatures.jsonl",
+          "bytes": 3044,
+          "sha256": "6c22adf7020c225e38abddd28a760c1e0e1753e983692e61c52fb2eec8addc66"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-release",
+        "--parallel",
+        "1",
+        "--target",
+        "test-json-parse"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 80.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-build-r2/command.log",
+          "bytes": 124,
+          "sha256": "9ae53c2f271c381ebad483e4d5f3f74853405fc31db1049925df464ee6be0fa6"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r2/plan.json",
+          "bytes": 961,
+          "sha256": "8661fc548a01478fe53f0026ede4c4fa843da3c8b28ac012143c584002ec0a0a"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r2/result.json",
+          "bytes": 457,
+          "sha256": "a77a38ada5b44a3638e9fe2d1059390d2abbab4160848b3e559b3728d3cd7f80"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r2/temperatures.jsonl",
+          "bytes": 1828,
+          "sha256": "4312c3485b479312316d56af4da5dcb80233d64e7eb135f9c33be206cd9b37ce"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-release",
+        "--parallel",
+        "1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-json-parse",
+        "test-binary64",
+        "test-grammar-composition",
+        "test-ordered-cache",
+        "test-schema-format",
+        "test-schema-number",
+        "test-schema-transform",
+        "test-schema-values",
+        "test-schema-body",
+        "test-schema-visit",
+        "test-schema-dispatch",
+        "test-schema-memo",
+        "test-grammar-number",
+        "test-grammar-cache",
+        "test-grammar-builder"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 80.5,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-build-r3/command.log",
+          "bytes": 8823,
+          "sha256": "87c044ec4fa0f320f2e8acd075e150587dc71e9b9388448ef547154ce2201311"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r3/plan.json",
+          "bytes": 1380,
+          "sha256": "4e7b93fc1e8198b81696a1a6cfa4a799f6ecace9d9cfbfdd5cff97c77f5396d8"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r3/result.json",
+          "bytes": 876,
+          "sha256": "34ac3b5a541ed5e729ee8d6992fbb8069b258c8d13f1302239da092582a99ecc"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r3/temperatures.jsonl",
+          "bytes": 8507,
+          "sha256": "4b9f93102b8df78d8d165a2782624e053416f987597e31dc0e12766b0f5469da"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/json-parser-release",
+        "--parallel",
+        "1",
+        "--target",
+        "synapse-lie-server",
+        "synapse-lie-bench",
+        "test-json-parse",
+        "test-binary64",
+        "test-grammar-composition",
+        "test-ordered-cache",
+        "test-schema-format",
+        "test-schema-number",
+        "test-schema-transform",
+        "test-schema-values",
+        "test-schema-body",
+        "test-schema-visit",
+        "test-schema-dispatch",
+        "test-schema-memo",
+        "test-grammar-number",
+        "test-grammar-cache",
+        "test-grammar-builder"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 78.0,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-build-r4/command.log",
+          "bytes": 1014,
+          "sha256": "ffb287769769aa07d45596fec95cdfa2c7659f418571d028b9353c8a479b583d"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r4/plan.json",
+          "bytes": 1380,
+          "sha256": "4e7b93fc1e8198b81696a1a6cfa4a799f6ecace9d9cfbfdd5cff97c77f5396d8"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r4/result.json",
+          "bytes": 876,
+          "sha256": "483a5bc4328040ec423a6aa7b602680a3a0ac3c6dc76e80f3cacf028fe4df9dc"
+        },
+        {
+          "path": "evidence/json-parser-release-build-r4/temperatures.jsonl",
+          "bytes": 1830,
+          "sha256": "d04dc6e67b9a528f6d2b8496b642fce2968fa1760552fbb565cc12836de2ab8d"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/json-parser-release",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=OFF"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "CPU_max_C": 53.125,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-configure-r1/command.log",
+          "bytes": 3399,
+          "sha256": "de537867389b5adb1c2f5ca800201a204a5aa3769f897f015424b6791b805ffb"
+        },
+        {
+          "path": "evidence/json-parser-release-configure-r1/plan.json",
+          "bytes": 1061,
+          "sha256": "b1f1a6b5aeec043a7dd229e4e71d838c1536e40e152f6c0f464654ce079cb898"
+        },
+        {
+          "path": "evidence/json-parser-release-configure-r1/result.json",
+          "bytes": 558,
+          "sha256": "ec47456b8e7f21346356579214a49de401a3f40ec69c502d9bc99ed9b76a3db8"
+        },
+        {
+          "path": "evidence/json-parser-release-configure-r1/temperatures.jsonl",
+          "bytes": 1832,
+          "sha256": "5eb13d471931a73a8bfed95b2ca10ed6385934752f96d772a0288488a062923d"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-release",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "test_count": 18,
+      "CPU_max_C": 72.125,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-test-r1/command.log",
+          "bytes": 2984,
+          "sha256": "8b373b3a71b4085fa9afe85b7bbe42c579bfe3881fd8b8199121ea40b58f315e"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r1/plan.json",
+          "bytes": 1244,
+          "sha256": "792062ec4a2464b8aee39aaf25e7f1986cb4a6ac3ffb32b018c2053436261094"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r1/result.json",
+          "bytes": 742,
+          "sha256": "195b37641ebc591163b17114cf20118387e35c3db3f7497523dadd90620d6c1d"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r1/temperatures.jsonl",
+          "bytes": 2439,
+          "sha256": "6342b2024e5f0451630cefe7a00a407d6a875b16cac5b525cb4c463841758669"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-release",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 81.25,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-test-r2/command.log",
+          "bytes": 2316,
+          "sha256": "794cfcce5fc8451d926f8152e4f61c362cfed57c14da49a312814ed21eb770e6"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r2/plan.json",
+          "bytes": 1244,
+          "sha256": "792062ec4a2464b8aee39aaf25e7f1986cb4a6ac3ffb32b018c2053436261094"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r2/result.json",
+          "bytes": 741,
+          "sha256": "d0473c3b0a6a4b2178b51d0822d78725c061b6ec5c061e3d29d22c6a4b3f87cf"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r2/temperatures.jsonl",
+          "bytes": 3041,
+          "sha256": "5e82cf28bcb94db0ededc44c0e089f1ad1d9f5e8ceb501b2afd1759da49c09fd"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-test-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-release",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 75.5,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-test-r3/command.log",
+          "bytes": 2316,
+          "sha256": "8205ab9ab36929a2b3848ae3434834f9eaefc98fe2d34e5f2e9bb14a6c922779"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r3/plan.json",
+          "bytes": 1244,
+          "sha256": "792062ec4a2464b8aee39aaf25e7f1986cb4a6ac3ffb32b018c2053436261094"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r3/result.json",
+          "bytes": 740,
+          "sha256": "2edb66330dc8f6de3df40f5f45e52ffedec555247f6c280df91b20440d82a541"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r3/temperatures.jsonl",
+          "bytes": 3043,
+          "sha256": "53dcfaa547fd08bc1d72317bd91b47c6068058ea15f64e95bfbf591109b8c536"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-test-r4",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-release",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 81.125,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-test-r4/command.log",
+          "bytes": 2316,
+          "sha256": "415c0d462a4f5c1d044b86d863e866decc56c3060d43fee74733cd79b13c59ef"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r4/plan.json",
+          "bytes": 1244,
+          "sha256": "47ac147d58b531193f630c61e5f4f774932466605535e682eec811e4971b7d9d"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r4/result.json",
+          "bytes": 740,
+          "sha256": "cd1c38b1998a33b90af1cd71ec26bf27d324408d76902a2baa00d3170147e110"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r4/temperatures.jsonl",
+          "bytes": 3048,
+          "sha256": "021478e6e58797a5d47f3b5ed0d2ebd85bafa9017cb12bb04d2c2e7180b8ac3e"
+        }
+      ]
+    },
+    {
+      "directory": "evidence/json-parser-release-test-r5",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/json-parser-release",
+        "--output-on-failure",
+        "--parallel",
+        "2",
+        "-R",
+        "^(c17-(json-parser|binary64|grammar-composition|ordered-cache|schema-(format|number|transform|values|body|visit|dispatch|memo)|number-grammar|grammar-cache|builder-grammar)-contract|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 18,
+      "CPU_max_C": 80.375,
+      "source_scope": "Retained actual command; initial failures never overwritten.",
+      "files": [
+        {
+          "path": "evidence/json-parser-release-test-r5/command.log",
+          "bytes": 2316,
+          "sha256": "472a2d45f873f388c32a21b585bb2201f4be5a9328235b5ad1551afde0babf81"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r5/plan.json",
+          "bytes": 1244,
+          "sha256": "47ac147d58b531193f630c61e5f4f774932466605535e682eec811e4971b7d9d"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r5/result.json",
+          "bytes": 741,
+          "sha256": "7370a423bb15f82062a5d7d0015b0286f7bdf2a3d4e78071fad49e0e77d3be73"
+        },
+        {
+          "path": "evidence/json-parser-release-test-r5/temperatures.jsonl",
+          "bytes": 3047,
+          "sha256": "9eb0e62f332021663dfaaf5c5fb01a1024b9c7e8e8492b48c40521e68c13b911"
+        }
+      ]
+    }
+  ],
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/parity/CANDIDATE.txt",
+          "bytes": 11427957,
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/json-parser-host/parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/parity/FALLBACK.txt",
+          "bytes": 11427957,
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/json-parser-host/parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/parity/REFERENCE.txt",
+          "bytes": 11427957,
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/biased-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/biased-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/biased-parity/CANDIDATE.txt",
+          "bytes": 9286776,
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/json-parser-host/biased-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/biased-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/biased-parity/REFERENCE.txt",
+          "bytes": 9286776,
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/vocabulary-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/CANDIDATE.txt",
+          "bytes": 1925,
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/FALLBACK.txt",
+          "bytes": 1925,
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/vocabulary-parity/REFERENCE.txt",
+          "bytes": 1925,
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/history-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/CANDIDATE.txt",
+          "bytes": 6681873,
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/FALLBACK.txt",
+          "bytes": 6681873,
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/history-parity/REFERENCE.txt",
+          "bytes": 6681873,
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    },
+    {
+      "suite": "distribution-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/distribution-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/CANDIDATE.txt",
+          "bytes": 4847535,
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/FALLBACK.txt",
+          "bytes": 4847535,
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/distribution-parity/REFERENCE.txt",
+          "bytes": 4847535,
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/grammar-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/CANDIDATE.txt",
+          "bytes": 3394638,
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/FALLBACK.txt",
+          "bytes": 3394638,
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/grammar-parity/REFERENCE.txt",
+          "bytes": 3394638,
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        }
+      ]
+    },
+    {
+      "suite": "number-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/number-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/CANDIDATE.txt",
+          "bytes": 489821,
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/FALLBACK.txt",
+          "bytes": 489821,
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/number-parity/REFERENCE.txt",
+          "bytes": 489821,
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        }
+      ]
+    },
+    {
+      "suite": "unicode-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/unicode-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/CANDIDATE.txt",
+          "bytes": 28502560,
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/FALLBACK.txt",
+          "bytes": 28502560,
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/unicode-parity/REFERENCE.txt",
+          "bytes": 28502560,
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-vocabulary-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/CANDIDATE.txt",
+          "bytes": 19249438,
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/FALLBACK.txt",
+          "bytes": 19249438,
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/grammar-vocabulary-parity/REFERENCE.txt",
+          "bytes": 19249438,
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        }
+      ]
+    },
+    {
+      "suite": "compiler-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/compiler-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/CANDIDATE.txt",
+          "bytes": 895718,
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/FALLBACK.txt",
+          "bytes": 895718,
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/compiler-parity/REFERENCE.txt",
+          "bytes": 895718,
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        }
+      ]
+    },
+    {
+      "suite": "parser-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/parser-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/CANDIDATE.txt",
+          "bytes": 65762446,
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/FALLBACK.txt",
+          "bytes": 65762446,
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/parser-parity/REFERENCE.txt",
+          "bytes": 65762446,
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        }
+      ]
+    },
+    {
+      "suite": "uset-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/uset-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/CANDIDATE.txt",
+          "bytes": 38637803,
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/FALLBACK.txt",
+          "bytes": 38637803,
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/uset-parity/REFERENCE.txt",
+          "bytes": 38637803,
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        }
+      ]
+    },
+    {
+      "suite": "snapshot-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/snapshot-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/CANDIDATE.txt",
+          "bytes": 153386,
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/FALLBACK.txt",
+          "bytes": 153386,
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/snapshot-parity/REFERENCE.txt",
+          "bytes": 153386,
+          "sha256": "b5a7649bf4bc56ec539f93c1babaa70fd8f77755e7385c499c97cb5c7f49f2a1"
+        }
+      ]
+    },
+    {
+      "suite": "schema-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/schema-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/CANDIDATE.txt",
+          "bytes": 122938,
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/FALLBACK.txt",
+          "bytes": 122938,
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/schema-parity/REFERENCE.txt",
+          "bytes": 122938,
+          "sha256": "b10a8f13fa8abde5df009e163156cb2f453671857b4bc79f9d2fd1f799204ae7"
+        }
+      ]
+    },
+    {
+      "suite": "values-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/values-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/CANDIDATE.txt",
+          "bytes": 13248,
+          "sha256": "b0949f1f839863f8f74143749aa19b03902a5bab37c9c5ae3a429c68e1b8e280"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/FALLBACK.txt",
+          "bytes": 13248,
+          "sha256": "b0949f1f839863f8f74143749aa19b03902a5bab37c9c5ae3a429c68e1b8e280"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/values-parity/REFERENCE.txt",
+          "bytes": 13248,
+          "sha256": "b0949f1f839863f8f74143749aa19b03902a5bab37c9c5ae3a429c68e1b8e280"
+        }
+      ]
+    },
+    {
+      "suite": "cache-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/cache-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/CANDIDATE.txt",
+          "bytes": 26586,
+          "sha256": "66e7ba2c1f4583d5aa2d2545f4e864ecfe4d0b1e6998d4a6f0c0b7936cbed9a6"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/FALLBACK.txt",
+          "bytes": 26586,
+          "sha256": "66e7ba2c1f4583d5aa2d2545f4e864ecfe4d0b1e6998d4a6f0c0b7936cbed9a6"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/cache-parity/REFERENCE.txt",
+          "bytes": 26586,
+          "sha256": "66e7ba2c1f4583d5aa2d2545f4e864ecfe4d0b1e6998d4a6f0c0b7936cbed9a6"
+        }
+      ]
+    },
+    {
+      "suite": "memo-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/memo-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/CANDIDATE.txt",
+          "bytes": 361736,
+          "sha256": "23912c0397d376f9bbb843a62f92450968d69d583bd7531964eeb4dc2213e42b"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/FALLBACK.txt",
+          "bytes": 361736,
+          "sha256": "23912c0397d376f9bbb843a62f92450968d69d583bd7531964eeb4dc2213e42b"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/memo-parity/REFERENCE.txt",
+          "bytes": 361736,
+          "sha256": "23912c0397d376f9bbb843a62f92450968d69d583bd7531964eeb4dc2213e42b"
+        }
+      ]
+    },
+    {
+      "suite": "dispatch-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/dispatch-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/CANDIDATE.txt",
+          "bytes": 1579966,
+          "sha256": "727a5f07581b8d1306edf5fee73af3c1e0849c73e60f159527f1a4fac8681737"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/FALLBACK.txt",
+          "bytes": 1579966,
+          "sha256": "727a5f07581b8d1306edf5fee73af3c1e0849c73e60f159527f1a4fac8681737"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/dispatch-parity/REFERENCE.txt",
+          "bytes": 1579966,
+          "sha256": "727a5f07581b8d1306edf5fee73af3c1e0849c73e60f159527f1a4fac8681737"
+        }
+      ]
+    },
+    {
+      "suite": "visit-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/visit-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/CANDIDATE.txt",
+          "bytes": 846866,
+          "sha256": "b44f74e9affa6ff7f0f8c577945f69a532dce224934eae1f9b58a501767a7fef"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/FALLBACK.txt",
+          "bytes": 846866,
+          "sha256": "b44f74e9affa6ff7f0f8c577945f69a532dce224934eae1f9b58a501767a7fef"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/visit-parity/REFERENCE.txt",
+          "bytes": 846866,
+          "sha256": "b44f74e9affa6ff7f0f8c577945f69a532dce224934eae1f9b58a501767a7fef"
+        }
+      ]
+    },
+    {
+      "suite": "body-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/body-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/CANDIDATE.txt",
+          "bytes": 1259410,
+          "sha256": "8957f452266d0b3d1939aca65e4024046288408a022aa67bb23a415c2be8c445"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/FALLBACK.txt",
+          "bytes": 1259410,
+          "sha256": "8957f452266d0b3d1939aca65e4024046288408a022aa67bb23a415c2be8c445"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/body-parity/REFERENCE.txt",
+          "bytes": 1259410,
+          "sha256": "8957f452266d0b3d1939aca65e4024046288408a022aa67bb23a415c2be8c445"
+        }
+      ]
+    },
+    {
+      "suite": "number-control-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/number-control-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/CANDIDATE.txt",
+          "bytes": 72322,
+          "sha256": "72abb6b34ec2ce489b454932c04456ecfb7dcf01e568cc04a9e64ee029c91eea"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/FALLBACK.txt",
+          "bytes": 72322,
+          "sha256": "72abb6b34ec2ce489b454932c04456ecfb7dcf01e568cc04a9e64ee029c91eea"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/number-control-parity/REFERENCE.txt",
+          "bytes": 72322,
+          "sha256": "72abb6b34ec2ce489b454932c04456ecfb7dcf01e568cc04a9e64ee029c91eea"
+        }
+      ]
+    },
+    {
+      "suite": "format-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/format-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/CANDIDATE.txt",
+          "bytes": 84462,
+          "sha256": "c8679a2d5b21cca4ea7ae772ad6ed0e9bbfbea45fdbb833ded16190dc85b1bbd"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/FALLBACK.txt",
+          "bytes": 84462,
+          "sha256": "c8679a2d5b21cca4ea7ae772ad6ed0e9bbfbea45fdbb833ded16190dc85b1bbd"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/format-parity/REFERENCE.txt",
+          "bytes": 84462,
+          "sha256": "c8679a2d5b21cca4ea7ae772ad6ed0e9bbfbea45fdbb833ded16190dc85b1bbd"
+        }
+      ]
+    },
+    {
+      "suite": "composition-cache-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/composition-cache-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/CANDIDATE.txt",
+          "bytes": 126599,
+          "sha256": "f24a13c7d3bd084f39cb7edc066c115ec34f3b5e04ce3b90d7ae570bd994d36e"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/FALLBACK.txt",
+          "bytes": 126599,
+          "sha256": "f24a13c7d3bd084f39cb7edc066c115ec34f3b5e04ce3b90d7ae570bd994d36e"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/composition-cache-parity/REFERENCE.txt",
+          "bytes": 126599,
+          "sha256": "f24a13c7d3bd084f39cb7edc066c115ec34f3b5e04ce3b90d7ae570bd994d36e"
+        }
+      ]
+    },
+    {
+      "suite": "composition-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/composition-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/CANDIDATE.txt",
+          "bytes": 7216080,
+          "sha256": "7e7926832d525acac5828151ab0aa156806ff5c8f3a25f78119452ca4605e993"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/FALLBACK.txt",
+          "bytes": 7216080,
+          "sha256": "7e7926832d525acac5828151ab0aa156806ff5c8f3a25f78119452ca4605e993"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/composition-parity/REFERENCE.txt",
+          "bytes": 7216080,
+          "sha256": "7e7926832d525acac5828151ab0aa156806ff5c8f3a25f78119452ca4605e993"
+        }
+      ]
+    },
+    {
+      "suite": "binary64-parity",
+      "previous_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/json-parser-host/binary64-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/CANDIDATE.txt",
+          "bytes": 6079966,
+          "sha256": "66b7a277a33080b86761c19c69306b1a8fc2ac6ecc364ed0bbb319709b0567be"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/FALLBACK.txt",
+          "bytes": 6079966,
+          "sha256": "66b7a277a33080b86761c19c69306b1a8fc2ac6ecc364ed0bbb319709b0567be"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/binary64-parity/REFERENCE.txt",
+          "bytes": 6079966,
+          "sha256": "66b7a277a33080b86761c19c69306b1a8fc2ac6ecc364ed0bbb319709b0567be"
+        }
+      ]
+    },
+    {
+      "suite": "json-parser-parity",
+      "previous_hash_unchanged": null,
+      "files": [
+        {
+          "path": "build/json-parser-host/json-parser-parity/CANDIDATE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/CANDIDATE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/CANDIDATE.txt",
+          "bytes": 3072748,
+          "sha256": "30b4832fc78789595b8b5bf3ab763eab8799b8dba465561af9506b0189b6e8e9"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/FALLBACK.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/FALLBACK.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/FALLBACK.txt",
+          "bytes": 3072748,
+          "sha256": "30b4832fc78789595b8b5bf3ab763eab8799b8dba465561af9506b0189b6e8e9"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/REFERENCE.exit",
+          "bytes": 2,
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/REFERENCE.stderr",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/json-parser-host/json-parser-parity/REFERENCE.txt",
+          "bytes": 3072748,
+          "sha256": "30b4832fc78789595b8b5bf3ab763eab8799b8dba465561af9506b0189b6e8e9"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 49316,
+      "sha256": "fc25573fd242898242258a1ff5266a456d1b1b17efc5363e7e5361ce1134e224"
+    },
+    {
+      "path": "adapters/gufo-state/binary64-edits.json",
+      "bytes": 2099,
+      "sha256": "de9dc1fac361945103126a16e95f3ac70f3e7907314a8487bd448fcf71f851a2"
+    },
+    {
+      "path": "adapters/gufo-state/json-parser-edits.json",
+      "bytes": 1292,
+      "sha256": "1d0bf207909416e9cfe42232d8c14a29de101ac2a6283bcb717ed97b9d7ccaeb"
+    },
+    {
+      "path": "adapters/gufo_composition_cache.hpp",
+      "bytes": 2547,
+      "sha256": "77506a2ba4a009fef67456013d19e15535abeabc906e8b8d8607c3d637d905b8"
+    },
+    {
+      "path": "adapters/gufo_distribution.hpp",
+      "bytes": 5189,
+      "sha256": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d"
+    },
+    {
+      "path": "adapters/gufo_grammar.hpp",
+      "bytes": 8320,
+      "sha256": "5a1b26a1dd27ae806a86de08c94caabbc98e989f6afe4eb15a4e5f79bed77125"
+    },
+    {
+      "path": "adapters/gufo_grammar_builder.hpp",
+      "bytes": 3259,
+      "sha256": "c30d48f0845eb5a6b02b1592450fdc5a36b3c9b1fbe63153420c438148742cd5"
+    },
+    {
+      "path": "adapters/gufo_grammar_cache.hpp",
+      "bytes": 2295,
+      "sha256": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a"
+    },
+    {
+      "path": "adapters/gufo_grammar_composition.hpp",
+      "bytes": 2989,
+      "sha256": "009a9c643b13bca52c69adcfa55dc46defe25f48bc913e4588e99a5fae2fc17c"
+    },
+    {
+      "path": "adapters/gufo_grammar_number.hpp",
+      "bytes": 1605,
+      "sha256": "f13f2a25ab3f4c7824953b39d60a0e596c3bc266143cb4b6fb48446fa1b53c34"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex.hpp",
+      "bytes": 2497,
+      "sha256": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_compile.hpp",
+      "bytes": 3941,
+      "sha256": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_parse.hpp",
+      "bytes": 1203,
+      "sha256": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96"
+    },
+    {
+      "path": "adapters/gufo_grammar_string.hpp",
+      "bytes": 2223,
+      "sha256": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2"
+    },
+    {
+      "path": "adapters/gufo_grammar_vocabulary.hpp",
+      "bytes": 2894,
+      "sha256": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "bytes": 3669,
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "adapters/gufo_json_parse.hpp",
+      "bytes": 2371,
+      "sha256": "823ad9fd7076360fe5069636c0fccdfa88ebfc8477eae4dbae7099d7b4f3708c"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "bytes": 2556,
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "adapters/gufo_schema_body.hpp",
+      "bytes": 3667,
+      "sha256": "a13d281b7e63930765ab5159195f93939528fcd6fa7d3171768da6f63c5d7e44"
+    },
+    {
+      "path": "adapters/gufo_schema_dispatch.hpp",
+      "bytes": 1661,
+      "sha256": "b6297c9abb7f8fa01a2b3279559fe31897f3d18e0e02bb1e45e0ca6704ab64c1"
+    },
+    {
+      "path": "adapters/gufo_schema_format.hpp",
+      "bytes": 906,
+      "sha256": "02c59fbd7382d063b4a75b48acb610e5a94514597717d3b994d1b4a6de97d8fe"
+    },
+    {
+      "path": "adapters/gufo_schema_memo.hpp",
+      "bytes": 1435,
+      "sha256": "a03bf6772145fd2b184d76772e59a0b2577814850cdb2e00e7b791efaab57a16"
+    },
+    {
+      "path": "adapters/gufo_schema_number.hpp",
+      "bytes": 3391,
+      "sha256": "e1e7fe4159cd3f2bd960fcc857c7d4e22c5c1726cca2c30ce24ea331da3b657f"
+    },
+    {
+      "path": "adapters/gufo_schema_transform.hpp",
+      "bytes": 7394,
+      "sha256": "11bb74e188c40771f0a2705603e5e996208dd2f914540f0d0f0aca1a81f6109d"
+    },
+    {
+      "path": "adapters/gufo_schema_values.hpp",
+      "bytes": 6328,
+      "sha256": "88b955ec917ee70aa5260a4e2cc356d51de34244f1fd4dddcb51094cb9667b4f"
+    },
+    {
+      "path": "adapters/gufo_schema_visit.hpp",
+      "bytes": 1612,
+      "sha256": "36bc2c418253f8f8dbe56336fbd88efe9608cea022c9f11acd526125dccd20b1"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "bytes": 5590,
+      "sha256": "589a457ccbd5895966ff8f34f6808d81e363e7ad440ff5e5bd6d985627600c7a"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "bytes": 16301,
+      "sha256": "db97e2bf452ab7513e7d185c2ac5c10ff76372fafe88d16d9060c0c9d6c3aa0e"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "bytes": 5693,
+      "sha256": "a0fbc4c1663991150c15d7bc718230c3ffe60caf7dc895638c36f5363c2bebb1"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "bytes": 15945,
+      "sha256": "ce4487818cc1db9d4faad245cec26325c8fd66347db2383807a4f3833538e1ce"
+    },
+    {
+      "path": "evidence/binary64-differential-r1.cpp",
+      "bytes": 1129,
+      "sha256": "c47350984194f7cceb3e9926e2b55dc75d0a70bee3d5a02b837b304adc7387a4"
+    },
+    {
+      "path": "evidence/binary64-public-headers-r1.c",
+      "bytes": 1588,
+      "sha256": "8cad768ba12ed444ddae5aa9d61970c97639aa1f93d68b8869ef3907852b0287"
+    },
+    {
+      "path": "evidence/binary64-public-headers-r1.cpp",
+      "bytes": 1588,
+      "sha256": "8cad768ba12ed444ddae5aa9d61970c97639aa1f93d68b8869ef3907852b0287"
+    },
+    {
+      "path": "evidence/binary64-receipt-generator-failure-r1.json",
+      "bytes": 515,
+      "sha256": "e241f301cf162fc25043f437199a893077e42d56998767ddce68193701329310"
+    },
+    {
+      "path": "evidence/binary64-ryu-upstream-commit-r2.json",
+      "bytes": 6548,
+      "sha256": "742a648ff6af4774b2e228628e67823ecb3ce8d2452ade56bde4f38fb8be63b5"
+    },
+    {
+      "path": "evidence/binary64-sanitizer-environment-r1.json",
+      "bytes": 98,
+      "sha256": "f5e07a39f7502b8dd5cea2af26bfe8c2d77391520f18604ab301d8e626294d40"
+    },
+    {
+      "path": "evidence/binary64-upstream-fetch-failure-r1.json",
+      "bytes": 387,
+      "sha256": "c83d393dbec9f071e16d8d5974ff72ca7a875caba1d580e87c29568cf6bdd614"
+    },
+    {
+      "path": "evidence/fetch-binary64-ryu-r1.py",
+      "bytes": 1611,
+      "sha256": "f183dd37f6644ad340a1c6d39df537d68c08d12cfb9b8eb22d0bfe66fce21bdc"
+    },
+    {
+      "path": "evidence/make-binary64-receipt-r1.py",
+      "bytes": 15086,
+      "sha256": "fd13e8a1d622f97fe76167e617486cb016b846f445e1bc930813750c0c81fbc2"
+    },
+    {
+      "path": "evidence/prepare-binary64-r1.py",
+      "bytes": 7539,
+      "sha256": "95f66b4be1b45712524c2a67f931c73b1d035fb4097ac2d4c95ae78284bf4017"
+    },
+    {
+      "path": "evidence/update-binary64-docs-r1.py",
+      "bytes": 14409,
+      "sha256": "3e591a57e46367fd8a95672d6e31d4b992e54a7fdd8b56a70735f173e78bcee5"
+    },
+    {
+      "path": "include/lie/binary64.h",
+      "bytes": 1872,
+      "sha256": "c9946b47a45cea79d98c1241609bed292a30a68643f9db16bf8ffc470bd3b141"
+    },
+    {
+      "path": "include/lie/cache_policy.h",
+      "bytes": 1907,
+      "sha256": "76127da130a6556ae5231690f0e1c1ebf7d557ab54aa4ff14aaa0dd88f4d7e26"
+    },
+    {
+      "path": "include/lie/chat.h",
+      "bytes": 1453,
+      "sha256": "82472f625b54ad0500d49826e38d4a71373185ff299bc00473526a63335a5928"
+    },
+    {
+      "path": "include/lie/choices.h",
+      "bytes": 1008,
+      "sha256": "f7ee9270485bdf70aa790367cb4b0b6b37e0dfab21ace036424dd27bd5327e06"
+    },
+    {
+      "path": "include/lie/core.h",
+      "bytes": 11353,
+      "sha256": "9a77d47b7976e49d29a5c7f59857d360dadf0889ffcfcaf8b5b7fb2579576b83"
+    },
+    {
+      "path": "include/lie/events.h",
+      "bytes": 2345,
+      "sha256": "dff13acbe7a67bfa5836c780b2846fe18eab2405c9b6d8680a72c3fd25ead2c0"
+    },
+    {
+      "path": "include/lie/executor.h",
+      "bytes": 9241,
+      "sha256": "b383e011e374f46f0de752e679d568c2844ca5850504eef59b47ee80c6e62dfd"
+    },
+    {
+      "path": "include/lie/flow.h",
+      "bytes": 4595,
+      "sha256": "1cd547bf3d553d2b4ecf4edb428728fc0f68661506a8609253ae0154ece4afc5"
+    },
+    {
+      "path": "include/lie/grammar.h",
+      "bytes": 7591,
+      "sha256": "2e889d222465ba7fef5acba972f3b870696cff4667b0c2a1d1c17bbb592ed0ae"
+    },
+    {
+      "path": "include/lie/grammar_builder.h",
+      "bytes": 4226,
+      "sha256": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a"
+    },
+    {
+      "path": "include/lie/grammar_cache.h",
+      "bytes": 3467,
+      "sha256": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0"
+    },
+    {
+      "path": "include/lie/grammar_composition.h",
+      "bytes": 3122,
+      "sha256": "d19f27a126322e7e29532a2917120f3a9d771e2688f9081449f2806a17ecbe8a"
+    },
+    {
+      "path": "include/lie/grammar_number.h",
+      "bytes": 2845,
+      "sha256": "1ddb997b5f4439e4842da5e42129ef8fad2859d1ed6212cbd1988e13636e8703"
+    },
+    {
+      "path": "include/lie/grammar_regex.h",
+      "bytes": 2616,
+      "sha256": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c"
+    },
+    {
+      "path": "include/lie/grammar_regex_compile.h",
+      "bytes": 4327,
+      "sha256": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838"
+    },
+    {
+      "path": "include/lie/grammar_regex_parse.h",
+      "bytes": 3786,
+      "sha256": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8"
+    },
+    {
+      "path": "include/lie/grammar_string.h",
+      "bytes": 2291,
+      "sha256": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9"
+    },
+    {
+      "path": "include/lie/grammar_unicode.h",
+      "bytes": 2570,
+      "sha256": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86"
+    },
+    {
+      "path": "include/lie/grammar_vocabulary.h",
+      "bytes": 4189,
+      "sha256": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619"
+    },
+    {
+      "path": "include/lie/inference.h",
+      "bytes": 1215,
+      "sha256": "4b39938f35e9b54cfbeba97851a5cc10c9e115e4a57b9e6925beb03fc03b77f8"
+    },
+    {
+      "path": "include/lie/json_parse.h",
+      "bytes": 2779,
+      "sha256": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e"
+    },
+    {
+      "path": "include/lie/kvc.h",
+      "bytes": 2631,
+      "sha256": "8cfe57b86a2de4df4d1a96aed8ec32f53d786ccade762de5c905bb60631647f1"
+    },
+    {
+      "path": "include/lie/kvc_qwen.h",
+      "bytes": 2993,
+      "sha256": "e151507c5576964fb395ea866b18135dbccc5c1fe38241401884d5137583988b"
+    },
+    {
+      "path": "include/lie/kvc_qwen_map.h",
+      "bytes": 2616,
+      "sha256": "f02a6d12e918b01c47228b024928da8baa35c1bf65b25a39729bc408e12b8c2f"
+    },
+    {
+      "path": "include/lie/kvc_state.h",
+      "bytes": 5604,
+      "sha256": "e01bc9b50ff9a847721174591e95d6205fe9ccb04522fa35fc85af0d50abc3ab"
+    },
+    {
+      "path": "include/lie/metrics.h",
+      "bytes": 2185,
+      "sha256": "9140e38d94f25b3dae4584da15ebf70adc060cdbc0638f0194baa1fbd2e692ba"
+    },
+    {
+      "path": "include/lie/mtp.h",
+      "bytes": 2013,
+      "sha256": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372"
+    },
+    {
+      "path": "include/lie/ordered_cache.h",
+      "bytes": 3158,
+      "sha256": "32a7929f0127f28f8e639d57f6bfe050122a7f619bd1a19dd7fadc47fdebdf89"
+    },
+    {
+      "path": "include/lie/output.h",
+      "bytes": 1378,
+      "sha256": "a3690237f02fdd15964e68b8c55cef4a4d413b0c8926900a23a526177d38788d"
+    },
+    {
+      "path": "include/lie/prometheus.h",
+      "bytes": 835,
+      "sha256": "5a113cc99376dcf9c5d7540b5424cb48f315dc1cd5b59e58f5227d60c5ca272a"
+    },
+    {
+      "path": "include/lie/qwen_state.h",
+      "bytes": 953,
+      "sha256": "193d29e270e2d39437e213fe75aad345eeeb21de50618e73aa537e73e5b569ae"
+    },
+    {
+      "path": "include/lie/records.h",
+      "bytes": 2535,
+      "sha256": "aeba28c5b14b0b1fb4eb2164adca4f9f7e096cf3437e9dbc26b10003f6053519"
+    },
+    {
+      "path": "include/lie/responses.h",
+      "bytes": 1809,
+      "sha256": "dc4856e7ffe7c081bfa9aa454d7b33480c60b4d40d4ec8bbd4655f2f62ac0d06"
+    },
+    {
+      "path": "include/lie/rope.h",
+      "bytes": 1280,
+      "sha256": "8ca6cb6297f587fafa4ae5ea7ef0ec6441f63297fac80a01b026dab36c4f1186"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "bytes": 3481,
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "include/lie/sampling_distribution.h",
+      "bytes": 5214,
+      "sha256": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555"
+    },
+    {
+      "path": "include/lie/sampling_history.h",
+      "bytes": 2666,
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "include/lie/schema_body.h",
+      "bytes": 2951,
+      "sha256": "6bb82ce97c9f7156fe48fcd16e86508b1fbf2a7c582cd933fc8f06101040397f"
+    },
+    {
+      "path": "include/lie/schema_dispatch.h",
+      "bytes": 2336,
+      "sha256": "55c3f27f4d80a96cb4c026360b649d992f8e507b05bfd8202d731d4c6d44ae9e"
+    },
+    {
+      "path": "include/lie/schema_format.h",
+      "bytes": 1322,
+      "sha256": "6b64af2b97444d3b79372564f08509261935eef7b060bbc3a56f9fda9fe03fda"
+    },
+    {
+      "path": "include/lie/schema_memo.h",
+      "bytes": 2192,
+      "sha256": "ce967e1cca82de2526bea1ff711c7fb5af33b2ce3b6b070cfff85640f2f1bd82"
+    },
+    {
+      "path": "include/lie/schema_number.h",
+      "bytes": 2481,
+      "sha256": "88153e42bc2abd4d6b5c1b815b6f70236a4f91e5669e41e4daa66dbf6f724f79"
+    },
+    {
+      "path": "include/lie/schema_transform.h",
+      "bytes": 3657,
+      "sha256": "87aa7b05940598790ed2fd2feb1e8328e81adac0b1f49691abf416a38aff4209"
+    },
+    {
+      "path": "include/lie/schema_values.h",
+      "bytes": 4509,
+      "sha256": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164"
+    },
+    {
+      "path": "include/lie/schema_visit.h",
+      "bytes": 1859,
+      "sha256": "9e6ce89bda7c6743b3b9f7fe36d17639a3eaeeaeaf72e81c5f846d0ab3bf2db3"
+    },
+    {
+      "path": "include/lie/state.h",
+      "bytes": 6199,
+      "sha256": "2b1e1733ec114b69ac84bdbf25a0dc2d4b51812a30b299c3d671e9c56259a815"
+    },
+    {
+      "path": "include/lie/steering.h",
+      "bytes": 10488,
+      "sha256": "665c3c12bb7c4a64d29fa76b8904afff5aa0ed011dc42399e31b58d6d8d15103"
+    },
+    {
+      "path": "include/lie/steering_activation.h",
+      "bytes": 1198,
+      "sha256": "fb1e1df449eecb13aa6601a5ac5b5099c23574fee5dac0697c127a6c85550cfc"
+    },
+    {
+      "path": "include/lie/steering_state.h",
+      "bytes": 2812,
+      "sha256": "2b652e888965e7f0175028eb83b91214b00b159c9056bb42af1211b5e4e63f87"
+    },
+    {
+      "path": "include/lie/store.h",
+      "bytes": 4691,
+      "sha256": "98e4192fe821a31774b675b8252238b620c3bb651daaa72f60ff97b8bae2ce53"
+    },
+    {
+      "path": "include/lie/text.h",
+      "bytes": 404,
+      "sha256": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b"
+    },
+    {
+      "path": "include/lie/tools.h",
+      "bytes": 1491,
+      "sha256": "b713dbde1375aab6b17a17e9b6773784c19fbc2184b5a79e7a783857c0c51408"
+    },
+    {
+      "path": "include/lie/vision.h",
+      "bytes": 2815,
+      "sha256": "948425d2bbd22b40d0290323fdc33347b9f611f9d0257e1b6d3344f7f348f09e"
+    },
+    {
+      "path": "include/lie/weight_decode.h",
+      "bytes": 1134,
+      "sha256": "7024d7e5ed34f51b2e737902882de186e9843890554c679472c5160921777906"
+    },
+    {
+      "path": "include/lie/wire.h",
+      "bytes": 1294,
+      "sha256": "14d87a652a7ad8a900cf1c0a90bf182f53a2d251d1a3b3644209de1b0e9534ff"
+    },
+    {
+      "path": "include/lie/worker.h",
+      "bytes": 1120,
+      "sha256": "52eb2dcb5f05bab3aeaf0ffbc31a745bf4fe0ac39689a7ddc1e640b2c365a1d1"
+    },
+    {
+      "path": "src/binary64.c",
+      "bytes": 12919,
+      "sha256": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57"
+    },
+    {
+      "path": "src/grammar.c",
+      "bytes": 28275,
+      "sha256": "2f7bc2b59814abc8f274c66314e029f775658ad94b651d0dcfe91018753abcf3"
+    },
+    {
+      "path": "src/grammar_builder.c",
+      "bytes": 27144,
+      "sha256": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8"
+    },
+    {
+      "path": "src/grammar_cache.c",
+      "bytes": 6679,
+      "sha256": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349"
+    },
+    {
+      "path": "src/grammar_composition.c",
+      "bytes": 18349,
+      "sha256": "0c753809cb46935c1e1f67736e4d8d915ef9213b00acb3e8b89c09d827005bc2"
+    },
+    {
+      "path": "src/grammar_number.c",
+      "bytes": 18339,
+      "sha256": "f250731df3cd82e21013210b4d25c30b00d05013a03b5f192f0a47d90cf8c8e5"
+    },
+    {
+      "path": "src/grammar_regex.c",
+      "bytes": 12229,
+      "sha256": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f"
+    },
+    {
+      "path": "src/grammar_regex_compile.c",
+      "bytes": 37131,
+      "sha256": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb"
+    },
+    {
+      "path": "src/grammar_regex_parse.c",
+      "bytes": 24606,
+      "sha256": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112"
+    },
+    {
+      "path": "src/grammar_string.c",
+      "bytes": 12411,
+      "sha256": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef"
+    },
+    {
+      "path": "src/grammar_unicode.c",
+      "bytes": 12363,
+      "sha256": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23"
+    },
+    {
+      "path": "src/grammar_vocabulary.c",
+      "bytes": 17075,
+      "sha256": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b"
+    },
+    {
+      "path": "src/json_parse.c",
+      "bytes": 14741,
+      "sha256": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6"
+    },
+    {
+      "path": "src/ordered_cache.c",
+      "bytes": 5142,
+      "sha256": "435a75278909ec58b8da565e810ff6c4687b311f43bdd78e44ef3c445cb6eccf"
+    },
+    {
+      "path": "src/sampling.c",
+      "bytes": 15038,
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "src/sampling_distribution.c",
+      "bytes": 18508,
+      "sha256": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "bytes": 16007,
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "src/schema_body.c",
+      "bytes": 13260,
+      "sha256": "37576082f767878f85af38787c51903fe76ea3a89bf8f269765c8c3607146f24"
+    },
+    {
+      "path": "src/schema_dispatch.c",
+      "bytes": 5611,
+      "sha256": "5737821a1f215c663da03906c5701702cb6f59d5250ba5aae11127c0bc025bc7"
+    },
+    {
+      "path": "src/schema_format.c",
+      "bytes": 5274,
+      "sha256": "53f36f462f750e6d07c03dbe8257ffa34983c732fc86418bde9adba6e8e8b7f6"
+    },
+    {
+      "path": "src/schema_internal.h",
+      "bytes": 2919,
+      "sha256": "ff1e3a45b1b0de2081e47acb1889f80303f87199dbdfe53492c35750f604f27b"
+    },
+    {
+      "path": "src/schema_memo.c",
+      "bytes": 4229,
+      "sha256": "d26aee14562b0542db03a822e9eef071b98f6351e64282e33ad580c003357dfd"
+    },
+    {
+      "path": "src/schema_number.c",
+      "bytes": 7231,
+      "sha256": "c1d3236dae4eeb632544cb237077a8dbabe23e49d062e574bcb1a4822689aecd"
+    },
+    {
+      "path": "src/schema_transform.c",
+      "bytes": 24609,
+      "sha256": "527ae6ba4e07202fd832ce9588aea3ec562e3c726c69113b29e624fffeefd169"
+    },
+    {
+      "path": "src/schema_values.c",
+      "bytes": 31898,
+      "sha256": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609"
+    },
+    {
+      "path": "src/schema_visit.c",
+      "bytes": 1830,
+      "sha256": "ef1bedc0d628f0e21f08bc8251bd26bf9f84306a0fb15c2cd6ea36913b132a72"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "bytes": 25404,
+      "sha256": "8fceab0e0cc79136d1a7c68924a63aa9c9d78d477aec6e13f8ec51405d5c478d"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "bytes": 24605,
+      "sha256": "173f8c9780cf7159ef1721d4ab113e5d660cdce58ae406f4153d23be08d6c18e"
+    },
+    {
+      "path": "tests/sampling/binary64.cpp",
+      "bytes": 2031,
+      "sha256": "2d9b93eb542d1f4da9c21e982a7ce4986871110379b521520cfdb170a8485f63"
+    },
+    {
+      "path": "tests/sampling/binary64_oracle.cpp",
+      "bytes": 3756,
+      "sha256": "5d3290e1ffb2c43431aa6d820a7ddf4da06e316b85d82a5963a5eb3d2c002c2c"
+    },
+    {
+      "path": "tests/sampling/json_parser.cpp",
+      "bytes": 3971,
+      "sha256": "4f3f36266a4d7980a88ac13875484b5ffa9368d7953986fdae2243b4d0db3006"
+    },
+    {
+      "path": "tests/test_binary64.c",
+      "bytes": 5573,
+      "sha256": "df1bac252584123637deb2163691ae5d3aabf34b6091eef229a4e521e25a4c28"
+    },
+    {
+      "path": "tests/test_json_parse.c",
+      "bytes": 10025,
+      "sha256": "81f604ed17ae606c5d9e4f70a474cd7c7438ad26873b4ab074c79a9d64fe901c"
+    },
+    {
+      "path": "third_party/README.md",
+      "bytes": 27572,
+      "sha256": "f76cc1efcb524e50bf5e312a2277777fa19c1c5e5c8d32e7d110e1ef8cd2881e"
+    },
+    {
+      "path": "third_party/gufo-NOTICE",
+      "bytes": 18764,
+      "sha256": "ad0c16b822def2eb76045b913108bb32d508a885efc35272805e16e1e9a5af0e"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "bytes": 120375,
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    },
+    {
+      "path": "third_party/ryu-NOTICE",
+      "bytes": 1544,
+      "sha256": "766a671582aa02807636f80273d713d484ec2cf1ebaf61c8a4469e9b4c1f1813"
+    },
+    {
+      "path": "third_party/ryu-source.json",
+      "bytes": 1929,
+      "sha256": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e"
+    },
+    {
+      "path": "third_party/ryu/LICENSE-Apache2",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "third_party/ryu/LICENSE-Boost",
+      "bytes": 1338,
+      "sha256": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566"
+    },
+    {
+      "path": "third_party/ryu/ryu/common.h",
+      "bytes": 3648,
+      "sha256": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19"
+    },
+    {
+      "path": "third_party/ryu/ryu/d2s.c",
+      "bytes": 17705,
+      "sha256": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64"
+    },
+    {
+      "path": "third_party/ryu/ryu/d2s_full_table.h",
+      "bytes": 34501,
+      "sha256": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6"
+    },
+    {
+      "path": "third_party/ryu/ryu/d2s_intrinsics.h",
+      "bytes": 13015,
+      "sha256": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d"
+    },
+    {
+      "path": "third_party/ryu/ryu/d2s_small_table.h",
+      "bytes": 7641,
+      "sha256": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9"
+    },
+    {
+      "path": "third_party/ryu/ryu/digit_table.h",
+      "bytes": 1745,
+      "sha256": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01"
+    },
+    {
+      "path": "third_party/ryu/ryu/ryu.h",
+      "bytes": 1360,
+      "sha256": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16"
+    },
+    {
+      "path": "third_party/ryu/ryu/ryu_parse.h",
+      "bytes": 1367,
+      "sha256": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a"
+    },
+    {
+      "path": "third_party/ryu/ryu/s2d.c",
+      "bytes": 8362,
+      "sha256": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3"
+    },
+    {
+      "path": "tools/thermal-run.py",
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    }
+  ],
+  "binaries": [
+    {
+      "path": "build/json-parser-asan/test-binary64",
+      "bytes": 322648,
+      "sha256": "17e76ff5edbb4af99bea01b8eeabd8ad04410ec6e549d1c34e84bd7688d817b8"
+    },
+    {
+      "path": "build/json-parser-asan/test-json-parse",
+      "bytes": 606944,
+      "sha256": "513f3f26687c9ae6adaf010a159ae59092f6be833e874166ed0b4d678e0f9ddf"
+    },
+    {
+      "path": "build/json-parser-host/candidate-binary64-oracle",
+      "bytes": 293848,
+      "sha256": "4936f16c2036b8a17bc5f398e47850de0a63eeb30358c794c647e4f76e706ed3"
+    },
+    {
+      "path": "build/json-parser-host/candidate-binary64-probe",
+      "bytes": 1722960,
+      "sha256": "120174794ce2017294b1ce468feb656a4e119dcc986d869f8893d9024f15960a"
+    },
+    {
+      "path": "build/json-parser-host/candidate-body-probe",
+      "bytes": 10392456,
+      "sha256": "81f4b13f151e0f7f381159ed9c38562db68ec7c20957534bb6943eb798e88a14"
+    },
+    {
+      "path": "build/json-parser-host/candidate-cache-probe",
+      "bytes": 10574104,
+      "sha256": "4e3645cda6440ff2a306658013e16c4a5fe68a6c5d310e1c0aea759c33218de5"
+    },
+    {
+      "path": "build/json-parser-host/candidate-compiler-probe",
+      "bytes": 1813432,
+      "sha256": "4f2c0d6e0e8d44954df64e24e28c36d5af72d3158a9aca230313aae95dbae604"
+    },
+    {
+      "path": "build/json-parser-host/candidate-composition-cache-probe",
+      "bytes": 10743744,
+      "sha256": "0d9f436b545fe00bbf8cdc61d410bde76f9a7eece23c8d6eea4ebfd53ed9a103"
+    },
+    {
+      "path": "build/json-parser-host/candidate-composition-probe",
+      "bytes": 10476864,
+      "sha256": "5e53f28ce1f0533274fa6a0c04e574cf0394788f197376531aec2a5861f78ef7"
+    },
+    {
+      "path": "build/json-parser-host/candidate-controls",
+      "bytes": 12557792,
+      "sha256": "27324a46b41016495eabba2bba7c6663e33735274a24f825ed41a423bb5eb56f"
+    },
+    {
+      "path": "build/json-parser-host/candidate-dispatch-probe",
+      "bytes": 10376112,
+      "sha256": "119014ac4e1f1d2a05b5ad204dce977111d1fc561a43b549c87f419e885cbb11"
+    },
+    {
+      "path": "build/json-parser-host/candidate-distribution",
+      "bytes": 12574688,
+      "sha256": "ff0f52da39731feaf0cc8919e45406da916971101e3cf85c1de803fd1372c39a"
+    },
+    {
+      "path": "build/json-parser-host/candidate-format-probe",
+      "bytes": 10225808,
+      "sha256": "8fac0ee097ace7fcdfe811c4a952f958ebd432c20a2f74d1614b02eb683e9635"
+    },
+    {
+      "path": "build/json-parser-host/candidate-grammar",
+      "bytes": 13129280,
+      "sha256": "4c9bd701734fcbf96d5c581f4155c1812ca6950ef452d28917a3d1984c446b2e"
+    },
+    {
+      "path": "build/json-parser-host/candidate-grammar-probe",
+      "bytes": 10835640,
+      "sha256": "d123b9df1ed7eb42f4b8dc25323723d3dc6a3ec750c6933ad1043f39661257d6"
+    },
+    {
+      "path": "build/json-parser-host/candidate-grammar-vocabulary",
+      "bytes": 10856912,
+      "sha256": "130939b0568d91c0fc1d4f5f281922c7a04e58d75a3c6e61d5711b75226abd98"
+    },
+    {
+      "path": "build/json-parser-host/candidate-history",
+      "bytes": 12573560,
+      "sha256": "8759a2331a3796b043f525b506619f64336aaa0491ba48cf2da4e942127a41b3"
+    },
+    {
+      "path": "build/json-parser-host/candidate-json-parser-probe",
+      "bytes": 1536280,
+      "sha256": "e6c808c477adbb39e7a7c73961bf5612b0b09f7fa1fba8a2410eb3710337df04"
+    },
+    {
+      "path": "build/json-parser-host/candidate-logit",
+      "bytes": 11960480,
+      "sha256": "a765e5505cb21fad7957df4b6df0386bf660f83f42cacbdd0ef1753ea352e060"
+    },
+    {
+      "path": "build/json-parser-host/candidate-memo-probe",
+      "bytes": 10449352,
+      "sha256": "2a817c38f783ed30317b24498f7a7fc96ae5b8b34a093554e0dc936755f803a9"
+    },
+    {
+      "path": "build/json-parser-host/candidate-mtp",
+      "bytes": 11938968,
+      "sha256": "41a4fe50a32885ffac7c8d2c3af995dddd0b0c1c09b12eeac995a6eeb3ff80b6"
+    },
+    {
+      "path": "build/json-parser-host/candidate-number-allocation",
+      "bytes": 2573984,
+      "sha256": "0e4ab8e217ad50e503bfd62ff90fa79044c6dc9618d514619a009b6356ed8156"
+    },
+    {
+      "path": "build/json-parser-host/candidate-number-control-probe",
+      "bytes": 10357992,
+      "sha256": "cfb699741b6776d9247396ea83a544efbbc2cb08b1c0f0b5f15355c215434bc1"
+    },
+    {
+      "path": "build/json-parser-host/candidate-number-probe",
+      "bytes": 6015248,
+      "sha256": "409aad8d11f68d9a3c1838546e71a92a5f8a03149bae2e62f4259dff8a12faa7"
+    },
+    {
+      "path": "build/json-parser-host/candidate-parser-probe",
+      "bytes": 1616456,
+      "sha256": "ba5178a5309e779313fb549c79a4090cb133ce3c3a59d802b502665f56fb31ea"
+    },
+    {
+      "path": "build/json-parser-host/candidate-probe",
+      "bytes": 11177320,
+      "sha256": "d89e54ff9b7e9e51c378e35c7261cd87e1bc7aa121ece355f225974507c479dc"
+    },
+    {
+      "path": "build/json-parser-host/candidate-schema-probe",
+      "bytes": 10398656,
+      "sha256": "b44f13633cc5d3474fb698c2fc17fe76aa9fc571b0c6d543dc085ffe698eebf2"
+    },
+    {
+      "path": "build/json-parser-host/candidate-snapshot-probe",
+      "bytes": 1062696,
+      "sha256": "0293f93e02da7a715d18c4096a4090c97690759b820f550990747d5eaba88929"
+    },
+    {
+      "path": "build/json-parser-host/candidate-unicode-probe",
+      "bytes": 5934616,
+      "sha256": "31b20df33c861fefbccdb3c077f64237dfe4cb9e22195504d995063de8312072"
+    },
+    {
+      "path": "build/json-parser-host/candidate-uset-probe",
+      "bytes": 1045736,
+      "sha256": "052d5c0ddcbfedb9ff6b4bc16c4516254db0a215d05c5e2377647a0d4d701995"
+    },
+    {
+      "path": "build/json-parser-host/candidate-values-probe",
+      "bytes": 10487600,
+      "sha256": "43edcdb54b83ff60de465b1a47e423c3524ee6cbc180f2d65391e3ff5826723b"
+    },
+    {
+      "path": "build/json-parser-host/candidate-visit-probe",
+      "bytes": 10519984,
+      "sha256": "28c1360361e8fbab1d747f92b79090e1d4ebc0d07830d2fbe57c2ebca17bdb51"
+    },
+    {
+      "path": "build/json-parser-host/candidate-vocabulary",
+      "bytes": 11133296,
+      "sha256": "7f5d07eebdf1bfb0d6617499fcce4868c4c68c531f9295a4ce607f3e049685e2"
+    },
+    {
+      "path": "build/json-parser-host/candidate-vocabulary-layout",
+      "bytes": 9358904,
+      "sha256": "0262339e5e2f16b00242018b2861814da0538848431007068934f14a5d2f3d84"
+    },
+    {
+      "path": "build/json-parser-host/fallback-binary64-probe",
+      "bytes": 1459568,
+      "sha256": "7ea4cbd58a7f59b0630dbacfb60dfa36e29d60c54838368e61d7b5b3fa7b7163"
+    },
+    {
+      "path": "build/json-parser-host/fallback-body-probe",
+      "bytes": 14771280,
+      "sha256": "5d922afe357bd360e31bb15b56ba7d24395b1769d4414ac440d054734a1c5623"
+    },
+    {
+      "path": "build/json-parser-host/fallback-cache-probe",
+      "bytes": 14788448,
+      "sha256": "e32be6dbc7d781b493c8d08e1e1439461336efa6d2d20d7e9c73ec3308106dc6"
+    },
+    {
+      "path": "build/json-parser-host/fallback-compiler-probe",
+      "bytes": 4202008,
+      "sha256": "6152cf39f672995d6cfedc9aa8f12ccd5cafdd5ec3d0a45bfd284acd8d69e6ba"
+    },
+    {
+      "path": "build/json-parser-host/fallback-composition-cache-probe",
+      "bytes": 15083000,
+      "sha256": "5c1fbc1ea9ba1fa88d3072b971f77defb2846bbc201cc453dfffdb4461043943"
+    },
+    {
+      "path": "build/json-parser-host/fallback-composition-probe",
+      "bytes": 14720896,
+      "sha256": "fac9ebf556131331efba841594f42b5bf2fbe39561138aad29d221e5c7388517"
+    },
+    {
+      "path": "build/json-parser-host/fallback-controls",
+      "bytes": 18431984,
+      "sha256": "47b4e44834a13dac4bf1f56ef49ef4b9a314cb831d25827daf795f26806ec35b"
+    },
+    {
+      "path": "build/json-parser-host/fallback-dispatch-probe",
+      "bytes": 14672328,
+      "sha256": "e3207efa6d410314db8b39f6fde7f866e9117502c0ebf95d8ee46a4544324fa8"
+    },
+    {
+      "path": "build/json-parser-host/fallback-distribution",
+      "bytes": 18399408,
+      "sha256": "874240e2cbb7d58d0bf670c61d12d3d2185fb53f8dc16498b7239da22658ee7e"
+    },
+    {
+      "path": "build/json-parser-host/fallback-format-probe",
+      "bytes": 14651976,
+      "sha256": "9297980ae4cf65bf1d1dbdf1cbb68e19e7db9ad91e9fc97669fcca19d861f7ed"
+    },
+    {
+      "path": "build/json-parser-host/fallback-grammar",
+      "bytes": 19150864,
+      "sha256": "9596eab6a03b7acbbac4d04e3c29053e11109d5453b85f64e63ceb6450d2df2f"
+    },
+    {
+      "path": "build/json-parser-host/fallback-grammar-probe",
+      "bytes": 14973232,
+      "sha256": "2ced9ac016489062b8eec65e53a9986bd873479f22c001b953e3c46ac4706614"
+    },
+    {
+      "path": "build/json-parser-host/fallback-grammar-vocabulary",
+      "bytes": 15486200,
+      "sha256": "a8c47f60c0686b94b84b4436988acf532f2daf68cc210bd26e7cade48732d0c2"
+    },
+    {
+      "path": "build/json-parser-host/fallback-history",
+      "bytes": 18316456,
+      "sha256": "8f422bb67b7ddb56eeca687acea3afd61c62d7aa5066a86d0469b39de7734ef3"
+    },
+    {
+      "path": "build/json-parser-host/fallback-json-parser-probe",
+      "bytes": 1262424,
+      "sha256": "ed51063370721d6d7552ae7630a22e357d8f77d417e5ff3ef6c0bb49b658348b"
+    },
+    {
+      "path": "build/json-parser-host/fallback-logit",
+      "bytes": 17928712,
+      "sha256": "19cbbaa786c4a37ecbe88b3b0b1eca6f83470c3e78e5fd90e7bce687bf1f4ab5"
+    },
+    {
+      "path": "build/json-parser-host/fallback-memo-probe",
+      "bytes": 14694504,
+      "sha256": "2cc1a3e7ce79f81265d8c3efbb59a2f0972179ffac475ac68a368f93028fb96e"
+    },
+    {
+      "path": "build/json-parser-host/fallback-mtp",
+      "bytes": 17957168,
+      "sha256": "b6648467f5aa847f36d7e6f6339c9d09e1fa47d6f2b72e3161e63b471d38cb3c"
+    },
+    {
+      "path": "build/json-parser-host/fallback-number-control-probe",
+      "bytes": 14732720,
+      "sha256": "8ca60f716d3456191273e7ec1790e0576ee4b6b1a6021ff064e0fe56b6619f34"
+    },
+    {
+      "path": "build/json-parser-host/fallback-number-probe",
+      "bytes": 7021256,
+      "sha256": "397edb0afdef9a0b5b2ca2d60dc2172afe0749b700ef69667c15a6b1e14174f1"
+    },
+    {
+      "path": "build/json-parser-host/fallback-parser-probe",
+      "bytes": 4043064,
+      "sha256": "bad092e9f78b81937ae14e6c029affd5dfedafe60b3cec2b5002063e662816f9"
+    },
+    {
+      "path": "build/json-parser-host/fallback-probe",
+      "bytes": 17154000,
+      "sha256": "19189568732cd115f85f81127432d4e30f279044700c479f4f6710ff675e1fa2"
+    },
+    {
+      "path": "build/json-parser-host/fallback-schema-probe",
+      "bytes": 14645344,
+      "sha256": "8e9ebc7846bdab1eb4371cc4418af5e3da4c0c94035437e1210cc2f69469ec66"
+    },
+    {
+      "path": "build/json-parser-host/fallback-snapshot-probe",
+      "bytes": 1062696,
+      "sha256": "efd582f82a2f392d533ca8231d2dcab82ac3ae8c3a1b14c63c54a897a79d6aef"
+    },
+    {
+      "path": "build/json-parser-host/fallback-unicode-probe",
+      "bytes": 7096992,
+      "sha256": "993b9a237301128156d4977544dcedf714d6461f866fdca8a3073e856733543a"
+    },
+    {
+      "path": "build/json-parser-host/fallback-uset-probe",
+      "bytes": 300672,
+      "sha256": "3100744e92598df4cfac973b9e5e683cbed9ffde7c8683a7407bd98a8daedd55"
+    },
+    {
+      "path": "build/json-parser-host/fallback-values-probe",
+      "bytes": 14743976,
+      "sha256": "91ea666ef30ac364a9f53a297ec9fdbe7e0bc1de3d548e6293a17b08c12d99e2"
+    },
+    {
+      "path": "build/json-parser-host/fallback-visit-probe",
+      "bytes": 14925272,
+      "sha256": "4c41c5fecfdeb362f892fd2062f9a3c8b5dafe7d24cf0a44f6ee73f8fae45e20"
+    },
+    {
+      "path": "build/json-parser-host/fallback-vocabulary",
+      "bytes": 17109944,
+      "sha256": "e5b9fe377667bf47508a094681e3c3b5ac7188798ecf68a1a38f5d8058724b1d"
+    },
+    {
+      "path": "build/json-parser-host/fallback-vocabulary-layout",
+      "bytes": 14271840,
+      "sha256": "21844cec626f73547eaa84be6b8d080932713cfb7f232da16bb8df492dc1770d"
+    },
+    {
+      "path": "build/json-parser-host/libcandidate.a",
+      "bytes": 14201694,
+      "sha256": "7233411b2764506251cdf69e1ed669e758db2811522f955718cda1a3081c627a"
+    },
+    {
+      "path": "build/json-parser-host/libfallback.a",
+      "bytes": 25660582,
+      "sha256": "481f567cb7e813f7588a5fcfb3ed5b4940c12bba575031095771131552a29503"
+    },
+    {
+      "path": "build/json-parser-host/libreference.a",
+      "bytes": 20120834,
+      "sha256": "2df777ee078c7bef1a06469ba43e4ebba3fbf762fc6f208e30f0d86053456f92"
+    },
+    {
+      "path": "build/json-parser-host/reference-binary64-probe",
+      "bytes": 1459568,
+      "sha256": "c7bdcfbbea06ea304496e84a3eb40da5fbbf7f15c6badfd06b51bfbe88f0a9cf"
+    },
+    {
+      "path": "build/json-parser-host/reference-body-probe",
+      "bytes": 14753584,
+      "sha256": "00e359c9425a12208edbd2301bfbffcfe04de67436dcad1f3029da90d0e5910b"
+    },
+    {
+      "path": "build/json-parser-host/reference-cache-probe",
+      "bytes": 14770752,
+      "sha256": "c5189b8497637cef3d24b39be6cefc880f49cf2ccc48b94cc99272d5be90e38f"
+    },
+    {
+      "path": "build/json-parser-host/reference-compiler-probe",
+      "bytes": 4203912,
+      "sha256": "a0491bac46004408f421baff085b0d2fde3ceace8569c4184b6bb08a0f0bca66"
+    },
+    {
+      "path": "build/json-parser-host/reference-composition-cache-probe",
+      "bytes": 15065304,
+      "sha256": "a762e8fdb21bc373905cbb3be51e3314aa75aa8d6bbcc6b8b15106fc2ac60d20"
+    },
+    {
+      "path": "build/json-parser-host/reference-composition-probe",
+      "bytes": 14698936,
+      "sha256": "13216a333b45afe12ad0aba89395b4d0830846d754ad8b2940b3771d71dac376"
+    },
+    {
+      "path": "build/json-parser-host/reference-dispatch-probe",
+      "bytes": 14650536,
+      "sha256": "6156ef0861d7eb25df95b1212a2c6a1b9c1f2617ee767af1b37ff51c93d356a4"
+    },
+    {
+      "path": "build/json-parser-host/reference-distribution",
+      "bytes": 17806280,
+      "sha256": "ae9ad0619f7e85887f949b07c42c70cd5638838756a5b8d908bc287b378ec226"
+    },
+    {
+      "path": "build/json-parser-host/reference-format-probe",
+      "bytes": 14567848,
+      "sha256": "d7de98176867a20dbf8561d89db4222de754fc63df6369cfe152c5b015565cf9"
+    },
+    {
+      "path": "build/json-parser-host/reference-grammar",
+      "bytes": 18496536,
+      "sha256": "05d454cc98d2122baaabfd9bb1acf7bae8d455e91bfb29b3f273c6ba8c8d1f6a"
+    },
+    {
+      "path": "build/json-parser-host/reference-grammar-probe",
+      "bytes": 14961064,
+      "sha256": "3f4c3270cca7c2799de758a91afa2b2e63481c9862655524d7967162c53cd48c"
+    },
+    {
+      "path": "build/json-parser-host/reference-grammar-vocabulary",
+      "bytes": 14965448,
+      "sha256": "fa345133a12e1fb5019d3dc6967e370fa5c5fc9588d9f5123e6d9ffb88da126a"
+    },
+    {
+      "path": "build/json-parser-host/reference-history",
+      "bytes": 17664064,
+      "sha256": "e7422c2d852a4d0dbc99329291b6b7c38123ef0f3bfed4fc3d64ee15895f1596"
+    },
+    {
+      "path": "build/json-parser-host/reference-json-parser-probe",
+      "bytes": 1262424,
+      "sha256": "295ace2805ca585ad608c5da15f75caae3c3595b31db1683e37f6d03a8e991cf"
+    },
+    {
+      "path": "build/json-parser-host/reference-logit",
+      "bytes": 17292048,
+      "sha256": "974be7d643abb6be25695537d48df17f0185a617590b2e32461034513e779016"
+    },
+    {
+      "path": "build/json-parser-host/reference-memo-probe",
+      "bytes": 14672712,
+      "sha256": "6365fdf10eed419bb527dcad7bbe4da27e6f70696c49336ffc08b7fcdefa35aa"
+    },
+    {
+      "path": "build/json-parser-host/reference-mtp",
+      "bytes": 17340872,
+      "sha256": "44ec29c6f89ec79893cca572ead91dcfcbb82ddeec165b69c339eec2d19b9780"
+    },
+    {
+      "path": "build/json-parser-host/reference-number-control-probe",
+      "bytes": 14710920,
+      "sha256": "793a88a2662935d5e7ab853a5d2860444d2098b9d93c8bce7e2fac06ee71be23"
+    },
+    {
+      "path": "build/json-parser-host/reference-number-probe",
+      "bytes": 7023160,
+      "sha256": "bf279b4f9deeccf4b75b535ec443dc488e1656636dab49a21d66f7c2029737ba"
+    },
+    {
+      "path": "build/json-parser-host/reference-parser-probe",
+      "bytes": 4044976,
+      "sha256": "3ad7a3b85688c4ab10961696be4fdd8d4cf06e67595d977637513c158e3f0f65"
+    },
+    {
+      "path": "build/json-parser-host/reference-probe",
+      "bytes": 16496688,
+      "sha256": "946efad39bc6a14dcc7183feb5a95aed86cbe0cf524f33d9e86cb9fc2c2b3068"
+    },
+    {
+      "path": "build/json-parser-host/reference-schema-probe",
+      "bytes": 14557128,
+      "sha256": "b1316f83095b13aa900ce9e9b3d01cc8c3bf4436e31e5a655418448640bf95ad"
+    },
+    {
+      "path": "build/json-parser-host/reference-snapshot-probe",
+      "bytes": 346792,
+      "sha256": "3d0ae53d00e3fc7a67ea41666b5fc32373d5792d525cc7a3ceee8a092f13db2b"
+    },
+    {
+      "path": "build/json-parser-host/reference-unicode-probe",
+      "bytes": 7098896,
+      "sha256": "a34bd5f92fc6171b9f2476819f9b1838aaf5533b251fef4e191ffe5f6bd22b1e"
+    },
+    {
+      "path": "build/json-parser-host/reference-uset-probe",
+      "bytes": 300672,
+      "sha256": "3100744e92598df4cfac973b9e5e683cbed9ffde7c8683a7407bd98a8daedd55"
+    },
+    {
+      "path": "build/json-parser-host/reference-values-probe",
+      "bytes": 14655760,
+      "sha256": "76b334cba43f9cae7084783dbd0bf284244b385536de0e1b5a5d0f595c126ebf"
+    },
+    {
+      "path": "build/json-parser-host/reference-visit-probe",
+      "bytes": 14837056,
+      "sha256": "f38a98bd4d1acb6f77b4324e32daac9c579744559bc54463fb8521c2fe94fcf9"
+    },
+    {
+      "path": "build/json-parser-host/reference-vocabulary",
+      "bytes": 16464600,
+      "sha256": "57b0a276c4cd10d0743bb43895926d119ea3e8102850b15e982d3f1d108ad0d0"
+    },
+    {
+      "path": "build/json-parser-release/synapse-lie-bench",
+      "bytes": 518168,
+      "sha256": "ac2ef2f2a2b7d13c0c6c9d0ef60f88ecb73d7ebbb51a89f3f4a7ad50481c3e94"
+    },
+    {
+      "path": "build/json-parser-release/synapse-lie-server",
+      "bytes": 623920,
+      "sha256": "e93762cd6a026ec5515fa011bc24ba3f2f261de18d64c4d8d91770e7009f10e1"
+    },
+    {
+      "path": "build/json-parser-release/test-binary64",
+      "bytes": 46144,
+      "sha256": "587b49bf5e80851f4503a987009a2e40ef0eeaaf1246f53a7d0e53a4ab815731"
+    },
+    {
+      "path": "build/json-parser-release/test-json-parse",
+      "bytes": 72160,
+      "sha256": "c92c698ffb3e51b6c191cb0eb52c3ac0dae5e8f20fb9a0131ac3c5f7b11365bd"
+    },
+    {
+      "path": "evidence/binary64-public-headers-cpp-r1.o",
+      "bytes": 2168,
+      "sha256": "872b11cf69aa47908a6fe4600b4cb8b347fc55da5de6474386a7c98915fbea41"
+    },
+    {
+      "path": "evidence/binary64-public-headers-r1.o",
+      "bytes": 1240,
+      "sha256": "e6031ecb7153fca6321cd747c5261a13f7a49834d619273d0d52e7a156052a8e"
+    },
+    {
+      "path": "evidence/binary64-strict-r2.o",
+      "bytes": 29744,
+      "sha256": "a3103eb15fb6c6acd888c2126d244b7fb1aa8ce02fdf6abc17c81c8e33cb5376"
+    }
+  ],
+  "build_inputs": [
+    {
+      "path": "build/json-parser-release/CMakeCache.txt",
+      "bytes": 38496,
+      "sha256": "d3e088b6fee1a13f8e089267d5d6c4f229cfafc9559f904a36338b93bfd38dda"
+    },
+    {
+      "path": "build/json-parser-release/build.ninja",
+      "bytes": 545016,
+      "sha256": "5548158f0a40fa85748658eac3d5df39905232f3fcf30d6037a7f0f578c713a9"
+    },
+    {
+      "path": "build/json-parser-release/CMakeFiles/rules.ninja",
+      "bytes": 78649,
+      "sha256": "5366244fc593b81ec3fd7cab8dee848661da664ee35f4467263d07dac0a241f3"
+    },
+    {
+      "path": "build/json-parser-release/CTestTestfile.cmake",
+      "bytes": 46961,
+      "sha256": "77c48bbd75aac8585ee759bc432a2e4c1a0c7febdfd678f49bc23a6f28078633"
+    },
+    {
+      "path": "build/json-parser-asan/CMakeCache.txt",
+      "bytes": 38478,
+      "sha256": "572ec03c308d0065b063796fa3050b773fe367ea77f2517b15f81eab5df07347"
+    },
+    {
+      "path": "build/json-parser-asan/build.ninja",
+      "bytes": 555559,
+      "sha256": "44618d6d2d3c2cf7c48c79ecce39372fa006cf65c33854fb142fc63f73965296"
+    },
+    {
+      "path": "build/json-parser-asan/CMakeFiles/rules.ninja",
+      "bytes": 78190,
+      "sha256": "ba7d1ac46a3578d57b6b5c72285a809015dfbae34e1e9f3fe415c46dd7f762e9"
+    },
+    {
+      "path": "build/json-parser-asan/CTestTestfile.cmake",
+      "bytes": 46655,
+      "sha256": "d47d3d605e7ca22138a363e60427cd8d87f200656c9966846ded6101aa76dca1"
+    },
+    {
+      "path": "build/json-parser-host/CMakeCache.txt",
+      "bytes": 24208,
+      "sha256": "d1c85099ea006011a0dd3642814042712faa1319d32273fe887fe3bfd42c029b"
+    },
+    {
+      "path": "build/json-parser-host/build.ninja",
+      "bytes": 402500,
+      "sha256": "e0d5d58b7e8e92a7f30c543f066c74e21f394417e37bbe70bb76626d5971f634"
+    },
+    {
+      "path": "build/json-parser-host/CMakeFiles/rules.ninja",
+      "bytes": 185519,
+      "sha256": "cf78dcd98b5be82ba1b7cf959d28bd797492b82c6d7ec4626f0083b98ee2bcdd"
+    },
+    {
+      "path": "build/json-parser-host/CTestTestfile.cmake",
+      "bytes": 39342,
+      "sha256": "c4a636d4e9780884c020c9536ce672e99806a22ab54632d3e61d627cb067dbff"
+    },
+    {
+      "path": "build/json-parser-host/variant-files.json",
+      "bytes": 118774,
+      "sha256": "e4079e481c5681901b39b802d0080ce3a3beb52add907a61c6c7b0bdfdbb9cee"
+    },
+    {
+      "path": "build/json-parser-host/variant/src/core/json.hpp",
+      "bytes": 16816,
+      "sha256": "868655321df566b4762b1881bf3818c46abcab8881591cc4a0d2312380cc9a31"
+    },
+    {
+      "path": "build/json-parser-host/variant/src/core/json_constraint.cpp",
+      "bytes": 76059,
+      "sha256": "78015d136a08ba435530631c3929479fdda1752ba9890196f7296fa88a6a37e4"
+    },
+    {
+      "path": "build/json-parser-host/variant/src/core/json_schema_lexeme.cpp",
+      "bytes": 33724,
+      "sha256": "bcce6549f68c22037715246dc546367d4d7a6a98f14c34404256a72a53067cb4"
+    },
+    {
+      "path": "build/json-parser-host/variant/src/core/json_schema_regex.cpp",
+      "bytes": 28679,
+      "sha256": "db7860ade1123fdb53735136477a1b7e111fe8ecd47da452cea6792ae29586a0"
+    },
+    {
+      "path": "build/json-parser-host/candidate-schema-constraint.cpp",
+      "bytes": 77438,
+      "sha256": "c3c36d5e493001fb3ea7a0fbaa2b2431e07e12fe79c4dfd1dd68b71db9f282bc"
+    },
+    {
+      "path": "build/json-parser-host/fallback-schema-constraint.cpp",
+      "bytes": 77438,
+      "sha256": "c3c36d5e493001fb3ea7a0fbaa2b2431e07e12fe79c4dfd1dd68b71db9f282bc"
+    },
+    {
+      "path": "build/json-parser-host/reference-schema-constraint.cpp",
+      "bytes": 63556,
+      "sha256": "777c20f4316326756b02059881ce09824d33a44c5b9015a99e9a47640c9a2478"
+    },
+    {
+      "path": "evidence/json-parser-public-headers-r1.c",
+      "bytes": 1651,
+      "sha256": "06aade26e9a36c31da553212260025a31a0026bf3ee2cefde0c6c4aac9fa9da0"
+    },
+    {
+      "path": "evidence/json-parser-public-headers-r1.cpp",
+      "bytes": 1651,
+      "sha256": "06aade26e9a36c31da553212260025a31a0026bf3ee2cefde0c6c4aac9fa9da0"
+    },
+    {
+      "path": "evidence/json-parser-public-headers-r3.o",
+      "bytes": 1240,
+      "sha256": "435ed55835b52336431892d96a39b83b6c902e2497822b688db0784bf9f3a48e"
+    },
+    {
+      "path": "evidence/json-parser-public-headers-r3.cpp.o",
+      "bytes": 2168,
+      "sha256": "b78be940ed97bc982d39ae0ef463a92cf290d2fc76d8068760083d55fcb43e5d"
+    },
+    {
+      "path": "build/json-parser-release/CMakeFiles/lie_sampling.dir/src/json_parse.c.o",
+      "bytes": 19568,
+      "sha256": "fcad0556644f5011c389b0d7db00500dc7ec7d94c1e7ab5cc5325a01397a438a"
+    },
+    {
+      "path": "evidence/json-parser-C-object-imports-r1.txt",
+      "bytes": 202,
+      "sha256": "c346a3eafa3fa92ab99d05da680aecf541276ec1c907604264463323b16b9374"
+    }
+  ],
+  "private_provider_inventory": {
+    "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "adapters/gufo_sampling.hpp": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d",
+    "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+    "include/lie/sampling_history.h": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597",
+    "adapters/gufo_history.hpp": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998",
+    "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+    "include/lie/sampling_distribution.h": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555",
+    "adapters/gufo_distribution.hpp": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d",
+    "src/grammar.c": "2f7bc2b59814abc8f274c66314e029f775658ad94b651d0dcfe91018753abcf3",
+    "include/lie/grammar.h": "2e889d222465ba7fef5acba972f3b870696cff4667b0c2a1d1c17bbb592ed0ae",
+    "adapters/gufo_grammar.hpp": "5a1b26a1dd27ae806a86de08c94caabbc98e989f6afe4eb15a4e5f79bed77125",
+    "src/grammar_number.c": "f250731df3cd82e21013210b4d25c30b00d05013a03b5f192f0a47d90cf8c8e5",
+    "include/lie/grammar_number.h": "1ddb997b5f4439e4842da5e42129ef8fad2859d1ed6212cbd1988e13636e8703",
+    "adapters/gufo_grammar_number.hpp": "f13f2a25ab3f4c7824953b39d60a0e596c3bc266143cb4b6fb48446fa1b53c34",
+    "src/grammar_regex.c": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f",
+    "include/lie/grammar_regex.h": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c",
+    "adapters/gufo_grammar_regex.hpp": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f",
+    "src/grammar_string.c": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef",
+    "include/lie/grammar_string.h": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9",
+    "adapters/gufo_grammar_string.hpp": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2",
+    "src/grammar_vocabulary.c": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b",
+    "include/lie/grammar_vocabulary.h": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619",
+    "adapters/gufo_grammar_vocabulary.hpp": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d",
+    "src/grammar_regex_compile.c": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb",
+    "include/lie/grammar_regex_compile.h": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838",
+    "adapters/gufo_grammar_regex_compile.hpp": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249",
+    "src/grammar_regex_parse.c": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112",
+    "include/lie/grammar_regex_parse.h": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8",
+    "adapters/gufo_grammar_regex_parse.hpp": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96",
+    "src/grammar_unicode.c": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23",
+    "include/lie/grammar_unicode.h": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86",
+    "src/grammar_builder.c": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8",
+    "include/lie/grammar_builder.h": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a",
+    "adapters/gufo_grammar_builder.hpp": "c30d48f0845eb5a6b02b1592450fdc5a36b3c9b1fbe63153420c438148742cd5",
+    "src/schema_transform.c": "527ae6ba4e07202fd832ce9588aea3ec562e3c726c69113b29e624fffeefd169",
+    "include/lie/schema_transform.h": "87aa7b05940598790ed2fd2feb1e8328e81adac0b1f49691abf416a38aff4209",
+    "adapters/gufo_schema_transform.hpp": "11bb74e188c40771f0a2705603e5e996208dd2f914540f0d0f0aca1a81f6109d",
+    "src/schema_internal.h": "ff1e3a45b1b0de2081e47acb1889f80303f87199dbdfe53492c35750f604f27b",
+    "src/schema_values.c": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609",
+    "include/lie/schema_values.h": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164",
+    "adapters/gufo_schema_values.hpp": "88b955ec917ee70aa5260a4e2cc356d51de34244f1fd4dddcb51094cb9667b4f",
+    "src/grammar_cache.c": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349",
+    "include/lie/grammar_cache.h": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0",
+    "adapters/gufo_grammar_cache.hpp": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a",
+    "src/schema_memo.c": "d26aee14562b0542db03a822e9eef071b98f6351e64282e33ad580c003357dfd",
+    "include/lie/schema_memo.h": "ce967e1cca82de2526bea1ff711c7fb5af33b2ce3b6b070cfff85640f2f1bd82",
+    "adapters/gufo_schema_memo.hpp": "a03bf6772145fd2b184d76772e59a0b2577814850cdb2e00e7b791efaab57a16",
+    "src/schema_dispatch.c": "5737821a1f215c663da03906c5701702cb6f59d5250ba5aae11127c0bc025bc7",
+    "include/lie/schema_dispatch.h": "55c3f27f4d80a96cb4c026360b649d992f8e507b05bfd8202d731d4c6d44ae9e",
+    "adapters/gufo_schema_dispatch.hpp": "b6297c9abb7f8fa01a2b3279559fe31897f3d18e0e02bb1e45e0ca6704ab64c1",
+    "src/schema_visit.c": "ef1bedc0d628f0e21f08bc8251bd26bf9f84306a0fb15c2cd6ea36913b132a72",
+    "include/lie/schema_visit.h": "9e6ce89bda7c6743b3b9f7fe36d17639a3eaeeaeaf72e81c5f846d0ab3bf2db3",
+    "adapters/gufo_schema_visit.hpp": "36bc2c418253f8f8dbe56336fbd88efe9608cea022c9f11acd526125dccd20b1",
+    "src/schema_body.c": "37576082f767878f85af38787c51903fe76ea3a89bf8f269765c8c3607146f24",
+    "include/lie/schema_body.h": "6bb82ce97c9f7156fe48fcd16e86508b1fbf2a7c582cd933fc8f06101040397f",
+    "adapters/gufo_schema_body.hpp": "a13d281b7e63930765ab5159195f93939528fcd6fa7d3171768da6f63c5d7e44",
+    "src/schema_number.c": "c1d3236dae4eeb632544cb237077a8dbabe23e49d062e574bcb1a4822689aecd",
+    "include/lie/schema_number.h": "88153e42bc2abd4d6b5c1b815b6f70236a4f91e5669e41e4daa66dbf6f724f79",
+    "adapters/gufo_schema_number.hpp": "e1e7fe4159cd3f2bd960fcc857c7d4e22c5c1726cca2c30ce24ea331da3b657f",
+    "src/schema_format.c": "53f36f462f750e6d07c03dbe8257ffa34983c732fc86418bde9adba6e8e8b7f6",
+    "include/lie/schema_format.h": "6b64af2b97444d3b79372564f08509261935eef7b060bbc3a56f9fda9fe03fda",
+    "adapters/gufo_schema_format.hpp": "02c59fbd7382d063b4a75b48acb610e5a94514597717d3b994d1b4a6de97d8fe",
+    "src/ordered_cache.c": "435a75278909ec58b8da565e810ff6c4687b311f43bdd78e44ef3c445cb6eccf",
+    "include/lie/ordered_cache.h": "32a7929f0127f28f8e639d57f6bfe050122a7f619bd1a19dd7fadc47fdebdf89",
+    "adapters/gufo_composition_cache.hpp": "77506a2ba4a009fef67456013d19e15535abeabc906e8b8d8607c3d637d905b8",
+    "src/grammar_composition.c": "0c753809cb46935c1e1f67736e4d8d915ef9213b00acb3e8b89c09d827005bc2",
+    "include/lie/grammar_composition.h": "d19f27a126322e7e29532a2917120f3a9d771e2688f9081449f2806a17ecbe8a",
+    "adapters/gufo_grammar_composition.hpp": "009a9c643b13bca52c69adcfa55dc46defe25f48bc913e4588e99a5fae2fc17c",
+    "src/binary64.c": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57",
+    "include/lie/binary64.h": "c9946b47a45cea79d98c1241609bed292a30a68643f9db16bf8ffc470bd3b141",
+    "third_party/ryu-source.json": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e",
+    "third_party/ryu/LICENSE-Apache2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "third_party/ryu/LICENSE-Boost": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+    "third_party/ryu/ryu/d2s.c": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64",
+    "third_party/ryu/ryu/s2d.c": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3",
+    "third_party/ryu/ryu/ryu.h": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16",
+    "third_party/ryu/ryu/ryu_parse.h": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a",
+    "third_party/ryu/ryu/common.h": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19",
+    "third_party/ryu/ryu/digit_table.h": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01",
+    "third_party/ryu/ryu/d2s_intrinsics.h": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d",
+    "third_party/ryu/ryu/d2s_full_table.h": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6",
+    "third_party/ryu/ryu/d2s_small_table.h": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9",
+    "src/json_parse.c": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6",
+    "include/lie/json_parse.h": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e",
+    "adapters/gufo_json_parse.hpp": "823ad9fd7076360fe5069636c0fccdfa88ebfc8477eae4dbae7099d7b4f3708c"
+  },
+  "previous_receipt": {
+    "path": "docs/development/validation/c17-binary64-host-2026-10-06.json",
+    "bytes": 136977,
+    "sha256": "b72d05b9e280fb581f56d8505b2aaee41b7ddca8a037413a301cc89c3f1d086d"
+  },
+  "matching_previous_GPU_receipt": {
+    "path": "docs/development/validation/c17-binary64-point-gpu-2026-10-06.json",
+    "bytes": 41599,
+    "sha256": "f4ed064fb4b81a278f3cd91254e0188dc0a59e527bd3bb0a45c2116cd51e5081"
+  },
+  "strict_C_object_imports": [
+    "__stack_chk_fail",
+    "free",
+    "lie_binary64_parse",
+    "malloc",
+    "memcmp",
+    "memcpy",
+    "memset"
+  ],
+  "strict_C_object_exports": [
+    "lie_json_parse_description_init",
+    "lie_json_parse_events"
+  ],
+  "local_CPU_max_C": 90.125,
+  "sanitizers": "ASan/UBSan/LSan outside ptrace; all overrides unset; no suppression or disabled checks.",
+  "GPU_visible_devices": "ROCR/HIP/CUDA masked by source-bound thermal helper; GPU observe-only, CPU98/NVMe85/lower guards. No model forward.",
+  "latest_original_weight_GPU_source": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "new_GPU_build_run_or_reservation": false,
+  "Terminal_Bench": "Stopped/collected/closed/deferred until all functional modifications and matching qualification finish; no restart/reservation.",
+  "all_six_owned_roadmap_tasks_open": true,
+  "retained_failures": [
+    {
+      "check": "json-parser-receipt-generator-failure-r2.json",
+      "actual_exit": 1,
+      "reason": "CTest current summary omits the zero failed clause. Receipt parser now accepts both exact summary forms; no source/test/gate change.",
+      "files": [
+        {
+          "path": "evidence/json-parser-receipt-generator-failure-r2.json",
+          "bytes": 235,
+          "sha256": "3bcb5680ae4cd342028437877acb532a13997fe59e0a9c8e50e2037b0225e0aa"
+        },
+        {
+          "path": "evidence/json-parser-receipt-generator-r2.py",
+          "bytes": 12143,
+          "sha256": "bca12a9729c0c538cffa7f8232b35b886e6e5d87f3a7f9e6ce1235b85943f6ac"
+        }
+      ]
+    },
+    {
+      "check": "json-parser-release-test-r1",
+      "actual_exit": 8,
+      "reason": "17/18 pass; provider fixture omitted json-parser recipe creation. Exact fixture map extended; final gate retained."
+    },
+    {
+      "check": "json-parser-asan-test-r1",
+      "actual_exit": 8,
+      "reason": "17/18 pass; sanitizer detects undersized UTF8 fixture raw[8]. Fixture increased to raw[16]; production parser unchanged; strict sanitizer retained."
+    },
+    {
+      "check": "json-parser-c-headers-r1",
+      "actual_exit": 1,
+      "reason": "New lie_json_parse entrypoint conflicts with existing tools API when all headers are included together. New API renamed lie_json_parse_events; existing API untouched; affected builds/tests rerun."
+    },
+    {
+      "check": "json-parser-receipt-generator-failure-r1.json",
+      "actual_exit": 1,
+      "reason": "Receipt generator compared Ryu file record object to digest. Corrected to explicit sha256/bytes fields; no source/test/gate change.",
+      "files": [
+        {
+          "path": "evidence/json-parser-receipt-generator-failure-r1.json",
+          "bytes": 257,
+          "sha256": "34f7e882d007b5aeeef89752eb408f7c47028f22874912a1671a105da428b4bd"
+        }
+      ]
+    }
+  ],
+  "retained_unresolved_failure": false,
+  "unqualified": [
+    "Matching86-file sealed HIP provider/application and original-weight AR37/MTP37 controls.",
+    "Typed JSON/key/value/predicate containers and model/controller ownership.",
+    "Original-weight individual branches/faults/independent probabilities/allocation-exact private resources/matched cost.",
+    "All six owned tasks remain open; full Terminal Bench stays deferred."
+  ],
+  "publication": "Local feature worktree only; no push/deployment/release.",
+  "goal_complete": false,
+  "157_root_non_use": true,
+  "retained_metadata_corrections": [
+    {
+      "reason": "Exact lexical/key budget is268435456 (256*1024*1024), unchanged production initializer. Initial receipt misspelled256000000; header/docs clarified and matching outputs rebuilt/retested.",
+      "files": [
+        {
+          "path": "evidence/json-parser-budget-metadata-correction-r1.json",
+          "bytes": 381,
+          "sha256": "85c0ac331d6a9d50a94b8dcb70eb73b3d88113042b5f59948d9ce9e70325c4f1"
+        },
+        {
+          "path": "evidence/json-parser-host-receipt-initial-r1.json",
+          "bytes": 148534,
+          "sha256": "4641e406688bc6a4c0a90d48cf62afed5277682e45c4771ffc1a5994646ef62e"
+        },
+        {
+          "path": "evidence/json-parser-receipt-generator-r3.py",
+          "bytes": 12508,
+          "sha256": "6eed544e339a6dc6ff98a59a5685ece6bfd451767d27f533ecaec708861ef5b2"
+        }
+      ]
+    }
+  ]
+}

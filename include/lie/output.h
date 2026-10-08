@@ -24,4 +24,9 @@ bool lie_output_parse(const lie_output_policy *, const char *, size_t,
                       bool completed, const char *identity, lie_output_turn *,
                       char error[256]);
 void lie_output_turn_clear(lie_output_turn *);
+/* Provisional append-only argument prefixes for the current model grammar.
+ * May be incomplete JSON. Never execute these; only complete parse commits a
+ * call. Initialize/clear the owned result as for lie_output_parse. */
+bool lie_output_preview(const lie_output_policy *, const char *, size_t,
+                        const char *identity, lie_output_turn *);
 #endif

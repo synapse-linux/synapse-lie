@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.long-context-sparse-dispatch-source.v1",
+  "at_utc": "2026-10-06T15:16:35.711220+00:00",
+  "state": "SOURCE_FINDING_NOT_GPU_DISPATCH_OR_PERFORMANCE_QUALIFICATION",
+  "source_commit": "9a4f45b11133df71a4f4b0e9a0dbcffd94ae04ef",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "sources": [
+    {
+      "path": ".deps/gufo-f783fedb/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "bytes": 111654,
+      "sha256": "b186b9c41f7c8c05d309b7bdde3b3e06afa09fd86b6c452fa9ad40c97b9a47d4",
+      "pristine_pin_verified": true
+    },
+    {
+      "path": ".deps/gufo-f783fedb/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "bytes": 250123,
+      "sha256": "45f73e260494ca2a7b801485e6a4c1df464998c57c048a519dfdbf49b4d80d25",
+      "pristine_pin_verified": true
+    }
+  ],
+  "owned_growth_recipe": {
+    "path": "adapters/gufo-state/context-edits.json",
+    "sha256": "272401d5908e0e4785061756729fc51c913dfe6377e973e15242012209a88ee9"
+  },
+  "facts": {
+    "mask_pitch": "ceil(ceil(config.context_length / compress_ratio) / 32)",
+    "sparse_WMMA_guard": "mask != nullptr && mask_words > 2048 refuses WMMA before kernel launch",
+    "fallback": "MatrixRows sparse prefill then uses per-token Attention; narrow decode uses separate split path",
+    "internal_limits": [
+      "256 threads \u00d7 local_words[8] = 2048 live words",
+      "union_words[4*512+4] = 2052 entries covers compact list or noncompact 2048-word mask"
+    ],
+    "WMMA_geometry_required_compress_ratio": 4
+  },
+  "capacity_pitch_words": [
+    {
+      "configured_tokens": 262144,
+      "mask_words": 2048,
+      "sparse_WMMA_pitch_guard_passes": true
+    },
+    {
+      "configured_tokens": 266240,
+      "mask_words": 2080,
+      "sparse_WMMA_pitch_guard_passes": false
+    },
+    {
+      "configured_tokens": 524288,
+      "mask_words": 4096,
+      "sparse_WMMA_pitch_guard_passes": false
+    },
+    {
+      "configured_tokens": 786432,
+      "mask_words": 6144,
+      "sparse_WMMA_pitch_guard_passes": false
+    },
+    {
+      "configured_tokens": 1048576,
+      "mask_words": 8192,
+      "sparse_WMMA_pitch_guard_passes": false
+    }
+  ],
+  "hypothesis": "An extended configured capacity can force sparse-prefill fallback even at shallower visible depths. This is an algorithm/dispatch confounder separate from reactive worker count. It is a source inference, not a retrospective explanation proved by the frozen 1M run.",
+  "candidate_followup": [
+    "Bound dispatch by actually visible words while preserving row pitch and every kernel buffer limit",
+    "For visible context above262144 extend local union workspaces or implement a bounded tiled algorithm; changing the guard alone is unsafe",
+    "Qualify independent dense/sparse union ordering, tail and overflow oracles, complete output/frontier parity, original-weight quality, HIP resource limits and matched PP/TG before performance claims"
+  ],
+  "changes_to_upstream_or_peer_sources": false,
+  "GPU_run_or_lease_for_this_analysis": false,
+  "guarantees_constant_prefill": false,
+  "retrospective_reinterpretation_of_1M_evidence": false
+}

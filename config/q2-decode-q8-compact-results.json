@@ -1,0 +1,397 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-compact-results.v1",
+  "plan_sha256": "ee23acb999d762ff590ed8424a7ff677b39aefc86d68a40812998d396ff2e4bd",
+  "release_sha256": "4a7c9768d22ade5458adb6fe0fedf5eeb17bb91072f0260ccb723404c84439c5",
+  "result_sha256": "aacba5727a0f06205c040bec4fc4b6bafaf7c749625d8e102be038a9dafacac3",
+  "commands": [
+    0,
+    0,
+    1
+  ],
+  "verified_artifacts": 4,
+  "numerical_pass": false,
+  "exact_pairs": 2038,
+  "oracle_passes": 4072,
+  "timing_shapes": [
+    {
+      "name": "ssm-in",
+      "m": 16384,
+      "k": 2560,
+      "gated": false,
+      "banks": 2,
+      "iterations": 64,
+      "arms": [
+        {
+          "candidate": false,
+          "wall_samples_us": [
+            195.084984375,
+            194.989046875,
+            195.1216875,
+            195.135765625,
+            195.4741875
+          ],
+          "wall_mean_us": 195.16113437500002,
+          "wall_min_us": 194.989046875,
+          "wall_max_us": 195.4741875,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        },
+        {
+          "candidate": true,
+          "wall_samples_us": [
+            194.939046875,
+            195.29528125,
+            194.956234375,
+            195.22371875,
+            194.83484375
+          ],
+          "wall_mean_us": 195.049825,
+          "wall_min_us": 194.83484375,
+          "wall_max_us": 195.29528125,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        }
+      ],
+      "completed_wall_time_change_percent": -0.05703460135978444
+    },
+    {
+      "name": "attn-out",
+      "m": 2560,
+      "k": 6144,
+      "gated": false,
+      "banks": 4,
+      "iterations": 64,
+      "arms": [
+        {
+          "candidate": false,
+          "wall_samples_us": [
+            77.416046875,
+            75.98590625,
+            76.939171875,
+            76.2810625,
+            77.532125
+          ],
+          "wall_mean_us": 76.8308625,
+          "wall_min_us": 75.98590625,
+          "wall_max_us": 77.532125,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        },
+        {
+          "candidate": true,
+          "wall_samples_us": [
+            77.203234375,
+            76.855265625,
+            76.29325,
+            76.70184375,
+            76.999796875
+          ],
+          "wall_mean_us": 76.810678125,
+          "wall_min_us": 76.29325,
+          "wall_max_us": 77.203234375,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        }
+      ],
+      "completed_wall_time_change_percent": -0.026271181063464155
+    },
+    {
+      "name": "shared-down",
+      "m": 2560,
+      "k": 640,
+      "gated": false,
+      "banks": 29,
+      "iterations": 87,
+      "arms": [
+        {
+          "candidate": false,
+          "wall_samples_us": [
+            11.0191494253,
+            10.8143218391,
+            11.0043218391,
+            10.7928390805,
+            10.9161609195
+          ],
+          "wall_mean_us": 10.909358620699999,
+          "wall_min_us": 10.7928390805,
+          "wall_max_us": 11.0191494253,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        },
+        {
+          "candidate": true,
+          "wall_samples_us": [
+            10.5969770115,
+            10.7216896552,
+            10.608816092,
+            10.7285747126,
+            10.637091954
+          ],
+          "wall_mean_us": 10.65862988506,
+          "wall_min_us": 10.5969770115,
+          "wall_max_us": 10.7285747126,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        }
+      ],
+      "completed_wall_time_change_percent": -2.2982903427911205
+    },
+    {
+      "name": "gated",
+      "m": 640,
+      "k": 2560,
+      "gated": true,
+      "banks": 15,
+      "iterations": 75,
+      "arms": [
+        {
+          "candidate": false,
+          "wall_samples_us": [
+            18.1978133333,
+            18.19408,
+            18.3371466667,
+            18.3387333333,
+            18.21488
+          ],
+          "wall_mean_us": 18.25653066666,
+          "wall_min_us": 18.19408,
+          "wall_max_us": 18.3387333333,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        },
+        {
+          "candidate": true,
+          "wall_samples_us": [
+            18.5143466667,
+            19.1787333333,
+            18.86312,
+            18.7278,
+            18.7948666667
+          ],
+          "wall_mean_us": 18.815773333339997,
+          "wall_min_us": 18.5143466667,
+          "wall_max_us": 19.1787333333,
+          "gpu_event_valid": false,
+          "gpu_event_samples_us": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "gpu_event_mean_us": null
+        }
+      ],
+      "completed_wall_time_change_percent": 3.063247212140263
+    }
+  ],
+  "event_counts": {
+    "case": 8,
+    "pair": 2038,
+    "oracle": 4076,
+    "timing": 56,
+    "complete": 1
+  },
+  "raw_events": {
+    "path": "evidence/q2-decode-q8-compact-component-r1/results/03.log",
+    "sha256": "9444e15ab315c8b62e571e7df7fec18d5ef1d3322ff66494526259ecc5adc30c"
+  },
+  "case_events": [
+    {
+      "event": "q8_compact_case",
+      "case": "k2592-tiny",
+      "rows": 1028,
+      "cols": 2592,
+      "banks": 2,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "ssm-in",
+      "rows": 16384,
+      "cols": 2560,
+      "banks": 2,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "attn-out",
+      "rows": 2560,
+      "cols": 6144,
+      "banks": 4,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "shared-down",
+      "rows": 2560,
+      "cols": 640,
+      "banks": 29,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "gated",
+      "rows": 640,
+      "cols": 2560,
+      "banks": 15,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "k224-gated-tiny",
+      "rows": 33,
+      "cols": 224,
+      "banks": 2,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "k256-plain",
+      "rows": 31,
+      "cols": 256,
+      "banks": 2,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    },
+    {
+      "event": "q8_compact_case",
+      "case": "k288-gated",
+      "rows": 35,
+      "cols": 288,
+      "banks": 2,
+      "inputs_unchanged": true,
+      "guards_finite_written": true
+    }
+  ],
+  "completion": {
+    "event": "q8_compact_complete",
+    "numerical_pass": false,
+    "timing_retained": true,
+    "safe_completion": true,
+    "model_inference": false
+  },
+  "failed_oracles": [
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i0",
+      "bank": 0,
+      "candidate": false,
+      "samples": 64,
+      "relative_rms": 0.999999998487,
+      "scaled_error": 1,
+      "limit": 2e-05,
+      "pass": false
+    },
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i1",
+      "bank": 1,
+      "candidate": false,
+      "samples": 64,
+      "relative_rms": 0.00114212898434,
+      "scaled_error": 0.00451483159341,
+      "limit": 2e-05,
+      "pass": false
+    },
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i0",
+      "bank": 0,
+      "candidate": true,
+      "samples": 64,
+      "relative_rms": 0.999999998481,
+      "scaled_error": 0.999999999994,
+      "limit": 2e-05,
+      "pass": false
+    },
+    {
+      "event": "q8_compact_oracle",
+      "case": "k256-plain-r0-i1",
+      "bank": 1,
+      "candidate": true,
+      "samples": 64,
+      "relative_rms": 0.00114212898434,
+      "scaled_error": 0.00451483159341,
+      "limit": 2e-05,
+      "pass": false
+    }
+  ],
+  "disposition": "Component only; evaluate speed and numerical evidence before a separately admitted model trial.",
+  "aggregation": "Arithmetic mean of five completed monotonic wall samples, raw ranges retained. Zero HIP event times are invalid, not zero-cost kernels.",
+  "model_inference": false,
+  "model_promoted": false,
+  "reactive_changed": false,
+  "fixed_point_goal_paused": true
+}

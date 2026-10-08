@@ -1,0 +1,18 @@
+{
+  "scope": "Local official-source audit only; no library sweep or performance conclusion",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "files": {
+    "src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp": "c96c993d97baa3253190491c96dac16b6ede767eff8460fc24d7b9e0f5d0f590",
+    "tools/qwen-flash/dense_blaslt_sweep.hip": "95e475425b0e42b418a1becb3ad8de88f6a1b94c237bd726ecd0e186ef0f9b26"
+  },
+  "findings": [
+    "The BlasLt fallback requests 16 heuristic choices with workspace cap zero, selecting the first supported zero-workspace result.",
+    "The measured original HC library baseline therefore does not exhaust algorithms with bounded scratch.",
+    "The official sweep considers 32 heuristic choices and 64 MiB workspace, but has no independent output check.",
+    "Its four HC weight matrices occupy 25 MiB, below the stated 32 MiB cache capacity; the complete working set also contains activations. A new HC comparison should retain the existing 100 MiB rotating-weight protocol."
+  ],
+  "next_gate": "Independent sampled FP64 and unchanged input/row-layout checks for each measured algorithm; bounded private scratch; fresh leases and thermal supervision; no installation, foreign cache or model mutation.",
+  "qualified_makeplan_matches_current": true,
+  "qualified_blaslt_sha256": "d2779722a1fe8918db4a181289fd227e292dcad7cb5590c5e7652a84571fb647",
+  "current_path_limit": "The current HC n>=96 path uses custom WMMA. The zero-workspace restriction concerns the library fallback and original library comparison, not the selected native kernel."
+}

@@ -1,0 +1,192 @@
+{
+  "scope": "HC row geometry component campaign; no model benchmark or parity claim",
+  "goal_met": false,
+  "promoted": false,
+  "runs": {
+    "q2-hc-full-row-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r1",
+      "artifacts": 7,
+      "capsule_sha256": "a6220be4bac3f2b68887503183cdb084091dfa47b31185e7ee64f3c791282535",
+      "collection_sha256": "45048bb30bc4ea54d9994482c6e417cf410297e16a76d93a9c1d915b53f264e6",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76875
+      }
+    },
+    "q2-hc-full-row-micro-ref-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r1",
+      "artifacts": 48,
+      "capsule_sha256": "0bf1b9b44b13859dec70ee401f813fac7633fecf22b739a12a655ae8e28a867c",
+      "collection_sha256": "a9c06ad5c4aecb26f460249a0a7abe055bd90ea6f098045165f4d618d9abc959",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77250
+      }
+    },
+    "q2-hc-full-row-micro-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r1",
+      "artifacts": 48,
+      "capsule_sha256": "89ed7e66cf6e37720e239417c7e26053c86109dace57bec7d838c513750c64f9",
+      "collection_sha256": "d034c844469f1afa59904794f10aa0356a18fd026ef7f07c97b323128e28a0ae",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 81000
+      }
+    },
+    "q2-hc-full-row-host-r2": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r2",
+      "artifacts": 7,
+      "capsule_sha256": "6979f85a8a92f69f1489cc19e4dbd14ea349c2416849545599a2d8bf3b48fa15",
+      "collection_sha256": "46a112d17fd4bad6b81969731d0e87f8fe1ee2efb017a1e7dd761eb7d8601777",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77125
+      }
+    },
+    "q2-hc-half-row-micro-r1": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r2",
+      "artifacts": 48,
+      "capsule_sha256": "e8ea4249ad24a42edac8f8b951c0334f80215d0c130c814c65e0096f3e869aad",
+      "collection_sha256": "ba7f0e6acf49b494337c891f3592476d443d5afbaa6efb188fe473362cc6f166",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80750
+      }
+    },
+    "q2-hc-half-row-micro-r2": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r2",
+      "artifacts": 48,
+      "capsule_sha256": "a6f8aae252d5add04b57d72f34844438444bd9a5cdc327d5eaba8317390ed732",
+      "collection_sha256": "25fe284a1cfcf107a868ca1f67d3f53a74f82c9c196ce442a9dba6449d077ed1",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 78625
+      }
+    },
+    "q2-hc-full-row-micro-ref-r2": {
+      "state": "FAILED",
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "source_files_exact": 1019,
+      "guards_match": "q2-hc-full-row-host-r2",
+      "artifacts": 48,
+      "capsule_sha256": "65d4d673ba665c4120c28c185a420a83409f14be10ad4fba724fcdd53607a642",
+      "collection_sha256": "650e0a86588019f33b84d28a91050af0cb558d0ef18a717faa2a2188f3c24995",
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 80500
+      }
+    }
+  },
+  "thermal_max_mc": {
+    "amdgpu": 49000,
+    "k10temp": 81000
+  },
+  "checks": {
+    "exit_code": 0,
+    "runners": 7,
+    "commands": 27,
+    "zero_exits": 22,
+    "inherited_numerical_exits_one": 5,
+    "artifacts": 254,
+    "timing_samples": 50,
+    "host_cohorts": 2,
+    "host_tests_per_cohort": "12/12 Debug and 12/12 ASan/UBSan",
+    "independent_operator_cases_per_arm": 22,
+    "exact_complete_hash_comparisons": 88,
+    "exact_saved_file_comparisons": 176,
+    "original_models_opened": 0,
+    "full_row_selected": false,
+    "half_row_selected": false,
+    "reason": "Full-row regresses; half-row changes from -1.33% to +0.44% time in reverse-order pair"
+  },
+  "closure": {
+    "released_at": "2026-10-03T05:54:12.255241+00:00",
+    "observer_retired_at": "2026-10-03T05:55:21.869301+00:00",
+    "leases_free": 4,
+    "notification_delivery_claimed": false
+  },
+  "generator_replays": {
+    "exit_code": 0,
+    "replays": [
+      {
+        "candidate": "full",
+        "files": 1019,
+        "source_exact": true,
+        "patch_exact": true,
+        "metadata_exact": true
+      },
+      {
+        "candidate": "half",
+        "files": 1019,
+        "source_exact": true,
+        "patch_exact": true,
+        "metadata_exact": true
+      }
+    ]
+  },
+  "precommit": {
+    "exit_code": 0,
+    "python_files_parsed": 4,
+    "local_doc_links": 24,
+    "exported_csv_values": 60,
+    "unique_measured_samples": 50
+  },
+  "limitations": [
+    "Component time only; no complete-model arm admitted",
+    "Five preserved exit-1 numerical controls; unchanged independent limits",
+    "Full upstream formatting retains two unchanged test-file violations",
+    "Observed sample overlap and order-dependent small half-row delta do not establish a useful improvement"
+  ]
+}

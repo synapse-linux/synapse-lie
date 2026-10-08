@@ -1,0 +1,79 @@
+[
+  {
+    "argv": [
+      "cc",
+      "-std=c17",
+      "-fsyntax-only",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Werror",
+      "-D_POSIX_C_SOURCE=200809L",
+      "-DLIE_BUILD_ID=\"q2-original-baseline-experiment\"",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/include",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/tools/executor-bench.c",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/adapters/gufo_binding.c"
+    ],
+    "started_at": "2026-10-03T18:36:21.904392+00:00",
+    "exit_code": 0,
+    "log": "evidence/q2-original-baseline-static/01.log"
+  },
+  {
+    "argv": [
+      "/opt/rocm/llvm/bin/clang++",
+      "-x",
+      "hip",
+      "--offload-host-only",
+      "-fsyntax-only",
+      "-std=c++20",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-DENGINE_ENABLE_HIP=1",
+      "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/include",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-library-norm-bound",
+      "-isystem",
+      "/opt/rocm/include",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/adapters/gufo.cpp",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/original-baseline/adapters/gufo_device.cpp"
+    ],
+    "started_at": "2026-10-03T18:36:21.932777+00:00",
+    "exit_code": 0,
+    "log": "evidence/q2-original-baseline-static/02.log"
+  },
+  {
+    "argv": [
+      "cmake",
+      "-S",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "-B",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/q2-original-baseline-configure",
+      "-G",
+      "Ninja",
+      "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+      "-DQ2_HIP=ON",
+      "-DQ2_ORIGINAL_BASELINE=ON",
+      "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+      "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-library-norm-bound"
+    ],
+    "started_at": "2026-10-03T18:36:23.632979+00:00",
+    "exit_code": 0,
+    "log": "evidence/q2-original-baseline-static/03.log"
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/q2-original-baseline-configure",
+      "--target",
+      "q2_original_baseline",
+      "--",
+      "-n"
+    ],
+    "started_at": "2026-10-03T18:40:46.474846+00:00",
+    "exit_code": 0,
+    "log": "evidence/q2-original-baseline-static/04-dry-run.log",
+    "scope": "Build graph only, no compilation/link/runtime"
+  }
+]

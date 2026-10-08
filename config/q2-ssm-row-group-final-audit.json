@@ -1,0 +1,66 @@
+{
+  "schema": "synapse-lie.q2-ssm-row-group-final.v1",
+  "plan_sha256": "549e6150bdb23af496531d45a24a49301591ff729fb99d3cd6788f7d8e4dd39d",
+  "model_result_sha256": "42abc61075f8458dd4255715f5f88a6889e4f5c1076c52c3830969de4ed715c1",
+  "component_result_sha256": "048496bdf988b0f3c82cb81ff70398642eb0d5cdc3938b3257531d0fb237dffe",
+  "release_sha256": "413de339b4bacb22e34cb5c0221535dca0831ada6a1b7e4c2b074d9b4d1e3d99",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "frozen_fixtures_verified": 88,
+  "frozen_manifests_verified": 5,
+  "provider_files_verified": 1027,
+  "retired_identities": 1115,
+  "retired_groups": 889,
+  "thermal_max_c": {
+    "q2-ssm-row-group-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 65.25
+    },
+    "q2-ssm-row-group-component-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 66.375
+    },
+    "q2-ssm-row-group-model-r1": {
+      "amdgpu": 74.0,
+      "k10temp": 82.125
+    }
+  },
+  "component_parent_exact": true,
+  "independent_operator_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-ssm-row-group-component.csv": "afc780d4df35dbb285830854a378b80cef426e754d87d2855dd51aa771e4ebc7",
+    "docs/figures/q2-ssm-row-group-component.svg": "3fefe3ef71c49f4a311d60340c61a1e4fb170dce14755bf8c048cfdd2fea5064",
+    "docs/figures/q2-ssm-row-group-component.png": "6656d9ff278618cc81c8dd9e9d5b7eeabc75429201ea2424e01a6fa5577a9dde",
+    "docs/figures/q2-ssm-row-group-model-wrapped.csv": "1b98e9834f97f71bad273583fcc3e5832812b7c3104180c8eab4a0f887ec4d23",
+    "docs/figures/q2-ssm-row-group-model-wrapped.svg": "9b3b83129e43481d814d4a95beeb114a2a501721cd66c89541e7af83ea3e865d",
+    "docs/figures/q2-ssm-row-group-model-wrapped.png": "273a83b35df854106aaf85330c90d9f393a649883b450ab0b467282ab0dd1b54"
+  },
+  "preserved_nonzero_exits": {
+    "analysis-guards-command.json": 1
+  },
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

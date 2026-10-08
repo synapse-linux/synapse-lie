@@ -1,0 +1,495 @@
+{
+  "schema": "synapse-lie.host-validation.v1",
+  "state": "HOST_PASS_NOT_INFERENCE_QUALIFIED",
+  "date_utc": "2026-10-08",
+  "git_base": "d415d8dfd132650b7d6927439ddea067de152f69",
+  "source_binding": "Changed C17 benchmark and report are bound by exact file hashes below; numerical provider unchanged.",
+  "scope": [
+    "Native advancing ds4-walk raw-corpus/accounting/lifetimes/parser/report contract",
+    "Synthetic snapshot/replay, warmup/repetition, EOS, bounded replay and terminal capture/mutating-restore failure checks",
+    "15 malformed report controls, RoPE/measurement-scope refusal, native CSV/SVG/PNG with PATH lacking interpreters",
+    "Synthetic 511-frontier geometry through physical1046528 at capacity1048576; not model long-context inference",
+    "Existing native benchmark and state component regression checks",
+    "Direct Gufo reference C++ header syntax only against independently fetched official f783fedb; no HIP link or execution"
+  ],
+  "selected_checks": [
+    "develop-walk-debug-contract-r3",
+    "develop-walk-asan-contract-r3",
+    "develop-walk-reference-syntax-r1"
+  ],
+  "ctest": {
+    "debug": {
+      "passed": 3,
+      "total": 3
+    },
+    "asan_ubsan_lsan": {
+      "passed": 3,
+      "total": 3,
+      "leak_detection": true,
+      "suppressions": false
+    }
+  },
+  "source_files_sha256": {
+    "CMakeLists.txt": "c47a491cd7752de37af6567cea885a9ac0cfe1018f0b5a0d01013b82ad8f795c",
+    "tools/lie-bench.c": "a9d07f24f085e181826587a1a7a8f76ee43a08bc34746791f15e8462c8326e7f",
+    "tools/walk-bench.inc": "214c0e9571c35631ac769982b90fc038792e2ab62f188a0c59415d0b9a1428d7",
+    "tools/native/report.c": "7cd0549a7a8c9baf552c452a99d69b407ba4f57231d5868de8af3dc27015e725",
+    "tools/native/report_walk.inc": "39f796dc6c71400082da0cdab8e2f4f08240e2099faf4c643352136e3fc5c553",
+    "tests/test_walk_bench.c": "5a9feeef64bcf6d750294922e739526e518dfe7b9d6ce7f88a55d316d4621724",
+    "tests/bench_executor.c": "4ce855c09fbd112d2779325948d053953241091eaff712d7114ab285539ec76c",
+    "adapters/gufo_reference_bench.cpp": "94accddee35d3a3d4d84d9d89a7c93f276aed6a65fcd1cd0252f49a06267bd6e",
+    "src/text.c": "8f1068d91df3378cdbcfa880f4b5ca0e66c9649a9455101ed920bb191c2b7b4d",
+    "include/lie/text.h": "0bc8e7bbf0aeff85ddc9632963fab4e88e94fc34a8789f406b85d0b53d9e806b",
+    "src/state.c": "e6e2029dc8ca0041af22786a7a9151b4e20f2c8f8c95837758043f7e42719d10",
+    "include/lie/state.h": "2b1e1733ec114b69ac84bdbf25a0dc2d4b51812a30b299c3d671e9c56259a815",
+    "src/state_internal.h": "0b6b203224dba52fa1462c4f24992352480dead38cb28f423aaf7c1b47382d46",
+    "include/lie/executor.h": "4f23a8d82dd7e5f5225359b99f464aa73842fe6513c00132c976dc94cd087245",
+    "include/lie/rope.h": "8ca6cb6297f587fafa4ae5ea7ef0ec6441f63297fac80a01b026dab36c4f1186",
+    "tools/native/bench_native.h": "c023ddb467541fa2e44fe3fac7fc35e0cf31414540352e77cfcec4b38da1f122"
+  },
+  "commands": [
+    {
+      "label": "develop-walk-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-asan",
+        "--target",
+        "test-walk-bench",
+        "test-synthetic-lie-bench",
+        "synapse-lie-bench-report",
+        "test-native-bench",
+        "test-ssd-http-server",
+        "test-steered-lie-bench",
+        "test-text",
+        "test-state",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 74.0
+      },
+      "elapsed_s": 8.283989707939327
+    },
+    {
+      "label": "develop-walk-asan-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/integration-asan",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.5
+      },
+      "elapsed_s": 2.063088344410062
+    },
+    {
+      "label": "develop-walk-asan-contract-r1",
+      "argv": [
+        "cmake",
+        "-E",
+        "env",
+        "--unset=LSAN_OPTIONS",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "ctest",
+        "--test-dir",
+        "build/integration-asan",
+        "--output-on-failure",
+        "-R",
+        "^(ds4-walk-native-contract|native-benchmark-contract|state-components)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.875
+      },
+      "elapsed_s": 1.1291749747470021
+    },
+    {
+      "label": "develop-walk-asan-contract-r2",
+      "argv": [
+        "cmake",
+        "-E",
+        "env",
+        "--unset=LSAN_OPTIONS",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "ctest",
+        "--test-dir",
+        "build/integration-asan",
+        "--output-on-failure",
+        "-R",
+        "^(ds4-walk-native-contract|native-benchmark-contract|state-components)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.0
+      },
+      "elapsed_s": 15.726141219958663
+    },
+    {
+      "label": "develop-walk-asan-contract-r3",
+      "argv": [
+        "cmake",
+        "-E",
+        "env",
+        "--unset=LSAN_OPTIONS",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "ctest",
+        "--test-dir",
+        "build/integration-asan",
+        "--output-on-failure",
+        "-R",
+        "^(ds4-walk-native-contract|native-benchmark-contract|state-components)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 67.375
+      },
+      "elapsed_s": 16.66564849484712
+    },
+    {
+      "label": "develop-walk-asan-rebuild-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-asan",
+        "--target",
+        "test-walk-bench",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.0
+      },
+      "elapsed_s": 1.0646146917715669
+    },
+    {
+      "label": "develop-walk-asan-state-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-asan",
+        "--target",
+        "test-state",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 53.0
+      },
+      "elapsed_s": 1.058566533960402
+    },
+    {
+      "label": "develop-walk-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-host",
+        "--target",
+        "test-synthetic-lie-bench",
+        "synapse-lie-bench-report",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.0
+      },
+      "elapsed_s": 1.1069598123431206
+    },
+    {
+      "label": "develop-walk-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-host",
+        "--target",
+        "test-walk-bench",
+        "test-synthetic-lie-bench",
+        "synapse-lie-bench-report",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 2,
+      "exit_code": 2,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.875
+      },
+      "elapsed_s": 1.0909986039623618
+    },
+    {
+      "label": "develop-walk-debug-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-host",
+        "--target",
+        "test-walk-bench",
+        "test-synthetic-lie-bench",
+        "synapse-lie-bench-report",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 51.375
+      },
+      "elapsed_s": 1.0561398128047585
+    },
+    {
+      "label": "develop-walk-debug-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-host",
+        "--target",
+        "test-walk-bench",
+        "test-synthetic-lie-bench",
+        "synapse-lie-bench-report",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 51.75
+      },
+      "elapsed_s": 1.0874265832826495
+    },
+    {
+      "label": "develop-walk-debug-build-r5",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-host",
+        "--target",
+        "test-walk-bench",
+        "test-synthetic-lie-bench",
+        "synapse-lie-bench-report",
+        "test-native-bench",
+        "test-ssd-http-server",
+        "test-steered-lie-bench",
+        "test-state",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.75
+      },
+      "elapsed_s": 2.1303477650508285
+    },
+    {
+      "label": "develop-walk-debug-contract-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-host",
+        "--output-on-failure",
+        "-R",
+        "^ds4-walk-native-contract$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 56.375
+      },
+      "elapsed_s": 1.141432886943221
+    },
+    {
+      "label": "develop-walk-debug-contract-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-host",
+        "--output-on-failure",
+        "-R",
+        "^(ds4-walk-native-contract|native-benchmark-contract|state-components)$"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 53.5
+      },
+      "elapsed_s": 4.252322292886674
+    },
+    {
+      "label": "develop-walk-debug-contract-r3",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-host",
+        "--output-on-failure",
+        "-R",
+        "^(ds4-walk-native-contract|native-benchmark-contract|state-components)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 65.5
+      },
+      "elapsed_s": 14.60309019871056
+    },
+    {
+      "label": "develop-walk-debug-rebuild-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/integration-host",
+        "--target",
+        "test-walk-bench",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.0
+      },
+      "elapsed_s": 1.0582957528531551
+    },
+    {
+      "label": "develop-walk-reference-syntax-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Iinclude",
+        "-I.deps/gufo-f783fedb",
+        "-fsyntax-only",
+        "adapters/gufo_reference_bench.cpp"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.125
+      },
+      "elapsed_s": 1.056949564255774
+    },
+    {
+      "label": "develop-walk-seal-r1",
+      "argv": [
+        "python3",
+        "-B",
+        "-"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "scope": "HOST receipt sealing only; no model/test execution",
+      "error": "Missing required source path src/state_backend.h; original archive completed, public receipt not created."
+    }
+  ],
+  "retained_failures": "Original nonzero exits remain in command records and raw archive: target requested before CMake regeneration, nonexistent test-text target, LeakSanitizer sandbox ptrace refusal, sandbox loopback refusal, incorrect CSV-quotation test assertion, and initial receipt sealing with a nonexistent source-path entry. Final CSV correction changes the test assertion, not CSV output. No GPU run is repeated.",
+  "gpu_execution": false,
+  "models_loaded": false,
+  "remote_operations": false,
+  "installation": false,
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "gpu": "observe-only",
+    "nvme_ceiling_c": 85
+  },
+  "limitations": [
+    "No original-weight or GPU fault, quality, memory-fit or performance qualification",
+    "No full coherent HIP producer/consumer build for the new walk",
+    "Direct Gufo reference rejects scaled RoPE",
+    "Q2/IQ2 selected format port and source merge into develop remain pending"
+  ],
+  "raw_archive": {
+    "path": "raw/ds4-walk-native-host-2026-10-08-r2.tar.gz",
+    "bytes": 13504,
+    "sha256": "d39b8c45795dc82afe05102b55846d50a7e07839f9e8be6557382b6ed498a6a2"
+  }
+}

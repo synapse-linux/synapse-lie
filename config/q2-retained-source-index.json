@@ -1,0 +1,1970 @@
+{
+  ".deps/gufo-base": {
+    "fingerprint": "0d16c3d1508b029198c932138d249475a90bae7c520cf6cd42af6d1655efeb98",
+    "files": 1019,
+    "bytes": 19819825,
+    "archive": "evidence/q2-ud-base-r1/source.tar.gz",
+    "archive_sha256": "afedb713e79e81320b83ad6fb70408cf4102dc83ef7eebf236960c827f551e93",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-cache64k": {
+    "fingerprint": "d098a2534682dce31ab86ef67a080496a80d38cff3091d437066a5b2ef303ed2",
+    "files": 1020,
+    "bytes": 19868538,
+    "archive": "evidence/q2-ple-cache-host-r1/source.tar.gz",
+    "archive_sha256": "decd71040eebe7868b5a7ac9cbb9277c746d8f323db86993db58356e5bcb889e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-cache64k-reconstructed-r2": {
+    "fingerprint": "d098a2534682dce31ab86ef67a080496a80d38cff3091d437066a5b2ef303ed2",
+    "files": 1020,
+    "bytes": 19868538,
+    "archive": "evidence/q2-ple-cache-host-r1/source.tar.gz",
+    "archive_sha256": "decd71040eebe7868b5a7ac9cbb9277c746d8f323db86993db58356e5bcb889e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-io-q2": {
+    "fingerprint": "a1f6f7bc3f03e840547839889a850eba9815d0c8d586e4e7e4406afdfa470f33",
+    "files": 1021,
+    "bytes": 19868911,
+    "archive": "evidence/q2-ple-io-host-r1/source.tar.gz",
+    "archive_sha256": "60f173aad1950b62f4d15e928e9f7aeca0a0356770e3f413d21c4f70a2515408",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-io-q2-reconstructed": {
+    "fingerprint": "a1f6f7bc3f03e840547839889a850eba9815d0c8d586e4e7e4406afdfa470f33",
+    "files": 1021,
+    "bytes": 19868911,
+    "archive": "evidence/q2-ple-io-host-r1/source.tar.gz",
+    "archive_sha256": "60f173aad1950b62f4d15e928e9f7aeca0a0356770e3f413d21c4f70a2515408",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-io-ud": {
+    "fingerprint": "8f27cff5bf484b2d9b0a000af93dc6c07b8bd4a5e5d968f832f0551c64fc998a",
+    "files": 1021,
+    "bytes": 19823350,
+    "archive": "evidence/q2-ple-io-ud-r1/source.tar.gz",
+    "archive_sha256": "dcf33396eab77ebc73c15d16a6d55d24080a485eabacbd701d7f14cea1041890",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-io-ud-reconstructed": {
+    "fingerprint": "8f27cff5bf484b2d9b0a000af93dc6c07b8bd4a5e5d968f832f0551c64fc998a",
+    "files": 1021,
+    "bytes": 19823350,
+    "archive": "evidence/q2-ple-io-ud-r1/source.tar.gz",
+    "archive_sha256": "dcf33396eab77ebc73c15d16a6d55d24080a485eabacbd701d7f14cea1041890",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-q2": {
+    "fingerprint": "7026d5365821cd7b1628c4c326b2bd61720be0ee6d5887e928cdba373c0b567a",
+    "files": 1020,
+    "bytes": 19868140,
+    "archive": "evidence/q2-ple-host-r1/source.tar.gz",
+    "archive_sha256": "6c05573f71a746daedb372a81eb3d54567952e6a096cc96f4e02d3fee755247f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-q2-replay": {
+    "fingerprint": "7026d5365821cd7b1628c4c326b2bd61720be0ee6d5887e928cdba373c0b567a",
+    "files": 1020,
+    "bytes": 19868140,
+    "archive": "evidence/q2-ple-host-r1/source.tar.gz",
+    "archive_sha256": "6c05573f71a746daedb372a81eb3d54567952e6a096cc96f4e02d3fee755247f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-ud": {
+    "fingerprint": "48da0fa8ffdd896db63fe5e87020e979c16f6e08c5df5487a0e7d6d7c4edc17b",
+    "files": 1020,
+    "bytes": 19822579,
+    "archive": "evidence/q2-ple-ud-r1/source.tar.gz",
+    "archive_sha256": "7a35e723624d50f63f6e9f8de63bf07d65f82f60c40ba93aff1e580a42892770",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-ple-ud-replay": {
+    "fingerprint": "48da0fa8ffdd896db63fe5e87020e979c16f6e08c5df5487a0e7d6d7c4edc17b",
+    "files": 1020,
+    "bytes": 19822579,
+    "archive": "evidence/q2-ple-ud-r1/source.tar.gz",
+    "archive_sha256": "7a35e723624d50f63f6e9f8de63bf07d65f82f60c40ba93aff1e580a42892770",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2": {
+    "fingerprint": "21514ea0f2a00c61b14391e2174213970478b9c963bf5f9487f98039e56f9075",
+    "files": 1020,
+    "bytes": 19836672,
+    "archive": "evidence/q2-hc-row160-loads-host-r1/source.tar.gz",
+    "archive_sha256": "e1be2b48fd4ed6b2a58a0e7ab00e4f0b4057b06c95012ed0c4c2e55e10c3c34a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-affine-palette": {
+    "fingerprint": "c1d70f158ded592a6b87899428bbff1264ca19453b9cd3bf9f51d9de57eb3695",
+    "files": 1019,
+    "bytes": 19867174,
+    "archive": "evidence/q2-affine-palette-operators-r1/source.tar.gz",
+    "archive_sha256": "50df6dfe9546c09efc055256f7215fcf046c17c58ff4e4059ef464512acf693a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-affine-palette-reconstructed": {
+    "fingerprint": "c1d70f158ded592a6b87899428bbff1264ca19453b9cd3bf9f51d9de57eb3695",
+    "files": 1019,
+    "bytes": 19867174,
+    "archive": "evidence/q2-affine-palette-operators-r1/source.tar.gz",
+    "archive_sha256": "50df6dfe9546c09efc055256f7215fcf046c17c58ff4e4059ef464512acf693a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-bounded-k": {
+    "fingerprint": "7f9007d389ee2dfc43a275a92cc6ae260702f26a17ff01840a0e4b935880a1d3",
+    "files": 1019,
+    "bytes": 19830387,
+    "archive": "evidence/q2-register-host-r1/source.tar.gz",
+    "archive_sha256": "735f2ee6f8a1b483791d3a3ccaa11e8bae9cb70b543995827348d9d76a088aab",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-code-reuse": {
+    "fingerprint": "dc2e3f17b134a89d63ad629ada59e8747aeb3ac2f2ce9635d5467cb398d0015a",
+    "files": 1019,
+    "bytes": 19866004,
+    "archive": "evidence/q2-code-reuse-operators-r1/source.tar.gz",
+    "archive_sha256": "7fe32ca6572a067649c394ae546fe096168ceb2fb25605ed176fc8630bf237fd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-code-reuse-reconstructed": {
+    "fingerprint": "dc2e3f17b134a89d63ad629ada59e8747aeb3ac2f2ce9635d5467cb398d0015a",
+    "files": 1019,
+    "bytes": 19866004,
+    "archive": "evidence/q2-code-reuse-operators-r1/source.tar.gz",
+    "archive_sha256": "7fe32ca6572a067649c394ae546fe096168ceb2fb25605ed176fc8630bf237fd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-combined-retained": {
+    "fingerprint": "6922bd27f9a210aafb71e5a6e5000c327795cbdda9590cc6cad7c1cf14fa2390",
+    "files": 1020,
+    "bytes": 19875739,
+    "archive": "evidence/q2-combined-retained-narrow-r1/source.tar.gz",
+    "archive_sha256": "acf49b5b4aea3ed99e1cfd749f3239e400f01966a667e69eba118c16e2d099c4",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-combined-scaled": {
+    "fingerprint": "29c293d59d696dcd43795806f1f44536e706787b2d2da97e59ad4542b5049699",
+    "files": 1021,
+    "bytes": 19880573,
+    "archive": "evidence/q2-combined-scaled-narrow-r1/source.tar.gz",
+    "archive_sha256": "ff5677530ed88a502b6b9d7a4fc410cd37248c9ee8f65536ad1bca6f62a14b53",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-down-scatter": {
+    "fingerprint": "f5c08106e8fb2dde814bc4864ea3bbe8775dc0fba0112a0a11df33730fb3de2e",
+    "files": 1019,
+    "bytes": 19870420,
+    "archive": "evidence/q2-down-scatter-operators-r1/source.tar.gz",
+    "archive_sha256": "4e8c74e55ec1ee7837e5c91545175f04f016126abb067269c1082e1a94edab32",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-half-wave": {
+    "fingerprint": "fa7c39415489b0e8653e13edc49154a2cdf8a6c96ec3c78afa1021becf0d5205",
+    "files": 1019,
+    "bytes": 19867047,
+    "archive": "evidence/q2-half-wave-operators-r1/source.tar.gz",
+    "archive_sha256": "1f6ee182f7f77e5c7201fbb2a93e71b4658cfc154ef8a2f2167a7db7df47371c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-half-wave-permlane": {
+    "fingerprint": "2dd15f62ae6d17bc5b254f9c0716daac18d41b55707781e6fef9b53d877ef4fb",
+    "files": 1019,
+    "bytes": 19867119,
+    "archive": "evidence/q2-half-wave-permlane-operators-r1/source.tar.gz",
+    "archive_sha256": "3da05243942ffe4d94ed4372378908f8c064c113ad24d3e996d0829ba38a18fa",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-half-wave-permlane-reconstructed": {
+    "fingerprint": "2dd15f62ae6d17bc5b254f9c0716daac18d41b55707781e6fef9b53d877ef4fb",
+    "files": 1019,
+    "bytes": 19867119,
+    "archive": "evidence/q2-half-wave-permlane-operators-r1/source.tar.gz",
+    "archive_sha256": "3da05243942ffe4d94ed4372378908f8c064c113ad24d3e996d0829ba38a18fa",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-half-wave-reconstructed": {
+    "fingerprint": "fa7c39415489b0e8653e13edc49154a2cdf8a6c96ec3c78afa1021becf0d5205",
+    "files": 1019,
+    "bytes": 19867047,
+    "archive": "evidence/q2-half-wave-operators-r1/source.tar.gz",
+    "archive_sha256": "1f6ee182f7f77e5c7201fbb2a93e71b4658cfc154ef8a2f2167a7db7df47371c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc": {
+    "fingerprint": "303dcc18aeed00b1d5538ea573b57c1f486f0a3b979da5f1ae3d717b0b637b0d",
+    "files": 1019,
+    "bytes": 19831431,
+    "archive": "evidence/q2-hc-four-wave-r1/source.tar.gz",
+    "archive_sha256": "e4a7160ec2648488d5d8a317aa48df2aadd6f5cdf5d9f0d6c6e46d07d720ba45",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-chain-coalesced": {
+    "fingerprint": "16ec607b07423ec28cb6ddbecd5d7a0220ff349c42d3b1e915f76c2da10a1f48",
+    "files": 1019,
+    "bytes": 19872293,
+    "archive": "evidence/q2-hc-chain-coalesced-micro-r1/source.tar.gz",
+    "archive_sha256": "20e6fff552c3dd5b77abee0d2b41f21e45111c6eb8466f7d31d1542966528ca2",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-chain-coalesced-reconstructed": {
+    "fingerprint": "16ec607b07423ec28cb6ddbecd5d7a0220ff349c42d3b1e915f76c2da10a1f48",
+    "files": 1019,
+    "bytes": 19872293,
+    "archive": "evidence/q2-hc-chain-coalesced-micro-r1/source.tar.gz",
+    "archive_sha256": "20e6fff552c3dd5b77abee0d2b41f21e45111c6eb8466f7d31d1542966528ca2",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-chain-waves": {
+    "fingerprint": "e078fcf0c273e3fdd9c4b1f4ff9a2877bc613dac1c8dad2b006d793c30f32587",
+    "files": 1019,
+    "bytes": 19869541,
+    "archive": "evidence/q2-hc-chain-micro-r1/source.tar.gz",
+    "archive_sha256": "3350554b99a655bb59a7f643f63383c59bde4489803fd0d5865a85093f29de86",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-chain-waves-reconstructed": {
+    "fingerprint": "e078fcf0c273e3fdd9c4b1f4ff9a2877bc613dac1c8dad2b006d793c30f32587",
+    "files": 1019,
+    "bytes": 19869541,
+    "archive": "evidence/q2-hc-chain-micro-r1/source.tar.gz",
+    "archive_sha256": "3350554b99a655bb59a7f643f63383c59bde4489803fd0d5865a85093f29de86",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode-reduce": {
+    "fingerprint": "fcd90304ea7df4cc3b4d943be1ca6a70774e14e17a049bb6598f9202264de383",
+    "files": 1020,
+    "bytes": 19890518,
+    "archive": "evidence/q2-hc-decode-reduce-component-r1/source.tar.gz",
+    "archive_sha256": "02a27fb2904d224ab4af4986af93925bf0b693e34b626d633519dedf893f23e5",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode-reduce-reconstructed": {
+    "fingerprint": "fcd90304ea7df4cc3b4d943be1ca6a70774e14e17a049bb6598f9202264de383",
+    "files": 1020,
+    "bytes": 19890518,
+    "archive": "evidence/q2-hc-decode-reduce-component-r1/source.tar.gz",
+    "archive_sha256": "02a27fb2904d224ab4af4986af93925bf0b693e34b626d633519dedf893f23e5",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode16": {
+    "fingerprint": "2886874aec030f838a071f52b8f3689429fffa9be91dfc6580a32e962370c5c0",
+    "files": 1019,
+    "bytes": 19865385,
+    "archive": "evidence/q2-hc-decode16-micro-r1/source.tar.gz",
+    "archive_sha256": "7c75038b94325412eb032fee7065e49e06fd23335bea9919a99210198e904e05",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode16-reconstructed": {
+    "fingerprint": "2886874aec030f838a071f52b8f3689429fffa9be91dfc6580a32e962370c5c0",
+    "files": 1019,
+    "bytes": 19865385,
+    "archive": "evidence/q2-hc-decode16-micro-r1/source.tar.gz",
+    "archive_sha256": "7c75038b94325412eb032fee7065e49e06fd23335bea9919a99210198e904e05",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode32": {
+    "fingerprint": "201b0189931cd504f3a3688f3dc6c8796a6bca66be33c3e02405b73503ea815b",
+    "files": 1019,
+    "bytes": 19865386,
+    "archive": "evidence/q2-hc-decode32-micro-r1/source.tar.gz",
+    "archive_sha256": "d3583ff26e5ffa5a19f73cfc4302bab5a407318ff79d025bdd2b7fe97ac76237",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode32-reconstructed": {
+    "fingerprint": "201b0189931cd504f3a3688f3dc6c8796a6bca66be33c3e02405b73503ea815b",
+    "files": 1019,
+    "bytes": 19865386,
+    "archive": "evidence/q2-hc-decode32-micro-r1/source.tar.gz",
+    "archive_sha256": "d3583ff26e5ffa5a19f73cfc4302bab5a407318ff79d025bdd2b7fe97ac76237",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode8": {
+    "fingerprint": "01b76bfe5b9174e47ecc5fc61d51620376f7487ffe63edf8c3bdd44fb767b63c",
+    "files": 1019,
+    "bytes": 19865383,
+    "archive": "evidence/q2-hc-decode8-micro-r1/source.tar.gz",
+    "archive_sha256": "b08ec5ae8d6bc0016ad06b57a972bb386709b8b15dd308715c683115a9e8aacb",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-decode8-reconstructed": {
+    "fingerprint": "01b76bfe5b9174e47ecc5fc61d51620376f7487ffe63edf8c3bdd44fb767b63c",
+    "files": 1019,
+    "bytes": 19865383,
+    "archive": "evidence/q2-hc-decode8-micro-r1/source.tar.gz",
+    "archive_sha256": "b08ec5ae8d6bc0016ad06b57a972bb386709b8b15dd308715c683115a9e8aacb",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-deferred-norm": {
+    "fingerprint": "217ce6d8aaf62d5dda9c887cbb829df1b0ece266b5e2f56dbcb49761bcd55ec7",
+    "files": 1019,
+    "bytes": 19903580,
+    "archive": "evidence/q2-hc-deferred-norm-micro-r1/source.tar.gz",
+    "archive_sha256": "e7f1a4c835e0cd6e914b398b5fe4c2ae3f15bd13f11463b1bfe1cfa1779f0556",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-direct": {
+    "fingerprint": "3d092bba5cc0c5cf3bf7f01debe35bec7d7b0e08e818b0ade3b030a7a4a504d5",
+    "files": 1019,
+    "bytes": 19870216,
+    "archive": "evidence/q2-hc-direct-micro-r1/source.tar.gz",
+    "archive_sha256": "500cf3e1ae19c844ef4348981f1808a61468cdc4f530510d387bb11ebb05702e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-direct-reconstructed": {
+    "fingerprint": "3d092bba5cc0c5cf3bf7f01debe35bec7d7b0e08e818b0ade3b030a7a4a504d5",
+    "files": 1019,
+    "bytes": 19870216,
+    "archive": "evidence/q2-hc-direct-micro-r1/source.tar.gz",
+    "archive_sha256": "500cf3e1ae19c844ef4348981f1808a61468cdc4f530510d387bb11ebb05702e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-coalesced": {
+    "fingerprint": "179db3dcdf40b2ac44c004f5a312ca8a0d1b840c1c359191940feae24e182481",
+    "files": 1019,
+    "bytes": 19868050,
+    "archive": "evidence/q2-coalesced-micro-r1/source.tar.gz",
+    "archive_sha256": "610a9d1e32d5a772aa57a76e204c00ce8daf12126d7b75a5e036c91ca779cd48",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-coalesced-reconstructed": {
+    "fingerprint": "179db3dcdf40b2ac44c004f5a312ca8a0d1b840c1c359191940feae24e182481",
+    "files": 1019,
+    "bytes": 19868050,
+    "archive": "evidence/q2-coalesced-micro-r1/source.tar.gz",
+    "archive_sha256": "610a9d1e32d5a772aa57a76e204c00ce8daf12126d7b75a5e036c91ca779cd48",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-phased": {
+    "fingerprint": "e7ad3b793b1cc9ac25db1fe71cf0031d2754c2ee77decf2cc8e42aae078ba972",
+    "files": 1019,
+    "bytes": 19870305,
+    "archive": "evidence/q2-hc-phased-candidate-r1/source.tar.gz",
+    "archive_sha256": "9b48c682c64bee41954740019602182ed5a454ad69354984d08279a686a5e85b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-phased-free": {
+    "fingerprint": "a84507ecd1457689985d7f2e768595341030fb444d8fa079576446b3c718cd65",
+    "files": 1019,
+    "bytes": 19870185,
+    "archive": "evidence/q2-hc-phased-free-r1/source.tar.gz",
+    "archive_sha256": "a9e20e718f881a5384188a89034aee5939b2abfcdd640418c9797a70577c0d75",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-wide": {
+    "fingerprint": "0a853f81e485f8fd13a49655a8d8f0d8656f0ffcaaf2a736b2196327efac7395",
+    "files": 1019,
+    "bytes": 19870401,
+    "archive": "evidence/q2-hc-down-wide-micro-r1/source.tar.gz",
+    "archive_sha256": "9442910a3871a4d835c0541c03f3f27e47dde96bc0241d4fb398f7cb6fa53514",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-wide-coalesced": {
+    "fingerprint": "cbff57e1f249f8b7db6303070d8780409717959355369d9fe4a05ad5729e00ce",
+    "files": 1019,
+    "bytes": 19873154,
+    "archive": "evidence/q2-hc-down-wide-coalesced-micro-r1/source.tar.gz",
+    "archive_sha256": "84fda2aeba1a0f0e443935c85ebc68752e7c424eab6ecf2f42ecf701d830a0f8",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down-wide-k1": {
+    "fingerprint": "515300b5dbcdf1ca4aff26cb67f8417c31999177e1a70e2240fd4d98eac5c30a",
+    "files": 1019,
+    "bytes": 19870401,
+    "archive": "evidence/q2-hc-down-wide-k1-micro-r1/source.tar.gz",
+    "archive_sha256": "55fa91638ff3171436d03402dd5029fee6e39bd2a02d5115d7b1dfe74511e60b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down128-wave4": {
+    "fingerprint": "9f17f46a343b2f8cfa45b3cac988ad2dba02b02f8f197dd3c86512928720dad9",
+    "files": 1019,
+    "bytes": 19867014,
+    "archive": "evidence/q2-hc-128wave4-micro-r1/source.tar.gz",
+    "archive_sha256": "b5c52d0b51041573b9945502cca218cdc0a98a0f3937cd7c8970b4c2ba8eefef",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64": {
+    "fingerprint": "780300d29ff28176c40fcdf6e4e48baaab7d0da8060e17a59957846c68a3ea46",
+    "files": 1019,
+    "bytes": 19865386,
+    "archive": "evidence/q2-hc-down64-micro-r1/source.tar.gz",
+    "archive_sha256": "06d5ddfffc1fef2fe75aba47de7fe253e0e5e52a81c581554322d5e5b3822cc3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-k4": {
+    "fingerprint": "a7b3d387ab28ae4f4c066abb0d1f9d50f56edbd1d94fdea29b1d46f6949f73f5",
+    "files": 1019,
+    "bytes": 19865377,
+    "archive": "evidence/q2-hc-k4-micro-r1/source.tar.gz",
+    "archive_sha256": "9aaaacc72f4397ca0749a3544350c084986d52d50ad22cd52dc13d78a98430dc",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-k4-invalid-epilogue": {
+    "fingerprint": "a7b3d387ab28ae4f4c066abb0d1f9d50f56edbd1d94fdea29b1d46f6949f73f5",
+    "files": 1019,
+    "bytes": 19865377,
+    "archive": "evidence/q2-hc-k4-micro-r1/source.tar.gz",
+    "archive_sha256": "9aaaacc72f4397ca0749a3544350c084986d52d50ad22cd52dc13d78a98430dc",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-k4-unsupported": {
+    "fingerprint": "a7b3d387ab28ae4f4c066abb0d1f9d50f56edbd1d94fdea29b1d46f6949f73f5",
+    "files": 1019,
+    "bytes": 19865377,
+    "archive": "evidence/q2-hc-k4-micro-r1/source.tar.gz",
+    "archive_sha256": "9aaaacc72f4397ca0749a3544350c084986d52d50ad22cd52dc13d78a98430dc",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-wave4": {
+    "fingerprint": "59a7b595a0b00e58c0e41a25d91d0f9a4df72c8c3098acbbef643faf7ad6a18a",
+    "files": 1019,
+    "bytes": 19867010,
+    "archive": "evidence/q2-hc-wave4-micro-r1/source.tar.gz",
+    "archive_sha256": "117951c05bf728d26b547eb2d034e6022bc399a28fcd6a663997b7586fda251d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-fragment-bound": {
+    "fingerprint": "24f480fefbef629f6e2ba9730104e2238144f3cb3f39efb04b9e9e1464419756",
+    "files": 1019,
+    "bytes": 19867524,
+    "archive": "evidence/q2-prefill-gap-hc-token-r1/source.tar.gz",
+    "archive_sha256": "f9783db62a0f015f972227cbb2ac4746bb362970684f7d8b12aaae0c70d1da7b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-fragment-bound-reconstructed": {
+    "fingerprint": "24f480fefbef629f6e2ba9730104e2238144f3cb3f39efb04b9e9e1464419756",
+    "files": 1019,
+    "bytes": 19867524,
+    "archive": "evidence/q2-prefill-gap-hc-token-r1/source.tar.gz",
+    "archive_sha256": "f9783db62a0f015f972227cbb2ac4746bb362970684f7d8b12aaae0c70d1da7b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-full-row": {
+    "fingerprint": "25873707aeb3aa34335d14a34b799a9349f675e8f70740d9b050a745614d7c45",
+    "files": 1019,
+    "bytes": 19870444,
+    "archive": "evidence/q2-hc-full-row-micro-r1/source.tar.gz",
+    "archive_sha256": "89ed7e66cf6e37720e239417c7e26053c86109dace57bec7d838c513750c64f9",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-half-row": {
+    "fingerprint": "5c6bd7439402a94c75aee88d544beb9c786c3e282482b28ddcdc279ac171e92c",
+    "files": 1019,
+    "bytes": 19870445,
+    "archive": "evidence/q2-hc-half-row-micro-r1/source.tar.gz",
+    "archive_sha256": "e8ea4249ad24a42edac8f8b951c0334f80215d0c130c814c65e0096f3e869aad",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-input": {
+    "fingerprint": "648f38e4944a3125832bba848c6c3155efe495a849ed6098cf8095a700eabac9",
+    "files": 1019,
+    "bytes": 19869204,
+    "archive": "evidence/q2-hc-input-micro-r1/source.tar.gz",
+    "archive_sha256": "e1adf1a1a43905c31e93cdca830ec27da0082ee6d41ccc84995d2a90bcff1222",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-input-reconstructed": {
+    "fingerprint": "648f38e4944a3125832bba848c6c3155efe495a849ed6098cf8095a700eabac9",
+    "files": 1019,
+    "bytes": 19869204,
+    "archive": "evidence/q2-hc-input-micro-r1/source.tar.gz",
+    "archive_sha256": "e1adf1a1a43905c31e93cdca830ec27da0082ee6d41ccc84995d2a90bcff1222",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-library-down": {
+    "fingerprint": "1a8b2b02b059101b9353063881f3dabe15b0d6dc00ae2f54fd6d26541c4cb690",
+    "files": 1019,
+    "bytes": 19867757,
+    "archive": "evidence/q2-hc-library-micro-r1/source.tar.gz",
+    "archive_sha256": "e36e733c6731085602652ddfff379b92b58f6a1ab17378a0596c1356ed44d6a0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-library-ragged": {
+    "fingerprint": "059be9a0c74448833d4207cf3f494c307577c192495255c50bf4c4eaf4e16d4f",
+    "files": 1020,
+    "bytes": 19888382,
+    "archive": "evidence/q2-hc-library-ragged-component-r1/source.tar.gz",
+    "archive_sha256": "aba8e5fce9cb3e55a21481bd1ce5f71e8251d46f5b15f47a2b679bdad7281d5f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-moe-fused": {
+    "fingerprint": "948f517e1b46126bfc2128e8e55c8d56bb6c1be6173c97d4b312cc77fa4e2fd1",
+    "files": 1019,
+    "bytes": 19865386,
+    "archive": "evidence/q2-hc-moe-micro-r1/source.tar.gz",
+    "archive_sha256": "fd83e01b03fcc908f3d3264067ccaa347b87db6b8a538970e5c3a052ce428f1e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-norm-half": {
+    "fingerprint": "248cca73b1ca540c62cfd35d1abb78b67cd80a2e6f895b443c221b1a9282b66f",
+    "files": 1019,
+    "bytes": 19872827,
+    "archive": "evidence/q2-hc-norm-micro-r2/source.tar.gz",
+    "archive_sha256": "bf3f4d5ec8a9e2cc6e5668b419575641ab1f35da27cc9704a39aad11fad57775",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-norm-half-rounding-r1": {
+    "fingerprint": "162c2577e9c07f2e0cc57bd35b64e076609dfbfda46d9f2dec494b63409687c0",
+    "files": 1019,
+    "bytes": 19872163,
+    "archive": "evidence/q2-hc-norm-micro-r1/source.tar.gz",
+    "archive_sha256": "09605e6438f70b1a45608d4970231e2e3728e649411382956dac7bbec5a5343d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-norm-half-unmodified-r2": {
+    "fingerprint": "162c2577e9c07f2e0cc57bd35b64e076609dfbfda46d9f2dec494b63409687c0",
+    "files": 1019,
+    "bytes": 19872163,
+    "archive": "evidence/q2-hc-norm-micro-r1/source.tar.gz",
+    "archive_sha256": "09605e6438f70b1a45608d4970231e2e3728e649411382956dac7bbec5a5343d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-prefetch": {
+    "fingerprint": "f7599f82995498cd6f235004ad34e9619fcad8e8afd74bb726abb50f99f52c8e",
+    "files": 1019,
+    "bytes": 19853663,
+    "archive": "evidence/q2-hc-prefetch-candidate-r1/source.tar.gz",
+    "archive_sha256": "d603eb18cd11762c26e5311d97663b5e779fa42626849fdeaeecffae075ab88b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-prefetch2": {
+    "fingerprint": "e6385fd38bd565b97f4dc78ab6065819d2ce1671bde2bd3090ba64fde809ebde",
+    "files": 1019,
+    "bytes": 19854100,
+    "archive": "evidence/q2-hc-prefetch2-candidate-r1/source.tar.gz",
+    "archive_sha256": "776d870c1d7f5fd1d7d51a3d78d79b04ddafa7237d401d5f14b1bd73eb5b1f7e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-prefill": {
+    "fingerprint": "1c1fc60ea8ccbee0ceed7669d1fb953365daade11ffba13eea7986d2e353f2fa",
+    "files": 1019,
+    "bytes": 19832441,
+    "archive": "evidence/q2-hc-prefill-wmma-r1/source.tar.gz",
+    "archive_sha256": "96700ecb2d46525b9840b3310fb16e0ec5bde300eb89ebfb8c020f9a20bd45d3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-row160-loads": {
+    "fingerprint": "cd75c7c28cfe3534119d59e6a1b27b153f84460fec0fbb647e9dfc46f7875a20",
+    "files": 1019,
+    "bytes": 19870972,
+    "archive": "evidence/q2-hc-row160-loads-r1/source.tar.gz",
+    "archive_sha256": "5665dfe00e62d658266520086fa9e5824f55d24684568f75039fadca28b23650",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-row160-wide": {
+    "fingerprint": "8f95b8cf44439d08ef8aa557ef6ae783bdf5ea6649ad7339c1e4890f8d3a5ec6",
+    "files": 1019,
+    "bytes": 19868894,
+    "archive": "evidence/q2-hc-row160-wide-r1/source.tar.gz",
+    "archive_sha256": "a13e4f869d4d953c92413f702f24470c2bd856768eabf0e694f33a7cccf4d09b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-row80": {
+    "fingerprint": "b1722e0b186bd26cecd852d12f6e73987de630556851beff8c197a336343b168",
+    "files": 1019,
+    "bytes": 19882650,
+    "archive": "evidence/q2-hc-row80-candidate-r1/source.tar.gz",
+    "archive_sha256": "7cb902f168849408d268f981cadd20750937be5b44c4d09cf2e1981708954208",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-sequence": {
+    "fingerprint": "4f31704f26cbe8e867051e75ee4c41144ba6297e975e5531449cad90fa05ab0d",
+    "files": 1019,
+    "bytes": 19882867,
+    "archive": "evidence/q2-hc-sequence-micro-r1/source.tar.gz",
+    "archive_sha256": "c023450b22abc21bc3b4e826d2864ea78cac7c90a2bd3464cb90b9f6fc84671a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-sequence-half-row": {
+    "fingerprint": "d09984af83445872e005035b034f4fba7a60d1c30e0459a0f01b9cc51d516e6c",
+    "files": 1019,
+    "bytes": 19884653,
+    "archive": "evidence/q2-hc-sequence-half-row-micro-r1/source.tar.gz",
+    "archive_sha256": "dc3f03a723507210c136ea78ad229218dbe02d33e5463810fb8c63c65127edec",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-single-chain": {
+    "fingerprint": "da1a8cb9252a8eb01c6d5f23e62fcb0e2603ee0c0699ba968d4baba8683d672b",
+    "files": 1019,
+    "bytes": 19869272,
+    "archive": "evidence/q2-hc-single-chain-micro-r1/source.tar.gz",
+    "archive_sha256": "ad34f258be2a579a4f931aea4f3201d52be8e77a4dc2d39d6c46540af3db8f3a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-stage-bound": {
+    "fingerprint": "b82054c35561b1c9b4b408c4017a96e3892a883e34fc22c659cd426e83f788e6",
+    "files": 1019,
+    "bytes": 19867514,
+    "archive": "evidence/q2-prefill-gap-hc-stage-r1/source.tar.gz",
+    "archive_sha256": "41f5450963bcc311dea2f8b6118ec4affc057efd7658381f3a7a48b73cdd75ba",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-stage-bound-reconstructed": {
+    "fingerprint": "b82054c35561b1c9b4b408c4017a96e3892a883e34fc22c659cd426e83f788e6",
+    "files": 1019,
+    "bytes": 19867514,
+    "archive": "evidence/q2-prefill-gap-hc-stage-r1/source.tar.gz",
+    "archive_sha256": "41f5450963bcc311dea2f8b6118ec4affc057efd7658381f3a7a48b73cdd75ba",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-up-chains": {
+    "fingerprint": "6e267b1fcf91af0d922f42ad1f06b16f323a9997f6066ad399ae7a8704de61f1",
+    "files": 1019,
+    "bytes": 19868659,
+    "archive": "evidence/q2-hc-up-chains-micro-r1/source.tar.gz",
+    "archive_sha256": "2dfcea5c4e95b7f05d61c4b92f47bb79a95d08317a65b02f6a683c84430d9ad1",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-up-fused": {
+    "fingerprint": "17d40b69850e577ad637e58b9750d1a3102e1ebced45569afa3650916fcc0f0a",
+    "files": 1019,
+    "bytes": 19855862,
+    "archive": "evidence/q2-hc-up-operators-r1/source.tar.gz",
+    "archive_sha256": "c956ef83d4b61ebaa5718cdbba92525cd1ae03944a2c14c1ae638986a3cc5825",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-up-vec": {
+    "fingerprint": "2149ed5b81dcaceab960e74e353b1773dfcc3fd5abaa6e3676c4482cb75a29ac",
+    "files": 1019,
+    "bytes": 19857360,
+    "archive": "evidence/q2-hc-up-vec-candidate-r1/source.tar.gz",
+    "archive_sha256": "94b0942fdc2d4223ba8cd8b59237c96960a724c19e11ab4abc87015772ee266c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-up-vec-exact": {
+    "fingerprint": "55a8d4b7a3ef43d6f6596d5505440d9d85766ad2ede4f8ea7c132a2ad5c4e9e8",
+    "files": 1019,
+    "bytes": 19857604,
+    "archive": "evidence/q2-hc-up-vec-exact-micro-r1/source.tar.gz",
+    "archive_sha256": "dcfb95c41543032d0ff9d908a0395289ba35b7a0bc5126943f0e5a8502ee04e1",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-iq2-pair": {
+    "fingerprint": "f3d844900671b6abe70036c3a1f3cf66f62d4afae82fe75f4a29c0802c9c59a3",
+    "files": 1019,
+    "bytes": 19846464,
+    "archive": "evidence/q2-iq2-pair-operators-r1/source.tar.gz",
+    "archive_sha256": "8e57b78c4a78669b9e175fedcd85959619fc952481ba0905865b712807da628f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-library-norm-bound": {
+    "fingerprint": "abf9fcf80d04af5f82b7e3b7b71750683fd51c656425eec653182311d64f5803",
+    "files": 1020,
+    "bytes": 19888286,
+    "archive": "evidence/q2-decode-baseline-q2-r1/source.tar.gz",
+    "archive_sha256": "40d847571a292cb61573d44ae43a0234fa785defd2f90d3aaf1c046a4b855455",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-library-norm-cycle": {
+    "fingerprint": "0cd768b281fcfa607c33dc5dd5251a7d7dde65fd259a948305e03d85040f6a97",
+    "files": 1020,
+    "bytes": 19888284,
+    "archive": "evidence/q2-library-norm-component-r1/source.tar.gz",
+    "archive_sha256": "84f14a50a260418d35dae8c48e889ffbdf6659373363ecbed3f1d86e127899b3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-narrow-vector": {
+    "fingerprint": "42313e714fbec03a7cb3815212bceb29d15e2d5d9b41920ae4a3e06302d8ae1b",
+    "files": 1021,
+    "bytes": 19875457,
+    "archive": "evidence/q2-narrow-vector-r1/source.tar.gz",
+    "archive_sha256": "a2aa1019e820da38ea6431c586f74d03cbc472a5fd4561a69e7dd7f32a22973e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-narrow-vector-replay": {
+    "fingerprint": "42313e714fbec03a7cb3815212bceb29d15e2d5d9b41920ae4a3e06302d8ae1b",
+    "files": 1021,
+    "bytes": 19875457,
+    "archive": "evidence/q2-narrow-vector-r1/source.tar.gz",
+    "archive_sha256": "a2aa1019e820da38ea6431c586f74d03cbc472a5fd4561a69e7dd7f32a22973e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-packed": {
+    "fingerprint": "88996fc2ee3c98df1424bbaf4b7657960e4253cf405defcd8d58627254c80d11",
+    "files": 1019,
+    "bytes": 19852231,
+    "archive": "evidence/q2-packed-operators-r1/source.tar.gz",
+    "archive_sha256": "458d9b251b7c963df1975fda9f632d41d2eb8b29b43788602b185362bc66aaef",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-ple-lookahead": {
+    "fingerprint": "563210fcfe03a9b7a1d71189815f202229f00440e8ab637458b6955e546593ef",
+    "files": 1019,
+    "bytes": 19869447,
+    "archive": "evidence/q2-ple-lookahead-cpu-r1/source.tar.gz",
+    "archive_sha256": "3ce99afc292a71c99a09fe244948ecc7f0ff11cb3d32688ae550d0b44928e05d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-ple-lookahead-reconstructed": {
+    "fingerprint": "563210fcfe03a9b7a1d71189815f202229f00440e8ab637458b6955e546593ef",
+    "files": 1019,
+    "bytes": 19869447,
+    "archive": "evidence/q2-ple-lookahead-cpu-r1/source.tar.gz",
+    "archive_sha256": "3ce99afc292a71c99a09fe244948ecc7f0ff11cb3d32688ae550d0b44928e05d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-scaled-input": {
+    "fingerprint": "cd59dfb408089b5ef4be43acbdb69af706aeb14a5c65b032bdfc971134642d8b",
+    "files": 1020,
+    "bytes": 19873493,
+    "archive": "evidence/q2-scaled-input-component-r1/source.tar.gz",
+    "archive_sha256": "f1b86167b565513f5a9f704fceba8561752cfd010d0c029d08873022eee26419",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-scaled-library": {
+    "fingerprint": "56c6433c69065f4969cbbdfae129f342c8727a8df77d474a26a50c64a7e620fe",
+    "files": 1020,
+    "bytes": 19874076,
+    "archive": "evidence/q2-scaled-library-component-candidate-r1/source.tar.gz",
+    "archive_sha256": "4662ce1897446d8c5f922e440fe8bd13993fb89be5b3c4d96268998515655ea3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-scaled-tiles": {
+    "fingerprint": "a39218d2a6e4ee361459539449c2f879459916a581418f434ed59111ef3c8b8d",
+    "files": 1020,
+    "bytes": 19873650,
+    "archive": "evidence/q2-scaled-tiles-r1/source.tar.gz",
+    "archive_sha256": "554cb38fafac4f27de097ec4acfa39f2c5a49498731ca09059996ac2c15b67dd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-shared-overlap": {
+    "fingerprint": "9c8e8c16dbdb9c7dd3c88f12f3527653b3146f32356d5a386938f173189cc649",
+    "files": 1022,
+    "bytes": 19878545,
+    "archive": "evidence/q2-shared-overlap-check-r1/source.tar.gz",
+    "archive_sha256": "dd87edf77f7d24061627b59c999c1092172ff6d38b53cbb0e44a2c4c89d0a5cf",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-stack": {
+    "fingerprint": "3566aa814fe4ba6d6d4e0aa1aee995bd03792b7913fae235d293b65088ad7fdd",
+    "files": 1019,
+    "bytes": 19839640,
+    "archive": "evidence/q2-stack-operators-r1/source.tar.gz",
+    "archive_sha256": "728e8b12e55d43751992492de5235de5cef9df6f84f7582456fab295cc924fa7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-staged-palette": {
+    "fingerprint": "aa730622bb81bf798dabb02466be15f5f46d792163e0c5f07aa0e09fba1def80",
+    "files": 1019,
+    "bytes": 19868979,
+    "archive": "evidence/q2-staged-palette-operators-r1/source.tar.gz",
+    "archive_sha256": "4c1781f91d9bdd2c9ea4962e23576a0b2a2f96af73d179454987852560b36656",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-staged-weights": {
+    "fingerprint": "7046c3cb06911c74eb5f741dd7688f7358b55d11b6325d72a73c625768cad7e9",
+    "files": 1019,
+    "bytes": 19867644,
+    "archive": "evidence/q2-stage-operators-r1/source.tar.gz",
+    "archive_sha256": "74d51056b2f9f69c96eae9ddd9af6b5735f96b9c414b987a5ab28a4c86663f1a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-staged-weights-reconstructed": {
+    "fingerprint": "7046c3cb06911c74eb5f741dd7688f7358b55d11b6325d72a73c625768cad7e9",
+    "files": 1019,
+    "bytes": 19867644,
+    "archive": "evidence/q2-stage-operators-r1/source.tar.gz",
+    "archive_sha256": "74d51056b2f9f69c96eae9ddd9af6b5735f96b9c414b987a5ab28a4c86663f1a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-wide-barrier": {
+    "fingerprint": "3d6063c47c2a72a2b902c01cf83dd1cb66226d1629688586eac9b3ef79f4f0c7",
+    "files": 1019,
+    "bytes": 19830536,
+    "archive": "evidence/q2-register-operators-r2/source.tar.gz",
+    "archive_sha256": "3f6c07840ad3929304636343fd79ff239659c9b6b624f982818b03edc97f6591",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-compact-expert-chain-run": {
+    "fingerprint": "160cff06054defc230300c853ea1236a8ea48e145ce94031b7e28aa62b2d42d2",
+    "files": 1028,
+    "bytes": 20090270,
+    "archive": "evidence/q2-compact-expert-chain-local-stage-component/source.tar.gz",
+    "archive_sha256": "03986a89d9e9c07e590cd02fd3705854108cfb86e1bcfea0bf53979fc8d0ab39",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-compressed-cache-r2-run": {
+    "fingerprint": "6defe7fefcee84de1524f8d00d7cc1225f4bd103d48f9361ea36a7eaff5c0aad",
+    "files": 1030,
+    "bytes": 20041496,
+    "archive": "evidence/q2-compressed-cache-stage-component/source.tar.gz",
+    "archive_sha256": "aebd5f0beba61d969ca048e37d1ba9051bf42c29aaf500dce70acee57be1287f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-epilogue-break": {
+    "fingerprint": "9de1240c54f05da261e4778195f098dad6e68e0aac61804ad17c8d054313700b",
+    "files": 1020,
+    "bytes": 19890417,
+    "archive": "evidence/q2-iq2-epilogue-break-r1/source.tar.gz",
+    "archive_sha256": "8c20a7164dea10d636d71fb4ff41308a326b9ce12b5b76626d97227a14721806",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-live-epilogue": {
+    "fingerprint": "47b4fc5387435a53694d948ac65c27a60a3b05a124eff906e0898d2f25c113c9",
+    "files": 1020,
+    "bytes": 19890341,
+    "archive": "evidence/q2-iq2-epilogue-continue-r1/source.tar.gz",
+    "archive_sha256": "1cb18542f068b5b52f96615ca66256f1c4c4b234d7575bab745888598a746c68",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-live-stage": {
+    "fingerprint": "7d06d4cfa6ee37aaeeb71fbb7d3f1d66c5863d8f21719ccc83b5e950f5c5df0b",
+    "files": 1020,
+    "bytes": 19890346,
+    "archive": "evidence/q2-live-stage-candidate-r1/source.tar.gz",
+    "archive_sha256": "1392efd4b1766c28c274a6a171cea24e02fe94b28a03aad01ab5cb4adffb4c25",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-mixed": {
+    "fingerprint": "9b42b73fdd4b0e091a52b21710467d8cf5886b3ebc6ee9ae6aa3db5eed2bbdf6",
+    "files": 1022,
+    "bytes": 19893942,
+    "archive": "evidence/q2-iq2-mixed-curve-candidate-r1/source.tar.gz",
+    "archive_sha256": "53d1b766fe01672d61cda42468729505a6217645ab894a632063d4655e750b3a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-signs": {
+    "fingerprint": "babd6fc29c0f8ac9300abc26291334f9a0293160257843fe64b06e6436331ef4",
+    "files": 1020,
+    "bytes": 19889784,
+    "archive": "evidence/q2-iq2-signs-candidate-r1/source.tar.gz",
+    "archive_sha256": "a88cd157a1d608bb1a7c4a28f0d70d4f963e6b2571edc47a0962e908e64ff98a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-signs-ordered-asm": {
+    "fingerprint": "51fa5ec84ec9e5dccb9979fb00523ec75dc68b88fa279ce87b709cdf9b45a723",
+    "files": 1020,
+    "bytes": 19890015,
+    "archive": "evidence/q2-iq2-signs-ordered-r1/source.tar.gz",
+    "archive_sha256": "6abb3584e855c19a6a533c16bb45daef8a600f7a0c460d172808a1795ee4737d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-wmma-signs": {
+    "fingerprint": "6fe230ff1c1be5e2dbb3844e06b4fc78dc2138fb14ea1eb47e5fd7f4d2654c0c",
+    "files": 1020,
+    "bytes": 19890291,
+    "archive": "evidence/q2-iq2-wmma-candidate-r1/source.tar.gz",
+    "archive_sha256": "1e6a73aadb4c7e0eed1e70d31628b41f225a43aa4ef2c2d1da2fbc70d843a68a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-ple-cache-first": {
+    "fingerprint": "16ba1c4a430bd0bfaf935679e2ddd287f0b658ce206a6a6927c245cadd74878e",
+    "files": 1020,
+    "bytes": 19889376,
+    "archive": "evidence/q2-ple-wmma-host-r1/source.tar.gz",
+    "archive_sha256": "4472f0f722ece5d8544f0a5c77253b709d3f34a5994482fa446d760cf7d7f7f0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-ple-ordered": {
+    "fingerprint": "a67eed2fcbd175f12609d4874a9a5dd39717aada9c1803879662240518d5643e",
+    "files": 1020,
+    "bytes": 19890024,
+    "archive": "evidence/q2-ple-curve-candidate-r1/source.tar.gz",
+    "archive_sha256": "7990e5b2f769c4e05d38437805522fe51073826b1729d246789abd9418fd5944",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-ple-q2": {
+    "fingerprint": "bc03a717875e3d957e0c2f8803d2ccf0663cca521602d7b12c880ce60cf02a1d",
+    "files": 1022,
+    "bytes": 19895034,
+    "archive": "evidence/q2-canonical-ple-q2-r1/source.tar.gz",
+    "archive_sha256": "ada31edb9d75560e69026fac5a8a64d33f2fc8dd6593ac5dfb12bd7c5c325682",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-ple-ud": {
+    "fingerprint": "018e4434279dcf304c3594272d6af6d78c2616895e9a3a6f3899fdd8eb32a5e4",
+    "files": 1021,
+    "bytes": 19826477,
+    "archive": "evidence/q2-canonical-ple-ud-r1/source.tar.gz",
+    "archive_sha256": "d8f63939df5db47ac9a50ef76ae6bcf9e2d18764c23ddbe18a0cef204fe67998",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-route-profile": {
+    "fingerprint": "2620552011524e95b5e2583dec7af1233c6c33b025e7673dbc6607d0bbf78d6c",
+    "files": 1021,
+    "bytes": 19894055,
+    "archive": "evidence/q2-route-profile-model-r1/source.tar.gz",
+    "archive_sha256": "3798be7ac2bee038fb042c54e22586bfac3d1320979d7efdff66fe5f4ebcd2a7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve256-headroom-q2": {
+    "fingerprint": "f0275d7ce2c882f8e6b60dd65ceaa6e23d9638334719673c237472c51bb0e851",
+    "files": 1028,
+    "bytes": 20047850,
+    "archive": "evidence/q2-curve256-retained-r3/source.tar.gz",
+    "archive_sha256": "45ff6d85b202f029bbf3208a2acd94fc63ca739c6573a5078a5718d5919432a2",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve256-headroom-ud": {
+    "fingerprint": "5a070e3eb0c48cd2f4ca415c5de2a86f6212627204bbcc086a5106698b685fa4",
+    "files": 1019,
+    "bytes": 19821788,
+    "archive": "evidence/q2-curve256-ud-r3/source.tar.gz",
+    "archive_sha256": "6ad0a18c47a5f327b60eebe48f26d6bfb74ee38f5ac7adc27b0e5e3ebc6c4ed1",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-fixed-bounds-run": {
+    "fingerprint": "b3bb8759a490eb7df08adf9b7174026de51671194309c10e27035f61d327c57c",
+    "files": 1029,
+    "bytes": 20087309,
+    "archive": "evidence/q2-down-fixed-bounds-component-r1/source.tar.gz",
+    "archive_sha256": "9c191a4ccf7522dc863d0a729848b8cf132eea392d964bd341dbe9d76d1e8899",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-fixed-contract-run": {
+    "fingerprint": "d34b5e7f309a69a002460d1581df4eb3585e627bacdbdc82f749d4b6e378525c",
+    "files": 1029,
+    "bytes": 20087511,
+    "archive": "evidence/q2-down-fixed-contract-component-r1/source.tar.gz",
+    "archive_sha256": "58de4f9ea59f87778a0bff4a334a23650ebebfc67a702f393cbe3f7694e9f97f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-half-pair-run": {
+    "fingerprint": "4752a3769838513eb3f766c2c2de14a56461ca1c8da802f3251794969668b027",
+    "files": 1026,
+    "bytes": 19994857,
+    "archive": "evidence/q2-down-half-pair-staging-r1/source.tar.gz",
+    "archive_sha256": "2a52ebaf071ca6239b72596fefa98b26c76b9db9db5fa772730a48e547ba2fc8",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-half-storage-run": {
+    "fingerprint": "a034b594ceb4cd429f06b668cfb9dc9f72432a3558869c3e234b5514b4dea950",
+    "files": 1026,
+    "bytes": 19992783,
+    "archive": "evidence/q2-down-half-storage-staging-r2/source.tar.gz",
+    "archive_sha256": "f7088876f38938495192ee8f5c228df967a983320c56bfd687cff8a1a721c310",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-half-vector-run": {
+    "fingerprint": "ea8ef0f335a8ff52285792b76bae50d99be61886ea568e4e0e2a99f8d822c874",
+    "files": 1026,
+    "bytes": 19995700,
+    "archive": "evidence/q2-down-half-vector-staging-r1/source.tar.gz",
+    "archive_sha256": "51dfdc57ab2dadf7bceb4bcbd26e571225ae0c3732988b751cacf3ba5e73f871",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-live-stage-run": {
+    "fingerprint": "0b2cc24589e0bfd41e07d1663462ddb8ca6bba4d80edd065f5de8ddca50b187c",
+    "files": 1025,
+    "bytes": 19947864,
+    "archive": "evidence/q2-down-live-stage-staging-r1/source.tar.gz",
+    "archive_sha256": "0ca8a74a7e7e0a259177d7f3de13c2ae8f6e856c1f450baf8c3b272587a6750c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-output-reuse-run": {
+    "fingerprint": "ac235a10f8697196af461575d9c939582755e12d0818d62f7a9898abd4575ec3",
+    "files": 1025,
+    "bytes": 19947674,
+    "archive": "evidence/q2-down-output-reuse-staging-r1/source.tar.gz",
+    "archive_sha256": "b1cefecf5afff200cc77163a62ecdad692ae1faef344ad3f50a8e298511261b3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-raw-prefetch-run": {
+    "fingerprint": "dcd30dbd91147f9933464b6116856ec4d77c52630440d888a1676600e0d5a0a5",
+    "files": 1025,
+    "bytes": 19948109,
+    "archive": "evidence/q2-down-raw-prefetch-staging-r1/source.tar.gz",
+    "archive_sha256": "a8a4cccea286dd6f5c6d6f4cdc63df7b646a7944eb27dccd82c784d56ea5c0ed",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-register-palette-run": {
+    "fingerprint": "fd509e6e6714df9e2e683655b18ceeef76ce6c08f199b8024ea05d44a3e35eb7",
+    "files": 1028,
+    "bytes": 20053033,
+    "archive": "evidence/q2-down-register-palette-stage-component/source.tar.gz",
+    "archive_sha256": "ecfda9319a686c038abe3b91a3d0d73ffc7fb066a3b126da31aef3d163d94f8e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-register-scatter-pair-run": {
+    "fingerprint": "5803ef2a95569a614745b874144fcc5cbe68168d7fec9bef037c9612477e202f",
+    "files": 1027,
+    "bytes": 20012469,
+    "archive": "evidence/q2-down-register-scatter-local-stage-component/source.tar.gz",
+    "archive_sha256": "3032dad677b6d42c144ade8dab34d3a37fc4295929269b6eb7872b27c4f4337d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-expert-cache-r3-run": {
+    "fingerprint": "cc19359dbdd912254ccd65d24db998968f0083ca819822409cee0d43cc10d2f1",
+    "files": 1029,
+    "bytes": 20034035,
+    "archive": "evidence/q2-expert-cache-stage-component/source.tar.gz",
+    "archive_sha256": "a42a62c44eab6daa747d7726c00346cd6361abb50ecf9bc47826349e46fdfcc3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-half-consumer-eight-run": {
+    "fingerprint": "b1c0a0bd60c8d1ef15672acbdff7b653580f757f676cf4d945b68991f155b2fd",
+    "files": 1026,
+    "bytes": 19996748,
+    "archive": "evidence/q2-half-consumer-eight-staging-r1/source.tar.gz",
+    "archive_sha256": "4e9e50e6608619b17daa2f80e277ffed21ba40384af20abc2f1e6ffe38a104d8",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-half-fixed-width-run": {
+    "fingerprint": "aff4dac11c4d82cd055d0503cdab0b854014a5edd288e0d06049d1d32d44817d",
+    "files": 1026,
+    "bytes": 19996880,
+    "archive": "evidence/q2-half-fixed-width-staging-r1/source.tar.gz",
+    "archive_sha256": "677282877b5815be6f5816543869eaaf32ec6a5b58ed8be3e20a4869cbff36fd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-bk128-double-run": {
+    "fingerprint": "e2edb663da353554f46965b0cdb6c159dbeac11303f95a4e35ff0c3685d47d67",
+    "files": 1023,
+    "bytes": 19905691,
+    "archive": "evidence/q2-hc-bk128-double-component-r1/source.tar.gz",
+    "archive_sha256": "05d3a537b05257a3df72752a80e9a4661c7657b354cc5ea92c848bb528a469e6",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-bk128-single-run": {
+    "fingerprint": "b57ea4d0a0df79a57b5fa55af4ce241ec1c2de24409018a41fb6b725ff82472f",
+    "files": 1023,
+    "bytes": 19905691,
+    "archive": "evidence/q2-hc-bk128-single-component-r1/source.tar.gz",
+    "archive_sha256": "aa28d34d50d3a6c2f603e4e0cd5dcf80d95ca432ce306c2509cee2afe69f1d74",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-bk256-bounded-run": {
+    "fingerprint": "7b39aa77e771d0bcdf7c7a9f47b72832bf4a38dc337383b54829ebea28b2dae1",
+    "files": 1023,
+    "bytes": 19905691,
+    "archive": "evidence/q2-hc-bk256-bounded-component-r1/source.tar.gz",
+    "archive_sha256": "c430139d5f41aee26cd22505aa6a6bbcd50d3216c113ecb239dd7242e94f7779",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-bk256-initial-run": {
+    "fingerprint": "b4e944763fe3bc76fe93626f207362852c60ba26c57a3fd849cb67eb5bee6d7c",
+    "files": 1023,
+    "bytes": 19905689,
+    "archive": "evidence/q2-hc-bk256-initial-component-r1/source.tar.gz",
+    "archive_sha256": "5911bf30de671d108b672ebd2f487fb1c3e8f9b78898583ca3449899b0b9fe9e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-bn64-output-run": {
+    "fingerprint": "7149c6966a0cb36bb6fe7b2b8a31151a9ca511bb7d334a187db7fd2b4079699d",
+    "files": 1023,
+    "bytes": 19905691,
+    "archive": "evidence/q2-hc-bn64-output-component-r1/source.tar.gz",
+    "archive_sha256": "6183e4f82d0d84275ba63572cf439eadbd59fdea1d44c22435b3c1660627735e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-bn64-token-run": {
+    "fingerprint": "b2baa96ed1f9a584ee3b998c51d169d222a8032f1d6b18d1e272559bd3df0aa6",
+    "files": 1023,
+    "bytes": 19905691,
+    "archive": "evidence/q2-hc-bn64-token-component-r1/source.tar.gz",
+    "archive_sha256": "9b820ff1c6e0a0081880dc42fa3987bd28c95036a662d8d44ed69114cf55635e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-inject-raw-q8-run": {
+    "fingerprint": "1b0cb284ab7634cd03d69672881ebd5ab1030c37b1644d674105c8fb046f64bb",
+    "files": 1030,
+    "bytes": 20078310,
+    "archive": "evidence/q2-hc-inject-raw-q8-model-r1/source.tar.gz",
+    "archive_sha256": "061bdb54248c8e841331d2fad0b58dbd903e9b0b44453c19182b39e26402ff0f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-library-reconstructed": {
+    "fingerprint": "1a8b2b02b059101b9353063881f3dabe15b0d6dc00ae2f54fd6d26541c4cb690",
+    "files": 1019,
+    "bytes": 19867757,
+    "archive": "evidence/q2-hc-library-micro-r1/source.tar.gz",
+    "archive_sha256": "e36e733c6731085602652ddfff379b92b58f6a1ab17378a0596c1356ed44d6a0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-moe-deferred-run": {
+    "fingerprint": "0d83d1a6d66d9540151ec8cc2c29999203426a1746c7aeb07a7e27844d11f2e9",
+    "files": 1025,
+    "bytes": 19939173,
+    "archive": "evidence/q2-hc-moe-deferred-model-r1/source.tar.gz",
+    "archive_sha256": "0bf5b0954075b1d40b9d4494e7036ee9936d457529089a4cfdd35eceac829ee4",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-rms-owner-ordinary-run": {
+    "fingerprint": "f6c7a0c5e85d66c8b0d938e8d00aa7167b176b3dafda4ecbb6cc2ef95c5c8088",
+    "files": 1028,
+    "bytes": 20017813,
+    "archive": "evidence/q2-hc-rms-owner-ordinary-model-r1/source.tar.gz",
+    "archive_sha256": "ea60805ba292f9973f386646d2689265e7a65d1a244bf1c3c4ba00ab633d7e9a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-up-short-chain-run": {
+    "fingerprint": "3b522dcc03572c6e93ba6592d361d76af3f0cf4811f3b8b474f32a03aece98f3",
+    "files": 1029,
+    "bytes": 20090430,
+    "archive": "evidence/q2-hc-up-short-chain-model-r1/source.tar.gz",
+    "archive_sha256": "c1e4c96fd4e1d431af23f01635f06410474e0157486fb922e81bdf73369f75e7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-dpp-commit-run": {
+    "fingerprint": "20fe879117df16e38f47f4e5c85a741b11d9c07546825f26babc6d4fc06b9cb7",
+    "files": 1029,
+    "bytes": 20081297,
+    "archive": "evidence/q2-iq2-dpp-commit-component-r1/source.tar.gz",
+    "archive_sha256": "4dbcdabd5029d880f4b81dd2fca6c7b9f381885f84c4341d6324da76ac7db4ad",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-fixed-bounds-run": {
+    "fingerprint": "d92422c63f29c6e54ee4b2dd2c074bf2ec48d5d363f92e5b35c973e3ea2d1c40",
+    "files": 1028,
+    "bytes": 20046872,
+    "archive": "evidence/q2-iq2-fixed-bounds-component-r1/source.tar.gz",
+    "archive_sha256": "35d71727b816e6edfb691e2bc762e4b80f159caef23b89e7b84baf4f28546614",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-four-wave-run": {
+    "fingerprint": "637e1051a5461cb10f59725910afbbffefe43401e8db433e630e996edaed5907",
+    "files": 1027,
+    "bytes": 20015197,
+    "archive": "evidence/q2-iq2-four-wave-stage-component/source.tar.gz",
+    "archive_sha256": "909c615e398a86574a4f6bcecb1a5213b9825b3b6e3e831a2897c1bcc3294461",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-fused-grid-run": {
+    "fingerprint": "fc18fe4c0bf6e90f493ff85ad9b9b281d2fc4e9a03048978c305f35d1c7ee043",
+    "files": 1026,
+    "bytes": 20745010,
+    "archive": "evidence/q2-iq2-fused-grid-staging-r1/source.tar.gz",
+    "archive_sha256": "5ff85e42064bfcc0f95e701b0597e116fbb53dea9d1d98d0278e4944093ae709",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-half-sign-arithmetic-run": {
+    "fingerprint": "05d7f726f45d6d17f1e314124449f9f3a59ee3e9725af4786adcf6f4c325abe8",
+    "files": 1028,
+    "bytes": 20047333,
+    "archive": "evidence/q2-iq2-half-sign-arithmetic-component-r1/source.tar.gz",
+    "archive_sha256": "2e0d34b811475b41456e120a46bccaea0bba283457c4b817463556d81ba02cf9",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-halfbyte-perm-formatted-run": {
+    "fingerprint": "eae2b85c971ba0b125ef35c259a9b64f69b2357cd1278957d4aaef30fd382790",
+    "files": 1025,
+    "bytes": 19946833,
+    "archive": "evidence/q2-iq2-halfbyte-component-r1/source.tar.gz",
+    "archive_sha256": "153b2deec3187dabfdc54257e37cb8427551c9d4949d6fa12150304f5c052794",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-halfstage-swizzled-run": {
+    "fingerprint": "635158bc1347d6ec2caa3a885241530fcfd49f819a66bb2e09591572ee7baa60",
+    "files": 1025,
+    "bytes": 19941690,
+    "archive": "evidence/q2-iq2-halfstage-component-r1/source.tar.gz",
+    "archive_sha256": "b0f81d268c9b3583833cec9628b3ea06dbff683c53ac6f55022e635f47fb401c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-lane-commit-run": {
+    "fingerprint": "ba78bbf361c9f76ba9c58f6d8a8cc636efe00422222898bf5e5d0dd69cd15406",
+    "files": 1025,
+    "bytes": 19947488,
+    "archive": "evidence/q2-iq2-lane-commit-staging-r1/source.tar.gz",
+    "archive_sha256": "eeb3347d60ff15b7fd238eacba62575be23845d5f3794f0bfa544250c53794cd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-live-compose-run": {
+    "fingerprint": "1acdfe62f39881e193ad935582cfbe2946657bb1edfc66d0766f17ccb7cd7706",
+    "files": 1025,
+    "bytes": 19947819,
+    "archive": "evidence/q2-iq2-live-compose-staging-r1/source.tar.gz",
+    "archive_sha256": "9ac7052a1983b9dec5f1f2392ffaf009245b55567d24495332c46a7d0ecae945",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-pair-commit-run": {
+    "fingerprint": "4f5226f60a7fc0e1ac6695389830159f48202279022243793873824f553217e8",
+    "files": 1025,
+    "bytes": 19947307,
+    "archive": "evidence/q2-iq2-pair-commit-staging-r1/source.tar.gz",
+    "archive_sha256": "7048be41e6ef43b090739da1df59e546635770be6c824cf24a75320661562820",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-prefill-grid-lds": {
+    "fingerprint": "0aa975bde39f50709d6bbaf7c44b519a17f77d11a15f365d8848a6ed030d69b8",
+    "files": 1020,
+    "bytes": 19890405,
+    "archive": "evidence/q2-iq2-prefill-reuse-grid-r1/source.tar.gz",
+    "archive_sha256": "b5396c5bd8c2e3198b98b1229cd4039294ac7f773c9bc0fc493071f7e4d1a932",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-prefill-scale-reuse": {
+    "fingerprint": "5551a9387974f985f676a8c0cc5709abb0810aa25062bf9c9d7667cdd20006bb",
+    "files": 1020,
+    "bytes": 19890307,
+    "archive": "evidence/q2-iq2-prefill-reuse-scale-r1/source.tar.gz",
+    "archive_sha256": "b03ac037086241bdf95000effde7f8c8a0df4fe48790920a59beac1da7a9822c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-raw-prefetch-run": {
+    "fingerprint": "1163cf7988b1772e8fff7a9166e4d834d0a6247a2b4d4c3553454e643950a9bf",
+    "files": 1025,
+    "bytes": 19947376,
+    "archive": "evidence/q2-iq2-raw-prefetch-staging-r2/source.tar.gz",
+    "archive_sha256": "76667a8a35e4eaad9fa3dfdd336bae921cccdaa0b455f7a19cbb6118dfe28eec",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-raw-selective-run": {
+    "fingerprint": "60c1d6121490a96338020b1074d1ec77110b87f1d9a24e3dd82bef50abb2087c",
+    "files": 1027,
+    "bytes": 19953315,
+    "archive": "evidence/q2-iq2-raw-selective-staging-r1/source.tar.gz",
+    "archive_sha256": "f2f268d9687e6a425684f2c2288214bcd38ba84efbbe1bb5c5ab4962ae31c9db",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-register-stage-v2-run": {
+    "fingerprint": "22bd21c0072dd747dd95fea10a1a46243d512c5933e116b49ab4c9fd5d1ff689",
+    "files": 1028,
+    "bytes": 20048873,
+    "archive": "evidence/q2-iq2-register-stage-stage-component/source.tar.gz",
+    "archive_sha256": "5cd88d6595726e3770251530422b3a978bd94724a5895c0ac52a9b804ef84c7f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-short-tiles-counted-run": {
+    "fingerprint": "b38c5c92e4c67a6e76959137b1a00f8d7d93a1a383217354a9da3d3a9dd66a5d",
+    "files": 1027,
+    "bytes": 19951417,
+    "archive": "evidence/q2-iq2-short-tiles-staging-r1/source.tar.gz",
+    "archive_sha256": "84844ef74f7022ed7208308418ae323fbb7bf8c16221b5bd3e20d37570805bbd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-sign-mask-run": {
+    "fingerprint": "f5f5de91feecf772f5d361ea3170b0cf6ca6e90c213ecf2069a8fbb5b91fadb4",
+    "files": 1026,
+    "bytes": 19950870,
+    "archive": "evidence/q2-iq2-sign-mask-staging-r1/source.tar.gz",
+    "archive_sha256": "a1c1e100bdf1c3ebfa1775cdb7e20bf4051d8162597f0db9744d591c09f6b1f7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-slice-commit-run": {
+    "fingerprint": "00d91ad694d4100b57a69d75abef16b05cc3690b6c6ac8c59656f7ef8db98a8c",
+    "files": 1025,
+    "bytes": 19947170,
+    "archive": "evidence/q2-iq2-slice-commit-staging-r1/source.tar.gz",
+    "archive_sha256": "3192ac9c89b9d9ba34e0af636770d01f06310e86eabf87ed8b225887f7335cc3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-stage-layout": {
+    "fingerprint": "a63c401036959949b63ce7f849e215464a607a5b210d8ee7a5f92fb52e3604b8",
+    "files": 1028,
+    "bytes": 20048408,
+    "archive": "evidence/q2-iq2-stage-layout-r2-component-r1/source.tar.gz",
+    "archive_sha256": "a2d39c1c232066cb17b3462c258b931bb516ed9a93e82e9dd4722bd39a469565",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-table-lds-run": {
+    "fingerprint": "9e8d6764a5ed9f638df5530a9c2434cdf17be1d086e5e6075f869d975f2aa398",
+    "files": 1029,
+    "bytes": 20080964,
+    "archive": "evidence/q2-iq2-table-lds-component-r1/source.tar.gz",
+    "archive_sha256": "8bf82eecd94049697b3f76d935070f34e32531a0106d2cd89ba764ec8c942e7f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-tail16-counted-run": {
+    "fingerprint": "a5688e0687839eae340223029461b102492046cb0ea8d8b02eef71bae93f0395",
+    "files": 1029,
+    "bytes": 20016909,
+    "archive": "evidence/q2-iq2-tail16-stage-component/source.tar.gz",
+    "archive_sha256": "33e4e05ca8cb508964d3e2511ab11742e20474c66b9a7a8823437cd9b9fb5ce8",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-token256-probe": {
+    "fingerprint": "a06f814904342f7c852a6470c08eb9af3fd80e8b93816723bdb33fbe09e05f78",
+    "files": 1028,
+    "bytes": 20047674,
+    "archive": "evidence/q2-iq2-token256-component-r1/source.tar.gz",
+    "archive_sha256": "9b348f050ab7a86fe6bf353e7f918c38ce0788993bba7e03c0b7731d932f8365",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-whole640-chain-run": {
+    "fingerprint": "80d9d43e2d0948a6ac13394340296fefd6852ab0f28692e918a8e92bfc4189f2",
+    "files": 1034,
+    "bytes": 20068748,
+    "archive": "evidence/q2-iq2-whole640-chain-component-r1/source.tar.gz",
+    "archive_sha256": "63fd926c8822c9461a7137be6669b6204eb965d158f7930d5afbec3d44845885",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-wide-pair-run": {
+    "fingerprint": "0223aeff38cf3660243ec601e5534c8d2a3e9a06ace9b02ab5359d9cc2e20b48",
+    "files": 1025,
+    "bytes": 19949572,
+    "archive": "evidence/q2-iq2-wide-pair-staging-r1/source.tar.gz",
+    "archive_sha256": "315c94aa685cd3101d87be1495e765146c83a5fbcd21fc753a246a9c0c8a634f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-norm-fixed-shape": {
+    "fingerprint": "fc6b1073c2d0eddc615eda59dfd2b6bb6ecacea6dfc66019eade27d3dde29cdc",
+    "files": 1022,
+    "bytes": 19894374,
+    "archive": "evidence/q2-norm-fixed-candidate-r1/source.tar.gz",
+    "archive_sha256": "f6b351ba70d25a29f5230f940c5372f89fff262b78a0ff385cd2a05c6ac1a8ae",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-norm-ragged": {
+    "fingerprint": "b89558f507b3e945eac2bd63945de7bf51741c8768f5a927336cd7a072081cbe",
+    "files": 1020,
+    "bytes": 19890033,
+    "archive": "evidence/q2-norm-ragged-component-r1/source.tar.gz",
+    "archive_sha256": "0dbeba24f8f3d68c7af43898ddb9666239406e248e6e8be4d2ec1db2ae03aae1",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ple-row-bytes-run": {
+    "fingerprint": "465d701ee32a56491709faefa9705eea68813a86c99dbf0033eea895ebbcb610",
+    "files": 1028,
+    "bytes": 20047377,
+    "archive": "evidence/q2-ple-row-bytes-r1/source.tar.gz",
+    "archive_sha256": "c6bdc2970f61d3804500d11d3648130ff69de08f429fdd8924ff83c3f8957cde",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-producer-q8-bounded-run": {
+    "fingerprint": "68592ce808ab4697fbf628c8b5e24c38d87bf08f8c58f7edebfe83aa28b56305",
+    "files": 1029,
+    "bytes": 20057947,
+    "archive": "evidence/q2-producer-q8-local-stage-component/source.tar.gz",
+    "archive_sha256": "cca7216a3c671ab03c46cc89828105e773f408a34d2d343863f89a5f78bd285e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q8-aligned-pair-run": {
+    "fingerprint": "8e52504c4e1950c24c039b2e0d99b978d0c569139731c6671a60ec7632a781f8",
+    "files": 1026,
+    "bytes": 19998679,
+    "archive": "evidence/q2-q8-aligned-pair-staging-r1/source.tar.gz",
+    "archive_sha256": "ed602c0f2b1a280c99c430990bdce77dee4296443450292e88df47c1ff1bebcb",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q8-grouped-run": {
+    "fingerprint": "2916b45e9f956b7f226dcc55e676ee7d4fa4352cd51c13157e1efe6ff12b0779",
+    "files": 1025,
+    "bytes": 19939561,
+    "archive": "evidence/q2-q8-grouped-component-r1/source.tar.gz",
+    "archive_sha256": "eefe1ea6f9d6dd1078ff232fafd8155fe6a0d9fbd1131a148941500a4b583236",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q8-halfpair-run": {
+    "fingerprint": "5bd34b88b0fd8ac1d469d2c39aec1bbfa548a4c7610e3644e5a6f36ad8cc3c21",
+    "files": 1026,
+    "bytes": 20852314,
+    "archive": "evidence/q2-q8-halfpair-component-r1/source.tar.gz",
+    "archive_sha256": "87b5c08827009d3a4e8aebc9022f59d448138d04a1ac7375694d41b6dcc2ecc3",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q8-k16-phases-run": {
+    "fingerprint": "6275d7b2836db4b5d2abbf4f25b10cb5038b9f2ff19650ba610945945cb33055",
+    "files": 1025,
+    "bytes": 19948746,
+    "archive": "evidence/q2-q8-k16-phases-staging-r1/source.tar.gz",
+    "archive_sha256": "21ff29880e4ad9906ce7f7cede90b1d318ced3fc1b2861474ef7659450a787d7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q8-mirror-run": {
+    "fingerprint": "4fdb16ff1714cb2c98ee2bded9128c6be15507a9e8645e9220d6ccf2b74297e4",
+    "files": 1027,
+    "bytes": 19959321,
+    "archive": "evidence/q2-q8-mirror-staging-r1/source.tar.gz",
+    "archive_sha256": "c8cd0fa65da06828d47270954cd2775d6dba0c58f4d2a87fff9d1df23e255566",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-reaudit-q8-row": {
+    "fingerprint": "f74bd32209859c83d7e9c908f372bd8ace70bc850445b37d2134cb51bdab7fc3",
+    "files": 1022,
+    "bytes": 19897351,
+    "archive": "evidence/q2-reaudit-exact-model-r1/source.tar.gz",
+    "archive_sha256": "c8f4090f3bc4e87122b78d5283a2565ed7cbe0a5269242f32d61a5d35e6cf6be",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-reaudit-q8-row-norm": {
+    "fingerprint": "c91e71056730bb9b5cd948b3e6114430639a0408c09a49ff06cd028e354ed0a6",
+    "files": 1022,
+    "bytes": 19897783,
+    "archive": "evidence/q2-reaudit-norm-model-r1/source.tar.gz",
+    "archive_sha256": "931656fc20c8e8091047c09c2f177acfe598cc9de37c91880d327bd8beb965f0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-register-reference": {
+    "fingerprint": "b16b84acf11f137c842899a2b68321e1a095c1ad5910924dc461bce91c0e587c",
+    "files": 1019,
+    "bytes": 19830160,
+    "archive": "evidence/q2-host-r2/source.tar.gz",
+    "archive_sha256": "38c199767bb323f0438feef07fce630d544bcf80b85bd908e9881044707f6695",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-scaled-expert-order-run": {
+    "fingerprint": "c4067eee0575385e7b3101f53e7f7c8ee2acbbeff9235c15e64c05e88fec955c",
+    "files": 1028,
+    "bytes": 20052913,
+    "archive": "evidence/q2-scaled-expert-order-local-stage-component/source.tar.gz",
+    "archive_sha256": "2b7975f1a12f588418099314c1a89d5775abf485f2e0ad33171e09e008e2433f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-scaled-row-reuse": {
+    "fingerprint": "c8c1999246bd7d317cda5bbf840230fcf567ba48c222534ee2172fe19a637f07",
+    "files": 1020,
+    "bytes": 19890417,
+    "archive": "evidence/q2-scaled-row-candidate-r1/source.tar.gz",
+    "archive_sha256": "d6105318f8ef8409e88c989a9f3c04a9c3f348418000edbca8a6ebe2d0657c39",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-scaled-selective-run": {
+    "fingerprint": "5e6e447c29c912b2340c7a286e65179897d6346783dc43e76fa24ed496eedfd6",
+    "files": 1027,
+    "bytes": 19945112,
+    "archive": "evidence/q2-scaled-selective-model-r1/source.tar.gz",
+    "archive_sha256": "131129a7016f9d8490f904e2a41010c54a4a674e461e7f701d23a9c441561b98",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-scaled-wave-pack-run": {
+    "fingerprint": "4c42824805c2eebaf3c98fee594bb5d1e3e5d593b1cf22b5d1b027a2a09e1597",
+    "files": 1027,
+    "bytes": 20009535,
+    "archive": "evidence/q2-scaled-wave-pack-local-stage-component/source.tar.gz",
+    "archive_sha256": "7d14e10fa16ebeb9bc6c6d4628a8a8e979722b581b86159d515448c70f5f032e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-select-live-grid-model": {
+    "fingerprint": "9cf12f46fc6b09b738b8d85a3e0201a076f74305c35e88055496e141ff591650",
+    "files": 1028,
+    "bytes": 20047293,
+    "archive": "evidence/q2-select-live-grid-model-r1/source.tar.gz",
+    "archive_sha256": "e36f519d776d5f8f281a7309a5e5b458c9abc8a3eaa4023e21a2602f17163d6d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-down-fixed-run": {
+    "fingerprint": "96f3efdf3ef636d0a0f0bf4c58a0792fe2767fddc27a1defa76e47bb218d852a",
+    "files": 1028,
+    "bytes": 20063802,
+    "archive": "evidence/q2-shared-down-stage-component/source.tar.gz",
+    "archive_sha256": "f553a56c7cccf26bdeffca4cc486f842901853d7f31bdb5311e9b02f10043d1e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-down-n64-run": {
+    "fingerprint": "f5b014f5fbbded3ff619195fbf86a8ff37cd679b16d32aa567130adb800d0772",
+    "files": 1028,
+    "bytes": 20063795,
+    "archive": "evidence/q2-shared-down-n64-stage-component/source.tar.gz",
+    "archive_sha256": "526d5d105138aeb271b2cd1b5bfa8b3be1f206a175f40d35b4ee385edce1f75b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-q8-pair-run": {
+    "fingerprint": "d6fa28946c5e23739dd43e2cb77ab41af724680940cae4cef975ffc83a365f72",
+    "files": 1027,
+    "bytes": 20009108,
+    "archive": "evidence/q2-shared-q8-pair-staging-r1/source.tar.gz",
+    "archive_sha256": "17812da322d53544157042623aa0181822e46bfc92d3cba9905e612dce9d689c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-q8-producer": {
+    "fingerprint": "216b395ae16de5dbc633ba2b63c8308a92c3c83ce85a62424af6bfc11bcab59a",
+    "files": 1022,
+    "bytes": 19896949,
+    "archive": "evidence/q2-shared-q8-producer-component-r1/source.tar.gz",
+    "archive_sha256": "f8812a1ecc1f5b844a6455540c2b97d1b834c6bbfd66530835d41e467b8d52ba",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-channel-bounds-run": {
+    "fingerprint": "94db38a0c108e74d8d1aa9628cbe62efbb4844310c9626d1573adbd330dbb3b4",
+    "files": 1027,
+    "bytes": 20013027,
+    "archive": "evidence/q2-ssm-channel-bounds-stage-component/source.tar.gz",
+    "archive_sha256": "d3c27fb7607cb8f7c6550d3be7b9f5b07992254e1a4b1579cb70a358e5c294e6",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-compact-lds-run": {
+    "fingerprint": "19e819bca5ebbb682605bb62967112e23ef95125d94052981e326e5889e07ee6",
+    "files": 1027,
+    "bytes": 20013090,
+    "archive": "evidence/q2-ssmcl-stage-component/source.tar.gz",
+    "archive_sha256": "75c04832d6ccd66c48aeeebec126470601512a8a3c4db20ce213fbd7b3a5bff6",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-fixed-bounds-run": {
+    "fingerprint": "2b4c641c1ece620c363bebc9a5e4406a517e7db21290ffdfefc45967eed5dfe1",
+    "files": 1027,
+    "bytes": 20012855,
+    "archive": "evidence/q2-ssmfb-stage-component/source.tar.gz",
+    "archive_sha256": "843f35401dce2ec9edef66fbe6ad7663c416fea17a376c430f3a5117c36a9693",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-fixed-shape-run": {
+    "fingerprint": "2f5ea7d8b842cd55223eed1cd9445e4aebc81831cd7fe252e97d3e878a0e9d85",
+    "files": 1027,
+    "bytes": 20012737,
+    "archive": "evidence/q2-ssmfs-stage-component/source.tar.gz",
+    "archive_sha256": "25597c365d1a3d2f0cafa98d7bc08e09c59594ca9b8ef51fa0c78aa152712669",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-pingpong-run": {
+    "fingerprint": "8b671896f113efb1661dd3a5d20458caccd8b466f80fa190695b9450f2341452",
+    "files": 1027,
+    "bytes": 20013696,
+    "archive": "evidence/q2-ssmp-stage-component/source.tar.gz",
+    "archive_sha256": "f70730161b8c643b66788772c2a6ad854735ecbc555e5bee631122b9212674cf",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-row-group-compose-run": {
+    "fingerprint": "f0424e1aaed5e5c0624f387766aeb45298c8bc90a7561a3c10eed86315662eb6",
+    "files": 1027,
+    "bytes": 20012489,
+    "archive": "evidence/q2-ssmg-stage-component/source.tar.gz",
+    "archive_sha256": "a83cd30fd9c28ea11ccbe82bb35b573435cd9d8f8e65bea528f2b62a8511963d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-row128-run": {
+    "fingerprint": "8de6c01ad3e604485ccc081f142ab26114c21b531b4a269d3e3330106b5328d4",
+    "files": 1025,
+    "bytes": 19946970,
+    "archive": "evidence/q2-ssm-row128-component-r1/source.tar.gz",
+    "archive_sha256": "149226ded6a1ff9977d4ddca5b114689e476b2cf62688d3744e86bf3b6f9c4ec",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-594a623": {
+    "fingerprint": "0161a1af1f0d12f9b08dff64a70d71bdc433ed740126bd78af045fead00c8790",
+    "files": 11,
+    "bytes": 655565,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-594a623.tar.gz",
+    "archive_sha256": "9464cc533f47143a655a32666e887ce06c47bf8e67d9796cc19e31349e5d2e63",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-attention-capacity-q2": {
+    "fingerprint": "b2def251360e16cdf9858ec98c022b2b3b77abba779574c10cb5d82070c6cd11",
+    "files": 1029,
+    "bytes": 20049277,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-attention-capacity-q2.tar.gz",
+    "archive_sha256": "5c9cf8ca1e112620519106724d65c60acb225e5adc8fe6538536cf25159bf0c6",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-attention-capacity-ud": {
+    "fingerprint": "f53cbe3851c722fccd4932837db3e20ce4d123dbb225f542a3c990e0f5fd8a99",
+    "files": 1020,
+    "bytes": 19823215,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-attention-capacity-ud.tar.gz",
+    "archive_sha256": "4dc95fa1c6069667c7707f172466b3b8e4d98b8ef8936552586a4b55b5bb52ba",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down128-wave4-invalid-epilogue": {
+    "fingerprint": "d649aeac18bdacafadbf4f5b3bf76c8fb854b412d68585ffbd1e57a89896a396",
+    "files": 1019,
+    "bytes": 19868424,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-down128-wave4-invalid-epilogue.tar.gz",
+    "archive_sha256": "cd4eeea879901fa0b65455df620b96e260d5505cad716ef71b39ca7aaa733bd0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down128-wave4-unsupported": {
+    "fingerprint": "79a7fa8be7af0b37d93f562817eecacb1811f3df289a3832fda5e5b854c2e256",
+    "files": 1019,
+    "bytes": 19865381,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-down128-wave4-unsupported.tar.gz",
+    "archive_sha256": "4ebab662c4d87eb014a77eeead955ffd1a7922e3a11875c34afd908bb8526bb5",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-probe": {
+    "fingerprint": "eeb18f8e862a667f5cabf697a8a3524dda26ff8999a95c81e1ef20f357d39e45",
+    "files": 1019,
+    "bytes": 19872824,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-down64-probe.tar.gz",
+    "archive_sha256": "290eb357923870552b6c525ade36e007489b339701a431a655c8c8c2fc110d3b",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-wave4-invalid-epilogue": {
+    "fingerprint": "4cf83f2a86076c1cfe8f3cabbcd2132a96b2d012e8e8dde3648779d8acae4204",
+    "files": 1019,
+    "bytes": 19868420,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-down64-wave4-invalid-epilogue.tar.gz",
+    "archive_sha256": "978d2a2f99677e60b6d78864fc31a3b5104bbc8c96bc8aced36fd9f417afd6cd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-down64-wave4-unsupported": {
+    "fingerprint": "35fbe07a3ba23fe3e69f0c2611806aa0a715a0f4e41c65bae93efe0a92713d9b",
+    "files": 1019,
+    "bytes": 19865377,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-down64-wave4-unsupported.tar.gz",
+    "archive_sha256": "dd5eadac53b959d86fc9935c5e7428c7c640ad074888167893bcac4641bab92c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-full-row-r1": {
+    "fingerprint": "3ccf30af6ecf4e78bcb58e16492d2805d4e43dd5a28bf01d2fb6697c4780504a",
+    "files": 1019,
+    "bytes": 19869276,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-full-row-r1.tar.gz",
+    "archive_sha256": "66e3fd6929258604a4856cd8abf01d010c5f079646bc4f41f39142003875d7cb",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-k32-schedule": {
+    "fingerprint": "d74ded99612fea006fde7c99ee40d67c1192f7f5702946e458614d9cdb4b9454",
+    "files": 1019,
+    "bytes": 19868987,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-k32-schedule.tar.gz",
+    "archive_sha256": "99b99f8b7fbca63293697f7f726ee5f7c119f0d61ba05a526eda572e1880e5d6",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-norm-half-preinvalidate": {
+    "fingerprint": "b644549765736bea2cb7b768270756a2b4d2e114bc8c864b40109e9f3d4d356e",
+    "files": 1019,
+    "bytes": 19872047,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-norm-half-preinvalidate.tar.gz",
+    "archive_sha256": "6ff998852c610759dce1ec05b18a8b5ef772a6c9c379b6ee835c74a477f6b084",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-prefetch-r1": {
+    "fingerprint": "a8376f0c52deed443703fde997330fd61ffa8286e909ab7f2c86226cfc523bf7",
+    "files": 1019,
+    "bytes": 19853408,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-prefetch-r1.tar.gz",
+    "archive_sha256": "c396f37104689a183820e13169c9af4f62866022a12943d2faa897d150c1768e",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-hc-row160-fixed": {
+    "fingerprint": "3519e11a6faeae3e4b199115976c37b8adb9ff6f9a0a0fc0898028e044ee674e",
+    "files": 1019,
+    "bytes": 19869270,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-hc-row160-fixed.tar.gz",
+    "archive_sha256": "2b120fe62621a4a8e9c7cce1d9f3d40cb27e24a4d574a354a61f17258a7abc5d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-library-norm": {
+    "fingerprint": "dba468b223da4cb1bf2c84239883e1fdcdc119eb3a4b37756cf112c6f7fd0d13",
+    "files": 1020,
+    "bytes": 19881517,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-library-norm.tar.gz",
+    "archive_sha256": "f999c0e480ec1756bfc1493ffbec233232c85c1b8c87ebee88df093361b497cd",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-ple-cache64k": {
+    "fingerprint": "1cc17e8cc8cf54f5bc842f5360a5b2767842e156b5b7af1e7f18da7d6f2f8c1a",
+    "files": 1019,
+    "bytes": 19865784,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-ple-cache64k.tar.gz",
+    "archive_sha256": "6d9b300a0b33a02372f62ee8f51b071bce58a262eb6558f6e0e121f65a9fc636",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-ple-cache64k-reconstructed": {
+    "fingerprint": "1cc17e8cc8cf54f5bc842f5360a5b2767842e156b5b7af1e7f18da7d6f2f8c1a",
+    "files": 1019,
+    "bytes": 19865784,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-ple-cache64k.tar.gz",
+    "archive_sha256": "6d9b300a0b33a02372f62ee8f51b071bce58a262eb6558f6e0e121f65a9fc636",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-ple-cache64k-reconstructed-r2": {
+    "fingerprint": "1cc17e8cc8cf54f5bc842f5360a5b2767842e156b5b7af1e7f18da7d6f2f8c1a",
+    "files": 1019,
+    "bytes": 19865784,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-ple-cache64k.tar.gz",
+    "archive_sha256": "6d9b300a0b33a02372f62ee8f51b071bce58a262eb6558f6e0e121f65a9fc636",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-bench-routed-organization": {
+    "fingerprint": "41631e1bfcf6ae745e498820533ba598020a08f64c587f6a1b68abbabbb28eee",
+    "files": 1020,
+    "bytes": 19869070,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-bench-routed-organization.tar.gz",
+    "archive_sha256": "f8556fdf80de3a63499b62e646d5586839da6d9c470ac0a404a77d736f98515d",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-compressed-cache-run": {
+    "fingerprint": "92af422b4328106f9cb880d4632e587f00a04cd6dd33e09c04a3c499ad1c95e4",
+    "files": 1030,
+    "bytes": 20041272,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-compressed-cache-run.tar.gz",
+    "archive_sha256": "a6b370b840bb8f52f78a98da88b38c2d6dab1f981faf70d2179e796741503040",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-curve-iq2-signs-ordered": {
+    "fingerprint": "426711f5be8d3341ef10933c1bd151812a20db8c1dce7c3ce66e4b2d153db851",
+    "files": 1020,
+    "bytes": 19889966,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-curve-iq2-signs-ordered.tar.gz",
+    "archive_sha256": "faf903d8b1f9e2052c3619a052d1f9031a3fc0e4f07e3f2f492159d6825aeb5c",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-decode-q8-compact-run": {
+    "fingerprint": "64f078feefbeb2ee3840aee207b35a0c42872bd842710f68d5d722428f1ee113",
+    "files": 1029,
+    "bytes": 20051446,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-decode-q8-compact-run.tar.gz",
+    "archive_sha256": "a2ff66c64130da2e5d423b3f3c1a8ea93c6c2bdb5a697cf3e3acf19625bfa45a",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-decode-q8-rows4-run": {
+    "fingerprint": "935af9843a0b7b4f2f6ea6aae2e8dcf04d9f901f5a8feb662d0fc0dafd59c445",
+    "files": 1029,
+    "bytes": 20049844,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-decode-q8-rows4-run.tar.gz",
+    "archive_sha256": "27deb9b2a7ee5ab8fa3604f793205cc789a03c38a10804ceac3c04ae25393567",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-down-register-scatter-run": {
+    "fingerprint": "a61869482d2399d5b321242279fe062f16e32a0a67679c373b1ab0815b845020",
+    "files": 1027,
+    "bytes": 20012188,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-down-register-scatter-run.tar.gz",
+    "archive_sha256": "29a79be2d6bbe29e531b87ed2a3bce475120c2fb83137f64f0f32352783d6bc7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-expert-cache-r2-run": {
+    "fingerprint": "f1d275875ce38ad93be4c765f1e9a3b0636addc5964603b09a65eb84e2830559",
+    "files": 1029,
+    "bytes": 20034035,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-expert-cache-r2-run.tar.gz",
+    "archive_sha256": "fa498db59fc228c8a6500bef2e0a5575584da402946e4f0cdd48fca7f62abba7",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-expert-cache-run": {
+    "fingerprint": "31cc13ff32c5150a4e250e65d4d576b16bf2b8b4899dbf478e0b541d9293735e",
+    "files": 1029,
+    "bytes": 20033836,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-expert-cache-run.tar.gz",
+    "archive_sha256": "39897ccab41aaf51db6f5066b74610a63896117b18f7e8e1a6ef674597313d23",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-down-bk256": {
+    "fingerprint": "eb8d0801df214e4c360f50dc862aca72566589beb1f0ff077a34961a0d21ae8b",
+    "files": 1023,
+    "bytes": 19905446,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-hc-down-bk256.tar.gz",
+    "archive_sha256": "edc47ba01dd83b56ac257cfb80adf2be4b5c3cb3632b295bb716c18171337ddf",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-down-bk256-bounded": {
+    "fingerprint": "1be1c884193e647d7c09cdd2b83781d27ff88884268fd02517846e0d8f95cbb8",
+    "files": 1023,
+    "bytes": 19905448,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-hc-down-bk256-bounded.tar.gz",
+    "archive_sha256": "235082931831d5dd5d8d5dc66cd749782aef01b5bb6e2a088482aa5939e3b1d9",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-hc-scalar-up-mix-reconstructed": {
+    "fingerprint": "2ab49abbf64b91b58491f2113b9e8fc7a8e644465e1d4ce1266e547763cb3c6d",
+    "files": 1029,
+    "bytes": 20051725,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-hc-scalar-up-mix-reconstructed.tar.gz",
+    "archive_sha256": "fda010a2a80e94b12ecd74d45d8122ef3988d6375e4fb2167d97e8fb473778ab",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-halfbyte-perm-run": {
+    "fingerprint": "5e10760e8bf3d0257586a9b35ef766eb60425e04848aa970f2f6f88a332ba899",
+    "files": 1025,
+    "bytes": 19946833,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-iq2-halfbyte-perm-run.tar.gz",
+    "archive_sha256": "a4f0b1bf9018187eec7e05b92a32d4885f34c43943b90fd0b37c43e024efa3da",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-halfbyte-shift-run": {
+    "fingerprint": "f511405af73fbf558111ea0b3bd3ffdada9193182081a3ba88e237a913a32bc3",
+    "files": 1025,
+    "bytes": 19946850,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-iq2-halfbyte-shift-run.tar.gz",
+    "archive_sha256": "d693f7fc13c78e46e9ad425cb3d50ca4412eee0249bd5b135d437ca55b81413f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-halfstage-run": {
+    "fingerprint": "4de5db7ae46fea6a3c21a89e64f6568ac32ccb749aab09bc9ab702a31ff2a70d",
+    "files": 1025,
+    "bytes": 19941697,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-iq2-halfstage-run.tar.gz",
+    "archive_sha256": "635b0590b23a18c0cb8ab56a7e917a346c8121675e0e400a47fbac29c3e21c5f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-register-stage-run": {
+    "fingerprint": "ff193f2820236f87dfb1a884aa7c75b950e2f5e9a3aaa1a650a8cd242e13bee4",
+    "files": 1027,
+    "bytes": 20014847,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-iq2-register-stage-run.tar.gz",
+    "archive_sha256": "c2de4dd0241c75402b35d7d448c699d369ca01b86d7fe86e6011a72d5b973392",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-short-tiles-run": {
+    "fingerprint": "deb2b07d8bb26f5e5b3f8ff67cf4de3cbedc15d44bad310d5126401817b7c232",
+    "files": 1027,
+    "bytes": 19950381,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-iq2-short-tiles-run.tar.gz",
+    "archive_sha256": "4a9747eb574c1e9aa948bbe91554be33cc4fd0402237efde269524cf4dd17729",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-iq2-token160-probe": {
+    "fingerprint": "f4086d2c48dbd38f4f6f0f4ed1fc718a5dbd397d2da6df2a59ccbfddf22e7eae",
+    "files": 1028,
+    "bytes": 20047772,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-iq2-token160-probe.tar.gz",
+    "archive_sha256": "c7e245d309e9272803eec01af2964e56395869db2c81d2db153c19fd574cddc0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-producer-q8-run": {
+    "fingerprint": "e181b3f3672220f76a3d98ae7805027ad071aa0debdc0a90b8b111a906fd72d4",
+    "files": 1029,
+    "bytes": 20054335,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-producer-q8-run.tar.gz",
+    "archive_sha256": "4052ee27fe0b9884ef8a24ddd835856f1c5a4bdadaeb6b518f64486a303ee019",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q5-overlay-probe": {
+    "fingerprint": "4f3b1fc4e9192c69d63e3d6053c5710aec9b71cb59c99ab64c56f4c56589c251",
+    "files": 1029,
+    "bytes": 20055225,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-q5-overlay-probe.tar.gz",
+    "archive_sha256": "b967bea2dbe4b2779faeddcafef18272d2140eee10c42ff2896361efdf189b74",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q5-overlay-reconstructed": {
+    "fingerprint": "4f3b1fc4e9192c69d63e3d6053c5710aec9b71cb59c99ab64c56f4c56589c251",
+    "files": 1029,
+    "bytes": 20055225,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-q5-overlay-probe.tar.gz",
+    "archive_sha256": "b967bea2dbe4b2779faeddcafef18272d2140eee10c42ff2896361efdf189b74",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-q8-aligned-pair-initial": {
+    "fingerprint": "5a289735821859aa88efc8d368b47f535f6d3370d47c1b98df45c1b7080cb489",
+    "files": 1026,
+    "bytes": 19998679,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-q8-aligned-pair-initial.tar.gz",
+    "archive_sha256": "16e3d509b6c420d7ea1cd3abf36c42c721e461e1f2ea0a1f26ff1309fcac4d04",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-register-reconstructed": {
+    "fingerprint": "7b64154ab418becba5d3742cad81a734b9ae2e3ab6daf5d828ee8c2c8202e8e2",
+    "files": 1019,
+    "bytes": 19830387,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-register-reconstructed.tar.gz",
+    "archive_sha256": "dea3c3b1a211e87ea97149428970cce7ab9cd407f594828b4297c9cad20a9355",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-scaled-wave-pack-run-initial-format": {
+    "fingerprint": "804db96f2a419bd9629d5696d1b05f20b61957674082fa1edc1d9e4cbe374735",
+    "files": 1027,
+    "bytes": 20009510,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-scaled-wave-pack-run-initial-format.tar.gz",
+    "archive_sha256": "5e506cf2e8be254fcc35156fe9886b530efdecfd182a79640066219ec262f33f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-down-mirror-run": {
+    "fingerprint": "61f3a3e1156693c1be0b8891214bb9c04547a39f7888068e5be977240f76b394",
+    "files": 1028,
+    "bytes": 20038786,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-shared-down-mirror-run.tar.gz",
+    "archive_sha256": "e75772ca9338d1939472e133b020b3fc19699884e60a7cd273ec821227fde742",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-q8-pair-run-fenced": {
+    "fingerprint": "eb4feef515ea4e462da71380c1dac89223d093a583f159efd042d02225a826b1",
+    "files": 1027,
+    "bytes": 20008633,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-shared-q8-pair-run-fenced.tar.gz",
+    "archive_sha256": "4baaa35fd4bcd6785acea9f14144fa8bb48cea133a3b338d603aad4772d416c0",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-shared-q8-pair-run-initial": {
+    "fingerprint": "7ed3f92680c386725f1203eeee9567f49a76845485703bff8babd0ced5f49d1b",
+    "files": 1027,
+    "bytes": 20008513,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-shared-q8-pair-run-initial.tar.gz",
+    "archive_sha256": "4411509d2b8f917628af64e912e0f9a61d158490086d519fcd6e1483eedea157",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-ssm-row-group-run": {
+    "fingerprint": "52d9604b694dde5ddf33956538515df0c144c7904c22d84c82fcfd5a783fb4ec",
+    "files": 1027,
+    "bytes": 20009555,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-ssm-row-group-run.tar.gz",
+    "archive_sha256": "93ac0f1c320f276702372133f6f3478a7352e241f49a3190344c9f931e568d27",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-q2-wmma-reconstructed": {
+    "fingerprint": "5544c84daf247dbb6b7b6bf42acd2fbb477111c153a924af32996e6bcfeed7be",
+    "files": 1019,
+    "bytes": 19837359,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-q2-wmma-reconstructed.tar.gz",
+    "archive_sha256": "fa8333bca49560e2b9a306c0698d9dcc270225f2003d82ad738e2c08b7ddd57f",
+    "archive_prefix": "source/"
+  },
+  ".deps/gufo-replay-r1": {
+    "fingerprint": "aa702cfbfd4ae9f3d9f3a54344b7cab4e1300027943ad73f9890ebef7a1c77bc",
+    "files": 1019,
+    "bytes": 19830160,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/deps--gufo-replay-r1.tar.gz",
+    "archive_sha256": "b202896a4e6f26a188708df11e693f145831ab9f3f12f605c370ce1599f53a5d",
+    "archive_prefix": "source/"
+  },
+  "run/q2-expert-reconstruct": {
+    "fingerprint": "17ee32c9eaaf645a22abc0e062a3a2ad0ac6d494fa4d157a9191ee60f5648be3",
+    "files": 1019,
+    "bytes": 19846464,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/run--q2-expert-reconstruct.tar.gz",
+    "archive_sha256": "99e7bec644bacb5738c4299725db20cd074b284306380799c7a541bfa9368efb",
+    "archive_prefix": "source/"
+  },
+  "run/q2-packed-reconstruct": {
+    "fingerprint": "88996fc2ee3c98df1424bbaf4b7657960e4253cf405defcd8d58627254c80d11",
+    "files": 1019,
+    "bytes": 19852231,
+    "archive": "evidence/q2-packed-operators-r1/source.tar.gz",
+    "archive_sha256": "458d9b251b7c963df1975fda9f632d41d2eb8b29b43788602b185362bc66aaef",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-up-fused-prepare-failed-r1": {
+    "fingerprint": "88996fc2ee3c98df1424bbaf4b7657960e4253cf405defcd8d58627254c80d11",
+    "files": 1019,
+    "bytes": 19852231,
+    "archive": "evidence/q2-packed-operators-r1/source.tar.gz",
+    "archive_sha256": "458d9b251b7c963df1975fda9f632d41d2eb8b29b43788602b185362bc66aaef",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-up-fused-bm256": {
+    "fingerprint": "6dbe1ae9b807ee32de7ec222d8981f696a367c7399ca0cc8f248cd54ea18a197",
+    "files": 1019,
+    "bytes": 19855525,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/run--q2-hc-up-fused-bm256.tar.gz",
+    "archive_sha256": "b29ea507de46f6885fccf49e05c077528c895b8c460584a045cc45e73899cee9",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-up-fused-reconstruct": {
+    "fingerprint": "ab776d1bb7bb20d6acadec5eae1d242289dccf1cfb4240a79541c22965c8a7f3",
+    "files": 1019,
+    "bytes": 19855729,
+    "archive": "evidence/worktree-cleanup-20261007/retained-sources/run--q2-hc-up-fused-reconstruct.tar.gz",
+    "archive_sha256": "15cb40b5457b18b9fde34598e6dcf6b89fb2a08f02e7cb8279c12ae1c5a07718",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-up-fused-generator-check": {
+    "fingerprint": "17d40b69850e577ad637e58b9750d1a3102e1ebced45569afa3650916fcc0f0a",
+    "files": 1019,
+    "bytes": 19855862,
+    "archive": "evidence/q2-hc-up-operators-r1/source.tar.gz",
+    "archive_sha256": "c956ef83d4b61ebaa5718cdbba92525cd1ae03944a2c14c1ae638986a3cc5825",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-up-fused-reconstruct-r2": {
+    "fingerprint": "17d40b69850e577ad637e58b9750d1a3102e1ebced45569afa3650916fcc0f0a",
+    "files": 1019,
+    "bytes": 19855862,
+    "archive": "evidence/q2-hc-up-operators-r1/source.tar.gz",
+    "archive_sha256": "c956ef83d4b61ebaa5718cdbba92525cd1ae03944a2c14c1ae638986a3cc5825",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-prefetch-reconstruct-r2": {
+    "fingerprint": "f7599f82995498cd6f235004ad34e9619fcad8e8afd74bb726abb50f99f52c8e",
+    "files": 1019,
+    "bytes": 19853663,
+    "archive": "evidence/q2-hc-prefetch-candidate-r1/source.tar.gz",
+    "archive_sha256": "d603eb18cd11762c26e5311d97663b5e779fa42626849fdeaeecffae075ab88b",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-prefetch-generator-check": {
+    "fingerprint": "f7599f82995498cd6f235004ad34e9619fcad8e8afd74bb726abb50f99f52c8e",
+    "files": 1019,
+    "bytes": 19853663,
+    "archive": "evidence/q2-hc-prefetch-candidate-r1/source.tar.gz",
+    "archive_sha256": "d603eb18cd11762c26e5311d97663b5e779fa42626849fdeaeecffae075ab88b",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-prefetch2-generator-check": {
+    "fingerprint": "e6385fd38bd565b97f4dc78ab6065819d2ce1671bde2bd3090ba64fde809ebde",
+    "files": 1019,
+    "bytes": 19854100,
+    "archive": "evidence/q2-hc-prefetch2-candidate-r1/source.tar.gz",
+    "archive_sha256": "776d870c1d7f5fd1d7d51a3d78d79b04ddafa7237d401d5f14b1bd73eb5b1f7e",
+    "archive_prefix": "source/"
+  },
+  "run/q2-hc-prefetch2-patch-check": {
+    "fingerprint": "e6385fd38bd565b97f4dc78ab6065819d2ce1671bde2bd3090ba64fde809ebde",
+    "files": 1019,
+    "bytes": 19854100,
+    "archive": "evidence/q2-hc-prefetch2-candidate-r1/source.tar.gz",
+    "archive_sha256": "776d870c1d7f5fd1d7d51a3d78d79b04ddafa7237d401d5f14b1bd73eb5b1f7e",
+    "archive_prefix": "source/"
+  }
+}

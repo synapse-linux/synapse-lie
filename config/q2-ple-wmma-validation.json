@@ -1,0 +1,66 @@
+{
+  "schema": "synapse-lie.q2-ple-wmma-validation.v1",
+  "runs": [
+    {
+      "label": "q2-ple-wmma-host-r1",
+      "mode": "ple-cache-first-cpu",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "4472f0f722ece5d8544f0a5c77253b709d3f34a5994482fa446d760cf7d7f7f0",
+      "collection_sha256": "636bdacdc1f6897de89402e4f9bee4d47ec4f9bb856b616f2328343b22fac025"
+    },
+    {
+      "label": "q2-iq2-wmma-reference-r1",
+      "mode": "iq2-wmma-signs-check",
+      "state": "SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "5dd4505e9f4d4fa7885cc9f4825402fb6232c34e4f01f36cf6e1cbd1c971ec9a",
+      "collection_sha256": "d89dd78b19b0897491d7db818214c2c232068bb91b00b8bb5920f827b90e0b99"
+    },
+    {
+      "label": "q2-iq2-wmma-candidate-r1",
+      "mode": "iq2-wmma-signs-check",
+      "state": "SYNTHETIC_IQ2_WMMA_CYCLE_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "1e6a73aadb4c7e0eed1e70d31628b41f225a43aa4ef2c2d1da2fbc70d843a68a",
+      "collection_sha256": "4f5e4e03b09c5ef0bc4d1bef676a04a87dadb0fefefdef5e89fd345d2e0a3006"
+    }
+  ],
+  "artifacts": 59,
+  "command_count": 12,
+  "host_debug_tests": 21,
+  "host_sanitizer_tests": 21,
+  "provider_file_instances": 4080,
+  "independent_checks_per_arm": 20,
+  "exact_output_pairs": 22,
+  "output_bytes_per_arm": 105371008,
+  "component_numerical_pass": true,
+  "component_candidate": false,
+  "canonical_model_run": false,
+  "original_model_numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false,
+  "analysis_exit": 0,
+  "analysis_log_sha256": "c2806978e37adf4005d92738c5f20a000c8bfbdf726dce4e568106e2b8fcae04",
+  "release_sha256": "bdf97e04c9f5c9589f939ab97f7e3bcad036e54d12f29511fb6c4d8247f0baa6",
+  "checked_pids": 15,
+  "checked_groups": 12
+}

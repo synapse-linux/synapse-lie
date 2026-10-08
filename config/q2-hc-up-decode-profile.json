@@ -1,0 +1,31 @@
+{
+  "scope": "Historical diagnostic-only packed Q2 kernel trace, not wall benchmark",
+  "source": "evidence/q2-packed-profile-r1/results/profile/q2_results.db",
+  "phase": "decode",
+  "groups": [
+    {
+      "grid_size_x": 327680,
+      "grid_size_y": 1,
+      "workgroup_size_x": 128,
+      "calls": 1455,
+      "total_ns": 50793467,
+      "mean_us": 34.909599312714775
+    },
+    {
+      "grid_size_x": 3072,
+      "grid_size_y": 1,
+      "workgroup_size_x": 128,
+      "calls": 540,
+      "total_ns": 8137679,
+      "mean_us": 15.069775925925926
+    },
+    {
+      "grid_size_x": 16512,
+      "grid_size_y": 1,
+      "workgroup_size_x": 128,
+      "calls": 720,
+      "total_ns": 20303096,
+      "mean_us": 28.198744444444444
+    }
+  ]
+}

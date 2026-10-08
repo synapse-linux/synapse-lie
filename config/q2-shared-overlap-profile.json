@@ -1,0 +1,214 @@
+{
+  "scope": "Diagnostic dispatch overlap; not wall benchmark, occupancy or hardware counters",
+  "database": "evidence/q2-shared-overlap-profile-r1/results/profile/q2_results.db",
+  "phases": {
+    "prefill": {
+      "streams": {
+        "18": {
+          "dispatches": 1763,
+          "kernel_sum_ns": 1552306762,
+          "kernels": {
+            "__amd_rocclr_copyBuffer": 98,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)": 1,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)": 6,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::NarrowKernel<__half>(float const*, __half*, unsigned long)": 193,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 96,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SiluScaleKernel(float*, float, unsigned long)": 97,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 8, true, false, false, true, true>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 96,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueVec4Kernel<float, false>(float const*, float const*, float const*, float*, float*, unsigned int)": 96,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 36,
+            "gufo::models::qwen38_flash_next::rocm::SsmConvBoundaryKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int, unsigned int)": 36,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<64, 64, 2, 2, 4, 1, false, false, false, true, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 84,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HistoryShiftKernel(float const*, unsigned int, float const*, float*, unsigned int, unsigned int, unsigned int)": 37,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::CopyKernel(float const*, float*, unsigned long)": 37,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnPrepKqKernel(float const*, float*, unsigned int, unsigned int, unsigned int, float)": 36,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnPrepAbKernel(float const*, float const*, float const*, float*, unsigned long, unsigned int)": 36,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnRowSplitKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int, unsigned int)": 36,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnEpilogueKernel<false>(float const*, float const*, unsigned int, float const*, float*, void*, __half*, unsigned int, unsigned int, float, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)": 36,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 36,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineVec4Kernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, float)": 48,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RouterTopKKernel<512u>(float const*, unsigned int, int*, float*, unsigned int, unsigned int)": 48,
+            "__amd_rocclr_fillBufferAligned": 144,
+            "gufo::models::qwen38_flash_next::rocm::ExpertCountsKernel(int const*, unsigned int*, unsigned long)": 48,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::QuantizeQ8TiledVec4Kernel(float const*, void*, unsigned long, unsigned long)": 72,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedPadBoundsKernel(unsigned int const*, int*, int*, unsigned int)": 48,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedScatterKernel(int const*, int const*, int*, int*, int*, unsigned int, unsigned int)": 48,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": 21,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)10, 128, 48, 2, false, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)10)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": 48,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineMoeF32Kernel(float*, float const*, float const*, float const*, float const*, unsigned int, unsigned int, float const*, unsigned int, float const*, float*, unsigned int, float)": 48,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 1, false, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 2,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleGateKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int)": 1,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleConvKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)": 1,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleInjectKernel(float*, float const*, float const*, unsigned long)": 1,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, false, true, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 12,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<64, 128, 4, 2, 4, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)": 12,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::StoreRowsKernel(float const*, float*, unsigned int, unsigned int const*, unsigned int)": 12,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::WmmaCausalAttentionKernel<16u, 16u, false, false>(float const*, float const*, __half const*, __half const*, unsigned int const*, unsigned int, float*, unsigned int, unsigned int, unsigned int)": 12,
+            "void gufo::hip::WKQuantA8BlockedWmmaGEMMKernel<128, 128, 2, 4, 1, (gufo::core::GgmlType)8, 64>(void const*, void const*, float*, unsigned long, unsigned long, unsigned long)": 12,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, true>(void const*, std::conditional<((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": 27,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcDownF16VecKernel(__half const*, float const*, float*)": 1,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcUpF16VecKernel(__half const*, float const*, float*)": 1,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)": 1,
+            "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)": 1,
+            "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)": 1
+          }
+        },
+        "19": {
+          "dispatches": 192,
+          "kernel_sum_ns": 202534320,
+          "kernels": {
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::W8A8BlockedWmmaGEMMKernel<128, 128, 2, 4, 2, false>(void const*, void const*, std::conditional<false, __half, float>::type*, unsigned long, unsigned long, unsigned long)": 96,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SwigluHalfKernel(float const*, float const*, __half*, unsigned long)": 48,
+            "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<256, 128, 1, 4, 2, 1, false, false, false, false, false>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<false, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)": 48
+          }
+        }
+      },
+      "span_ns": 1557448302,
+      "kernel_sum_ns": 1754841082,
+      "union_busy_ns": 1552903385,
+      "gaps_ns": 4544917,
+      "simultaneous_streams_ns": {
+        "0": 4544917,
+        "1": 1350966382,
+        "2": 201937003
+      },
+      "overlap_ns": 201937003,
+      "kernel_sum_minus_union_ns": 201937697
+    },
+    "decode": {
+      "streams": {
+        "18": {
+          "dispatches": 23594,
+          "kernel_sum_ns": 568246544,
+          "kernels": {
+            "__amd_rocclr_copyBuffer": 59,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::EmbedKernel(void const*, gufo::models::qwen38_flash_next::rocm::WeightType, int const*, float*, unsigned int, unsigned int)": 15,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RmsNormKernel(float const*, float const*, float*, unsigned int, unsigned int, float)": 270,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcDownF16VecKernel(__half const*, float const*, float*)": 1455,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SiluScaleKernel(float*, float, unsigned long)": 1455,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcUpF16VecKernel(__half const*, float const*, float*)": 1455,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueKernel(float const*, float const*, float const*, float*, float*, unsigned int, unsigned int)": 1455,
+            "qfn_mmq::quantize_q8_1(float const*, void*, long, long, long, long, long, unsigned int, HIP_vector_type<unsigned int, 3u>)": 4710,
+            "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)": 2565,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SmallGemmKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)1, 1u, false>(void const*, float const*, float*, unsigned int, unsigned int)": 1260,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SsmConv4Kernel<true, false>(float const*, unsigned int, float const*, float*, float*, unsigned int, unsigned int, gufo::models::qwen38_flash_next::rocm::RollbackRows, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)": 540,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnPrepKernel<false>(float const*, float*, float*, unsigned int, unsigned int, unsigned int, float, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)": 540,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnKernel<false>(float const*, float const*, float const*, float const*, float const*, float const*, float*, float*, gufo::models::qwen38_flash_next::rocm::RollbackRows, unsigned int, unsigned int, unsigned int, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)": 540,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::GdnEpilogueKernel<false>(float const*, float const*, unsigned int, float const*, float*, void*, __half*, unsigned int, unsigned int, float, gufo::models::qwen38_flash_next::rocm::GdnBatchItem const*, unsigned int)": 540,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcCombineKernel<float>(float*, float const*, float const*, unsigned int, float const*, float*, void*, unsigned int, unsigned int, float)": 1440,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RouterTopKKernel<512u>(float const*, unsigned int, int*, float*, unsigned int, unsigned int)": 720,
+            "void qfn_mmq::mul_mat_vec_q8<1, true, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)": 720,
+            "void qfn_mmq::mul_mat_vec_q_moe<(qfn_mmq::ggml_type)16, 2, true>(void const*, void const*, int const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, void const*)": 720,
+            "void qfn_mmq::mul_mat_vec_q_moe<(qfn_mmq::ggml_type)10, 2, false>(void const*, void const*, int const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, void const*)": 720,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::MoeEpilogueKernel(float const*, float const*, float const*, float const*, unsigned int, float*, unsigned int, unsigned int)": 720,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleGateKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int)": 15,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleConvKernel(float const*, float const*, float const*, float*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)": 15,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HistoryShiftKernel(float const*, unsigned int, float const*, float*, unsigned int, unsigned int, unsigned int)": 15,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::CopyKernel(float const*, float*, unsigned long)": 15,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PleInjectKernel(float*, float const*, float const*, unsigned long)": 15,
+            "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PrepareAttentionKernel<1u>(float const*, unsigned int, float const*, float const*, float*, float*, __half*, __half*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int const*, float, float, gufo::models::qwen::vision::DeviceRope const*)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::StoreRowsKernel(float const*, float*, unsigned int, unsigned int const*, unsigned int)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RopeKernel(float*, unsigned int, unsigned int, unsigned int, unsigned int const*, float, gufo::models::qwen::vision::DeviceRope const*)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::PoolBlocksKernel(float const*, float const*, __half*, unsigned int const*, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int, float, float, unsigned int, gufo::models::qwen::vision::DeviceRope const*)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SelectScoreKernel(float const*, __half const*, float*, unsigned int, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SelectMarkKernel(unsigned int*, float const*, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::AttentionKernel(float const*, __half const*, __half const*, unsigned int const*, unsigned int, float*, float*, unsigned int const*, unsigned int, unsigned int, unsigned int, unsigned int)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::AttentionMergeKernel(float const*, float*, unsigned int, unsigned int, unsigned int)": 180,
+            "gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::SigmoidMulKernel(float*, float const*, unsigned long)": 180
+          }
+        }
+      },
+      "span_ns": 649746941,
+      "kernel_sum_ns": 568246544,
+      "union_busy_ns": 568246544,
+      "gaps_ns": 81500397,
+      "simultaneous_streams_ns": {
+        "0": 81500397,
+        "1": 568246544
+      },
+      "overlap_ns": 0,
+      "kernel_sum_minus_union_ns": 0
+    }
+  },
+  "model_replay": {
+    "retained": "evidence/q2-hc-single-chain-q2-profile-r1/results",
+    "candidate": "evidence/q2-shared-overlap-profile-r1/results",
+    "files": [
+      "arithmetic-0-last.f32",
+      "arithmetic-0-output.u32",
+      "arithmetic-0-prefill.f32",
+      "arithmetic-input.i32",
+      "counting-0-last.f32",
+      "counting-0-output.u32",
+      "counting-0-prefill.f32",
+      "counting-input.i32",
+      "profile2048-0-last.f32",
+      "profile2048-0-output.u32",
+      "profile2048-0-prefill.f32",
+      "profile2048-input.i32",
+      "warm2048-0-last.f32",
+      "warm2048-0-output.u32",
+      "warm2048-0-prefill.f32"
+    ],
+    "changed": [],
+    "frontiers": [
+      {
+        "name": "arithmetic-0-last.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "arithmetic-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "counting-0-last.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "counting-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "profile2048-0-last.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "profile2048-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "warm2048-0-last.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      },
+      {
+        "name": "warm2048-0-prefill.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0,
+        "kl_p_to_candidate": 0.0
+      }
+    ]
+  },
+  "limit": "One candidate diagnostic pp2048/tg16 profile; historical retained profile is replay evidence only, not a fresh paired timing control"
+}

@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.20)
+project(q2_attention_v_blocks_contract LANGUAGES C)
+include(CTest)
+option(Q2_CONTRACT_SANITIZE "Enable address and undefined behavior checks" OFF)
+get_filename_component(contract_root "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
+add_executable(q2-attention-v-blocks-contract
+  "${contract_root}/tests/q2_attention_v_blocks_contract.c")
+target_include_directories(q2-attention-v-blocks-contract PRIVATE "${contract_root}")
+set_target_properties(q2-attention-v-blocks-contract PROPERTIES C_STANDARD 17 C_STANDARD_REQUIRED YES C_EXTENSIONS NO)
+target_compile_options(q2-attention-v-blocks-contract PRIVATE -Wall -Wextra -Werror)
+if(Q2_CONTRACT_SANITIZE)
+  target_compile_options(q2-attention-v-blocks-contract PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
+  target_link_options(q2-attention-v-blocks-contract PRIVATE -fsanitize=address,undefined)
+endif()
+add_test(NAME q2-attention-v-blocks-contract COMMAND q2-attention-v-blocks-contract)
+set_tests_properties(q2-attention-v-blocks-contract PROPERTIES TIMEOUT 15)

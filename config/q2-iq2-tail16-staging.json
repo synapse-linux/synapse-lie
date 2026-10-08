@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-iq2-tail16-staging.v1",
+  "arms": [
+    {
+      "mode": "iq2-tail16-check",
+      "capsule_sha256": "33e4e05ca8cb508964d3e2511ab11742e20474c66b9a7a8823437cd9b9fb5ce8",
+      "provider_files": 1029,
+      "fixture_files": 116,
+      "capsule_path": "evidence/q2-iq2-tail16-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-iq2-tail16",
+      "capsule_sha256": "45b00451978999b8cee51584e43c0f0177822ce5ab75d87c91851552bd1686b4",
+      "provider_files": 1029,
+      "fixture_files": 116,
+      "capsule_path": "evidence/q2-iq2-tail16-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

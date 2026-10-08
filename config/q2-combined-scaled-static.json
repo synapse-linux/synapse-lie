@@ -1,0 +1,115 @@
+{
+  "scope": "Local static checks only; model effects unproven",
+  "checks": [
+    {
+      "name": "device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled",
+        "-isystem",
+        "/opt/rocm/include",
+        "--offload-device-only",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-combined-scaled-static/kernels.s"
+      ],
+      "started_at": "2026-10-03T14:30:44.775266+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-03T14:30:54.023945+00:00"
+    },
+    {
+      "name": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "started_at": "2026-10-03T14:30:54.024320+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-03T14:30:55.628809+00:00"
+    },
+    {
+      "name": "harness",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-DQFN_ROCM_BUILD=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_ple_lookahead.cpp"
+      ],
+      "started_at": "2026-10-03T14:30:55.629228+00:00",
+      "exit_code": 0,
+      "finished_at": "2026-10-03T14:30:57.324178+00:00"
+    }
+  ],
+  "unchanged_kernel_bodies": 150,
+  "added_kernel_bodies": [
+    "_ZN4gufo6models17qwen38_flash_next4rocm21NarrowF16VectorKernelEPKfP6__halfm"
+  ],
+  "new_conversion_matches_qualified_assembly": true,
+  "source_checks": [
+    {
+      "name": "format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/executor.hpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-combined-scaled/src/models/qwen38_flash_next/kernels/rocm/q2_narrow_vector.inc"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-combined-scaled.patch"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "reconstruction_exact": true,
+  "reconstructed_files": 1021,
+  "assembly_sha256": "cffed083e25ac31e75c4612a851c940efdaa1e5053c82925d1259c40b37fbca5",
+  "numerical_limits_changed": false
+}

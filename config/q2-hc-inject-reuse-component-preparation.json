@@ -1,0 +1,112 @@
+{
+  "schema": "synapse-lie.q2-hc-inject-reuse-component-preparation.v1",
+  "at": "2026-10-06T05:01:13.538051+00:00",
+  "source_manifest_sha256": "1feb88105719cb10c151394c87a41548f54845102c7756a6e2b30dc398e414db",
+  "parent_files_exact": 1027,
+  "fixtures": {
+    "tests/q2_hc_inject_reuse.hip": "2b3698295e65f1744cd78ddbfa104ecf26d35461a65b852429b3dff89801def1",
+    "experiments/q2-hc-inject-reuse-draft-v3.inc": "bad84e0d80fca74da3bbeb8e28fe445134988a1fab9699820bb08de4e2319765",
+    "tests/q2_remote_test.py": "06f8642d8d40c701418263f04098aceef2c9305f6f5fa486e13b8151ad14c94c",
+    "tools/q2-remote.py": "4eec228bc348a755a4deabc8095eb54c1816a54ae454924971743fbd01916817",
+    "tools/q2-runner.py": "f8bd16c0f5ee687cccd324097a4cc47346c802eb66676ec9d680b091cad57794",
+    "tools/prepare-q2-hc-inject-reuse-component.py": "73423362524f74090cfe417f18a471bbc8b136d7576ebdef30bdac98df7cf3bb",
+    "tools/audit-q2-hc-inject-reuse-component-preparation.py": "6d8d8c7b3a0dcadb1bfeefd1b6567790cfb3c5756ef9b991ae557a7a7b2f1e02",
+    "cmake/hip/CMakeLists.txt": "73fc95069e01a6f763599c065a3029545b5612c94ed374ed3896e2b4456da71e",
+    "CMakeLists.txt": "f2bb8050421d2edbd0e62363ec556bf5c71c47fe60b09c3022e972a88562c26b"
+  },
+  "fixture_assembly": "evidence/q2-hc-inject-reuse-component-preparation/fixture.s",
+  "fixture_assembly_sha256": "ef80a13a58b96dbe5cf6e05b6c3e41cd8e561ad2549c4cbe3a8378da8e5b4bd9",
+  "draft_assembly_sha256": "53f06144b1c32c9843d0852d6ac4d45d7ee8d9d28b937c4cd74f13e7ac3fe0a2",
+  "all_165_fixture_kernel_bodies_operands_resources_exact_to_draft": true,
+  "original_production_bodies_exact_to_saved_parent": 162,
+  "current_fixture_commands": [
+    "fixture-host-v2",
+    "fixture-device-v2"
+  ],
+  "superseded_compile_scope": "First host/device compiles precede final post-timing output and Q8-arm checks; retained as preparation evidence only",
+  "compiler_warnings": "Two inherited switch warnings and ignored hipFree destructor result; compilation exits remain zero",
+  "commands": {
+    "fixture-host": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/fixture-host-command.json",
+      "sha256": "97213e8cd773dd1cd971ce141847b7a5e61ac83f7fcb9b7c41509eb8e65861ff",
+      "actual_exit": 0,
+      "started_at": "2026-10-06T04:50:17.716211+00:00",
+      "finished_at": "2026-10-06T04:50:19.713120+00:00",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "185839982ce4eec25e7570e76ef5efaa05b8da60740708eef306d05e1f581e11"
+    },
+    "fixture-device": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/fixture-device-command.json",
+      "sha256": "03e84eb2260e6c21ae7e29f9cc948eadc16b27f9a1a2e323b289dcd581abbb50",
+      "actual_exit": 0,
+      "started_at": "2026-10-06T04:50:18.882770+00:00",
+      "finished_at": "2026-10-06T04:50:30.530291+00:00",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "94fe0e19d1965c08cdee433812a7f07a0243402a39388b4ff4d7563c88d62a87"
+    },
+    "fixture-host-v2": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/fixture-host-v2-command.json",
+      "sha256": "9bd661d96119846a11adc5455353aa2194051e839d13f8727a3bec5b87e6564c",
+      "actual_exit": 0,
+      "started_at": "2026-10-06T04:54:06.190462+00:00",
+      "finished_at": "2026-10-06T04:54:08.349438+00:00",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "185839982ce4eec25e7570e76ef5efaa05b8da60740708eef306d05e1f581e11"
+    },
+    "fixture-device-v2": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/fixture-device-v2-command.json",
+      "sha256": "3208fa32e9c931146e6fccace6d626787386d6ee3cd13370bd6c540f1449ba54",
+      "actual_exit": 0,
+      "started_at": "2026-10-06T04:54:07.352473+00:00",
+      "finished_at": "2026-10-06T04:54:18.456194+00:00",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "94fe0e19d1965c08cdee433812a7f07a0243402a39388b4ff4d7563c88d62a87"
+    },
+    "source-manifest": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/source-manifest-command.json",
+      "sha256": "f1774c95f3b693fd9854eab14b2b7ff5624bb5380dd01bbcd7314775e7a9011a",
+      "actual_exit": 0,
+      "started_at": "2026-10-06T04:52:31.973985+00:00",
+      "finished_at": "2026-10-06T04:52:32.019084+00:00",
+      "stdout_sha256": "3b123f91397b3d7f8eda516c819343db9e67cecfe0ecb14802ae536d01974c2b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "core-handover": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/core-handover-command.json",
+      "sha256": "8f2128f52b1750e0400ca3843dd098181307b8b7b88246cc316ad01b0e5869fb",
+      "actual_exit": 255,
+      "started_at": "2026-10-06T04:57:12.856566+00:00",
+      "finished_at": "2026-10-06T04:57:15.948399+00:00",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3dbbae77e3e78f4e1556fef208ca559616a0ef08a6cb67484d55fb9f3b71a27"
+    }
+  },
+  "cases": 42,
+  "replay_sets": 57,
+  "output_records": 200,
+  "scratch_replay_records": 57,
+  "timings": 42,
+  "measured_timings": 30,
+  "rotating_up_weight_bytes": 39321600,
+  "timing_scope": "Monotonic full mix/injection cycles including event submission and terminal synchronization; uploads, allocation, hashes and replay comparisons excluded",
+  "HIP_zero_values_policy": "Retain raw elapsed values, reject nonpositive/nonfinite event durations; wall time is labeled complete-cycle wall time, not pure GPU elapsed",
+  "remote_state": "CORE_HANDOVER_CHECK_FAILED_BEFORE_REMOTE_CONNECTION",
+  "host_checks_run": false,
+  "GPU_run": false,
+  "GPU_reserved": false,
+  "model_inference": false,
+  "production_provider": false,
+  "borrowed_executor_scratch_qualified": false,
+  "independent_quality": false,
+  "numerical_acceptance": false,
+  "performance_increment_found": false,
+  "retained_PP": 1585.308983,
+  "retained_TG": 25.16079073,
+  "fixed_UD_PP": 1685.777092,
+  "full_curve": false,
+  "Q4": false,
+  "last_verified_release_sha256": "e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db",
+  "retry_or_waiter_scheduled": false,
+  "remote_cleanup": false,
+  "goal_met": false
+}

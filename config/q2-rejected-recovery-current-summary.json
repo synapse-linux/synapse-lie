@@ -1,0 +1,38 @@
+{
+  "schema": "synapse-lie.q2-rejected-recovery-current-summary.v1",
+  "at": "2026-10-05T05:17:48.608170+00:00",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "latest_family_disposition_sha256": "c96f20f4bd8ea255c61be17678d2d7b40b94d5126f7f00f136d978a2ab5e371e",
+  "original_reports_unchanged": 19,
+  "candidate_records": 15,
+  "candidate_families": 11,
+  "host_or_status_records": 4,
+  "disposition_family_counts": {
+    "already_in_fixed_reference": 5,
+    "new_composition_measured": 5,
+    "performance_measured_regression": 1,
+    "new_selective_integration_pending": 0
+  },
+  "confirmed_false_format_rejection_families": [
+    "shared-q8"
+  ],
+  "all_nineteen_false_confirmed": false,
+  "independent_additive_gains_established": false,
+  "best_model_result_sha256": "d5eb694387c6160e2b54750214cd0875d2977f057f4a5fcf2e1defa5135e64cd",
+  "best_source_manifest_sha256": "7224f191be0c0eb6360841e60fea9c0692d5982f15290a01741d785290198425",
+  "best_prefill_tok_s": 1505.152258,
+  "best_decode_steps_s": 25.15493858,
+  "fixed_q2_prefill_tok_s": 1443.672867,
+  "fixed_ud_prefill_tok_s": 1685.777092,
+  "best_change_vs_fixed_q2_percent": 4.258540310988623,
+  "remaining_increase_for_ud_percent": 12.000436038278849,
+  "latest_new_candidate_result_sha256": "549328a7fd510980252fc22f9a0ae217ced4b40890387ecbc54f474eba2efc7e",
+  "latest_new_candidate_prefill_tok_s": 1501.482502,
+  "latest_new_candidate_selected_as_base": false,
+  "qualified_controls_rerun": false,
+  "new_gpu_or_build": false,
+  "full_curve_admitted": false,
+  "independent_model_quality_complete": false,
+  "goal_met": false,
+  "limits": "Family performance dispositions are closed. This does not prove all rejections false, independent task quality, additive gains, or all-context parity. Historical reports and original fixed input/timer/reference are preserved."
+}

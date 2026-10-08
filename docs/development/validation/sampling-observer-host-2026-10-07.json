@@ -1,0 +1,786 @@
+{
+  "schema": "synapse-lie.sampling-observer-host.v1",
+  "at_utc": "2026-10-07T10:36:34.104912+00:00",
+  "state": "OWNER_ONLY_OBSERVATION_HOST_PASSED_GPU_AND_CLIENT_INTEGRATION_PENDING",
+  "base_commit": "36f0dca71a688640a4054b5d32a03bc6c00e605a",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "observer_ABI": 1,
+  "classification": "HOST-NOT-INFERENCE",
+  "implementation_sources": {
+    "adapters/gufo.cpp": {
+      "bytes": 64590,
+      "sha256": "fa6fc18828e510d7da5637f7488cc16f69f0586d480096eec4eed3ce925cf2db"
+    },
+    "adapters/gufo_sampling_observer.hpp": {
+      "bytes": 4862,
+      "sha256": "b08e46bf4d293cb2b739770ec80c20e2709b3dd262409ee3eb99c687b3a01c0b"
+    },
+    "adapters/gufo-state/sampling-observer-edits.json": {
+      "bytes": 1573,
+      "sha256": "25210f1c440af4c5d7ca50deb71a189a39378f51fdf6164ec3b844d0d3d41d15"
+    },
+    "include/lie/sampling_observer.h": {
+      "bytes": 2189,
+      "sha256": "7ce8b71be585321eb869ee2ea626af3a4e87c18b0e46dea93094a0f8891658a4"
+    },
+    "src/executor_unavailable.c": {
+      "bytes": 8208,
+      "sha256": "0dc192033a220c81d8d77e15aaef252718e4968603fe0d17699b1a535e097e25"
+    },
+    "cmake/provider/Source.cmake": {
+      "bytes": 6329,
+      "sha256": "8d5c554336a4a5aa4c04fe96de555390d1573f5d7336842e9d2a759d943fd5de"
+    },
+    "cmake/provider/Build.cmake": {
+      "bytes": 20247,
+      "sha256": "18969aa9572307a1b1ab8532733bee58f0b742e1682f31dbda30f40d891e8378"
+    },
+    "cmake/provider/Verify.cmake": {
+      "bytes": 22014,
+      "sha256": "6e3a1ed274f41dab3dceb8e9c218e6bc00aa25ba7e9995195f9d453c7819c233"
+    },
+    "tests/provider_contract.cmake": {
+      "bytes": 43118,
+      "sha256": "05659405ef2a736c7077410a99372374522c19068b01fda3251173f4bc575bdf"
+    },
+    "tests/test_executor_abi.c": {
+      "bytes": 1271,
+      "sha256": "7dc7535b493dbf6f99a51a8edf8c82ab0de784a9acf44d599773345a380e4699"
+    },
+    "tests/sampling/observer.cpp": {
+      "bytes": 10080,
+      "sha256": "27208b7f197445a88e1c8a194ac8f7353aa872b2d1e57f7caaeef98f664ff74a"
+    },
+    "tests/sampling/CMakeLists.txt": {
+      "bytes": 34362,
+      "sha256": "9d836d756e1e40feede39e9785e85f7633ed40f129f72077b079d0a96c2fabbb"
+    }
+  },
+  "source_recipe_edits": 5,
+  "owned_sampling_file_inventory": 122,
+  "variant_files_verified": 1019,
+  "release_and_sanitizer_tests": [
+    {
+      "configuration": "release",
+      "scope": "observer-ON-OFF",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "configuration": "release",
+      "scope": "ABI-and-source-receipt-target-provenance",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "configuration": "asan",
+      "scope": "observer-ON-OFF",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "configuration": "asan",
+      "scope": "ABI-and-source-receipt-target-provenance",
+      "passed": 4,
+      "failed": 0
+    }
+  ],
+  "strict_public_headers": {
+    "actual_exit_code": 0,
+    "commands": [
+      {
+        "argv": [
+          "cc",
+          "-std=c17",
+          "-pedantic-errors",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Iinclude",
+          "-fsyntax-only",
+          "evidence/context-r54-strict-headers/observer.c"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "argv": [
+          "c++",
+          "-std=c++17",
+          "-pedantic-errors",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-Iinclude",
+          "-fsyntax-only",
+          "evidence/context-r54-strict-headers/observer.cpp"
+        ],
+        "actual_exit_code": 0
+      }
+    ]
+  },
+  "initial_sandboxed_failure": {
+    "guard": {
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/context-r54-local-observer.py"
+      ],
+      "child_exit_code": 8,
+      "exit_code": 8,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 83.125
+      },
+      "elapsed_s": 38.545994855463505
+    },
+    "commands": [
+      {
+        "name": "release-provider-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          "tests/sampling",
+          "-B",
+          "build/sampling-observer-r1-release",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DLIE_SANITIZERS=OFF"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-provider-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/sampling-observer-r1-release",
+          "--parallel",
+          "2",
+          "--target",
+          "candidate-sampling-observer",
+          "fallback-sampling-observer"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-provider-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-r1-release",
+          "--output-on-failure",
+          "-R",
+          "^(candidate|fallback)-sampling-observer$"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-native-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/sampling-observer-native-r1-release",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DLIE_SANITIZERS=OFF"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-native-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/sampling-observer-native-r1-release",
+          "--parallel",
+          "2",
+          "--target",
+          "test-executor-abi"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-native-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-native-r1-release",
+          "--output-on-failure",
+          "-R",
+          "^executor-c-layout$"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-provider-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          "tests/sampling",
+          "-B",
+          "build/sampling-observer-r1-asan",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-provider-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/sampling-observer-r1-asan",
+          "--parallel",
+          "2",
+          "--target",
+          "candidate-sampling-observer",
+          "fallback-sampling-observer"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-provider-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-r1-asan",
+          "--output-on-failure",
+          "-R",
+          "^(candidate|fallback)-sampling-observer$"
+        ],
+        "actual_exit_code": 8
+      }
+    ],
+    "reason": "LeakSanitizer process introspection unavailable under sandbox ptrace; not suppressed."
+  },
+  "final_unsuppressed_host_checks": {
+    "schema": "synapse-lie.sampling-observer-host.v1",
+    "at_utc": "2026-10-07T10:29:44.209988+00:00",
+    "actual_exit_code": 0,
+    "commands": [
+      {
+        "name": "release-provider-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-r1-release",
+          "--output-on-failure",
+          "-R",
+          "^(candidate|fallback)-sampling-observer$"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-native-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/sampling-observer-native-r1-release",
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DLIE_SANITIZERS=OFF"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-native-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/sampling-observer-native-r1-release",
+          "--parallel",
+          "2",
+          "--target",
+          "test-executor-abi"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "release-native-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-native-r1-release",
+          "--output-on-failure",
+          "-R",
+          "^(executor-c-layout|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-provider-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-r1-asan",
+          "--output-on-failure",
+          "-R",
+          "^(candidate|fallback)-sampling-observer$"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-native-configure",
+        "argv": [
+          "cmake",
+          "-S",
+          ".",
+          "-B",
+          "build/sampling-observer-native-r1-asan",
+          "-DCMAKE_BUILD_TYPE=Debug",
+          "-DLIE_SANITIZERS=ON"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-native-build",
+        "argv": [
+          "cmake",
+          "--build",
+          "build/sampling-observer-native-r1-asan",
+          "--parallel",
+          "2",
+          "--target",
+          "test-executor-abi"
+        ],
+        "actual_exit_code": 0
+      },
+      {
+        "name": "asan-native-tests",
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/sampling-observer-native-r1-asan",
+          "--output-on-failure",
+          "-R",
+          "^(executor-c-layout|native-provider-verification|hip-provider-target-verification|native-provider-source-paths)$"
+        ],
+        "actual_exit_code": 0
+      }
+    ],
+    "GPU_model_remote_work": false,
+    "classification": "HOST-NOT-INFERENCE"
+  },
+  "final_host_guard": {
+    "argv": [
+      "python3",
+      "-B",
+      "evidence/context-r54-local-observer-r2.py"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 71.875
+    },
+    "elapsed_s": 14.37727383710444
+  },
+  "strict_header_guard": {
+    "argv": [
+      "python3",
+      "-B",
+      "evidence/context-r54-strict-headers.py"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 44.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 47.25
+    },
+    "elapsed_s": 1.0885453214868903
+  },
+  "qualified_host_binary_inventory": {
+    "build/sampling-observer-r1-release/candidate-sampling-observer": {
+      "bytes": 703408,
+      "sha256": "4eb5296ac6a5b05d27030120a56dea72001c305188184450aa5eec747eafd18c"
+    },
+    "build/sampling-observer-r1-release/fallback-sampling-observer": {
+      "bytes": 685208,
+      "sha256": "3b5456f07fe771dc731c3dc3c345fabcb85487537bf1c33d2885c85fe04f10a2"
+    },
+    "build/sampling-observer-native-r1-release/test-executor-abi": {
+      "bytes": 23184,
+      "sha256": "6478d05aac0d26d89c7ef8e097ef8016c6752426d4932528adc1999d85796b1d"
+    },
+    "build/sampling-observer-r1-asan/candidate-sampling-observer": {
+      "bytes": 10691168,
+      "sha256": "789236c2ebc5f1443aa01570ef947a897b6acb4417084c75277b96a7c77f62df"
+    },
+    "build/sampling-observer-r1-asan/fallback-sampling-observer": {
+      "bytes": 24384976,
+      "sha256": "301ed0d1f56a3cd993c389f12bb552ad82c0b19b184381ed036b173b050d68c0"
+    },
+    "build/sampling-observer-native-r1-asan/test-executor-abi": {
+      "bytes": 133848,
+      "sha256": "6e83f444e7ff4a97aed021fe8183f24629f0943ee0e0f76e1da5d82f4b19fa06"
+    }
+  },
+  "semantic_scope": [
+    "target draw and RNG equivalence",
+    "compact proposal masses and RNG equivalence",
+    "accepted and rejected verification equivalence",
+    "grammar-mask projection",
+    "deferred correction does not draw again",
+    "borrowed lifetime and exceptional scope cleanup",
+    "unavailable ABI preserves output",
+    "source/recipe/target provenance refusals"
+  ],
+  "C17_contract_Cpp_interop_only": true,
+  "numerical_algorithm_changed": false,
+  "new_thread_or_HTTP_option": false,
+  "production_observer_requires_explicit_diagnostic_call": true,
+  "existing_AR_capture_client_changed": false,
+  "MTP_capture_writer_replay_complete": false,
+  "adapter_entry_point_HIP_compilation_qualified": false,
+  "GPU_original_weight_probabilities_qualified": false,
+  "new_GPU_model_remote_operation": false,
+  "Python_product_dependency_added": false,
+  "next_gate": "Integrate native MTP writer and independent replay; coherent HIP build and original-weight numerical/controller qualification with fresh .161 admission.",
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "goal_complete": false,
+  "publication": false,
+  "portable_raw_archive": {
+    "path": "raw/sampling-observer-host-2026-10-07.tar.gz",
+    "bytes": 212313,
+    "sha256": "3a9cbc0bd85bbdb199d3d6e7e6a6fdedf1511de77aab21b2e7894cb448d747b4",
+    "members": 70
+  },
+  "raw_artifacts": {
+    "CMakeLists.txt": {
+      "bytes": 61396,
+      "sha256": "7e0d55deaca8d220beeacdadbb01c1d90802a55568a12944213b6e587f07e5e6"
+    },
+    "adapters/gufo-state/sampling-observer-edits.json": {
+      "bytes": 1573,
+      "sha256": "25210f1c440af4c5d7ca50deb71a189a39378f51fdf6164ec3b844d0d3d41d15"
+    },
+    "adapters/gufo.cpp": {
+      "bytes": 64590,
+      "sha256": "fa6fc18828e510d7da5637f7488cc16f69f0586d480096eec4eed3ce925cf2db"
+    },
+    "adapters/gufo_sampling_observer.hpp": {
+      "bytes": 4862,
+      "sha256": "b08e46bf4d293cb2b739770ec80c20e2709b3dd262409ee3eb99c687b3a01c0b"
+    },
+    "build/sampling-observer-native-r1-asan/Testing/Temporary/LastTest.log": {
+      "bytes": 3991,
+      "sha256": "8d0a3f3c24f998b8df7f1bdb826cfbce011ab237b6d224a852fb1dedd86bf81a"
+    },
+    "build/sampling-observer-native-r1-release/Testing/Temporary/LastTest.log": {
+      "bytes": 4012,
+      "sha256": "32683bac62c05c19f9f7f653e7ce5e5102278e4ffde20cdc4d60800658321517"
+    },
+    "build/sampling-observer-r1-asan/CMakeCache.txt": {
+      "bytes": 26709,
+      "sha256": "5862eec3f17719f5e1431ac2151e854b8fe771b9a3f5a5cdceba917a40ee6556"
+    },
+    "build/sampling-observer-r1-asan/Testing/Temporary/LastTest.log": {
+      "bytes": 1855,
+      "sha256": "9f6ff6fb7786e79e8a50ab8edfc998cf95e14427de8aedbc6672b2f59ecb6373"
+    },
+    "build/sampling-observer-r1-asan/variant-files.json": {
+      "bytes": 118774,
+      "sha256": "6df9fe7f7cb7a443f1cc9d3da4649a301e6efcff1e895351c1e4750af09503e7"
+    },
+    "build/sampling-observer-r1-asan/variant/src/core/sampling.hpp": {
+      "bytes": 7876,
+      "sha256": "40f2a5038223a38221a4542a68b8984e0551f447fd28682e739a5a5bfb4e282f"
+    },
+    "build/sampling-observer-r1-asan/variant/src/models/qwen38_flash_next/engine.cpp": {
+      "bytes": 45243,
+      "sha256": "187cfe960a18bac0bdccab996287255d54a4ef2eedc95ac7f5c722358daa8755"
+    },
+    "build/sampling-observer-r1-release/CMakeCache.txt": {
+      "bytes": 26724,
+      "sha256": "d33d19e5225bd707bbe3c3caa3a2352456e227cb0c7453b92432f4ae73680034"
+    },
+    "build/sampling-observer-r1-release/Testing/Temporary/LastTest.log": {
+      "bytes": 1867,
+      "sha256": "25e90358a7b3be1358de1598479bd2a938b6c83df4980a0cb09d78b90b2405c9"
+    },
+    "build/sampling-observer-r1-release/variant-files.json": {
+      "bytes": 118774,
+      "sha256": "6df9fe7f7cb7a443f1cc9d3da4649a301e6efcff1e895351c1e4750af09503e7"
+    },
+    "build/sampling-observer-r1-release/variant/src/core/sampling.hpp": {
+      "bytes": 7876,
+      "sha256": "40f2a5038223a38221a4542a68b8984e0551f447fd28682e739a5a5bfb4e282f"
+    },
+    "build/sampling-observer-r1-release/variant/src/models/qwen38_flash_next/engine.cpp": {
+      "bytes": 45243,
+      "sha256": "187cfe960a18bac0bdccab996287255d54a4ef2eedc95ac7f5c722358daa8755"
+    },
+    "cmake/provider/Build.cmake": {
+      "bytes": 20247,
+      "sha256": "18969aa9572307a1b1ab8532733bee58f0b742e1682f31dbda30f40d891e8378"
+    },
+    "cmake/provider/Source.cmake": {
+      "bytes": 6329,
+      "sha256": "8d5c554336a4a5aa4c04fe96de555390d1573f5d7336842e9d2a759d943fd5de"
+    },
+    "cmake/provider/Verify.cmake": {
+      "bytes": 22014,
+      "sha256": "6e3a1ed274f41dab3dceb8e9c218e6bc00aa25ba7e9995195f9d453c7819c233"
+    },
+    "evidence/context-r54-local-observer-guard/command.log": {
+      "bytes": 1789,
+      "sha256": "d423707da2ccdc25a29c058042e05b4b745d753aa558abfa962c4c5842601398"
+    },
+    "evidence/context-r54-local-observer-guard/plan.json": {
+      "bytes": 906,
+      "sha256": "904d5dfab0b7b29fa39911049c713a08ce0f54efe36d420ea20cc73873eebb16"
+    },
+    "evidence/context-r54-local-observer-guard/result.json": {
+      "bytes": 403,
+      "sha256": "751769c9a19bc0791f1344133bdc522cdbaff6ff16e3a7a43a7cfad5346dd250"
+    },
+    "evidence/context-r54-local-observer-guard/temperatures.jsonl": {
+      "bytes": 23713,
+      "sha256": "1a67dfa239d1c6a67205b1ed42081f1b6f701a7908fee0ac9e50a85a4215cb06"
+    },
+    "evidence/context-r54-local-observer-r2-guard/command.log": {
+      "bytes": 1691,
+      "sha256": "257873a5d4a0159c159556174aac30fcc92d779cfb3ef3eb190c2fb6f0527e02"
+    },
+    "evidence/context-r54-local-observer-r2-guard/plan.json": {
+      "bytes": 914,
+      "sha256": "33039875c516ecda57b229e83351f54d4488c40ee2780cbceac90b955b39076a"
+    },
+    "evidence/context-r54-local-observer-r2-guard/result.json": {
+      "bytes": 405,
+      "sha256": "f312dac005972caf1a320ef5b5878d6a768d553a69f8ab7e0de4ca2f78b4c4bc"
+    },
+    "evidence/context-r54-local-observer-r2-guard/temperatures.jsonl": {
+      "bytes": 9737,
+      "sha256": "e82e9d182ee84797d0a091fe00df3db288e593ae672e2b5b6279aa9c208c8068"
+    },
+    "evidence/context-r54-local-observer-r2.py": {
+      "bytes": 2058,
+      "sha256": "cd9581822fdb7cd9470f68ccd30539d58290504b6e5549a56a935e7d85902708"
+    },
+    "evidence/context-r54-local-observer-r2/asan-native-build.log": {
+      "bytes": 332,
+      "sha256": "8b6400677c59439cf5db62972db00d7c76fa8d29c75994c6a75c7c1311579d48"
+    },
+    "evidence/context-r54-local-observer-r2/asan-native-configure.log": {
+      "bytes": 3412,
+      "sha256": "de2f097af679ace3d75e703f490d793861ca50cd37ac30acf1a60119c6af5049"
+    },
+    "evidence/context-r54-local-observer-r2/asan-native-tests.log": {
+      "bytes": 663,
+      "sha256": "11ac90a53d6d086fd68b67bb904b0205d9817c9b2e9dc197ab5d16f56cb22c94"
+    },
+    "evidence/context-r54-local-observer-r2/asan-provider-tests.log": {
+      "bytes": 426,
+      "sha256": "a2c9c38b1485777da5ec176ef8fe45fa7229e31810496437fcfd73d9029dbd83"
+    },
+    "evidence/context-r54-local-observer-r2/commands.json": {
+      "bytes": 2206,
+      "sha256": "2ee1d36bec5eecbb01138ea706e84a8b5b22fff895dca509d5f6db27a153f66f"
+    },
+    "evidence/context-r54-local-observer-r2/release-native-build.log": {
+      "bytes": 38,
+      "sha256": "ef6d86eb59fbc12a7121d09e38ef981a76b49660364a251326e0eebc47f54c9a"
+    },
+    "evidence/context-r54-local-observer-r2/release-native-configure.log": {
+      "bytes": 431,
+      "sha256": "fd64c45943a7587e2141ca5c1cd1ae314c4c55d75e1a7986198227563f381af6"
+    },
+    "evidence/context-r54-local-observer-r2/release-native-tests.log": {
+      "bytes": 666,
+      "sha256": "aafd06c22075592d115f42f8491c649becf29eabef082d6c31753ed5f829f01a"
+    },
+    "evidence/context-r54-local-observer-r2/release-provider-tests.log": {
+      "bytes": 429,
+      "sha256": "c87cdf52f4baf988a642a4f15d80f51baf10e0be71720b8ddf80a5edc2afe227"
+    },
+    "evidence/context-r54-local-observer-r2/result.json": {
+      "bytes": 2628,
+      "sha256": "f04cae36f4f930da0a313e27f5eede5b2f62c1911f17426e6ba593991a613460"
+    },
+    "evidence/context-r54-local-observer.py": {
+      "bytes": 2230,
+      "sha256": "b8a72e5989397ef2ab56d9a673e8df663210d16a34554820b22c28aaa45fa30a"
+    },
+    "evidence/context-r54-local-observer/asan-provider-build.log": {
+      "bytes": 15328,
+      "sha256": "e39c866b7a89d5e264b7a1242134a1b935e0e28497e8dd035de7d3a97269d20e"
+    },
+    "evidence/context-r54-local-observer/asan-provider-configure.log": {
+      "bytes": 1129,
+      "sha256": "d136098c47f761d1c059e189c08607e76fa26fe43923479d966bb9faed9b764b"
+    },
+    "evidence/context-r54-local-observer/asan-provider-tests.log": {
+      "bytes": 1041,
+      "sha256": "2eb1c54309e42e6d19c8945f407c4aa4690eb8f8e2eb04c9966308baf2142aee"
+    },
+    "evidence/context-r54-local-observer/commands.json": {
+      "bytes": 2389,
+      "sha256": "d3fb829818d3f5610f263cc60230eca3629420966f38489b9ba186a9fb157a7b"
+    },
+    "evidence/context-r54-local-observer/release-native-build.log": {
+      "bytes": 332,
+      "sha256": "6101a4dde206a04aa0e0bdcc7f9602f58442a16ffc567006d65bac1291f083bd"
+    },
+    "evidence/context-r54-local-observer/release-native-configure.log": {
+      "bytes": 3415,
+      "sha256": "85954b27fb3726dfe2bd065fb2e9d49abacc9850c2a31612a7b37bba4b459def"
+    },
+    "evidence/context-r54-local-observer/release-native-tests.log": {
+      "bytes": 315,
+      "sha256": "35851f44ac25cbf0f36e8588209745f7ba85e770c877dceb962eb54e5d65d736"
+    },
+    "evidence/context-r54-local-observer/release-provider-build.log": {
+      "bytes": 15346,
+      "sha256": "c2fff0945244af3740617dac30defb606d2bb31d78f51ad90080418e6727ee86"
+    },
+    "evidence/context-r54-local-observer/release-provider-configure.log": {
+      "bytes": 1132,
+      "sha256": "09919dd37e3690486dc6130e27409d2a7d7e93262741fafaa15a0b200205d2dd"
+    },
+    "evidence/context-r54-local-observer/release-provider-tests.log": {
+      "bytes": 429,
+      "sha256": "6c98dd691a35e4294373659755fe6575019e336032ead5e844284c193bc0d479"
+    },
+    "evidence/context-r54-strict-headers-guard/command.log": {
+      "bytes": 57,
+      "sha256": "1c822ca7dafdee57aebe2de2a64df0c132d933d77b006808180bc4db4557be76"
+    },
+    "evidence/context-r54-strict-headers-guard/plan.json": {
+      "bytes": 904,
+      "sha256": "a7b5bcc2b68ecd4909ad3671e43553264f982a0698d2bb83e454fcd77961a183"
+    },
+    "evidence/context-r54-strict-headers-guard/result.json": {
+      "bytes": 402,
+      "sha256": "b0384805b9b65f628d1df82e33a5dede411b5ae5c1c89112c965496254c06a64"
+    },
+    "evidence/context-r54-strict-headers-guard/temperatures.jsonl": {
+      "bytes": 1828,
+      "sha256": "547e28d6091cc1fec83891c825bab07c829db35bc5fd74dc402ba51c480ee998"
+    },
+    "evidence/context-r54-strict-headers.py": {
+      "bytes": 865,
+      "sha256": "bc679881d395289c1e52355765f6b1de7e67928af4b3416c29ac466b68052415"
+    },
+    "evidence/context-r54-strict-headers/c17.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r54-strict-headers/cpp17.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r54-strict-headers/observer.c": {
+      "bytes": 135,
+      "sha256": "fe03336d7548beddaedd18ee932a8839dc39804ce11aca5a23302cfb2bd942ce"
+    },
+    "evidence/context-r54-strict-headers/observer.cpp": {
+      "bytes": 131,
+      "sha256": "a429a58a67e01cacc5155c8dfc8bc48f329bbd859ba126d13ac321c771a91e22"
+    },
+    "evidence/context-r54-strict-headers/result.json": {
+      "bytes": 625,
+      "sha256": "22bbef349eb2f9e78300cc709fe068ecf10e30aa0430665838308942a142ed0a"
+    },
+    "evidence/seal-context-r54-observer.py": {
+      "bytes": 7371,
+      "sha256": "9e91134f20416042036fa65757268a5c7f7690cd5d30a409a12d8249aba25c42"
+    },
+    "include/lie/executor.h": {
+      "bytes": 9842,
+      "sha256": "4f23a8d82dd7e5f5225359b99f464aa73842fe6513c00132c976dc94cd087245"
+    },
+    "include/lie/mtp.h": {
+      "bytes": 2013,
+      "sha256": "fd8076e1df0aba28827a4f1e3b55e9f76c31797f1bdbd35b1715d4b29b3bd372"
+    },
+    "include/lie/sampling.h": {
+      "bytes": 3481,
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    "include/lie/sampling_observer.h": {
+      "bytes": 2189,
+      "sha256": "7ce8b71be585321eb869ee2ea626af3a4e87c18b0e46dea93094a0f8891658a4"
+    },
+    "src/executor_unavailable.c": {
+      "bytes": 8208,
+      "sha256": "0dc192033a220c81d8d77e15aaef252718e4968603fe0d17699b1a535e097e25"
+    },
+    "tests/provider_contract.cmake": {
+      "bytes": 43118,
+      "sha256": "05659405ef2a736c7077410a99372374522c19068b01fda3251173f4bc575bdf"
+    },
+    "tests/sampling/CMakeLists.txt": {
+      "bytes": 34362,
+      "sha256": "9d836d756e1e40feede39e9785e85f7633ed40f129f72077b079d0a96c2fabbb"
+    },
+    "tests/sampling/observer.cpp": {
+      "bytes": 10080,
+      "sha256": "27208b7f197445a88e1c8a194ac8f7353aa872b2d1e57f7caaeef98f664ff74a"
+    },
+    "tests/test_executor_abi.c": {
+      "bytes": 1271,
+      "sha256": "7dc7535b493dbf6f99a51a8edf8c82ab0de784a9acf44d599773345a380e4699"
+    },
+    "tools/thermal-run.py": {
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    }
+  },
+  "portable_sealing": {
+    "actual_exit_code": 0,
+    "guard": {
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/seal-context-r54-observer.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 44.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 46.375
+      },
+      "elapsed_s": 1.0840204218402505
+    },
+    "finished_guard_files": {
+      "evidence/context-r54-sealing-guard/command.log": {
+        "bytes": 343,
+        "sha256": "be5ed269a6eaa48c4765f14095480e9e1cb60201faa34c313b527b14e7f9ffb9"
+      },
+      "evidence/context-r54-sealing-guard/plan.json": {
+        "bytes": 903,
+        "sha256": "a35901d89787faf75553640cae1bbde71b90145180e6a0f2e1442f9bb2c11b3a"
+      },
+      "evidence/context-r54-sealing-guard/result.json": {
+        "bytes": 402,
+        "sha256": "f3ce2a3b566b9d0ab894aafa2c86ad2daca90d4cb6f33fd95adb49394616fcea"
+      },
+      "evidence/context-r54-sealing-guard/temperatures.jsonl": {
+        "bytes": 1826,
+        "sha256": "641a6da239815e6f0ffc967b2823598501a46738f1179a7b0ff26b7e61c55542"
+      }
+    },
+    "active_guard_excluded_from_archive": true
+  }
+}

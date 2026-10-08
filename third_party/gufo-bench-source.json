@@ -1,0 +1,17 @@
+{
+  "SPDX-License-Identifier": "MIT",
+  "upstream": "https://github.com/gufo-org/gufo",
+  "commit": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "origin": "Independently fetched official upstream; no sibling workspace imports",
+  "license": "gufo-LICENSE",
+  "copyright": "Copyright (c) 2026 gufo contributors",
+  "algorithm_source": "tools/gufo/model_bench/llm.py",
+  "algorithm_sha256": "3e3a038c98c4656f1366fc183fb207bd6ea3dbbebbd2ff28b083a330ef716c0d",
+  "ported_to": ["tools/native/gufo_workload.c", "tools/native/http_curve.c"],
+  "scope": "Canonical seeded prose/tasks, tokenizer calibration, prefix reply, cached-conversation depth tolerance and recalibration",
+  "rng": "Independent C implementation of MT19937 and Python integer-seed, rejection sampling, 53-bit uniform and ties-to-even semantics; no CPython source copied",
+  "goldens": ["tests/fixtures/gufo-workload-goldens.json", "tests/fixtures/gufo-curve-trace.json"],
+  "golden_generation": "Offline developer extraction of selected definitions from the hash-verified pinned Python source; 22 prompt hashes, 35 primary request witnesses and independent boundary traces for four exhausted attempts, thinking, early prefix EOS and 1M client capacity. Product and CTest only read static JSON; no interpreter execution.",
+  "limits": "CPU goldens prove protocol/text equivalence, not original-weight inference, numerical parity or GPU throughput. This port does not include the upstream server lifecycle, loading, vision or memory-peak qualification runners.",
+  "product_python_dependency": false
+}

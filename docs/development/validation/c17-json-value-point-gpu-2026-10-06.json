@@ -1,0 +1,968 @@
+{
+  "schema": "synapse-lie.c17-json-value-point-original-qualification.v1",
+  "at_utc": "2026-10-06T06:55:47.674573+00:00",
+  "state": "PASSED_WITH_STATED_SCOPE",
+  "source_commit": "5227bf4f5c2f0d95cc246b2a739fc0de9f24515d",
+  "code_checkpoint": "5227bf4f5c2f0d95cc246b2a739fc0de9f24515d",
+  "target": "pop@192.168.5.161",
+  "gpu_target": "gfx1150",
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Matching sealed default-ON89-file C17 typed JSON value/key/array/object/copy/serialization provider/application build (77 first-party +12 vendor/provenance), followed by unchanged37 original-weight OpenAI wire/lifecycle/tool/grammar/output controls in AR/MTP. Selected integrated paths only; predicate containers and model/controller remain private C++. These controls do not qualify every typed-value/parser/numeric/format branch, independent probabilities/faults/quality/private allocation-exact resources/matched cost. The private C++ facade retains synchronized string/key projections and exception/iterator glue; no new inference worker, CPU model forward, speedup or Terminal Bench score.",
+  "host_receipts": [
+    {
+      "path": "docs/development/validation/c17-json-value-host-2026-10-06.json",
+      "bytes": 245666,
+      "sha256": "eb932a251ef1726c44813f33c17750187cd5fd6465cecc7d3481adcd2ea3c12f"
+    },
+    {
+      "path": "docs/development/validation/c17-json-parser-host-2026-10-06.json",
+      "bytes": 161263,
+      "sha256": "40cb019dae214d19b10e1f2a7f1f6f35002dc9067e16e84a0ba1621060b15060"
+    },
+    {
+      "path": "docs/development/validation/c17-binary64-host-2026-10-06.json",
+      "bytes": 136977,
+      "sha256": "b72d05b9e280fb581f56d8505b2aaee41b7ddca8a037413a301cc89c3f1d086d"
+    }
+  ],
+  "source_capsule": {
+    "path": "evidence/context-r25-source-seal.json",
+    "bytes": 1469,
+    "sha256": "d7cc92776ebd5ac7de847e8284d4d8f54cb32b4aee4b0e97d301630679bd3d03"
+  },
+  "bundle": {
+    "path": "evidence/context-r25-bundle-result.json",
+    "bytes": 1375,
+    "sha256": "8d38f225d9cc36a70f74a3b76652b24dafcde174465d560af775b1d329147ab7"
+  },
+  "provider_build_receipt": {
+    "path": "evidence/context-r25-build-r1/compile-evidence/build/rocm10-point-modern-r25-provider/BUILD-RECEIPT.json",
+    "bytes": 136047,
+    "sha256": "7de1c8680a6ffc63eb1d0a20f7407ecee5164911a132d076485c8b6b9e5e87fc"
+  },
+  "compiled_provider_files": {
+    "adapters/gufo_composition_cache.hpp": "77506a2ba4a009fef67456013d19e15535abeabc906e8b8d8607c3d637d905b8",
+    "adapters/gufo_distribution.hpp": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d",
+    "adapters/gufo_grammar.hpp": "5a1b26a1dd27ae806a86de08c94caabbc98e989f6afe4eb15a4e5f79bed77125",
+    "adapters/gufo_grammar_builder.hpp": "c30d48f0845eb5a6b02b1592450fdc5a36b3c9b1fbe63153420c438148742cd5",
+    "adapters/gufo_grammar_cache.hpp": "62d01ddae21a28175a0db91407204ebfff8bf9068a182d636c57fbf1186d304a",
+    "adapters/gufo_grammar_composition.hpp": "009a9c643b13bca52c69adcfa55dc46defe25f48bc913e4588e99a5fae2fc17c",
+    "adapters/gufo_grammar_number.hpp": "f13f2a25ab3f4c7824953b39d60a0e596c3bc266143cb4b6fb48446fa1b53c34",
+    "adapters/gufo_grammar_regex.hpp": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f",
+    "adapters/gufo_grammar_regex_compile.hpp": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249",
+    "adapters/gufo_grammar_regex_parse.hpp": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96",
+    "adapters/gufo_grammar_string.hpp": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2",
+    "adapters/gufo_grammar_vocabulary.hpp": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d",
+    "adapters/gufo_history.hpp": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998",
+    "adapters/gufo_json_parse.hpp": "9b8c7c23226e6dc3aa8cb97a29b8168bfac8379e64f5db38cf454f8fdbb4f06b",
+    "adapters/gufo_json_value.hpp": "5c3e4339775d99667e1e8e1e573bb3ce7118f583fedd93a8218f79830737ecad",
+    "adapters/gufo_sampling.hpp": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d",
+    "adapters/gufo_schema_body.hpp": "a13d281b7e63930765ab5159195f93939528fcd6fa7d3171768da6f63c5d7e44",
+    "adapters/gufo_schema_dispatch.hpp": "b6297c9abb7f8fa01a2b3279559fe31897f3d18e0e02bb1e45e0ca6704ab64c1",
+    "adapters/gufo_schema_format.hpp": "02c59fbd7382d063b4a75b48acb610e5a94514597717d3b994d1b4a6de97d8fe",
+    "adapters/gufo_schema_memo.hpp": "a03bf6772145fd2b184d76772e59a0b2577814850cdb2e00e7b791efaab57a16",
+    "adapters/gufo_schema_number.hpp": "e1e7fe4159cd3f2bd960fcc857c7d4e22c5c1726cca2c30ce24ea331da3b657f",
+    "adapters/gufo_schema_transform.hpp": "ac796a6208860547373c1c6535ded8a5ff9f5b31fadcb9bfb9db751e946ec419",
+    "adapters/gufo_schema_values.hpp": "88b955ec917ee70aa5260a4e2cc356d51de34244f1fd4dddcb51094cb9667b4f",
+    "adapters/gufo_schema_visit.hpp": "36bc2c418253f8f8dbe56336fbd88efe9608cea022c9f11acd526125dccd20b1",
+    "include/lie/binary64.h": "c9946b47a45cea79d98c1241609bed292a30a68643f9db16bf8ffc470bd3b141",
+    "include/lie/grammar.h": "2e889d222465ba7fef5acba972f3b870696cff4667b0c2a1d1c17bbb592ed0ae",
+    "include/lie/grammar_builder.h": "4f6749ffbd46bbc52ce54f5b038939085b9be8303b36b1041d9fa1e8b02bf89a",
+    "include/lie/grammar_cache.h": "57b822369091ef4e06dfda530f112d5d22b29c804e5f77dd7610269aa9763ec0",
+    "include/lie/grammar_composition.h": "d19f27a126322e7e29532a2917120f3a9d771e2688f9081449f2806a17ecbe8a",
+    "include/lie/grammar_number.h": "1ddb997b5f4439e4842da5e42129ef8fad2859d1ed6212cbd1988e13636e8703",
+    "include/lie/grammar_regex.h": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c",
+    "include/lie/grammar_regex_compile.h": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838",
+    "include/lie/grammar_regex_parse.h": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8",
+    "include/lie/grammar_string.h": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9",
+    "include/lie/grammar_unicode.h": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86",
+    "include/lie/grammar_vocabulary.h": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619",
+    "include/lie/json_parse.h": "fd12f8804298b68767ada7b19b80ecf3c1b91a615e028ebd601f797cf716db5e",
+    "include/lie/json_value.h": "7c43d006d75563947c16db5aca608a954956729b5e41afeb1d70e7e82963e3c6",
+    "include/lie/ordered_cache.h": "32a7929f0127f28f8e639d57f6bfe050122a7f619bd1a19dd7fadc47fdebdf89",
+    "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+    "include/lie/sampling_distribution.h": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555",
+    "include/lie/sampling_history.h": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597",
+    "include/lie/schema_body.h": "6bb82ce97c9f7156fe48fcd16e86508b1fbf2a7c582cd933fc8f06101040397f",
+    "include/lie/schema_dispatch.h": "55c3f27f4d80a96cb4c026360b649d992f8e507b05bfd8202d731d4c6d44ae9e",
+    "include/lie/schema_format.h": "6b64af2b97444d3b79372564f08509261935eef7b060bbc3a56f9fda9fe03fda",
+    "include/lie/schema_memo.h": "ce967e1cca82de2526bea1ff711c7fb5af33b2ce3b6b070cfff85640f2f1bd82",
+    "include/lie/schema_number.h": "88153e42bc2abd4d6b5c1b815b6f70236a4f91e5669e41e4daa66dbf6f724f79",
+    "include/lie/schema_transform.h": "87aa7b05940598790ed2fd2feb1e8328e81adac0b1f49691abf416a38aff4209",
+    "include/lie/schema_values.h": "41d0e84736c1593b225c0d73ee652290a73ecb53cd5e600075a3acf83ed60164",
+    "include/lie/schema_visit.h": "9e6ce89bda7c6743b3b9f7fe36d17639a3eaeeaeaf72e81c5f846d0ab3bf2db3",
+    "src/binary64.c": "91b272dc793a5e7e8fe7a23565334e000ba679b90c78e0bcc80388653dbb6a57",
+    "src/grammar.c": "2f7bc2b59814abc8f274c66314e029f775658ad94b651d0dcfe91018753abcf3",
+    "src/grammar_builder.c": "6718814c6e2f318f41264cce0909b807f02816c46ceef0f8c2ae6854c14ac4f8",
+    "src/grammar_cache.c": "e7dfe04eae201d9a02c01e867ebf4ffd4b1d1e28f3a7b6a2a47281ef426e7349",
+    "src/grammar_composition.c": "0c753809cb46935c1e1f67736e4d8d915ef9213b00acb3e8b89c09d827005bc2",
+    "src/grammar_number.c": "f250731df3cd82e21013210b4d25c30b00d05013a03b5f192f0a47d90cf8c8e5",
+    "src/grammar_regex.c": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f",
+    "src/grammar_regex_compile.c": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb",
+    "src/grammar_regex_parse.c": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112",
+    "src/grammar_string.c": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef",
+    "src/grammar_unicode.c": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23",
+    "src/grammar_vocabulary.c": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b",
+    "src/json_parse.c": "65e3e1474e00856fb625d7c1bced7a01f974bc0dcd7d8496b0a0943a456e95b6",
+    "src/json_value.c": "39284c0878494279bb04fcd7b17ebe5dcf2cb48c4ac935bb7a8558e2f74b311d",
+    "src/ordered_cache.c": "435a75278909ec58b8da565e810ff6c4687b311f43bdd78e44ef3c445cb6eccf",
+    "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+    "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+    "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+    "src/schema_body.c": "37576082f767878f85af38787c51903fe76ea3a89bf8f269765c8c3607146f24",
+    "src/schema_dispatch.c": "5737821a1f215c663da03906c5701702cb6f59d5250ba5aae11127c0bc025bc7",
+    "src/schema_format.c": "53f36f462f750e6d07c03dbe8257ffa34983c732fc86418bde9adba6e8e8b7f6",
+    "src/schema_internal.h": "ff1e3a45b1b0de2081e47acb1889f80303f87199dbdfe53492c35750f604f27b",
+    "src/schema_memo.c": "d26aee14562b0542db03a822e9eef071b98f6351e64282e33ad580c003357dfd",
+    "src/schema_number.c": "c1d3236dae4eeb632544cb237077a8dbabe23e49d062e574bcb1a4822689aecd",
+    "src/schema_transform.c": "527ae6ba4e07202fd832ce9588aea3ec562e3c726c69113b29e624fffeefd169",
+    "src/schema_values.c": "a2413e3cc39f844e5d62106d54e9ad85540aee89edaa41e7db8a2c29132c6609",
+    "src/schema_visit.c": "ef1bedc0d628f0e21f08bc8251bd26bf9f84306a0fb15c2cd6ea36913b132a72",
+    "third_party/ryu-source.json": "739d0c0b49d81aaa93dd38df38c95421f521b2a3ecaee76ae6f99b353ed2135e",
+    "third_party/ryu/LICENSE-Apache2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "third_party/ryu/LICENSE-Boost": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+    "third_party/ryu/ryu/common.h": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19",
+    "third_party/ryu/ryu/d2s.c": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64",
+    "third_party/ryu/ryu/d2s_full_table.h": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6",
+    "third_party/ryu/ryu/d2s_intrinsics.h": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d",
+    "third_party/ryu/ryu/d2s_small_table.h": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9",
+    "third_party/ryu/ryu/digit_table.h": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01",
+    "third_party/ryu/ryu/ryu.h": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16",
+    "third_party/ryu/ryu/ryu_parse.h": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a",
+    "third_party/ryu/ryu/s2d.c": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3"
+  },
+  "compiled_first_party_file_count": 77,
+  "compiled_vendor_and_provenance_file_count": 12,
+  "json_parser_recipe_sha256": "1d0bf207909416e9cfe42232d8c14a29de101ac2a6283bcb717ed97b9d7ccaeb",
+  "json_value_recipe_sha256": "e1bbbb2b0fff9dadd2c2553779656b9943c356642f78d04b6a35d8fb834bc7fe",
+  "build_closure": {
+    "path": "evidence/context-r25-build-closure-r1.json",
+    "bytes": 7696,
+    "sha256": "1f6ca3d820acaf397d192f05f0cde8e27e8b094f197c85b8de73eb62cbc3f791"
+  },
+  "coordination": [
+    {
+      "path": "evidence/context-r25-peer-nonuse-r1.json",
+      "bytes": 1492,
+      "sha256": "3a1104e87a196eaedfd6825108b90ee4ecdbbb02f26d6629bc204f83e69fe531"
+    },
+    {
+      "path": "evidence/context-r25-peer-nonuse-ar-r1.json",
+      "bytes": 1464,
+      "sha256": "424690cad90bb46e7d588ed732e6c2a5ebeafd9aaa9538e99214b69041538d99"
+    },
+    {
+      "path": "evidence/context-r25-peer-nonuse-mtp-r1.json",
+      "bytes": 1494,
+      "sha256": "ad647c75a66302eb2996caacea64235eef329cf950ae4201b654343616c3c368"
+    }
+  ],
+  "runs": [
+    {
+      "label": "context-r25-build-r1",
+      "mode": "build",
+      "source_commit": "5227bf4f5c2f0d95cc246b2a739fc0de9f24515d",
+      "started_at": "2026-10-06T06:43:24.039128+00:00",
+      "ended_at": "2026-10-06T06:46:18.752003+00:00",
+      "supervisor_pid": 115200,
+      "supervisor_start_ticks": 13796040,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T06:46:18.751985+00:00",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "KFD_empty_before_named_router_restore": true,
+      "router_restored": {
+        "MainPID": "118659",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "peak_c": {
+        "nvme": 45.85,
+        "amdgpu": 45.0,
+        "k10temp": 69.75
+      },
+      "container_name": "d9de9bd084bffdc7e0e973ea83d6588a72f5dac43436c6b9aafe42fc0fad5598",
+      "container_init_identity_recorded": true,
+      "container_init_pid": 115272,
+      "container_init_start_ticks": 13796157,
+      "files_sha_verified": 6,
+      "artifacts": [
+        {
+          "path": "evidence/context-r25-build-r1/manifest.json",
+          "bytes": 1295,
+          "sha256": "c79d5cc775a36bc84765fa177f3d5b5827843456d8b04eac1f4b8865f5ae768e"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/result.json",
+          "bytes": 92948,
+          "sha256": "47eeb0bf019f57260f91f99a5a4cdd5add081d2c7f169740588e9a93e7348b84"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/runner.py",
+          "bytes": 110414,
+          "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/telemetry.jsonl",
+          "bytes": 205983,
+          "sha256": "bc7f7707cbda65be5df52c095acf6d5de9c414eb347949caeac07ca717b95ea5"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/collection.json",
+          "bytes": 3071,
+          "sha256": "e9150c5a0a6c8096837209aa5ee7faee89224d8abdd61c7c46223a39a6bb80d9"
+        },
+        {
+          "path": "evidence/context-r25-build-r1/controller-result.json",
+          "bytes": 541,
+          "sha256": "6f748be4920ebfc2551d5d84d9cddcd86adcc3d0d38c61ecb5976bbec59e9e7f"
+        }
+      ],
+      "actual_window_retired": true,
+      "actual_supervisor_identity_absent": true,
+      "container_init_identity_absent": true
+    },
+    {
+      "label": "context-r25-openai-auto-ar-r1",
+      "mode": "ar",
+      "source_commit": "5227bf4f5c2f0d95cc246b2a739fc0de9f24515d",
+      "started_at": "2026-10-06T06:47:34.981216+00:00",
+      "ended_at": "2026-10-06T06:51:39.916792+00:00",
+      "supervisor_pid": 119146,
+      "supervisor_start_ticks": 13821118,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T06:51:39.916752+00:00",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "KFD_empty_before_named_router_restore": true,
+      "router_restored": {
+        "MainPID": "120209",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "peak_c": {
+        "nvme": 64.85,
+        "amdgpu": 66.0,
+        "k10temp": 61.0
+      },
+      "container_name": "d14e78d9d9dd95716df303800bce002773ed59d379e317b37e40a365e256b4f3",
+      "container_init_identity_recorded": false,
+      "container_init_pid": null,
+      "container_init_start_ticks": null,
+      "files_sha_verified": 17,
+      "artifacts": [
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/distrobox-create.log",
+          "bytes": 281,
+          "sha256": "522d2f8194311f30fbb232f2e1d4c56a9540c719dc77c47f0bbe6286cedeeab0"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-controls-result.json",
+          "bytes": 2973,
+          "sha256": "26ec153e917e1265245a9fe528920d2c0437e6c2fe6da99231aabfc494f7b5c8"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-controls.py",
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-gate.py",
+          "bytes": 18736,
+          "sha256": "906c205db1d966221e810deb659357a078e14e758993316b7b792ee52784ad3e"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-output-budget-result.json",
+          "bytes": 5475,
+          "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-output-budget.py",
+          "bytes": 7386,
+          "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-result.json",
+          "bytes": 1795,
+          "sha256": "bb37ed3322b30021ffbc50b8b66e90f2d99f9bbf6c39dc63ac16a1ae65cf7eb9"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/http-wire.jsonl",
+          "bytes": 912465,
+          "sha256": "8652a9e5734f436098baf2325fc86721eed8b5b806d4a0d305d24e662558cdb0"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/manifest.json",
+          "bytes": 4907,
+          "sha256": "87e5f9865d47da63de12971daa84d74f21e58eb2f0bfd8a9483e709cf0875f1f"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/result.json",
+          "bytes": 98371,
+          "sha256": "3adbd5843f9dcb49ff5f35d86912d9096c2b831f192d06346feac153b9944cc5"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/runner.py",
+          "bytes": 110414,
+          "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/server.log",
+          "bytes": 92,
+          "sha256": "d0f0cb6aa0ad3d6f8f9d9cca4897532a065ec30b28f432fdd1394be16d32303c"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/stdout.log",
+          "bytes": 66673,
+          "sha256": "14901ca91c80aba9fba982c5c61d33da1922f764c0d39e524869fcfd6da2852a"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/telemetry.jsonl",
+          "bytes": 427351,
+          "sha256": "2439e4af78286b366d693b410c58d8cf5c3eb2f86d71061c4e7a4a4e3950a5a3"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/collection.json",
+          "bytes": 8635,
+          "sha256": "8a27fff65116a4e90d14506126e674753850a75a9f3a2a58fce12cf0a8018fa2"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-ar-r1/controller-result.json",
+          "bytes": 827,
+          "sha256": "4f75b793b62c24bf082c87f7ce4ecd202809f2c749bc7baf3fee651680ecaf6a"
+        }
+      ],
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "model_stat_unchanged": true,
+      "gtt_peak_bytes": 90559934464,
+      "observed_process_threads_max": 44,
+      "actual_window_retired": true,
+      "actual_supervisor_identity_absent": true,
+      "container_init_identity_absent": null
+    },
+    {
+      "label": "context-r25-openai-auto-mtp-r1",
+      "mode": "mtp",
+      "source_commit": "5227bf4f5c2f0d95cc246b2a739fc0de9f24515d",
+      "started_at": "2026-10-06T06:52:38.125475+00:00",
+      "ended_at": "2026-10-06T06:55:27.326815+00:00",
+      "supervisor_pid": 120559,
+      "supervisor_start_ticks": 13851449,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "cooperative_lie_only": true
+      },
+      "lease_released_at": "2026-10-06T06:55:27.326781+00:00",
+      "actual_exit_code": 0,
+      "child_exit_code": 0,
+      "KFD_empty_before_named_router_restore": true,
+      "router_restored": {
+        "MainPID": "121639",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "peak_c": {
+        "nvme": 64.85,
+        "amdgpu": 67.0,
+        "k10temp": 66.375
+      },
+      "container_name": "5202a85c1b679ce0ba38c2bd3c0f10346bb52bffa254a7a96829d02a012e6191",
+      "container_init_identity_recorded": false,
+      "container_init_pid": null,
+      "container_init_start_ticks": null,
+      "files_sha_verified": 17,
+      "artifacts": [
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/distrobox-create.log",
+          "bytes": 284,
+          "sha256": "a74a688237328b6f5021973ecb6c4ff00afbb64760fc44074fb4f20804d6c0bc"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/distrobox.stderr.log",
+          "bytes": 1073,
+          "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/distrobox.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-controls-result.json",
+          "bytes": 2977,
+          "sha256": "2432f3fc5d85fcf85405f9eb01566b0f2559b81265aaded8dd7af1f8659b07a9"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-controls.py",
+          "bytes": 18408,
+          "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-gate.py",
+          "bytes": 18736,
+          "sha256": "906c205db1d966221e810deb659357a078e14e758993316b7b792ee52784ad3e"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-output-budget-result.json",
+          "bytes": 5475,
+          "sha256": "043d0b195d765c90d49a11ed8ed70ccc013632aa9dbd2f75699b94c75f87f0b0"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-output-budget.py",
+          "bytes": 7386,
+          "sha256": "46fe16867cc37ab0ec684b02c4a1ae87dbf412b108bb6c5f1f5f5d3975156311"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-result.json",
+          "bytes": 1902,
+          "sha256": "e49eac4be8d5ca0ec38d63249bc833efe43c657b90792b7e1c460c8937813257"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/http-wire.jsonl",
+          "bytes": 727191,
+          "sha256": "50c54c4e2e88999012dbe8d5a33b057b89f5c841733badf45938738960114ee4"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/manifest.json",
+          "bytes": 5565,
+          "sha256": "bcf9e7f9511a3d579443f15c074fbea76923f7f38f7bf16c771ea2e0f5026bf4"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/result.json",
+          "bytes": 99880,
+          "sha256": "02024ac138c22429a3cd5d5fcbc82bb00d016c6d2466d88e732667bfba62593e"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/runner.py",
+          "bytes": 110414,
+          "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/server.log",
+          "bytes": 92,
+          "sha256": "ce83439cae8c0412aeb819935038b11f399e0466c6c9927de8d8f18181eb1767"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/stdout.log",
+          "bytes": 66686,
+          "sha256": "d84a41dbf121530f1c227b216d078cb67c1b80d0f5111c1df7de3a54cad96cd6"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/telemetry.jsonl",
+          "bytes": 296128,
+          "sha256": "2bcde632a090cafd39b0bed1f77c83d344a21f500600fe6e2a5a383b5574e9a5"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/collection.json",
+          "bytes": 8659,
+          "sha256": "4697656dd1b3c915fbef6683007e8454ff842c791e4df0ccaa988df394eab583"
+        },
+        {
+          "path": "evidence/context-r25-openai-auto-mtp-r1/controller-result.json",
+          "bytes": 828,
+          "sha256": "e7c28cc6fefbce2e06d4db94dbdf398161902cadf1ca877e191c1351df820476"
+        }
+      ],
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "model_stat_unchanged": true,
+      "gtt_peak_bytes": 94725414912,
+      "observed_process_threads_max": 44,
+      "actual_window_retired": true,
+      "actual_supervisor_identity_absent": true,
+      "container_init_identity_absent": null
+    }
+  ],
+  "build_artifacts": [
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/build/rocm10-point-modern-r25-provider/BUILD-RECEIPT.json",
+      "bytes": 136047,
+      "sha256": "7de1c8680a6ffc63eb1d0a20f7407ecee5164911a132d076485c8b6b9e5e87fc"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/collection.json",
+      "bytes": 11670,
+      "sha256": "6e554e0ffd08eb29a77cc26cd3b9032fef99a34745b2da50a5a960a78160bcf5"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/configure.command",
+      "bytes": 660,
+      "sha256": "dd09783505aa40ac774c27bbc1b419aa0d65320b480cdb0fde958419584077bd"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/configure.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/configure.stderr",
+      "bytes": 1608,
+      "sha256": "8b5f5cc594641a9e1a3eed51fb0ec86ffb926322d709c6b211c505d5cc85064b"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/configure.stdout",
+      "bytes": 3776,
+      "sha256": "b0efee4b8bc4369d55534c0ce61040c2d00b5529e8bd8a0a5c502d2af7700e30"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/link.command",
+      "bytes": 175,
+      "sha256": "8a4540cfc2ededd19f75c3bb1257a843f10dcfd2fcf090264bd3fcd5276411a9"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/link.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/link.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/link.stdout",
+      "bytes": 11774,
+      "sha256": "a3ddd67b198950fccee220412c24f58c9de193beeacd71cfe4c963a773780b0b"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/provider.command",
+      "bytes": 261,
+      "sha256": "cb963573beb11f5891200a18d62b9fbeda7573224d6a8cee5c3c20d2af14538c"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/provider.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/provider.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/provider.stdout",
+      "bytes": 65,
+      "sha256": "6b633fedf86b81a5f03b17410e2b110a719bb940c899c910c4d81f46ea5b8b2c"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-compile/result.json",
+      "bytes": 947,
+      "sha256": "ec6301f6544f6c3fea30d05b5f3eb8518708b47e3b65962e9c8dd9a579a99c8e"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-provider/build.log",
+      "bytes": 8666,
+      "sha256": "867270ccf834c3f64a417b941db4960a9610b44e53a47f6c7248a04730e3b460"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-provider/configure.log",
+      "bytes": 3359,
+      "sha256": "d6ac120b1079cf312fa1b55540571967583b0b7e88e8a6d0761008e1417cfb34"
+    },
+    {
+      "path": "evidence/context-r25-build-r1/compile-evidence/evidence/rocm10-point-modern-r25-provider/result.json",
+      "bytes": 136047,
+      "sha256": "7de1c8680a6ffc63eb1d0a20f7407ecee5164911a132d076485c8b6b9e5e87fc"
+    }
+  ],
+  "binaries": {
+    "runtime/bin/lie-hip-probe": "850699d12744d37ca25231f6a2089cbb8e1ce436c0f0a0839c4edc45a1e1ea67",
+    "runtime/bin/synapse-lie-bench": "1f6ac6afa4e32dc8b51b6f62f2d19a6e9a5ecf19e416bd4eded0635330d720e5",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "30c9376a93e2b9985c5a7f78a1a8606744480582c40754b7a3f5694a3952e160",
+    "runtime/bin/synapse-lie-server": "195cc8f622325c6a8c159089873ca7d7137b64d0f7fa1fc3a0625938923f07e8"
+  },
+  "new_inference_threads": 0,
+  "KV_cache_payload_format_changed": false,
+  "existing_public_ABI_breaking_change": false,
+  "new_contracts": [
+    "lie/json_value.h ABI1 / opaque bounded lie_json_value tree"
+  ],
+  "thermal_policy": "CPU98/NVMe85/lower exposed guards; GPU observe-only. No fan/clock/power tuning.",
+  "root_157_non_use": true,
+  "Terminal_Bench": "Stopped/collected/closed/deferred until functional modifications and matching qualification finish. No restart/reservation.",
+  "retained_current_observer_failures": [],
+  "corrected_readonly_observations": [
+    {
+      "path": "evidence/context-r25-fresh-161-r2.json",
+      "bytes": 6808,
+      "sha256": "ba7508a5b77f5e26b901ce8ebb6ceee0c34cf2b2a2a74e2f1f0e78ee31280500"
+    },
+    {
+      "path": "evidence/context-r25-before-ar-r1.json",
+      "bytes": 6840,
+      "sha256": "b3457412456228aaeb3ce75b93760d3fa657ba6fbc2eb53c7e148a7875144962"
+    },
+    {
+      "path": "evidence/context-r25-before-mtp-r1.json",
+      "bytes": 6842,
+      "sha256": "569e7ef66b4cbd39b6e600be3986c34b8a23e6aca96b7e554c7007ea94ce69c0"
+    }
+  ],
+  "previous_matching_GPU_receipt": {
+    "path": "docs/development/validation/c17-json-parser-point-gpu-2026-10-06.json",
+    "bytes": 43948,
+    "sha256": "bf4901438eb10ce3da8a632b9a9a0fdc34e6ff65ac3d9f2445c45203551b6348"
+  },
+  "retained_unresolved_failure": false,
+  "all_six_owned_tasks_open": true,
+  "pending": [
+    "Deferred full TerminalBench final rewards/transcripts/closure after functional changes.",
+    "1M recall quality; matched Gufo/Halogen physical-work depth/concurrency/cache/thread/resource/graphs.",
+    "Learned DS4 steering quality, independent graph/correction/GPUfault/vision/later mixed-history lookup/matched cost.",
+    "Independent GPU probability/filter/tool-transition coverage and matched sampling cost.",
+    "Predicate storage and model/controller extraction; broader branch/fault/private resource/cost qualification."
+  ],
+  "final_fresh_closure": {
+    "path": "evidence/context-r25-final-161-r1.json",
+    "bytes": 9573,
+    "sha256": "f7aedaac4d24d2173a82496ac8c5429b048e30de5d9e2886289e5dba3705d10f"
+  },
+  "publication": false,
+  "goal_complete": false,
+  "final_readonly_observation": [
+    {
+      "path": "evidence/c17-json-value-point-initial-receipt-r25.json",
+      "bytes": 35630,
+      "sha256": "6c8c7f10466958cc2ef570cd98c1e0a925559db1dabc16948bfffbff18e395c6"
+    },
+    {
+      "path": "evidence/collect-context-r25-compile.py",
+      "bytes": 3209,
+      "sha256": "a371523dd40e47ffbd9640a7443bf797d1755feef73bdf03673750cd681a9d16"
+    },
+    {
+      "path": "evidence/context-r25-ar-closure-r1.json",
+      "bytes": 8676,
+      "sha256": "93638bf106715ac77a25f16f11e6e5613760a8ec4e85c3bdb604281fadd98422"
+    },
+    {
+      "path": "evidence/context-r25-ar-closure-r1.py",
+      "bytes": 6386,
+      "sha256": "9193d0d74d3c065088b4f8bab4689b068e8788a91eac147682a7700d665e7ead"
+    },
+    {
+      "path": "evidence/context-r25-ar-live-r1.json",
+      "bytes": 4628,
+      "sha256": "55fb72e789b9f3a29d747e6308bfc5fd33b029dc9d8cabfa45f3571ebb429413"
+    },
+    {
+      "path": "evidence/context-r25-ar-live-r1.py",
+      "bytes": 2085,
+      "sha256": "eda83907df4be3f5fd86b6600d70b96edbcfa911ee892dd0fa175671db4f5b82"
+    },
+    {
+      "path": "evidence/context-r25-ar-live-r2.json",
+      "bytes": 5686,
+      "sha256": "557fab3c312bc87ea7fcf9c42ff885b8214cccfb52f0beb454a32b37f9f559d2"
+    },
+    {
+      "path": "evidence/context-r25-ar-live-r2.py",
+      "bytes": 2085,
+      "sha256": "d3f9b7914928987486fdb1c54bbed9474242d6576d36756b190f8875dcab1f61"
+    },
+    {
+      "path": "evidence/context-r25-ar-live-r3.json",
+      "bytes": 5692,
+      "sha256": "16f85ddbeeb68f0c98c7b8479a48fd4585c1cb4c58a36342bb99df5c564b3540"
+    },
+    {
+      "path": "evidence/context-r25-ar-live-r3.py",
+      "bytes": 2085,
+      "sha256": "faf731536e8733250d8e0bec5ea79012322df38c22f7b2ce9183092332337913"
+    },
+    {
+      "path": "evidence/context-r25-before-ar-r1.json",
+      "bytes": 6840,
+      "sha256": "b3457412456228aaeb3ce75b93760d3fa657ba6fbc2eb53c7e148a7875144962"
+    },
+    {
+      "path": "evidence/context-r25-before-ar-r1.py",
+      "bytes": 4532,
+      "sha256": "063b41b4987643fd33c2f5fd3e3b1c12e7774dcc58e07fb1d382d04ac427c320"
+    },
+    {
+      "path": "evidence/context-r25-before-mtp-r1.json",
+      "bytes": 6842,
+      "sha256": "569e7ef66b4cbd39b6e600be3986c34b8a23e6aca96b7e554c7007ea94ce69c0"
+    },
+    {
+      "path": "evidence/context-r25-before-mtp-r1.py",
+      "bytes": 4534,
+      "sha256": "c55ecad695560a488e6c189386edf7e23e0de48bb56f7dbcbd77873719c2cdc0"
+    },
+    {
+      "path": "evidence/context-r25-build-closure-r1.json",
+      "bytes": 7696,
+      "sha256": "1f6ca3d820acaf397d192f05f0cde8e27e8b094f197c85b8de73eb62cbc3f791"
+    },
+    {
+      "path": "evidence/context-r25-build-closure-r1.py",
+      "bytes": 6192,
+      "sha256": "9ec4cbeb7c4cf84bb4b427b82594ab712776980fac46652607c979566361f6a7"
+    },
+    {
+      "path": "evidence/context-r25-build-live-r1.py",
+      "bytes": 2462,
+      "sha256": "e1a3a4fe9d28c9dfa677c4c8101ad06b4ce69cc7a06430cf056c7159c7bdd0b1"
+    },
+    {
+      "path": "evidence/context-r25-build-live-r2.json",
+      "bytes": 5735,
+      "sha256": "64146ea0bd713a9151dfb3fa4f1dcbdf4dbb8744b1858aa47c41523701ac2f2f"
+    },
+    {
+      "path": "evidence/context-r25-build-live-r3.json",
+      "bytes": 5735,
+      "sha256": "1f4f883e45f6a0ad692b09b5567f2bc0d5c1bba56377f65980a02b896cfb26b0"
+    },
+    {
+      "path": "evidence/context-r25-build-live-r3.py",
+      "bytes": 2462,
+      "sha256": "57734f83a3346a102d55eabcd39d2b4cd84d7efd716b1d953cee77462134e8c7"
+    },
+    {
+      "path": "evidence/context-r25-build-manifest.json",
+      "bytes": 1295,
+      "sha256": "c79d5cc775a36bc84765fa177f3d5b5827843456d8b04eac1f4b8865f5ae768e"
+    },
+    {
+      "path": "evidence/context-r25-bundle-result.json",
+      "bytes": 1375,
+      "sha256": "8d38f225d9cc36a70f74a3b76652b24dafcde174465d560af775b1d329147ab7"
+    },
+    {
+      "path": "evidence/context-r25-final-161-r1.json",
+      "bytes": 9573,
+      "sha256": "f7aedaac4d24d2173a82496ac8c5429b048e30de5d9e2886289e5dba3705d10f"
+    },
+    {
+      "path": "evidence/context-r25-final-161-r1.py",
+      "bytes": 6419,
+      "sha256": "2b104c871a986e31a4bb823673bbe6b754db6c9979debcf2517221c187eb4a8b"
+    },
+    {
+      "path": "evidence/context-r25-fresh-161-r1.py",
+      "bytes": 4518,
+      "sha256": "65febb81c382528d1af6c0170e70cdaf11d0c758692cee6f397c9a5fee0b84cc"
+    },
+    {
+      "path": "evidence/context-r25-fresh-161-r2.json",
+      "bytes": 6808,
+      "sha256": "ba7508a5b77f5e26b901ce8ebb6ceee0c34cf2b2a2a74e2f1f0e78ee31280500"
+    },
+    {
+      "path": "evidence/context-r25-mtp-live-r1.json",
+      "bytes": 4630,
+      "sha256": "1ad4be0cd44b83c11f90eda4ef6795649dd6d3e951be5826591804de28d070ce"
+    },
+    {
+      "path": "evidence/context-r25-mtp-live-r1.py",
+      "bytes": 2088,
+      "sha256": "ce421f45a2b7ab2dc928891b5317a4381d8d501f3c81e10f6c36ff8d3d745aac"
+    },
+    {
+      "path": "evidence/context-r25-mtp-live-r2.json",
+      "bytes": 5686,
+      "sha256": "2ebd6835d6796ed1b57b671f08e128992ce62fd4c31d108a44142c4e3a141546"
+    },
+    {
+      "path": "evidence/context-r25-mtp-live-r2.py",
+      "bytes": 2088,
+      "sha256": "5bf86cddb114b00d9e04d83887cf1b420e838305e8bde582f035f29da62acbb7"
+    },
+    {
+      "path": "evidence/context-r25-openai-auto-ar-r1-manifest.json",
+      "bytes": 4907,
+      "sha256": "87e5f9865d47da63de12971daa84d74f21e58eb2f0bfd8a9483e709cf0875f1f"
+    },
+    {
+      "path": "evidence/context-r25-openai-auto-mtp-r1-manifest.json",
+      "bytes": 5565,
+      "sha256": "bcf9e7f9511a3d579443f15c074fbea76923f7f38f7bf16c771ea2e0f5026bf4"
+    },
+    {
+      "path": "evidence/context-r25-peer-nonuse-ar-r1.json",
+      "bytes": 1464,
+      "sha256": "424690cad90bb46e7d588ed732e6c2a5ebeafd9aaa9538e99214b69041538d99"
+    },
+    {
+      "path": "evidence/context-r25-peer-nonuse-mtp-r1.json",
+      "bytes": 1494,
+      "sha256": "ad647c75a66302eb2996caacea64235eef329cf950ae4201b654343616c3c368"
+    },
+    {
+      "path": "evidence/context-r25-peer-nonuse-r1.json",
+      "bytes": 1492,
+      "sha256": "3a1104e87a196eaedfd6825108b90ee4ecdbbb02f26d6629bc204f83e69fe531"
+    },
+    {
+      "path": "evidence/context-r25-source-seal.json",
+      "bytes": 1469,
+      "sha256": "d7cc92776ebd5ac7de847e8284d4d8f54cb32b4aee4b0e97d301630679bd3d03"
+    },
+    {
+      "path": "evidence/context-r25-source-stage.json",
+      "bytes": 2977,
+      "sha256": "dedf754cd0047b399300d8b147e86d5dda5c6ae3c432c8de5d14f8acf089f0c9"
+    },
+    {
+      "path": "evidence/make-c17-json-value-point-receipt-r25.py",
+      "bytes": 9408,
+      "sha256": "6d618e9f64f699922b937ca2d3b95bed98f4cf7a38f39e5491ba248df356a4f9"
+    },
+    {
+      "path": "evidence/package-c17-json-value-point-r25.py",
+      "bytes": 3860,
+      "sha256": "6ffc7f86d7d709ba921eade69d9619cfeff62246135a68f0383af203ad8cd47a"
+    },
+    {
+      "path": "evidence/prepare-context-r25-source.py",
+      "bytes": 4625,
+      "sha256": "0c1c75d9b6180ca61935c8e32ffd7743853efd7fbfb58610b9c7da88018b7066"
+    },
+    {
+      "path": "evidence/seal-context-r25-bundle.py",
+      "bytes": 2543,
+      "sha256": "4ffdbbf7284fd0cae0840a69129ad5b5bd1d545cdabab458f927233a54860b17"
+    },
+    {
+      "path": "evidence/stage-context-r25.py",
+      "bytes": 2896,
+      "sha256": "e723d38ef948e91f0f48d51a2a9403f34d9b88202661abe1e12b715b29e23cfa"
+    }
+  ],
+  "initial_receipt_before_portable_packaging": {
+    "path": "evidence/c17-json-value-point-initial-receipt-r25.json",
+    "bytes": 35630,
+    "sha256": "6c8c7f10466958cc2ef570cd98c1e0a925559db1dabc16948bfffbff18e395c6"
+  },
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-json-value-openai-r25.tar.gz",
+    "bytes": 583980,
+    "sha256": "a7400bec8d6d3ed4db0914151d9cc88d95b2c8713af5b885119f63d0d2ea57ed"
+  },
+  "portable_archive_members": 106,
+  "archive_index_previous_bytes_sha256": "f162c9f1c04678c1d4f3a491ed06230aa1fd4035b854763b1ccf5f8f75ee64f8",
+  "archive_index_baseline_commit": "5227bf4f5c2f0d95cc246b2a739fc0de9f24515d",
+  "archive_index_appended_only": true
+}

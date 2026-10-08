@@ -1,0 +1,1091 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
+@@ -4,6 +4,9 @@
+ 
+ #include <algorithm>
+ #include <initializer_list>
++#include <cstdio>
++#include <mutex>
++#include "lie_q2_compressed_cache.h"
+ 
+ #include "src/core/hip/weight_upload.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+@@ -35,6 +38,7 @@
+   std::size_t& max_q8_cols;
+   std::string* error;
+   bool ok{true};
++  bool stream_experts{false};
+   std::uint32_t shard_base{0};
+ 
+   void Fail(const std::string& message) {
+@@ -44,6 +48,16 @@
+     ok = false;
+   }
+ 
++  DeviceTensor Expert(const TensorRef& t) {
++    if (!stream_experts)
++      return Copy(t);
++    DeviceTensor d;
++    d.type = t.type;
++    d.cols = static_cast<std::uint32_t>(t.cols);
++    d.rows = static_cast<std::uint32_t>(t.rows);
++    d.experts = static_cast<std::uint32_t>(t.experts);
++    return d;
++  }
+   DeviceTensor Copy(const TensorRef& t) {
+     DeviceTensor d;
+     if (t.empty() || !ok) {
+@@ -261,9 +275,9 @@
+     d.ple_norm_conv = Copy(l.ple_norm_conv);
+     d.ple_conv1d = Copy(l.ple_conv1d);
+     d.router = Stack({&l.router, &l.shexp_gate_inp});
+-    d.ffn_gate_exps = Copy(l.ffn_gate_exps);
+-    d.ffn_up_exps = Copy(l.ffn_up_exps);
+-    d.ffn_down_exps = Copy(l.ffn_down_exps);
++    d.ffn_gate_exps = Expert(l.ffn_gate_exps);
++    d.ffn_up_exps = Expert(l.ffn_up_exps);
++    d.ffn_down_exps = Expert(l.ffn_down_exps);
+     d.shexp_gate = Copy(l.shexp_gate);
+     d.shexp_up = Copy(l.shexp_up);
+     d.shexp_down = Copy(l.shexp_down);
+@@ -278,7 +292,10 @@
+ 
+ }  // namespace
+ 
++#include "lie_q2_compressed_runtime.inc"
++
+ DeviceModel::~DeviceModel() {
++  compressed_cache_.reset();
+   for (void* p : allocations_) {
+     (void)hipFree(p);
+   }
+@@ -327,6 +344,28 @@
+   std::vector<Conversion> conversions;
+   Uploader up{*stager,           conversions,     m->allocations_, m->bytes_,
+               m->max_half_cols_, m->max_q8_cols_, error_msg};
++  // Explicit experiment budget. Keep the original resident path when all
++  // experts fit; smaller budgets cache original bytes, never dequantized
++  // copies.
++  constexpr std::size_t cache_budget = std::size_t(32) << 30;
++  bool supported_cache =
++      w.config.num_layers == 48 && w.config.num_experts == 512 &&
++      w.config.hidden_size == 2560 && w.config.expert_ff == 640;
++  std::size_t expert_bytes = 0;
++  for (const auto& l : w.layers) {
++    supported_cache =
++        supported_cache && l.ffn_gate_exps.type == core::GgmlType::kIQ2_XXS &&
++        l.ffn_up_exps.type == core::GgmlType::kIQ2_XXS &&
++        l.ffn_down_exps.type == core::GgmlType::kQ2_K &&
++        l.ffn_gate_exps.cols == 2560 && l.ffn_gate_exps.rows == 640 &&
++        l.ffn_gate_exps.experts == 512 && l.ffn_up_exps.cols == 2560 &&
++        l.ffn_up_exps.rows == 640 && l.ffn_up_exps.experts == 512 &&
++        l.ffn_down_exps.cols == 768 && l.ffn_down_exps.rows == 2560 &&
++        l.ffn_down_exps.experts == 512;
++    expert_bytes += l.ffn_gate_exps.SizeBytes() + l.ffn_up_exps.SizeBytes() +
++                    l.ffn_down_exps.SizeBytes();
++  }
++  up.stream_experts = supported_cache && expert_bytes > cache_budget;
+   m->token_embd_ = up.Copy(w.token_embd);
+   m->output_ =
+       w.output.data == w.token_embd.data ? m->token_embd_ : up.Copy(w.output);
+@@ -334,6 +373,9 @@
+   m->layers_.reserve(w.layers.size());
+   for (const auto& l : w.layers) {
+     m->layers_.push_back(up.Layer(l));
++    if (up.stream_experts)
++      m->layers_.back().cache_layer =
++          static_cast<std::uint32_t>(m->layers_.size() - 1);
+     if (!up.ok) {
+       return nullptr;
+     }
+@@ -342,6 +384,7 @@
+     // The sidecar has its own shard index; reuse the target's readers and
+     // staging pool.
+     up.shard_base = shard_count;
++    up.stream_experts = false;
+     m->mtp_ = up.Layer(mtp->block);
+     m->has_mtp_ = true;
+   }
+@@ -371,6 +414,16 @@
+     m->bytes_ -= c.count * (c.widen ? sizeof(std::uint16_t) : sizeof(float)) +
+                  kTailMargin;
+   }
++  if (supported_cache && expert_bytes > cache_budget) {
++    m->compressed_cache_ = std::make_unique<CompressedExpertCache>();
++    if (!m->compressed_cache_->Init(w, shards, cache_budget, error_msg)) {
++      if (error_msg && error_msg->empty())
++        *error_msg = "compressed expert cache initialization failed";
++      return nullptr;
++    }
++    m->bytes_ += m->compressed_cache_->bytes + 512 * sizeof(std::int32_t) +
++                 3 * sizeof(CompressedExpertCache::View);
++  }
+   return m;
+ }
+ 
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
+@@ -2,6 +2,7 @@
+ #define GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_DEVICE_MODEL_HPP_
+ 
+ #include <cstddef>
++#include <hip/hip_runtime_api.h>
+ #include <cstdint>
+ #include <memory>
+ #include <string>
+@@ -15,6 +16,7 @@
+ /// One weight resident in device memory, still in its GGUF encoding.
+ struct DeviceTensor {
+   void* data{nullptr};
++  void* compressed_view{nullptr};
+   core::GgmlType type{core::GgmlType::kF32};
+   std::uint32_t cols{0};
+   std::uint32_t rows{0};
+@@ -34,6 +36,7 @@
+ };
+ 
+ struct DeviceLayer {
++  std::uint32_t cache_layer{UINT32_MAX};
+   bool linear{false};
+   DeviceMixer hc_attn;
+   DeviceMixer hc_ffn;
+@@ -62,6 +65,19 @@
+ 
+ /// The trunk (and optionally the MTP draft block) uploaded to the GPU. The
+ /// n-gram table is never uploaded: it is read from disk per token.
++class CompressedExpertCache;
++class CompressedExpertLease {
++public:
++  ~CompressedExpertLease();
++  DeviceLayer layer;
++  const std::int32_t* ids{nullptr};
++
++private:
++  friend class DeviceModel;
++  CompressedExpertLease();
++  struct State;
++  std::unique_ptr<State> state_;
++};
+ class DeviceModel {
+ public:
+   ~DeviceModel();
+@@ -74,6 +90,14 @@
+       const MtpWeights* mtp, const core::GgufReader* mtp_reader,
+       std::string* error_msg = nullptr);
+ 
++  bool has_compressed_cache() const noexcept {
++    return compressed_cache_ != nullptr;
++  }
++  std::unique_ptr<CompressedExpertLease> AcquireExperts(const DeviceLayer&,
++                                                        const std::int32_t*,
++                                                        std::size_t,
++                                                        hipStream_t,
++                                                        std::string*) const;
+   const Config& config() const noexcept { return config_; }
+   const DeviceTensor& token_embd() const noexcept { return token_embd_; }
+   const DeviceTensor& output() const noexcept { return output_; }
+@@ -94,6 +118,7 @@
+ private:
+   DeviceModel() = default;
+ 
++  std::unique_ptr<CompressedExpertCache> compressed_cache_;
+   Config config_;
+   DeviceTensor token_embd_;
+   DeviceTensor output_;
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1796,12 +1796,20 @@
+   return MoeExperts(l, x, out, n_tokens, error_msg);
+ }
+ 
+-bool Executor::MoeExperts(const DeviceLayer& l, const float* x, float* out,
+-                          std::uint32_t n_tokens,
++bool Executor::MoeExperts(const DeviceLayer& original, const float* x,
++                          float* out, std::uint32_t n_tokens,
+                           std::string* error_msg) const {
+   const Config& c = config();
+   const std::uint32_t used = c.num_experts_used;
+   const std::uint32_t slots = n_tokens * used;
++  std::unique_ptr<CompressedExpertLease> cache;
++  if (model_->has_compressed_cache() && original.cache_layer != UINT32_MAX) {
++    cache = model_->AcquireExperts(original, s_.ids, slots, stream_, error_msg);
++    if (!cache)
++      return false;
++  }
++  const auto& l = cache ? cache->layer : original;
++  const auto* expert_ids = cache ? cache->ids : s_.ids;
+   const bool iq2_wmma = ExpertMatrixRows(n_tokens) &&
+                         l.ffn_gate_exps.type == GgmlType::kIQ2_XXS &&
+                         l.ffn_up_exps.type == GgmlType::kIQ2_XXS &&
+@@ -1849,11 +1857,12 @@
+         scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
+     const auto gate_up = [&](std::uint32_t offset, std::uint32_t count,
+                              std::uint32_t rows) {
+-      return RoutedGatedIQ2Gemm(l.ffn_gate_exps.data, l.ffn_up_exps.data,
+-                                static_cast<const __half*>(s_.x_half),
+-                                s_.routed_tiles + offset, count, rows,
+-                                s_.routed_bounds, s_.rows_token, s_.rows_slot,
+-                                s_.gate_e, c.expert_ff, c.hidden_size, stream_);
++      return (cache ? RoutedSlottedIQ2Gemm : RoutedGatedIQ2Gemm)(
++          cache ? l.ffn_gate_exps.compressed_view : l.ffn_gate_exps.data,
++          cache ? l.ffn_up_exps.compressed_view : l.ffn_up_exps.data,
++          static_cast<const __half*>(s_.x_half), s_.routed_tiles + offset,
++          count, rows, s_.routed_bounds, s_.rows_token, s_.rows_slot, s_.gate_e,
++          c.expert_ff, c.hidden_size, stream_);
+     };
+     const bool gate_ok =
+         routed_iq2_mixed_
+@@ -1869,16 +1878,20 @@
+         !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+                           c.expert_ff, stream_) ||
+         !(compact_down
+-              ? RoutedQ2ScaledHalfGemm(
+-                    l.ffn_down_exps.data, scaled, inverse, s_.routed_tiles,
+-                    routed_n_tiles_, routed_tile_rows_, s_.routed_bounds,
+-                    s_.rows_slot, reinterpret_cast<__half*>(s_.down_e),
+-                    c.hidden_size, c.expert_ff, stream_)
+-              : RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+-                                   s_.routed_tiles, routed_n_tiles_,
+-                                   routed_tile_rows_, s_.routed_bounds,
+-                                   s_.rows_slot, s_.down_e, c.hidden_size,
+-                                   c.expert_ff, stream_))) {
++              ? (cache ? RoutedSlottedQ2ScaledHalfGemm
++                       : RoutedQ2ScaledHalfGemm)(
++                    cache ? l.ffn_down_exps.compressed_view
++                          : l.ffn_down_exps.data,
++                    scaled, inverse, s_.routed_tiles, routed_n_tiles_,
++                    routed_tile_rows_, s_.routed_bounds, s_.rows_slot,
++                    reinterpret_cast<__half*>(s_.down_e), c.hidden_size,
++                    c.expert_ff, stream_)
++              : (cache ? RoutedSlottedQ2ScaledGemm : RoutedQ2ScaledGemm)(
++                    cache ? l.ffn_down_exps.compressed_view
++                          : l.ffn_down_exps.data,
++                    scaled, inverse, s_.routed_tiles, routed_n_tiles_,
++                    routed_tile_rows_, s_.routed_bounds, s_.rows_slot,
++                    s_.down_e, c.hidden_size, c.expert_ff, stream_))) {
+       AssignError(error_msg, "routed IQ2 paired gate/up or Q2 down failed");
+       return false;
+     }
+@@ -1948,7 +1961,7 @@
+       return false;
+     }
+   } else {
+-    if (!GatedExperts(l.ffn_gate_exps, l.ffn_up_exps, x, s_.ids, s_.gate_e,
++    if (!GatedExperts(l.ffn_gate_exps, l.ffn_up_exps, x, expert_ids, s_.gate_e,
+                       n_tokens, used, error_msg)) {
+       return false;
+     }
+@@ -1969,7 +1982,7 @@
+       }
+     } else {
+       // The down projection sees one (token, slot) row per expert id.
+-      if (!Experts(l.ffn_down_exps, s_.gate_e, s_.ids, s_.down_e, slots, 1,
++      if (!Experts(l.ffn_down_exps, s_.gate_e, expert_ids, s_.down_e, slots, 1,
+                    n_tokens, error_msg)) {
+         return false;
+       }
+@@ -2173,8 +2186,8 @@
+   // Decode-sized batches replay as graphs; a pooling backlog (the first
+   // batch past the budget) needs the wider eager grid.
+   const std::uint32_t graph_pool_grid = n / std::max(c.compress_ratio, 1u) + 1;
+-  const bool graph = !prefill_phase && n <= kVecBatch &&
+-                     pool_grid <= graph_pool_grid &&
++  const bool graph = !model_->has_compressed_cache() && !prefill_phase &&
++                     n <= kVecBatch && pool_grid <= graph_pool_grid &&
+                      session.position_ >= session.VisionLayout().PrefixLength();
+   const std::uint64_t key = static_cast<std::uint64_t>(n) |
+                             (static_cast<std::uint64_t>(n_logits) << 16) |
+@@ -2810,7 +2823,8 @@
+   const auto complete = (pos + n) / c.compress_ratio;
+   const auto pool = sparse ? complete - session.mtp_.blocks : 0;
+   const auto graph_pool = n / c.compress_ratio + 1;
+-  const bool graph = output.trace == nullptr && hidden_source == nullptr &&
++  const bool graph = !model_->has_compressed_cache() &&
++                     output.trace == nullptr && hidden_source == nullptr &&
+                      n <= kVecBatch && pool <= graph_pool &&
+                      pos + 1 >= session.VisionLayout().PrefixLength();
+   const std::uint64_t key =
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4277,7 +4277,7 @@
+ }
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
++         bool kPacked = false, bool kScaled = false, bool kSlots = false>
+ __launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+@@ -4343,8 +4343,24 @@
+   const int num_kb = static_cast<int>(k / 32);
+   const int m_i = static_cast<int>(m);
+   const std::size_t row_bytes = RoutedF16RowBytes<kType>(k);
+-  const auto* w_expert = static_cast<const std::uint8_t*>(w) +
+-                         static_cast<std::size_t>(expert) * m * row_bytes;
++  // Only address resolution changes; all encoded bytes and arithmetic remain.
++  struct SlotView {
++    const void* base;
++    const std::int32_t* map;
++  };
++  int weight_expert = expert;
++  const void* weight_base = w;
++  const void* up_base = w_up;
++  if constexpr (kSlots) {
++    const auto* view = static_cast<const SlotView*>(w);
++    weight_expert = view->map[expert];
++    weight_base = view->base;
++    if constexpr (kPair)
++      up_base = static_cast<const SlotView*>(w_up)->base;
++  }
++  const auto* w_expert =
++      static_cast<const std::uint8_t*>(weight_base) +
++      static_cast<std::size_t>(weight_expert) * m * row_bytes;
+ 
+   const int tid = static_cast<int>(threadIdx.x);
+   const int wave_id = tid >> 5;
+@@ -4369,8 +4385,8 @@
+     const std::uint8_t* weights = w_expert;
+     if constexpr (kPair) {
+       if ((tid >> 1) >= kRows) {
+-        weights = static_cast<const std::uint8_t*>(w_up) +
+-                  static_cast<std::size_t>(expert) * m * row_bytes;
++        weights = static_cast<const std::uint8_t*>(up_base) +
++                  static_cast<std::size_t>(weight_expert) * m * row_bytes;
+       }
+     }
+     f_ptr[u] = weights +
+@@ -6423,6 +6439,7 @@
+ #include "q2_hc_down_bk256.inc"
+ #include "q2_hc_moe_deferred.inc"
+ #include "q2_down_half_storage.inc"
++#include "lie_q2_compressed_kernels.inc"
+ 
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -308,6 +308,24 @@
+ 
+ /// Paired IQ2_XXS gate/up from original blocks, with F32 SwiGLU slot output.
+ /// Input token rows are F16, preserving the upstream wide-path boundary.
++bool RoutedSlottedIQ2Gemm(const void* gate, const void* up, const __half* x,
++                          const std::int32_t* tiles, std::uint32_t n_tiles,
++                          std::uint32_t tile_rows,
++                          const std::int32_t* pad_bounds,
++                          const std::int32_t* rows_token,
++                          const std::int32_t* rows_slot, float* out,
++                          std::size_t m, std::size_t k, hipStream_t stream);
++bool RoutedSlottedQ2ScaledGemm(const void*, const __half*, const float*,
++                               const std::int32_t*, std::uint32_t,
++                               std::uint32_t, const std::int32_t*,
++                               const std::int32_t*, float*, std::size_t,
++                               std::size_t, hipStream_t);
++bool RoutedSlottedQ2ScaledHalfGemm(
++    const void* w, const __half* x, const float* inverse,
++    const std::int32_t* tiles, std::uint32_t n_tiles, std::uint32_t tile_rows,
++    const std::int32_t* bounds, const std::int32_t* slots, __half* out,
++    std::size_t m, std::size_t k, hipStream_t stream);
++
+ bool RoutedGatedIQ2Gemm(const void* gate, const void* up, const __half* x,
+                         const std::int32_t* tiles, std::uint32_t n_tiles,
+                         std::uint32_t tile_rows, const std::int32_t* pad_bounds,
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_compressed_cache.h
+@@ -0,0 +1,172 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_COMPRESSED_CACHE_H
++#define LIE_Q2_COMPRESSED_CACHE_H
++
++#include <stdbool.h>
++#include <stddef.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <string.h>
++
++/* Model-local keys identify one layer/expert and its immutable gate/up/down
++ * byte ranges. The caller owns GPU buffers and completion events. This C17
++ * policy never reads model weights, performs inference, or assumes that
++ * enqueueing a transfer makes its destination ready.
++ *
++ * Reference: antirez/ds4 0aaea5a238fb41a35106a551e73c8409dfb751ac,
++ * cuda_stream_selected_cache_begin_load: protect every requested hit before
++ * selecting victims; keep quantized bytes; publish only complete triplets.
++ * The implementation below uses a direct key map and an intrusive LRU list.
++ */
++#define LIE_CC_NONE UINT32_MAX
++typedef struct lie_cc_slot {
++  uint32_t key, prev, next;
++  bool pinned, pending;
++} lie_cc_slot;
++
++typedef struct lie_cc {
++  uint32_t keys, capacity, head, tail;
++  uint32_t* lookup;
++  uint8_t* requested;
++  lie_cc_slot* slots;
++  bool active;
++  uint64_t hits, misses, evictions, loads, failed_loads;
++} lie_cc;
++
++static inline void lie_cc_destroy(lie_cc* c) {
++  if (!c)
++    return;
++  free(c->lookup);
++  free(c->requested);
++  free(c->slots);
++  memset(c, 0, sizeof(*c));
++}
++
++/* Zero-initialize c before its first init. No allocation belongs to a model
++ * until every metadata allocation succeeds. Reinitializing a live cache fails.
++ */
++static inline int lie_cc_init(lie_cc* c, uint32_t keys, uint32_t capacity) {
++  if (!c || c->slots || c->lookup || c->requested || !keys || !capacity ||
++      capacity > keys || keys == LIE_CC_NONE ||
++      (uint64_t)keys * sizeof(uint32_t) > SIZE_MAX ||
++      (uint64_t)capacity * sizeof(lie_cc_slot) > SIZE_MAX)
++    return -1;
++  c->lookup = (uint32_t*)malloc((size_t)keys * sizeof(uint32_t));
++  c->requested = (uint8_t*)calloc(keys, 1);
++  c->slots = (lie_cc_slot*)calloc(capacity, sizeof(lie_cc_slot));
++  if (!c->lookup || !c->requested || !c->slots) {
++    lie_cc_destroy(c);
++    return -1;
++  }
++  c->keys = keys;
++  c->capacity = capacity;
++  c->head = 0;
++  c->tail = capacity - 1;
++  for (uint32_t i = 0; i < keys; ++i)
++    c->lookup[i] = LIE_CC_NONE;
++  for (uint32_t i = 0; i < capacity; ++i) {
++    c->slots[i].key = LIE_CC_NONE;
++    c->slots[i].prev = i ? i - 1 : LIE_CC_NONE;
++    c->slots[i].next = i + 1 < capacity ? i + 1 : LIE_CC_NONE;
++  }
++  return 0;
++}
++
++static inline void lie_cc_touch(lie_cc* c, uint32_t i) {
++  if (c->head == i)
++    return;
++  lie_cc_slot* s = &c->slots[i];
++  if (s->prev != LIE_CC_NONE)
++    c->slots[s->prev].next = s->next;
++  if (s->next != LIE_CC_NONE)
++    c->slots[s->next].prev = s->prev;
++  else
++    c->tail = s->prev;
++  s->prev = LIE_CC_NONE;
++  s->next = c->head;
++  c->slots[c->head].prev = i;
++  c->head = i;
++}
++
++/* Returns 0, -1 for invalid arguments/insufficient capacity, or -2 while an
++ * earlier batch is still pinned. Invalid requests do not evict any entry.
++ * Pending slots are visible only to this transaction, never as future hits. */
++static inline int lie_cc_begin(lie_cc* c, const uint32_t* keys, size_t n,
++                               uint32_t* slots_out) {
++  if (!c || !c->slots || !keys || !slots_out || !n || n > c->keys)
++    return -1;
++  if (c->active)
++    return -2;
++  uint32_t unique = 0;
++  for (size_t i = 0; i < n; ++i) {
++    if (keys[i] >= c->keys) {
++      for (size_t j = 0; j < i; ++j)
++        c->requested[keys[j]] = 0;
++      return -1;
++    }
++    if (!c->requested[keys[i]]) {
++      c->requested[keys[i]] = 1;
++      ++unique;
++    }
++  }
++  if (unique > c->capacity) {
++    for (size_t i = 0; i < n; ++i)
++      c->requested[keys[i]] = 0;
++    return -1;
++  }
++  c->active = true;
++  /* Protect later hits before processing any earlier miss. */
++  for (size_t i = 0; i < n; ++i) {
++    uint32_t slot = c->lookup[keys[i]];
++    if (slot != LIE_CC_NONE && !c->slots[slot].pinned) {
++      c->slots[slot].pinned = true;
++      ++c->hits;
++      lie_cc_touch(c, slot);
++    }
++  }
++  for (size_t i = 0; i < n; ++i) {
++    uint32_t key = keys[i], slot = c->lookup[key];
++    if (slot == LIE_CC_NONE) {
++      slot = c->tail;
++      /* Protected entries have moved to the head; each miss also moves
++       * its new slot there. This preserves O(n) selection after pinning. */
++      if (c->slots[slot].key != LIE_CC_NONE) {
++        c->lookup[c->slots[slot].key] = LIE_CC_NONE;
++        ++c->evictions;
++      }
++      c->slots[slot].key = key;
++      c->slots[slot].pinned = c->slots[slot].pending = true;
++      c->lookup[key] = slot;
++      ++c->misses;
++      lie_cc_touch(c, slot);
++    }
++    slots_out[i] = slot;
++    c->requested[key] = 0;
++  }
++  return 0;
++}
++
++/* Call only after all selected transfers AND GPU consumers have completed.
++ * Failure invalidates newly loaded slots; prior hits keep their valid bytes. */
++static inline int lie_cc_finish(lie_cc* c, bool success) {
++  if (!c || !c->active)
++    return -1;
++  for (uint32_t slot = c->head; slot != LIE_CC_NONE && c->slots[slot].pinned;
++       slot = c->slots[slot].next) {
++    lie_cc_slot* s = &c->slots[slot];
++    if (s->pending) {
++      if (success)
++        ++c->loads;
++      else {
++        ++c->failed_loads;
++        c->lookup[s->key] = LIE_CC_NONE;
++        s->key = LIE_CC_NONE;
++      }
++    }
++    s->pending = s->pinned = false;
++  }
++  c->active = false;
++  return 0;
++}
++
++#endif
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_compressed_kernels.inc
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: MIT
++template<int BN, bool kPacked = false>
++void LaunchSlottedIQ2(const void* gate, const void* up, const __half* x,
++                      const std::int32_t* tiles, std::uint32_t n_tiles,
++                      const std::int32_t* bounds,
++                      const std::int32_t* rows_token,
++                      const std::int32_t* rows_slot, float* out, std::size_t m,
++                      std::size_t k, hipStream_t stream) {
++  const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
++  hipLaunchKernelGGL((RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2,
++                                          true, kPacked, false, true>),
++                     grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds,
++                     rows_token, rows_slot, nullptr, out, nullptr, m, k, up);
++}
++
++template<bool kPacked>
++bool RoutedSlottedIQ2GemmImpl(const void* gate, const void* up, const __half* x,
++                              const std::int32_t* tiles, std::uint32_t n_tiles,
++                              std::uint32_t tile_rows,
++                              const std::int32_t* bounds,
++                              const std::int32_t* rows_token,
++                              const std::int32_t* rows_slot, float* out,
++                              std::size_t m, std::size_t k,
++                              hipStream_t stream) {
++  if (!gate || !up || !x || !out || !tiles || !bounds || !rows_token ||
++      !rows_slot || !m || !k || k % 256 || !n_tiles)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchSlottedIQ2<16, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                    rows_token, rows_slot, out, m, k, stream);
++      break;
++    case 48:
++      LaunchSlottedIQ2<48, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                    rows_token, rows_slot, out, m, k, stream);
++      break;
++    case 64:
++      LaunchSlottedIQ2<64, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                    rows_token, rows_slot, out, m, k, stream);
++      break;
++    case 128:
++      LaunchSlottedIQ2<128, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                     rows_token, rows_slot, out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return true;
++}
++
++bool RoutedSlottedIQ2Gemm(const void* gate, const void* up, const __half* x,
++                          const std::int32_t* tiles, std::uint32_t n_tiles,
++                          std::uint32_t tile_rows, const std::int32_t* bounds,
++                          const std::int32_t* rows_token,
++                          const std::int32_t* rows_slot, float* out,
++                          std::size_t m, std::size_t k, hipStream_t stream) {
++  return RoutedSlottedIQ2GemmImpl<false>(gate, up, x, tiles, n_tiles, tile_rows,
++                                         bounds, rows_token, rows_slot, out, m,
++                                         k, stream);
++}
++template<int BN>
++void LaunchSlottedQ2Scaled(const void* w, const __half* x, const float* inverse,
++                           const std::int32_t* tiles, std::uint32_t n_tiles,
++                           const std::int32_t* bounds,
++                           const std::int32_t* slots, float* out, std::size_t m,
++                           std::size_t k, hipStream_t stream) {
++  hipLaunchKernelGGL((RoutedF16GEMMKernel<WeightType::kQ2_K, 128, BN, 2, false,
++                                          false, true, true>),
++                     dim3(static_cast<unsigned>((m + 127) / 128), n_tiles),
++                     dim3(256), 0, stream, w, x, tiles, bounds, slots, slots,
++                     nullptr, out, nullptr, m, k, inverse);
++}
++
++bool RoutedSlottedQ2ScaledGemm(const void* w, const __half* x,
++                               const float* inverse, const std::int32_t* tiles,
++                               std::uint32_t n_tiles, std::uint32_t tile_rows,
++                               const std::int32_t* bounds,
++                               const std::int32_t* slots, float* out,
++                               std::size_t m, std::size_t k,
++                               hipStream_t stream) {
++  if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
++      !n_tiles || k != 640)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchSlottedQ2Scaled<16>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                                out, m, k, stream);
++      break;
++    case 48:
++      LaunchSlottedQ2Scaled<48>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                                out, m, k, stream);
++      break;
++    case 64:
++      LaunchSlottedQ2Scaled<64>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                                out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return hipGetLastError() == hipSuccess;
++}
++template<int BN>
++void LaunchSlottedQ2HalfStorage(const void* w, const __half* x,
++                                const float* inverse, const std::int32_t* tiles,
++                                std::uint32_t n_tiles,
++                                const std::int32_t* bounds,
++                                const std::int32_t* slots, __half* out,
++                                std::size_t m, std::size_t k,
++                                hipStream_t stream) {
++  hipLaunchKernelGGL((RoutedQ2HalfStorageKernel<WeightType::kQ2_K, 128, BN, 2,
++                                                false, false, true, true>),
++                     dim3(static_cast<unsigned>((m + 127) / 128), n_tiles),
++                     dim3(256), 0, stream, w, x, tiles, bounds, slots, slots,
++                     nullptr, reinterpret_cast<float*>(out), nullptr, m, k,
++                     inverse);
++}
++
++bool RoutedSlottedQ2ScaledHalfGemm(
++    const void* w, const __half* x, const float* inverse,
++    const std::int32_t* tiles, std::uint32_t n_tiles, std::uint32_t tile_rows,
++    const std::int32_t* bounds, const std::int32_t* slots, __half* out,
++    std::size_t m, std::size_t k, hipStream_t stream) {
++  if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
++      !n_tiles || k != 640)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchSlottedQ2HalfStorage<16>(w, x, inverse, tiles, n_tiles, bounds,
++                                     slots, out, m, k, stream);
++      break;
++    case 48:
++      LaunchSlottedQ2HalfStorage<48>(w, x, inverse, tiles, n_tiles, bounds,
++                                     slots, out, m, k, stream);
++      break;
++    case 64:
++      LaunchSlottedQ2HalfStorage<64>(w, x, inverse, tiles, n_tiles, bounds,
++                                     slots, out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return hipGetLastError() == hipSuccess;
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_compressed_runtime.inc
+@@ -0,0 +1,250 @@
++// SPDX-License-Identifier: MIT
++// Included inside the Qwen ROCm namespace in device_model.cpp.
++// Compressed slot-cache mechanism follows independently fetched antirez/ds4;
++// numerical kernels and weight representation remain the retained LIE route.
++class CompressedExpertCache {
++public:
++  struct Range {
++    std::uint32_t shard;
++    std::uint64_t offset;
++    std::size_t bytes;
++  };
++  struct Layer {
++    Range gate, up, down;
++  };
++  struct View {
++    const void* base;
++    const std::int32_t* map;
++  };
++  lie_cc policy{};
++  std::mutex mutex;
++  std::vector<Layer> layers;
++  std::unique_ptr<hip::WeightUpload> uploader;
++  void* gate{nullptr};
++  void* up{nullptr};
++  void* down{nullptr};
++  std::int32_t* map{nullptr};
++  std::int32_t* ids{nullptr};
++  View* views{nullptr};
++  std::size_t ids_capacity{0}, gate_bytes{0}, down_bytes{0}, bytes{0};
++  std::uint64_t read_bytes{0}, calls{0};
++  hipEvent_t consumed{nullptr};
++  hipStream_t last_stream{nullptr};
++  bool waiting{false}, failed{false};
++
++  ~CompressedExpertCache() {
++    std::lock_guard lock(mutex);
++    if (waiting) {
++      const bool complete = hipEventSynchronize(consumed) == hipSuccess;
++      if (!complete)
++        (void)hipStreamSynchronize(last_stream);
++      (void)lie_cc_finish(&policy, complete);
++    }
++    if (uploader)
++      (void)uploader->Finish(nullptr);
++    fprintf(stderr,
++            "{\"event\":\"q2_compressed_cache_stats\",\"calls\":%llu,"
++            "\"hits\":%llu,\"misses\":%llu,\"evictions\":%llu,\"loads\":%llu,"
++            "\"failed_loads\":%llu,\"read_bytes\":%llu,\"slots\":%u,\"weight_"
++            "bytes\":%zu}\n",
++            (unsigned long long)calls, (unsigned long long)policy.hits,
++            (unsigned long long)policy.misses,
++            (unsigned long long)policy.evictions,
++            (unsigned long long)policy.loads,
++            (unsigned long long)policy.failed_loads,
++            (unsigned long long)read_bytes, policy.capacity, bytes);
++    if (consumed)
++      (void)hipEventDestroy(consumed);
++    for (void* p : {gate, up, down, static_cast<void*>(map),
++                    static_cast<void*>(ids), static_cast<void*>(views)})
++      if (p)
++        (void)hipFree(p);
++    lie_cc_destroy(&policy);
++  }
++
++  bool Init(const ModelWeights& w,
++            std::span<const core::GgufMappedRegion> shards, std::size_t budget,
++            std::string* error) {
++    const auto range = [](const TensorRef& t) {
++      return Range{t.shard, t.file_offset, t.SizeBytes() / t.experts};
++    };
++    for (const auto& l : w.layers)
++      layers.push_back({range(l.ffn_gate_exps), range(l.ffn_up_exps),
++                        range(l.ffn_down_exps)});
++    gate_bytes = layers[0].gate.bytes;
++    down_bytes = layers[0].down.bytes;
++    const auto per_slot = 2 * gate_bytes + down_bytes;
++    std::size_t free_bytes = 0, total_bytes = 0;
++    if (hipMemGetInfo(&free_bytes, &total_bytes) != hipSuccess)
++      return false;
++    constexpr std::size_t reserve = std::size_t(8) << 30;
++    if (free_bytes <= reserve + 3 * kTailMargin)
++      return false;
++    const auto available =
++        std::min(budget, free_bytes - reserve) - 3 * kTailMargin;
++    std::uint32_t capacity = static_cast<std::uint32_t>(
++        std::min<std::size_t>(w.config.num_layers * 512, available / per_slot));
++    // Every layer's complete 2048-token expert set must fit without evicting
++    // another expert used by the same launch. Failure does not publish a cache.
++    if (capacity < 512 ||
++        lie_cc_init(&policy, w.config.num_layers * 512, capacity))
++      return false;
++    bytes = capacity * per_slot + 3 * kTailMargin;
++    if (hipMalloc(&gate, capacity * gate_bytes + kTailMargin) != hipSuccess ||
++        hipMalloc(&up, capacity * gate_bytes + kTailMargin) != hipSuccess ||
++        hipMalloc(&down, capacity * down_bytes + kTailMargin) != hipSuccess ||
++        hipMalloc(&map, 512 * sizeof(std::int32_t)) != hipSuccess ||
++        hipMalloc(&views, 3 * sizeof(View)) != hipSuccess ||
++        hipEventCreateWithFlags(&consumed, hipEventDisableTiming) != hipSuccess)
++      return false;
++    if (hipMemset(static_cast<char*>(gate) + capacity * gate_bytes, 0,
++                  kTailMargin) != hipSuccess ||
++        hipMemset(static_cast<char*>(up) + capacity * gate_bytes, 0,
++                  kTailMargin) != hipSuccess ||
++        hipMemset(static_cast<char*>(down) + capacity * down_bytes, 0,
++                  kTailMargin) != hipSuccess)
++      return false;
++    View host[3]{{gate, map}, {up, map}, {down, map}};
++    if (hipMemcpy(views, host, sizeof(host), hipMemcpyHostToDevice) !=
++        hipSuccess)
++      return false;
++    uploader = hip::WeightUpload::Create(shards, error);
++    if (!uploader)
++      return false;
++    fprintf(stderr,
++            "{\"event\":\"q2_compressed_cache_ready\",\"slots\":%u,"
++            "\"total_experts\":%zu,\"weight_bytes\":%zu,\"budget_bytes\":%zu,"
++            "\"gate_bytes_per_expert\":%zu,\"down_bytes_per_expert\":%zu}\n",
++            capacity, layers.size() * 512, bytes, budget, gate_bytes,
++            down_bytes);
++    return true;
++  }
++
++  bool Prepare(std::uint32_t layer, const std::int32_t* selected,
++               std::size_t count, hipStream_t stream, std::string* error) {
++    const auto fail = [&](const char* message) {
++      if (error && error->empty())
++        *error = message;
++      failed = true;
++      return false;
++    };
++    if (failed || layer >= layers.size() || !count)
++      return fail("invalid compressed cache request");
++    if (waiting) {
++      if (hipEventSynchronize(consumed) != hipSuccess) {
++        (void)hipStreamSynchronize(last_stream);
++        return fail("compressed cache consumer completion failed");
++      }
++      waiting = false;
++      if (lie_cc_finish(&policy, true))
++        return fail("compressed cache release failed");
++    }
++    std::vector<std::int32_t> host_ids(count);
++    if (hipMemcpyAsync(host_ids.data(), selected, count * sizeof(std::int32_t),
++                       hipMemcpyDeviceToHost, stream) != hipSuccess ||
++        hipStreamSynchronize(stream) != hipSuccess)
++      return fail("compressed cache routing download failed");
++    std::vector<std::uint32_t> keys, slots;
++    std::int32_t host_map[512];
++    std::fill_n(host_map, 512, -1);
++    for (const auto id : host_ids) {
++      if (id < 0 || id >= 512)
++        return fail("compressed cache expert outside model");
++      if (host_map[id] == -1) {
++        host_map[id] = 0;
++        keys.push_back(layer * 512 + static_cast<std::uint32_t>(id));
++      }
++    }
++    slots.resize(keys.size());
++    if (lie_cc_begin(&policy, keys.data(), keys.size(), slots.data()))
++      return fail("compressed cache cannot protect selected experts");
++    ++calls;
++    for (std::size_t i = 0; i < keys.size(); ++i) {
++      const auto expert = keys[i] % 512, slot = slots[i];
++      host_map[expert] = static_cast<std::int32_t>(slot);
++      if (!policy.slots[slot].pending)
++        continue;
++      const auto& l = layers[layer];
++      const auto copy = [&](const Range& r, void* base) {
++        if (!uploader->Copy(r.shard, r.offset + expert * r.bytes, r.bytes,
++                            static_cast<char*>(base) + slot * r.bytes, error))
++          return false;
++        read_bytes += r.bytes;
++        return true;
++      };
++      if (!copy(l.gate, gate) || !copy(l.up, up) || !copy(l.down, down)) {
++        (void)uploader->Finish(error);
++        (void)lie_cc_finish(&policy, false);
++        return fail("compressed expert upload failed");
++      }
++    }
++    if (!uploader->Finish(error)) {
++      (void)lie_cc_finish(&policy, false);
++      return fail("compressed expert upload completion failed");
++    }
++    if (count > ids_capacity) {
++      if (ids) {
++        (void)hipFree(ids);
++        ids = nullptr;
++        ids_capacity = 0;
++      }
++      if (hipMalloc(&ids, count * sizeof(std::int32_t)) != hipSuccess)
++        return fail("compressed cache selected ids allocation failed");
++      ids_capacity = count;
++    }
++    for (auto& id : host_ids)
++      id = host_map[id];
++    if (hipMemcpyAsync(map, host_map, sizeof(host_map), hipMemcpyHostToDevice,
++                       stream) != hipSuccess ||
++        hipMemcpyAsync(ids, host_ids.data(), count * sizeof(std::int32_t),
++                       hipMemcpyHostToDevice, stream) != hipSuccess ||
++        hipStreamSynchronize(stream) != hipSuccess)
++      return fail("compressed cache address publication failed");
++    return true;
++  }
++};
++
++struct CompressedExpertLease::State {
++  CompressedExpertCache& cache;
++  std::unique_lock<std::mutex> lock;
++  hipStream_t stream;
++  State(CompressedExpertCache& c, hipStream_t s)
++      : cache(c), lock(c.mutex), stream(s) {}
++  ~State() {
++    if (cache.policy.active) {
++      if (cache.failed ||
++          hipEventRecord(cache.consumed, stream) != hipSuccess) {
++        (void)hipStreamSynchronize(stream);
++        (void)lie_cc_finish(&cache.policy, false);
++        cache.failed = true;
++      } else {
++        cache.last_stream = stream;
++        cache.waiting = true;
++      }
++    }
++  }
++};
++CompressedExpertLease::CompressedExpertLease() = default;
++CompressedExpertLease::~CompressedExpertLease() = default;
++
++std::unique_ptr<CompressedExpertLease> DeviceModel::AcquireExperts(
++    const DeviceLayer& original, const std::int32_t* selected,
++    std::size_t count, hipStream_t stream, std::string* error) const {
++  auto lease =
++      std::unique_ptr<CompressedExpertLease>(new CompressedExpertLease());
++  auto& cache = *compressed_cache_;
++  lease->state_ = std::make_unique<CompressedExpertLease::State>(cache, stream);
++  if (!cache.Prepare(original.cache_layer, selected, count, stream, error))
++    return nullptr;
++  lease->layer = original;
++  auto bind = [&](DeviceTensor& t, void* base, std::uint32_t index) {
++    t.data = base;
++    t.experts = cache.policy.capacity;
++    t.compressed_view = cache.views + index;
++  };
++  bind(lease->layer.ffn_gate_exps, cache.gate, 0);
++  bind(lease->layer.ffn_up_exps, cache.up, 1);
++  bind(lease->layer.ffn_down_exps, cache.down, 2);
++  lease->ids = cache.ids;
++  return lease;
++}
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
+@@ -5,7 +5,7 @@
+ // Existing F32 specializations remain available as literal controls.
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
++         bool kPacked = false, bool kScaled = false, bool kSlots = false>
+ __launch_bounds__(256) __global__ void RoutedQ2HalfStorageKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+@@ -72,8 +72,24 @@
+   const int num_kb = static_cast<int>(k / 32);
+   const int m_i = static_cast<int>(m);
+   const std::size_t row_bytes = RoutedF16RowBytes<kType>(k);
+-  const auto* w_expert = static_cast<const std::uint8_t*>(w) +
+-                         static_cast<std::size_t>(expert) * m * row_bytes;
++  // Only address resolution changes; all encoded bytes and arithmetic remain.
++  struct SlotView {
++    const void* base;
++    const std::int32_t* map;
++  };
++  int weight_expert = expert;
++  const void* weight_base = w;
++  const void* up_base = w_up;
++  if constexpr (kSlots) {
++    const auto* view = static_cast<const SlotView*>(w);
++    weight_expert = view->map[expert];
++    weight_base = view->base;
++    if constexpr (kPair)
++      up_base = static_cast<const SlotView*>(w_up)->base;
++  }
++  const auto* w_expert =
++      static_cast<const std::uint8_t*>(weight_base) +
++      static_cast<std::size_t>(weight_expert) * m * row_bytes;
+ 
+   const int tid = static_cast<int>(threadIdx.x);
+   const int wave_id = tid >> 5;
+@@ -901,38 +917,42 @@
+   }
+ }
+ template<int BN>
+-void LaunchRoutedQ2HalfStorage(const void* w, const __half* x, const float* inverse,
+-                          const std::int32_t* tiles, std::uint32_t n_tiles,
+-                          const std::int32_t* bounds, const std::int32_t* slots,
+-                          __half* out, std::size_t m, std::size_t k,
+-                          hipStream_t stream) {
+-  hipLaunchKernelGGL(
+-      (RoutedQ2HalfStorageKernel<WeightType::kQ2_K, 128, BN, 2, false, false, true>),
+-      dim3(static_cast<unsigned>((m + 127) / 128), n_tiles), dim3(256), 0,
+-      stream, w, x, tiles, bounds, slots, slots, nullptr, reinterpret_cast<float*>(out), nullptr, m, k,
+-      inverse);
++void LaunchRoutedQ2HalfStorage(const void* w, const __half* x,
++                               const float* inverse, const std::int32_t* tiles,
++                               std::uint32_t n_tiles,
++                               const std::int32_t* bounds,
++                               const std::int32_t* slots, __half* out,
++                               std::size_t m, std::size_t k,
++                               hipStream_t stream) {
++  hipLaunchKernelGGL((RoutedQ2HalfStorageKernel<WeightType::kQ2_K, 128, BN, 2,
++                                                false, false, true>),
++                     dim3(static_cast<unsigned>((m + 127) / 128), n_tiles),
++                     dim3(256), 0, stream, w, x, tiles, bounds, slots, slots,
++                     nullptr, reinterpret_cast<float*>(out), nullptr, m, k,
++                     inverse);
+ }
+ 
+-bool RoutedQ2ScaledHalfGemm(const void* w, const __half* x, const float* inverse,
+-                        const std::int32_t* tiles, std::uint32_t n_tiles,
+-                        std::uint32_t tile_rows, const std::int32_t* bounds,
+-                        const std::int32_t* slots, __half* out, std::size_t m,
+-                        std::size_t k, hipStream_t stream) {
++bool RoutedQ2ScaledHalfGemm(const void* w, const __half* x,
++                            const float* inverse, const std::int32_t* tiles,
++                            std::uint32_t n_tiles, std::uint32_t tile_rows,
++                            const std::int32_t* bounds,
++                            const std::int32_t* slots, __half* out,
++                            std::size_t m, std::size_t k, hipStream_t stream) {
+   if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
+       !n_tiles || k != 640)
+     return false;
+   switch (tile_rows) {
+     case 16:
+-      LaunchRoutedQ2HalfStorage<16>(w, x, inverse, tiles, n_tiles, bounds, slots,
+-                               out, m, k, stream);
++      LaunchRoutedQ2HalfStorage<16>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
+       break;
+     case 48:
+-      LaunchRoutedQ2HalfStorage<48>(w, x, inverse, tiles, n_tiles, bounds, slots,
+-                               out, m, k, stream);
++      LaunchRoutedQ2HalfStorage<48>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
+       break;
+     case 64:
+-      LaunchRoutedQ2HalfStorage<64>(w, x, inverse, tiles, n_tiles, bounds, slots,
+-                               out, m, k, stream);
++      LaunchRoutedQ2HalfStorage<64>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
+       break;
+     default:
+       return false;
+@@ -1092,14 +1112,14 @@
+ }
+ 
+ bool HcCombineMoeHalfDeferredNorm(float* res, const __half* expert_out,
+-                              const float* weights, const float* shared_out,
+-                              const float* gate, std::uint32_t gate_stride,
+-                              std::uint32_t used, const float* inject,
+-                              std::uint32_t inject_parts, const float* gamma,
+-                              float* norm_scales, std::uint32_t n_tokens,
+-                              std::uint32_t hidden, std::uint32_t streams,
+-                              float eps, hipStream_t stream,
+-                              __half* norm_half) {
++                                  const float* weights, const float* shared_out,
++                                  const float* gate, std::uint32_t gate_stride,
++                                  std::uint32_t used, const float* inject,
++                                  std::uint32_t inject_parts,
++                                  const float* gamma, float* norm_scales,
++                                  std::uint32_t n_tokens, std::uint32_t hidden,
++                                  std::uint32_t streams, float eps,
++                                  hipStream_t stream, __half* norm_half) {
+   if (gamma == nullptr || norm_half == nullptr)
+     return false;
+   if (n_tokens < 16 || hidden != 2560 || streams != 4 || used == 0 ||

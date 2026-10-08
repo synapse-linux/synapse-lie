@@ -1,0 +1,44 @@
+{
+  "argv": [
+    "python3",
+    "tools/analyze-q2-curve.py",
+    "--q2",
+    "evidence/q2-canonical-http-q2-r2",
+    "--ud",
+    "evidence/q2-canonical-http-ud-r2",
+    "--host",
+    "evidence/q2-curve-profile-host-r1",
+    "--output",
+    "evidence/q2-iq2-curve-preparation-r1/replayed-r2.json"
+  ],
+  "exit_code": 0,
+  "scope": "Reanalysis of retained .157 evidence only; no runtime fixture/model execution",
+  "same_result": true,
+  "retained_history": {
+    "exact": true,
+    "requests_reference": 20,
+    "requests_candidate": 20
+  },
+  "at": "2026-10-04T00:23:19.959351+00:00",
+  "source_files": {
+    "tools/q2-remote.py": "ed926f913dfe311f06bce0e989a566cff5d1421a7e98d86d76284dcb3a51e34b",
+    "tools/q2-runner.py": "9e5a669eb8a5deee1bcbc3149ad8baa5231ffd3ef96c5de36f8f68466724fa4f",
+    "tools/q2-curve-session.py": "baf34c047ce49a7b314348355ca720d5c13b041ed6585e1aded2c42eca1f440e",
+    "tools/q2-canonical-http.py": "f2b24f52ace9e80fca1587cd9c3ae715f22c25200bcc87d29c287621be4eceda",
+    "tools/analyze-q2-curve.py": "792e977b9fa082623e3675e7afb15569713ca47d9bdf234a8597961ffab8c9f0",
+    "tools/analyze-q2-iq2-curve.py": "0bb25537c396b35a26ffe978902c2c1afa95876366c188f047d0ad45e5ea3106",
+    "tools/plot-q2-curve.py": "52e74d54344a040f525fa9c311b5a8c6a75d7140d5180200ed12ac5818636aa0",
+    "tests/q2_remote_test.py": "e5d4890ec5a24bd3ec8be1577e188ca0fce8ad47b83f83ce09add505347723ef",
+    "tests/q2_canonical_http_test.py": "4fb55c981324051f970730d873d2193b614ed70b26fef91d4f66dffd419fdae6",
+    "cmake/curve/CMakeLists.txt": "6ec663a29debc839d731141d1fd2b924ee649e81bb2222322ba5830d1ce45076"
+  },
+  "runtime_tests_pending": true,
+  "retained_plot_csv_exact": true,
+  "retained_plot_csv_sha256": "6d142d04b8b26d7bd3dfecc7fa61abd0d293aa88673061376a45efda5abb9131",
+  "source_checks": {
+    "core_files": 333,
+    "candidate_files": 1020,
+    "python_ast_files": 9,
+    "provider_kernel_delta": "Only vecdotq.hpp"
+  }
+}

@@ -1,0 +1,12 @@
+family,disposition,original_report_count,confirmed_false_format_rejection,observation
+hc-library-ragged,already_in_fixed_reference,2,False,Entire library dispatch file matches fixed Q2.
+library-norm,already_in_fixed_reference,2,False,Paired norm bodies and fixed2048 dispatch match fixed Q2.
+norm-ragged,already_in_fixed_reference,1,False,Fixed2048 pairing is already present; ragged extension adds nothing here.
+scaled-input,already_in_fixed_reference,1,False,The same packing include is already in fixed Q2.
+scaled-library,already_in_fixed_reference,1,False,Packing and original-F16 HC library route are already in fixed Q2.
+shared-q8,new_composition_measured,3,True,Fixture race confirmed; production replay is exact and its gain is already composed.
+scaled-row,new_composition_measured,1,False,Q8 plus row reuse fixed model measured with all21 replay files exact.
+norm-fixed,new_composition_measured,1,False,"Q8 plus row plus norm measured; prior norm logits reproduced, Q2 logits differ."
+hc-sequence,performance_measured_regression,1,False,Ordinary/MoE complete cycles were timed despite numeric rejection and both slowed.
+hc-deferred-norm,new_selective_integration_pending,1,False,MoE-only cycle advantage is marginal; feedback bytes differ and current consumers need integration.
+scaled-tiles,new_selective_integration_pending,1,False,Tile64 helps only the64-active synthetic routing; no equivalent adaptive model selector is measured.

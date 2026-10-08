@@ -1,0 +1,236 @@
+{
+  "schema": "synapse-lie.q2-format-contract.v1",
+  "status": "original_model_c1_screen_complete_performance_gate_failed",
+  "audit_date": "2026-10-02",
+  "scope": "original antirez Q2 weights through official Gufo; no antirez Qwen engine",
+  "source_identity": {
+    "implementation_base_gufo": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "audited_official_gufo": "594a623913b4109e4499885e9f73ed4d4ad3698e",
+    "audited_official_llama_cpp": "a868c3e3c56657f7e8a6231190dbbe90e7dd86c0",
+    "format_documentation_antirez": "0aaea5a238fb41a35106a551e73c8409dfb751ac",
+    "lie_restart_baseline": "c14ef26",
+    "lie_architecture_reference": "83d178a"
+  },
+  "observation": {
+    "source": "primary LIE evidence/antirez-layout-readonly-r2/layouts.jsonl",
+    "captured_at": "2026-10-01T03:42:19.923502+00:00",
+    "current_payload_read": false,
+    "full_hash_recomputed": false,
+    "current_file_stat_verified": false,
+    "inference_support_established": false
+  },
+  "model": {
+    "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+    "bytes": 147207127040,
+    "device": 52,
+    "inode": 3116203,
+    "mtime_ns": 1789830972390000000,
+    "ctime_ns": 1790245042601989314,
+    "header_bytes_read": 11025350,
+    "header_sha256": "2c1fe3665e20b93beeaffe73bb6329ec010eee5882a1a84f768392d0787f434d",
+    "tensor_count": 1256,
+    "known_encoded_tensor_bytes": 147196078592,
+    "storage_type_counts": {
+      "BF16": 2,
+      "Q8_0": 337,
+      "F32": 472,
+      "F16": 298,
+      "IQ2_XXS": 96,
+      "Q2_K": 48,
+      "Q4_K": 2,
+      "MXFP4": 1
+    },
+    "historical_full_sha256": "b1b93fa69aca5f187b0fb813aca8f3ec1beb5cf8cf0bd38cf041b93e0b6ccac9",
+    "historical_source_revision": "d600fe1a43d2e1cdcadb85144ce3142f66f9eefe"
+  },
+  "metadata": {
+    "general.architecture": "qwen4exp",
+    "qwen4exp.block_count": 49,
+    "qwen4exp.nextn_predict_layers": 1,
+    "qwen4exp.context_length": 262144,
+    "qwen4exp.embedding_length": 2560,
+    "qwen4exp.expert_count": 512,
+    "qwen4exp.expert_used_count": 10,
+    "qwen4exp.expert_feed_forward_length": 640,
+    "qwen4exp.expert_shared_feed_forward_length": 640,
+    "ds4.qwen4.down.logical_input": 640,
+    "ds4.qwen4.down.physical_input": 768
+  },
+  "template_identity": {
+    "bytes": 8952,
+    "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+  },
+  "roles": [
+    {
+      "role": "ar_gate_up",
+      "tensor_count": 96,
+      "example_tensor": "blk.0.ffn_gate_exps.weight",
+      "type": "IQ2_XXS",
+      "ggml_type_id": 16,
+      "shape": [
+        2560,
+        640,
+        512
+      ],
+      "logical_input_columns": 2560,
+      "storage_input_columns": 2560,
+      "block_values": 256,
+      "block_bytes": 66,
+      "row_bytes": 660,
+      "expert_stride_bytes": 422400,
+      "bytes_per_tensor": 216268800,
+      "encoded_bytes_total": 20761804800,
+      "executed_in_initial_ar_lane": true
+    },
+    {
+      "role": "ar_down",
+      "tensor_count": 48,
+      "example_tensor": "blk.0.ffn_down_exps.weight",
+      "type": "Q2_K",
+      "ggml_type_id": 10,
+      "shape": [
+        768,
+        2560,
+        512
+      ],
+      "logical_input_columns": 640,
+      "storage_input_columns": 768,
+      "block_values": 256,
+      "block_bytes": 84,
+      "row_bytes": 252,
+      "expert_stride_bytes": 645120,
+      "bytes_per_tensor": 330301440,
+      "encoded_bytes_total": 15854469120,
+      "executed_in_initial_ar_lane": true
+    },
+    {
+      "role": "ar_hc_inject",
+      "tensor_count": 96,
+      "example_tensor": "blk.0.hc_attn_inject.weight",
+      "type": "F16",
+      "ggml_type_id": 1,
+      "shape": [
+        10240,
+        4
+      ],
+      "logical_input_columns": 10240,
+      "storage_input_columns": 10240,
+      "block_values": 1,
+      "block_bytes": 2,
+      "row_bytes": 20480,
+      "expert_stride_bytes": null,
+      "bytes_per_tensor": 81920,
+      "encoded_bytes_total": 7864320,
+      "executed_in_initial_ar_lane": true
+    },
+    {
+      "role": "predictor_gate_up",
+      "tensor_count": 2,
+      "example_tensor": "blk.48.ffn_gate_exps.weight",
+      "type": "Q4_K",
+      "ggml_type_id": 12,
+      "shape": [
+        2560,
+        640,
+        512
+      ],
+      "logical_input_columns": 2560,
+      "storage_input_columns": 2560,
+      "block_values": 256,
+      "block_bytes": 144,
+      "row_bytes": 1440,
+      "expert_stride_bytes": 921600,
+      "bytes_per_tensor": 471859200,
+      "encoded_bytes_total": 943718400,
+      "executed_in_initial_ar_lane": false
+    },
+    {
+      "role": "predictor_down",
+      "tensor_count": 1,
+      "example_tensor": "blk.48.ffn_down_exps.weight",
+      "type": "MXFP4",
+      "ggml_type_id": 39,
+      "shape": [
+        640,
+        2560,
+        512
+      ],
+      "logical_input_columns": 640,
+      "storage_input_columns": 640,
+      "block_values": 32,
+      "block_bytes": 17,
+      "row_bytes": 340,
+      "expert_stride_bytes": 870400,
+      "bytes_per_tensor": 445644800,
+      "encoded_bytes_total": 445644800,
+      "executed_in_initial_ar_lane": false
+    },
+    {
+      "role": "ple_table",
+      "tensor_count": 1,
+      "example_tensor": "per_layer_token_embd.weight",
+      "type": "BF16",
+      "ggml_type_id": 30,
+      "shape": [
+        160,
+        320001536
+      ],
+      "logical_input_columns": 160,
+      "storage_input_columns": 160,
+      "block_values": 1,
+      "block_bytes": 2,
+      "row_bytes": 320,
+      "expert_stride_bytes": null,
+      "bytes_per_tensor": 102400491520,
+      "encoded_bytes_total": 102400491520,
+      "executed_in_initial_ar_lane": true
+    }
+  ],
+  "encoded_bytes_by_role": {
+    "ar_without_ple": 43287498240,
+    "predictor": 1508088832,
+    "ple": 102400491520
+  },
+  "requirements": {
+    "unchanged_gguf": true,
+    "zero_padding_activation_lanes": 128,
+    "logical_expert_ff": 640,
+    "physical_ar_down_input": 768,
+    "cpu_model_forward": false,
+    "quantized_expert_execution": true,
+    "mtp_execution": false,
+    "new_public_abi_defined": false,
+    "no_regression_ratio_target": 1.0,
+    "performance_verdict": "failed_q2_vs_existing_ud_c1",
+    "required_metrics": [
+      "fresh_prefill_tok_s",
+      "decode_tok_s"
+    ],
+    "initial_context": 9216,
+    "prefill_chunk": 2048,
+    "prefill_targets": [
+      512,
+      2048,
+      8192
+    ],
+    "max_emitted_output_tokens": 128,
+    "physical_input_ids": null,
+    "numerical_tolerances": {
+      "independent_operator_rrms_max": 0.002,
+      "independent_operator_scaled_max_error": 0.002
+    },
+    "measured_prefill_tok_s": null,
+    "measured_decode_tok_s": null
+  },
+  "current_qualification": {
+    "date": "2026-10-02",
+    "payload_read": true,
+    "model_stat_unchanged": true,
+    "full_hash_recomputed": false,
+    "semantic_smoke": true,
+    "full_model_teacher_parity": false,
+    "report": "docs/Q2-RESULTS.md",
+    "metrics": "config/q2-comparison.json",
+    "gpu_jobs_active": false
+  }
+}

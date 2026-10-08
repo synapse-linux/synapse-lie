@@ -1,0 +1,193 @@
+{
+  "scope": "CPU/component/model evidence validation; row80 not selected",
+  "validation_pass": true,
+  "runs": [
+    {
+      "label": "q2-hc-row80-host-r1",
+      "mode": "cpu",
+      "model_access": false,
+      "artifacts": 7,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "e1023ada2b61d14c222ed4e4c87b06cc55e3564348fc18a1e1ce3b15aabcb0ec",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_hc_pp.cpp": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      }
+    },
+    {
+      "label": "q2-hc-row80-reference-r1",
+      "mode": "hc-pp-bench",
+      "model_access": false,
+      "artifacts": 48,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "capsule_sha256": "4fc7298d5fdcb24d0dc4bd816ab5600a54ee4dedda13e03a79f5cb81756ebc43",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_hc_pp.cpp": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      }
+    },
+    {
+      "label": "q2-hc-row80-candidate-r1",
+      "mode": "hc-pp-bench",
+      "model_access": false,
+      "artifacts": 48,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "capsule_sha256": "7cb902f168849408d268f981cadd20750937be5b44c4d09cf2e1981708954208",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_hc_pp.cpp": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      }
+    },
+    {
+      "label": "q2-hc-row80-reference-model-r1",
+      "mode": "q2-bench2k",
+      "model_access": true,
+      "artifacts": 26,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "bbf664e026b0eb4b6fbebad1eb351a3469a127ad1f8c37fdfe408425a8d63d9f",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_model.cpp": "c8d08efd85ef483911ffb3afeaa1034b4c3cdda5537374f04a607a0d8bd3de49",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      },
+      "full_mmq_rebuild": true,
+      "models_unchanged": true,
+      "files_exact_with_reference": [
+        "arithmetic-input.i32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "counting-input.i32",
+        "counting-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "pp2048-input.i32",
+        "pp2048-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32"
+      ],
+      "within_arm_replay": [
+        "pp2048-1-prefill.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-2-last.f32",
+        "pp2048-3-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-2-output.u32",
+        "pp2048-3-output.u32"
+      ]
+    },
+    {
+      "label": "q2-hc-row80-candidate-model-r1",
+      "mode": "q2-bench2k",
+      "model_access": true,
+      "artifacts": 26,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "capsule_sha256": "d92f2c7ad4a0ecce7fa60865ed0ee37b67560ed398d46e2d4088d5578173faae",
+      "source_files_verified": 1019,
+      "fixture_hashes": {
+        "tests/q2_model.cpp": "c8d08efd85ef483911ffb3afeaa1034b4c3cdda5537374f04a607a0d8bd3de49",
+        "tests/q2_remote_test.py": "bace11e62ed154e72dee00b4c111b25c1ae9f8dc7f1a7d98b614a04092733fb7",
+        "tools/q2-remote.py": "efeda67532c3cc8660f8686b8d24209c9bd417d36547843bfac82c47643d205c",
+        "tools/q2-runner.py": "fa5416e4f4b526670a41dc8f5eb8235a8894402d57f7d7589f7d28fe42982fd9",
+        "cmake/hip/CMakeLists.txt": "855b4d274b761057186cb3fc1ec9609a8c50683fe6cd34438a8ce0d10ab8540d"
+      },
+      "full_mmq_rebuild": true,
+      "models_unchanged": true,
+      "files_exact_with_reference": [
+        "arithmetic-input.i32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "counting-input.i32",
+        "counting-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "pp2048-input.i32",
+        "pp2048-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32"
+      ],
+      "within_arm_replay": [
+        "pp2048-1-prefill.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-2-last.f32",
+        "pp2048-3-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-2-output.u32",
+        "pp2048-3-output.u32"
+      ]
+    }
+  ],
+  "artifacts_verified": 155,
+  "goal_met": false,
+  "promoted": false,
+  "temperature_max_c": {
+    "amdgpu": 82.0,
+    "k10temp": 92.75
+  },
+  "command_count": 20,
+  "model_pair_files_exact": 21,
+  "within_arm_model_replays": 18
+}

@@ -1,0 +1,17 @@
+candidate,historical,source,rep,warmup,prompt_tokens,output_tokens,decode_steps,prefill_s,decode_s,prefill_tok_s,decode_steps_s
+fixed_q2,True,q2-counting-regression-mixed-r1,0,True,2048,128,127,1.423943804,5.062085753,1438.259006,25.08847266
+fixed_q2,True,q2-counting-regression-mixed-r1,1,False,2048,128,127,1.41887387,5.058620886,1443.398207,25.10565683
+fixed_q2,True,q2-counting-regression-mixed-r1,2,False,2048,128,127,1.418603928,5.062386263,1443.672867,25.08698337
+fixed_q2,True,q2-counting-regression-mixed-r1,3,False,2048,128,127,1.418437954,5.060576497,1443.841794,25.09595499
+best_parent,True,q2-down-half-pair-model-r1,0,True,2048,128,127,1.305453056,5.046848056,1568.804018,25.16422103
+best_parent,True,q2-down-half-pair-model-r1,1,False,2048,128,127,1.306716427,5.041164694,1567.287254,25.19259094
+best_parent,True,q2-down-half-pair-model-r1,2,False,2048,128,127,1.306997522,5.046545682,1566.950178,25.1657288
+best_parent,True,q2-down-half-pair-model-r1,3,False,2048,128,127,1.309411272,5.040007827,1564.061685,25.19837357
+down_half_vector,False,q2-down-half-vector-model-r1,0,True,2048,128,127,1.303044619,5.045381116,1571.703662,25.17153751
+down_half_vector,False,q2-down-half-vector-model-r1,1,False,2048,128,127,1.30502591,5.043465662,1569.317501,25.18109739
+down_half_vector,False,q2-down-half-vector-model-r1,2,False,2048,128,127,1.302762932,5.04056091,1572.043501,25.19560864
+down_half_vector,False,q2-down-half-vector-model-r1,3,False,2048,128,127,1.304370214,5.041852142,1570.106384,25.18915597
+fixed_ud,True,q2-counting-regression-ud-r1,0,True,2048,128,127,1.212520558,5.217234208,1689.043527,24.34239962
+fixed_ud,True,q2-counting-regression-ud-r1,1,False,2048,128,127,1.214447147,5.216416355,1686.364042,24.34621613
+fixed_ud,True,q2-counting-regression-ud-r1,2,False,2048,128,127,1.214869991,5.217375049,1685.777092,24.34174251
+fixed_ud,True,q2-counting-regression-ud-r1,3,False,2048,128,127,1.215141798,5.258576845,1685.400011,24.15102104

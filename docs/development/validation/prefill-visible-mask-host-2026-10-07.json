@@ -1,0 +1,337 @@
+{
+  "schema": "synapse-lie.prefill-mask-span-host.v1",
+  "at_utc": "2026-10-07T02:07:13.938969+00:00",
+  "state": "HOST_POLICY_AND_SOURCE_COMPOSITION_PASS_HIP_UNCOMPILED_ORIGINAL_WEIGHT_AND_PERFORMANCE_UNQUALIFIED",
+  "scope": "Pure C17 visible mask span admission; unchanged kernel arithmetic and storage; not inference",
+  "source_parent_checkpoint": "1160cef2821f9063de15843a461ece5105638405",
+  "C17_boundary_cases": 17,
+  "focused_checks": {
+    "release": "1/1",
+    "unsuppressed_ASan_UBSan_LSan": "1/1"
+  },
+  "assertions_executed_in_Release": true,
+  "commands": [
+    {
+      "kind": "release",
+      "stage": "build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/executor-stop-r82-release",
+        "-j2",
+        "--target",
+        "test-attention-dispatch"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 49.625
+      },
+      "elapsed_s": 1.082916896790266
+    },
+    {
+      "kind": "release",
+      "stage": "ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/executor-stop-r82-release",
+        "--output-on-failure",
+        "-R",
+        "^c17-attention-dispatch-contract$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 51.125
+      },
+      "elapsed_s": 1.1337425084784627
+    },
+    {
+      "kind": "asan",
+      "stage": "build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/executor-stop-r82-asan",
+        "-j2",
+        "--target",
+        "test-attention-dispatch"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.625
+      },
+      "elapsed_s": 1.122860273346305
+    },
+    {
+      "kind": "asan",
+      "stage": "ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/executor-stop-r82-asan",
+        "--output-on-failure",
+        "-R",
+        "^c17-attention-dispatch-contract$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.125
+      },
+      "elapsed_s": 1.0543474983423948
+    }
+  ],
+  "peak_local_CPU_C": 51.125,
+  "source_composition": {
+    "state": "CANONICAL_RECIPE_COMPOSITION_AND_HOST_POLICY_ONLY_NOT_HIP_OR_INFERENCE",
+    "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "recipes": 41,
+    "recipe_changed_paths": [
+      "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+    ],
+    "kernel_body_and_allocation_pitch_unchanged": true,
+    "live_word_workspace_capacity": 2048,
+    "C17_policy": "lie_attention_mask_span_fits; independently typed ratio, full pitch and workspace bounds",
+    "actual_kernel_guard_difference_only": true,
+    "changed_recipe": "adapters/gufo-state/attention-dispatch-edits.json",
+    "bound_sources": {
+      "include/lie/dispatch.h": {
+        "bytes": 4343,
+        "sha256": "750484c94d80de4ba94c9d9ed405b7cb7c152980936c7dc01cdac8913778a020"
+      },
+      "src/dispatch.c": {
+        "bytes": 7091,
+        "sha256": "b9ec9e4847ebf583fbe14042d65a24e5804c6fe01cab22352b6bd8eca64da9ac"
+      },
+      "tests/test_attention_dispatch.c": {
+        "bytes": 8589,
+        "sha256": "bf2d7b339bd683fa39538134b002fdb5e1e583c14ab187365e92afca33591b55"
+      },
+      "adapters/gufo-state/attention-dispatch-edits.json": {
+        "bytes": 5059,
+        "sha256": "9dde1ae2ff3b8f78e9d73e74bbc37109865c80630fd866996d5b566f863abf5a"
+      }
+    },
+    "derived_sources": {
+      "evidence/prefill-span-r83-source-r2/old-kernels.hip.cpp": {
+        "bytes": 250478,
+        "sha256": "0d1b80d649bf2d18b999e3de462c2ce6f3eb3d25f9e57e82a1318e62f5a6dd9c"
+      },
+      "evidence/prefill-span-r83-source-r2/candidate-kernels.hip.cpp": {
+        "bytes": 250725,
+        "sha256": "cfa345cd3146fb16bdd4adc8c11357292856c87c7cadda6a3368a380920e8280"
+      }
+    },
+    "no_GPU_model_build_or_forward": true,
+    "matching_coherent_HIP_compilation_and_original_weight_qualification": "PENDING",
+    "preserve_comparison_baseline": "Retain frozen r38 original-policy reference separately; rebuilding both arms with this guard cannot measure its benefit."
+  },
+  "preserved_source_control_failure": {
+    "actual_exit_code": 1,
+    "scope": "Local source-recipe composition check; no compile/model/GPU",
+    "reason": "Incorrectly expected41 base recipes; canonical base has40 plus the KVC recipe selected by the bound r38 build",
+    "correction": "Bind the complete recipe set to the recorded r38 recipes, including KVC, rather than guessing the base count",
+    "executed_driver_sha256": "206bf01357fb4a14b0c92d407d5b77a563b438e42f70f4899946ebcdeb5da504"
+  },
+  "GPU_capture_rejection": {
+    "at_utc": "2026-10-07T01:53:43.167540+00:00",
+    "state": "NOT_LAUNCHED_AUTOMATIC_APPROVAL_REVIEW_REJECTED",
+    "action": "remote original-weight required-tool GPU capture on .161",
+    "reason": "Latest user instruction reportedly puts this qualification objective on standby in favor of decode/prefill optimization",
+    "GPU_job_or_model_load_started": false,
+    "remote_lease_acquired": false,
+    "controller_session_id": null,
+    "indirect_retry_or_bypass_attempted": false,
+    "next_action": "Read current owner context and continue authorized local work; do not relaunch rejected operation."
+  },
+  "r40_r41_plans": "LOCAL_UNADMITTED_AND_STALE_AFTER_THIS_GUARD_CHANGE;DO_NOT_LAUNCH_AGAINST_OLD_R38_AS_CURRENT_QUALIFICATION",
+  "priority_clarification_pending": true,
+  "no_new_remote_job_lease_model_GPU_build_or_run": true,
+  "current_GPU_reference": "frozen r38 original-policy comparator retained separately",
+  "kernel_workspace_words": 2048,
+  "1M_allocated_pitch_words": 8192,
+  "maximum_live_frontier_for_ratio4": 262144,
+  "frontiers_above_262144": "Existing scalar fallback; no constant-prefill claim",
+  "core_ABI_or_metrics_layout_change": false,
+  "reactive_workers_threads_or_lifetimes_change": false,
+  "six_root_items_open": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "portable_raw_archive": {
+    "path": "docs/development/validation/raw/prefill-visible-mask-host-2026-10-07.tar.gz",
+    "bytes": 182979,
+    "sha256": "832c84d228181f1e8be80071692f6fb0d8fdc8574aa80312d9c4b055c4f80adf",
+    "members": 36,
+    "all_members_independently_verified": true
+  },
+  "archive_inventory": {
+    "adapters/gufo-state/attention-dispatch-edits.json": {
+      "bytes": 5059,
+      "sha256": "9dde1ae2ff3b8f78e9d73e74bbc37109865c80630fd866996d5b566f863abf5a"
+    },
+    "build/executor-stop-r82-asan/test-attention-dispatch": {
+      "bytes": 149176,
+      "sha256": "48b9b89f49da4c3715c66b25bea05345401510fe086786dd6ffcf31327420fc7"
+    },
+    "build/executor-stop-r82-release/test-attention-dispatch": {
+      "bytes": 29192,
+      "sha256": "df0f113fbf50ff77c441c5b5f13d68a193dcdee94f5788600b84f8d03740c376"
+    },
+    "cmake/provider/Source.cmake": {
+      "bytes": 6300,
+      "sha256": "08bb3764211b85c3fb466bcfbbeb4d751274765418a8104f0327fc7542d1ee3f"
+    },
+    "evidence/context-r40-before-tools-r2.json": {
+      "bytes": 6808,
+      "sha256": "fec7e632d5ec3099f292d9f38f0d2ced03355c6e7c40c3a22b05dcb5fdeaf99b"
+    },
+    "evidence/context-r40-launch-review-rejection.json": {
+      "bytes": 595,
+      "sha256": "9b7b94d10d54fccca0aafdad5061003a0c4fc38718c6003df043636ccd55ff13"
+    },
+    "evidence/context-r40-peer-coordination.json": {
+      "bytes": 1516,
+      "sha256": "b73ca613fd5dce4bc0b158e8615b3e3f286b50063e20e785f0b0934e89ef9a52"
+    },
+    "evidence/context-r40-readiness.json": {
+      "bytes": 930,
+      "sha256": "217ad6c9410d226439dbe07e1f5036f73891d2a378a7480f66c8c220cae9d5d7"
+    },
+    "evidence/prefill-span-r83-asan-build/command.log": {
+      "bytes": 266,
+      "sha256": "0d6fb8788a287060b7690ddd0d7112132a148bfe685bc7adcdbcf97ae7d0734f"
+    },
+    "evidence/prefill-span-r83-asan-build/plan.json": {
+      "bytes": 956,
+      "sha256": "7681cf1925f6f36273b251f3bcadb3c38c1d4c6a33559c49e6c4387766199ec8"
+    },
+    "evidence/prefill-span-r83-asan-build/result.json": {
+      "bytes": 453,
+      "sha256": "7e9b6643373a2dc5c4f2e711eb74c433f47f7c20da431df95ec66db01fa0f461"
+    },
+    "evidence/prefill-span-r83-asan-build/temperatures.jsonl": {
+      "bytes": 1832,
+      "sha256": "86868ce01ae9a4512c8c742afb15918575b80ea29bbde805d7e04ccda55e27d8"
+    },
+    "evidence/prefill-span-r83-asan-commands.txt": {
+      "bytes": 1730,
+      "sha256": "3139d5b667912a8a39984c52a54051d6e7ece0f27c1c0341e8e3940a7a69e396"
+    },
+    "evidence/prefill-span-r83-asan-ctest/command.log": {
+      "bytes": 317,
+      "sha256": "728afb7c763f1f5650a1b97f0688ccd640ac2704cf47b6a5c76b4a1aa0f445ea"
+    },
+    "evidence/prefill-span-r83-asan-ctest/plan.json": {
+      "bytes": 985,
+      "sha256": "1d64aa10003bb546eb7bcb94fce9ba671c39818804ea32a90afc5f5b7b8c0dba"
+    },
+    "evidence/prefill-span-r83-asan-ctest/result.json": {
+      "bytes": 477,
+      "sha256": "982cb507e34355491bb8f54a8e3e2cbd7890d289dab3c63ea13ec312f585b4c3"
+    },
+    "evidence/prefill-span-r83-asan-ctest/temperatures.jsonl": {
+      "bytes": 1830,
+      "sha256": "3ec5626d4fb9e4e78d90fa3b69cd88ae8cb71f7067affd9de38bb02a885a445e"
+    },
+    "evidence/prefill-span-r83-release-build/command.log": {
+      "bytes": 266,
+      "sha256": "09b4b794b0d5b7d2306be8ceb988609b222c1db4333e00da9683f0d107ba7d02"
+    },
+    "evidence/prefill-span-r83-release-build/plan.json": {
+      "bytes": 959,
+      "sha256": "370550a933e8106ed3d4e52d2c5af0f44dc14cb8cb73f743363dd7ce9040e29e"
+    },
+    "evidence/prefill-span-r83-release-build/result.json": {
+      "bytes": 456,
+      "sha256": "64cc2d073965223acfcb1e31f1dc1f0a182ad4814563343914038f9442d484d7"
+    },
+    "evidence/prefill-span-r83-release-build/temperatures.jsonl": {
+      "bytes": 1825,
+      "sha256": "06e01852b8b2c6a8c99d88d7d0a550ce8f444205fa525ce0a017f61ba4efad87"
+    },
+    "evidence/prefill-span-r83-release-commands.txt": {
+      "bytes": 1625,
+      "sha256": "fa77f4ae6171b6898d74e8e54f1771eeadc352d7d37b96b1d24094662f09c2cc"
+    },
+    "evidence/prefill-span-r83-release-ctest/command.log": {
+      "bytes": 320,
+      "sha256": "23500f018f17b25806c64bb137aa90c0c11c285d810bbf2df62e6c3abb5ddf19"
+    },
+    "evidence/prefill-span-r83-release-ctest/plan.json": {
+      "bytes": 982,
+      "sha256": "db23f6a95127fd521f4ef50a55f0374209f3f9d2e0a10d1e28ca6452ce6a459e"
+    },
+    "evidence/prefill-span-r83-release-ctest/result.json": {
+      "bytes": 480,
+      "sha256": "ee9e24e4a2769a10c84bb98d446e49d43d972d157fbca63698c736e021722044"
+    },
+    "evidence/prefill-span-r83-release-ctest/temperatures.jsonl": {
+      "bytes": 1830,
+      "sha256": "b66bf0e8c3380020cb3a9c4fd40f4194ae6626ab30d0573126fe561f587d0649"
+    },
+    "evidence/prefill-span-r83-source-failure-r1.json": {
+      "bytes": 451,
+      "sha256": "fe462d1dc0f4d6e759be872e1480c0486819bf6ccd5a1a1549468ec43815d513"
+    },
+    "evidence/prefill-span-r83-source-original-r1.py": {
+      "bytes": 4116,
+      "sha256": "206bf01357fb4a14b0c92d407d5b77a563b438e42f70f4899946ebcdeb5da504"
+    },
+    "evidence/prefill-span-r83-source-r2/candidate-kernels.hip.cpp": {
+      "bytes": 250725,
+      "sha256": "cfa345cd3146fb16bdd4adc8c11357292856c87c7cadda6a3368a380920e8280"
+    },
+    "evidence/prefill-span-r83-source-r2/old-kernels.hip.cpp": {
+      "bytes": 250478,
+      "sha256": "0d1b80d649bf2d18b999e3de462c2ce6f3eb3d25f9e57e82a1318e62f5a6dd9c"
+    },
+    "evidence/prefill-span-r83-source-r2/proof.json": {
+      "bytes": 1883,
+      "sha256": "982249246266d72318f24b13afbd6c4c17cc0dec3e769839c1dd0892f5d03c68"
+    },
+    "evidence/prefill-span-r83-source.py": {
+      "bytes": 4510,
+      "sha256": "4db173b343db64892f7c3fa017b216771db4ace3c4349bcfaba1582d6defac01"
+    },
+    "include/lie/dispatch.h": {
+      "bytes": 4343,
+      "sha256": "750484c94d80de4ba94c9d9ed405b7cb7c152980936c7dc01cdac8913778a020"
+    },
+    "src/dispatch.c": {
+      "bytes": 7091,
+      "sha256": "b9ec9e4847ebf583fbe14042d65a24e5804c6fe01cab22352b6bd8eca64da9ac"
+    },
+    "tests/test_attention_dispatch.c": {
+      "bytes": 8589,
+      "sha256": "bf2d7b339bd683fa39538134b002fdb5e1e583c14ab187365e92afca33591b55"
+    },
+    "tools/thermal-run.py": {
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    }
+  }
+}

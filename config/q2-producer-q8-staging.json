@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-producer-q8-staging.v1",
+  "arms": [
+    {
+      "mode": "producer-q8-check",
+      "capsule_sha256": "cca7216a3c671ab03c46cc89828105e773f408a34d2d343863f89a5f78bd285e",
+      "provider_files": 1029,
+      "fixture_files": 82,
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-producer-q8",
+      "capsule_sha256": "1d20bca823bfb516671e312cdb8e4c0ed76013ab10c08f1d289c6f42c25353a6",
+      "provider_files": 1029,
+      "fixture_files": 82,
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-promessi-short-final-audit.v1",
+  "state": "COMPLETE_RELEASED",
+  "at": "2026-10-08T13:17:33.431074+00:00",
+  "plan_sha256": "dfeed916d0bfa9c4b4b62142a672d3af72ed46bf9754cba62dc3a8e3ecf763fd",
+  "source_sha256": "aeac34d5d6d02e732d2692fde39dd15c4c7234b87540f06cdd6966120296ff12",
+  "binary_sha256": "b701e948e8b0e1e241faf0197ebc40446720e7e96c0388d912231fe225f2ef62",
+  "measured_points": 4,
+  "total_samples": 8,
+  "collection_files": 37,
+  "collection_bytes": 60290707,
+  "collection_verified_at": "2026-10-08T13:02:59.566049+00:00",
+  "release_sha256": "2b93980ed3999ba65f24f00ad71338a39dfbe8dd466de8f90288f059c5067276",
+  "strong_closure": {
+    "at": "2026-10-08T13:03:01.268548+00:00",
+    "release_sha256": "2b93980ed3999ba65f24f00ad71338a39dfbe8dd466de8f90288f059c5067276",
+    "boot_id": "be3e89fd-955b-47a4-a385-11c3ad98bb78",
+    "retired_identities": 7,
+    "retired_groups": 6,
+    "kfd_empty": true,
+    "original_five_leases_free": true,
+    "reference_model_stats_unchanged": true,
+    "glm_model_stats_unchanged": true,
+    "iommu_groups": 0,
+    "gpu_reserved": false
+  },
+  "analysis_command": {
+    "argv": [
+      "python3",
+      "tools/analyze-q2-promessi-short.py"
+    ],
+    "started_at": "2026-10-08T13:09:37.408000+00:00",
+    "finished_at": "2026-10-08T13:09:37.955851+00:00",
+    "exit_code": 0
+  },
+  "analysis_results_sha256": "dc0372d21ccc83426419304e455259f583812c494609eda1b34cc437ca44cacc",
+  "full_output_budget_points": 4,
+  "exact_prefixes": true,
+  "gpu_reserved": false,
+  "current_own_all_hosts": "NONE"
+}

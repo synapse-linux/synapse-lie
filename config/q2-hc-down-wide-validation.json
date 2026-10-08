@@ -1,0 +1,265 @@
+{
+  "scope": "Wider HC down component screen on .157; no original-model runs",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "selected_source": ".deps/gufo-q2-bench-hc-up-chains",
+  "verdict": "No candidate selected: BK2 gain is weak with overlapping samples; BK1 and coalesced BK2 regress",
+  "runs": {
+    "q2-hc-down-wide-host-r1": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "host_guard_cohort": 1,
+      "started_at": "2026-10-03T03:11:35.570839+00:00",
+      "finished_at": "2026-10-03T03:12:01.253122+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "707875925de1fbac3488203e23be452364770ceed164889574d0b78b0720581b",
+      "collection_sha256": "5670fb44e00b80212e86c3d6bc8ac74fcdd82848528cd6aaeb591e9469c0c3a5",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "cd9d189e1aad5d5d876a7e1db6ff095339d0bad281a77fc95a61c373d7c6e3f2",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "0ae491b69d517a8ec98dc953f70b453831116548614131b0541aeac3ae18892b"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 77250
+      }
+    },
+    "q2-hc-down-wide-micro-ref-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-up-chains",
+      "host_guard_cohort": 1,
+      "started_at": "2026-10-03T03:13:31.283626+00:00",
+      "finished_at": "2026-10-03T03:13:50.400430+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "6341407844f8c81f11e5d8f6757e5d4d7ce74c84cffb2174d03c4c42ef1ed2f6",
+      "collection_sha256": "2ffd6863524d11cd73134e9d8c69c3a5172afb1802e7931a808a8a7ed744d54f",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": "1fb236de50817d75f160ed548e1951bf10e445a76071cfe72b0fa3f4d237cb3b",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 79875
+      }
+    },
+    "q2-hc-down-wide-micro-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-down-wide",
+      "host_guard_cohort": 1,
+      "started_at": "2026-10-03T03:14:31.349600+00:00",
+      "finished_at": "2026-10-03T03:14:49.961591+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "9442910a3871a4d835c0541c03f3f27e47dde96bc0241d4fb398f7cb6fa53514",
+      "collection_sha256": "673e4d3de8e14404e17361ac29d7609a5b4477a2e777303b63ee2d39563435ca",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "656389a25d51d3e1e25c33cc5b4faee9278b06dba62d5651c6c4684f0251d500",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": "49b029c50e845bc00f551bf4018ec7fa83839eac99909e98b24470785b985234",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 79750
+      }
+    },
+    "q2-hc-down-wide-host-r2": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "host_guard_cohort": 2,
+      "started_at": "2026-10-03T03:19:03.731162+00:00",
+      "finished_at": "2026-10-03T03:19:29.920662+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "be5cd7688f7234aab979d4a9289168dcb2c337edfc6685515e9934fa345b711a",
+      "collection_sha256": "e75ad73c2f41630ee6ff5def6cae2c406ff7ab744d2c50b02b7190412972672a",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "cd9d189e1aad5d5d876a7e1db6ff095339d0bad281a77fc95a61c373d7c6e3f2",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "0ae491b69d517a8ec98dc953f70b453831116548614131b0541aeac3ae18892b"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77500
+      }
+    },
+    "q2-hc-down-wide-k1-micro-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-down-wide-k1",
+      "host_guard_cohort": 2,
+      "started_at": "2026-10-03T03:20:55.589750+00:00",
+      "finished_at": "2026-10-03T03:21:15.208561+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "55fa91638ff3171436d03402dd5029fee6e39bd2a02d5115d7b1dfe74511e60b",
+      "collection_sha256": "342b51960f906c7469d9b22856ca507447dddb3ac79c320a2c4b95b5aa769215",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "21e9e13f323cdb0ff15fe3a55d52c6c63a79f5ad0bf24be0fe3d61c5ce76816e",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": "6a9fc6b792233b5f57bb8bba5facd7336d7505e2e400e55a2277702d9853a93e",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80500
+      }
+    },
+    "q2-hc-down-wide-host-r3": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "host_guard_cohort": 3,
+      "started_at": "2026-10-03T03:24:57.887534+00:00",
+      "finished_at": "2026-10-03T03:25:24.065040+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "9ddfa6e30902116bd8a56d506296fff9861b5c654a79936b6111f1e75a4f93af",
+      "collection_sha256": "bddea984fa0d58eac9099dec24812ab2cbaef7b5855ad9574b78e938484830a9",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "cd9d189e1aad5d5d876a7e1db6ff095339d0bad281a77fc95a61c373d7c6e3f2",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "0ae491b69d517a8ec98dc953f70b453831116548614131b0541aeac3ae18892b"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77000
+      }
+    },
+    "q2-hc-down-wide-coalesced-micro-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-down-wide-coalesced",
+      "host_guard_cohort": 3,
+      "started_at": "2026-10-03T03:27:30.338068+00:00",
+      "finished_at": "2026-10-03T03:27:49.956654+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "84fda2aeba1a0f0e443935c85ebc68752e7c424eab6ecf2f42ecf701d830a0f8",
+      "collection_sha256": "5a5f059750a99c15d6d71a3a554a47ddec7bab7ae1a465dcfd1874223cb719cd",
+      "source_sha256": {
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "f820297c866eccddabdcf076cbc5073d3c6f67b8326d31215287b657a9f2ffbc",
+        "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+        "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc"
+      },
+      "capsule_source_files_exact": 1019,
+      "binary_sha256": "ea8bc82fe78837c7cf1630a8409eef7da0cb5ce3152fc092d061df78634f6aac",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 81375
+      }
+    }
+  },
+  "candidates": {
+    "q2-hc-down-wide": {
+      "selected": false,
+      "source": ".deps/gufo-q2-bench-hc-down-wide",
+      "component_report": "config/q2-hc-down-wide-results.json",
+      "down_time_ratio": 0.9919566611763554,
+      "unchanged_up_time_ratio": 1.0218839380245126
+    },
+    "q2-hc-down-wide-k1": {
+      "selected": false,
+      "source": ".deps/gufo-q2-bench-hc-down-wide-k1",
+      "component_report": "config/q2-hc-down-wide-k1-results.json",
+      "down_time_ratio": 2.941667985224407,
+      "unchanged_up_time_ratio": 1.018569885282105
+    },
+    "q2-hc-down-wide-coalesced": {
+      "selected": false,
+      "source": ".deps/gufo-q2-bench-hc-down-wide-coalesced",
+      "component_report": "config/q2-hc-down-wide-coalesced-results.json",
+      "down_time_ratio": 1.0974101181025233,
+      "unchanged_up_time_ratio": 1.0121726361556769
+    }
+  },
+  "closure": {
+    "released_at": "2026-10-03T03:29:32.419115+00:00",
+    "observer_retired_at": "2026-10-03T03:36:11.200633+00:00",
+    "result_hashes_exact": 7,
+    "original_models_opened": 0,
+    "original_leases_free": 4,
+    "runner_identities_absent": 7,
+    "command_groups_sessions_absent": 30,
+    "observers_exit_code": 0
+  },
+  "checks": {
+    "exit_code": 0,
+    "runs": 7,
+    "commands": 30,
+    "artifacts": 213,
+    "nonzero_component_exits": 4,
+    "known_numerical_failures_per_arm": [
+      "320x10240-n32-p0",
+      "320x10240-n95-p0",
+      "319x10240-n129-p0",
+      "320x10208-n129-p0"
+    ],
+    "unchanged_complete_operator_hashes_per_candidate": 22,
+    "exact_saved_value_coordinate_files_per_candidate": 44,
+    "host_tests": "Three cohorts, each 12/12 Debug and 12/12 ASan/UBSan on .157",
+    "original_model_runs": 0,
+    "post_timing_check": "Finite values and matching checksum; no full timed-buffer hash"
+  }
+}

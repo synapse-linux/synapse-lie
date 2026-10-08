@@ -1,0 +1,39 @@
+{
+  "scope": "CPU archive/runner fixtures only; no GPU or original-model qualification",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "label": "q2-terminal-collection-host-r1",
+  "started_at": "2026-10-03T11:40:53.001205+00:00",
+  "finished_at": "2026-10-03T11:41:23.691750+00:00",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "ctest": {
+    "debug": "15/15",
+    "asan_ubsan": "15/15"
+  },
+  "new_collection_cases": 7,
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-terminal-collection-host-r1/results.tar.gz",
+    "sha256": "2867a4d8e5ab1675c6bbb6c103a307212fa0306d6d170aeab6a77ef6778c96ff",
+    "verified_artifacts": 7,
+    "existing_archive": false
+  },
+  "source_capsule_sha256": "d103969300f844ba5f6971784030e7e528c05a84f324be4f14f2c9b6f512f82e",
+  "qualified_file_sha256": {
+    "CMakeLists.txt": "bbdd6372cdcf0a6e08fcef056c24fc81fd1206eab1da9a5381b304d6d82e96fa",
+    "tools/collect-q2-terminal.py": "007fb798f9a7a022fc3d1aff51bd665da41ab6a921cdefcc2e1b90fc0060e841",
+    "tools/q2-remote.py": "cdaa18cde0fe79137fe74bb7d3a6a8ffbffc436b2942fb6c979d82df357ab40d",
+    "tests/q2_remote_test.py": "8fb3e775de1650df4c3afc28caa06633649029d0b54ef7306197f1e1bb774534",
+    "tests/q2_terminal_collection_test.py": "58238a103d4253829bf9180149e93ecacfb33a9df137adc6cb83512ec70ec805"
+  },
+  "limitations": [
+    "GiB-scale cap checks use synthetic member sizes, not a real GiB transfer.",
+    "Round-trip test uses real tiny tar/files with a mocked SSH transport.",
+    "CPU checks overlap an active task-quality campaign; task wall times are not controlled kernel timings."
+  ]
+}

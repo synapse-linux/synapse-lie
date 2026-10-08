@@ -1,0 +1,158 @@
+{
+  "schema": "synapse-lie.steering-bank-host-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "C17_HOST_FORMAT_IDENTITY_OWNERSHIP_NOT_MODEL_OR_GPU_INFERENCE",
+  "parent_checkpoint": "19d2836047c16ff1e9b265cd114ab1b154b999b4",
+  "branch": "feature/context-million-openai",
+  "steering_bank_abi": 1,
+  "executor_abi": 3,
+  "request_abi": 6,
+  "generation_abi": 3,
+  "source_files_sha256": {
+    "CMakeLists.txt": "684cd68bb228793d45948f3342fbb04ab5f84c8e5350363b6819d1dd0d4c7579",
+    "include/lie/steering.h": "00a719c8fc8178580665844eaa055bd41c4a17164860c4cc5cb5076962e3ecfa",
+    "src/steering.c": "afba4d069b4c811963abbc21ca3852172630043b4fc477ca19e0e7f68ef68a42",
+    "tests/test_steering.c": "5d2ee10aecfe930914be6c7044c3efed057fd51d9799d47b5b4a710625bf7a52"
+  },
+  "checks": [
+    {
+      "directory": "evidence/steering-bank-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 61.625
+        },
+        "elapsed_s": 2.0684518283233047
+      },
+      "log_sha256": "f45ce52d1ba77b285668683e40bca13d25e22b82db4d918a3eaa3cacd6ea30b7",
+      "temperature_log_sha256": "1998ea47670f94f5d532a0efc4105960538d79b13704b28da4d5856789d97608"
+    },
+    {
+      "directory": "evidence/steering-bank-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.375
+        },
+        "elapsed_s": 6.322903038002551
+      },
+      "log_sha256": "79093f2367e923152abf52c1d2b6aabac34c5fbfefc6526199af2544c88e3334",
+      "temperature_log_sha256": "885ecbb0d41ef5b8fcf4e09b9d83099b7f71e4f548654ab2fbf89db066c3de4e",
+      "passed": 4,
+      "total": 4
+    },
+    {
+      "directory": "evidence/steering-bank-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.625
+        },
+        "elapsed_s": 2.100672597065568
+      },
+      "log_sha256": "e167474c5475761715607468b28107fb3203c822d90d7e7ecfe357ca48673cfc",
+      "temperature_log_sha256": "3d6fe3b8c66d8a444dcfd92ad700a5947646bf5eba6bca023c39ead0e683026f"
+    },
+    {
+      "directory": "evidence/steering-bank-asan-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.125
+        },
+        "elapsed_s": 6.332033714279532
+      },
+      "log_sha256": "11fe3541a5ecfa7250b5f59589d207fdade12904078a5966e9e9fdf02fc26501",
+      "temperature_log_sha256": "211672aa39afefc25c100e3b65207c9846df6d680dbf9090358fb4f02169196d",
+      "passed": 4,
+      "total": 4
+    }
+  ],
+  "thermal_peak_c": {
+    "nvme": 33.85,
+    "amdgpu": 50.0,
+    "k10temp": 66.625
+  },
+  "sanitizers": {
+    "ASAN_OPTIONS": "detect_leaks=1:abort_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "coverage": [
+    "Exact DS4-compatible headerless little-endian finite f32 values; zeros/subnormals unmodified.",
+    "Model-neutral shape and explicit host-vector budget; overflow, nonfinite/truncated/trailing data refusal.",
+    "Independent raw/scope SHA oracles and distinct scope for identical bytes with different geometry.",
+    "ABI and existing-handle refusal without output mutation.",
+    "Nonregular files, symlinks and FIFOs refused without blocking.",
+    "Immutable values survive source file mutation/unlink and first reference release.",
+    "Eight CPU fixture threads retain/query/release an existing pinned bank concurrently.",
+    "Multiple bounded read chunks and a short final chunk.",
+    "Existing shared-core context admission, lifecycle and semantic events remain passing."
+  ],
+  "ds4_reference_audit": {
+    "repository": "https://github.com/antirez/ds4",
+    "commit": "0aaea5a238fb41a35106a551e73c8409dfb751ac",
+    "source_url": "https://raw.githubusercontent.com/antirez/ds4/0aaea5a238fb41a35106a551e73c8409dfb751ac/ds4.c",
+    "source_sha256": "8f546837c0032a24b381052253244a34e10b7eea2647e97862cb4967b8604b89",
+    "symbol_receipt": "evidence/ds4-steering-c-symbol-audit.json",
+    "symbol_receipt_sha256": "d44e764d7fb722bf31a56c00cebbde14491c7fa69fb6791609d6638e8a5bec19",
+    "hook_receipt": "evidence/ds4-steering-qwen-hook-audit.json",
+    "hook_receipt_sha256": "8eca26ab3892360b39243bedd8cd31573e6791bb43d1fa6c44eb28d7755a7bd8",
+    "scope": "Read-only independent official source; no DS4-owned source/environment modification, no implementation imported."
+  },
+  "not_claimed": [
+    "Provider/GPU steering implementation or original-weight evidence.",
+    "HTTP/native benchmark steering flags or live shared-core scale changes.",
+    "RAM/SSD steering-cache compatibility.",
+    "Steering AR/MTP quality, baseline equivalence or measured performance."
+  ],
+  "pending_binding": "docs/development/STEERING.md",
+  "product_dependencies_added": []
+}

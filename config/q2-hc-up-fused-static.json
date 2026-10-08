@@ -1,0 +1,35 @@
+{
+  "scope": "Static gfx1151 compiler resources only; no runtime throughput or correctness evidence",
+  "assembly_sha256": "427367b84f021a8cdbbdaccacc145f0ac7b84fc4bbc859c46ae7c3ad8f69b302",
+  "kernels": [
+    {
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueVec4Kernel<float, true>(float const*, float const*, float const*, float*, float*, unsigned int)",
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 42,
+      "next_free_sgpr": 24
+    },
+    {
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<128, 64, 1, 4, 2, 8, true, false, false, true>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+      "group_segment_fixed_size": 18432,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 181,
+      "next_free_sgpr": 28
+    },
+    {
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::HcMixEpilogueVec4Kernel<float, false>(float const*, float const*, float const*, float*, float*, unsigned int)",
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 42,
+      "next_free_sgpr": 18
+    },
+    {
+      "symbol": "void gufo::models::qwen38_flash_next::rocm::DenseF16GEMMKernel<128, 128, 1, 4, 2, 8, false, false, false, true>(void const*, __half const*, float*, unsigned long, unsigned long, unsigned long, std::conditional<true, float, __half>::type const*, __half*, void*, float const*, float*, gufo::models::qwen38_flash_next::rocm::AttentionProjectionOutput)",
+      "group_segment_fixed_size": 18432,
+      "private_segment_fixed_size": 84,
+      "next_free_vgpr": 256,
+      "next_free_sgpr": 22
+    }
+  ],
+  "earlier_geometry": "evidence/q2-hc-up-fused-static-report-r1.json"
+}

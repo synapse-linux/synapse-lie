@@ -1,0 +1,120 @@
+{
+  "schema": "synapse-lie.q2-compressed-cache-final.v1",
+  "plan_sha256": "7435a3a4504f4bd5957258332011f4a09bf2fcef039b2cec312579aca3e40835",
+  "model_result_sha256": "c35e45d087cefc3b4e4a9d972ffc077597f7214c570f80bebcd17e5f769fe3ac",
+  "component_result_sha256": "f08c506468b241c4516a6e8f96d17919742b61856241c8ae15f4c1dee6f64506",
+  "release_sha256": "a94c8b81e150641423391f00620a68caa635575cf454245389fd39a866ec0df5",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "preliminary_host_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "preliminary_host_artifacts": 7,
+  "all_campaign_artifacts": 44,
+  "frozen_fixtures_verified": 102,
+  "frozen_manifests_verified": 9,
+  "provider_files_verified": 1030,
+  "host_reused": false,
+  "retired_identities": 1210,
+  "retired_groups": 966,
+  "thermal_max_c": {
+    "q2-compressed-cache-host-r2": {
+      "amdgpu": 38.0,
+      "k10temp": 65.125
+    },
+    "q2-compressed-cache-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 64.75
+    },
+    "q2-compressed-cache-model-r1": {
+      "amdgpu": 72.0,
+      "k10temp": 79.375
+    }
+  },
+  "figures": {
+    "docs/figures/q2-compressed-cache-component.csv": "cdbfee295f87ad187b5603d86f37013e32c4249d7dd70648b1888f5bdf58f889",
+    "docs/figures/q2-compressed-cache-component.svg": "dda4df3118e0d85297d0e2c9dde3054dfa639a35bc37978bca32284fa872b5f4",
+    "docs/figures/q2-compressed-cache-component.png": "efb605c04359142bb24eee31d0452a54ca6b3e5da227689bf0fcdbd3df83b544",
+    "docs/figures/q2-compressed-cache-model.csv": "a352b70f511194718eb88f124f4b34a107e591041a8ac815eccba9b40e9813c8",
+    "docs/figures/q2-compressed-cache-model.svg": "9ff1deba6d276a1fdf8f73f13aad4dbddd38b66b920374b2a657e20b3c84e8b9",
+    "docs/figures/q2-compressed-cache-model.png": "da41d84d974580d8a3b1d8b1bfbc4f1baff324137446a2930cabeada55f97573"
+  },
+  "preserved_nonzero_exits": {},
+  "failure_classification": {},
+  "component_numerical_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "cache": {
+    "event": "q2_compressed_cache_ready",
+    "slots": 23061,
+    "total_experts": 24576,
+    "weight_bytes": 34359057408,
+    "budget_bytes": 34359738368,
+    "gate_bytes_per_expert": 422400,
+    "down_bytes_per_expert": 645120
+  },
+  "cache_stats": {
+    "event": "q2_compressed_cache_stats",
+    "calls": 25392,
+    "hits": 302037,
+    "misses": 16124,
+    "evictions": 0,
+    "loads": 16124,
+    "failed_loads": 0,
+    "read_bytes": 24023470080,
+    "slots": 23061,
+    "weight_bytes": 34359057408,
+    "dynamic_id_bytes": 81920
+  },
+  "candidate_median_change_percent": {
+    "fixed_q2": {
+      "prefill_tok_s": 9.16653821131903,
+      "decode_steps_s": -3.0601114414893216,
+      "prefill_s": -8.39683879685409,
+      "decode_s": 3.1567102897209764
+    },
+    "best_parent": {
+      "prefill_tok_s": -0.5867178638197412,
+      "decode_steps_s": -3.309911595930193,
+      "prefill_s": 0.5901805000218863,
+      "decode_s": 3.4232170493954106
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -6.511501462495861,
+      "decode_steps_s": -0.056494353246694384,
+      "prefill_s": 6.965029396301881,
+      "decode_s": 0.05652626028034291
+    }
+  },
+  "decision": "RETAIN_EXPERIMENT_KEEP_SAVED1585",
+  "next_composition_variant": "ssm-fixed-bounds",
+  "controls_rerun": false,
+  "independent_model_quality": false,
+  "full_curve": false,
+  "promoted": false,
+  "goal_met": false
+}

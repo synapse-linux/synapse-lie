@@ -1,10 +1,682 @@
-# Experimental transitional execution ABI 2
+# Experimental transitional execution ABI 3
+
+Activation-observer ABI 1 (`lie/activation_observer.h`) adds owner-only model
+geometry and `lie_sequence_prefill_observed`. The observer configuration is
+copied for one ordinary cumulative-prefix prefill call. It borrows completed
+host rows for the last physical prompt token, including a one-token tail.
+Attention rows are projected hidden-width outputs; FFN rows contain all residual
+branches. The private provider limits the host row allocation before submission.
+Callbacks cannot reenter, mutate or retry executor work, and none remains after
+return. Predictor/decode/verification rows are excluded. Unsupported providers
+refuse without changing geometry output. Partial events do not prove completed
+prefill, numerical equality, learned quality or performance.
+
+C17 capture ABI 1 (`lie/steering_capture.h`) owns bounded component/layer matrices,
+validates exact geometry/token identity and refuses duplicate or nonfinite rows.
+FFN branches are averaged. Publication requires every selected row and successful
+completion of the same physical prefix. Failure seals the collector; partial
+counts remain available for diagnostics, without publishable learning input.
+Direction ABI 1 (`lie/steering_direction.h`) owns bounded paired accumulation:
+ordered compensated FP64 target-minus-contrast sums, unit L2 normalization per
+layer and immutable binary32 output. Zero-norm layers refuse publication and
+allow more pairs; rejected pairs preserve counts and accumulated values. No
+model/platform type, device operation, HTTP dependency or thread enters either
+primitive. Requested bytes include owners and owned arrays, excluding allocator
+overhead and caller input. A file writer must encode headerless little-endian
+binary32. Existing executor/request/core layouts and DS4 payload framing are
+unchanged. HOST/sanitizer/syntax checks pass; HIP execution and learned-bank
+quality remain pending.
+
+The native C17 `lie-steering-build` client composes the activation/capture/direction
+APIs without changing their ABI or existing structures. Its dataset and artifact
+contract is [`synapse-lie.steering-build.v1`](../development/STEERING.md#native-bank-builder).
+The authoritative preparation result requires process exit 0 and a terminal
+`complete` journal event; captured rows alone do not authorize learning. Callback
+I/O errors are checked after executor completion and never mutate its numerical
+return status. No model/platform type enters the client or shared helpers.
+The matching `4c703b3d`/r70
+[HIP build](../development/validation/steering-build-point-build-2026-10-07.json)
+verifies C17 builder/collector/learner objects and their primary-provider linkage
+alongside both full providers. It does not execute these APIs on original weights;
+activation and learned-quality qualification remain open.
+
+Sampling-observer ABI 1 (`lie/sampling_observer.h`) is an additive diagnostic
+contract. `lie_sequence_decode_mtp_observed` executes the ordinary single-row
+MTP call on the device owner with a callback installed for that call only.
+Each completed target draw, compact proposal or target verification borrows
+raw logits, compact ID mapping, history, generated-token penalties, grammar
+mask, exact RNG before/after and the actual proposal/result. A deferred target
+draw is identified explicitly and consumes no second RNG draw.
+Copy needed data inside the callback; do not retain pointers, throw, destroy
+state or reenter executor APIs. A callback cannot veto, edit or retry work.
+The callback configuration is copied for the call; its context must remain live.
+Writer failures belong to the client and are checked after numerical return.
+Invalid observer/owner/nested admission preserves the output. Unavailable
+backends and adapters without the verified state-access provider explicitly
+refuse; no observer remains after failure.
+GPU greedy verification can omit host rows, so missing events cannot qualify
+those predictions. Existing executor/request/core/state layouts and reactive
+scheduling remain unchanged. Capture I/O is excluded from throughput claims.
+The observation path and native MTP capture/replay pass HOST checks. The
+[matching Point build](../development/validation/mtp-capture-point-build-2026-10-07.json)
+also compiles both coherent providers and all six consumers, without GPU or
+model execution. The [selected original Q4/Q8 text capture](../development/validation/sampling-mtp-text-point-2026-10-07.json)
+subsequently passes complete original/C17/OFF probability/RNG/controller replay
+in Release and unsuppressed sanitizers. The
+[selected required-tool MTP capture](../development/validation/sampling-mtp-tools-point-2026-10-07.json)
+also passes complete target masks, probability/RNG/controller replay and all
+six natural-EOS calls. Proposals intentionally borrow no grammar mask; target
+verification enforces it. Wider tool/quality/fault/resource/cost acceptance
+remains open; greedy is host-head only.
+
+Prefill ABI 1 (`lie/prefill.h`) adds tagged `lie_prefill_options` and
+`lie_prefill_info` without changing executor ABI 3, request ABI 8 or existing
+core/job-info layouts. Initialize both structures before use. The additive
+`lie_core_create_prefill(options, prefill, steering)` copies the options and
+accepts an optional steering bank. A NULL prefill configuration, or zero
+`capacity_tokens`, reserves the initial `options.chunk`; existing factories
+retain that behavior. Initial chunk and capacity are in 1–32,768 and chunk must
+not exceed capacity. The provider must admit scratch for the reservation, bounded
+by its context. An insufficient advertised capacity fails readiness explicitly.
+
+`lie_core_set_prefill_chunk(core, tokens, error)` changes the READY engine's
+selection under the metadata lock. It allocates nothing, calls no numerical
+provider and creates no thread. Invalid ranges return INVALID; exceeding the
+immutable capacity returns RESOURCE_LIMIT. Loading, failed and stopping engines
+refuse. Refusal preserves configuration. Revision starts at 1, increments on a
+change and remains unchanged for an idempotent setter; exhaustion refuses.
+The selection is copied at successful request admission. Active and queued jobs
+retain their immutable chunk, capacity and revision, including after retirement.
+`lie_core_prefill_snapshot` and `lie_job_prefill_snapshot` require initialized
+outputs; refusal leaves them unchanged. Hold a job pin for its snapshot and do
+not destroy a core concurrently with its APIs. The setter signals the existing
+core notice descriptor. HTTP only projects this shared-engine contract.
+
+The additive provider-owner `lie_sequence_configure_prefill()` binds the job's
+chunk and copied semantic scope after any image attachment and before inference.
+The provider publishes the selected chunk and scope in captured state and checks
+them independently before any restore mutation. The Gufo binding uses the existing
+C17 scoped-state codecs and canonical text positions when no image is present;
+the model's numerical scratch reservation remains immutable. The direct reference
+bench explicitly refuses this shared-core namespace operation.
+
+Larger reservations use the verified provider's `Model::PrefillCapacity`;
+the original unmodified provider explicitly refuses reservations above 2,048.
+All numerical providers and consumers must rebuild coherently after this change.
+The coherent r45 provider now passes selected original-weight PP8192/TG32
+greedy output parity at chunks 2048/4096/8192 and fixed reservation 8192
+([Point receipt](../development/validation/prefill-original-point-2026-10-07.json)).
+A subsequent PP32768/TG32 comparison also passes exact greedy parity at chunks
+2048/16384/32768 with fixed capacity 32,768/context 65,536/C1
+([32K receipt](../development/validation/prefill-original-32k-point-2026-10-07.json)).
+Live changes with active/queued jobs, cache,
+cancellation/fairness and broader correctness/resource/performance remain pending.
+The later r50 native AR PP32768/TG32/C2 probe passes an actual in-flight setter,
+immutable active/queued selections, full peer output against the baseline,
+withheld-credit peer progress and borrowed-output stability. Cancellation during
+prefill retires with zero output and a fresh complete request matches the baseline
+([live Point receipt](../development/validation/prefill-live-original-point-2026-10-07.json)).
+RAM/SSD/MTP and broader quality/fault/resource/performance acceptance remain open;
+the selected functional pass does not change the ABI or qualify throughput.
+Separate AR RAM/SSD PP8192/TG32/C1 probes now pass complete-prefix reuse across
+2,048 → 8,192 → 2,048 selections at fixed capacity 8,192/context 16,384.
+All five outputs per mode and all ten across modes match, with cold/hot calls
+4/0/1/0/0. SSD has RAM disabled and performs real full-prefix reads
+([cache Point receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
+This qualifies these selected namespace transitions; MTP and broader
+quality/fault/resources/performance remain separate open gates.
+The matching r50 original Q4/Q8 MTP probes subsequently pass live C2 and both
+five-stage RAM/SSD C1 paths at PP8192/TG32/context 16,384/capacity 8,192.
+All complete outputs match the same-runtime serial AR reference; SSD restores
+the full prefix with RAM disabled. In-flight immutable selection, withheld-credit
+peer progress, borrowed-output stability and prefill cancellation/recovery pass
+([MTP Point receipt](../development/validation/prefill-mtp-original-point-2026-10-07.json)).
+Broader MTP sampling/grammar, quality/fault/resource and performance gates remain
+open. No ABI layout, numerical algorithm or worker-count change accompanies
+these qualification results.
+See [configuration](../guides/USAGE.md#context-and-concurrency) and
+[cache identity](STATE.md).
+
+Attention-dispatch ABI 1 is a separate tagged C17 contract in `lie/dispatch.h`.
+`lie_model_attention_dispatch_snapshot` runs on the model owner and performs no
+device call or wait, including after a provider fault.
+`lie_core_attention_dispatch_snapshot` copies the last returned owner snapshot
+under the metadata lock and is callable by clients through STOPPED. Initialize
+outputs before either call; refusal leaves output unchanged. Unsupported
+providers return an explicit `supported=false` view, not inferred zero work.
+Existing executor, request, core-info, state and cache layouts are unchanged.
+The private numerical producer adds a borrowed observer and host-helper argument;
+its complete ON/OFF provider and consumer archives must rebuild together.
+The build receipt requires a typed boolean observer selection and exact owned
+source/header and recipe identities. Matching HIP compilation and GPU
+qualification remain in the final combined phase.
+See [dispatch measurement semantics](METRICS.md#prefill-attention-dispatch).
+
+`lie_attention_mask_span_fits` adds a pure C17 host extent check without changing
+dispatch ABI 1 layouts. It separates allocated mask-row pitch from the visible
+word span and the provider's workspace capacity. Zero geometry, short storage,
+excess live words and a uint32 token-frontier overflow refuse. It inspects no
+mask memory and performs no allocation, device work or synchronization. Providers
+retain pointer validity and their other geometry checks. The Point recipe uses
+this check before sparse WMMA. Short visible spans retain the 2,048-word
+workspace. Default-ON `LIE_LONG_CONTEXT_WMMA` admits a separate 8,192-word
+specialization through 1M tokens, with 32 local words per thread and enough shared
+union storage for wider noncompact masks. The compact-list threshold, mask-row
+stride, key order and WMMA/softmax arithmetic stay unchanged. OFF retains the
+short-workspace guard and scalar fallback at greater depths. The producer and
+consumer must agree on the receipt's typed boolean `long_context_wmma`; old or
+mismatched receipts refuse. Public ABI layouts, state formats, reactive scheduling
+and worker counts are unchanged. Original-weight numerical/quality/resource and
+performance qualification of the long specialization remains pending.
+
+Executor ABI 3 adds `rope_profile` to `lie_model_options` (20 bytes, offset 16).
+ABI 2 callers must rebuild: version and size checks reject the old structure.
+The shared C17 `lie/rope.h` contract supplies immutable native/YaRN2/YaRN4
+plans, frequency tables and cache identities. The adapter uploads the selected
+plan for attention and indexer rotary lanes. Scalar AR, sampling, MTP and
+vision operations keep their existing meanings.
+See [context configuration and qualification](../guides/CONTEXT.md).
 
 The additive `lie_backend_dense_sampling()` diagnostic identifies dense selector
-ownership without changing executor ABI 2, request ABI 5 or generation ABI 2.
+ownership independently of request ABI 8 and generation ABI 3.
 `lie/sampling.h` defines the separate model-neutral C17 sampling ABI 1:
 borrowed rows/masks/counts, caller-owned bounded workspace and explicit RNG.
 See [ownership and remaining delegated state](../development/C17-SAMPLING.md).
+
+JSON value ABI 1 adds initialized `lie_json_value_slot` operations for owning
+roots and borrowed nodes, including lazy initialization, copy/move, assignment,
+root transfer and scalar queries. An owning move preserves the source's scalar
+kind/value and transfers its exact root; a borrowed move preserves source identity
+and clears payload only after success. Slots require caller synchronization and
+cannot be copied with struct assignment. Later move refusal may materialize a
+lazy pointer without changing logical values. Existing tree descriptions,
+engine/state/cache/event/metric layouts are unchanged. HOST lifecycle/parity
+checks and selected matching `dbdac28d` AR/MTP GPU controls pass
+([receipt](../development/validation/c17-json-slot-point-gpu-2026-10-06.json)). See
+[owned JSON values](../development/C17-SAMPLING.md#owned-typed-json-values).
+
+Schema-number ABI 1 retains its existing layouts and adds default native
+conversion semantics: each NULL serialize/parse hook independently uses the
+owned C17 binary64 codec and ignores `conversion_context`. Overrides remain
+caller-owned. Native conversion refusal preserves outputs and reports CALLBACK
+with a static diagnostic; the private adapter projects the original typed error.
+The initialized description still requires its borrowed schema reader.
+[HOST controls](../development/validation/c17-schema-codec-host-2026-10-06.json)
+pass; matching GPU qualification of this later source remains pending in the
+owner-requested final phase after functional implementation.
+
+`lie/schema_compiler.h` adds separate model-neutral compiler-context ABI 1.
+It owns temporary builder, reference/predicate memos, derived-root store,
+primitive IDs and container/enum counters. Child hooks inherit the paired
+context allocator unless explicitly overridden. Caller serialization, opaque
+identity lifetime and each child's bounds/accounting remain required.
+Creation retires partial children without publishing the context. Initialization
+registers whitespace once and builds primitives; publication uses the existing
+schema-compile workflow. Explicit phases refuse reuse after failure/publication.
+Program and prompt remain independently owned; their allocator/predicate hooks
+must outlive them. Stable borrowed field views expire at context release.
+Existing engine/state/cache/event/metric layouts and versions are unchanged.
+This context and default-ON adapter integration pass combined HOST controls;
+matching GPU remains pending. See [C17 compilation context](../development/C17-SAMPLING.md#compilation-context-and-bootstrap).
+
+`lie/schema_frontend.h` adds complete native compilation ABI 1. A one-shot C17
+context owns initialization, schema/leaf policy bindings, temporary/derived node
+lifetimes, predicate registration and bounded retained diagnostics. Published
+program and states borrow the independently owned sealed predicate table; retire
+them before the table. Prompt has independent ownership. Inputs/context may
+retire after successful publication; paired allocator hooks outlive output
+dependencies. Failure preserves output and diagnostic details remain valid until
+context release, even after input/staging retirement. Requested diagnostic detail
+heap defaults to2MiB; existing private child limits apply separately. Source and
+default-ON production integration pass combined HOST controls; matching GPU is pending.
+Existing model/worker/cache/state/HTTP/event layouts remain unchanged. See
+[native frontend](../development/C17-SAMPLING.md#native-production-schema-frontend).
+
+`lie/schema_string.h` adds separate string-leaf construction ABI 1. Preparation
+publishes a bounded value-copyable plan with borrowed pattern bytes and owned
+format bytes. Compilation owns Unicode/regex staging and publishes a retained
+immutable lexeme; native stage errors preserve ordered length/format/parse/DFA
+failure classes. Optional caller-owned full-scalar programs enable explicit
+unrestricted reuse without a mutable C global cache. Paired allocator hooks
+inherit into child modules and outlive published dependencies; ICU allocations
+remain outside their accounting. Refusals preserve plans/output handles. This
+source passes combined HOST controls; matching GPU remains pending. Existing
+worker/state/cache/HTTP/event layouts remain unchanged. See
+[native string construction](../development/C17-SAMPLING.md#native-string-schema-construction).
+
+`lie/schema_arena.h` adds separate native schema-staging ABI 1. It owns copied/
+created JSON roots, exposes raw-node reader/writer callbacks and transfers exact
+roots explicitly. Mutations target arena-owned staging trees; failed operations
+require retiring the staging scope. Direct clone/put/append_member/append accept
+a NULL copied source as JSON null, matching the JSON-value contract. Targets,
+transferred roots and reader/writer schema-node handles must remain non-NULL;
+use an explicit null node through the schema binding. Layouts and ABI version
+remain unchanged. Child allocators/view hooks and limits keep
+their JSON-value/store contracts. Taken roots retain those hooks independently;
+borrowed source/error spans expire with their trees. No model, HTTP or thread
+ownership enters the arena. Value/store refusal reasons remain typed C records;
+private exception/facade translation is outside the core. Existing layouts stay
+unchanged. Source integration and null-copy lifetime regressions pass combined
+HOST controls; matching GPU remains pending. See
+[native schema staging](../development/C17-SAMPLING.md#native-schema-staging).
+
+Grammar-number ABI 1 adds `lie_number_compare`, `lie_number_multiple` and its
+allocator/work-budget variant without changing existing layouts or versions.
+Complete JSON decimal spans are compared exactly; divisibility requires a
+positive step and admits negative values/signed zero. Inputs are borrowed and
+disjoint from the result; invalid input, aliasing, resource, allocator and work
+refusals preserve it. The existing 4,096-byte/exponent and bounded decimal
+arithmetic limits apply. Comparison uses constant bounded stack storage and no
+heap; divisibility owns/retires a temporary workspace through paired hooks.
+These additions and their shared final-validator integration pass combined
+HOST controls; matching GPU remains pending. See
+[final decimal output validation](../development/C17-SAMPLING.md#final-decimal-output-validation).
+
+`lie/schema_integer.h` adds standalone C17 ABI 1 calls for exact integral
+binary64 magnitude, exact integer comparison and signed grammar compilation.
+`lie_schema_integer_compare` borrows a complete JSON number span and compares
+its mathematical integer to a represented finite binary64 boundary, returning
+`-1`, `0` or `1`. Integral decimal/exponent forms are accepted; fractional or
+malformed spans, nonfinite boundaries and input/output aliasing refuse without
+changing the result. Work is linear in input length, with constant stack and
+no allocation or exponent-sized intermediate. The shared final output validator
+uses this comparison for integer classification and numeric bounds. It reuses the
+existing borrowed schema reader and caller-owned private builder; failures
+preserve results and failed builder mutations require retirement. Existing
+engine, sampling, grammar, state and HTTP layouts are unchanged. Original/ON/OFF
+HOST witnesses pass; the `050ae826` correction's matching HIP ON/OFF build and
+37 general plus 66 integer checks in each original-weight AR/MTP mode pass. See
+[signed integer bounds](../development/C17-SAMPLING.md#signed-integer-bounds).
+
+The `1bff953` Point build keeps these layouts and versions unchanged. Its
+private adapter include-path and full snapshot-initialization fixes add no
+public ABI. [Original-weight AR/MTP controls](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+qualify that frozen integrated build within the stated wire/profile scope;
+they do not qualify an unfinished finite-value ABI or a complete owned executor.
+
+The matching `20777005` source/provider/application passes selected
+original-weight AR/MTP controls with the existing engine/state/worker/HTTP
+layouts unchanged. The [receipt](../development/validation/c17-binary64-point-gpu-2026-10-06.json)
+does not qualify individual branches, private resources/cost or a fully owned
+model executor.
+
+`lie/binary64.h` adds separate ABI 1. The synchronous, model-neutral C codec
+formats finite IEEE754 binary64 into caller storage without a NUL and parses
+full strict JSON number spans with nearest-even rounding. Signed zero survives;
+overflow/nonzero underflow, invalid syntax, aliasing, insufficient capacity and
+tagged text/work budgets refuse without publishing outputs. Defaults cap text
+at UINT32_MAX bytes and work at 64 million units. No pointers are retained,
+heap allocator is called, locale/FENV is changed or model/device/worker is
+created by these public calls. Bundled pinned Ryu retains its separate license.
+Existing engine/sampler/grammar/state/HTTP ABI and DS4 framing remain unchanged.
+See [host validation](../development/validation/c17-binary64-host-2026-10-06.json).
+
+`lie/json_parse.h` adds separate ordered-event parser ABI 1 through
+`lie_json_parse_events`; the existing `lie_json_parse` tools API is preserved.
+Callbacks copy borrowed spans before returning and discard all staging on any
+refusal. Parser allocations retire before return. Defaults bound input and
+owned heap at 64 MiB each, container levels at 128 and lexical/key work at
+268,435,456 units. Complete syntax, decoded duplicate-key checks and strict
+UTF-8/escape handling are C17; no upstream type enters this header.
+
+`lie/json_value.h` adds separate typed-value ABI 1. Opaque roots own allocator
+domains, scalar/string/key bytes and ordered array/object children. Borrowed
+children keep their identity across sibling growth; payload replacement or root
+release invalidates borrowed spans/views. Release accepts roots only. Copies
+stage before replacement; moves retire the source only after success. Refusal
+preserves content and output handles, while diagnostic counters may advance.
+Duplicate append retains order and lookup selects the first exact byte key;
+parsing rejects duplicate keys. Defaults are 64 MiB requested heap, 262,144 nodes,
+512 value levels and 268,435,456 copy/output work units. Allocator and optional
+aligned private-view hooks are paired, nonthrowing and outlive their roots.
+Immutable reads may run concurrently; mutations/release require caller
+synchronization. Serialization callbacks can receive partial staging, which
+must be discarded on failure. Private C++ reference/string/error projections
+remain adapter glue. Existing engine/request/generation/state layouts, DS4
+framing and reactive worker contracts are unchanged. See
+[ownership and limits](../development/C17-SAMPLING.md#owned-typed-json-values)
+and the matching selected
+[AR/MTP qualification](../development/validation/c17-json-value-point-gpu-2026-10-06.json).
+
+`lie/json_store.h` adds independent root-collection ABI 1. C17 adopts exclusively
+caller-owned live JSON roots and transfers them back unchanged with `take`.
+Child and duplicate adoption refuse; cross-collection double ownership violates
+the caller contract. Roots, child identities and private views survive table
+growth. Refusal preserves caller ownership and outputs; release retires every
+root still held. Defaults bound cumulative successful adoptions at 262,144
+(taking a root does not refund this budget) and collection heap at 16 MiB,
+including table growth overlap. Root domains retain separate allocators/budgets;
+all allocator/view contexts outlive their respective collections and taken roots.
+Operations require caller synchronization and non-reentrant hooks. The additive
+`lie_json_value_is_root()` query changes no typed-value structure or version.
+Existing execution/request/state/HTTP layouts and cache framing are unchanged.
+See [derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
+
+`lie/schema_compile.h` adds independent compilation ABI 1. Its descriptor binds
+the native root/visitor, paired allocator and nonthrowing predicate callbacks.
+Success publishes an independently owned prompt, immutable program and root;
+refusal leaves the result untouched. The builder/input may retire after success;
+predicate and allocator contexts have the documented longer lifetimes. Defaults
+bound serialized schema bytes at 2 MiB and prompt heap at 8 MiB including growth
+overlap. Existing public layouts/versions and cache framing are unchanged.
+The private default-ON prompt getter/storage changes require complete matching
+ON/OFF providers and frontend consumers to rebuild together. HOST checks and
+matching selected HIP/original-weight AR37/MTP37 controls pass for private
+LIE/model/reference consumers; the official Gufo HTTP frontend is not built.
+See
+[publication contract](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
+
+`lie/grammar_lexeme.h` adds model-neutral primitive/table/memo ABI 1. Immutable
+tagged predicates own their alphabet/options and retain C numeric/DFA policies;
+the additive `lie_number_retain` and `lie_regex_retain` calls extend opaque
+ownership without changing existing public structures or versions. Retain
+requires an already-owned reference; final release retires dependencies.
+Predicates default to 64 MiB text/state. Tables and construction-only identity
+memos default to 262,144 items and 64 MiB direct requested bytes, including
+their bodies and overlapping growth buffers. Retained predicates/policies,
+allocator overhead, stack, C++ projections and process/device costs are excluded.
+Refusals preserve logical contents and published outputs; table/memo capacity,
+peak and allocation diagnostics may advance. Input/output payloads may overlap;
+length/match metadata must be disjoint.
+
+Sealed ordered tables reject mutations and export C-only grammar hooks. Clone
+produces an independent mutable table retaining the same immutable predicates.
+Memo keys are borrowed identities, never dereferenced, and first publication
+wins. Memo reads require quiescent mutations. Mutation/release require caller
+serialization and retiring all borrowers. Paired aligned allocators outlive
+references and support caller concurrency. No worker, RNG, model or persisted
+cache enters these calls. Existing engine/state/HTTP layouts and DS4 framing
+remain unchanged. See [ownership and limits](../development/C17-SAMPLING.md#owned-primitive-predicates)
+and the matching selected
+[AR/MTP qualification](../development/validation/c17-lexeme-point-gpu-2026-10-06.json).
+
+The additive `lie_grammar_state_duplicate()` call deep-copies an opaque snapshot
+using its saved allocator and limits. No grammar program or predicate is accessed;
+frame order/bytes are exact and successful copies have independent storage.
+Refusals preserve input and output handles. The allocator context must outlive
+all copies; borrowed frame spans expire on owner release. Existing public
+structures and ABI versions remain unchanged. The default-ON private C++ request
+type now owns this C snapshot and must match the provider's selected compile
+option; it is not a public C ABI. See
+[request snapshot ownership](../development/C17-SAMPLING.md#owned-request-grammar-snapshots).
+
+`lie/schema_root.h` adds independent ABI 1 for synchronous root admission and
+construction. The caller supplies immutable node readers, a body visitor and a
+builder. Schema mode validates resolved local-reference root identities but
+visits the original root; object-only mode uses initialized generic JSON
+primitives and may receive a NULL schema. Temporary identity storage uses the
+reader's paired allocator and retires before Visit/return. Defaults bound
+identities at 262,144 and whole-chain reader work at 64 million units. Refusal
+preserves outputs; earlier visitor/builder mutations require retiring failed
+compilation. No pointer/device/worker/RNG or persisted state is retained.
+Existing public structures and versions stay unchanged. See
+[root ownership](../development/C17-SAMPLING.md#root-schema-admission).
+
+`lie/grammar_composition.h` adds independent composition ABI 1. The synchronous
+core constructs immutable reasoning/tool marker automata, quotes arbitrary name
+bytes, reuses argument-program identities and remaps ordered tables/predicate
+slots. `lie_grammar_program_describe()` additively exports a borrowed description
+until program release. Source origins remain alive until imported predicates
+are retained by the caller; the composed view itself owns tables/name copies.
+Caller-bound predicates and an independent runtime program outlive construction
+retirement. Paired allocators, bounded work/tables and refusal preserve published
+outputs and retire partial work. Defaults retain 262144 rule/class/lexeme limits
+and 64 million work units. The C17 predicate table now retains imported leaf
+identities; the adapter still projects templates and translates exceptions.
+Existing engine/sampler/grammar/state/HTTP
+layouts, DS4 framing and reactive worker contracts remain unchanged. See
+[host validation](../development/validation/c17-composition-host-2026-10-06.json).
+
+`lie/grammar_cache.h` adds separate compiled-schema cache ABI 1: copied byte
+keys, bounded entries, opaque retained values and explicit release. Concurrent
+calls serialize internally; retain/copy callbacks run under the lock and release
+runs after unlock. Hooks must not throw or reenter; release/allocator contexts
+support concurrency and outlive retired operations. Refusal preserves outputs
+and entries. Destruction requires quiescence; client copies survive eviction.
+No request/generation/engine, worker, RNG or persisted DS4 layout changes. See
+[cache ownership and ordered eviction](../development/C17-SAMPLING.md#compiled-schema-cache).
+
+`lie/sampling_history.h` adds separate model-neutral history ABI 1: tagged options,
+caller-owned token/penalty storage and growth callbacks. Reset counts prompt tokens
+only for repetition; accept counts all committed generated tokens independently
+of the repetition window. Refusal preserves logical state; capacities/scratch may
+change. Independent copy leaves RNG and grammar to their owners. The transitional
+provider originally kept its ON/OFF vector layout; current unverified default-ON
+source uses the additive native storage contract below. Public executor, request,
+generation and persisted-state layouts are unchanged.
+
+`lie/sampling_storage.h` adds separate model-neutral storage ABI 1. Initialized
+inline owners hold bounded history/probability buffers, requested-byte diagnostics
+and allocator hooks. They are move-only C ownership records: use native clone/
+move, never shallow copy. Clone stages an independent allocator domain, preserves
+the destination on refusal and leaves source ownership unchanged. Move transfers
+exact buffers/hooks, rebinds history callbacks and leaves an empty initialized
+source; move records must be disjoint or self. Default 64 MiB requested heap caps
+include old/new growth overlap per owner; body/allocator/private overhead and
+other owners are separate. Probability workspaces preserve unpublished capacity
+and count is explicitly published without initializing entries. Reset changes
+history options only on success. Paired hooks outlive owners and callers serialize
+operations/retire borrowers. No RNG, device, thread or persistent KV state is owned.
+Default-ON private sampler/distribution layouts change; all private provider and
+consumer translation units require a matching complete rebuild. Public C engine/
+HTTP/cache/event/metric contracts are unchanged. Source/fixtures remain unverified
+until final qualification. See [native storage](../development/C17-SAMPLING.md#native-sampler-buffer-ownership).
+
+`lie/sampling_distribution.h` adds separate distribution ABI 1 for tagged ranked
+rows, mutable proposal output and immutable proposal views. Caller-owned storage
+and growth supply all workspace; borrowed sources stay disjoint. Builder refusal
+publishes count zero, while normalization/proposal/verification refusal preserves
+published input/result and RNG. Sparse duplicate IDs accumulate in source order;
+compact positions are explicitly remapped to raw model IDs. Proposal creation
+always consumes one draw; target singleton draws do not. Host verification owns
+probability arithmetic only; model/controller state stays with its existing owner.
+Provider ON/OFF layouts and executor/request/generation/persisted-state ABIs do
+not change. See [exact numerical/draw rules](../development/C17-SAMPLING.md#ordered-distributions-and-mtp-probabilities).
+
+`lie/grammar.h` adds separate grammar ABI 1: immutable copied program tables,
+opaque owned snapshots, borrowed exported frame views and explicit release.
+Tagged limits bound state/stack/work/primitive scratch; paired allocator hooks
+must return fresh aligned storage and outlive program/state use. Predicate
+contexts are immutable borrowed callbacks, not a claim that their algorithm is
+C17. Advance supports exact input/output alias in predicate scratch; mask
+application supports exact in-place logits but refuses other overlap. Refusal
+preserves output ownership; empty snapshots are valid dead language prefixes.
+Private provider grammar layout/source changes require matching archive/application
+rebuilds and the current 45-file receipt. Executor/request/generation and DS4 payload
+ABIs are unchanged. See [ownership and remaining compiler/predicates](../development/C17-SAMPLING.md#byte-grammar-and-logit-masking).
+
+The additive snapshot-reader/writer ABI 1 in `lie/grammar.h` moves frame
+traversal, construction, span/overlap checks, payload copies and temporary
+planning into C17. Reader views remain valid until the next callback or call
+completion. Writers allocate private staging containers; C validates every
+capacity and input/output/plan overlap before copying any payload. Their storage
+may change on refusal; publish only after OK and retire staging on every failure.
+Callbacks are synchronous, nonthrowing and never retained. Successful read states
+own their data; program/input release does not invalidate an exported snapshot.
+Paired program/state allocator hooks retire import/plan storage on all paths.
+Default frame/stack/lexeme limits remain 8192/16384/4160; counted heap-sort work
+uses the state work budget. Provider vector/State layout remains unchanged,
+with only view/growth/exception glue, and requires a matching 45-file rebuild.
+No executor/request/generation or DS4 persisted layout changes. See
+[snapshot bridge ownership](../development/C17-SAMPLING.md#snapshot-readwrite-bridge).
+
+`lie/grammar_builder.h` adds construction ABI 1: opaque mutable copied rules/
+classes, tagged limits and paired allocator hooks. It supplies byte JSON
+primitives, repetition, generic values and decimal-prefix intervals. Finish
+computes productive/nullable sets, uses iterative cycle validation, removes
+dead alternatives and seals dense tables. The output description borrows tables
+until builder release; `program_create` copies them. Predicate/allocator contexts
+must outlive their use. Failure preserves output, latches mutation status and
+requires builder retirement; successful earlier primitives may remain. An invalid
+output argument can refuse before mutation. The default construction budget is
+64 million counted units, distinct from runtime state work. This adds no engine,
+request/generation, worker/event or persisted-state layout. The current 45-file
+inventory and extended runtime recipe require matching sealed provider/application
+builds. Typed provider templates/predicates remain transitional. See
+[construction ownership](../development/C17-SAMPLING.md#grammar-construction-and-validation).
+
+`lie/schema_transform.h` adds separate schema-transformation ABI 1. Tagged
+limits and paired allocators bound synchronous structural equality, local JSON
+pointer resolution, keyword validation and conjunction. Readers borrow stable
+typed views; writers copy spans into caller-owned private staging. Refusal
+preserves result arguments; retire staging on success or failure. Object keys
+are unique and ordered. Output/error storage is disjoint from views/context;
+error detail borrows the input tree. Equality is iterative; conjunction has a
+64-level reference budget. Typed JSON payloads and child storage now belong to
+the separate C17 value contract; private projections stay in the adapter. No model,
+worker, RNG, engine or DS4 layout changes. Matching
+provider/application rebuilds are required for changed private sources. See
+[schema ownership](../development/C17-SAMPLING.md#json-schema-conjunction-and-reference-resolution).
+
+`lie/schema_values.h` adds separate finite-value/container ABI 1 using the same
+stable borrowed reader and private staging contracts. C17 owns type matching,
+reference/branch filtering and ordered canonicalization, JSON string/key
+quoting, finite-value traversal, object suffix states, array bounds and counted
+characters. Defaults are 256 value/reference levels, 120,000 counted characters
+and the transform's 64-million-unit work budget. Counts consume a private
+construction state shared across nested visitor callbacks. Normalization and
+other result arguments publish only on success; exclusion publishes
+`{false, NULL}`. Refusal requires retirement of staging/builder/counts. Leaf
+predicates, binary-double serialization and schema dispatch/reference memo
+remain synchronous provider hooks. No engine, worker, event, RNG or persisted
+DS4 layout changes. See
+[finite-value ownership](../development/C17-SAMPLING.md#finite-values-and-container-rules).
+
+`lie/grammar_number.h` adds separate numeric-grammar ABI 1: copied immutable
+numeric policies, borrowed exact decimal spans and transactional match/value/LCM
+outputs. Lower/upper bound selection, integer-grid reduction, prefix interval
+intersection and decimal LCM belong to C17. Runtime prefixes retain 4096 bytes
+and 1024 integer shifts; complete values additionally support exponents.
+Bounded arithmetic/refusal and allocator lifetime rules are declared in the
+header. JSON numeric representability checks stay in the adapter. Each call
+owns a bounded workspace and adds no inference worker or persisted state.
+See [numeric ownership](../development/C17-SAMPLING.md#exact-decimal-numeric-grammar).
+
+`lie/grammar_vocabulary.h` adds vocabulary ABI 1: copied byte pieces/trie,
+iterative token masking/acceptance and exact transition interning. Grammar ABI 1
+adds snapshot clone, lexical comparison and internal hashing plus distinct
+vocabulary/no-token/mask-work refusal codes without changing existing layouts.
+A caller-synchronized bounded mask cache owns C snapshot keys and opaque retained
+payloads; successful publication consumes incoming ownership, refusal consumes
+nothing. Provider private vocabulary/cache layouts change in both ON/OFF arms;
+matching archive/application rebuild and the 45-file source-bound receipt are
+required. No executor/request/generation or DS4 persisted layout changes.
+
+`lie/grammar_regex.h` adds separate Unicode-DFA ABI 1: tagged descriptions,
+immutable copied scalar-class/transition/acceptance tables, owned successor
+construction, accepting distances and bounded reachability/cycle queries.
+`lie/grammar_string.h` adds string-policy ABI 1: immutable caller-owned options
+borrow the DFA. State remains 20 native bytes for five uint32 fields; no wire or
+persisted endian format is implied. UTF8/escape/surrogate/pending and whitespace
+predicates and copied mask-key canonicalization are C17. Refusals preserve live
+state/matches; caller-owned policies/allocator contexts outlive calls. See
+[ownership and budgets](../development/C17-SAMPLING.md#string-and-unicode-dfa-runtime).
+Private provider construction layout/source requires matching builds and the
+45-file receipt; executor/request/generation/DS4 persisted layouts do not change.
+
+`lie/grammar_regex_compile.h` adds separate compiler ABI 1. A mutable,
+caller-synchronized construction context owns copied scalar classes, normalized
+expression DAGs, nullable context bits and memoized iterative derivatives. Seal
+builds the Unicode partition and BFS graph, copies an immutable runtime program
+and retires temporary tables. Explicit expression/derivative/state/range/work
+budgets refuse without publishing outputs; successful internal memo entries can
+remain after a refused operation. Published programs never change. Syntax parsing
+and assertion expansion now use C17. The Unicode context owns registry/input
+storage using ICU C APIs; ICU remains the actual set/property/conversion dependency. This adds no executor/request/generation or persisted-state
+layout; matching provider/application
+builds and the 45-file inventory plus compiler recipe are required.
+
+`lie/grammar_regex_parse.h` adds separate parser ABI 1. It borrows UTF16 units
+and a model-neutral opaque Unicode-set callback table for one synchronous call.
+C17 owns syntax parsing, bounded AST lifetimes and iterative assertion expansion.
+Fresh set handles retire on every path; no callback exception may cross the C ABI.
+The reusable `lie/grammar_unicode.h` context supplies UTF8 decoding and set
+storage/full-set identity using ICU C APIs; ICU owns the actual property, set
+and conversion semantics.
+Syntax refusals have deterministic English reasons; resource/work/node/compiler
+refusals preserve root and published programs. Successful compiler entries may
+remain after a refused parse. Default AST/work limits are 65,536 nodes and
+32 million work units; original 16,384-byte and 32-level group limits remain.
+Matching provider/application builds and the 45-file inventory/parser recipe
+are required; no executor/request/generation or persisted-state layout changes.
+
+`lie/grammar_unicode.h` adds separate Unicode-context ABI 1. The context owns
+its compiler, private copied full sets, range translations and temporary handles.
+Its borrowed compiler permits expression construction/query/sealing; only the
+context publishes classes. Calls are synchronous and caller-serialized. No ICU
+or upstream type enters the public header. UTF8 replacement decoding preserves
+explicit NUL lengths, with disjoint buffers/length output and a 16,384-byte limit.
+Paired allocator hooks cover owned C storage, not ICU's internal allocations;
+ICU C mutators do not expose complete internal OOM detection. The context retires
+outstanding handles and compiler storage; sealed programs have independent
+storage and retain the allocator-context lifetime. Diagnostic ICU/Unicode versions
+are not model/cache identities. See
+[Unicode-set and input ownership](../development/C17-SAMPLING.md#unicode-set-registry-and-input).
+
+`lie/steering.h` defines bank ABI 1 and separate session-policy ABI 1.
+The policy owns finite scales, bounded prepared transactions, owner-only commits,
+confirmed retained-target history and locked metadata snapshots. Its scope hashes
+are independent of chunk size and preserve steered history when scales become
+zero. Bank/session references and plan resources remain shared C17 concerns;
+there is no numerical operation or transport dependency in these interfaces.
+This additive library does not change executor ABI 3 or generation ABI 3.
+The current request ABI 8 budget semantics are documented below. Additive owner-only encode,
+prepare-restore and staged cache-scope functions use explicit 192-byte version-1
+metadata; they retain the existing policy ABI and structures. Captured capacity,
+revision and runtime counters are not serialized. Restore validates the matched
+bank and independently confirmed model frontier before live mutation, and requires
+an exact completed transfer to commit. Host RAM/SSD fixtures qualify this protocol;
+the actual GPU model-cache continuation remains unqualified.
+See [format, policy and actual binding requirements](../development/STEERING.md).
+
+Independent steering model ABI 1 adds bounded model options, an explicit C
+factory composing predictor/projector admission, and model/sequence queries.
+Initial scale configuration and C17 retained-forward prepare/complete are wired
+into provider source; an independently observed frontier mismatch or failed
+post-mutation commit poisons the model. Existing model opens keep their absent-bank
+path. These additive functions do not change existing executor/request/generation
+structures. Additive `lie_core_create_steered` copies the tagged options and file
+path before return, admitting on the existing owner. `lie_core_steering_snapshot`
+copies a READY-only admission record under the core gate; failure preserves the
+tagged output. Existing unversioned core options/info layouts remain unchanged.
+Server and native core bench use the same factory, scopes and CLI parser.
+Additive job steering ABI 1 admits one copied asynchronous change and exposes
+ticket completion and owner-confirmed policy snapshots. The owner-only direct
+live operation preserves the retained frontier and sampled correction while
+invalidating private graphs/controller state. Existing request/generation/state
+and core option/info layouts remain unchanged. Stored-request HTTP controls
+project this asynchronous API. Original-weight GPU qualification remains open.
+Additive schedule ABI 1 admits 1–64 copied, strictly increasing physical
+position/scale steps through `lie_core_submit_steering`, without changing request
+ABI 8. A separately tagged `lie_job_steering_schedule_snapshot` records each
+attempt/application, actual frontier and terminal unattempted cancellations.
+Scheduled jobs refuse unscheduled changes; NULL schedule preserves normal submit.
+Only planned jobs allocate the bounded schedule record, included in retention
+accounting. The original device owner splits prefill and caps each row's AR/MTP
+advance; no callback, thread or client polling chooses an application boundary.
+`lie_core_submit_choices_steering` copies the same optional plan into independent
+child jobs, preserving seed offsets and rollback. HTTP `dir_steering_plan` is
+normalized before admission; JSON does not enter core contracts. Per-choice
+controls and retained snapshots use the same job APIs, with extra retained bytes
+charged only when a bank is present. Existing public layouts are unchanged.
+See [direct binding](../development/STEERING.md#direct-modelsession-binding).
+
+`lie/steering_activation.h` defines separate C17 activation ABI 1: bounded row
+geometry, finite scale, checked span capacities and caller-owned output. Every
+refusal preserves that output. It is not a model executor or a persisted state
+format. The owned HIP operator and private provider hooks have host/syntax
+validation only. Initial scales are immutable after numerical work. Native
+provider snapshots refuse active steering; the owned typed state path below
+validates history and scope before model transfer.
+Executor ABI 3, generation ABI 3, request ABI 8 and DS4 payloads are unchanged.
+
+`lie/steering_state.h` defines separate C17 binding ABI 1: canonical auxiliary
+layout/view, actual-frontier capture and staged prefix restore. The model binding
+revalidates actual geometry and numerical payload independently. Restore requires
+matched initial scales/history/semantic scope before upload and commits exactly
+the observed completed model frontier. Inactive unused directions preserve legacy
+framing. Host RAM/SSD and real model-codec fixtures qualify this protocol with
+synthetic tensors; actual GPU continuation remains pending.
 
 `lie/weight_decode.h` defines independent C17 weight-decode ABI 1. F16/Q8_0
 encoded bytes are borrowed, lengths are exact, and BF16 output is caller-owned.
@@ -22,7 +694,7 @@ separate; keep upstream types inside the adapter.
 
 `include/lie/executor.h` is C17-compatible and contains only fixed-width types,
 lengths, opaque handles and caller-owned error buffers. No C++ types are public.
-`adapters/gufo.cpp` compiles against upstream `f783fedb` only with the explicit
+`adapters/gufo.cpp` compiles against the pinned `f783fedb` composition only with the explicit
 `LIE_GUFO_ADAPTER_OPT_IN` definition. The following describes the experimental
 contract, not hardware qualification. `LIE_GUFO_HEADER_CHECK` remains object-only;
 `LIE_GUFO_RUNTIME` explicitly links verified private upstream archives. ABI 1
@@ -30,6 +702,11 @@ receipts remain historical. `lie_backend_open` is the selected composition bindi
 (`adapters/gufo_binding.c` for Gufo), not an implicit fallback. Provider name,
 source pin and ownership queries expose delegation; the explicit factory
 `lie_gufo_open` remains available and is not relabelled as an owned engine.
+
+The default-ON private grammar layout now contains program/table handles instead
+of duplicate C++ rule/class containers. Provider identity includes the exact
+storage recipe; matching providers and consumers must rebuild together. Public C
+structures/versions are unchanged. See [ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
 
 ## MTP branch extension
 
@@ -43,7 +720,10 @@ model types remain inside the adapter.
 [VISION](../development/VISION.md) now has an additive, model-neutral C
 contract in `include/lie/vision.h`. Executor ABI 2 scalar AR entry points retain
 their meanings. Request ABI 3 introduced owned image spans; current
-`LIE_CORE_REQUEST_ABI=5` owns parallel-tool policy, output format, schema, stop sequences and oldest-turn truncation.
+`LIE_CORE_REQUEST_ABI=8` owns parallel-tool policy, output format, schema, stop
+sequences, oldest-turn truncation, the embedded generation ABI 3 and the explicit
+EOS policy for raw benchmark requests and automatic output budgets. ABI 7 and
+earlier callers must rebuild.
 New capability structures have ABI 1 and an exact struct size;
 upstream model types stay inside the provider adapter. This is CPU-contract
 validation and provider linking, not original-weight qualification.
@@ -68,9 +748,18 @@ DS4 complete-history provider. Legacy providers advertise zero and require
 explicit cache-off configuration. The additive `LIE_STATE_CACHE_SCOPE` role and
 `lie_vision_prompt_cache_scope` function do not change existing structure layouts
 or enum values. Generic cache/SSD APIs gain scoped variants; existing wrappers
-continue to select text-only state. Scope extraction is nonmutating and requires
+continue to select zero-scope legacy state. Steered text requires its checked
+policy scope. Scope extraction is nonmutating and requires
 an uncompressed U8[32] component. Generic layout validation rejects duplicate,
 misplaced or malformed scope sections. GPU qualification remains separate.
+
+`LIE_STATE_STEERING_POLICY=15` is an additive layer-zero U8[192] metadata
+component with one required U8[32] cache scope. It follows the auxiliary boundary
+in KVC and does not change any earlier role values, state ABI 2 structures,
+DS4 tensor payload or existing envelope version. The generic validator checks
+size/type/placement; the trusted provider must decode policy content and validate
+the combined scope before transfer. Legacy state with no metadata is explicitly
+unsteered and requires zero scales. [Wire and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 ## Ownership and completion
 
@@ -90,6 +779,15 @@ checks full borrowed-byte stability during this bounded wait and cancellation.
   is raw bytes, not NUL-terminated and not necessarily complete UTF-8. HTTP must
   assemble UTF-8 without reordering tokens; the current HTTP path does so with
   a shared streaming/nonstream replacement decoder.
+- `lie_model_token_is_stop` adds owner-only vocabulary metadata without changing
+  executor ABI 3 layouts. It validates the model, destination and token range,
+  then copies exactly 0 or 1. Refusal leaves the destination unchanged. It calls
+  no forward/device operation and does not touch sampler history or RNG. The
+  selected adapter keeps upstream stop-token types private; raw pieces still
+  use `lie_model_token_text`. The unavailable backend exports this query too,
+  returning `LIE_UNSUPPORTED` with optional diagnostics and unchanged output.
+  The focused ABI fixture exercises linkage and refusal in Release and
+  sanitizer configurations without loading a model.
 - Prefill takes a cumulative physical prefix, verifies the existing frontier,
   token ranges, context and configured delta before Sync. It cannot truncate a
   recurrent state by merely shortening a token list.
@@ -139,7 +837,39 @@ context-derived output bound (at least 1 MiB). The adapter validates the GGUF
 template before model load, then invokes the pinned Qwen renderer/tokenizer with
 thinking disabled, structured calls/results and real tool declarations. Buffer/
 physical-context refusal precedes session mutation. Plain formatting remains
-byte-identical in the CPU formatter test. Raw tokenization remains distinct.
+byte-identical in the CPU formatter test. Strict function definitions also select
+model-layer JSON call guidance matching the sampler's accepted call frames,
+following the independently pinned upstream constrained-request behavior. This
+guides representation without supplying function names, values or call counts.
+Images attach using original message indices before guidance can prepend a
+system message; their content, offsets and ownership are preserved. Exact
+rendered bytes remain the text-prefix cache key, including this guidance.
+No public structure, scheduler thread or numerical algorithm changes. Raw
+tokenization remains distinct. Original-weight acceptance of the corrected
+prompt policy remains open; both providers and all six consumers now have a
+[coherent device-hidden HIP build](../development/validation/tool-prompt-guidance-point-build-2026-10-07.json)
+at `acfb9d26`, without model execution or changes to public layouts.
+The later original-weight greedy Chat JSON two-call case passes, but its
+reversed-results continuation swaps values
+([qualification](../development/validation/tool-transitions-ar-point-r3-2026-10-07.json)).
+LIE retains actual IDs in the owned history and adapter messages; the pinned
+renderer emits only tool content in received order. Model-prompt correlation
+now uses the additive `lie_chat_tool_result_order` C17 helper in `lie/chat_history.h`.
+It accepts borrowed history and a nonoverlapping caller-owned index buffer;
+capacity must cover all messages. It reorders only complete contiguous result
+groups by actual call ID, preserving all other positions and input storage.
+Strings remain readable and NUL-terminated for the call. Invalid history or
+insufficient capacity leaves the entire output buffer untouched. The helper
+performs no allocation, JSON, model, transport, thread or GPU operation and is
+available in the protocol-free C core build. The adapter reserves storage before
+nothrow moves of complete messages; image attachment precedes the permutation.
+[HOST checks](../development/validation/tool-result-correlation-host-2026-10-07.json)
+pass; the [matching HIP build](../development/validation/tool-result-correlation-point-build-2026-10-07.json)
+verifies C17 compilation and linkage into the server, bench and capture clients.
+The [selected original-weight AR checks](../development/validation/tool-transitions-ar-point-r4-2026-10-07.json)
+preserve reversed-result correlation in Chat JSON/SSE. Wider Responses,
+sampling-profile and MTP acceptance remains open. Public call-ID
+contracts, structure layouts and the frozen checking questions remain unchanged.
 No tool code executes here. Exact-session snapshots remain absent;
 MTP uses its separate admitted contract. Native decode batching uses the additive contract below.
 An owned or selectively ported renderer must preserve the applicable, separately
@@ -162,19 +892,57 @@ If reactive inference motivates an asynchronous ABI, add explicit submitted vers
 completed outcomes, tickets and retained lifetimes. Do not change `LIE_OK` from
 completed to enqueue-only silently. See [INFERENCE-REACTIVE.md](../INFERENCE-REACTIVE.md).
 
+## Shared direction-bank ABI 1
+
+`lie/steering.h` owns an immutable C17 bank with independent version/size checks.
+Geometry has model-derived layer count, hidden width and an explicit host byte
+budget; no model/platform type crosses the contract. Exact flat little-endian
+f32 values and file/geometry digests are exposed only while an owned reference
+is held. Failed loads/queries preserve output handles and fields. Reference
+operations are thread-safe under the documented existing-pin lifetime rule.
+
+This host primitive does not activate provider steering, change request or
+executor ABIs, or alter state/KVC framing. Model-derived admission and session
+history and typed model-state are now bound in provider and shared-worker source;
+dynamic client controls and numerical GPU qualification remain required.
+[Format, ownership and binding requirements](../development/STEERING.md).
+
 ## Additive generation configuration
 
-`lie_generation_options` has its own ABI 2 version and exact struct size
-(ABI 1 receipts describe earlier sampling-only checkpoints).
+`lie_generation_options` has its own ABI 3 version and exact struct size.
+ABI 3 appends `top_k` (nonnegative signed 32-bit integer) and `min_p` (finite
+double in 0..1); zero disables each filter. Request ABI 6 embeds this expanded
+structure. Callers must rebuild and initialize both tags: request ABI 5 or
+generation ABI 2, including truncated structures, is rejected before provider
+mutation. Earlier ABI receipts retain their historical meaning.
 `lie_sequence_configure` runs on the model owner before prefill; a started
 sequence or invalid/nonfinite/range-invalid option is refused. Existing ABI-2
 model/message layouts are unchanged. Parsed requests own their scalar controls;
-there are no upstream types. Temperature, top_p, frequency/presence penalties
+there are no upstream types. Temperature, top_k, top_p, min_p, frequency/presence penalties
 and seed bind a per-sequence sampler. Its penalty history is initialized from
 the entire completed prompt immediately before first decode, not the first
 prefill chunk. Ordinary benchmark callers may retain the default greedy sampler
 without calling the additive entry point. Invalid configuration closes only the
 new sequence; backend/close failure still poisons the runtime.
+
+Both HTTP parsers normalize `seed` and frequency/presence penalties into this
+existing configuration. A supplied seed must be an integer in 0..INT64_MAX;
+an omitted seed retains the internal -1 default. Signed overflow, null and
+noninteger values are refused. Penalties remain finite numbers in -2..2;
+normalization preserves explicit null for strict refusal. Responses retains
+these supplied controls in its completed and stored objects. No layout,
+sampler algorithm, cache/state format or thread-count change is introduced.
+The [parser and HTTP HOST checks](../development/validation/responses-generation-controls-host-2026-10-07.json)
+include the original failed checking request, both Responses input forms,
+positive boundaries, invalid types/ranges and native AR/MTP stored-object
+fixtures. The [matching HIP build](../development/validation/responses-generation-controls-point-build-2026-10-07.json)
+verifies actual C17 parser/server objects and their primary server linkage.
+The current original-weight
+[AR](../development/validation/tool-transitions-ar-point-r5-2026-10-07.json) and
+[MTP](../development/validation/tool-transitions-mtp-point-r2-2026-10-07.json)
+gates pass all 71 frozen transitions across greedy, DS4 and filtered profiles.
+Collected Responses retain seed and filters. MTP verifies actual draft counters.
+Wider acceptance remains pending; no public layout or generation algorithm changes.
 
 ## Additive completed batch contract
 
@@ -316,15 +1084,35 @@ Language/build ownership and feature qualification remain separate; see the
 
 ## Shared core client API 1
 
-[Semantic event ABI 1](EVENTS.md) is the common output contract for HTTP, Responses
-and direct benchmarks. Current request ABI 5 retains `parallel_tool_calls=true` by
+[Semantic event ABI 2](EVENTS.md) is the common output contract for HTTP, Responses
+and direct benchmarks. Current request ABI 8 retains `parallel_tool_calls=true` by
 default; using initialization and exact version/size checks remains required.
 
-`lie/core.h` is an experimental C client contract, distinct from executor ABI 2.
+`lie/core.h` is an experimental C client contract, distinct from executor ABI 3.
 `lie_core_request_init` sets required version/size tags, greedy generation
-(`temperature=0`, `top_p=1`, `seed=-1`) and output limit 128. The caller chooses
+(`temperature=0`, `top_p=1`, `top_k=0`, `min_p=0`, `seed=-1`) and output limit 128. The caller chooses
 exactly one input: normalized messages/tools, physical token IDs, or raw UTF-8
 text (no implicit chat template). Initialize `*out` to NULL before submit.
+
+Request ABI 8 changes `max_tokens=0` to an explicit automatic-budget sentinel.
+HTTP omission/null uses it; HTTP numeric zero remains invalid. The C initializer
+retains its explicit 128-token default, and direct clients can choose zero.
+Admission reserves at most min(configured context minus one, 4096) output IDs
+and optional logprob entries. The copied reservation remains immutable once
+published, so metadata/semantic consumers never race a changed request.
+After preparing the full prompt on the single device owner, a separate limit
+becomes min(admitted reservation, context minus physical prompt). Empty room
+refuses before sequence creation. Explicit positive budgets retain their exact
+meaning, including context refusal; automatic truncation reserves one output
+position and preserves any history that still fits. Final MTP bursts use the
+resolved remaining budget. No output beyond the existing advertised engine
+ceiling or new thread is introduced.
+
+`lie_job_info.output_token_limit` is zero before preparation and the resolved
+limit after preparation. Natural EOS/stop/cancellation can produce fewer tokens.
+Retained Responses reserve bounded text/events for an automatic request using
+the existing 4096 ceiling, rather than a zero-byte buffer. Quotas and lifetime
+charges still refuse without admitting unbounded retained storage.
 
 `lie_core_submit` borrows input only during the call and deep-copies nested
 arrays/strings into one bounded arena. Successful submission never steals caller
@@ -360,6 +1148,32 @@ freeing the parsed request after the core accepts its independent copy. The
 core and its public headers have no JSON, libuv, llhttp or socket dependency.
 `lie_flow` retains Linux eventfd/pthread dependencies; this extraction does not
 claim cross-platform portability. CPU acceptance is in [CORE-EXTRACTION.md](../development/CORE-EXTRACTION.md).
+
+### Fixed-token benchmark completion
+
+Request ABI 7 introduced `eos_policy`, retained in current ABI 8.
+Initialization selects `LIE_EOS_STOP`.
+`LIE_EOS_IGNORE` is allowed only for raw tokens/text, without stop strings or
+constrained output; message, tool and vision requests refuse it before admission.
+Unknown policies and ABI 6 requests also refuse before sequence creation.
+HTTP clients retain the default policy; no HTTP request option enables this mode.
+
+The additive `lie_sequence_set_eos_policy` must run on the device owner before
+prefill, restore or sampling. It leaves existing executor ABI 3 structures and
+generation ABI 3 unchanged. Invalid values or an already started sequence refuse
+before mutation. Gufo stores the policy per sequence and passes it to scalar,
+native batch and verified MTP calls; constraints cannot be combined with ignore.
+EOS is sampled normally and, in ignore mode, is a confirmed token with its actual
+ID, position and text bytes. Its text may be empty. No masking, retry or replacement
+draw is introduced. A provider that reports EOS stop despite ignore poisons the
+runtime under the existing failed-call rule and suppresses that shared result.
+The token budget, credit, cancellation and context bounds still apply.
+
+`synapse-lie-bench --suite core --ignore-eos` selects this mode explicitly.
+The CLI and report both require the complete output budget with a length finish;
+`eos_policy` is part of the result and comparison identity. Missing historical
+fields mean `stop`. Current host checks do not qualify original-weight fixed
+TG128 or change the retained physical 1M failure.
 
 
 ## Optional C17 SSD store contract
@@ -439,12 +1253,15 @@ unchanged to `state_layout.c` so offline mapping links without provider stubs.
 
 ## OpenAI generation and response records
 
-Generation ABI 2 adds bounded token bias and optional target log-probability
-reporting. Request ABI 5 adds neutral JSON/schema controls, stop sequences and
-optional complete-turn truncation.
-All borrowed strings and bias entries are copied at admission. Executor ABI 2
-and DS4 state payloads retain their existing layouts. Constraints and vocabulary
-tries stay inside the explicitly selected transitional provider.
+Generation ABI 3 retains ABI 2's bounded token bias and optional target
+log-probability reporting and adds top-k/min-p. Request ABI 6 retains ABI 5's
+neutral JSON/schema controls, stop sequences and optional complete-turn
+truncation, with the expanded generation options.
+All borrowed strings and bias entries are copied at admission. Executor ABI 3
+and DS4 state payloads retain their existing layouts. Schema/regex compilation
+stays inside the explicitly selected transitional provider; byte predicates, token trie and mask-cache policy use the shared C17
+grammar module. Snapshot read/write planning, validation and copies use C17;
+provider vector storage stays private typed translation.
 
 `lie_core_submit_choices` owns independently seeded jobs on the same device
 worker. Failure cancels and releases its own admitted children. `lie_records`

@@ -1,0 +1,205 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5335,8 +5335,8 @@
+ /// and use the same ordered K16 products. y is [batch][m].
+ template<int BM, int BN, int BK, int WM, int WN, int kRowGroup = 1,
+          bool kHcMix = false, bool kSsmConv = false, bool kAttention = false,
+-         bool kHalfWeights = false>
+-__launch_bounds__(256) __global__ void DenseF16GEMMKernel(
++         bool kHalfWeights = false, bool kHcUpChains = false>
++__launch_bounds__(kHcUpChains ? 512 : 256) __global__ void DenseF16GEMMKernel(
+     const void* __restrict__ w, const __half* __restrict__ x,
+     float* __restrict__ y, std::size_t batch, std::size_t m, std::size_t k,
+     const std::conditional_t<kHalfWeights, float, __half>* xn = nullptr,
+@@ -5351,10 +5351,13 @@
+   constexpr int kWaveTokTiles = kTokTiles / WN;
+   // Weight and activation K blocks staged per thread; a unit past the
+   // stage's block count is idle.
++  static_assert(!kHcUpChains ||
++                (kHalfWeights && kHcMix && BM == 256 && BN == 128));
++  constexpr int kBlockThreads = kHcUpChains ? 512 : 256;
+   constexpr int kAUnits = BM * BK;
+   constexpr int kBUnits = BN * BK;
+-  constexpr int kAPer = (kAUnits + 255) / 256;
+-  constexpr int kBPer = (kBUnits + 255) / 256;
++  constexpr int kAPer = (kAUnits + kBlockThreads - 1) / kBlockThreads;
++  constexpr int kBPer = (kBUnits + kBlockThreads - 1) / kBlockThreads;
+ 
+   // One K block of one row or token is four 16-byte chunks; the chunks of
+   // nearby rows are permuted so a fragment read (one row per lane, 64-byte
+@@ -5374,7 +5377,8 @@
+   const auto* w_bytes = static_cast<const std::uint8_t*>(w);
+ 
+   const int tid = static_cast<int>(threadIdx.x);
+-  const int wave_id = tid >> 5;
++  const int wave_id = (tid >> 5) / (kHcUpChains ? 2 : 1);
++  const int chain = (tid >> 5) & 1;
+   const int lane_id = tid & 31;
+   const int sub_lane = lane_id & 15;
+   const int half_id = lane_id >> 4;
+@@ -5394,7 +5398,7 @@
+   bool a_live[kAPer];
+ #pragma unroll
+   for (int p = 0; p < kAPer; ++p) {
+-    const int idx = (p * 256) + tid;
++    const int idx = (p * kBlockThreads) + tid;
+     const int r = r_block + (idx / BK);
+     a_live[p] = idx < kAUnits && r < m_i;
+     // Interleave the four gate streams within the tile, without repacking
+@@ -5407,7 +5411,7 @@
+   const __half* b_ptr[kBPer];
+ #pragma unroll
+   for (int p = 0; p < kBPer; ++p) {
+-    const int idx = (p * 256) + tid;
++    const int idx = (p * kBlockThreads) + tid;
+     const int t = t_block + (idx / BK);
+     b_ptr[p] = idx < kBUnits && t < static_cast<int>(batch)
+                    ? x + (static_cast<std::size_t>(t) * k)
+@@ -5421,7 +5425,7 @@
+   const auto fetch_stage = [&](int kb0) {
+ #pragma unroll
+     for (int p = 0; p < kAPer; ++p) {
+-      const int kb = kb0 + (((p * 256) + tid) % BK);
++      const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
+       const bool live = a_live[p] && kb < num_kb;
+       if constexpr (kHalfWeights) {
+         const auto* src = reinterpret_cast<const uint4*>(
+@@ -5440,7 +5444,7 @@
+     }
+ #pragma unroll
+     for (int p = 0; p < kBPer; ++p) {
+-      const int kb = kb0 + (((p * 256) + tid) % BK);
++      const int kb = kb0 + (((p * kBlockThreads) + tid) % BK);
+       if (b_ptr[p] != nullptr && kb < num_kb) {
+         const auto* src = reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
+ #pragma unroll
+@@ -5461,7 +5465,7 @@
+   const auto commit_stage = [&]() {
+ #pragma unroll
+     for (int p = 0; p < kAPer; ++p) {
+-      const int idx = (p * 256) + tid;
++      const int idx = (p * kBlockThreads) + tid;
+       if (idx >= kAUnits) {
+         break;
+       }
+@@ -5495,7 +5499,7 @@
+     }
+ #pragma unroll
+     for (int p = 0; p < kBPer; ++p) {
+-      const int idx = (p * 256) + tid;
++      const int idx = (p * kBlockThreads) + tid;
+       if (idx >= kBUnits) {
+         break;
+       }
+@@ -5511,8 +5515,8 @@
+   v8f acc[kWaveRowTiles][kWaveTokTiles];
+   // Separate K16 chains reduce FP32 accumulation error for the sensitive
+   // unquantized router/gate projections, with the same order in every chunk.
+-  v8f acc_high[kHalfWeights ? kWaveRowTiles : 1]
+-              [kHalfWeights ? kWaveTokTiles : 1]{};
++  v8f acc_high[(kHalfWeights && !kHcUpChains) ? kWaveRowTiles : 1]
++              [(kHalfWeights && !kHcUpChains) ? kWaveTokTiles : 1]{};
+ #pragma unroll
+   for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -5541,30 +5545,32 @@
+         const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
+         uint4 c[4];
+ #pragma unroll
+-        for (int q = 0; q < 4; ++q) {
+-          c[q] = s_a[kb][row][swizzle(row, q)];
++        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++          c[q] = s_a[kb][row][swizzle(row, q + (kHcUpChains ? chain * 2 : 0))];
+         }
+         __builtin_memcpy(&a_lo[i], &c[0], 32);
+-        __builtin_memcpy(&a_hi[i], &c[2], 32);
++        if constexpr (!kHcUpChains)
++          __builtin_memcpy(&a_hi[i], &c[2], 32);
+       }
+ #pragma unroll
+       for (int j = 0; j < kWaveTokTiles; ++j) {
+         const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
+         uint4 c[4];
+ #pragma unroll
+-        for (int q = 0; q < 4; ++q) {
+-          c[q] = s_b[kb][t][swizzle(t, q)];
++        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++          c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
+         }
+         v16h b_lo;
+         v16h b_hi;
+         __builtin_memcpy(&b_lo, &c[0], 32);
+-        __builtin_memcpy(&b_hi, &c[2], 32);
++        if constexpr (!kHcUpChains)
++          __builtin_memcpy(&b_hi, &c[2], 32);
+ #pragma unroll
+         for (int i = 0; i < kWaveRowTiles; ++i) {
+           acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
+-          if constexpr (kHalfWeights)
++          if constexpr (kHalfWeights && !kHcUpChains)
+             acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
+-          else
++          else if constexpr (!kHcUpChains)
+             acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
+         }
+       }
+@@ -5572,7 +5578,7 @@
+     __syncthreads();
+   }
+ 
+-  if constexpr (kHalfWeights) {
++  if constexpr (kHalfWeights && !kHcUpChains) {
+ #pragma unroll
+     for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -5680,7 +5686,7 @@
+     for (int j = 0; j < kWaveTokTiles; ++j) {
+ #pragma unroll
+       for (int token_group = 0; token_group < WN; ++token_group) {
+-        if (wave_tok == token_group) {
++        if (wave_tok == token_group && (!kHcUpChains || chain == 0)) {
+ #pragma unroll
+           for (int i = 0; i < kWaveRowTiles; ++i) {
+ #pragma unroll
+@@ -5693,6 +5699,24 @@
+           }
+         }
+         __syncthreads();
++        if constexpr (kHcUpChains) {
++          // Each wave pair owns the original low/high K16 sums. Publish low,
++          // then add high in F32 in the same order before any sigmoid/mix.
++          if (chain == 1 && wave_tok == token_group) {
++#pragma unroll
++            for (int i = 0; i < kWaveRowTiles; ++i) {
++#pragma unroll
++              for (int l = 0; l < 8; ++l) {
++                const unsigned row =
++                    (wave_row * kWaveRowTiles + i) * 16 + 2 * l + half_id;
++                const unsigned pos =
++                    (row % 4) * kPlane + sub_lane * kStreamStride + row / 4;
++                gates[pos] = gates[pos] + acc[i][j][l];
++              }
++            }
++          }
++          __syncthreads();
++        }
+         // A half-wave writes all 64 hidden values of one token. The stream
+         // planes are padded to avoid the gate transpose's LDS bank conflicts.
+         const unsigned token_in_tile = tid / (kHiddenTile / 4);
+@@ -5929,11 +5953,11 @@
+   }
+   // Original half weights and the existing F32 normalized streams. Interleave
+   // gate rows only in the fetch addresses; no persistent weight repacking.
+-  const dim3 grid((n_tokens + 63) / 64, 4 * hidden / 128);
+-  hipLaunchKernelGGL(
+-      (DenseF16GEMMKernel<128, 64, 1, 4, 2, 8, true, false, false, true>), grid,
+-      dim3(kThreads), 0, stream, up, low_rank, mixed, n_tokens, 4 * hidden,
+-      rank, xn, mixed_half, nullptr);
++  const dim3 grid((n_tokens + 127) / 128, 4 * hidden / 256);
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 1, 4, 2, 8, true, false,
++                                         false, true, true>),
++                     grid, dim3(512), 0, stream, up, low_rank, mixed, n_tokens,
++                     4 * hidden, rank, xn, mixed_half, nullptr);
+   if (inject_w != nullptr) {
+     // Keep the original F32 inject products, partials and reduction order.
+     // This specialization omits only the gate read and mixed-row output.

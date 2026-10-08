@@ -1,0 +1,249 @@
+{
+  "schema": "synapse-lie.host-validation.v1",
+  "scope": "CPU_CONTRACTS_AND_ADAPTER_HEADERS_NOT_INFERENCE",
+  "date_utc": "2026-10-04",
+  "recorded_utc": "2026-10-04T20:10:54.662676+00:00",
+  "branch": "feature/context-million-openai",
+  "parent_checkpoint": "873311d99d92c67db7e1353275182ea38b181ea2",
+  "executor_abi": 3,
+  "request_abi": 6,
+  "generation_abi": 3,
+  "gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "source_files_sha256": {
+    "include/lie/executor.h": "a46e983e4c711bf1fe7aa1f8a8138ca9af5ef61e155b96945e15a06cc4ed044a",
+    "include/lie/core.h": "1c362a87a23deb5c0cca4b692447ddfd90448d86e491e38eefc2f994c126fc26",
+    "src/core_input.c": "f840c1d673aecfe0db98b4fe87d0da84312b97d5fa9d3bf0b9680a4aae94197a",
+    "src/chat.c": "49965fd1622aff63fd9fd5533b03acccde3c7b1234d1bb44a4fe357cf88b565f",
+    "src/responses.c": "5264e24ece6a9647308f6367b523d6c9ff020513c1cfc7cc28a59792c91c4ebd",
+    "src/server.c": "d67ef22d6780359cf15e2f2c20fa11d275413dfa4aeaea326ad31e9d5917135b",
+    "adapters/gufo.cpp": "b0a1c12aeceb039235603bb93a9c3ec6acfbbd9ce32c02cb7cabc500a61aafd0",
+    "tools/core-bench.c": "7d26b33d6309b7b30dc7ffca845189c5a56b31049736b36a4e915e9b02059978",
+    "tools/native/report.c": "8b3a9972ea5e3edeb2e30b2e0862eacd77a29e09262fc4e94e90126288dc47da",
+    "tests/test_chat.c": "8bb19a0c639816cb331495302f3e92097ee093f048f4f5e7dada6ce1b6c17417",
+    "tests/test_openai_core.c": "59d3150d77f9fc5887201c8910f6718fe7ee45bcbc30bbec6ee7a383f468879e",
+    "tests/test_openai_http.c": "fd4d67f880f18dba5defbcbf6c6342c6789fe8b636855ef335fbfbf3a5d8b591",
+    "tests/bench_executor.c": "4843c00c1787d0befbba1229208a931b22124ab4e65497e8510fc3eb55f12611",
+    "tests/test_native_bench.c": "5f356ac49f4c93cc415a7a04e6160556f544e6927a68ec8a84e7d9fd0b14dccd"
+  },
+  "checks": [
+    {
+      "evidence_directory": "evidence/ds4-filters-debug-build-r1",
+      "command": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "a983a682f2ca425251b0edbd6374a98566b97ac174ff884fb0169bfa2510858e",
+      "log_sha256": "4e6b01dc2c893ff87bfb352daa55bdd8354a075bb3f9e2ad03b7897c312fdb9a"
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-debug-test-r1",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-R",
+        "^(c17-dense-sampling-contract|chat-parser-wire|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract|native-http-(multi|curve)-contract)$"
+      ],
+      "exit": 8,
+      "child_exit": 8,
+      "thermal_reason": null,
+      "result_sha256": "2cee1bb57721b02017bb578c82c8a1a40836144110cdb9568bdb3a689d652790",
+      "log_sha256": "1faadfccd9e7263173d2ef8c59ae85d6a5ef6caca0304cf6538a62eec2a23976",
+      "retained_failure": "Responses normalization dropped explicitly null candidate filters; corrected before Debug r2."
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-debug-build-r2",
+      "command": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j2"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "e2fb1f754f5f1dae9f41fca6e607300ac38297b556db8672142422849d606be3",
+      "log_sha256": "461c3d073886030830a4e688dacd58f3d956f3cdf8ddf5c2906b3d65e2ddff04"
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-debug-test-r2",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-R",
+        "^(c17-dense-sampling-contract|chat-parser-wire|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract|native-http-(multi|curve)-contract)$"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "85c9170696b55dad14dedd445fb91d8f41c7d01b6e4c8a2e33661de90043080f",
+      "log_sha256": "75f7889f1aa394f13748bc122724a03e5592be4de58e492f5ec7629a912d0e0b",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-asan-build-r1",
+      "command": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j2"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "126b9393d83ccb956303d996497f89169f4b1a4e0e867b59cf70fe2ebfb971ab",
+      "log_sha256": "cb36c58c92cdbd50c2bd11d75cf3b33c604003994583b8b1808ea1b54adb089e"
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-asan-test-r1",
+      "command": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-R",
+        "^(c17-dense-sampling-contract|chat-parser-wire|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract|native-http-(multi|curve)-contract)$"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "071290b5485d0667d8b5fff1c7c31f36e9df3c96db3bbd6fdb379682f330bb4d",
+      "log_sha256": "c5611c3f42852743380c723497f324b64c9cfc1a03d529a3f5aebcfdda366acc",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-adapter-headers-r1",
+      "command": [
+        "cmake",
+        "--build",
+        "build/context-headers",
+        "--target",
+        "lie_gufo_header_check",
+        "-j2"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "7fe1db595d3cbe4d0863d34eb1148a262fca21345ecce86fed53cdc471304356",
+      "log_sha256": "b5a96cbe347164a0dcd037541cdf29f2c38eac2336a616d2f3f7356bbdf62558"
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-adapter-state-headers-r1",
+      "command": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+        "-DLIE_GUFO_STATE_ACCESS=1",
+        "-DLIE_DS4_RUNTIME_CACHE=1",
+        "-DLIE_C17_SAMPLING=1",
+        "-DLIE_MTP=1",
+        "-DLIE_VISION=1",
+        "-D__HIP_PLATFORM_AMD__=1",
+        "-Iinclude",
+        "-I.deps/context-source-check",
+        "-I/opt/rocm/include",
+        "adapters/gufo.cpp"
+      ],
+      "exit": 1,
+      "child_exit": 1,
+      "thermal_reason": null,
+      "result_sha256": "fb31c2a6c4032414e54ba491254ca5e97bd930ca90d62a9f74046dc31fc4e491",
+      "log_sha256": "6cd320e3bf4ec3558c52254e46a5f206e82c371546e2bf095fae292b93ac39dd",
+      "retained_failure": "Historical generated headers lack lie_prefill_capacity; fresh verified source composition passes in r2."
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-derive-source-r1",
+      "command": [
+        "cmake",
+        "-DROOT=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/context-million-openai",
+        "-P",
+        "evidence/ds4-filters-header-source.cmake"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "e27a33f487340be138f26ac10000237115cb9990d7c06122d36e48d19dda6e99",
+      "log_sha256": "a9af9395325e0df5f77f981655170d912e094ef672df5cf2285cbc75ba99d051"
+    },
+    {
+      "evidence_directory": "evidence/ds4-filters-adapter-state-headers-r2",
+      "command": [
+        "c++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+        "-DLIE_GUFO_STATE_ACCESS=1",
+        "-DLIE_DS4_RUNTIME_CACHE=1",
+        "-DLIE_C17_SAMPLING=1",
+        "-DLIE_MTP=1",
+        "-DLIE_VISION=1",
+        "-D__HIP_PLATFORM_AMD__=1",
+        "-Iinclude",
+        "-Iadapters",
+        "-I.deps/ds4-filters-source-check-r1",
+        "-I/opt/rocm/include",
+        "adapters/gufo.cpp"
+      ],
+      "exit": 0,
+      "child_exit": 0,
+      "thermal_reason": null,
+      "result_sha256": "bc64ec18094472266f320ef88a5b4479702013cfdf73dd3c20465b744b196451",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "sanitizer_options": {
+    "ASAN_OPTIONS": "detect_leaks=1:abort_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "thermal_peak_c": {
+    "nvme": 33.85,
+    "amdgpu": 51.0,
+    "k10temp": 81.25
+  },
+  "thermal_policy": "CPU ceiling 98 C or lower exposed bound; SSD ceiling 85 C or lower exposed bound; GPU observe-only; device visibility disabled for CPU checks.",
+  "source_verification": {
+    "pristine_files": 1019,
+    "method": "File-per-file COPYONLY from independently pinned pristine source, exact edit composition and final derived hashes.",
+    "derived_manifest": "evidence/ds4-filters-derived-files.json",
+    "derived_manifest_sha256": "e4b7ef042d5f6148b7ee1a9f3da8c323fdee5955339df2dbff1ca05b35246fe2",
+    "derivation_script": "evidence/ds4-filters-header-source.cmake",
+    "derivation_script_sha256": "b3f2f13f1b95787bbe13b2a58babf6613434e0dba0623f1f916233978dd4c080"
+  },
+  "coverage": [
+    "Strict Chat/Responses types, bounds, defaults and explicit-null normalization.",
+    "Request/generation ABI and filter refusal before provider mutation.",
+    "All seven bench controls reach the refusing provider fixture.",
+    "Stored Responses retain candidate filters.",
+    "Reports reject mismatches, malformed identities and seed overflow.",
+    "Historical five-control and absent-generation identities retain disabled filters.",
+    "Existing mathematical C17 probability/filter oracles.",
+    "Adapter object and state/cache/MTP/vision syntax only."
+  ],
+  "gpu_qualification": "PENDING_FOR_NEW_FILTER_EXPOSURE",
+  "not_claimed": [
+    "Original-weight or GPU numerical validation of the new exposure.",
+    "DS4 sampling profile AR/exact-MTP qualification or measured speed parity.",
+    "Directional steering implementation.",
+    "MTP OpenAI 34-check GPU gate."
+  ],
+  "remote_observation": {
+    "utc": "2026-10-04T20:01:31Z",
+    "command_exit": 0,
+    "host": "192.168.5.161",
+    "foreign_pid": 19916,
+    "foreign_start_ticks": 1073961,
+    "foreign_cwd": "/home/pop/javaspec-lora-gemma4",
+    "root_gpu_action": "None; no lease, model load, remote build or foreign process mutation."
+  }
+}

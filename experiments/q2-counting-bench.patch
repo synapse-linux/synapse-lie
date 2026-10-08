@@ -1,0 +1,197 @@
+--- a/tools/lie-bench.c
++++ b/tools/lie-bench.c
+@@ -21,7 +21,7 @@
+ #include <sys/wait.h>
+ #include <unistd.h>
+ 
+-#define MAX_POINTS 32u
++#define MAX_POINTS 128u
+ #define MAX_USERS 8u
+ #define MAX_CONTEXT 262144u
+ #define MAX_OUTPUT 4096u
+@@ -46,17 +46,20 @@
+     }
+     free(copy);return ok&&*count>0;
+ }
+-struct config {const char *model,*output,*suite,*graphs,*compare,*execution,*prompt_file;bool sizes_set,depths_set;unsigned chunk,context_override,pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
++struct config {const char *model,*output,*suite,*graphs,*compare,*execution,*prompt_file;bool sizes_set,depths_set,counting;unsigned chunk,context_override,pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
+ static json_object *identity(const struct config *c) {
+     json_object *j=event("identity");str(j,"schema","synapse-lie.bench.v1");str(j,"program","synapse-lie-bench");str(j,"build_id",LIE_BUILD_ID);
+     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
+     str(j,"dense_sampling",lie_backend_dense_sampling());
+     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
+-    str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
++    str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",!strcmp(c->suite,"fresh")?0:c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
+     str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
+     num(j,"prefill_chunk",c->chunk?c->chunk:c->pp);
+-    str(j,"prompt_contract","exact-token-prefix-v1");
+-    str(j,"prompt_file",c->prompt_file);
++    str(j,"prompt_contract",c->counting?"exact-counting-chat-v1":"exact-token-prefix-v1");
++    str(j,"prompt_preset",c->counting?"q2-counting":"none");
++    str(j,"prompt_file",c->prompt_file?c->prompt_file:"");
++    str(j,"measurement_contract",!strcmp(c->suite,"fresh")?"full-prefill-v1":"incremental-prefill-v1");
++    str(j,"decode_contract","completed-forward-per-emitted-token-v1");
+     str(j,"timing_clock","CLOCK_MONOTONIC");
+     str(j,"wall_clock_scope","CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds");
+     str(j,"unsupported","MTP, cold-file loading, allocation-exact HIP peak, quality/FP64 oracle");
+@@ -91,6 +94,7 @@
+ }
+ struct prompt {int32_t *ids;size_t n;};
+ #include "q2_exact_prompt.inc"
++#include "q2_counting_prompt.inc"
+ static bool prefill(lie_sequence *s,const struct prompt *p,size_t from,size_t end,unsigned chunk,lie_error *e) {
+     if(from%chunk||end%chunk||end>p->n)return false;
+     while(from<end){from+=chunk;if(interrupted||lie_sequence_prefill(s,p->ids,from,e)!=LIE_OK)return false;}return true;
+@@ -216,15 +220,18 @@
+         if(!strcmp(argv[i+1],"report"))return nb_report_main(argc,argv);
+     }
+     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
+-    struct config c={.suite="single",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
++    struct config c={.suite="fresh",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
+     for(int i=1;i<argc;++i){
+         if(!strcmp(argv[i],"--help")) {
+             puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL "
+                  "[--suite single|multi|loading|memory|fresh]\n"
+-                 "  [--depths 0,4096,8192,12288,16384,32768,65536,131072]\n"
+-                 "  --prompt-file TEXT [--sizes EXACT-TOKENS,...] [--users 1,2,4,6,8]\n"
++                 "  [--depths ALIGNED-PREFIX-TOKENS,... (single suite only)]\n"
++                 "  (--prompt-file TEXT | --prompt-preset q2-counting)\n"
++                 "  [--sizes EXACT-TOKENS,...] [--users 1,2,4,6,8]\n"
+                  "  [--prefill-chunk 2048|4096|8192] [--context-capacity N]\n"
+-                 "Tokenize one corpus, take exact token prefixes; selected sizes/depths must align to the chunk.\n"
++                 "Default suite fresh: time the entire prompt from an empty sequence, including every chunk.\n"
++                 "Default sizes: every chunk multiple through 131072. All sizes/depths must align.\n"
++                 "Explicit suite single: incremental PP at reused depth; not a full-prefill curve.\n"
+                  "  [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1]\n"
+                  "  [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n"
+                  "--build-info opens no model. Direct suites: AR, greedy, thinking off; MTP unavailable.\n"
+@@ -250,6 +257,7 @@
+             c.execution=value;
+ #endif
+         }
++        else if(!strcmp(key,"--prompt-preset")){if(strcmp(value,"q2-counting"))goto usage;c.counting=true;}
+         else if(!strcmp(key,"--prompt-file"))c.prompt_file=value;
+         else if(!strcmp(key,"--prefill-chunk")){if(!integer(value,8192,&c.chunk)||!c.chunk)goto usage;}
+         else if(!strcmp(key,"--context-capacity")){if(!integer(value,MAX_CONTEXT,&c.context_override)||!c.context_override)goto usage;}
+@@ -263,7 +271,7 @@
+         else goto usage;
+     }
+     if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")&&strcmp(c.suite,"fresh")))goto usage;
+-    if(!exact_grid(&c)){fputs("Exact prompts require --prompt-file and chunk-aligned sizes/depths; chunk must be 2048, 4096 or 8192.\n",stderr);return 2;}
++    if(!exact_grid(&c)){fputs("Exact prompts require one prompt source and a chunk-aligned grid for the selected suite; chunk must be 2048, 4096 or 8192.\n",stderr);return 2;}
+     if(!strcmp(c.suite,"fresh"))for(unsigned k=0;k<c.size_count;++k)if((uint64_t)c.sizes[k]+c.tg>MAX_CONTEXT)goto usage;
+     struct sigaction sa={0};sa.sa_handler=stop;sigemptyset(&sa.sa_mask);if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL))return 1;
+     int fd=open(c.output,O_WRONLY|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);if(fd<0){perror("exclusive output");return 1;}FILE *f=fdopen(fd,"w");if(!f){close(fd);return 1;}
+@@ -277,13 +285,14 @@
+     if(c.context_override&&(uint64_t)corpus_needed+c.tg>c.context_override){snprintf(e.message,sizeof(e.message),"workload exceeds context capacity");goto done;}
+     for(unsigned point=0;point<points;++point){unsigned depth=!strcmp(c.suite,"single")?c.depths[point]:!strcmp(c.suite,"memory")&&point?16384:0;
+         unsigned pp=!strcmp(c.suite,"fresh")?c.sizes[point]:!strcmp(c.suite,"memory")&&point?4096:c.pp;unsigned users=!strcmp(c.suite,"multi")?c.users[point]:1;
+-        unsigned context=!strcmp(c.suite,"fresh")?MAX_CONTEXT:!strcmp(c.suite,"multi")?4096:!strcmp(c.suite,"loading")?262144:!strcmp(c.suite,"memory")?133121:133760;
++        unsigned context=!strcmp(c.suite,"fresh")?133760:!strcmp(c.suite,"multi")?4096:!strcmp(c.suite,"loading")?262144:!strcmp(c.suite,"memory")?133121:133760;
+         if(c.context_override)context=c.context_override;
+         c.context=context;
+         if((uint64_t)depth+pp+c.tg>context){snprintf(e.message,sizeof(e.message),"workload exceeds context capacity");goto done;}
+         if(!m&&!open_model(&c,context,users,&m,&info,f,&e))goto done;
+         if(strcmp(c.suite,"loading")){
+-            if(!corpus.ids&&!exact_corpus(m,&c,corpus_needed,&corpus,f,&e))goto done;
++            if(c.counting){if(!exact_counting(m,depth+pp,&corpus,f,&e))goto done;}
++            else if(!corpus.ids&&!exact_corpus(m,&c,corpus_needed,&corpus,f,&e))goto done;
+             if(corpus.n<depth+pp){snprintf(e.message,sizeof(e.message),"Corpus has %zu tokens; need %u",corpus.n,depth+pp);goto done;}
+             struct prompt p={corpus.ids,depth+pp};struct witness w={.ids=calloc(c.tg,sizeof(int32_t))};bool ok=w.ids!=NULL;
+             if(ok){char digest[65];ok=hash(p.ids,p.n*sizeof(*p.ids),digest);json_object *j=event("input");num(j,"point",point);num(j,"depth",depth);num(j,"users",users);num(j,"target_prompt_tokens",depth+pp);num(j,"context_capacity",context);num(j,"prompt_tokens",(int64_t)p.n);str(j,"physical_ids_sha256",digest);json_object_object_add(j,"physical_ids",ids_json(p.ids,p.n));ok=ok&&emit(f,j);}
+--- a/tools/q2_exact_prompt.inc
++++ b/tools/q2_exact_prompt.inc
+@@ -72,15 +72,17 @@
+     if (c->chunk != 2048 && c->chunk != 4096 && c->chunk != 8192) return false;
+     if (strcmp(c->suite, "fresh") && c->pp % c->chunk) return false;
+     if (!strcmp(c->suite, "loading")) return true;
+-    if (!c->prompt_file || !*c->prompt_file) return false;
++    if (c->counting ? c->prompt_file != NULL : (!c->prompt_file || !*c->prompt_file)) return false;
++    if ((!strcmp(c->suite, "fresh") && c->depths_set) ||
++        (strcmp(c->suite, "fresh") && c->sizes_set)) return false;
+     if (!c->sizes_set) {
+         c->size_count = 0;
+-        for (unsigned n = c->chunk; n <= 131072; n *= 2)
++        for (unsigned n = c->chunk; n <= 131072; n += c->chunk)
+             c->sizes[c->size_count++] = n;
+     }
+     if (!c->depths_set) {
+         c->depth_count = 0;
+-        for (unsigned n = c->pp; n <= 131072; n *= 2)
++        for (unsigned n = c->pp; n <= 131072; n += c->pp)
+             c->depths[c->depth_count++] = n - c->pp;
+     }
+     for (unsigned i = 0; !strcmp(c->suite, "fresh") && i < c->size_count; ++i)
+--- a/tools/native/report.c
++++ b/tools/native/report.c
+@@ -118,6 +118,10 @@
+   json_object_object_add(out, "configurations", points);
+   json_object_object_add(out, "loading", select_rows(rows, "model_loaded"));
+   CHECK(repetition_config(id), "Invalid direct benchmark identity");
++  if (nb_get(id, "measurement_contract"))
++    CHECK(eqs(id, "measurement_contract", eqs(id, "suite", "fresh") ?
++              "full-prefill-v1" : "incremental-prefill-v1"),
++          "Measurement contract and suite disagree");
+   size_t reps =
+       (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
+   CHECK(json_object_array_length(samples) ==
+@@ -132,7 +136,7 @@
+               nb_count(in, "context_capacity", 1, 2097152, NULL) &&
+               nb_count(in, "point", 0, 65535, NULL),
+           "Invalid physical workload");
+-    if (eqs(id, "prompt_contract", "exact-token-prefix-v1")) {
++    if ((eqs(id, "prompt_contract", "exact-token-prefix-v1") || eqs(id, "prompt_contract", "exact-counting-chat-v1"))) {
+       int64_t chunk = nb_number(id, "prefill_chunk");
+       CHECK((chunk == 2048 || chunk == 4096 || chunk == 8192) &&
+             nb_count(in, "target_prompt_tokens", 1, 1048576, NULL) &&
+@@ -140,6 +144,8 @@
+             nb_number(in, "prompt_tokens") % chunk == 0 &&
+             nb_number(in, "depth") % chunk == 0, "Exact prompt contract differs");
+     }
++    if (eqs(id, "suite", "fresh"))
++      CHECK(nb_number(in, "depth") == 0, "Full prefill must start at zero depth");
+     CHECK(nb_number(in, "depth") < nb_number(in, "prompt_tokens") &&
+               nb_number(in, "prompt_tokens") + nb_number(id, "output_limit") <=
+                   nb_number(in, "context_capacity"),
+@@ -169,7 +175,7 @@
+       int64_t users = nb_number(in, "users"),
+               pp = nb_number(in, "prompt_tokens") - nb_number(in, "depth"),
+               tg = nb_number(r, "output_tokens_per_user");
+-      if (eqs(id, "prompt_contract", "exact-token-prefix-v1"))
++      if ((eqs(id, "prompt_contract", "exact-token-prefix-v1") || eqs(id, "prompt_contract", "exact-counting-chat-v1")))
+         CHECK(nb_count(r, "prefill_calls_per_user", pp / nb_number(id, "prefill_chunk"),
+                        pp / nb_number(id, "prefill_chunk"), NULL) &&
+               nb_count(r, "prefill_tail_tokens", 0, 0, NULL), "Exact prefill calls differ");
+@@ -812,6 +818,11 @@
+   bool iscore = eqs(ai, "suite", "core"),
+        http = eqs(ai, "schema", "synapse-lie.http-bench.v1");
+   CHECK(!cache_build || iscore, "Cache build comparison requires core results");
++  if (!iscore && !http && (nb_get(ai, "measurement_contract") || nb_get(bi, "measurement_contract")))
++    CHECK(nb_same(ai, bi, "measurement_contract") &&
++          nb_same(ai, bi, "prompt_contract") && nb_same(ai, bi, "decode_contract") &&
++          nb_same(ai, bi, "warmups") && nb_same(ai, bi, "repetitions"),
++          "Comparison measurement, prompt, decode or sampling contract differs");
+   if (http) {
+     ap = nb_get(a, "cases");
+     bp = nb_get(b, "cases");
+--- a/tests/bench_executor.c
++++ b/tests/bench_executor.c
+@@ -10,6 +10,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include "q2_bench_fixture_trace.inc"
+ struct lie_model { unsigned context,runs,width,chunk; uint64_t domain; uint32_t drafts; int mode; bool mtp; unsigned vision; };
+ struct lie_sequence { lie_model *m; unsigned position,step; int32_t *prompt; unsigned char scope[32]; atomic_bool cancelled; };
+ static atomic_uint_fast64_t domain_counter=1;
+@@ -57,7 +58,9 @@
+     (void)e; (void)p;
+     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;
+     if (n<=s->position || n-s->position>s->m->chunk || n>s->m->context) return LIE_INVALID;
+-    memcpy(s->prompt,p,n*sizeof(*p));s->position=(unsigned)n; return LIE_OK;
++    uint64_t begin=fixture_clock(); unsigned from=s->position;
++    memcpy(s->prompt,p,n*sizeof(*p));s->position=(unsigned)n;
++    return fixture_trace(s->m->runs,from,n,begin,fixture_clock())?LIE_OK:LIE_BACKEND_FAILED;
+ }
+ lie_status lie_sequence_decode(lie_sequence *s,lie_decode_result *d,lie_error *e) {
+     if (atomic_load(&s->cancelled)) return LIE_CANCELLED;

@@ -1,0 +1,16 @@
+{
+  "label": "q2-library-norm-host-r1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_tests": 16,
+  "asan_ubsan_tests": 16,
+  "finished_at": "2026-10-03T16:27:23.613971+00:00",
+  "initial_log_check": "A local assertion expected a different CTest summary literal; actual logs verified"
+}

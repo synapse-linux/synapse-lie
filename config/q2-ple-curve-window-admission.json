@@ -1,0 +1,168 @@
+{
+  "at": "2026-10-04T03:11:36.046620+00:00",
+  "state": "Q2_PLE_CANONICAL_WINDOW_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "release_sha256": "bdf97e04c9f5c9589f939ab97f7e3bcad036e54d12f29511fb6c4d8247f0baa6",
+  "release_at": "2026-10-04T02:58:06.736101+00:00",
+  "retired": [
+    {
+      "pid": 3369973,
+      "start_ticks": null
+    },
+    {
+      "pid": 3369974,
+      "start_ticks": 164782357
+    },
+    {
+      "pid": 3370044,
+      "start_ticks": 164782460
+    },
+    {
+      "pid": 3370239,
+      "start_ticks": 164783113
+    },
+    {
+      "pid": 3370597,
+      "start_ticks": 164783817
+    },
+    {
+      "pid": 3370667,
+      "start_ticks": 164783869
+    },
+    {
+      "pid": 3370884,
+      "start_ticks": 164784822
+    },
+    {
+      "pid": 3371458,
+      "start_ticks": null
+    },
+    {
+      "pid": 3371467,
+      "start_ticks": 164788535
+    },
+    {
+      "pid": 3371694,
+      "start_ticks": 164788738
+    },
+    {
+      "pid": 3371850,
+      "start_ticks": 164790192
+    },
+    {
+      "pid": 3372371,
+      "start_ticks": null
+    },
+    {
+      "pid": 3372378,
+      "start_ticks": 164798186
+    },
+    {
+      "pid": 3372573,
+      "start_ticks": 164798339
+    },
+    {
+      "pid": 3372740,
+      "start_ticks": 164799794
+    }
+  ],
+  "retired_groups": [
+    3369974,
+    3370044,
+    3370239,
+    3370597,
+    3370667,
+    3370884,
+    3371467,
+    3371694,
+    3371850,
+    3372378,
+    3372573,
+    3372740
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": {
+      "driver": "r8169_0_c100:00",
+      "celsius": 37.5
+    },
+    "/sys/class/hwmon/hwmon2/temp1_input": {
+      "driver": "amdgpu",
+      "celsius": 35.0
+    },
+    "/sys/class/hwmon/hwmon0/temp1_input": {
+      "driver": "acpitz",
+      "celsius": 37.0
+    },
+    "/sys/class/hwmon/hwmon5/temp1_input": {
+      "driver": "mt7925_phy0",
+      "celsius": 40.0
+    },
+    "/sys/class/hwmon/hwmon3/temp1_input": {
+      "driver": "k10temp",
+      "celsius": 37.125
+    },
+    "/sys/class/hwmon/hwmon1/temp6_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp3_input": {
+      "driver": "nvme",
+      "celsius": 33.85
+    },
+    "/sys/class/hwmon/hwmon1/temp7_input": {
+      "driver": "nvme",
+      "celsius": 33.85
+    },
+    "/sys/class/hwmon/hwmon1/temp4_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp8_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp1_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp9_input": {
+      "driver": "nvme",
+      "celsius": 34.85
+    },
+    "/sys/class/hwmon/hwmon1/temp2_input": {
+      "driver": "nvme",
+      "celsius": 44.85
+    }
+  },
+  "scope": "Host21 Debug/ASan then full-MMQ canonical ordered IQ2 Q2 control / PLE cache-first plus ordered IQ2 / unchanged ordered control repeat / pristine UD, 0-128K. Same workload and timers; no instrumentation or model mutation.",
+  "restart_scheduled": false,
+  "hardware_tuning": false,
+  "checkpoint": "b24c7df"
+}

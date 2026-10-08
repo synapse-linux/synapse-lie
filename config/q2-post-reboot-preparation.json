@@ -1,0 +1,49 @@
+{
+  "schema": "synapse-lie.q2-post-reboot-preparation.v1",
+  "files": {
+    "tools/q2-post-reboot-epoch.py": "d4ee347ea368a9426f830c1d446b72aaa2dec9ce799d1c50b8c8dcba721bdcfe",
+    "tests/q2_post_reboot_epoch_test.py": "c23623e0f346a918cfb5b713ae3ba494dce33ab909da06e78c401f68b759f5d5",
+    "tools/q2-decode-down-rows-native128-recovery-window.py": "aef5591fc7d47589e5cb46c4b7f706ee737f50e45a39347a307f95c0f78b56d0",
+    "tests/q2_decode_down_rows_native128_recovery_test.py": "248bcf64c69420f83bf713b3ebf2c36ac84a87830521023c899686e9bafe197c"
+  },
+  "collected_manifest_sha256": "642f331430e21efea456dff72b488a9c7cb4ca1d1b230ac322789fcc683b1e10",
+  "commands": {
+    "epoch-cpu": {
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-post-reboot-preparation-r1/tests/q2_post_reboot_epoch_test.py"
+      ],
+      "started_at": "2026-10-07T14:59:23.029395+00:00",
+      "finished_at": "2026-10-07T14:59:23.061761+00:00",
+      "exit_code": 0,
+      "gpu_used": false
+    },
+    "native-cpu": {
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-post-reboot-preparation-r1/tests/q2_decode_down_rows_native128_recovery_test.py"
+      ],
+      "started_at": "2026-10-07T14:59:23.061877+00:00",
+      "finished_at": "2026-10-07T14:59:27.691386+00:00",
+      "exit_code": 0,
+      "gpu_used": false
+    },
+    "epoch-create": {
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-post-reboot-preparation-r1/tools/q2-post-reboot-epoch.py",
+        "create"
+      ],
+      "started_at": "2026-10-07T15:00:36.545341+00:00",
+      "finished_at": "2026-10-07T15:00:36.588499+00:00",
+      "exit_code": 0
+    }
+  },
+  "comfyui_stop_sha256": "7dc67690ea54c94ce14a26be3d0e413eaf5ac7b357e3895bef6fc8798a9f2330",
+  "epoch_baseline_sha256": "5bfd3b2e2b21cb805bb73bf8559faa5a0da7b44f1d8bd04199bbbe17ec6858e2",
+  "candidate_rebuilt": false,
+  "gpu_run": false,
+  "model_input_changed": false,
+  "candidate_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "scope": "Boot-qualified persistent coordination and early process identity receipts only. Same model, executable, client and original four requests."
+}

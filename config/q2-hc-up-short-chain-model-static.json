@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-hc-up-short-chain-model-static.v1",
+  "source_manifest_sha256": "6665ce23ec37c14e33daf71f42a69ad65678544fe78bfedc3068d8dcc13cab40",
+  "provider_files": 1029,
+  "original_device_bodies_exact": 164,
+  "measured_candidate_device_bodies_exact": 2,
+  "all_device_bodies_exact": 166,
+  "candidate_assembly": "evidence/q2-hc-up-short-chain-model-preparation/candidate.s",
+  "candidate_assembly_sha256": "df30b4e5baa707ba7880584845eb0b8215d4bb3ad92c9e8fbd622f84542febd7",
+  "measured_assembly_sha256": "7228009211f14b44030bb8be574815669a815a075577a597d2d82f48b55cc783",
+  "compile_receipt_sha256": "d96045ae493bea692c39217ac6267049b26805c094057f361ac94f6bd7e67149",
+  "original_model_run": false,
+  "scalar_dispatch_unchanged": true,
+  "raw_Q8_dispatch_unchanged": true,
+  "original_weight_bits_unchanged": true,
+  "deliberately_changed_FP32_reduction": true,
+  "extra_device_or_persistent_bytes": 0,
+  "model_performance_unmeasured": true,
+  "goal_met": false
+}

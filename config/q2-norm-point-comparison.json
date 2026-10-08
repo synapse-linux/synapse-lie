@@ -1,0 +1,242 @@
+{
+  "schema": "synapse-lie.q2-norm-point-comparison.v1",
+  "result_sha256": "4c8d1c2cb9a35f7a8e038e1f60f2da4d8dff53f4f01ca99ce53aafbd3ff843da",
+  "summaries": {
+    "before": {
+      "pp_tps": {
+        "median": 880.9318098878385,
+        "minimum": 838.7160191681492,
+        "maximum": 888.6094750968812
+      },
+      "tg_tps": {
+        "median": 26.213258248780885,
+        "minimum": 25.946693017857818,
+        "maximum": 26.404555313222524
+      },
+      "ttft_seconds": {
+        "median": 2.40838683,
+        "minimum": 2.405626814,
+        "maximum": 2.530364892
+      },
+      "wall_seconds": {
+        "median": 7.323397456,
+        "minimum": 7.239064323,
+        "maximum": 7.398078959
+      }
+    },
+    "norm": {
+      "pp_tps": {
+        "median": 1420.7239909589387,
+        "minimum": 1351.9977876969779,
+        "maximum": 1426.3087657970418
+      },
+      "tg_tps": {
+        "median": 26.80580822321796,
+        "minimum": 26.612691952520905,
+        "maximum": 26.819651304877667
+      },
+      "ttft_seconds": {
+        "median": 1.535523867,
+        "minimum": 1.523650669,
+        "maximum": 1.616055835
+      },
+      "wall_seconds": {
+        "median": 6.329425062,
+        "minimum": 6.283195716,
+        "maximum": 6.372110207
+      }
+    },
+    "after": {
+      "pp_tps": {
+        "median": 1399.2889688701732,
+        "minimum": 1353.1872456287283,
+        "maximum": 1402.963072785022
+      },
+      "tg_tps": {
+        "median": 26.806075830132222,
+        "minimum": 26.6208072405115,
+        "maximum": 26.816281865375547
+      },
+      "ttft_seconds": {
+        "median": 1.556083625,
+        "minimum": 1.545808008,
+        "maximum": 1.615230579
+      },
+      "wall_seconds": {
+        "median": 6.349220148,
+        "minimum": 6.305140671,
+        "maximum": 6.372033569
+      }
+    },
+    "ud": {
+      "pp_tps": {
+        "median": 1564.8672608594993,
+        "minimum": 1424.4393946344887,
+        "maximum": 1567.282513516003
+      },
+      "tg_tps": {
+        "median": 25.993934653675872,
+        "minimum": 25.930223538600544,
+        "maximum": 26.056889887177558
+      },
+      "ttft_seconds": {
+        "median": 1.604864914,
+        "minimum": 1.583330742,
+        "maximum": 1.759282748
+      },
+      "wall_seconds": {
+        "median": 6.601759451,
+        "minimum": 6.587129419,
+        "maximum": 6.703510493
+      }
+    }
+  },
+  "candidate_change_percent": {
+    "before": {
+      "pp_tps": 61.275137872456575,
+      "tg_tps": 2.260497221724167,
+      "ttft_seconds": -36.242639767300176,
+      "wall_seconds": -13.572558364774345
+    },
+    "after": {
+      "pp_tps": 1.5318510018750953,
+      "tg_tps": -0.0009983069359287278,
+      "ttft_seconds": -1.3212501995193304,
+      "wall_seconds": -0.31177192692294353
+    },
+    "ud": {
+      "pp_tps": -9.211213852182599,
+      "tg_tps": 3.1233192679711363,
+      "ttft_seconds": -4.320678107864717,
+      "wall_seconds": -4.125178916640904
+    }
+  },
+  "per_sample_change_percent": {
+    "before": {
+      "pp_tps": [
+        69.39273347467878,
+        61.90910009012405,
+        52.14757726385659
+      ],
+      "tg_tps": [
+        1.5237850249256724,
+        3.3110778501478144,
+        1.57206204282212
+      ],
+      "ttft_seconds": [
+        -39.31610923567936,
+        -36.66304930869465,
+        -32.89882609929402
+      ],
+      "wall_seconds": [
+        -14.445018807212762,
+        -14.203813820698363,
+        -11.976052115540782
+      ]
+    },
+    "after": {
+      "pp_tps": [
+        1.5318510018750953,
+        1.6640276187509517,
+        -0.08790046873355939
+      ],
+      "tg_tps": [
+        -0.03048475546694185,
+        -0.0009983069359287278,
+        0.012564901872069711
+      ],
+      "ttft_seconds": [
+        -1.3212501995193304,
+        -1.4333823401955104,
+        0.05109214812604179
+      ],
+      "wall_seconds": [
+        -0.31177192692294353,
+        -0.3480486185016396,
+        0.001202724360616081
+      ]
+    },
+    "ud": {
+      "pp_tps": [
+        -9.211213852182599,
+        -8.994788527481512,
+        -5.085622260264666
+      ],
+      "tg_tps": [
+        2.631941883973421,
+        2.874166254234889,
+        3.176574313212055
+      ],
+      "ttft_seconds": [
+        -4.320678107864717,
+        -3.769273937333806,
+        -8.141210567933099
+      ],
+      "wall_seconds": [
+        -3.912240683425383,
+        -4.825436875797495,
+        -4.943682662182103
+      ]
+    }
+  },
+  "history_matches": {
+    "norm": true,
+    "after": true
+  },
+  "prior_canonical_report_sha256": "e76cbb32bf820057656313f65a9319c0de850f8955284034eab1f9666da6fd71",
+  "original_d0_history_matches": {
+    "before": true,
+    "norm": true,
+    "after": true,
+    "ud": true
+  },
+  "dispatch_geometry": [
+    {
+      "rep": 0,
+      "prefill_tokens": 2040,
+      "observed_prefill_calls": 1,
+      "inferred_chunks": [
+        2040
+      ],
+      "newly_eligible_rows": 2040,
+      "note": "Chunk sizes inferred from frozen chunk2048 worker policy; this is not an instrumented kernel trace."
+    },
+    {
+      "rep": 1,
+      "prefill_tokens": 2032,
+      "observed_prefill_calls": 1,
+      "inferred_chunks": [
+        2032
+      ],
+      "newly_eligible_rows": 2032,
+      "note": "Chunk sizes inferred from frozen chunk2048 worker policy; this is not an instrumented kernel trace."
+    },
+    {
+      "rep": 2,
+      "prefill_tokens": 2053,
+      "observed_prefill_calls": 2,
+      "inferred_chunks": [
+        2048,
+        5
+      ],
+      "newly_eligible_rows": 0,
+      "note": "Chunk sizes inferred from frozen chunk2048 worker policy; this is not an instrumented kernel trace."
+    }
+  ],
+  "unchanged_control_pp_drift_percent": 58.84191638491663,
+  "disposition": "EXPLORATORY_PAIRED_PROMPT_OBSERVATIONS_ONLY",
+  "scope": "Three native canonical d0 repetitions per arm; different deterministic prose by repetition, identical corresponding Q2 histories required. Positive throughput changes are faster; positive duration changes are slower.",
+  "limits": "Different prompts are not identical-input repetitions. Medians are descriptive only and do not update the fixed reference. Preserve order/cache effects and all original numerical failures. This does not establish repeatability, fixed-reference improvement or full-curve parity.",
+  "preflight_linux_cached_gib": {
+    "before": 3.890289306640625,
+    "norm": 14.0382080078125,
+    "after": 14.394298553466797,
+    "ud": 14.742210388183594
+  },
+  "model_inference": true,
+  "independent_model_quality": "Open",
+  "promoted": false,
+  "goal_met": false,
+  "fixed_reference": "config/q2-fixed-prefill-reference.json",
+  "fixed_reference_improvement_measured": false
+}

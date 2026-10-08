@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -6250,7 +6250,7 @@
+         if constexpr (kSsmConv) {
+           static_assert(BM == 256 && BN == 128 && BK == 2 && WM == 8 &&
+                         WN == 1);
+-          static_assert(!kHcMix && kRowGroup == 1);
++          static_assert(!kHcMix && (kRowGroup == 1 || kRowGroup == 4));
+           constexpr std::uint32_t channels = 10240;
+           if (tok < batch) {
+ #pragma unroll
+@@ -6504,7 +6504,7 @@
+       kernel != kSsmConvTaps) {
+     return false;
+   }
+-  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 1, false, true>),
++  hipLaunchKernelGGL((DenseF16GEMMKernel<256, 128, 2, 8, 1, 4, false, true>),
+                      dim3((n_tokens + 127) / 128, m / 256), dim3(kThreads), 0,
+                      stream, w, x, qkvz, n_tokens, m, k, nullptr, nullptr,
+                      nullptr, conv_w, convolved);

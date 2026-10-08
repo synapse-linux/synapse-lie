@@ -1,0 +1,58 @@
+{
+  "schema": "synapse-lie.q2-shared-down-component-final.v1",
+  "plan_sha256": "bc99a1bf57cf38bd94092c548b685a7fe9b938f26d3a02f8732b4364f09a1c49",
+  "result_sha256": "0e465979814d61791e0a951cc346894a0dd60319698512c97795217fb2edf57e",
+  "release_sha256": "973388223cae971705e3027fd281af760ee38bce247c2468848b89a88055a6e9",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 11,
+  "host_reused": false,
+  "frozen_fixtures_verified": 92,
+  "frozen_manifests_verified": 9,
+  "provider_files_verified": 1028,
+  "retired_identities": 1171,
+  "retired_groups": 934,
+  "thermal_max_c": {
+    "q2-shared-down-n64-host-r1": {
+      "amdgpu": 40.0,
+      "k10temp": 67.0
+    },
+    "q2-shared-down-n64-component-r1": {
+      "amdgpu": 39.0,
+      "k10temp": 66.75
+    }
+  },
+  "figures": {
+    "docs/figures/q2-shared-down-n64-component.csv": "90795996db2a42bcec29b4b9535ced97304dfba885377bec0a12c58be82d7e6f",
+    "docs/figures/q2-shared-down-n64-component.svg": "57b0c51acbeb2d65787a4deb8aee776f26088dd04cdcc717cbcef4652a0a8d44",
+    "docs/figures/q2-shared-down-n64-component.png": "7a6cc5cb7945ba63bb95e266025d04c61e0a6bc5df43dacd054cf7d20211a6b8"
+  },
+  "preserved_nonzero_exits": {},
+  "failure_classification": {},
+  "numerical_pass": true,
+  "time_change_percent": {
+    "generic-f16": 24.189110377323054,
+    "fixed-q8": 34.20294690491594,
+    "fixed-f16": 2.8114857907997726
+  },
+  "decision": "RETAIN_COMPONENT_EVIDENCE_KEEP_SAVED1585",
+  "retained_model": {
+    "prefill_tok_s": 1585.308983,
+    "decode_steps_s": 25.16079073
+  },
+  "controls_rerun": false,
+  "model_inference": false,
+  "independent_model_quality": false,
+  "full_curve": false,
+  "promoted": false,
+  "goal_met": false
+}

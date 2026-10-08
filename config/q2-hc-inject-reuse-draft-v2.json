@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-hc-inject-reuse-draft.v2",
+  "parent_manifest": "config/q2-ssm-fixed-bounds-source.json",
+  "parent_manifest_sha256": "dd1e671a1bb521b51fb0df6989b926052d3145c835a9e86e29ffdcd7bd4d060a",
+  "parent_provider": ".deps/gufo-q2-ssm-fixed-bounds-run",
+  "parent_files_verified": 1027,
+  "parent_numerical_sha256": "4d25f28f1cead5bcd1873b001037e301dc1545a4c80614e0ff1231872337c77c",
+  "parent_deferred_sha256": "63711baeb52e92de971467c9826743eb659062ac9f8553ab917c9ead58f955e5",
+  "include": "experiments/q2-hc-inject-reuse-draft-v2.inc",
+  "include_sha256": "2f5965d4be9bdcaf63bb8ecf06153dbfd1a20c2dc41cc7b8ad1646316af0c304",
+  "generator_sha256": "c5992119799d7ec0f114f06c6e83729058f2537322745ae6e7a504de78d32556",
+  "compiler_probe": "evidence/q2-hc-inject-reuse-draft-preparation/probe-v2.hip",
+  "compiler_probe_sha256": "6a648d92ca50eb537b113e1de8c0101f7f9b453d95d3322b1d04e153e4f424ef",
+  "fixed_geometry": {
+    "hidden": 2560,
+    "streams": 4,
+    "rank": 320
+  },
+  "proposed_workspace": {
+    "source": "down_e",
+    "bytes_at_2048": 20971520,
+    "allocation_added": false,
+    "executor_adopted": false
+  },
+  "contract": "Reuse each normalized float4 already read by HC mix to compute four injection dots. Preserve first MUL then15 FMA per dot and original wave/block/chunk reduction in second kernel. No reassociation or atomic summation. Rounded F32 dot storage replaces a second normalized read.",
+  "gates": [
+    "Complete ordinary/raw-Q8/deferred mix, half/Q8 and injection output equality including tails",
+    "Complete alternating mix/inject cycle with rotated HC weights beyond32MiB",
+    "Prove old down_e reader complete, separate workspace and new MoE writer ordered",
+    "Original fixed2048/tg128 candidate-only model test after fresh .157 admission"
+  ],
+  "gpu_run": false,
+  "production_provider": false,
+  "numerical_acceptance": false,
+  "performance_measured": false,
+  "goal_met": false,
+  "initial_manifest_sha256": "ed604296f7338e63dca4dd74029c8d49662f7cb13293c749d3f78af98aca4f01",
+  "initial_include_sha256": "7e00f69bd88d4dcae7b6ee98109c81a9e910f473143329066147f48a6977d708",
+  "initial_compile_attempted": false,
+  "correction": "Source inspection excluded two duplicate parent dispatchers before any compiler invocation"
+}

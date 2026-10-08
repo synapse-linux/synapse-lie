@@ -1,0 +1,75 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-r3-plan.v1",
+  "previous_goal_turn": "R2 all five shapes and44 recorded full GPU pairs exact, but CPU reciprocal/tie oracle differs12 codes of5,242,880 at2048; exits0/0/1 preserved. Scalar GPU format oracle added, CPU ideal remains diagnostic.",
+  "previous_turn_revalidated": "Feature worktree was clean3338c93; latest full-model evidence still lacks UD PP parity. Goal remains Q2 PP/TG parity on all requested curve points.",
+  "previous_release_sha256": "b2ba0d8515552ca8266523a8b60428dd70a03d114d396a8281d8eddfa98a6dc9",
+  "manifests": {
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-iq2-mixed-model-source.json": "8b45bea7e4f7557372a7bd044587c9e3350f2566398c764e7e1ddd47edbfae26",
+    "config/q2-shared-q8-producer-source.json": "edcb6d73784c885b50876f14a84fb599201dad90cf6dd9ba81e3dd859aff96bd",
+    "config/q2-shared-q8-producer-static.json": "bda243789c31361a8b23bf208276834aead65be951c6cd047532079463a01f3e",
+    "config/q2-shared-q8-producer-r1-results.json": "c0fee349540c2c801cece2d2d45c81933b2103c64713ca880fe1c26402135e7a",
+    "config/q2-shared-q8-producer-r1-format-diagnostic.json": "8efd144bf84180ee0d8ecb19463727c57d7b060fd8b0105080b80e6944f2287b",
+    "config/q2-shared-q8-producer-plan.json": "46e97cfc5ea20f75c16aee9ed9cdde7246500782f9fadc550e348d0320b3afe9",
+    "config/q2-shared-q8-producer-r3-host-results.json": "ede651ff47654e9d3693e5e148b6eaa04a236fa9b310a9e426c86cc3f22610ee",
+    "config/q2-shared-q8-producer-r2-results.json": "bca08a24585d804918b72ee767cfd04b2aa0e4cec88bd2db393264ca6d250ebe",
+    "config/q2-shared-q8-producer-r2-plan.json": "e595a6f69214267c0a40d668a0423e23b20ba187703eb74c5a5a5d7fd5be77b4"
+  },
+  "fixtures": {
+    "tests/q2_shared_q8_producer.cpp": "86cacffe2c2ddae51b800635c32c7e50d360ae223ca86758823f74fd91dc0db0",
+    "tests/q2_hc_up_fused.cpp": "e002dacd5abeb28bf5f8dc576df557065ce829120966b63f629e275f5f2dab8a",
+    "tests/q2_remote_test.py": "efc517cf6fd01dae0c5740b042e975127830898dc135e803b92a570ae3bbd06e",
+    "tools/q2-remote.py": "0a0f00ee130c1ebe56e646f108b9cfc6239e6e6ced14647f03aa778f02f95a42",
+    "tools/q2-runner.py": "64518ab43e564647b54166181cb69e0080a24004656f46a7972673a6c664718f",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "cmake/hip/CMakeLists.txt": "65cf6e734b5e0edd004a39a8716043029902d234aee3a5a8301f1f962eb5238c",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_shared_q8_scalar_oracle.hip": "fec3cc9b8159986d8f281841574db0e0fadd4eb93d674065dc237d4928ad88af"
+  },
+  "window_helper_sha256": "7b0f0d84df2061e33a6dcc425f02e16c1605e08bb21723f78cdc5c3bd8fe05b7",
+  "arms": [
+    {
+      "label": "q2-shared-q8-producer-component-r3",
+      "mode": "shared-q8-producer-check",
+      "variant": "shared-q8-producer"
+    }
+  ],
+  "protocol": {
+    "n": 2048,
+    "shared_m": 640,
+    "shared_k": 2560,
+    "shared_down_m": 2560,
+    "shared_down_k": 640,
+    "repetitions": 15,
+    "reference_candidate_reference_each_repetition": true,
+    "scopes": [
+      "producer",
+      "complete"
+    ],
+    "rotating_weight_sets": 16,
+    "rotating_weight_bytes": 191037440,
+    "timing": "HIP events, includes queued launch gaps, excludes warmup/allocation/readback/verification"
+  },
+  "advance_gate": {
+    "all_pairs_byte_exact": true,
+    "independent_q8_bytes_exact": true,
+    "independent_hc_rms_and_scaled_max_limits": 2e-05,
+    "complete_median_positive_against_both_controls": true,
+    "minimum_per_repetition_wins_against_both_controls": 12,
+    "producer_medians_positive_against_both_controls": true
+  },
+  "marginal_candidate_retained": true,
+  "norm_candidate_composed": false,
+  "model_run": false,
+  "model_baseline_changed": false,
+  "whole_control_binary_replay_implemented": false,
+  "full_curve_deferred_until_fixed_ud_parity": true,
+  "cleanup": false,
+  "goal_met": false,
+  "oracle_correction": "Separate serial-per-block GPU oracle independently implements the Q8 tiled format with production HIP FP32 arithmetic, no upstream helpers or shuffles. Every scale/code/padded byte must match reference and fused;2e-5 HC limits unchanged. Correctly rounded CPU reciprocal/tie differences are retained diagnostics rather than production-byte oracle.",
+  "retained_r1_failure": true,
+  "collect_timing_after_nonfatal_numeric_failure": true,
+  "model_admission_requires_all_original_numeric_and_performance_gates": true,
+  "gpu_fixture_changed_after_host": "GPU-only boolean aggregation, not part of compiled/executed CPU fixture scope; future GPU capsule binds the final version."
+}

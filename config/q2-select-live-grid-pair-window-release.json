@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-pair-window.v1",
+  "state": "Q2_LIVE_GRID_PAIR_RELEASED",
+  "at": "2026-10-07T07:48:11.371830+00:00",
+  "plan_sha256": "02997d8de8efb13171481946ed9441cb1072a51d533419b7ea7b3e4a3ba3ceda",
+  "admission_sha256": "71720701643d5d5c0f327e95c0a0b225ebc925034357bf7ad1d26b38443b3346",
+  "pair_result_sha256": "bad5d8ac24d1801157dbe981951a5c30799198d26b8cb7465230680fd1103f83",
+  "pair_state": "FAILED",
+  "kfd_empty": true,
+  "original_model_stats_unchanged": true,
+  "original_leases_free": true,
+  "retired_owned_identities": [
+    {
+      "pid": 713503,
+      "start_ticks": 192458301,
+      "process_group": 713503
+    },
+    {
+      "pid": 713630,
+      "start_ticks": 192459407,
+      "process_group": 713630
+    }
+  ],
+  "remote_cleanup": false,
+  "gpu_reserved": false,
+  "next_window_owner": "core"
+}

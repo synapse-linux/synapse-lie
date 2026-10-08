@@ -1,0 +1,978 @@
+{
+  "schema": "synapse-lie.prefill-live-original-point.v1",
+  "at_utc": "2026-10-07T09:33:56.733928+00:00",
+  "state": "SELECTED_ORIGINAL_AR_LIVE_PREFILL_PASSED",
+  "scope": "Original Q4 PP32768/TG32/C2 live selection/credit/loan/cancellation and C1 recovery; functional only.",
+  "compiled_source_commit": "cb75a48fad340a3b25fadd0e6ed5c45b1fa2edcf",
+  "native_client_code_checkpoint": "4b0cb6753439113572ee70e2734a05884f269283",
+  "engine_code_checkpoint": "d6431db85d3119e112ffd01c557aaacd6d7c2714",
+  "qualification_runner_commit": "395fac8cd1f8db2c00ff31d8052ec912a9afd355",
+  "qualified_HIP_build": {
+    "path": "docs/development/validation/prefill-probe-point-build-2026-10-07.json",
+    "bytes": 34873,
+    "sha256": "18aa7aa8984f8b0efbba9a626ac85d01931fdec4b1023f1ddfa3d12c4179cc7f"
+  },
+  "host": "192.168.5.161",
+  "runtime_build_id": "rocm10-point-modern-r50-runtime",
+  "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "bundle_sha256": "01876f3815c57b8a6d3ae2b4dca058d46cd6e6f390505680328d3b43bdef28dc",
+  "binaries": {
+    "runtime/bin/lie-attention-qualify": "fc3e6c43146a9f848c771c9bd8316c899a9e7c8f3bfe0865202926003790f7ff",
+    "runtime/bin/lie-hip-probe": "5796ce10e4a7c3db0f1f2ee5f8ab3cdbb331003f81d98d8e3fecfae5545178f7",
+    "runtime/bin/lie-sampling-capture": "1aa28036bfcd3f32ea175cdff802b9ef42c04d2735850594b275fa4739f30f98",
+    "runtime/bin/synapse-lie-bench": "55be2fa14c58b3aec424beb2db2edc3034adc24cb387c2efecaba473f238e941",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "d7de70509bf740c6a9d61710dd453140a1de20ac2fbdbd836312923404d0d4f2",
+    "runtime/bin/synapse-lie-server": "3460428bdb129a33f0a2a7dc20e121dd61c4813807f27928dae425f9abbce455"
+  },
+  "qualification_runner_sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99",
+  "model_plan": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "original_model_stat_witnesses": [
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 66307,
+      "inode": 106208485,
+      "mtime_ns": 1790931367673069984,
+      "ctime_ns": 1790931367683069853
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 66307,
+      "inode": 106208488,
+      "mtime_ns": 1790937784808778309,
+      "ctime_ns": 1790937784821778100
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 66307,
+      "inode": 106208496,
+      "mtime_ns": 1790938850707596045,
+      "ctime_ns": 1790938850734595610
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 66307,
+      "inode": 106208547,
+      "mtime_ns": 1790939114356256438,
+      "ctime_ns": 1790939114403255588
+    }
+  ],
+  "native_functional_witnesses": {
+    "prefill_transition": {
+      "event": "prefill_transition",
+      "scope": "direct-c-core-inflight-owner-queued-admission",
+      "elapsed_ns": 50264,
+      "queued_after_changes": 1,
+      "prefill_started_before": 17,
+      "prefill_started_after": 17,
+      "prefill_returned_before": 16,
+      "prefill_returned_after": 16,
+      "same_owner_call_observed": true,
+      "immutable_admissions": true,
+      "initial_core": {
+        "chunk_tokens": 2048,
+        "capacity_tokens": 32768,
+        "revision": 1
+      },
+      "current_core": {
+        "chunk_tokens": 2048,
+        "capacity_tokens": 32768,
+        "revision": 3
+      },
+      "active_job": {
+        "chunk_tokens": 2048,
+        "capacity_tokens": 32768,
+        "revision": 1
+      },
+      "queued_job": {
+        "chunk_tokens": 32768,
+        "capacity_tokens": 32768,
+        "revision": 2
+      }
+    },
+    "prefill_live_result": {
+      "event": "prefill_live_result",
+      "active_job": {
+        "chunk_tokens": 2048,
+        "capacity_tokens": 32768,
+        "revision": 1
+      },
+      "peer_job": {
+        "chunk_tokens": 32768,
+        "capacity_tokens": 32768,
+        "revision": 2
+      },
+      "active_prefill_calls": 16,
+      "peer_prefill_calls": 1,
+      "peer_prompt_tokens": 32768,
+      "peer_output_tokens": 32,
+      "peer_output_ids": [
+        321,
+        77397,
+        4602,
+        13,
+        198,
+        623,
+        9014,
+        220,
+        17,
+        23,
+        11,
+        2015,
+        220,
+        16,
+        17,
+        8120,
+        2919,
+        11,
+        23312,
+        321,
+        4649,
+        6440,
+        13,
+        10643,
+        10258,
+        7189,
+        220,
+        19,
+        16,
+        22980,
+        11,
+        41054
+      ],
+      "complete_peer_output_equal": true
+    },
+    "reactive": {
+      "event": "reactive",
+      "scope": "direct-c-core-held-loan-peer-cancel",
+      "synthetic": false,
+      "peer_output_tokens": 32,
+      "held_output_tokens": 8,
+      "held_borrowed_tokens": 1,
+      "held_output_blocked": 1,
+      "completed_delta": 1,
+      "cancelled_delta": 1,
+      "decode_batches_delta": 6,
+      "mtp_drafted_delta": 0,
+      "mtp_accepted_delta": 0
+    },
+    "prefill_cancel": {
+      "event": "prefill_cancel",
+      "same_owner_call_observed": true,
+      "cancel_during_prefill_delta": 1,
+      "cancelled_delta": 1,
+      "failed_delta": 0,
+      "output_tokens": 0,
+      "completed_prefill_calls": 1,
+      "completed_prefill_tokens": 0,
+      "retired": true
+    },
+    "prefill_probe_complete": {
+      "event": "prefill_probe_complete",
+      "mode": "live",
+      "synthetic": false,
+      "prompt_tokens": 32768,
+      "output_tokens": 32,
+      "baseline_output_ids": [
+        321,
+        77397,
+        4602,
+        13,
+        198,
+        623,
+        9014,
+        220,
+        17,
+        23,
+        11,
+        2015,
+        220,
+        16,
+        17,
+        8120,
+        2919,
+        11,
+        23312,
+        321,
+        4649,
+        6440,
+        13,
+        10643,
+        10258,
+        7189,
+        220,
+        19,
+        16,
+        22980,
+        11,
+        41054
+      ]
+    }
+  },
+  "independent_saved_data_review": {
+    "schema": "synapse-lie.prefill-live-saved-review.v1",
+    "at_utc": "2026-10-07T09:33:24.342274+00:00",
+    "actual_exit_code": 0,
+    "state": "SELECTED_ORIGINAL_AR_LIVE_PREFILL_PASSED",
+    "scope": "Original Q4 PP32768/TG32/C2 live selection/credit/loan/cancellation and C1 recovery; functional only.",
+    "source_commit": "cb75a48fad340a3b25fadd0e6ed5c45b1fa2edcf",
+    "physical_input_ids_sha256": "8e7a6d9cfca06584eed9313c90b740f2a7ac02c397713a7c07d4b9a3b1489b09",
+    "confirmed_output_ids": [
+      321,
+      77397,
+      4602,
+      13,
+      198,
+      623,
+      9014,
+      220,
+      17,
+      23,
+      11,
+      2015,
+      220,
+      16,
+      17,
+      8120,
+      2919,
+      11,
+      23312,
+      321,
+      4649,
+      6440,
+      13,
+      10643,
+      10258,
+      7189,
+      220,
+      19,
+      16,
+      22980,
+      11,
+      41054
+    ],
+    "active_prefill_calls": 16,
+    "peer_prefill_calls": 1,
+    "same_inflight_call_immutable_admissions_verified": true,
+    "full_peer_baseline_fresh_output_equal": true,
+    "borrowed_credit_peer_progress_verified": true,
+    "prefill_cancel_zero_output_recovery_verified": true,
+    "sampled_temperature_peaks_C": {
+      "nvme": 62.85,
+      "amdgpu": 85.0,
+      "k10temp": 79.0
+    },
+    "sampled_peak_gtt_bytes": 110823370752,
+    "sampled_minimum_available_ram_bytes": 10463584256,
+    "telemetry_samples": 388,
+    "model_stats_unchanged": true,
+    "strict_process_service_lease_closure_verified": true,
+    "RAM_SSD_MTP_quality_performance_qualified": false,
+    "new_GPU_or_model_run": false,
+    "open_task_numbers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "goal_complete": false
+  },
+  "offline_review_guard": {
+    "argv": [
+      "python3",
+      "-B",
+      "evidence/verify-context-r51-live.py"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 30.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 48.0
+    },
+    "elapsed_s": 1.1370161604136229
+  },
+  "fresh_global_preflight": {
+    "argv": [
+      "ssh",
+      "-F",
+      "/dev/null",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=8",
+      "pop@192.168.5.161",
+      "python3 -B -"
+    ],
+    "actual_exit_code": 0,
+    "program_sha256": "8312ff39e54777357ee220034a00ea8d5c7a74a5ff602777e2bbeb17b71ccd19",
+    "stdout": "{\"at_utc\": \"2026-10-07T09:23:46.710519+00:00\", \"state\": \"READ_ONLY_NOT_ADMITTED\", \"boot_id\": \"c82c90ed-7f94-4212-bc52-681c63eac395\", \"runner_sha256\": \"6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322\", \"service\": {\"MainPID\": \"277870\", \"ActiveState\": \"active\", \"SubState\": \"running\"}, \"router_start_ticks\": 23294503, \"original_lease\": {\"path\": \"/home/pop/workspace/synapse-lie/campaign.lock\", \"device\": 66307, \"inode\": 105946405, \"free_briefly\": true, \"released\": true}, \"observation\": {\"at\": \"2026-10-07T09:23:46.589639+00:00\", \"kfd\": [{\"pid\": 277870, \"start_ticks\": 23294503, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"dri\": [{\"pid\": 277870, \"start_ticks\": 23294503, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"denied_fd\": 365, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 28.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"value_c\": 28.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"value_c\": 31.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"value_c\": 31.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"value_c\": 31.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"value_c\": 34.0, \"limit_c\": 98, \"guarded\": false}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"value_c\": 35.25, \"limit_c\": 98, \"guarded\": true}], \"memory\": {\"MemTotal\": 132542648320, \"MemAvailable\": 121421828096, \"SwapTotal\": 21474828288, \"SwapFree\": 20442390528}, \"kernel_kfd\": [277870], \"gpu\": {\"gpu_busy_percent\": 0, \"mem_info_gtt_total\": 120259084288, \"mem_info_gtt_used\": 18636800, \"mem_info_vram_total\": 2147483648, \"mem_info_vram_used\": 151183360}}, \"foreign_compute_clients\": [], \"guarded_hot\": [], \"http8000_listeners\": [], \"pinned_image\": {\"exit_code\": 0, \"id\": \"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\", \"stderr\": \"\"}, \"free_disk_bytes\": 563582672896, \"exclusive_job_prepared\": true, \"GPU_build_run_or_service_mutation\": false, \"standing_lease_waiter_reservation\": false}\n",
+    "stderr": "",
+    "result": {
+      "at_utc": "2026-10-07T09:23:46.710519+00:00",
+      "state": "READ_ONLY_NOT_ADMITTED",
+      "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+      "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "service": {
+        "MainPID": "277870",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "router_start_ticks": 23294503,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "free_briefly": true,
+        "released": true
+      },
+      "observation": {
+        "at": "2026-10-07T09:23:46.589639+00:00",
+        "kfd": [
+          {
+            "pid": 277870,
+            "start_ticks": 23294503,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "dri": [
+          {
+            "pid": 277870,
+            "start_ticks": 23294503,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "denied_fd": 365,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 28.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 32.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 28.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 31.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 31.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 31.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 34.0,
+            "limit_c": 98,
+            "guarded": false
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 35.25,
+            "limit_c": 98,
+            "guarded": true
+          }
+        ],
+        "memory": {
+          "MemTotal": 132542648320,
+          "MemAvailable": 121421828096,
+          "SwapTotal": 21474828288,
+          "SwapFree": 20442390528
+        },
+        "kernel_kfd": [
+          277870
+        ],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 120259084288,
+          "mem_info_gtt_used": 18636800,
+          "mem_info_vram_total": 2147483648,
+          "mem_info_vram_used": 151183360
+        }
+      },
+      "foreign_compute_clients": [],
+      "guarded_hot": [],
+      "http8000_listeners": [],
+      "pinned_image": {
+        "exit_code": 0,
+        "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+        "stderr": ""
+      },
+      "free_disk_bytes": 563582672896,
+      "exclusive_job_prepared": true,
+      "GPU_build_run_or_service_mutation": false,
+      "standing_lease_waiter_reservation": false
+    }
+  },
+  "peer_coordination": {
+    "recorded_at_utc": "2026-10-07T09:25:00Z",
+    "scope": "Own-state coordination only; no standing window, permission, reservation or lease",
+    "Point": {
+      "explicit_non_use": true,
+      "thread_id": "01a0fb73-1367-7313-b771-6e721a4155bc",
+      "turn_id": "01a115a6-5d59-7750-9955-e9199ce77fd2",
+      "snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0fb73-1367-7313-b771-6e721a4155bc\",\"kind\":\"codex\",\"title\":\"Analizza il progetto\",\"preview\":\"in questo nuovo fork mi serve che fai il porting da strix halo a strix point del modello ud e fai i test su pop@192.168.5.161\",\"status\":{\"type\":\"idle\"},\"cwd\":\"/home/paperboy/.codex/worktrees/4d2b/synapse-lie\",\"createdAt\":1790925017,\"updatedAt\":1791364589},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0fb73-1367-7313-b771-6e721a4155bc\\\",\\\"rolloutOrdinal\\\":43994,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a115a6-5d59-7750-9955-e9199ce77fd2\",\"status\":\"completed\",\"error\":null,\"startedAt\":1791364586,\"completedAt\":1791364589,\"durationMs\":2646,\"items\":[{\"type\":\"functionCallOutput\",\"id\":\"fco_01a115a6-5d5a-76c2-b1af-504f70595b02\",\"name\":\"send_message_to_thread\",\"namespace\":\"codex_tui\",\"codexDelegation\":{\"sourceThreadId\":\"01a0f71e-b42a-7f80-b04b-780e3c4bd45c\",\"input\":\"Fresh own-state .161 richiesta per gate originale AR live-prefill PP32768/TG32/C2, nuovo bundle-r50 sourcecb75a48f. Build gi\u00e0 chiuso09:09:03, prove/postseal verificate, root ora nessun remotojob/build/client/handle/lease/window/waiter/reservation .161/.157/.158/TB. Dichiara solo tuo non-uso .161 attuale e piani, o relative identit\u00e0; non chiedo grant/permesso/finestra o stop. Avvio modello solo dopo nuova preflight globale e lease originale. CPU98/NVMe85/lower, GPU osservata. Point own-state esplicita necessaria alla ricevuta; nessuna standing reservation.\"}},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60deca6c887d2b1bd0a81de14899d\",\"summary\":[]},{\"type\":\"agentMessage\",\"id\":\"msg_0f592e27abe2f96a016ac60decb0f087d2b0a72a956474a2c3\",\"text\":\"Confermo lo stato Point: nessun job, client, build, handle, lease, finestra, waiter o prenotazione attuale o pianificata su `.161`; nessuna identit\u00e0 remota da segnalare. Non uso `.157`/`.158` e non ho avviato attivit\u00e0 remote. La tua preflight globale e la lease originale restano necessarie prima del gate AR.\",\"phase\":\"final_answer\"}]}]}"
+            }
+          ],
+          "isError": false
+        }
+      }
+    },
+    "DGX": {
+      "explicit_non_use": true,
+      "thread_id": "01a0fb43-105f-7bc3-98b8-84d12528db0d",
+      "reply": "Fresh own-state DGX: nessun job/processo/build/client/handle/lease/window/waiter/reservation .161/.157/.158/TB e nessun piano remoto. Solo sorgente locale feature/dgx-spark, HEAD89e8a662: original Torch grammar CUDA mask WIP + acquisizione indipendente 4 piccoli sorgenti/licenza al pin PyTorch; no build/install/test/SAN/SDK/GPU/modello/hash/restart/tuning. Risposta informativa, nessun grant/standing window/ACK o lavoro da interrompere.",
+      "snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0fb43-105f-7bc3-98b8-84d12528db0d\",\"kind\":\"codex\",\"title\":\"Synapse LIE \u2014 DGX Spark\",\"preview\":\"https://mia-ai.net/models/Qwen3.8-Flash-Next-Single-DGX-Spark-TensorFold qui ci sono le istruzioni per utilizzare tensorfold con qwen e avere prestazioni eccellenti sul modello, serve che estrai il flusso necesssario per avere le stesse performance su synapse-lie con lo stesso modello che sulla .158 \u00e8 gia scaricato\",\"status\":{\"type\":\"active\",\"activeFlags\":[]},\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie\",\"createdAt\":1790921871,\"updatedAt\":1791364944},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0fb43-105f-7bc3-98b8-84d12528db0d\\\",\\\"rolloutOrdinal\\\":90000,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a115a0-fcab-7051-b165-72c345537039\",\"status\":\"inProgress\",\"error\":null,\"startedAt\":1791364234,\"completedAt\":null,\"durationMs\":null,\"items\":[{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e18183c87d2a0969c66ddb06938\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e2d6ae087d2a49adabb312ea6fe\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e455a4487d290de8adc63e1835c\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e610ff487d29ac767d625342d61\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e73eb1887d28eaa5766074814e8\",\"summary\":[]},{\"type\":\"commandExecution\",\"id\":\"exec-73c1df84-ac6d-4fcf-869d-6fb91a79334d\",\"command\":\"/usr/bin/bash -lc \\\"cat include/lie/cuda_completion.h; rg -n '(same_dtype|memcpy_eligible|cudaMemcpyAsync|is_contiguous)' third_party/pytorch-9186a08b2c-candidates/aten/src/ATen/native/cuda/Copy.cu | tail -12; rg -n '\\\"'^CUDA_ACC_TYPE'\\\"\\\\\\\\(uint8_t' third_party/pytorch-9186a08b2c-grammar-mask/aten/src/ATen/AccumulateType.h\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/dgx-spark\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"functionCallOutput\",\"id\":\"fco_01a115a6-4fa7-7b21-bf64-5e85d81d24ee\",\"name\":\"send_message_to_thread\",\"namespace\":\"codex_tui\",\"codexDelegation\":{\"sourceThreadId\":\"01a0f71e-b42a-7f80-b04b-780e3c4bd45c\",\"input\":\"Fresh own-state .161 richiesta per gate originale AR live-prefill PP32768/TG32/C2, nuovo bundle-r50 sourcecb75a48f. Build gi\u00e0 chiuso09:09:03, prove/postseal verificate, root ora nessun remotojob/build/client/handle/lease/window/waiter/reservation .161/.157/.158/TB. Dichiara solo tuo non-uso .161 attuale e piani, o relative identit\u00e0; non chiedo grant/permesso/finestra o stop. Avvio modello solo dopo nuova preflight globale e lease originale. CPU98/NVMe85/lower, GPU osservata. DGX own-state esplicita necessaria alla ricevuta; nessuna standing reservation.\"}},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e7abed887d28fec541d129bd404\",\"summary\":[]},{\"type\":\"mcpToolCall\",\"id\":\"exec-75c289d5-ddda-470a-819d-dcda0e08243c\",\"server\":\"codex_tui\",\"tool\":\"send_message_to_thread\",\"arguments\":{\"threadId\":\"01a0f71e-b42a-7f80-b04b-780e3c4bd45c\",\"prompt\":\"Fresh own-state DGX: nessun job/processo/build/client/handle/lease/window/waiter/reservation .161/.157/.158/TB e nessun piano remoto. Solo sorgente locale feature/dgx-spark, HEAD89e8a662: original Torch grammar CUDA mask WIP + acquisizione indipendente 4 piccoli sorgenti/licenza al pin PyTorch; no build/install/test/SAN/SDK/GPU/modello/hash/restart/tuning. Risposta informativa, nessun grant/standing window/ACK o lavoro da interrompere.\"},\"status\":\"completed\",\"durationMs\":5},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e860ee887d28bc8084c875c359b\",\"summary\":[]},{\"type\":\"commandExecution\",\"id\":\"exec-b6e1e4f2-484e-4ce6-99ca-5fe1907b27a7\",\"command\":\"/usr/bin/bash -lc \\\"rg -n '(completed|generation|retire|snapshot)' src/cuda_completion.c\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/dgx-spark\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60ea30bf487d284c8130784c7fcad\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60ec121ac87d2b68530a8201f6ccd\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60ee1d18887d2b1666b0d92acbd69\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60ef1b22487d2aa144575e3fffc66\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60f052bbc87d29fb4ef47874c1f1a\",\"summary\":[]},{\"type\":\"commandExecution\",\"id\":\"exec-7cc4e291-986c-4e22-ba35-9648679517b1\",\"command\":\"/usr/bin/bash -lc \\\"sed -n '1,44p' kernels/cuda/gather_pinned.cuh; sed -n '10,38p' third_party/pytorch-9186a08b2c-candidates/aten/src/ATen/native/cuda/IndexKernelUtils.h; sed -n '420,436p' third_party/pytorch-9186a08b2c-logprobs/aten/src/ATen/native/cuda/RangeFactories.cu; rg -n 'return header|return source' tools/tensorfold-v061/extract-pytorch-pointwise.py; sed -n '310,319p' third_party/pytorch-9186a08b2c-candidates/aten/src/ATen/native/cuda/Copy.cu\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/dgx-spark\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60f2b268c87d2b4a14a84d76ca30d\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60f429d3087d2b2e8841801047658\",\"summary\":[]},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60f50b75c87d297d7eb7d1bd52214\",\"summary\":[]}]}]}"
+            }
+          ],
+          "isError": false
+        }
+      }
+    },
+    "Q2": {
+      "explicit_non_use": false,
+      "thread_id": "01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3",
+      "scope_inference": "Fresh visible source-only local work and sole previously declared .157 GPU scope; no direct .161 reply received. This is an inference, not an explicit target acknowledgement or permission.",
+      "request_delivered_snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3\",\"kind\":\"codex\",\"title\":\"Synapse LIE \u2014 compatibilit\u00e0 Qwen antirez\",\"preview\":\"si devo rendere compatibile gufo per le compressioni utilizzate da antirez senza utilizzare il ramo di antirez di qwen\",\"status\":{\"type\":\"active\",\"activeFlags\":[]},\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie\",\"createdAt\":1790898641,\"updatedAt\":1791364639},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3\\\",\\\"rolloutOrdinal\\\":102577,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a11590-823d-70d0-ba7a-c39e71d2d097\",\"status\":\"inProgress\",\"error\":null,\"startedAt\":1791363154,\"completedAt\":null,\"durationMs\":null,\"items\":[{\"type\":\"commandExecution\",\"id\":\"exec-2b618f0f-c261-4794-97c3-a1360090241e\",\"command\":\"/usr/bin/bash -lc \\\"git status --short --branch && git diff --check && git add CMakeLists.txt docs/Q2-DENSE-DECODE-FEASIBILITY.md docs/Q2-HALOGEN-TRANSFER.md docs/PROGRESS.md tools/analyze-q2-decode-q5.py config/q2-decode-q5-r2-results.json && git commit -m 'evidence: qualify Q5 dense decode component speed on gfx1151' && git status --short --branch\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60db210b887d28bfe32dec7403e9e\",\"summary\":[]},{\"type\":\"agentMessage\",\"id\":\"msg_0f592e27abe2f96a016ac60db6b6e087d2b319ac4540c51cfa\",\"text\":\"La prova isolata \u00e8 qualificata e salvata nel commit `f095b108`. Il caso pi\u00f9 grande passa da 195,58 a 126,20 \u00b5s; gli altri tre risparmiano dal 21% al 34%. Il beneficio \u00e8 abbastanza ampio da giustificare il passo successivo, ma il target di 30 tok/s resta da dimostrare sull\u2019intero C1 con pesi reali. Ora verifico quale integrazione opzionale permette di provarli senza modificare il GGUF originale.\",\"phase\":\"commentary\"},{\"type\":\"commandExecution\",\"id\":\"exec-e7e48685-5afc-4d20-88a6-816f37993e64\",\"command\":\"/usr/bin/bash -lc \\\"rg -n 'ggml|GGUF|q8|Q8|tensor|weight' docs/BACKEND.md docs/Q2-COMPATIBILITY.md | head -110 && rg -n 'src.*GGUF|Upload|Q8_0|q8_0' .deps/gufo-q2-iq2-token160-probe/src/core/hip .deps/gufo-q2-iq2-token160-probe/src/models/qwen38_flash_next -g '*.{cpp,hip,hpp,h}' | head -120\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"commandExecution\",\"id\":\"exec-a2fe226a-5df1-4ffa-b481-07907a303da5\",\"command\":\"/usr/bin/bash -lc \\\"python3 - <<'PY'\\nimport json\\nr=json.load(open('evidence/q2-decode-q5-component-r2/release.json'))\\nfor x in r['models']: print(x['path'],x['bytes'])\\nPY\\nrg -n 'GGML_TYPE_Q8_0|mul_mat_vec_q8|Q8_0|WeightUpload|Upload' .deps/gufo-q2-iq2-token160-probe/src/models/qwen38_flash_next -g '*.{cpp,hip,hpp,h}' | head -130\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"contextCompaction\",\"id\":\"01a115a5-b605-7972-bb1e-94a4dc514399\"},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60dffa68c87d2b0f3ddfc4a274986\",\"summary\":[]},{\"type\":\"commandExecution\",\"id\":\"exec-f986767b-f484-4e8c-9cc7-300ac9575b38\",\"command\":\"/usr/bin/bash -lc 'git status --short --branch'\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"commandExecution\",\"id\":\"exec-b809301e-1b29-41f3-8be5-25ed7d07ec1b\",\"command\":\"/usr/bin/bash -lc \\\"rg --files config evidence | rg -i '(activation|tensor|snapshot|logit|q2-dense|q2-decode)' | head -100\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"functionCallOutput\",\"id\":\"fco_01a115a6-5730-72c0-86bc-af302b917044\",\"name\":\"send_message_to_thread\",\"namespace\":\"codex_tui\",\"codexDelegation\":{\"sourceThreadId\":\"01a0f71e-b42a-7f80-b04b-780e3c4bd45c\",\"input\":\"Fresh own-state .161 richiesta per gate originale AR live-prefill PP32768/TG32/C2, nuovo bundle-r50 sourcecb75a48f. Build gi\u00e0 chiuso09:09:03, prove/postseal verificate, root ora nessun remotojob/build/client/handle/lease/window/waiter/reservation .161/.157/.158/TB. Dichiara solo tuo non-uso .161 attuale e piani, o relative identit\u00e0; non chiedo grant/permesso/finestra o stop. Avvio modello solo dopo nuova preflight globale e lease originale. CPU98/NVMe85/lower, GPU osservata. Q2 own-state esplicita necessaria alla ricevuta; nessuna standing reservation.\"}},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e05676487d295f25acff602c3a6\",\"summary\":[]},{\"type\":\"commandExecution\",\"id\":\"exec-a1f3d9bb-b9f6-4028-a04d-9955b8283381\",\"command\":\"/usr/bin/bash -lc 'cat config/q2-decode-q5-r2-results.json'\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"commandExecution\",\"id\":\"exec-e36a44ea-804e-467f-aff0-12ad7502e7df\",\"command\":\"/usr/bin/bash -lc \\\"sed -n '1,240p' docs/Q2-DENSE-DECODE-FEASIBILITY.md\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"commandExecution\",\"id\":\"exec-faa8c479-1132-4b15-86f9-617792e77692\",\"command\":\"/usr/bin/bash -lc \\\"sed -n '1,240p' docs/Q2-HALOGEN-TRANSFER.md\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e0dc56887d284f79c539a150d1c\",\"summary\":[]},{\"type\":\"agentMessage\",\"id\":\"msg_0f592e27abe2f96a016ac60e0f8e9887d2abbea8dfe8e5b0ad\",\"text\":\"S\u00ec. Ho gi\u00e0 confrontato le misure pubbliche di Halogen con i nostri profili: i due indizi pi\u00f9 utili sono il kernel degli esperti per il prefill lungo e la riduzione del traffico dei pesi densi nel decode. La seconda ipotesi ha ora un primo riscontro sulla .157: il decoder Q5 isolato \u00e8 pi\u00f9 rapido del Q8 su quattro forme, ma manca ancora una verifica di qualit\u00e0 sul modello originale. Controllo ora come fare quel passaggio senza alterare il GGUF.\",\"phase\":\"commentary\"},{\"type\":\"commandExecution\",\"id\":\"exec-2e200216-09a6-4713-bb67-bdc002f37872\",\"command\":\"/usr/bin/bash -lc \\\"sed -n '1,240p' tools/q2-dense-q8-requant-probe.py\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"commandExecution\",\"id\":\"exec-98c9e0e3-f04c-4665-9715-ada543e6c3d1\",\"command\":\"/usr/bin/bash -lc \\\"rg --files evidence | rg -i '(activation|hidden|snapshot|tensor|logit|kv|route)' | head -100\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"commandExecution\",\"id\":\"exec-efc4f205-f228-4824-8494-b9b78ed444c1\",\"command\":\"/usr/bin/bash -lc \\\"rg -n 'SaveSnapshot|activation|Capture|record.*tensor|dump.*tensor|WeightUpload|qfn_mmq_q8_0_dense_vec_preq|q5_0' .deps/gufo-q2-iq2-token160-probe/src/models/qwen38_flash_next/{device_model.cpp,kernels/rocm/executor.cpp,kernels/rocm/qfn_mmq.hip.cpp} | head -140\\\"\",\"cwd\":\"/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit\",\"exitCode\":0,\"status\":\"completed\",\"durationMs\":0},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac60e1d735087d29dbff927ded06b33\",\"summary\":[]}]}]}"
+            }
+          ],
+          "isError": false
+        }
+      },
+      "latest_read_snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3\",\"status\":{\"type\":\"active\",\"activeFlags\":[]}},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3\\\",\\\"rolloutOrdinal\\\":103528,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a115a9-6827-7903-b8a4-c35180c42f62\",\"status\":\"inProgress\",\"error\":null,\"items\":[],\"truncated\":true}],\"truncated\":true}"
+            }
+          ],
+          "isError": false
+        }
+      }
+    },
+    "fresh_global_preflight": "evidence/context-r51-before-live-r1.json",
+    "original_lease_acquisition": "Runner separately acquires original66307/105946405 EX|NB and repeats admission; this record grants no lease.",
+    "root_foreign_targets_non_use": [
+      ".157",
+      ".158",
+      "Terminal Bench"
+    ],
+    "publication": false
+  },
+  "live_owner_observation_files": [
+    "evidence/context-r51-live-r1.json",
+    "evidence/context-r51-live-r2.json",
+    "evidence/context-r51-live-r3.json",
+    "evidence/context-r51-live-r4.json",
+    "evidence/context-r51-live-r5.json"
+  ],
+  "combined_sampled_temperature_peaks_C": {
+    "nvme": 62.85,
+    "amdgpu": 85.0,
+    "k10temp": 79.0
+  },
+  "process_service_lease_closure": {
+    "supervisor": {
+      "pid": 278745,
+      "start_ticks": 23408329
+    },
+    "client": {
+      "pid": 278848,
+      "start_ticks": 23408446
+    },
+    "container": "bc0fb6c0b8f937c8124683f2d4e1f239d1a5433a5622083da1e71fefc206aed7",
+    "container_init": {
+      "pid": 279058,
+      "start_ticks": 23408459,
+      "source": "evidence/context-r51-live-r1.json"
+    },
+    "lease_released_at_utc": "2026-10-07T09:32:08.862525+00:00",
+    "controller_exit_code": 0,
+    "supervisor_exit_code": 0,
+    "native_child_exit_code": 0,
+    "idle_container_init_cleanup_exit_code": 143,
+    "strict_closure_actual_exit_code": 0,
+    "strict_closure": {
+      "at_utc": "2026-10-07T09:32:55.500144+00:00",
+      "state": "FRESH_LIVE_PREFILL_CLOSURE_NO_STANDING_RESERVATION",
+      "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+      "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+      "service": {
+        "MainPID": "280054",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "router_start_ticks": 23448531,
+      "original_lease": {
+        "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+        "device": 66307,
+        "inode": 105946405,
+        "free_briefly": true,
+        "released": true
+      },
+      "observation": {
+        "at": "2026-10-07T09:32:55.415872+00:00",
+        "kfd": [
+          {
+            "pid": 280054,
+            "start_ticks": 23448531,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "dri": [
+          {
+            "pid": 280054,
+            "start_ticks": 23448531,
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+            "devices": [
+              "/dev/dri/renderD128",
+              "/dev/kfd"
+            ]
+          }
+        ],
+        "denied_fd": 371,
+        "temperatures": [
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp1_input",
+            "value_c": 31.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp2_input",
+            "value_c": 34.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon3/temp3_input",
+            "value_c": 31.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp1_input",
+            "value_c": 32.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp2_input",
+            "value_c": 32.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "nvme",
+            "path": "/sys/class/hwmon/hwmon4/temp3_input",
+            "value_c": 32.85,
+            "limit_c": 85.0,
+            "guarded": true
+          },
+          {
+            "name": "amdgpu",
+            "path": "/sys/class/hwmon/hwmon5/temp1_input",
+            "value_c": 46.0,
+            "limit_c": 98,
+            "guarded": false
+          },
+          {
+            "name": "k10temp",
+            "path": "/sys/class/hwmon/hwmon6/temp1_input",
+            "value_c": 46.375,
+            "limit_c": 98,
+            "guarded": true
+          }
+        ],
+        "memory": {
+          "MemTotal": 132542648320,
+          "MemAvailable": 122110738432,
+          "SwapTotal": 21474828288,
+          "SwapFree": 20442406912
+        },
+        "kernel_kfd": [
+          280054
+        ],
+        "gpu": {
+          "gpu_busy_percent": 0,
+          "mem_info_gtt_total": 120259084288,
+          "mem_info_gtt_used": 18636800,
+          "mem_info_vram_total": 2147483648,
+          "mem_info_vram_used": 151187456
+        }
+      },
+      "foreign_compute_clients": [],
+      "guarded_hot": [],
+      "http8000_listeners": [],
+      "pinned_image": {
+        "exit_code": 0,
+        "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+        "stderr": ""
+      },
+      "free_disk_bytes": 563581120512,
+      "r50_bundle_present": true,
+      "GPU_build_run_or_service_mutation": false,
+      "standing_lease_waiter_reservation": false,
+      "owned_supervisor_identity_absent": true,
+      "owned_client_identity_absent": true,
+      "owned_container_init_identity": {
+        "pid": 279058,
+        "start_ticks": 23408459,
+        "source": "evidence/context-r51-live-r1.json"
+      },
+      "owned_container_init_identity_recorded": true,
+      "owned_container_init_identity_absent": true,
+      "owned_container_absent": {
+        "exit_code": 1,
+        "stdout": "[]\n",
+        "stderr": "error: no such object: bc0fb6c0b8f937c8124683f2d4e1f239d1a5433a5622083da1e71fefc206aed7\n"
+      },
+      "owned_container_listing": {
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    }
+  },
+  "new_GPU_build_model_run_for_sealing": false,
+  "Python_product_dependency_added": false,
+  "no_standing_remote_job_lease_window_waiter_reservation_handle_after_closure": true,
+  "resource_scope": "Sampled 1Hz original-weight C2 with cold C1 baseline/recovery; not allocator-exact fit or matched performance.",
+  "RAM_SSD_MTP_vision_broader_quality_fault_performance_qualified": false,
+  "next_gate": "Original-weight RAM/SSD chunk namespace and MTP qualification; remaining steering/temperature/long-context quality, faults/resources; matched benchmarks then Terminal Bench last.",
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "goal_complete": false,
+  "publication": false,
+  "portable_raw_archive": {
+    "path": "raw/prefill-live-original-point-2026-10-07.tar.gz",
+    "bytes": 241067,
+    "sha256": "73ff8f4fde6676767f3c954a5ea7f2d3ddc54f214d60b62810beefb8fa088249",
+    "members": 46
+  },
+  "raw_artifacts": {
+    "docs/development/validation/prefill-probe-point-build-2026-10-07.json": {
+      "bytes": 34873,
+      "sha256": "18aa7aa8984f8b0efbba9a626ac85d01931fdec4b1023f1ddfa3d12c4179cc7f"
+    },
+    "evidence/context-r51-before-live-r1.json": {
+      "bytes": 6792,
+      "sha256": "3ef7afe2afeaf6ade934c564b88053ac0b95084548ad6c5b5663c2c101fc4e12"
+    },
+    "evidence/context-r51-before-live-r1.py": {
+      "bytes": 4587,
+      "sha256": "0cca9bcc9e892030381729658f78fd2b588cd9b68a30401a485d8fec2cbf1320"
+    },
+    "evidence/context-r51-closure-r1.json": {
+      "bytes": 8054,
+      "sha256": "a841e4d5589c71d08c04fdead578778652390047a938d7e185e9735df08a50b4"
+    },
+    "evidence/context-r51-closure-r1.py": {
+      "bytes": 6894,
+      "sha256": "20d8ba18937520982d55e8a8abc3af6a51e60576c7e0e0db0ec66b61728bd21d"
+    },
+    "evidence/context-r51-live-proof.json": {
+      "bytes": 1563,
+      "sha256": "d5719a1d092cb74e10a1c629594bf80524b879901b8d923b44ecee345210cbdb"
+    },
+    "evidence/context-r51-live-r1.json": {
+      "bytes": 13557,
+      "sha256": "e0eb8ae7552490b528a0f52d8f380af091342624ea9addde25a7e85645426745"
+    },
+    "evidence/context-r51-live-r2.json": {
+      "bytes": 14323,
+      "sha256": "6989134735cd84aff40bdf0b2b69be4532e3a7d59a5a27cf401c622429155d0c"
+    },
+    "evidence/context-r51-live-r3.json": {
+      "bytes": 14323,
+      "sha256": "a83d3a80092b304f1ece123a06dbf2ed3fd122b9332ec902403db58781866192"
+    },
+    "evidence/context-r51-live-r4.json": {
+      "bytes": 707571,
+      "sha256": "c4adf806a6a2f9cf44cb9807e4234d927ca3a2650412cbef07498633270809d1"
+    },
+    "evidence/context-r51-live-r5.json": {
+      "bytes": 710497,
+      "sha256": "194a9f94ed8ced9c51b92de5e29f1068c65bfbe0198dc5f7fb768ccb5ee504fc"
+    },
+    "evidence/context-r51-peer-coordination.json": {
+      "bytes": 19165,
+      "sha256": "9cf358df7a76c06dac1c90b3398d2735c8392af34a3c622d186869392aa91b22"
+    },
+    "evidence/context-r51-prefill-live-ar-r1-manifest.json": {
+      "bytes": 6286,
+      "sha256": "06e2e3ef691353fbb2068fee514fc90a7f437aca215c127555d19f041248f611"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/collection.json": {
+      "bytes": 5839,
+      "sha256": "e7129b9f1a36e1a91a58d9492818fe70e16de4fcedcb3972dd028dfbecd60850"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/controller-result.json": {
+      "bytes": 974,
+      "sha256": "d17c9bad2b85c53ebd6ff5d4895b20c25093c10b8818053c3399f7c311a0fcdf"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/controller-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/controller-stdout.log": {
+      "bytes": 99158,
+      "sha256": "48c7a54e06afe2a5c37c731f98d37f5f829ca10a141d0aa8d51184c4ce0cf3f6"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/distrobox-create.log": {
+      "bytes": 284,
+      "sha256": "3f931af168807cc31df7983d3697e3b6568f0683f9ac12ffe12a405fc596b945"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/manifest.json": {
+      "bytes": 6286,
+      "sha256": "06e2e3ef691353fbb2068fee514fc90a7f437aca215c127555d19f041248f611"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/measurements.jsonl": {
+      "bytes": 153706,
+      "sha256": "a62def37caa10b7a0e497e861ccdb4c533a0e32138229fd449ae976ff524872b"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/plan.json": {
+      "bytes": 956,
+      "sha256": "78b701e95493acf6a763c43b519b10d484cb9bc25da4942af4feabebd1b49f86"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/preparation.json": {
+      "bytes": 1312,
+      "sha256": "6e5ceed8165e477866777f5f36a6d6946d95e1da9173445b169ac07d23418876"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/result.json": {
+      "bytes": 103962,
+      "sha256": "a5b1ef5d07faec29950a574a64f90ea998bff050d05011d0fea9d516d0c2f45c"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/runner.py": {
+      "bytes": 148778,
+      "sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/stdout.log": {
+      "bytes": 71002,
+      "sha256": "857a5a8a3a2d1f6c7ae32e430c6823d42c8650297f793a2824ed5104c45b1405"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/telemetry.jsonl": {
+      "bytes": 714874,
+      "sha256": "079fcbb85dec0eda43b0ad62311d9cca3ea44ccfcef15caeb3f213ac1ffd7441"
+    },
+    "evidence/context-r51-prefill-live-ar-r1/tokens.json": {
+      "bytes": 146410,
+      "sha256": "ac77cc51908ec9b86dc9b492a683e73f51f38da30a9e9a29e2538dfcb8dad3a5"
+    },
+    "evidence/context-r51-review-guard/command.log": {
+      "bytes": 1337,
+      "sha256": "ef9b0e1134f5e042140c19fcc36c4f59907a714a48068f65a7e96f7ec0e0cf80"
+    },
+    "evidence/context-r51-review-guard/plan.json": {
+      "bytes": 902,
+      "sha256": "5a8ac92b9a33ea31e96c570ef9612cd409e04dafb58730c63c575efedeba2b74"
+    },
+    "evidence/context-r51-review-guard/result.json": {
+      "bytes": 398,
+      "sha256": "f29201c258f88b18aa8d355fcc78daf68167be641904198a7f8aab6a95ca57b1"
+    },
+    "evidence/context-r51-review-guard/temperatures.jsonl": {
+      "bytes": 1827,
+      "sha256": "fd79f6472a86bca84008bea7388deecbfbe789cdf4eff5701ba663637d326857"
+    },
+    "evidence/launch-context-r51-live.py": {
+      "bytes": 3424,
+      "sha256": "2df656951a8c6082707049091c3cfd13277c2fdf9e439ef9b7e0248469c54204"
+    },
+    "evidence/observe-context-r51-live.py": {
+      "bytes": 3545,
+      "sha256": "eac853b22fb71556432db9e3af5918ad80440621bdea3ec97b194c490f74b542"
+    },
+    "evidence/prepare-context-r51-live.py": {
+      "bytes": 2345,
+      "sha256": "55a9dbe8d5cce8525aae766ad81e1dc1f0eaa0b1beaeb0905a9b2bab4024ff80"
+    },
+    "evidence/seal-context-r51-live.py": {
+      "bytes": 6545,
+      "sha256": "3e8d559df1ae39fbb68b67e42172dd9df4c99d550adab842c73f828de9e791ae"
+    },
+    "evidence/verify-context-r51-live.py": {
+      "bytes": 9411,
+      "sha256": "f151f12cffce0f8f63d2a239deaa749ffa43a3fa0901b26429e0ec24409b15ca"
+    },
+    "include/lie/prefill.h": {
+      "bytes": 1364,
+      "sha256": "926ad3334ef151ae97be015ebe6646a647c25d3959589c0cc3c8a9f6b4e9e6fc"
+    },
+    "src/sampling.c": {
+      "bytes": 15038,
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    "src/worker.c": {
+      "bytes": 85879,
+      "sha256": "e6a584f4b1c1c64418611e3681680497ec1bc1ef2fd469cdb2752c90939be11a"
+    },
+    "tools/core-bench.c": {
+      "bytes": 67966,
+      "sha256": "e1f05a0ca0d4b67d859658ab5aa99c73f884c5e91916d4abef5f0f0d00c33168"
+    },
+    "tools/strix-point-bench-collect.py": {
+      "bytes": 14640,
+      "sha256": "ed9a494cbb513ac86adf8497adb0290b1c0eec76afd6bd1791bbd835c481163e"
+    },
+    "tools/strix-point-campaign.py": {
+      "bytes": 148778,
+      "sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99"
+    },
+    "tools/thermal-run.py": {
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    }
+  },
+  "portable_sealing": {
+    "actual_exit_code": 0,
+    "child_exit_code": 0,
+    "guard": {
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/seal-context-r51-live.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 30.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 47.125
+      },
+      "elapsed_s": 1.1287770541384816
+    },
+    "guard_path": "evidence/context-r51-sealing-guard/result.json",
+    "guard_sha256": "06b5855a8e527e1af23bccb7c41e7feb9699120ea45629c88586801ebf5c62c9",
+    "active_packaging_guard_archived": false,
+    "new_model_GPU_build_or_test_run": false
+  }
+}

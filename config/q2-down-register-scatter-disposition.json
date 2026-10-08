@@ -1,0 +1,26 @@
+{
+  "schema": "synapse-lie.q2-down-register-scatter-disposition.v1",
+  "decision": "RETAIN_PREFILL_CANDIDATE_AND_SAVED1574",
+  "next_composition_variant": "down-register-scatter",
+  "source_manifest": "config/q2-down-register-scatter-pair-source.json",
+  "retained_parent_manifest": "config/q2-scaled-wave-pack-source.json",
+  "model_result_sha256": "7f614307733b8807c96bfd4a7976a6ffcd9fd6b94044b104f804eec62ab34d53",
+  "component_result_sha256": "b954ea6035d5668d93b93d94373e04d320400782957a2c8d1ad6f85814ca265f",
+  "final_audit_sha256": "42a78d865aa058706335c3ab83c6f12184d9185779f9a85cbd039904068c0fdb",
+  "release_sha256": "b9e05fd2abb1736794dccca78250187522e9a5a3fe467bfdc3c3f3a0f49f422e",
+  "prefill_tok_s": 1580.226725,
+  "decode_steps_s": 25.10411864,
+  "nominal_pp_gain_percent": 0.36337080099702046,
+  "nominal_decode_change_percent": -0.28507977263759754,
+  "observed_historical_pp_ranges_overlap": false,
+  "all21_parent_files_exact": true,
+  "component_cycle_time_changes_percent": {
+    "down": 1.8415513149987017,
+    "down-combine": 0.8839029900260753
+  },
+  "required_pp_increase_to_fixed_ud_percent": 6.6794444955359245,
+  "independent_quality": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "One new original2048/tg128 model; saved qualified comparisons reused. Component cycles and model timing are separate. Preserve all sources and inherited F16 task-quality gap. No full curve follows without point parity."
+}

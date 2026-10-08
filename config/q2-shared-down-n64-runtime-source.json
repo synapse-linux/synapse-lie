@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-shared-down-runtime-source.v1",
+  "manifest": "config/q2-shared-down-n64-source.json",
+  "bindings": {
+    "config/q2-shared-down-n64-source.json": "e6a76f245b6357c837dec045c0e2a6ae2f9aeb88ebda8fa67793e71379374736",
+    "config/q2-shared-down-n64-static.json": "acbaa576dfc3967675b7691dd72bb1ef1f6b84e74559a6e7b0e11ee7b11dfd78",
+    "tests/q2_shared_down_mirror.hip": "a169b998f2857b6fd915b35ac18d6d9bd0f1139400d5b1d886a4774344b57807"
+  },
+  "component_only": true,
+  "model_dispatch_changed": false,
+  "gpu_run": false
+}

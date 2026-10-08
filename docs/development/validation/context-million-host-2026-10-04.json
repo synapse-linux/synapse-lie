@@ -1,0 +1,107 @@
+{
+  "schema": "synapse-lie.host-validation.v1",
+  "scope": "CPU_FIXTURES_AND_HEADER_CHECK_NOT_INFERENCE",
+  "date_utc": "2026-10-04",
+  "branch": "feature/context-million-openai",
+  "integration": {
+    "point_checkpoint": "40b2ac7",
+    "develop_merge": "30598a3",
+    "native_bench_checkpoint": "7fdf93e"
+  },
+  "gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "executor_abi": 3,
+  "total_context_limit": 1048576,
+  "profiles": [
+    "native",
+    "yarn2",
+    "yarn4"
+  ],
+  "evidence_directory": "evidence/point-merge-20261004",
+  "checks": [
+    {
+      "command": "cmake --build build/context-debug -j2",
+      "log": "context-build-r4.log",
+      "exit": 0
+    },
+    {
+      "command": "ctest --test-dir build/context-debug --output-on-failure",
+      "log": "context-ctest-r4.log",
+      "exit": 0,
+      "passed": 51,
+      "total": 51
+    },
+    {
+      "command": "cmake -P evidence/point-merge-20261004/derive-context.cmake",
+      "log": "derive-context.log",
+      "exit": 0,
+      "scope": "Historical unsafe directory-copy verification; invalid source isolation, superseded by derive-context-r2"
+    },
+    {
+      "command": "cmake --build build/context-headers --target lie_gufo_header_check -j2",
+      "log": "headers-build.log",
+      "exit": 0,
+      "scope": "native adapter object only"
+    },
+    {
+      "command": "c++ -std=c++20 -fsyntax-only -DLIE_GUFO_ADAPTER_OPT_IN=1 -DLIE_GUFO_STATE_ACCESS=1 -DLIE_DS4_RUNTIME_CACHE=1 -DLIE_C17_SAMPLING=1 -DLIE_MTP=1 -DLIE_VISION=1 -D__HIP_PLATFORM_AMD__=1 -Iinclude -I.deps/context-source-check -I/opt/rocm/include adapters/gufo.cpp",
+      "log": "state-headers-r2.log",
+      "exit": 0,
+      "scope": "state access, MTP and vision headers; no GPU execution"
+    },
+    {
+      "command": "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 ctest --test-dir build/context-asan --output-on-failure -R static-rope-profile-operators|context-million-admission-lifecycle|core-headless-lifecycle|core-semantic-events",
+      "log": "context-asan-r3.log",
+      "exit": 0,
+      "scope": "focused operators, physical token lifecycle and semantic parser loans"
+    },
+    {
+      "command": "cmake -P evidence/point-merge-20261004/derive-context.cmake",
+      "log": "derive-context-r2.log",
+      "exit": 0,
+      "scope": "file-per-file COPYONLY, independent pristine and composed variant hashes"
+    }
+  ],
+  "retained_failures": [
+    {
+      "log": "context-build.log",
+      "exit": 2,
+      "reason": "benchmark called incorrect JSON string helper; corrected before r2"
+    },
+    {
+      "log": "context-asan-focused.log",
+      "exit": 8,
+      "reason": "LeakSanitizer cannot operate under sandbox ptrace; r2/r3 rerun outside sandbox passes"
+    },
+    {
+      "log": "state-headers.log",
+      "exit": 1,
+      "reason": "manual compiler invocation omitted LIE_MTP and LIE_VISION definitions; corrected in r2"
+    },
+    {
+      "log": "point-memory-config.log",
+      "exit": 127,
+      "reason": "remote rg unavailable; page size, parameter modes and native GTT parameter were read before that failure"
+    },
+    {
+      "log": "derive-context.log",
+      "exit": 0,
+      "reason": "Private CMake directory copy preserved a source symlink. Derived edits reached canonical pristine; r7 provider refused hashes. Own exact drift preserved and restored from independently fetched official pin, both 1019-file pristine trees verified. Superseded by derive-context-r2."
+    }
+  ],
+  "physical_fixture": {
+    "prompt_tokens": 1048575,
+    "output_tokens": 1,
+    "prefill_chunks": 512,
+    "model_forward": false
+  },
+  "gpu": {
+    "preferred_target": "192.168.5.161",
+    "execution": false,
+    "memory_fit_1m": "unqualified",
+    "long_context_quality": "unqualified",
+    "performance": "unqualified"
+  },
+  "host_tuning": false,
+  "publication": false,
+  "follow_up_gpu_receipt": "context-point-gpu-2026-10-04.json"
+}

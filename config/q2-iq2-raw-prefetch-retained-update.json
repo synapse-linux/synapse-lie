@@ -1,0 +1,43 @@
+{
+  "schema": "synapse-lie.q2-iq2-raw-prefetch-retained-update.v1",
+  "at": "2026-10-05T04:05:28.230183+00:00",
+  "model_result_sha256": "d5eb694387c6160e2b54750214cd0875d2977f057f4a5fcf2e1defa5135e64cd",
+  "component_result_sha256": "650d388415c46a0ac6d297789505a15e162f7e5b6f979c6a200bdd22cf3604fe",
+  "source_manifest_sha256": "7224f191be0c0eb6360841e60fea9c0692d5982f15290a01741d785290198425",
+  "corrected_plan_sha256": "5493c0b14f01dc53c3f2764e2b9659f057bd45ac38f97631b81438c5ab3054d9",
+  "saved_parent_retained_update_sha256": "ec0aedc5382aa82d15db5f248227d06dfa10a52c389600f18affabcc1a489912",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "candidate_prefill_tok_s": 1505.152258,
+  "candidate_decode_steps_s": 25.15493858,
+  "candidate_retained": true,
+  "next_composition_base_source": ".deps/gufo-q2-iq2-raw-prefetch-run",
+  "retained_best_prefill_tok_s": 1505.152258,
+  "retained_best_decode_steps_s": 25.15493858,
+  "retained_best_prefill_increase_needed_for_original_ud_percent": 12.000436038278849,
+  "change_vs_parent_percent": {
+    "prefill_tok_s": 0.4238594415555186,
+    "decode_steps_s": -0.0545431363094262,
+    "prefill_s": -0.42207041593882444,
+    "decode_s": 0.05457290218500166
+  },
+  "change_vs_fixed_q2_percent": {
+    "prefill_tok_s": 4.258540310988623,
+    "decode_steps_s": 0.23503225927645754,
+    "prefill_s": -4.084596119911488,
+    "decode_s": -0.2344811506561406
+  },
+  "component_whole_output_pairs_exact": 81,
+  "component_timing_samples": 42,
+  "parent_model_files_exact": 21,
+  "within_arm_replays_exact": 9,
+  "qualified_controls_rerun": false,
+  "old_component_cohorts_rerun": false,
+  "original_nineteen_reports_reclassified": false,
+  "contemporaneous_bookends": false,
+  "stable_increment_established": false,
+  "default_promoted": false,
+  "independent_model_quality_complete": false,
+  "full_curve_admitted": false,
+  "goal_met": false,
+  "limits": "Retain a small original-point PP increment with all parent outputs/logits exact. The synthetic IQ2 time gains are not whole-model gains; TG sample ranges overlap. Historical comparators establish neither contemporaneous repeatability nor independent task quality/full-curve parity. Initial local launch and preflight failures remain preserved."
+}

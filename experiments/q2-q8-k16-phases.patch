@@ -1,0 +1,111 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5930,40 +5930,75 @@
+     __builtin_amdgcn_sched_barrier(0);
+ #pragma unroll
+     for (int kb = 0; kb < BK; ++kb) {
+-      v16h a_lo[kWaveRowTiles];
+-      v16h a_hi[kWaveRowTiles];
+-#pragma unroll
+-      for (int i = 0; i < kWaveRowTiles; ++i) {
+-        const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
+-        uint4 c[4];
+-#pragma unroll
+-        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
+-          c[q] = s_a[kb][row][swizzle(row, q + (kHcUpChains ? chain * 2 : 0))];
++      // SPDX-License-Identifier: MIT
++      // Consume low K16 for each independent output, then its high K16.
++      // The per-output accumulation sequence and all staged operands stay
++      // exact.
++      if constexpr (!kHalfWeights && BM == 256 && BN == 128 && BK == 2 &&
++                    WM == 8 && WN == 1 && kRowGroup == 1) {
++#pragma unroll
++        for (int half = 0; half < 2; ++half) {
++          v16h a[kWaveRowTiles];
++#pragma unroll
++          for (int i = 0; i < kWaveRowTiles; ++i) {
++            const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
++            uint4 c[2];
++#pragma unroll
++            for (int q = 0; q < 2; ++q)
++              c[q] = s_a[kb][row][swizzle(row, q + 2 * half)];
++            __builtin_memcpy(&a[i], &c[0], 32);
++          }
++#pragma unroll
++          for (int j = 0; j < kWaveTokTiles; ++j) {
++            const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
++            uint4 c[2];
++#pragma unroll
++            for (int q = 0; q < 2; ++q)
++              c[q] = s_b[kb][t][swizzle(t, q + 2 * half)];
++            v16h b;
++            __builtin_memcpy(&b, &c[0], 32);
++#pragma unroll
++            for (int i = 0; i < kWaveRowTiles; ++i)
++              acc[i][j] = Wmma(a[i], b, acc[i][j]);
++          }
+         }
+-        __builtin_memcpy(&a_lo[i], &c[0], 32);
+-        if constexpr (!kHcUpChains)
+-          __builtin_memcpy(&a_hi[i], &c[2], 32);
+-      }
+-#pragma unroll
+-      for (int j = 0; j < kWaveTokTiles; ++j) {
+-        const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
+-        uint4 c[4];
+-#pragma unroll
+-        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
+-          c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
++      } else {
++        v16h a_lo[kWaveRowTiles];
++        v16h a_hi[kWaveRowTiles];
++#pragma unroll
++        for (int i = 0; i < kWaveRowTiles; ++i) {
++          const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
++          uint4 c[4];
++#pragma unroll
++          for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++            c[q] =
++                s_a[kb][row][swizzle(row, q + (kHcUpChains ? chain * 2 : 0))];
++          }
++          __builtin_memcpy(&a_lo[i], &c[0], 32);
++          if constexpr (!kHcUpChains)
++            __builtin_memcpy(&a_hi[i], &c[2], 32);
+         }
+-        v16h b_lo;
+-        v16h b_hi;
+-        __builtin_memcpy(&b_lo, &c[0], 32);
+-        if constexpr (!kHcUpChains)
+-          __builtin_memcpy(&b_hi, &c[2], 32);
+-#pragma unroll
+-        for (int i = 0; i < kWaveRowTiles; ++i) {
+-          acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
+-          if constexpr (kHalfWeights && !kHcUpChains)
+-            acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
+-          else if constexpr (!kHcUpChains)
+-            acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
++#pragma unroll
++        for (int j = 0; j < kWaveTokTiles; ++j) {
++          const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
++          uint4 c[4];
++#pragma unroll
++          for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++            c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
++          }
++          v16h b_lo;
++          v16h b_hi;
++          __builtin_memcpy(&b_lo, &c[0], 32);
++          if constexpr (!kHcUpChains)
++            __builtin_memcpy(&b_hi, &c[2], 32);
++#pragma unroll
++          for (int i = 0; i < kWaveRowTiles; ++i) {
++            acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
++            if constexpr (kHalfWeights && !kHcUpChains)
++              acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
++            else if constexpr (!kHcUpChains)
++              acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
++          }
+         }
+       }
+     }

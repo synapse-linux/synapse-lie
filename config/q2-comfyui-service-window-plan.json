@@ -1,0 +1,40 @@
+{
+  "schema": "synapse-lie.q2-comfyui-service-window-plan.v1",
+  "host": "paperboy@192.168.5.157",
+  "service": "synapse-comfyui.service",
+  "observed_pid": 1086,
+  "observed_state": "active/running; enabled; Restart=on-failure",
+  "proposed_action": "Stop the exact user service for Q2 after checking an empty queue; owner permits leaving it stopped. Do not disable or modify the unit.",
+  "stop_argv": [
+    "systemctl",
+    "--user",
+    "stop",
+    "synapse-comfyui.service"
+  ],
+  "restore_argv": [
+    "systemctl",
+    "--user",
+    "start",
+    "synapse-comfyui.service"
+  ],
+  "approval_received": true,
+  "before_stop": [
+    "Freshly verify unit, PID/start/boot identity and active state.",
+    "Verify the ComfyUI queue has no running or pending job; otherwise do not stop without separate explicit authorization.",
+    "Complete coordinated benchmark admission prerequisites."
+  ],
+  "after_stop": [
+    "Require empty KFD and all coordinated leases before model execution."
+  ],
+  "restoration": "Owner explicitly permits leaving the service stopped; do not disable or change its unit configuration.",
+  "scope": "Authorized Q2 benchmark windows in the current session; no other service, dependency, tuning or cleanup.",
+  "frozen_candidate_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "frozen_request_sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+  "context_tokens": 130925,
+  "output_tokens": 8,
+  "chunk": 2048,
+  "capacity": 133760,
+  "rerun_controls": false,
+  "owner_authorization": "S\u00ec, per le prove Q2; puoi tenerlo anche spento",
+  "executed_stop_receipt": "evidence/q2-post-reboot-preparation-r1/comfyui-stop.json"
+}

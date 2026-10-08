@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-q8-mirror-staging.v1",
+  "capsule_sha256": "c8cd0fa65da06828d47270954cd2775d6dba0c58f4d2a87fff9d1df23e255566",
+  "fixture_files_verified": 48,
+  "provider_files_verified": 1027,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

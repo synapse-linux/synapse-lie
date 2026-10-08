@@ -1,0 +1,327 @@
+{
+  "at": "2026-10-04T01:33:37.055967+00:00",
+  "state": "Q2_IQ2_CANONICAL_WINDOW_RELEASED",
+  "cohorts": [
+    {
+      "label": "q2-iq2-curve-host-r1",
+      "finished_at": "2026-10-04T00:52:38.654734+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 7
+    },
+    {
+      "label": "q2-iq2-curve-baseline-r1",
+      "finished_at": "2026-10-04T01:02:10.719567+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 30
+    },
+    {
+      "label": "q2-iq2-curve-candidate-r1",
+      "finished_at": "2026-10-04T01:11:35.529904+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 30
+    },
+    {
+      "label": "q2-iq2-curve-baseline-r2",
+      "finished_at": "2026-10-04T01:23:20.526751+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 30
+    },
+    {
+      "label": "q2-iq2-curve-ud-r1",
+      "finished_at": "2026-10-04T01:32:14.505315+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "verified_artifacts": 30
+    }
+  ],
+  "retired_identities": [
+    {
+      "pid": 3324769,
+      "start_ticks": null
+    },
+    {
+      "pid": 3324770,
+      "start_ticks": 164052426
+    },
+    {
+      "pid": 3324842,
+      "start_ticks": 164052528
+    },
+    {
+      "pid": 3324976,
+      "start_ticks": 164053031
+    },
+    {
+      "pid": 3325181,
+      "start_ticks": 164053735
+    },
+    {
+      "pid": 3325279,
+      "start_ticks": 164053787
+    },
+    {
+      "pid": 3325426,
+      "start_ticks": 164054590
+    },
+    {
+      "pid": 3325806,
+      "start_ticks": null
+    },
+    {
+      "pid": 3325807,
+      "start_ticks": 164058186
+    },
+    {
+      "pid": 3326242,
+      "start_ticks": 164058538
+    },
+    {
+      "pid": 3327725,
+      "start_ticks": 164076420
+    },
+    {
+      "pid": 3327726,
+      "start_ticks": 164076472
+    },
+    {
+      "pid": 3327727,
+      "start_ticks": 164076525
+    },
+    {
+      "pid": 3327728,
+      "start_ticks": 164076533
+    },
+    {
+      "pid": 3327818,
+      "start_ticks": 164077702
+    },
+    {
+      "pid": 3329886,
+      "start_ticks": null
+    },
+    {
+      "pid": 3329887,
+      "start_ticks": 164120573
+    },
+    {
+      "pid": 3330321,
+      "start_ticks": 164120875
+    },
+    {
+      "pid": 3332154,
+      "start_ticks": 164138707
+    },
+    {
+      "pid": 3332155,
+      "start_ticks": 164138760
+    },
+    {
+      "pid": 3332156,
+      "start_ticks": 164138813
+    },
+    {
+      "pid": 3332157,
+      "start_ticks": 164138821
+    },
+    {
+      "pid": 3332290,
+      "start_ticks": 164139907
+    },
+    {
+      "pid": 3335549,
+      "start_ticks": null
+    },
+    {
+      "pid": 3335551,
+      "start_ticks": 164190763
+    },
+    {
+      "pid": 3335991,
+      "start_ticks": 164191066
+    },
+    {
+      "pid": 3337768,
+      "start_ticks": 164208948
+    },
+    {
+      "pid": 3337769,
+      "start_ticks": 164209008
+    },
+    {
+      "pid": 3337770,
+      "start_ticks": 164209060
+    },
+    {
+      "pid": 3337771,
+      "start_ticks": 164209069
+    },
+    {
+      "pid": 3337884,
+      "start_ticks": 164210155
+    },
+    {
+      "pid": 3340166,
+      "start_ticks": null
+    },
+    {
+      "pid": 3340170,
+      "start_ticks": 164246361
+    },
+    {
+      "pid": 3340615,
+      "start_ticks": 164246664
+    },
+    {
+      "pid": 3342105,
+      "start_ticks": 164260239
+    },
+    {
+      "pid": 3342123,
+      "start_ticks": 164260292
+    },
+    {
+      "pid": 3342124,
+      "start_ticks": 164260345
+    },
+    {
+      "pid": 3342125,
+      "start_ticks": 164260352
+    },
+    {
+      "pid": 3342288,
+      "start_ticks": 164262443
+    }
+  ],
+  "retired_groups": [
+    3324770,
+    3324842,
+    3324976,
+    3325181,
+    3325279,
+    3325426,
+    3325807,
+    3326242,
+    3327725,
+    3327726,
+    3327727,
+    3329887,
+    3330321,
+    3332154,
+    3332155,
+    3332156,
+    3335551,
+    3335991,
+    3337768,
+    3337769,
+    3337770,
+    3340170,
+    3340615,
+    3342105,
+    3342123,
+    3342124
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "kfd": [],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    }
+  ],
+  "model_stats_unchanged": true,
+  "artifacts_verified": 127,
+  "restart_scheduled": false,
+  "observer_or_waiter": false,
+  "hardware_tuning": false
+}

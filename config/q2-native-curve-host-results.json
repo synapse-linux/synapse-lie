@@ -1,0 +1,35 @@
+{
+  "schema": "synapse-lie.q2-native-curve-host.v1",
+  "label": "q2-native-curve-host-r1",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "tests": {
+    "debug": 22,
+    "asan_ubsan": 22
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 7,
+  "capsule_sha256": "7e9abd9edf67a69174e0aebcac69a8425e2f558b191a91d0ceb8097471e2badc",
+  "archive_sha256": "cdf363c24a28dab9bce2433d68c748c6fb192483923e82be1a368c393bd33c83",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+    "cmake/curve/CMakeLists.txt": "5933bc4ca2d3d8b4159ed84d1eb731ba3f2dea900da6273dde5ec931b3add2d7",
+    "tools/q2-remote.py": "de182b7406c326e0628a2b252fa05e404236f3eab9e236a9a28d850ad940c7bc",
+    "tools/q2-runner.py": "143e0b49db7e3a68010a89b146cf62e67214d72b18a1df26e331613e29e832ee",
+    "tools/q2-curve-session.py": "f5aae57aea1b42034175268a218884c9ec7d652d8be7430a4ac2c6052bbeeb49",
+    "tools/q2_native_curve.py": "a72a965d82e6895e64af41b38e7b85802becbe8c7d73b524e1c51c43492f614d",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+    "tests/q2_remote_test.py": "b2072b1f0bbe953cda622451fea1c0ff47000dc824d628ebccb55ea1c793e7b6"
+  },
+  "model_inference": false,
+  "native_client_core_qualification": "Separate core receipt still required"
+}

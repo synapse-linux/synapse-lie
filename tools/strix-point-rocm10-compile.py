@@ -57,19 +57,34 @@ def main():
             raise RuntimeError(f'{name} failed with exit {proc.returncode}')
 
     try:
-        run('libraries', [sys.executable, '-B', 'tools/build-gufo.py', LIBRARY_LABEL,
-                          '--qwen-only', '--state-access', '--hip-arch', 'gfx1150'])
+        # Both arms use the same canonical recipe and complete private layouts.
+        # The historical Python helper builds only the old state-access slice.
+        run('libraries', ['cmake', '-DLABEL='+LIBRARY_LABEL,
+                          '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                          '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_DS4_RUNTIME_CACHE=ON',
+                          '-DLIE_C17_SAMPLING=ON', '-DLIE_ATTENTION_DISPATCH_STATS=ON',
+                          '-DLIE_LONG_CONTEXT_WMMA=ON',
+                          '-P', 'cmake/provider/Build.cmake'])
+        reference_label = LIBRARY_LABEL + '-reference'
+        run('reference-libraries', ['cmake', '-DLABEL='+reference_label,
+                                  '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                                  '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_DS4_RUNTIME_CACHE=ON',
+                                  '-DLIE_C17_SAMPLING=OFF', '-DLIE_ATTENTION_DISPATCH_STATS=ON',
+                                  '-DLIE_LONG_CONTEXT_WMMA=ON',
+                                  '-P', 'cmake/provider/Build.cmake'])
         run('configure', ['cmake', '-S', '.', '-B', 'build/'+LINK_LABEL, '-G', 'Ninja',
                           '-DCMAKE_BUILD_TYPE=Release', '-DLIE_GUFO_RUNTIME=ON',
-                          '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                          '-DLIE_GUFO_STATE_ACCESS=ON', '-DLIE_DS4_RUNTIME_CACHE=ON',
+                          '-DLIE_ATTENTION_DISPATCH_STATS=ON', '-DLIE_HIP_ARCHITECTURE=gfx1150',
+                          '-DLIE_LONG_CONTEXT_WMMA=ON',
                           '-DLIE_BUILD_ID='+LINK_LABEL,
                           '-DGUFO_SOURCE='+str(ROOT/'.deps'/('gufo-state-access-'+LIBRARY_LABEL)),
-                          '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL)])
-        run('link', ['cmake', '--build', 'build/'+LINK_LABEL, '--parallel', '1',
-                     '--target', 'synapse-lie-server', 'synapse-lie-bench',
-                     'synapse-lie-bench-gufo-reference', 'lie-hip-probe'])
+                          '-DGUFO_BUILD='+str(ROOT/'build'/LIBRARY_LABEL),
+                          '-DGUFO_REFERENCE_BUILD='+str(ROOT/'build'/reference_label)])
         binaries = ('synapse-lie-server', 'synapse-lie-bench',
-                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe')
+                    'synapse-lie-bench-gufo-reference', 'lie-hip-probe', 'lie-sampling-capture', 'lie-attention-qualify', 'lie-steering-build')
+        run('link', ['cmake', '--build', 'build/'+LINK_LABEL, '--parallel', '1',
+                     '--target', *binaries])
         record['binaries'] = {name: sha(ROOT/'build'/LINK_LABEL/name) for name in binaries}
         record['state'] = 'BUILT_NOT_GPU_TESTED'
         record['exit_code'] = 0

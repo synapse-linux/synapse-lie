@@ -1,0 +1,24 @@
+{
+  "status": "MEASURED_EXACT_SMALL_PREFILL_GAIN_PARITY_UNMET",
+  "goal": "Q2 must match UD PP and TG. Packed activation movement gives a small prefill improvement; parity remains unmet.",
+  "baseline_commit": "5e32120",
+  "baseline_source": ".deps/gufo-q2-bench-iq2-pair",
+  "candidate_source": ".deps/gufo-q2-bench-packed",
+  "patch": "experiments/q2-packed-activations.patch",
+  "mechanism": "Move the existing high-half plus scaled-residual conversion from every Q2 output-row block to the IQ2 SwiGLU producer, reusing each existing four-byte slot. Preserve weight bytes, routing, WMMA order, F32 epilogue and all other dispatches.",
+  "layout": "One uint32 per slot/channel: bits0..15 = RN_F16(value), bits16..31 = RN_F16((value - F32(high))*4096). The down kernel extracts these halves without arithmetic conversion.",
+  "memory": "No new persistent allocation or extra activation byte; existing gate_e storage changes interpretation only between paired IQ2 producer and Q2 consumer. No concurrent F32 reader is allowed in that branch.",
+  "gpu_operator_plan": "Reuse 12 independent Q2 and 18 independent IQ2 FP64 cases. Require byte-exact packed representation for every IQ2 output against independent packing of the F32 reference; byte-exact down output on all 12 direct cases and two actual-width IQ2->Q2 chains. Exact-sized direct/chain consumer input allocations, finite/written outputs and prefix/suffix guards. Replay unmodified reference buffers against retained pre-experiment outputs.",
+  "model_numerics": "Require byte-exact complete saved logits and token files versus the retained paired-IQ2 baseline for the proposed arithmetic-preserving move; retain any discrepancy and actual failures. Do not relax earlier qualified-Q2 numerical diagnostics or declare false positives.",
+  "sequence_after_handover": [
+    "Completed .157 host Debug9/9 and ASan/UBSan9/9 fixtures in q2-packed-host-r1",
+    "Completed profile of the retained IQ2-pair source separately at marked pp2048/tg16 and verify its tokens/frontiers against the completed baseline",
+    "Completed: packed synthetic operators and exact replays",
+    "Completed fresh unprofiled C1 pp2048/tg128 IQ2-pair baseline and packed candidate; one warmup plus three measured requests, 15s idle outside timing, full MMQ rebuilds",
+    "Completed candidate profile: down kernel -8.27%; full-model PP +0.802%, TG unchanged. Retain isolated experiment.",
+    "Fresh UD control complete; parity fails in PP and TG. Broader scope remains required."
+  ],
+  "execution": "GPU .157 only after core returns the coordinated window and four fresh nonblocking leases. 98C inclusive or lower exposed strict hardware threshold. No model conversion, dependency installation, foreign process termination or tuning.",
+  "current_evidence": "Six current arms complete, 29 command exits zero, 196 artifacts collected/hash verified. 30 independent GPU operator cases, 32 exact packed checks, 30 retained operator buffers, 21 exact model candidate/reference files, 21 reference/retained files, 21 fresh/historical UD files. Both profile model replays 14/14 and profile-to-profile 15/15 exact. Fresh medians Q2 baseline 1240.505 PP/22.9755 TG, packed 1250.451/22.9695, UD 1685.150/24.3229. Packed retains prior qualified-Q2 KL drift .00274255; no new arithmetic drift versus IQ2 baseline. Window release verified at10:29:49UTC.",
+  "disposition": "Retained isolated experimental improvement, not qualified runtime promotion. No GPU jobs or automatic retries queued."
+}

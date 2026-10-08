@@ -1,0 +1,23 @@
+{
+  "scope": "Focused Python evidence-reader CPU fixtures on .157; no GPU, model, lease or C/C++ build. Existing native sanitizer evidence remains separate.",
+  "state": "CPU_REPORT_FIXTURES_PASS_NOT_GPU_EVIDENCE",
+  "ctest": "1/1 passed, five unittest methods",
+  "finished_at": "2026-10-02T12:02:42.223338+00:00",
+  "command_exits": [
+    0,
+    0
+  ],
+  "transport_exit": 0,
+  "verified_artifacts": 2,
+  "collection_sha256": "d1658de631d9dda20ed720608677574db92ec4948d6078cce08cc5a2854da613",
+  "source_tar_sha256": "b9cb2bb9e7ff9121ce1782a9446c390e2ab61cee410a6d541281f1d0c402af0f",
+  "sources": {
+    "tools/analyze-q2-hc-up.py": "9713a42e6be8615baa9f32e9af34e6b319ead2f9a4d84814aef0784537b23358",
+    "tests/q2_hc_report_test.py": "b4e27f304eaf7d30e67728f800af832a5bccd5dc3fdd6b1a6f29c20e9170bd55"
+  },
+  "result_sha256": "523d8fd70a093f5becfd7d17999968e26e8c05373f9eb3e183827267801eb28f",
+  "retirement_receipt": "evidence/q2-hc-report-host-retired.json",
+  "retired_at": "2026-10-02T12:04:19.787372+00:00",
+  "retired_commands": 2,
+  "performance_result": null
+}

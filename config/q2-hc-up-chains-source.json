@@ -1,0 +1,16 @@
+{
+  "scope": "Prepared source; numerical replay and runtime benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-affine-palette",
+  "candidate": ".deps/gufo-q2-bench-hc-up-chains",
+  "base_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+  "candidate_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "patch_sha256": "4dd69ab2181827184390371af1fe3c57b96d613e4108be064943200f4b186cc5",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "dispatch": "Fused original F16 HC up/mix only; 256x128/BK1/WM4/WN2 with 512 physical threads",
+  "numeric_contract": "Identical F16 weights/inputs, original low and high K16 chains, low+high addition, sigmoid and four-stream FMA order",
+  "ownership": "Existing stage/gate LDS and output buffers; no new allocation, stream or model conversion",
+  "limit": "Extra wave-pair barriers and block size may offset larger tiles; static resources are not performance evidence"
+}

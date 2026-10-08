@@ -1,0 +1,103 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 943c750..4a87804 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -91,6 +91,16 @@ add_executable(test_ngram ${GUFO_SOURCE}/tests/models/qwen38_flash_next/ngram_te
+   ${GUFO_SOURCE}/src/models/qwen38_flash_next/ngram.cpp)
+ target_link_libraries(test_ngram PRIVATE q2_host Threads::Threads)
+ add_test(NAME ngram COMMAND test_ngram)
++option(Q2_PLE_CACHE_FIRST_CHECKS "Check PLE resident rows against colliding misses" OFF)
++if(Q2_PLE_CACHE_FIRST_CHECKS)
++  add_executable(test_q2_ple_cache_first tests/q2_ple_cache_first.cpp
++    ${GUFO_SOURCE}/src/models/qwen38_flash_next/ngram.cpp)
++  target_link_libraries(test_q2_ple_cache_first PRIVATE q2_host Threads::Threads)
++  target_link_options(test_q2_ple_cache_first PRIVATE -Wl,--wrap=pread)
++  target_compile_options(test_q2_ple_cache_first PRIVATE -Wall -Wextra -Werror -Wpedantic)
++  add_test(NAME q2_ple_cache_first COMMAND test_q2_ple_cache_first)
++  set_tests_properties(q2_ple_cache_first PROPERTIES TIMEOUT 30)
++endif()
+ if(EXISTS "${GUFO_SOURCE}/q2_ple_io.hpp")
+   find_package(OpenSSL REQUIRED COMPONENTS Crypto)
+   add_executable(q2_ple_io tests/q2_ple_io.cpp
+diff --git a/tests/q2_remote_test.py b/tests/q2_remote_test.py
+index 7e03184..0b0719f 100644
+--- a/tests/q2_remote_test.py
++++ b/tests/q2_remote_test.py
+@@ -20,6 +20,19 @@ spec.loader.exec_module(remote)
+ 
+ 
+ class RemoteGuardTests(unittest.TestCase):
++    def test_ple_cache_first_host_scope(self):
++        for extra in (['--source-variant', 'curve-q2'], ['--rebuild-mmq']):
++            self.refuse(['ple-cache-first-cpu', 'q2-fixture', *extra],
++                        'PLE cache-first host checks require their fixed source and no GPU build')
++        argv = [str(path), 'ple-cache-first-cpu', 'q2-fixture']
++        with patch.object(sys, 'argv', argv), \
++             patch.object(Path, 'mkdir', side_effect=RuntimeError('staging reached')) as mkdir, \
++             patch.object(remote.subprocess, 'run', side_effect=AssertionError('No process')) as run:
++            with self.assertRaisesRegex(RuntimeError, 'staging reached'):
++                remote.main()
++            mkdir.assert_called_once()
++            run.assert_not_called()
++
+     def test_iq2_signs_scope(self):
+         for variant in remote.SIGN_VARIANTS:
+             for mode in ('cpu', 'q2-curve', 'q2-bench', 'q2-profile', 'operators'):
+diff --git a/tools/q2-remote.py b/tools/q2-remote.py
+index cdf1e58..57a5ab7 100644
+--- a/tools/q2-remote.py
++++ b/tools/q2-remote.py
+@@ -53,7 +53,7 @@ def collection_receipt(archive):
+ 
+ def main():
+     p = argparse.ArgumentParser()
+-    p.add_argument('mode', choices=['cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
++    p.add_argument('mode', choices=['cpu', 'ple-cache-first-cpu', 'ple-lookahead-cpu', 'q2-ple-lookahead', 'q2-ple-first-access', 'ple-cpu', 'ple-cache-cpu', 'q2-ple-cache64k', 'ple-io-cpu', 'q2-ple-io', 'ud-ple-io', 'q2-ple', 'ud-ple', 'hip-build', 'operators', 'operators-reference', 'iq2-signs-check', 'hc-operators', 'hc-bench', 'hc-pp-operators', 'hc-pp-bench', 'hc-library-bench', 'hc-library-norm-bench', 'hc-library-ragged-bench', 'hc-decode-reduce-bench', 'hc-input-bench', 'hc-up-chain-bench', 'hc-up-operators', 'hc-up-bench', 'hc-moe-operators', 'hc-moe-bench', 'hc-norm-operators', 'hc-norm-bench', 'hc-sequence-bench', 'hc-deferred-bench', 'routed-operators', 'iq2-pair-operators', 'shared-fork-check', 'scaled-input-check', 'scaled-tiles-check', 'narrow-vector-check', 'packed-operators', 'packed-bench', 'packed-tiles-bench', 'packed-tiles16-bench', 'terminal-cpu', 'q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full', 'q2-smoke', 'q2-bench', 'q2-bench2k', 'ud-bench2k', 'q2-decode-baseline', 'ud-decode-baseline', *ORIGINAL_BASELINE_MODES, *CURVE_MODES, 'q2-profile', 'ud-profile', 'ud-base', 'ud-patched', 'status', 'collect'])
+     p.add_argument('label')
+     p.add_argument('--source-variant', choices=['qualified', 'bounded-k', 'wide-barrier', 'hc', 'hc-prefill', 'stack', 'iq2-pair', 'packed', 'hc-up-fused', 'hc-up-vec', 'hc-up-vec-exact', 'hc-moe-fused', 'hc-norm-half', 'hc-down64', 'hc-down64-wave4', 'hc-down64-k4', 'hc-down128-wave4', 'hc-down-coalesced', 'staged-weights', 'code-reuse', 'half-wave', 'half-wave-permlane', 'hc-prefetch', 'hc-prefetch2', 'hc-decode8', 'hc-decode16', 'hc-decode32', 'affine-palette', 'staged-palette', 'down-scatter', 'shared-overlap', 'scaled-input', 'scaled-tiles', 'narrow-vector', 'hc-down-phased', 'hc-down-phased-free', 'hc-row160-wide', 'hc-row160-loads', 'hc-fragment-bound', 'hc-stage-bound', 'hc-direct', 'hc-chain-waves', 'hc-chain-coalesced', 'hc-library-down', 'hc-input', 'hc-up-chains', 'hc-sequence', 'hc-sequence-half-row', 'hc-deferred-norm', 'hc-single-chain', 'hc-full-row', 'hc-half-row', 'hc-row80', 'hc-down-wide', 'hc-down-wide-k1', 'hc-down-wide-coalesced', *COMBINED_VARIANTS, 'scaled-library', 'library-norm-cycle', 'library-norm-bound', 'hc-decode-reduce', 'hc-library-ragged', *CURVE_VARIANTS, *SIGN_VARIANTS],
+                    default='qualified', help='Isolated source; hc also supports HC operators and microbenchmark')
+@@ -63,6 +63,8 @@ def main():
+     p.add_argument('--existing-collection', action='store_true',
+                    help='Validate/extract an already downloaded collection; no SSH or overwriting results')
+     args = p.parse_args()
++    if args.mode == 'ple-cache-first-cpu' and (args.source_variant != 'qualified' or args.rebuild_mmq):
++        p.error('PLE cache-first host checks require their fixed source and no GPU build')
+     if args.mode == 'iq2-signs-check' or args.source_variant in SIGN_VARIANTS:
+         if args.mode != 'iq2-signs-check' or args.source_variant not in SIGN_VARIANTS:
+             p.error('IQ2 signs source requires its isolated component mode')
+@@ -230,6 +232,13 @@ def main():
+             source = '.deps/gufo-ple-io-' + ('ud' if args.mode == 'ud-ple-io' else 'q2')
+         if args.mode in ('ple-cache-cpu', 'q2-ple-cache64k'):
+             source = '.deps/gufo-ple-cache64k'
++        if args.mode == 'ple-cache-first-cpu':
++            info = json.loads((ROOT/'config/q2-ple-cache-first-source.json').read_text())
++            source = info['candidate']
++            actual = {str(f.relative_to(ROOT/source)): file_sha256(f)
++                      for f in (ROOT/source).rglob('*') if f.is_file()}
++            if actual != info['files']:
++                p.error('PLE cache-first provider inventory changed')
+         if args.mode == 'iq2-signs-check':
+             manifest_name = ('q2-iq2-signs-ordered-asm-source.json'
+                              if args.source_variant == 'iq2-signs-ordered'
+diff --git a/tools/q2-runner.py b/tools/q2-runner.py
+index e7ea7c3..4c0721a 100644
+--- a/tools/q2-runner.py
++++ b/tools/q2-runner.py
+@@ -42,7 +42,7 @@ def main():
+     terminal_run = mode in ('q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
+     terminal_build = mode in ('q2-terminal-build', 'q2-terminal-probe', 'q2-terminal-smoke', 'q2-terminal-full')
+     terminal_cpu = mode == 'terminal-cpu'
+-    cpu_mode = mode in ('terminal-cpu', 'cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
++    cpu_mode = mode in ('ple-cache-first-cpu', 'terminal-cpu', 'cpu', 'ple-cpu', 'ple-io-cpu', 'ple-cache-cpu', 'ple-lookahead-cpu')
+     io_mode = mode in ('q2-ple-io', 'ud-ple-io')
+     ple_mode = mode in ('q2-ple', 'ud-ple', 'q2-ple-cache64k', 'q2-ple-lookahead', 'q2-ple-first-access')
+     ple_target = 'q2_ple_lookahead' if mode in ('q2-ple-lookahead', 'q2-ple-first-access') else 'q2_ple'
+@@ -206,7 +206,7 @@ def main():
+                  '-DCMAKE_BUILD_TYPE='+('Debug' if cpu_mode else 'RelWithDebInfo'),
+                  '-DQ2_SANITIZERS='+('ON' if sanitize else 'OFF'),
+                  '-DQ2_HIP='+('OFF' if cpu_mode or io_mode else 'ON'),
+-                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+reuse_args,env)
++                 '-DCMAKE_HIP_ARCHITECTURES=gfx1151']+(['-DLIE_SANITIZERS='+('ON' if sanitize else 'OFF')] if terminal_cpu else [])+(['-DQ2_TERMINAL_SERVER=ON'] if terminal_build else [])+(['-DQ2_ORIGINAL_BASELINE=ON'] if original_mode else [])+(['-DQ2_CURVE_SERVER=ON'] if curve_mode else [])+(['-DQ2_CURVE_IQ2_SIGNS=ON'] if curve_iq2 else [])+(['-DQ2_PLE_CACHE_FIRST_CHECKS=ON'] if mode == 'ple-cache-first-cpu' else [])+reuse_args,env)
+             # Bound CPU build pressure after the recorded two-job thermal
+             # stop. This changes build concurrency, not runtime device policy.
+             build_args=['cmake','--build',str(build),'--parallel','1' if model_mode or terminal_build else '2']

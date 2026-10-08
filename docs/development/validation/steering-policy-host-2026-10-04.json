@@ -1,0 +1,383 @@
+{
+  "schema": "synapse-lie.steering-policy-host-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "HOST_C17_POLICY_IDENTITY_OWNERSHIP_RESOURCE_METADATA_NOT_INFERENCE_OR_GPU",
+  "parent_checkpoint": "04af6b94088c7cd6fe23c84df5656a67455d7fe4",
+  "branch": "feature/context-million-openai",
+  "bank_abi": 1,
+  "policy_abi": 1,
+  "executor_abi": 3,
+  "request_abi": 7,
+  "generation_abi": 3,
+  "source_files_sha256": {
+    "CMakeLists.txt": "45ebfb1adf643cb56acfae820a24cc385201520a065b3a671dadc5ef9491a898",
+    "include/lie/steering.h": "c991206c53be5cfdee8c513b7bd68be76d19303961d40475aa91de02e69648d8",
+    "src/steering_policy.c": "733b386bd20f20fcbeea768b5ecc19cac5bdb8ee90e25e9cb0a780a467e1bfa6",
+    "tests/test_steering_policy.c": "f445471baafd1096046c4adb3f9f3e5f6c66d4105d564437de972d466087b4f0"
+  },
+  "checks": [
+    {
+      "directory": "evidence/steering-policy-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 2,
+        "exit_code": 2,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.25
+        },
+        "elapsed_s": 1.061961623840034
+      },
+      "log_sha256": "b7bfc47d9f45b07c6dcbe6a010e94004264c6213f4e3851318b7ea8625c25896",
+      "temperature_log_sha256": "a7a2a0a6329f07a151901324636a0408d506d0a5c8904ed87c80fac12aa7968b"
+    },
+    {
+      "directory": "evidence/steering-policy-debug-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.375
+        },
+        "elapsed_s": 2.070878350175917
+      },
+      "log_sha256": "d9cd96f55816647c3c782a622c8c61bf6abfc4d72422033e565c03e45d013d5a",
+      "temperature_log_sha256": "b3f6a73ec51a43b92a371f276f39fc2dd3d2bce59dd4ff294df63f320484c234"
+    },
+    {
+      "directory": "evidence/steering-policy-debug-build-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.5
+        },
+        "elapsed_s": 2.059407110325992
+      },
+      "log_sha256": "ccb1fc7500d623c3f38bd471c07cc769d2447526d2832bef4553de54b9ee2d88",
+      "temperature_log_sha256": "b291d8379d4c87bb0caf6cffc6e62545f21cb8290b3c0a8d18b2f32c9a20bd2b"
+    },
+    {
+      "directory": "evidence/steering-policy-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.0
+        },
+        "elapsed_s": 6.3218508725985885
+      },
+      "log_sha256": "441509c87340324ea906e0ad01b509f014727503e45085e3667426335ff36c04",
+      "temperature_log_sha256": "efbceb21a45b26d6619251ba51ebc3cc8e9ce9bb47c821ab95ea8eeb097b2db8",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "directory": "evidence/steering-policy-debug-test-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 56.375
+        },
+        "elapsed_s": 6.330898812040687
+      },
+      "log_sha256": "441509c87340324ea906e0ad01b509f014727503e45085e3667426335ff36c04",
+      "temperature_log_sha256": "341e33bfe1e60eda4a0902e0580f6f4dbed38fd7cc0f0ba5f3575002e2800db6",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "directory": "evidence/steering-policy-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 68.375
+        },
+        "elapsed_s": 2.067723723128438
+      },
+      "log_sha256": "5fb54997d6bc724a9631ff98ced280b9e82e09aae911c318bfa9d0fc425b68be",
+      "temperature_log_sha256": "3022e6499ebc775d4097ba01f960bdb9dfa11886d4cc0d199b2992ff020e1f09"
+    },
+    {
+      "directory": "evidence/steering-policy-asan-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 53.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 70.375
+        },
+        "elapsed_s": 2.0599761214107275
+      },
+      "log_sha256": "9a4089ee49cce15aaf11122c9c0d9803163114326f1a7590e7bd466ad376f755",
+      "temperature_log_sha256": "1ccd6973a664a638923e4116106d96f5b2424c1ad7f2d42f7bd46fe75b53dbd4"
+    },
+    {
+      "directory": "evidence/steering-policy-asan-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.0
+        },
+        "elapsed_s": 6.352106967009604
+      },
+      "log_sha256": "baf906dc9d9ce5cbe8f285db738e5d3f2f0b542af226ebef175c88f0098413b7",
+      "temperature_log_sha256": "2f7d822822a4c0ba0a504d74ac8b3e81f6321657233072bbed93fd59d344b364",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "directory": "evidence/steering-policy-asan-test-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "--output-on-failure",
+          "-R",
+          "^(steering-bank-format-identity-lifetimes|steering-policy-history-cache-lifetimes|core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 55.625
+        },
+        "elapsed_s": 6.3383473083376884
+      },
+      "log_sha256": "cc1b591bc9fc5be77c32160614f07829ba53d4cbf79978b5e3f8379e26aefbb3",
+      "temperature_log_sha256": "46c95a48323eda2c15822af7d2a504c9a85cf3d10f838f91d21b0999acb99d5b",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "directory": "evidence/steering-policy-adapter-headers-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/ds4-filters-source-check-r1",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 61.25
+        },
+        "elapsed_s": 1.1216195588931441
+      },
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "601de1a5b6018a1fe5002c7251c19292b72e8d65dc8254408a9a7a79c0dce799"
+    },
+    {
+      "directory": "evidence/steering-policy-cpp-header-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-fsyntax-only",
+          "-x",
+          "c++",
+          "-Iinclude",
+          "include/lie/steering.h"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 53.375
+        },
+        "elapsed_s": 1.0822608144953847
+      },
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "5360d4a6c5074e48959928a2777539a6dbf26bd4cf91a4176dfa2f2f2692a74f"
+    }
+  ],
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true
+  },
+  "cpu_peak_c": 70.5,
+  "retained_failure": {
+    "directory": "evidence/steering-policy-debug-build-r1",
+    "child_exit_code": 2,
+    "reason": "-Werror=misleading-indentation in an unformatted return/declaration line",
+    "resolution": "Format both new C files and rebuild; source failure remains retained."
+  },
+  "independent_oracles": {
+    "origin": "Python stdlib hashlib/struct oracle, not a product dependency; fixed values compiled into the native C test",
+    "bank_scope_2x3": "806fa88a30706b8578ffad1d034a28fa4feff36160d0d34ff9dbf6055100347b",
+    "first_history_1_0_at0": "b6061819d413dc01097bc41249f0ef780200a670fc7107e454743e4130cd237b",
+    "uniform_scope_1_0": "08f7850c93b5efedb7f078146b8a979121aaf02d843d8ab95567f59054132858",
+    "pending_scope_2_0_after_first_history": "5a0ffd7f29d15ab6dfc6b41ecf41f15d5b80dccd11cfd178ee145477045dc8d0",
+    "second_history_2_0_at8": "5da3439646245a7120bdac8bd3c79f11a5b8a8c11158807c2b93aa75e3bafc4d",
+    "mixed_scope_2_0": "743b866453b9ca1c5ef582fe58abc3aa6a555ce701abfd131cc86b947307c6f2"
+  },
+  "contracts_verified": [
+    "Finite -100..100 scales; bank-required activation; inactive settings canonicalize negative zero",
+    "Prepare before numerical mutation, commit only completed retained target-forward positions; no numerical operation in this library",
+    "Scale changes preserve prior history until actual retained target work uses them",
+    "Uniform initial lookup/capture and history are invariant across prefill chunks and accepted burst sizes",
+    "Off after earlier steering retains a nonzero history/scope; unused on/off toggles retain legacy identity",
+    "Zero steering/no history preserves exact semantic image/text scope; active image/steering scopes compose in a separate domain",
+    "Mutations require the creating owner; snapshots and owned references are thread-safe",
+    "Prepared updates pin their policy and immutable bank; discard/stale/zero/partial commit preserve specified state",
+    "At most two outstanding updates; snapshot policy/staged bytes and pure capacity refusal",
+    "No new runtime threads, numerical/model operations, dependencies or state/payload format changes"
+  ],
+  "point_read_only_availability": {
+    "file": "evidence/steering-core-point-availability-r2.json",
+    "sha256": "71f4330f019a7e0557243d3c219efd9e147e0295b34cec17bad8d4984cdc9978",
+    "observation": {
+      "at_utc": "2026-10-04T21:31:58.956598+00:00",
+      "host": "192.168.5.161",
+      "read_only": true,
+      "gpu_admission": false,
+      "process": {
+        "pid": 19916,
+        "start_ticks": 1073961,
+        "state": "S",
+        "exe": "/usr/bin/python3.12",
+        "cwd": "/home/pop/javaspec-lora-gemma4",
+        "gpu_fds": [
+          {
+            "fd": 3,
+            "target": "/dev/kfd"
+          },
+          {
+            "fd": 7,
+            "target": "/dev/dri/renderD128"
+          }
+        ]
+      },
+      "kernel_kfd_pids": [
+        19916,
+        20206
+      ]
+    }
+  },
+  "provider_steering_activated": false,
+  "http_or_benchmark_flags_implemented": false,
+  "cache_lookup_capture_wired": false,
+  "persistence_history_import_export_implemented": false,
+  "model_forward_cpu": false,
+  "gpu_run": false,
+  "remaining_gates": [
+    "Loaded-model geometry/bank admission before GPU mutation",
+    "Actual HIP attention and post-HC FFN projection with normalized-cache refresh",
+    "Live scale application with pending MTP/graph invalidation and actual retained-forward counters",
+    "Policy/session and RAM/SSD scope plus encoded complete history integration",
+    "HTTP/native bench controls and original-weight zero/off, malformed, transition, AR/MTP, quality/cost gates on freshly admitted .161"
+  ]
+}

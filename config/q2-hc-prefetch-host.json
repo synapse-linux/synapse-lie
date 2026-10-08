@@ -1,0 +1,25 @@
+{
+  "label": "q2-hc-prefetch-host-r1",
+  "scope": "CPU fixtures only, GPU visibility disabled, no model access; no prefetch GPU qualification",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "debug_ctest": "9/9 pass",
+  "asan_ubsan_ctest": "9/9 pass",
+  "remote_guard_fixture": "6 methods, 13 refusal cases",
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "transport_exit": 0,
+  "finished_at": "2026-10-02T11:31:22.177940+00:00",
+  "verified_artifacts": 7,
+  "collection_sha256": "f009f6f962c1a765d6b0095acbc92a576de5fa13eba9bcfcaf2ccb120ddc6982",
+  "source_capsule_sha256": "deb8be76b518a166896aec990e30a9376ca383023a49b5cd17ad9b3fafc13dbe",
+  "result_sha256": "e72bcfdf5fab83decc63a99d772f4d5a74c4dd53d9096b3009ace2c8ed8eb0e5",
+  "retirement_receipt": "evidence/q2-hc-prefetch-host-retired.json",
+  "retired_at": "2026-10-02T11:33:11.111990+00:00",
+  "retired_commands": 6
+}

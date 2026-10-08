@@ -1,0 +1,86 @@
+{
+  "schema": "synapse-lie.q2-ssm-pingpong-final.v1",
+  "plan_sha256": "b9e639bd34d8c18429d6e64a46533218d5f77ca19cd54bc91b19d9ddb1527e15",
+  "model_result_sha256": "662ab174374f721bc59c67d1b4ede38dd7fb7598893627898c32f755807bfe52",
+  "component_result_sha256": "d38909aa15f053e06cf4a9ed8d3eed5dde06c8cbe908fcdbf89bf7ec67e66a7c",
+  "release_sha256": "22289680bc658145644a707475f43b42c819fe4f9a6c5181a65699cc0eff4078",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "frozen_fixtures_verified": 90,
+  "frozen_manifests_verified": 10,
+  "provider_files_verified": 1027,
+  "retired_identities": 1131,
+  "retired_groups": 902,
+  "thermal_max_c": {
+    "q2-ssm-pingpong-host-r1": {
+      "amdgpu": 38.0,
+      "k10temp": 64.875
+    },
+    "q2-ssm-pingpong-component-r1": {
+      "amdgpu": 44.0,
+      "k10temp": 63.25
+    },
+    "q2-ssm-pingpong-model-r1": {
+      "amdgpu": 74.0,
+      "k10temp": 81.375
+    }
+  },
+  "resources": [
+    {
+      "event": "ssm_compact_lds_resources",
+      "candidate": false,
+      "shared_bytes": 49152,
+      "local_bytes": 0,
+      "registers": 222,
+      "max_blocks_per_multiprocessor": 1,
+      "device_shared_bytes_per_multiprocessor": 65536,
+      "measured_active_blocks": false
+    },
+    {
+      "event": "ssm_compact_lds_resources",
+      "candidate": true,
+      "shared_bytes": 32768,
+      "local_bytes": 0,
+      "registers": 212,
+      "max_blocks_per_multiprocessor": 2,
+      "device_shared_bytes_per_multiprocessor": 65536,
+      "measured_active_blocks": false
+    }
+  ],
+  "component_parent_exact": true,
+  "independent_operator_pass": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-ssm-pingpong-component.csv": "7aaf15d1da35f467d47f230c7d22ea4bac283b558a11276caf5e255f30960ab4",
+    "docs/figures/q2-ssm-pingpong-component.svg": "aa8c3b54e2ebde4c83074d8b1112d344f72d74c38980a1087676a6b77986d073",
+    "docs/figures/q2-ssm-pingpong-component.png": "644f081099ea2f8d9ae7b850d3bb097b9649b74fac175943ce708a7ec0b371f6",
+    "docs/figures/q2-ssm-pingpong-model-wrapped.csv": "3866019c99d96bd5b83912f36c2b276df618fe9b6b5009daa1b64a3921e40d74",
+    "docs/figures/q2-ssm-pingpong-model-wrapped.svg": "d69f29318127a9bee00eeacffd1844ffc85f4dcd7eef6c29fa79826ce0b3ed09",
+    "docs/figures/q2-ssm-pingpong-model-wrapped.png": "49fbf85e46e6d8fde0b13f6dbef1183e3d8241481bec631ba0496784df420496"
+  },
+  "preserved_nonzero_exits": {},
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

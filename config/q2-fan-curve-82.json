@@ -1,0 +1,375 @@
+{
+  "started_at": "2026-10-03T12:57:51.096309+00:00",
+  "scope": "Owner-requested fan-only curve change; no model, clocks, TDP or APU change",
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/axb35-ctl",
+        "get",
+        "all"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"fan1\": {\n    \"rpm\": 0,\n    \"mode\": \"curve\",\n    \"level\": 0,\n    \"rampup_curve\": \"60,70,83,95,97\",\n    \"rampdown_curve\": \"50,60,80,94,96\"\n  },\n  \"fan2\": {\n    \"rpm\": 0,\n    \"mode\": \"curve\",\n    \"level\": 0,\n    \"rampup_curve\": \"60,70,83,95,97\",\n    \"rampdown_curve\": \"50,60,80,94,96\"\n  },\n  \"fan3\": {\n    \"rpm\": 0,\n    \"mode\": \"curve\",\n    \"level\": 0,\n    \"rampup_curve\": \"60,70,83,95,97\",\n    \"rampdown_curve\": \"50,60,80,94,96\"\n  },\n  \"apu_power_mode\": \"performance\",\n  \"cpu_temp\": 49,\n  \"cpu_temp_min\": 40,\n  \"cpu_temp_max\": 98,\n  \"vram_total\": 536870912,\n  \"vram_used\": 376877056,\n  \"gpu_power_watts\": 5.36,\n  \"gpu_freq\": 613000000,\n  \"gpu_temp_c\": 47,\n  \"tdp_watts\": 120,\n  \"cpu_temp_raw\": 49125\n}\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "axb35-fan-control.service"
+      ],
+      "exit_code": 0,
+      "stdout": "# /usr/lib/systemd/system/axb35-fan-control.service\n[Unit]\nDescription=AXB35 Fan Curve & Power Mode\nAfter=local-fs.target systemd-modules-load.service\n\n[Service]\nType=oneshot\nExecCondition=/usr/bin/grep -qx AXB35-02 /sys/class/dmi/id/board_name\nExecStartPre=/usr/bin/modprobe ec_su_axb35\nExecStart=/usr/bin/axb35-ctl apply\nTimeoutStartSec=15s\nRemainAfterExit=no\n\n[Install]\nWantedBy=multi-user.target\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "daemon-reload"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "restart",
+        "axb35-fan-control.service"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "is-enabled",
+        "axb35-fan-control.service"
+      ],
+      "exit_code": 0,
+      "stdout": "enabled\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "systemctl",
+        "cat",
+        "axb35-fan-control.service"
+      ],
+      "exit_code": 0,
+      "stdout": "# /usr/lib/systemd/system/axb35-fan-control.service\n[Unit]\nDescription=AXB35 Fan Curve & Power Mode\nAfter=local-fs.target systemd-modules-load.service\n\n[Service]\nType=oneshot\nExecCondition=/usr/bin/grep -qx AXB35-02 /sys/class/dmi/id/board_name\nExecStartPre=/usr/bin/modprobe ec_su_axb35\nExecStart=/usr/bin/axb35-ctl apply\nTimeoutStartSec=15s\nRemainAfterExit=no\n\n[Install]\nWantedBy=multi-user.target\n\n# /etc/systemd/system/axb35-fan-control.service.d/90-configured-fan-curves.conf\n[Service]\nExecStart=\nExecStart=/usr/bin/python3 /usr/local/sbin/synapse-axb35-fan-curves /etc/axb35-config.json\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/usr/bin/axb35-ctl",
+        "get",
+        "all"
+      ],
+      "exit_code": 0,
+      "stdout": "{\n  \"fan1\": {\n    \"rpm\": 1407,\n    \"mode\": \"curve\",\n    \"level\": 1,\n    \"rampup_curve\": \"40,50,60,70,82\",\n    \"rampdown_curve\": \"35,45,55,65,78\"\n  },\n  \"fan2\": {\n    \"rpm\": 1427,\n    \"mode\": \"curve\",\n    \"level\": 1,\n    \"rampup_curve\": \"40,50,60,70,82\",\n    \"rampdown_curve\": \"35,45,55,65,78\"\n  },\n  \"fan3\": {\n    \"rpm\": 423,\n    \"mode\": \"curve\",\n    \"level\": 1,\n    \"rampup_curve\": \"40,50,60,70,82\",\n    \"rampdown_curve\": \"35,45,55,65,78\"\n  },\n  \"apu_power_mode\": \"performance\",\n  \"cpu_temp\": 49,\n  \"cpu_temp_min\": 40,\n  \"cpu_temp_max\": 98,\n  \"vram_total\": 536870912,\n  \"vram_used\": 376877056,\n  \"gpu_power_watts\": 4.47,\n  \"gpu_freq\": 624000000,\n  \"gpu_temp_c\": 48,\n  \"tdp_watts\": 120,\n  \"cpu_temp_raw\": 49125\n}\n",
+      "stderr": ""
+    }
+  ],
+  "state": "APPLIED_AND_READ_BACK_BOOT_SERVICE_VERIFIED",
+  "backup": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-82-r1",
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "kfd_before": [],
+  "before": {
+    "fan1": {
+      "rpm": 0,
+      "mode": "curve",
+      "level": 0,
+      "rampup_curve": "60,70,83,95,97",
+      "rampdown_curve": "50,60,80,94,96"
+    },
+    "fan2": {
+      "rpm": 0,
+      "mode": "curve",
+      "level": 0,
+      "rampup_curve": "60,70,83,95,97",
+      "rampdown_curve": "50,60,80,94,96"
+    },
+    "fan3": {
+      "rpm": 0,
+      "mode": "curve",
+      "level": 0,
+      "rampup_curve": "60,70,83,95,97",
+      "rampdown_curve": "50,60,80,94,96"
+    },
+    "apu_power_mode": "performance",
+    "cpu_temp": 49,
+    "cpu_temp_min": 40,
+    "cpu_temp_max": 98,
+    "vram_total": 536870912,
+    "vram_used": 376877056,
+    "gpu_power_watts": 5.36,
+    "gpu_freq": 613000000,
+    "gpu_temp_c": 47,
+    "tdp_watts": 120,
+    "cpu_temp_raw": 49125
+  },
+  "config_before_sha256": "346c9532c0ad18ea3c6c1ac978d764f6acd3470a68d15c6e53d7b3980b9f595a",
+  "config_after_sha256": "2d06c52faed9b353806204c985d2b52a076a4f07b9f5ca281c42296ea0808ce7",
+  "helper_sha256": "e2f211c514963aee78a4fda7325267d7833b5fdec6b3f494eb00ad0b6387f633",
+  "enabled": "enabled",
+  "effective_unit": "# /usr/lib/systemd/system/axb35-fan-control.service\n[Unit]\nDescription=AXB35 Fan Curve & Power Mode\nAfter=local-fs.target systemd-modules-load.service\n\n[Service]\nType=oneshot\nExecCondition=/usr/bin/grep -qx AXB35-02 /sys/class/dmi/id/board_name\nExecStartPre=/usr/bin/modprobe ec_su_axb35\nExecStart=/usr/bin/axb35-ctl apply\nTimeoutStartSec=15s\nRemainAfterExit=no\n\n[Install]\nWantedBy=multi-user.target\n\n# /etc/systemd/system/axb35-fan-control.service.d/90-configured-fan-curves.conf\n[Service]\nExecStart=\nExecStart=/usr/bin/python3 /usr/local/sbin/synapse-axb35-fan-curves /etc/axb35-config.json\n",
+  "after": {
+    "fan1": {
+      "rpm": 1407,
+      "mode": "curve",
+      "level": 1,
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan2": {
+      "rpm": 1427,
+      "mode": "curve",
+      "level": 1,
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan3": {
+      "rpm": 423,
+      "mode": "curve",
+      "level": 1,
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "apu_power_mode": "performance",
+    "cpu_temp": 49,
+    "cpu_temp_min": 40,
+    "cpu_temp_max": 98,
+    "vram_total": 536870912,
+    "vram_used": 376877056,
+    "gpu_power_watts": 4.47,
+    "gpu_freq": 624000000,
+    "gpu_temp_c": 48,
+    "tdp_watts": 120,
+    "cpu_temp_raw": 49125
+  },
+  "finished_at": "2026-10-03T12:57:54.426997+00:00",
+  "collection": {
+    "receipt.json": {
+      "bytes": 7509,
+      "sha256": "1305c1fb8a9bd6d0ce3016ee924acd15267a05f6f1c394ebcad9a578a5503a23"
+    },
+    "axb35-config.before.json": {
+      "bytes": 428,
+      "sha256": "346c9532c0ad18ea3c6c1ac978d764f6acd3470a68d15c6e53d7b3980b9f595a"
+    },
+    "unit.before.txt": {
+      "bytes": 400,
+      "sha256": "4c1d0654881fa2b6ce27147ed4eb745dbc5ca3e27cded2826fd6a8a6346a2883"
+    },
+    "axb35-config.after.json": {
+      "bytes": 428,
+      "sha256": "2d06c52faed9b353806204c985d2b52a076a4f07b9f5ca281c42296ea0808ce7"
+    }
+  },
+  "host_checks": {
+    "q2-narrow-thermal-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1/build/debug",
+            "-G",
+            "Ninja",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DQ2_SANITIZERS=OFF",
+            "-DQ2_HIP=OFF",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1/build/debug",
+            "--parallel",
+            "2"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1/build/debug",
+            "--output-on-failure"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1/build/sanitize",
+            "-G",
+            "Ninja",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DQ2_SANITIZERS=ON",
+            "-DQ2_HIP=OFF",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1/build/sanitize",
+            "--parallel",
+            "2"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-narrow-thermal-host-r1/build/sanitize",
+            "--output-on-failure"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-narrow-thermal-host-r1/results.tar.gz",
+        "sha256": "0478a340a508dc926171e970d5f8b4b361715db9d8607188e1a734719d1b68c4",
+        "verified_artifacts": 7,
+        "existing_archive": false
+      }
+    },
+    "q2-fan-curve-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "commands": [
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1/build/debug",
+            "-G",
+            "Ninja",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DQ2_SANITIZERS=OFF",
+            "-DQ2_HIP=OFF",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1/build/debug",
+            "--parallel",
+            "2"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1/build/debug",
+            "--output-on-failure"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "cmake",
+            "-S",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1",
+            "-B",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1/build/sanitize",
+            "-G",
+            "Ninja",
+            "-DCMAKE_BUILD_TYPE=Debug",
+            "-DQ2_SANITIZERS=ON",
+            "-DQ2_HIP=OFF",
+            "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "cmake",
+            "--build",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1/build/sanitize",
+            "--parallel",
+            "2"
+          ],
+          "exit_code": 0
+        },
+        {
+          "argv": [
+            "ctest",
+            "--test-dir",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-fan-curve-host-r1/build/sanitize",
+            "--output-on-failure"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-fan-curve-host-r1/results.tar.gz",
+        "sha256": "55cec7495d78d421657808f297c5317cccd6f4d18f8a90e4183b1c501614c9af",
+        "verified_artifacts": 7,
+        "existing_archive": false
+      }
+    }
+  },
+  "thermal_policy": {
+    "cpu_limit_mc": 98000,
+    "cpu_inclusive": true,
+    "gpu_limit": "Lowest positive exposed max/crit, strict; none exposed on this host",
+    "sensors_required": [
+      "amdgpu",
+      "k10temp"
+    ],
+    "user_clarification": "98 C applies to CPU, not GPU. Owner requested all fan levels advanced with maximum at 82 C."
+  },
+  "limitations": [
+    "Live/readback and enabled boot-unit checks; no reboot or 82 C physical-load validation in this operation",
+    "Performance benefit is unmeasured; fresh Q2/UD pairs must share the new cooling policy",
+    "APU field in existing JSON is preserved; fan-only boot loader deliberately does not apply APU or fixed fan levels"
+  ]
+}

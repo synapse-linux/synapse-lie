@@ -1,0 +1,25 @@
+{
+  "schema": "synapse-lie.q2-hc-down-bk256-preparation-checks.v1",
+  "format_checks": [
+    {
+      "candidate": "q2-hc-down-bk256",
+      "exit_code": 1,
+      "receipt_sha256": "e504031378adc38e9fb3fa3265b2c92a7bed30a604a0224a969c0f8dc5fcef49"
+    },
+    {
+      "candidate": "q2-hc-down-bk256-bounded",
+      "exit_code": 1,
+      "receipt_sha256": "f38260929a3eadf32a7215ecd9085fab2f9af44483b70d100bf600bd1bbee58d"
+    }
+  ],
+  "shared_upstream_format_pass": false,
+  "source_mutated_by_format": false,
+  "patch_application_checks": [
+    0,
+    0
+  ],
+  "gpu_qualification": false,
+  "performance_qualification": false,
+  "default_backend_changed": false,
+  "original_candidates_retained": true
+}

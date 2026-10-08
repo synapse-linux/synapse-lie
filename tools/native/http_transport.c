@@ -299,8 +299,11 @@ static void release(struct transfer *t) {
 }
 static bool prepare(struct transfer *t, const char *url, json_object *body,
                     double timeout) {
-  if (!isfinite(timeout) || timeout <= 0 || timeout > 7200 ||
-      !nb_http_url(url, t->error))
+  if (!isfinite(timeout) || timeout <= 0 ||
+      timeout > NB_HTTP_TIMEOUT_MAX_SECONDS)
+    return nb_fail(t->error,
+                   "HTTP timeout must be greater than 0 and at most 86400 seconds");
+  if (!nb_http_url(url, t->error))
     return false;
   pthread_once(&curl_once, init_curl);
   CURL *c = t->easy = curl_easy_init();

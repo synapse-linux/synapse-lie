@@ -1,0 +1,17 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4746,6 +4746,14 @@
+     float* scratch = base + wave_id * plane;
+ #pragma unroll
+     for (int j = 0; j < kTokTiles; ++j) {
++      // Uniform for the whole workgroup. The matrix loop already omits
++      // these empty fragments; they have no output row or later consumer.
++      // Live fragments are contiguous: leave the loop at the first empty one.
++      // Keep both barriers for every live fragment, including the last.
++      if constexpr (kIQ2 && kTokTiles > 1) {
++        if (j >= live_tok_tiles)
++          break;
++      }
+ #pragma unroll
+       for (int l = 0; l < 8; ++l) {
+         scratch[sub_lane * stride + 2 * l + half_id] = acc[0][j][l];

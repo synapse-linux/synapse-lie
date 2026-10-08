@@ -1,0 +1,50 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc
+@@ -14,12 +14,12 @@
+     __half* __restrict__ out_half, std::size_t input_m, std::size_t input_k,
+     const void* __restrict__ w_up) {
+   static_assert(kType == WeightType::kIQ2_XXS && kPair && !kPacked && !kScaled);
+-  static_assert(BM == 128 && (BN == 64 || BN == 128) && BK == 2);
++  static_assert(BM == 128 && (BN == 64 || BN == 128 || BN == 256) && BK == 2);
+   // Only the guarded 640x2560 launcher may enter this private body.
+   constexpr std::size_t m = 640, k = 2560;
+   static_assert(BM == 128 || BM == 256, "eight waves, 16-row tiles");
+   static_assert(!kPair || BM == 128);
+-  static_assert(BN % 16 == 0 && BN / 16 <= 8);
++  static_assert(BN % 16 == 0 && BN / 16 <= 16);
+   static_assert(BK == 2, "one stage is one 32-byte Q4_K nibble group");
+   constexpr int kTokTiles = BN / 16;
+   constexpr int kWaveRowTiles = BM / 128;  // 16-row tiles per wave
+@@ -119,7 +119,7 @@
+   std::uint32_t f_high[kWaveRowTiles];
+   std::uint32_t f_dm[kWaveRowTiles];  ///< Q5_1: d | m; Q8_0: d
+   int f_sb32[kWaveRowTiles];          ///< Q4_K: the K block in its superblock
+-  constexpr int kActFetch = BN <= 64 ? 2 : 4;
++  constexpr int kActFetch = BN <= 64 ? 2 : BN <= 128 ? 4 : 8;
+   uint4 a_data[kActFetch];
+   uint4 a_residual[kActFetch];
+ 
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5516,6 +5516,21 @@
+       reinterpret_cast<float*>(out), m, k, stream);
+ }
+ 
++// Private experiment only. Production dispatch never calls this symbol.
++void ProbeRoutedIq2Token256(const void* gate, const void* up, const __half* x,
++                            const std::int32_t* tiles, std::uint32_t n_tiles,
++                            const std::int32_t* bounds,
++                            const std::int32_t* rows_token,
++                            const std::int32_t* rows_slot, float* out,
++                            hipStream_t stream) {
++  const dim3 grid(10, n_tiles);
++  hipLaunchKernelGGL(
++      (RoutedIq2FixedBoundsKernel<WeightType::kIQ2_XXS, 128, 256, 2,
++                                 true, false>),
++      grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds, rows_token,
++      rows_slot, nullptr, out, nullptr, 640, 2560, up);
++}
++
+ #include "q2_scaled_input.inc"
+ 
+ template<int BN, bool kPacked = false>

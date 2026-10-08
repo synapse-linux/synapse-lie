@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.gufo-state-edits.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "scope": "Default-ON per-compilation derived roots and transform staging are owned by shared C17. Private typed facade projection only; exact OFF Store/member algorithms retained. No complete frontend or model-executor claim.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  const json::Value& Store(json::Value schema) {\n    if (derived_.size() >= kMaxRules)\n      Invalid(\"schema expansion exceeds its resource budget\");\n    derived_.push_back(std::move(schema));\n    return derived_.back();\n  }",
+      "new": "  const json::Value& Store(json::Value schema) {\n#if LIE_C17_SAMPLING\n    return derived_.store(std::move(schema));\n#else\n    if (derived_.size() >= kMaxRules)\n      Invalid(\"schema expansion exceeds its resource budget\");\n    derived_.push_back(std::move(schema));\n    return derived_.back();\n#endif\n  }"
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "  std::deque<json::Value> derived_;",
+      "new": "#if LIE_C17_SAMPLING\n  lie_gufo::SchemaStore derived_;\n#else\n  std::deque<json::Value> derived_;\n#endif"
+    }
+  ]
+}

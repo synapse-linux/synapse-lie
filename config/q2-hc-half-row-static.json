@@ -1,0 +1,160 @@
+{
+  "scope": "Local static qualification; no GPU execution",
+  "checks": [
+    {
+      "name": "device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-half-row",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-half-row/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-half-row-static/kernels.s"
+      ],
+      "exit_code": 0,
+      "stdout": "evidence/q2-hc-half-row-static/device.stdout",
+      "stderr": "evidence/q2-hc-half-row-static/device.stderr"
+    },
+    {
+      "name": "host",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-half-row",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_pp.cpp"
+      ],
+      "exit_code": 0,
+      "stdout": "evidence/q2-hc-half-row-static/host.stdout",
+      "stderr": "evidence/q2-hc-half-row-static/host.stderr"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "exit_code": 1,
+      "stdout": "evidence/q2-hc-half-row-static/format.stdout",
+      "stderr": "evidence/q2-hc-half-row-static/format.stderr"
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-half-row.patch"
+      ],
+      "exit_code": 0,
+      "stdout": "patching file src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp\n",
+      "stderr": ""
+    }
+  ],
+  "changed_file_format": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "full_format_exit_code": 1,
+  "full_format_matches_baseline": true,
+  "preexisting_format_files": [
+    "tests/models/deepseek_v4_flash/serving_test.cpp",
+    "tests/models/qwen/cpu/generator_test.cpp"
+  ],
+  "reconstructed_files": 1019,
+  "mismatches": [],
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 242,
+      "next_free_sgpr": 27
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi160ELi64ELi2ELi2ELi4ELi2ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 28672,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 210,
+      "next_free_sgpr": 21
+    }
+  ],
+  "reference_assembly_sha256": "335f902e4830be16d898df41896613f259da0f41db30cecbaad76904cfba7c93",
+  "unchanged_dense_bodies": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi64ELi4ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi64ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    }
+  ],
+  "assembly_path": "evidence/q2-hc-half-row-static/kernels.s",
+  "assembly_sha256": "b282192805aaf5431874c9c2cef68828ba8caac830d76ac6faaac47ab7e54340",
+  "compiled_source_sha256": "9aec24c8c20817bd619a62ba369cfa15729b51ebe22028d11d1f99748534242c",
+  "source_checks_pass": true
+}

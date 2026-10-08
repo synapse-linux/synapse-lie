@@ -39,6 +39,14 @@ prefill curve.
 
 ## Three different questions
 
+The owned sparse-prefill recipe now has a separate 8,192-word WMMA workspace
+through 1M visible tokens, while short spans retain their existing kernel.
+`LIE_LONG_CONTEXT_WMMA=OFF` preserves the short-workspace/scalar-fallback control.
+This is a numerical-dispatch/workspace change; it adds no thread, callback,
+stream, scheduling barrier or reactive worker. Long-depth original-weight
+correctness and matched performance remain pending. It cannot establish a
+reactive speedup or constant end-to-end prefill by itself.
+
 1. **C1 inference:** can the same completed prefill/decode work become faster or
    use less live memory without HTTP, SSE, token rendering or slow consumers?
 2. **Concurrent inference:** can readiness/resource-driven dispatch improve true
@@ -225,6 +233,28 @@ OS total from the single caller. See the [derived thread receipt](benchmarks/202
 and [original resource report](archive/PERFORMANCE-RESULT.md#sampled-resources-and-retirement).
 Future campaigns should record process thread totals and CPU time by role where
 available alongside model-owner count, active requests and actual batch width.
+
+The current native 128K recall window on `.161` saves a contemporaneous process
+snapshot with **28 OS threads**, one active sequence and one outstanding prefill
+call (496 started / 495 returned). `/actuator/llm` and `/actuator/llm/prefill` return
+HTTP 200 in 4.877/0.316 ms while the owner remains in prefill. The
+[receipt and saved snapshot](development/validation/recall-native-128k-ar-point-2026-10-07.json)
+bind actual PID/start/cgroup, all per-TID names and CPU tick counters, and the
+later verified whole-container retirement. These two GETs demonstrate that
+management remains accessible during this workload. They are not a latency
+distribution or evidence of faster arithmetic, more model owners, batching or
+reactive speedup. The older 8K control did not save thread counts; this snapshot
+does not retrospectively supply them or attribute each runtime thread.
+
+The near-256K recall window records the same 28-thread process total and one
+active sequence, with 77/76 started/returned prefill calls at its snapshot.
+Management HTTP 200 GETs complete in 1.517/0.224 ms. The
+[receipt](development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+retains per-TID CPU ticks and exact process identity, without inferring thread
+roles, utilization distributions or reactive speedup from those two requests.
+The new optional activation diagnostic preserves the same device owner and
+scheduler; it adds row copies and stream waits when explicitly used. Such
+capture timings cannot substitute for ordinary inference performance.
 
 The shared-core extraction preserves this reactive inference policy for
 direct clients and HTTP alike. `--suite core` adds one device-owner thread plus

@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.gufo-schema-root.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Default-ON shared C17 root admission/reference-cycle identity scratch and root whitespace/body composition. Private prompt/value/exception glue and remaining construction facade stay transitional. Original OFF root policy retained.",
+  "edits": [
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "#include \"gufo_schema_body.hpp\"",
+      "new": "#include \"gufo_schema_body.hpp\"\n#include \"gufo_schema_root.hpp\""
+    },
+    {
+      "path": "src/core/json_constraint.cpp",
+      "old": "    if (object_only) {\n      grammar_->root_ = Seq({ws_, GenericObject(kMaxDepth), ws_});\n      grammar_->prompt_ = \"Respond with a single valid JSON object.\";\n    } else {\n      const auto* root = &schema_;\n      std::set<const json::Value*> roots;\n      while (const auto* reference = root->find(\"$ref\")) {\n        if (!roots.insert(root).second)\n          Invalid(\"root reference cycle\");\n        root = Reference(*reference);\n      }\n      if (!root->is_object() || root->member_str(\"type\") != \"object\" ||\n          root->contains(\"anyOf\"))\n        Invalid(\"the root must have type object\");\n      grammar_->root_ = Seq({ws_, Visit(schema_, 0), ws_});\n      grammar_->prompt_ =\n          \"Respond with a single JSON object matching this JSON Schema:\\n\" +\n          schema_.dump();\n    }\n",
+      "new": "#if LIE_C17_SAMPLING\n    grammar_->root_ = lie_gufo::schema_root(schema_, object_only, builder_.get(), ws_,\n      [this](const json::Value &node, size_t depth) { return Visit(node, depth); });\n    grammar_->prompt_ = object_only ? \"Respond with a single valid JSON object.\"\n        : \"Respond with a single JSON object matching this JSON Schema:\\n\" + schema_.dump();\n#else\n    if (object_only) {\n      grammar_->root_ = Seq({ws_, GenericObject(kMaxDepth), ws_});\n      grammar_->prompt_ = \"Respond with a single valid JSON object.\";\n    } else {\n      const auto* root = &schema_;\n      std::set<const json::Value*> roots;\n      while (const auto* reference = root->find(\"$ref\")) {\n        if (!roots.insert(root).second)\n          Invalid(\"root reference cycle\");\n        root = Reference(*reference);\n      }\n      if (!root->is_object() || root->member_str(\"type\") != \"object\" ||\n          root->contains(\"anyOf\"))\n        Invalid(\"the root must have type object\");\n      grammar_->root_ = Seq({ws_, Visit(schema_, 0), ws_});\n      grammar_->prompt_ =\n          \"Respond with a single JSON object matching this JSON Schema:\\n\" +\n          schema_.dump();\n    }\n#endif\n"
+    }
+  ]
+}

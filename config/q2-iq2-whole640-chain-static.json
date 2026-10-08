@@ -1,0 +1,51 @@
+{
+  "schema": "synapse-lie.q2-iq2-whole640-chain-static.v1",
+  "source_manifest": "config/q2-iq2-whole640-chain-source.json",
+  "source_manifest_sha256": "aa44a3d02d530e8c422a665a06616440d6dca56606c0fd04ba616c05de6dc02b",
+  "provider_files": 1034,
+  "original_kernels_instruction_operand_resource_exact": 164,
+  "measured_LDS_kernel_instruction_operand_resource_exact": true,
+  "additions": {
+    "_ZN4gufo6models17qwen38_flash_next4rocm30PackQ2ScaledOrdinaryRowsKernelEPKfP6__halfPfPKijS9_S9_": {
+      "resources": {
+        "group_segment_fixed_size": 0,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 30,
+        "next_free_sgpr": 18,
+        "wavefront_size32": 1
+      },
+      "instructions": 271,
+      "scratch_instructions": 0,
+      "comments": {
+        "NumVgprs": 30,
+        "TotalNumSgprs": 20,
+        "NumVGPRsForWavesPerEU": 30,
+        "Occupancy": 16
+      }
+    },
+    "_ZN4gufo6models17qwen38_flash_next4rocm37RoutedIq2Whole640Wave16LdsDraftKernelEPKvS4_PK6__halfPKiS9_S9_S9_PS5_Pf": {
+      "resources": {
+        "group_segment_fixed_size": 61568,
+        "private_segment_fixed_size": 0,
+        "next_free_vgpr": 169,
+        "next_free_sgpr": 18,
+        "wavefront_size32": 1
+      },
+      "instructions": 686,
+      "scratch_instructions": 0,
+      "comments": {
+        "NumVgprs": 96,
+        "TotalNumSgprs": 20,
+        "NumVGPRsForWavesPerEU": 169,
+        "Occupancy": 8
+      }
+    }
+  },
+  "assembly": "evidence/q2-iq2-whole640-chain-preparation/candidate.s",
+  "assembly_sha256": "d77c00db80c5d16ba75f6a0be3d17e0d1abb1d415e58d337a885fab8f0bb74bf",
+  "command_sha256": "195ce50bc241a3e186e482612c976f6efba8d397dc36855c7d89bc93c62cfa18",
+  "GPU_run": false,
+  "performance_measurement": false,
+  "numerical_acceptance": false,
+  "goal_met": false
+}

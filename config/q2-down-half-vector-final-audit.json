@@ -1,0 +1,104 @@
+{
+  "schema": "synapse-lie.q2-down-half-vector-final-audit.v1",
+  "fixtures_verified": 68,
+  "manifests_verified": 4,
+  "provider_files": 1026,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 37,
+  "component_result_sha256": "c02c2ac76b044f15c2bbb21a694a4430e9b49204941dd24946b9bc36ccca1c5c",
+  "model_result_sha256": "27f5de1c786d4269f49183480853a7274b2d4b4cb51c258123bf138da9a0c986",
+  "component_rounding_contract_exact": true,
+  "component_parent_exact": true,
+  "within_arm_exact": true,
+  "changed_parent_files": [],
+  "measurements": {
+    "prefill_tok_s": {
+      "samples": [
+        1569.317501,
+        1572.043501,
+        1570.106384
+      ],
+      "min": 1569.317501,
+      "median": 1570.106384,
+      "max": 1572.043501
+    },
+    "decode_steps_s": {
+      "samples": [
+        25.18109739,
+        25.19560864,
+        25.18915597
+      ],
+      "min": 25.18109739,
+      "median": 25.18915597,
+      "max": 25.19560864
+    },
+    "prefill_s": {
+      "samples": [
+        1.30502591,
+        1.302762932,
+        1.304370214
+      ],
+      "min": 1.302762932,
+      "median": 1.304370214,
+      "max": 1.30502591
+    },
+    "decode_s": {
+      "samples": [
+        5.043465662,
+        5.04056091,
+        5.041852142
+      ],
+      "min": 5.04056091,
+      "median": 5.041852142,
+      "max": 5.043465662
+    }
+  },
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 8.757767766511604,
+      "decode_steps_s": 0.37137849520825217,
+      "prefill_s": -8.052544600031586,
+      "decode_s": -0.3700043860832891
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -6.861566013023035,
+      "decode_steps_s": 3.4813179855627485,
+      "prefill_s": 7.3670617978084385,
+      "decode_s": -3.3641995323614338
+    },
+    "best_parent": {
+      "prefill_tok_s": 0.20142350690615096,
+      "decode_steps_s": -0.01363484211758248,
+      "prefill_s": -0.20101859076058215,
+      "decode_s": 0.013636689966078919
+    }
+  },
+  "admission_exit": 0,
+  "host_rerun": false,
+  "release_sha256": "bfc1475dbf18309dbdbb6dd27746e1681aaaf309e8664a72032834950dd31cc9",
+  "retired_identities": 942,
+  "retired_groups": 748,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

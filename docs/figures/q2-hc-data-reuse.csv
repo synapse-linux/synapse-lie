@@ -1,0 +1,41 @@
+arm,source,shape,rep,us_per_launch
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,320x10240,0,1142.921447754
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,320x10240,1,1166.741251945
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,320x10240,2,1211.760520935
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,320x10240,3,1200.213074684
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,320x10240,4,1213.517904282
+Direct fragments,evidence/q2-hc-direct-micro-r1,320x10240,0,2072.309494019
+Direct fragments,evidence/q2-hc-direct-micro-r1,320x10240,1,2147.423028946
+Direct fragments,evidence/q2-hc-direct-micro-r1,320x10240,2,2068.911790848
+Direct fragments,evidence/q2-hc-direct-micro-r1,320x10240,3,2180.924892426
+Direct fragments,evidence/q2-hc-direct-micro-r1,320x10240,4,2136.573314667
+Paired waves,evidence/q2-hc-chain-micro-r1,320x10240,0,1224.495649338
+Paired waves,evidence/q2-hc-chain-micro-r1,320x10240,1,1270.727276802
+Paired waves,evidence/q2-hc-chain-micro-r1,320x10240,2,1290.194272995
+Paired waves,evidence/q2-hc-chain-micro-r1,320x10240,3,1199.131250381
+Paired waves,evidence/q2-hc-chain-micro-r1,320x10240,4,1255.352497101
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,320x10240,0,1139.751076698
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,320x10240,1,1188.560009003
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,320x10240,2,1090.604901314
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,320x10240,3,1094.687223434
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,320x10240,4,1159.395694733
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,10240x320,0,937.8598332405
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,10240x320,1,968.2743549347
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,10240x320,2,947.9596018791
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,10240x320,3,955.8420181274
+Palette reference,evidence/q2-hc-direct-micro-ref-r1,10240x320,4,993.8239455223
+Direct fragments,evidence/q2-hc-direct-micro-r1,10240x320,0,933.7764382362
+Direct fragments,evidence/q2-hc-direct-micro-r1,10240x320,1,982.2431206703
+Direct fragments,evidence/q2-hc-direct-micro-r1,10240x320,2,970.775783062
+Direct fragments,evidence/q2-hc-direct-micro-r1,10240x320,3,939.9338364601
+Direct fragments,evidence/q2-hc-direct-micro-r1,10240x320,4,973.3932614326
+Paired waves,evidence/q2-hc-chain-micro-r1,10240x320,0,930.0970435143
+Paired waves,evidence/q2-hc-chain-micro-r1,10240x320,1,923.3372211456
+Paired waves,evidence/q2-hc-chain-micro-r1,10240x320,2,965.1312828064
+Paired waves,evidence/q2-hc-chain-micro-r1,10240x320,3,961.02643013
+Paired waves,evidence/q2-hc-chain-micro-r1,10240x320,4,946.6767311096
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,10240x320,0,931.6209554672
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,10240x320,1,939.7683143616
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,10240x320,2,979.319870472
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,10240x320,3,937.1333122253
+Paired waves coalesced,evidence/q2-hc-chain-coalesced-micro-r1,10240x320,4,961.6352319717

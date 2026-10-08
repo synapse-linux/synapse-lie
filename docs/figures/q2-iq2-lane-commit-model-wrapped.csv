@@ -1,0 +1,17 @@
+candidate,historical,source,rep,warmup,prompt_tokens,output_tokens,decode_steps,prefill_s,decode_s,prefill_tok_s,decode_steps_s
+fixed_q2,True,q2-counting-regression-mixed-r1,0,True,2048,128,127,1.423943804,5.062085753,1438.259006,25.08847266
+fixed_q2,True,q2-counting-regression-mixed-r1,1,False,2048,128,127,1.41887387,5.058620886,1443.398207,25.10565683
+fixed_q2,True,q2-counting-regression-mixed-r1,2,False,2048,128,127,1.418603928,5.062386263,1443.672867,25.08698337
+fixed_q2,True,q2-counting-regression-mixed-r1,3,False,2048,128,127,1.418437954,5.060576497,1443.841794,25.09595499
+best_parent,True,q2-iq2-raw-prefetch-model-r1,0,True,2048,128,127,1.363796655,5.049453854,1501.690147,25.1512349
+best_parent,True,q2-iq2-raw-prefetch-model-r1,1,False,2048,128,127,1.360659687,5.046135906,1505.152258,25.1677724
+best_parent,True,q2-iq2-raw-prefetch-model-r1,2,False,2048,128,127,1.362127728,5.049893669,1503.530071,25.14904438
+best_parent,True,q2-iq2-raw-prefetch-model-r1,3,False,2048,128,127,1.360512249,5.048710399,1505.31537,25.15493858
+iq2_lane_commit,False,q2-iq2-lane-commit-model-r1,0,True,2048,128,127,1.353868973,5.04821107,1512.701776,25.15742671
+iq2_lane_commit,False,q2-iq2-lane-commit-model-r1,1,False,2048,128,127,1.356058256,5.038384429,1510.259601,25.20649263
+iq2_lane_commit,False,q2-iq2-lane-commit-model-r1,2,False,2048,128,127,1.356424072,5.043796602,1509.852296,25.17944517
+iq2_lane_commit,False,q2-iq2-lane-commit-model-r1,3,False,2048,128,127,1.357531233,5.038432633,1508.620907,25.20625148
+fixed_ud,True,q2-counting-regression-ud-r1,0,True,2048,128,127,1.212520558,5.217234208,1689.043527,24.34239962
+fixed_ud,True,q2-counting-regression-ud-r1,1,False,2048,128,127,1.214447147,5.216416355,1686.364042,24.34621613
+fixed_ud,True,q2-counting-regression-ud-r1,2,False,2048,128,127,1.214869991,5.217375049,1685.777092,24.34174251
+fixed_ud,True,q2-counting-regression-ud-r1,3,False,2048,128,127,1.215141798,5.258576845,1685.400011,24.15102104

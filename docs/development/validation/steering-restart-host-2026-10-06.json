@@ -1,0 +1,107 @@
+{
+  "schema": "synapse-lie.steering-restart-host.v1",
+  "state": "HOST_ONLY_PREPARED_NOT_GPU_QUALIFIED",
+  "at_utc": "2026-10-06T03:44:06.303145+00:00",
+  "product_code_checkpoint": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "scope": "Optional evidence tooling with a bounded GGUF metadata reader and owned sparse nonzero direction fixture. No CPU model forward, original-weight steering or performance claim. Products/default CTest remain Python-free.",
+  "bindings": [
+    {
+      "path": "tools/strix-point-steering-restart-gate.py",
+      "bytes": 16382,
+      "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+    },
+    {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 106870,
+      "sha256": "5f2961a893c8216ed4d3205ba853ce471a370c3592397b48eb15f76838f09d1e"
+    },
+    {
+      "path": "tools/strix-point-launch.py",
+      "bytes": 6750,
+      "sha256": "c129dbbb9ea2d450dc642560263d9433295e8a204f3c5284627ee9bc0b25045d"
+    },
+    {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 9182,
+      "sha256": "7da22b5e40a2e059acb425f025c42bb54d8781f8138282b8cb3f871d4e69fecb"
+    },
+    {
+      "path": "tests/test_strix_point_steering_restart.py",
+      "bytes": 10293,
+      "sha256": "33719713d286d8660515631ef01f095a25beebeac3c8b2f9ad6791d9fce52ffa"
+    },
+    {
+      "path": "tests/test_strix_point_campaign.py",
+      "bytes": 86780,
+      "sha256": "6ad9a770eb6be2deb6c1542c5772f5b47ec717b325d30d054e80c20eb4821470"
+    },
+    {
+      "path": "evidence/steering-restart-host-r1/plan.json",
+      "bytes": 959,
+      "sha256": "4e3f456f84d46656a4036dab70584026ec083b63d0a1c9efb6669b9ae3098590"
+    },
+    {
+      "path": "evidence/steering-restart-host-r1/result.json",
+      "bytes": 457,
+      "sha256": "153635747867be780290ad2520fa30855859b6b41870b8dc59291a23af33c8a3"
+    },
+    {
+      "path": "evidence/steering-restart-host-r1/command.log",
+      "bytes": 2297,
+      "sha256": "c52baed40de1df64905bfaae2f511402382beba83a466877312b5ad98a9f7554"
+    },
+    {
+      "path": "evidence/steering-restart-host-r1/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "83d1317e370657bca34aeccf69af78688b66b9771e88949a342657e5e168040b"
+    },
+    {
+      "path": "evidence/steering-campaign-host-r1/plan.json",
+      "bytes": 951,
+      "sha256": "fd901346129aa7659b79d96ee1172bd1963b394ea1ad33c35a9d07e53d7b140d"
+    },
+    {
+      "path": "evidence/steering-campaign-host-r1/result.json",
+      "bytes": 449,
+      "sha256": "9a5d2fe7bc237a698da5b9a2e9a8efab16de3f7c98bd11af28f8917cf9ab426b"
+    },
+    {
+      "path": "evidence/steering-campaign-host-r1/command.log",
+      "bytes": 8363,
+      "sha256": "4b37a1f719f73f42dc96e287e96d436eb3b1d3a16bf97bc8a0259f2252dfb5a4"
+    },
+    {
+      "path": "evidence/steering-campaign-host-r1/temperatures.jsonl",
+      "bytes": 1827,
+      "sha256": "cd70a02d4295ec4770e796ce2aad6ab8e2df391c037eeb73ec2ca319d02f08f4"
+    }
+  ],
+  "host_gate_tests": 18,
+  "campaign_tests": 60,
+  "actual_test_exit_codes": [
+    0,
+    0
+  ],
+  "compiled_provider_files_unchanged": 83,
+  "CPU_peak_C": 49.125,
+  "phases": [
+    "calibration",
+    "fresh",
+    "saved",
+    "reference",
+    "divergent",
+    "compatible"
+  ],
+  "scheduled_boundary": 128,
+  "generation_offsets": [
+    1,
+    7
+  ],
+  "confirmed_output_tokens": 32,
+  "geometry_from_bounded_model_metadata": true,
+  "vector_fixture": "One exact0.125 binary32 coordinate per layer; not DS4 learned directions.",
+  "runtime_ABI_format_dependency_or_inference_threads_changed": false,
+  "GPU_activity": false,
+  "all_six_owned_tasks_open": true,
+  "Terminal_Bench": "Stopped/closed/deferred until modifications and qualification finish; no reservation."
+}

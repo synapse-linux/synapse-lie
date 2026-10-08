@@ -1,0 +1,55 @@
+{
+  "checks": [
+    {
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-library-down.patch"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-hc-library-reconstructed",
+      "exit_code": 0,
+      "stdout": "patching file src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp\n",
+      "stderr": "",
+      "wall_s": 0.004148433916270733
+    },
+    {
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-library-down/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "wall_s": 0.013529820367693901
+    },
+    {
+      "argv": [
+        "clang++",
+        "-std=c++20",
+        "-D__HIP_PLATFORM_AMD__",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/opt/rocm/include",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-library-down",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-library-down/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp"
+      ],
+      "cwd": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "wall_s": 0.6596618490293622
+    }
+  ],
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "exit_code": 0,
+  "scope": "Local syntax, changed-file format and source reconstruction only; no GPU execution"
+}

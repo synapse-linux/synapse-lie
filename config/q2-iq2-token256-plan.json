@@ -1,0 +1,55 @@
+{
+  "schema": "synapse-lie.q2-iq2-token256-plan.v1",
+  "previous_release": "config/q2-select-score-group4-window-release.json",
+  "previous_release_sha256": "c087ce07de0fc16d3b058223b3fde68383271da0be8333d85236c68fd5d94aca",
+  "host": "q2-iq2-token256-host-r1",
+  "host_result_sha256": "56509a2501da412c4ecef558b2ae38fc9caa72fafccf1642eb04ef409bb42e3e",
+  "host_source_capsule_sha256": "0ef6deca715d9743ae42234a6b7d2e358456c40a55ee4a75b14fc121eb8dd624",
+  "host_collection_sha256": "493390e18e592ec24c41378b9e1721aed94f880ff9189d3487121319013eceb0",
+  "host_test_counts": {
+    "debug": 43,
+    "asan_ubsan": 43
+  },
+  "fixtures": {
+    "CMakeLists.txt": "cc7d272dcd518b60ed51258a2420b7077f805b9206e6cf059e69a27bf497b3e3",
+    "cmake/hip/CMakeLists.txt": "3ef9593274ab2322d091bb1b9e9a1ee1c8bcf8a731ce31ed741b02a579b1c1cd",
+    "experiments/iq2_token256_tiles.c": "7b50bed111cdb4e1a761a889bf20184a409332d88776313dd5e7bf2a227a95e4",
+    "experiments/iq2_token256_tiles.h": "992d4c89e83be5e296abaad36d7f2ed7635679739c6fd07bd8dc06d5c9b7d99c",
+    "experiments/q2-iq2-token256-probe.patch": "d7b1cc46e8a367caf6c368765b52e1c4b636fcd1c06c2b3d9c393b077b4e7e6e",
+    "experiments/q2_iq2_tail16_routes.inc": "6df4b69994da8a2077dfa6d1b0b0e6066d5d77d15928ad104d6a6cf35ee49ed4",
+    "tests/q2_iq2_token256.hip": "d1fe0479ef9ce74ddc6f5dca452d896d043e6be7744e9c390a0c6437bfb605c2",
+    "tests/q2_iq2_token256_tiles.py": "af8c7c2b5a7a0a974cd4031e6ead1ce9e74cf7edb814d6bee07a7b292e0ce26b",
+    "tests/q2_remote_test.py": "8ad878b238205c702860948817dd54042eb3228b3c179b7ea7c7a6c6ed135296",
+    "tools/q2-remote.py": "207f64fb3d6d5534dbe86bdb1383e9802dd5222a08912af716e5e893cf19bf55",
+    "tools/q2-runner.py": "400d05ebc1433af2859cba89f886b4e5c462e9855121f232c7e540c75c306c11",
+    "tools/q2_process.py": "32d2f266a2c9c4472929874003c4f9914c19233349f50388b14db1087762d0e9",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_window_registry.py": "fcf4446b230453ef5c6b272ef4487e9440f3afbe41829b78d81a7eca5ea896c0",
+    "tools/prepare-q2-iq2-token256-probe.py": "debcb3b15244f43641b280d2f87f402e5f2d927508d04e8f78cdacc5fe0a40ab",
+    "tools/analyze-q2-iq2-token256-probe.py": "88ab071c4eb528e74d794faeb6ff50ba3ee8db61e54feb45075a979bfe4b76b0",
+    "config/q2-iq2-token256-probe-source.json": "2c8372e03bb7eea0a1aa9f10938deb1451efb109b431cc9384eb43a12bfb1b3b",
+    "config/q2-iq2-token256-probe-static.json": "cea32ccbfab807c560b7cfa282b420a46ec3b462c62a129d2c88d03ae58e6bb8",
+    "config/q2-iq2-fixed-bounds-source.json": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+    "config/q2-current-routing-v2-results.json": "ccd2e21c6fde161dbc70b7f7692dbc460eb64da115eadac572ae2169d59b2496"
+  },
+  "components": [
+    {
+      "label": "q2-iq2-token256-component-r1",
+      "mode": "iq2-token256-check",
+      "variant": "iq2-token256-probe"
+    }
+  ],
+  "arms": [],
+  "admission_path": "config/q2-iq2-token256-window-admission.json",
+  "release_path": "config/q2-iq2-token256-window-release.json",
+  "window_helper": "tools/q2-iq2-token256-window.py",
+  "window_helper_sha256": "f16a098c4c890343bd5a65123e34f8692ee06be13b8f41ae36c40a5a723af94e",
+  "phase_helper": "tools/q2-iq2-token256-phase.py",
+  "phase_helper_sha256": "f546ad855588926e7aa7dffb59bb071db2730faf7b07ba55899b7cdb34237d16",
+  "preflight_helper": "tools/q2-iq2-token256-preflight.py",
+  "preflight_helper_sha256": "4174b0736c3536312b09a071f3ccb450af2833708454af7f72f049893ebb921b",
+  "scope": "One private gfx1151 IQ2 token256 gate/up component only. Check all guarded outputs and immutable inputs against the retained 128/64-token producer on edge and saved 2048-token routed counts. Three rotating weight sets and interleaved completed timings. No original-weight model inference, saved control rebuild, Q4, full curve, dependency installation, host tuning or remote cleanup. Collect every result and release the window before performance analysis.",
+  "gpu_admitted": false,
+  "model_inference": false,
+  "production_dispatch_changed": false
+}

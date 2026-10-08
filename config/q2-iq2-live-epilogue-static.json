@@ -1,0 +1,249 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-epilogue-static.v1",
+  "at": "2026-10-04T04:14:58.527046+00:00",
+  "scope": "Editing-host device assembly only; no GPU execution or measured speedup.",
+  "commands": [
+    {
+      "name": "reference",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-signs-ordered-asm",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-signs-ordered-asm/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "evidence/q2-iq2-live-epilogue-static-r1/reference.s"
+      ],
+      "started_at": "2026-10-04T04:13:42.033463+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "candidate",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-live-epilogue",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-live-epilogue/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "evidence/q2-iq2-live-epilogue-static-r1/candidate.s"
+      ],
+      "started_at": "2026-10-04T04:13:51.246426+00:00",
+      "exit_code": 0
+    }
+  ],
+  "isa": {
+    "reference": {
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 661,
+        "wmma": 4,
+        "vgpr": 82,
+        "sgpr": 24,
+        "lds": 11392,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 4,
+        "lds_store": 8
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1161,
+        "wmma": 12,
+        "vgpr": 94,
+        "sgpr": 30,
+        "lds": 15488,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 8,
+        "lds_store": 17
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1391,
+        "wmma": 16,
+        "vgpr": 102,
+        "sgpr": 30,
+        "lds": 17536,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 10,
+        "lds_store": 21
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 2381,
+        "wmma": 32,
+        "vgpr": 148,
+        "sgpr": 38,
+        "lds": 25728,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 18,
+        "lds_store": 39
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 701,
+        "wmma": 4,
+        "vgpr": 82,
+        "sgpr": 24,
+        "lds": 11392,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 4,
+        "lds_store": 8
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1280,
+        "wmma": 12,
+        "vgpr": 94,
+        "sgpr": 30,
+        "lds": 15488,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 8,
+        "lds_store": 17
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1551,
+        "wmma": 16,
+        "vgpr": 102,
+        "sgpr": 30,
+        "lds": 17536,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 10,
+        "lds_store": 21
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 2701,
+        "wmma": 32,
+        "vgpr": 148,
+        "sgpr": 38,
+        "lds": 25728,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 18,
+        "lds_store": 39
+      }
+    },
+    "candidate": {
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 661,
+        "wmma": 4,
+        "vgpr": 82,
+        "sgpr": 24,
+        "lds": 11392,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 4,
+        "lds_store": 8
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1190,
+        "wmma": 12,
+        "vgpr": 94,
+        "sgpr": 30,
+        "lds": 15488,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 8,
+        "lds_store": 17
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1414,
+        "wmma": 16,
+        "vgpr": 102,
+        "sgpr": 32,
+        "lds": 17536,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 10,
+        "lds_store": 21
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, false, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 2432,
+        "wmma": 32,
+        "vgpr": 148,
+        "sgpr": 40,
+        "lds": 25728,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb0ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 18,
+        "lds_store": 39
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 16, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 701,
+        "wmma": 4,
+        "vgpr": 82,
+        "sgpr": 24,
+        "lds": 11392,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi16ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 4,
+        "lds_store": 8
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 48, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1310,
+        "wmma": 12,
+        "vgpr": 94,
+        "sgpr": 30,
+        "lds": 15488,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi48ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 8,
+        "lds_store": 17
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 64, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 1574,
+        "wmma": 16,
+        "vgpr": 102,
+        "sgpr": 32,
+        "lds": 17536,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi64ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 10,
+        "lds_store": 21
+      },
+      "void gufo::models::qwen38_flash_next::rocm::(anonymous namespace)::RoutedF16GEMMKernel<(gufo::models::qwen38_flash_next::rocm::WeightType)16, 128, 128, 2, true, true, false>(void const*, std::conditional<(((gufo::models::qwen38_flash_next::rocm::WeightType)16)==((gufo::models::qwen38_flash_next::rocm::WeightType)10))&&(!(false)), float, __half>::type const*, int const*, int const*, int const*, int const*, float const*, float*, __half*, unsigned long, unsigned long, void const*)": {
+        "instructions": 2752,
+        "wmma": 32,
+        "vgpr": 148,
+        "sgpr": 40,
+        "lds": 25728,
+        "scratch": 0,
+        "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE16ELi128ELi128ELi2ELb1ELb1ELb0EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+        "barriers": 18,
+        "lds_store": 39
+      }
+    }
+  },
+  "assemblies": {
+    "reference.s": "8e7418181dba4440c5a906df22ac7d0c85d940624ca5cd338316cf6df509a862",
+    "candidate.s": "96167034e3c993c4641efa17423a6aafa86cc0ca2807b37634e31000eb627d30"
+  },
+  "source_manifest_sha256": "120b394ff9c0a0fddcfee394b3b05f291838e1833c60898fb2edde9082ec64ae",
+  "runtime_validated": false,
+  "performance_validated": false,
+  "promoted": false,
+  "goal_met": false,
+  "instruction_accounting": "Static mnemonic lines including branches, not executed instruction counts. LLVM uses s_barrier and ds_store spellings here."
+}

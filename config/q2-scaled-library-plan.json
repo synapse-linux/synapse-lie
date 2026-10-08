@@ -1,0 +1,38 @@
+{
+  "scope": "Compose distinct measured performance leads; no summed speed prediction",
+  "machine": "192.168.5.157",
+  "source_variant": "scaled-library",
+  "phases": [
+    "Fresh coordinated window and CPU guards on .157",
+    "Unchanged 22-case HC component, preserving actual numerical exit1",
+    "Fresh scaled-input / scaled-library / pristine UD C1 pp2048/tg128 full-MMQ builds",
+    "Compare complete token histories/logits and retained qualification at unchanged limits",
+    "Collect all evidence and verify release"
+  ],
+  "numerical_policy": "Both inherited arithmetic failures remain; exploratory performance is user-authorized, not promotion",
+  "dispatch_scope": "F16 M320/K10240/n2048 only; original scaled expert, HC up and scalar decode paths",
+  "fan_policy": "All three fan curves 100 percent at82C; CPU98C inclusive and exposed GPU limits",
+  "previous_additions": "Vector narrowing and PLE hooks excluded from this arithmetic screen after no useful warm gain",
+  "remote_admitted": true,
+  "goal_met": false,
+  "promoted": false,
+  "admission_scope": "Host/component qualification completed; fresh scaled-input/scaled-library/UD C1pp2048/tg128 trio admitted with full MMQ rebuilds",
+  "preflight_at": "2026-10-03T15:26:36.371635+00:00",
+  "component_decision": {
+    "reference_down_us": 1196.710944176,
+    "candidate_down_us": 988.4264469147,
+    "time_change_percent": -17.404745755435137,
+    "changed_output": [
+      "320x10240-n2048-p0"
+    ],
+    "complete_outputs_matching_previous_library": 22,
+    "reference_numeric_failures": 4,
+    "candidate_numeric_failures": 5,
+    "numerical_promotion": false
+  },
+  "state": "MEASURED_WINDOW_RELEASED_NOT_PROMOTED",
+  "completed_at": "2026-10-03T15:54:18.022541+00:00",
+  "remaining_scheduled": [],
+  "results": "config/q2-scaled-library-results.json",
+  "release": "config/q2-scaled-library-window-release.json"
+}

@@ -1,0 +1,13 @@
+{
+  "schema": "synapse-lie.q2-hc-bk256-logging-fix.v1",
+  "fixture": "tests/q2_hc_bk256.cpp",
+  "measured_fixture_sha256": "c50b92ea328c42398fe23d625d3a8d098f36dd92bf142516ea9574cd47e67727",
+  "current_fixture_sha256": "d58035790ba10af5ba29ed9a3dee3df0a30646c8773b2362a1222c5c8abbb48e",
+  "change": "Restore defaultfloat precision12 after library plan diagnostics before Compare and timing JSON",
+  "measured_capsules_unchanged": true,
+  "original_fixed2_logs_preserved": true,
+  "gpu_rerun": false,
+  "model_arithmetic_changed": false,
+  "model_quality_verdict_changed": false,
+  "syntax_exit_code": 0
+}

@@ -1,0 +1,87 @@
+{
+  "schema": "synapse-lie.q2-norm-point-plan.v1",
+  "status": "PREPARED_NOT_GPU_ADMITTED",
+  "host": "q2-norm-point-host-r1",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "77a41cea52095fea97ea69de8170b626127ebb3a6d1ee3ba53492cf2af9271c4",
+    "cmake/curve/CMakeLists.txt": "21f58c9f3d168716466b9ef521a082e717eef169ae8f3694a638c2f90e3f50d6",
+    "tools/q2-remote.py": "46375ee13e033a65329b06eb115306fe370e1fb38156905cf48ea53f72d2cd72",
+    "tools/q2-runner.py": "5df4cc9b221f66679f98ed72d45b0305b5c024408e8ac8e48111d35d47a3d619",
+    "tools/q2-curve-session.py": "56d13f643a2a4ec089aa24a6f81fab490f69176fd724c8f661dc059606efe250",
+    "tools/q2_native_curve.py": "ace5290fa2085fe37f7859edf54bfda9d3a968bcca7c7d25630d8e59061c0138",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+    "tests/q2_remote_test.py": "7ae7314ed67ce4b1b474eef5adb5136508808b59eb170ade4c60f1edba6c619c"
+  },
+  "native_client": {
+    "source_manifest": "config/q2-native-bench-source.json",
+    "status": "QUALIFIED_FROZEN_C17_CLIENT",
+    "standalone": true,
+    "embedded_gpu_runtime": false,
+    "conformance_label": "q2-native-bench-conformance-r1",
+    "commit": "b598e4c1e6aba26b0bacd6ad243503009360c869",
+    "source_manifest_sha256": "4af4e2f0c399a034348fdd22ecc4a1487bbb9a11f07e181d571fd70ce2ab4b53",
+    "conformance_receipt_sha256": "6cc43f6dbdd741d4edb54e0f68eb702dcd9c47e51cc8c649580aa33d9d45d7c4",
+    "reuse_reason": "Native benchmark source is unchanged from its retained .157 Debug/ASan conformance; only the already supported depths/repetitions arguments differ."
+  },
+  "server_manifest": "config/q2-curve-source.json",
+  "server_manifest_sha256": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",
+  "providers": {
+    "q2-iq2-signs-ordered-asm-source.json": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+    "q2-norm-ragged-source.json": "06187213e68a20054c305e0d92f67ca3bb9c7c125e666f5cb25cd94ba79e4e4b",
+    "q2-norm-ragged-plan.json": "e051b90ca2745471be680cee0e8b8e0c7f2174dd1c37fe5a4172ddf3653805c2",
+    "q2-norm-ragged-results.json": "baff5bea85a7a2f4bb82bce02660f63d1b8576c7ace3b061ddfe58d2453c58a7"
+  },
+  "arms": [
+    {
+      "label": "q2-norm-point-before-r1",
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2"
+    },
+    {
+      "label": "q2-norm-point-candidate-r1",
+      "mode": "q2-point-norm",
+      "source_variant": "point-norm-q2"
+    },
+    {
+      "label": "q2-norm-point-after-r1",
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2"
+    },
+    {
+      "label": "q2-norm-point-ud-r1",
+      "mode": "ud-curve",
+      "source_variant": "curve-ud"
+    }
+  ],
+  "native_curve": true,
+  "rebuild_mmq": true,
+  "context": 133760,
+  "prefill_chunk": 2048,
+  "depths": [
+    0
+  ],
+  "new_prompt_tokens": 2048,
+  "output_tokens": 128,
+  "mode": "AR greedy, thinking/MTP/vision/SSD off",
+  "cache_ram_mib": 16384,
+  "prefix_reply_tokens": 8,
+  "warmups": 1,
+  "repetitions": 3,
+  "timing_scope": "synchronous_executor_calls",
+  "driver": "synapse-lie-bench --suite http-curve",
+  "python_role": "Remote process/lease supervision and retained-evidence audit only; never generate or issue curve requests",
+  "history_checks": "All calibration, warmup, prefix and measured Q2 request/response/count histories; independent quality remains separate",
+  "gate": "Freeze qualified native driver; validate capsule composition; fresh coordinated admission and ownership checks; preserve all errors and exit codes",
+  "gpu_admitted": false,
+  "model_inference": false,
+  "promoted": false,
+  "goal_met": false,
+  "candidate_key": "norm",
+  "candidate_manifest": "q2-norm-ragged-source.json",
+  "numerical_limit": "Paired norm component outputs exact; fourteen independent norms pass and both paths retain all 34 down failures at unchanged2e-5. Independent model quality remains open.",
+  "point_only": true,
+  "selection": "Report every repetition and both unchanged Q2 controls. Retain a model benefit only if medians improve against both controls with matching request/output/count histories; do not attribute before/after control drift to the patch. No automatic full context curve."
+}

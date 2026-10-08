@@ -1,0 +1,718 @@
+{
+  "scope": "Exploratory direct-executor C1 wall timings; not final numerical or zero-regression acceptance",
+  "protocol": "config/q2-performance-exploration.json",
+  "arms": {
+    "Q2 reference": {
+      "label": "q2-explore-reference-r1",
+      "source_variant": "qualified",
+      "source_capsule_sha256": "5afd10b3ed73d6370cd7ff987fddd0f795db84cb4a98e7ea1415db4ed7230af3",
+      "binary_sha256": "05a6b9d1d4962bfe3428c17f29d59cb78c83beb0a594e901b3d66deb179af852",
+      "commands_exit": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "transport_exit": 0,
+      "finished_at": "2026-10-02T06:00:57.642996+00:00",
+      "collection_sha256": "cac3f952a33e781d1d7a62cabbb9bf4ab658eebe6b2f3c1d72405470887c4285",
+      "verified_artifacts": 52,
+      "model_stat_identity_unchanged": true,
+      "replay_reference": "evidence/q2-explore-reference-r1/results",
+      "replay_files": 47,
+      "replay_different": [],
+      "maximum_observed_temperature_c": {
+        "/sys/class/drm/card1/device/hwmon/hwmon2/temp1_input": 92.0
+      }
+    },
+    "Q2 bounded K": {
+      "label": "q2-explore-bounded-r1",
+      "source_variant": "bounded-k",
+      "source_capsule_sha256": "5bcdd402ba7cb648cca10de25aa3f5c9fef024ca8ff7b80137bcf07172b6b3cc",
+      "binary_sha256": "bcfa2a0bdb40252c3871a7845c1bb28bec26f35d0820236bc43fdbd555fecb2f",
+      "commands_exit": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "transport_exit": 0,
+      "finished_at": "2026-10-02T06:05:25.941395+00:00",
+      "collection_sha256": "4ed9e8282f4d41e8d1f6d15e5ba19dcaa2287059de88d9ccc20d9327a0303067",
+      "verified_artifacts": 52,
+      "model_stat_identity_unchanged": true,
+      "replay_reference": "evidence/q2-explore-reference-r1/results",
+      "replay_files": 47,
+      "replay_different": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32",
+        "pp512-0-last.f32",
+        "pp512-0-prefill.f32",
+        "pp512-1-last.f32",
+        "pp512-1-prefill.f32",
+        "pp512-2-last.f32",
+        "pp512-2-prefill.f32",
+        "pp512-3-last.f32",
+        "pp512-3-prefill.f32",
+        "pp8192-0-last.f32",
+        "pp8192-0-prefill.f32",
+        "pp8192-1-last.f32",
+        "pp8192-1-prefill.f32",
+        "pp8192-2-last.f32",
+        "pp8192-2-prefill.f32",
+        "pp8192-3-last.f32",
+        "pp8192-3-prefill.f32"
+      ],
+      "maximum_observed_temperature_c": {
+        "/sys/class/drm/card1/device/hwmon/hwmon2/temp1_input": 95.0
+      }
+    },
+    "Q2 barrier": {
+      "label": "q2-explore-barrier-r1",
+      "source_variant": "wide-barrier",
+      "source_capsule_sha256": "cc0bb825f67502ad108313cddda3f4594f471fd829c09f28b39b0c6dfe194541",
+      "binary_sha256": "be7c953b444c5f06180ca5df1dea5fb57f32210ac4b50452a2712bf421c2f293",
+      "commands_exit": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "transport_exit": 0,
+      "finished_at": "2026-10-02T06:09:58.005459+00:00",
+      "collection_sha256": "6fcf71777d0e82132472a592c6d686a5e5595cc70f2ac7cc2adc2107ea158b31",
+      "verified_artifacts": 52,
+      "model_stat_identity_unchanged": true,
+      "replay_reference": "evidence/q2-explore-reference-r1/results",
+      "replay_files": 47,
+      "replay_different": [
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32",
+        "pp512-0-last.f32",
+        "pp512-0-prefill.f32",
+        "pp512-1-last.f32",
+        "pp512-1-prefill.f32",
+        "pp512-2-last.f32",
+        "pp512-2-prefill.f32",
+        "pp512-3-last.f32",
+        "pp512-3-prefill.f32",
+        "pp8192-0-last.f32",
+        "pp8192-0-prefill.f32",
+        "pp8192-1-last.f32",
+        "pp8192-1-prefill.f32",
+        "pp8192-2-last.f32",
+        "pp8192-2-prefill.f32",
+        "pp8192-3-last.f32",
+        "pp8192-3-prefill.f32"
+      ],
+      "maximum_observed_temperature_c": {
+        "/sys/class/drm/card1/device/hwmon/hwmon2/temp1_input": 97.0
+      }
+    },
+    "UD original": {
+      "label": "q2-explore-ud-r1",
+      "source_variant": "qualified",
+      "source_capsule_sha256": "04e2a29e5bdfb6263fa48b7db13907e891c45705650b1dfcc8d77efbdb2c028c",
+      "binary_sha256": "7a4b1afb972212190414b0fac6bba148a45607a1cc4b2229401b8253de20cc39",
+      "commands_exit": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "transport_exit": 0,
+      "finished_at": "2026-10-02T06:13:54.006921+00:00",
+      "collection_sha256": "8f94047178cf7b86641b991bc63363ecf3e4a5e15126f01191760473cedb8f4d",
+      "verified_artifacts": 52,
+      "model_stat_identity_unchanged": true,
+      "replay_reference": "evidence/q2-ud-base-r1/results",
+      "replay_files": 47,
+      "replay_different": [],
+      "maximum_observed_temperature_c": {
+        "/sys/class/drm/card1/device/hwmon/hwmon2/temp1_input": 98.0
+      }
+    }
+  },
+  "measurements": [
+    {
+      "arm": "Q2 reference",
+      "prompt_tokens": 512,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 547.6080468,
+        "median": 548.1515085,
+        "max": 548.3729939
+      },
+      "decode_steps_s": {
+        "min": 20.80765878,
+        "median": 20.81538109,
+        "max": 20.81767532
+      },
+      "prefill_s": {
+        "min": 0.93367107,
+        "median": 0.934048328,
+        "max": 0.934975304
+      },
+      "decode_s": {
+        "min": 6.100585107,
+        "median": 6.1012575,
+        "max": 6.103521849
+      }
+    },
+    {
+      "arm": "Q2 reference",
+      "prompt_tokens": 2048,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 605.7894583,
+        "median": 606.1617785,
+        "max": 606.9309931
+      },
+      "decode_steps_s": {
+        "min": 20.39270143,
+        "median": 20.39947312,
+        "max": 20.4038109
+      },
+      "prefill_s": {
+        "min": 3.37435396,
+        "median": 3.378635989,
+        "max": 3.38071251
+      },
+      "decode_s": {
+        "min": 6.224327438,
+        "median": 6.22565099,
+        "max": 6.227718305
+      }
+    },
+    {
+      "arm": "Q2 reference",
+      "prompt_tokens": 8192,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 559.0908923,
+        "median": 559.553719,
+        "max": 559.7169997
+      },
+      "decode_steps_s": {
+        "min": 20.38151194,
+        "median": 20.38365512,
+        "max": 20.3860553
+      },
+      "prefill_s": {
+        "min": 14.63596783,
+        "median": 14.64023868,
+        "max": 14.65235816
+      },
+      "decode_s": {
+        "min": 6.229748627,
+        "median": 6.230482181,
+        "max": 6.231137336
+      }
+    },
+    {
+      "arm": "Q2 bounded K",
+      "prompt_tokens": 512,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 618.0166905,
+        "median": 618.7194964,
+        "max": 623.9521146
+      },
+      "decode_steps_s": {
+        "min": 20.71725223,
+        "median": 20.73668717,
+        "max": 20.74198396
+      },
+      "prefill_s": {
+        "min": 0.820575791,
+        "median": 0.827515543,
+        "max": 0.82845659
+      },
+      "decode_s": {
+        "min": 6.122847278,
+        "median": 6.124411241,
+        "max": 6.130156576
+      }
+    },
+    {
+      "arm": "Q2 bounded K",
+      "prompt_tokens": 2048,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 775.6000819,
+        "median": 776.2370968,
+        "max": 778.4510036
+      },
+      "decode_steps_s": {
+        "min": 20.34560114,
+        "median": 20.36103976,
+        "max": 20.37493343
+      },
+      "prefill_s": {
+        "min": 2.630865643,
+        "median": 2.638369138,
+        "max": 2.64053608
+      },
+      "decode_s": {
+        "min": 6.233149199,
+        "median": 6.237402486,
+        "max": 6.242135542
+      }
+    },
+    {
+      "arm": "Q2 bounded K",
+      "prompt_tokens": 8192,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 789.7798112,
+        "median": 791.8815851,
+        "max": 792.984412
+      },
+      "decode_steps_s": {
+        "min": 20.24943741,
+        "median": 20.29877503,
+        "max": 20.31287152
+      },
+      "prefill_s": {
+        "min": 10.33059399,
+        "median": 10.34498106,
+        "max": 10.37251128
+      },
+      "decode_s": {
+        "min": 6.252193337,
+        "median": 6.256535175,
+        "max": 6.271779182
+      }
+    },
+    {
+      "arm": "Q2 barrier",
+      "prompt_tokens": 512,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 553.5339614,
+        "median": 554.1498663,
+        "max": 554.1672241
+      },
+      "decode_steps_s": {
+        "min": 20.77186876,
+        "median": 20.79171959,
+        "max": 20.81897933
+      },
+      "prefill_s": {
+        "min": 0.923908845,
+        "median": 0.923937785,
+        "max": 0.92496583
+      },
+      "decode_s": {
+        "min": 6.100202993,
+        "median": 6.108200884,
+        "max": 6.114038245
+      }
+    },
+    {
+      "arm": "Q2 barrier",
+      "prompt_tokens": 2048,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 694.9492365,
+        "median": 695.2744014,
+        "max": 697.341794
+      },
+      "decode_steps_s": {
+        "min": 20.38661718,
+        "median": 20.39691127,
+        "max": 20.39960913
+      },
+      "prefill_s": {
+        "min": 2.936866853,
+        "median": 2.945599602,
+        "max": 2.94697784
+      },
+      "decode_s": {
+        "min": 6.225609481,
+        "median": 6.22643293,
+        "max": 6.229576928
+      }
+    },
+    {
+      "arm": "Q2 barrier",
+      "prompt_tokens": 8192,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 717.4002862,
+        "median": 718.0889693,
+        "max": 718.7098163
+      },
+      "decode_steps_s": {
+        "min": 20.37555819,
+        "median": 20.37801488,
+        "max": 20.38981714
+      },
+      "prefill_s": {
+        "min": 11.39820247,
+        "median": 11.40805715,
+        "max": 11.41900855
+      },
+      "decode_s": {
+        "min": 6.228599262,
+        "median": 6.232206657,
+        "max": 6.232958078
+      }
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 512,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 1044.357476,
+        "median": 1047.698078,
+        "max": 1054.052754
+      },
+      "decode_steps_s": {
+        "min": 24.92578624,
+        "median": 24.98110996,
+        "max": 24.98604611
+      },
+      "prefill_s": {
+        "min": 0.485744189,
+        "median": 0.488690407,
+        "max": 0.490253588
+      },
+      "decode_s": {
+        "min": 5.082837013,
+        "median": 5.083841358,
+        "max": 5.095125136
+      }
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 2048,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 1646.067673,
+        "median": 1650.064552,
+        "max": 1654.467856
+      },
+      "decode_steps_s": {
+        "min": 24.18400041,
+        "median": 24.33712946,
+        "max": 24.35743163
+      },
+      "prefill_s": {
+        "min": 1.237860254,
+        "median": 1.241163564,
+        "max": 1.24417728
+      },
+      "decode_s": {
+        "min": 5.214014431,
+        "median": 5.218363991,
+        "max": 5.251405799
+      }
+    },
+    {
+      "arm": "UD original",
+      "prompt_tokens": 8192,
+      "n": 3,
+      "prefill_tok_s": {
+        "min": 1626.735508,
+        "median": 1628.665332,
+        "max": 1635.557647
+      },
+      "decode_steps_s": {
+        "min": 24.25625711,
+        "median": 24.27528049,
+        "max": 24.27921894
+      },
+      "prefill_s": {
+        "min": 5.008689247,
+        "median": 5.029885416,
+        "max": 5.035852453
+      },
+      "decode_s": {
+        "min": 5.230810773,
+        "median": 5.231659427,
+        "max": 5.235762443
+      }
+    }
+  ],
+  "numerics": {
+    "Q2 bounded K": {
+      "all_input_output_files_exact": true,
+      "exact_frontier_count": 0,
+      "frontier_count": 28,
+      "max_kl": 0.0024942178755511042,
+      "max_absolute_logit_difference": 3.0299179553985596,
+      "max_relative_l2": 0.2767418971258212,
+      "exact_replay_pass": false,
+      "repeated_frontiers_outputs_exact": true,
+      "previous_wmma_kl_limit_for_reference_only": 0.002,
+      "within_previous_wmma_kl_limit": false,
+      "relative_medians": {
+        "baseline": {
+          "512": {
+            "prefill_tok_s": 1.128738107632153,
+            "decode_steps_s": 0.9962194340973269
+          },
+          "2048": {
+            "prefill_tok_s": 1.2805774371338063,
+            "decode_steps_s": 0.9981159631048354
+          },
+          "8192": {
+            "prefill_tok_s": 1.4152020766034799,
+            "decode_steps_s": 0.9958358748958269
+          }
+        },
+        "ud": {
+          "512": {
+            "prefill_tok_s": 0.5905513328621379,
+            "decode_steps_s": 0.8300947076892815
+          },
+          "2048": {
+            "prefill_tok_s": 0.47042832103698207,
+            "decode_steps_s": 0.8366245408467331
+          },
+          "8192": {
+            "prefill_tok_s": 0.4862150434107724,
+            "decode_steps_s": 0.8361911632024979
+          }
+        }
+      }
+    },
+    "Q2 barrier": {
+      "all_input_output_files_exact": true,
+      "exact_frontier_count": 4,
+      "frontier_count": 28,
+      "max_kl": 0.0018666984150077918,
+      "max_absolute_logit_difference": 3.1900687217712402,
+      "max_relative_l2": 0.24892279733535091,
+      "exact_replay_pass": false,
+      "repeated_frontiers_outputs_exact": true,
+      "previous_wmma_kl_limit_for_reference_only": 0.002,
+      "within_previous_wmma_kl_limit": true,
+      "relative_medians": {
+        "baseline": {
+          "512": {
+            "prefill_tok_s": 1.0109428829566014,
+            "decode_steps_s": 0.9988632684697103
+          },
+          "2048": {
+            "prefill_tok_s": 1.1470112865257143,
+            "decode_steps_s": 0.9998744158741293
+          },
+          "8192": {
+            "prefill_tok_s": 1.2833244511060073,
+            "decode_steps_s": 0.9997232959463453
+          }
+        },
+        "ud": {
+          "512": {
+            "prefill_tok_s": 0.528921335197868,
+            "decode_steps_s": 0.8322976690504107
+          },
+          "2048": {
+            "prefill_tok_s": 0.4213619403903175,
+            "decode_steps_s": 0.8380984825479907
+          },
+          "8192": {
+            "prefill_tok_s": 0.44090640059132785,
+            "decode_steps_s": 0.8394553829519932
+          }
+        }
+      }
+    }
+  },
+  "closure": {
+    "at": "2026-10-02T06:14:39.646783+00:00",
+    "state": "Q2_EXPLORATION_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-explore-reference-r1",
+        "pid": 2383553,
+        "absent": true,
+        "finished_at": "2026-10-02T06:00:57.642996+00:00"
+      },
+      {
+        "label": "q2-explore-bounded-r1",
+        "pid": 2385609,
+        "absent": true,
+        "finished_at": "2026-10-02T06:05:25.941395+00:00"
+      },
+      {
+        "label": "q2-explore-barrier-r1",
+        "pid": 2387538,
+        "absent": true,
+        "finished_at": "2026-10-02T06:09:58.005459+00:00"
+      },
+      {
+        "label": "q2-explore-ud-r1",
+        "pid": 2389625,
+        "absent": true,
+        "finished_at": "2026-10-02T06:13:54.006921+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-explore-reference-r1",
+        "pid": 2383562,
+        "start_ticks": 148598030,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-reference-r1",
+        "pid": 2383761,
+        "start_ticks": 148598183,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-reference-r1",
+        "pid": 2384632,
+        "start_ticks": 148608351,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-reference-r1",
+        "pid": 2384638,
+        "start_ticks": 148608403,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-bounded-r1",
+        "pid": 2385666,
+        "start_ticks": 148628673,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-bounded-r1",
+        "pid": 2385840,
+        "start_ticks": 148628826,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-bounded-r1",
+        "pid": 2386635,
+        "start_ticks": 148637541,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-bounded-r1",
+        "pid": 2386640,
+        "start_ticks": 148637594,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-barrier-r1",
+        "pid": 2387539,
+        "start_ticks": 148655129,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-barrier-r1",
+        "pid": 2387719,
+        "start_ticks": 148655281,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-barrier-r1",
+        "pid": 2388519,
+        "start_ticks": 148664397,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-barrier-r1",
+        "pid": 2388524,
+        "start_ticks": 148664450,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-ud-r1",
+        "pid": 2389626,
+        "start_ticks": 148684888,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-ud-r1",
+        "pid": 2389801,
+        "start_ticks": 148685040,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-ud-r1",
+        "pid": 2390459,
+        "start_ticks": 148691403,
+        "exit_code": 0
+      },
+      {
+        "label": "q2-explore-ud-r1",
+        "pid": 2390464,
+        "start_ticks": 148691455,
+        "exit_code": 0
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ]
+  },
+  "runtime_patch_sha256": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473",
+  "conclusion": "Measured PP gains; bounded K fastest of these two, barrier lower maximum KL. Neither reaches UD throughput or passes exact replay. No variant promoted.",
+  "temperature_scope": "2-second samples while the model process existed, including loading/warmup. Not a continuous peak detector, hardware-limit check or inference-phase-only thermal measurement.",
+  "limits": "Three repetitions and sequential, noninterleaved arms with rising observed temperatures do not establish zero-margin no-regression. No independent full-model teacher, broad quality score or long-context result.",
+  "source_capsule_matches": {
+    "q2-explore-reference-r1": {
+      "historical_source": "q2-register-reference-r1",
+      "exact_source_files": 1019
+    },
+    "q2-explore-bounded-r1": {
+      "historical_source": "q2-register-operators-r1",
+      "exact_source_files": 1019
+    },
+    "q2-explore-barrier-r1": {
+      "historical_source": "q2-register-operators-r2",
+      "exact_source_files": 1019
+    },
+    "q2-explore-ud-r1": {
+      "historical_source": "q2-ud-base-r1",
+      "exact_source_files": 1019
+    }
+  }
+}

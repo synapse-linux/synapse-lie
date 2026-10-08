@@ -1,0 +1,82 @@
+{
+  "schema": "synapse-lie.q2-iq2-decode-lds-native128-results.v1",
+  "source_commit": "5548600e162c515eccdcbd577686ac9388beb968",
+  "plan_sha256": "d74a1f28d95f0c160634cfbbb60a4680ee98e4b5525445e27a6df5a84ccf40b6",
+  "server_sha256": "30fdc4f6cd3fff2a574a9ec0f1e1380c4d8582df095f8a83962c041b38996e1c",
+  "client_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9",
+  "request_sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+  "tokens": 130925,
+  "prefill_calls": 64,
+  "full_chunks": 63,
+  "tail_tokens": 1901,
+  "output_tokens": 8,
+  "decode_calls": 8,
+  "cached_tokens": 0,
+  "all_four_outputs_exact": true,
+  "rates": {
+    "original": {
+      "prefill_ms": 99876.06713,
+      "prefill_tps": 1310.874604519482,
+      "decode_ms": 315.653915,
+      "decode_tps": 25.34421282245145
+    },
+    "down_rows": {
+      "prefill_ms": 97853.296131,
+      "prefill_tps": 1337.9723031989197,
+      "decode_ms": 306.494308,
+      "decode_tps": 26.101626657288527
+    },
+    "iq2_lds": {
+      "prefill_ms": 97840.147349,
+      "prefill_tps": 1338.1521139066247,
+      "decode_ms": 306.656405,
+      "decode_tps": 26.087829471554652
+    },
+    "isolated_hc": {
+      "prefill_ms": 97915.672036,
+      "prefill_tps": 1337.1199653500175,
+      "decode_ms": 308.708599,
+      "decode_tps": 25.91440609660504
+    }
+  },
+  "prefill_change_vs_down_rows_percent": 0.013439045582264164,
+  "decode_change_vs_down_rows_percent": -0.05285948617314018,
+  "new_telemetry": {
+    "path": "evidence/q2-iq2-decode-lds-native128-r1/results/00-iq2-lds.telemetry.jsonl",
+    "sha256": "e3c04c933d71fb6e7e4393449ec8b28dedf2cfdbf9095944a75bee98f0953774",
+    "sample_count": 52,
+    "gpu_busy_ge80_samples": 51,
+    "active_clock_mean_mhz": 2661.470588235294,
+    "active_clock_median_mhz": 2656,
+    "active_gpu_busy_mean_percent": 97.01960784313725,
+    "sampled_peak_cpu_mc": 90625,
+    "sampled_peak_gpu_mc": 92000
+  },
+  "saved_telemetry": {
+    "path": "evidence/q2-decode-down-rows-native128-r3/results/00-down-rows.telemetry.jsonl",
+    "sha256": "c68357e7c1bfb57db08e965e25d599a59771d33912d5308c1efd2a9baa917fc6",
+    "sample_count": 52,
+    "gpu_busy_ge80_samples": 51,
+    "active_clock_mean_mhz": 2658.901960784314,
+    "active_clock_median_mhz": 2655,
+    "active_gpu_busy_mean_percent": 97.07843137254902,
+    "sampled_peak_cpu_mc": 91250,
+    "sampled_peak_gpu_mc": 94000
+  },
+  "power_mode_verified_before_after": true,
+  "controls_rebuilt_or_rerun": false,
+  "new_precision_reduction": false,
+  "sustained_tg128_measured": false,
+  "independent_parent_quality_qualified": false,
+  "model_promoted": false,
+  "goal_met": false,
+  "artifact_count": 38,
+  "release_at": "2026-10-07T18:08:03.238385+00:00",
+  "release_sha256": "0d852d5fe4a0cebcb2139e20c891d67aa4fa71f06dd51375f7ee443c99925e25",
+  "decision": "Keep down-rows as reference. IQ2 LDS model observation is effectively flat; component saving did not translate.",
+  "limits": [
+    "One new original130925/8 observation; saved references were not rerun.",
+    "Eight AR calls do not establish sustained TG128 or task quality.",
+    "PP source/device kernels unchanged; its small variation is not an IQ2-prefill gain."
+  ]
+}

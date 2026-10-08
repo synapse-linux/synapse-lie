@@ -1,0 +1,77 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-model-thermal.v1",
+  "scope": "Approximate32K wall intervals from session/command anchor, expanded one second. Two-second sampled telemetry does not establish causal throttling.",
+  "rows": [
+    {
+      "label": "q2-full-prefill128-retained-r1",
+      "approximate_start": "2026-10-06 17:12:54.938816+00:00",
+      "approximate_end": "2026-10-06 17:13:18.738231+00:00",
+      "temperature_ranges_c": {
+        "amdgpu": [
+          77.0,
+          98.0
+        ],
+        "k10temp": [
+          94.375,
+          97.375
+        ]
+      },
+      "gpu_clock_mhz_range": [
+        2541,
+        2682
+      ],
+      "gpu_clock_samples": [
+        2678,
+        2682,
+        2655,
+        2662,
+        2629,
+        2648,
+        2654,
+        2631,
+        2647,
+        2541,
+        2633,
+        2646,
+        2676
+      ],
+      "telemetry_sha256": "55f8bb1d0864fd76d7479ebe1f288a8846ff61a33cf22f18fe9e622d9e284997"
+    },
+    {
+      "label": "q2-select-live-grid-model-r1",
+      "approximate_start": "2026-10-06 22:13:14.023469+00:00",
+      "approximate_end": "2026-10-06 22:13:40.768131+00:00",
+      "temperature_ranges_c": {
+        "amdgpu": [
+          61.0,
+          97.0
+        ],
+        "k10temp": [
+          81.125,
+          93.75
+        ]
+      },
+      "gpu_clock_mhz_range": [
+        1997,
+        2629
+      ],
+      "gpu_clock_samples": [
+        1997,
+        2197,
+        2386,
+        2512,
+        2441,
+        2205,
+        2434,
+        2570,
+        2624,
+        2432,
+        2555,
+        2629,
+        2438,
+        2611
+      ],
+      "telemetry_sha256": "52d1c16dbe4fb116d4128a4394052215c20d38317590b34a15a24316423b29bc"
+    }
+  ]
+}

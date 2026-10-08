@@ -528,7 +528,7 @@ int nb_http_multi_main(int argc, char **argv) {
       errno = 0;
       timeout = strtod(value, &end);
       if (errno || end == value || *end || !isfinite(timeout) || timeout <= 0 ||
-          timeout > 7200)
+          timeout > NB_HTTP_TIMEOUT_MAX_SECONDS)
         goto usage;
       bit = 512u;
     } else {

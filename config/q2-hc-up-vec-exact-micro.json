@@ -1,0 +1,286 @@
+{
+  "scope": "HC component exploration; full Q2/UD PP and TG parity remains required",
+  "promotion": false,
+  "micro": {
+    "reference": {
+      "path": "evidence/q2-hc-up-vec-reference-r2",
+      "binary_sha256": "49a01d10ac66a0dfbf5fb719c582e97fb854f60e83ff3370e5623f5d4eaad745",
+      "complete": true,
+      "runner_state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "thermal_stop": null,
+      "command_wall_s": 1.019889,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 79250
+      },
+      "finished_at": "2026-10-02T13:11:16.911057+00:00",
+      "operators": [
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p0",
+          "relative_rms": 1.91800720312e-07,
+          "error_over_peak": 2.2428570271e-07,
+          "max_abs_error": 6.81681783909e-07
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p1",
+          "relative_rms": 1.93533242967e-07,
+          "error_over_peak": 1.62952697929e-07,
+          "max_abs_error": 2.3903777212e-12
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p2",
+          "relative_rms": 1.72875009065e-07,
+          "error_over_peak": 1.49478870042e-07,
+          "max_abs_error": 9.68992182493e-07
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t2-p0",
+          "relative_rms": 3.33048242746e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t3-p0",
+          "relative_rms": 3.36516888351e-07,
+          "error_over_peak": 4.36339522372e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t8-p0",
+          "relative_rms": 3.26642583965e-07,
+          "error_over_peak": 4.1333057615e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t9-p0",
+          "relative_rms": 3.27672095892e-07,
+          "error_over_peak": 4.08800915058e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "319x10240-t1-p0",
+          "relative_rms": 3.39226594327e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10239-t1-p0",
+          "relative_rms": 3.3208100455e-07,
+          "error_over_peak": 3.18444749956e-07,
+          "max_abs_error": 9.96530449604e-07
+        },
+        {
+          "event": "operator",
+          "label": "10240x320-t1-p0",
+          "relative_rms": 8.6566995987e-08,
+          "error_over_peak": 9.11460997453e-08,
+          "max_abs_error": 7.72333808019e-08
+        },
+        {
+          "event": "operator",
+          "label": "512x2560-t1-p0",
+          "relative_rms": 1.7650408239e-07,
+          "error_over_peak": 1.77730139228e-07,
+          "max_abs_error": 3.0428515152e-07
+        }
+      ],
+      "us_per_launch": {
+        "min": 34.3279838562,
+        "median": 34.4739295542,
+        "max": 35.0070223212,
+        "samples": [
+          35.0070223212,
+          34.3279838562,
+          34.4739295542,
+          34.479867667,
+          34.4142355025
+        ]
+      }
+    },
+    "candidate": {
+      "path": "evidence/q2-hc-up-vec-exact-micro-r1",
+      "binary_sha256": "9bb2f45aaf8363e69d9313d0c2c47c4c6428b4bff1a717deb1b53c8b9a69d2c0",
+      "complete": true,
+      "runner_state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "thermal_stop": null,
+      "command_wall_s": 1.019442,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 81625
+      },
+      "finished_at": "2026-10-02T13:23:39.233135+00:00",
+      "operators": [
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p0",
+          "relative_rms": 1.91800720312e-07,
+          "error_over_peak": 2.2428570271e-07,
+          "max_abs_error": 6.81681783909e-07
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p1",
+          "relative_rms": 1.93533242967e-07,
+          "error_over_peak": 1.62952697929e-07,
+          "max_abs_error": 2.3903777212e-12
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t1-p2",
+          "relative_rms": 1.72875009065e-07,
+          "error_over_peak": 1.49478870042e-07,
+          "max_abs_error": 9.68992182493e-07
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t2-p0",
+          "relative_rms": 3.33048242746e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t3-p0",
+          "relative_rms": 3.36516888351e-07,
+          "error_over_peak": 4.36339522372e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t8-p0",
+          "relative_rms": 3.26642583965e-07,
+          "error_over_peak": 4.1333057615e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10240-t9-p0",
+          "relative_rms": 3.27672095892e-07,
+          "error_over_peak": 4.08800915058e-07,
+          "max_abs_error": 1.5736458141e-06
+        },
+        {
+          "event": "operator",
+          "label": "319x10240-t1-p0",
+          "relative_rms": 3.39226594327e-07,
+          "error_over_peak": 4.4677293837e-07,
+          "max_abs_error": 1.35789740474e-06
+        },
+        {
+          "event": "operator",
+          "label": "320x10239-t1-p0",
+          "relative_rms": 3.3208100455e-07,
+          "error_over_peak": 3.18444749956e-07,
+          "max_abs_error": 9.96530449604e-07
+        },
+        {
+          "event": "operator",
+          "label": "10240x320-t1-p0",
+          "relative_rms": 8.6566995987e-08,
+          "error_over_peak": 9.11460997453e-08,
+          "max_abs_error": 7.72333808019e-08
+        },
+        {
+          "event": "operator",
+          "label": "512x2560-t1-p0",
+          "relative_rms": 1.7650408239e-07,
+          "error_over_peak": 1.77730139228e-07,
+          "max_abs_error": 3.0428515152e-07
+        }
+      ],
+      "us_per_launch": {
+        "min": 29.8918746412,
+        "median": 29.919071123,
+        "max": 30.0443675369,
+        "samples": [
+          30.0443675369,
+          29.9581252038,
+          29.8918746412,
+          29.9034453928,
+          29.919071123
+        ]
+      }
+    },
+    "frontiers": [
+      {
+        "name": "hc-10240x320-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-319x10240-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10239-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t1-p1.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t1-p2.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t2-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t3-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t8-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-320x10240-t9-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      },
+      {
+        "name": "hc-512x2560-t1-p0.f32",
+        "exact": true,
+        "max_absolute_delta": 0.0,
+        "relative_l2": 0.0
+      }
+    ],
+    "speedup": 1.152239299558284
+  },
+  "model": {}
+}

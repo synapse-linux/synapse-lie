@@ -1,0 +1,287 @@
+{
+  "scope": "Two completed .157 runners; CPU fixtures separate from original-weight AR inference",
+  "runs": {
+    "q2-ple-lookahead-cpu-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-ple-lookahead-cpu-r1/results.tar.gz",
+        "sha256": "416c8fe814df99281d4e26497692c52296d7d87fe03437ff76079385b4732ecf",
+        "verified_artifacts": 7
+      },
+      "model_access": false,
+      "telemetry_samples": 23,
+      "thermal_example": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 50000,
+          "limit_mc": 98000,
+          "inclusive": true,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 51250,
+          "limit_mc": 98000,
+          "inclusive": true,
+          "over_limit": false
+        }
+      ],
+      "temperature_maxima_c": {
+        "amdgpu": 52.0,
+        "k10temp": 80.5
+      },
+      "frozen_files_verified": {
+        "CMakeLists.txt": "e0c81f5495150aab03654743630d5b669f51e07d79f9e53bff288fc503b6128f",
+        "cmake/hip/CMakeLists.txt": "f7aa23cb1245cb0fcea3c63b7353407da2804ba559a61760e7cb5b844834a886",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2f1641d8c2c2f5bf423f9444eed2a6b8377b5d40fec732ce0ba3a99f7df81159",
+        "tools/q2-runner.py": "6bf22b989b9802d306310468a9e5807dbd3f41e54416a9d89b66436df148b40b",
+        "tools/q2-remote.py": "73d9734f8ea489ea2d70bd157bdb2c37efcca667adc3dc1c46723e214de87159",
+        "tests/q2_remote_test.py": "d7e10d4fc356e1bbfd7b8e693662725c3c939ee81317d1ee260ca3e372a66240"
+      }
+    },
+    "q2-ple-lookahead-model-r1": {
+      "state": "PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT",
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-ple-lookahead-model-r1/results.tar.gz",
+        "sha256": "20b20255d747e74a8690eeb242a7c14bf351038b9f7e8ab9162078733fa7db81",
+        "verified_artifacts": 31
+      },
+      "model_access": true,
+      "telemetry_samples": 171,
+      "thermal_example": [
+        {
+          "path": "/sys/class/hwmon/hwmon2/temp1_input",
+          "device": "amdgpu",
+          "temperature_mc": 49000,
+          "limit_mc": 98000,
+          "inclusive": true,
+          "over_limit": false
+        },
+        {
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "device": "k10temp",
+          "temperature_mc": 51000,
+          "limit_mc": 98000,
+          "inclusive": true,
+          "over_limit": false
+        }
+      ],
+      "binary_sha256": "39f7e85bf218a8f150755da73c8f3f96f00f0f5d913b3365b4134be5ec3d502c",
+      "binary_sha256_after": "39f7e85bf218a8f150755da73c8f3f96f00f0f5d913b3365b4134be5ec3d502c",
+      "models_before": [
+        {
+          "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+          "bytes": 147207127040,
+          "device": 52,
+          "inode": 3116203,
+          "mtime_ns": 1789830972390000000,
+          "ctime_ns": 1790245042601989314
+        }
+      ],
+      "models_after": [
+        {
+          "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+          "bytes": 147207127040,
+          "device": 52,
+          "inode": 3116203,
+          "mtime_ns": 1789830972390000000,
+          "ctime_ns": 1790245042601989314
+        }
+      ],
+      "temperature_maxima_c": {
+        "amdgpu": 95.0,
+        "k10temp": 94.25
+      },
+      "frozen_files_verified": {
+        "CMakeLists.txt": "e0c81f5495150aab03654743630d5b669f51e07d79f9e53bff288fc503b6128f",
+        "cmake/hip/CMakeLists.txt": "f7aa23cb1245cb0fcea3c63b7353407da2804ba559a61760e7cb5b844834a886",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2f1641d8c2c2f5bf423f9444eed2a6b8377b5d40fec732ce0ba3a99f7df81159",
+        "tools/q2-runner.py": "6bf22b989b9802d306310468a9e5807dbd3f41e54416a9d89b66436df148b40b",
+        "tools/q2-remote.py": "73d9734f8ea489ea2d70bd157bdb2c37efcca667adc3dc1c46723e214de87159",
+        "tests/q2_remote_test.py": "d7e10d4fc356e1bbfd7b8e693662725c3c939ee81317d1ee260ca3e372a66240"
+      }
+    }
+  },
+  "closure": {
+    "at": "2026-10-02T19:29:48.264076+00:00",
+    "state": "Q2_PLE_LOOKAHEAD_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2650878,
+        "absent": true,
+        "finished_at": "2026-10-02T19:20:09.176156+00:00"
+      },
+      {
+        "label": "q2-ple-lookahead-model-r1",
+        "pid": 2652239,
+        "absent": true,
+        "finished_at": "2026-10-02T19:27:42.769903+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2650913,
+        "start_ticks": 153417677,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2650986,
+        "start_ticks": 153417780,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2651063,
+        "start_ticks": 153418233,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2651256,
+        "start_ticks": 153418887,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2651326,
+        "start_ticks": 153418940,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-cpu-r1",
+        "pid": 2651467,
+        "start_ticks": 153419693,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-model-r1",
+        "pid": 2652240,
+        "start_ticks": 153432374,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-model-r1",
+        "pid": 2652465,
+        "start_ticks": 153432577,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-model-r1",
+        "pid": 2653545,
+        "start_ticks": 153448004,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-ple-lookahead-model-r1",
+        "pid": 2653550,
+        "start_ticks": 153448056,
+        "exit_code": 0,
+        "absent": true
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "observer": {
+      "pid": 2655356,
+      "state": "R",
+      "group": 2655353,
+      "session": 2655353,
+      "start_ticks": 153478247
+    },
+    "result_sha256": {
+      "q2-ple-lookahead-cpu-r1": "5f7d3af3d7b66111b06259f5d64e07efe775ddbaca54bdb013d4bbc0b2045b53",
+      "q2-ple-lookahead-model-r1": "1bb34ffd28839ce36cff519a832943a6ab18f458bf364a62c2ecb6fc83a76beb"
+    },
+    "thermal": {
+      "/sys/class/hwmon/hwmon4/temp1_input": "51500",
+      "/sys/class/hwmon/hwmon2/temp1_input": "49000",
+      "/sys/class/hwmon/hwmon0/temp1_input": "50000",
+      "/sys/class/hwmon/hwmon5/temp1_input": "52000",
+      "/sys/class/hwmon/hwmon3/temp1_input": "50625",
+      "/sys/class/hwmon/hwmon1/temp6_input": "45850",
+      "/sys/class/hwmon/hwmon1/temp3_input": "45850",
+      "/sys/class/hwmon/hwmon1/temp7_input": "46850",
+      "/sys/class/hwmon/hwmon1/temp4_input": "46850",
+      "/sys/class/hwmon/hwmon1/temp8_input": "46850",
+      "/sys/class/hwmon/hwmon1/temp1_input": "46850",
+      "/sys/class/hwmon/hwmon1/temp9_input": "46850",
+      "/sys/class/hwmon/hwmon1/temp2_input": "57850"
+    }
+  },
+  "observer_retirement": {
+    "at": "2026-10-02T19:30:19.997146+00:00",
+    "expected": {
+      "pid": 2655356,
+      "state": "R",
+      "group": 2655353,
+      "session": 2655353,
+      "start_ticks": 153478247
+    },
+    "live": [],
+    "observer_retired": true
+  },
+  "observer_exit_codes": [
+    0,
+    0
+  ]
+}

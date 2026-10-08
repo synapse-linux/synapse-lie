@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-03T16:05:04.810151+00:00",
+  "state": "Q2_SCALED_LIBRARY_PROFILE_WINDOW_RELEASED",
+  "owner": "synapse-lie-q2",
+  "gpu_reserved": false,
+  "active_label": null,
+  "remote_workload_scheduled": false,
+  "planned_remaining": [],
+  "previous_release": "q2-scaled-library-window-release.json",
+  "preflight_at": "2026-10-03T16:04:34.750965+00:00",
+  "preflight_kfd": [],
+  "original_lease_identities": [
+    [
+      52,
+      3232146
+    ],
+    [
+      52,
+      3206482
+    ],
+    [
+      52,
+      3228451
+    ],
+    [
+      55,
+      45067
+    ]
+  ],
+  "latest_registry_event": "q2-scaled-library release 15:54:18.022541 UTC",
+  "coordination": "Bounded profile window under continuing owner Q2 authorization; no foreign admission since release. Direct thread transport failed. Every GPU/build arm requires fresh four leases; no autoqueue/retry.",
+  "machine": "192.168.5.157",
+  "source_variant": "scaled-library",
+  "runtime_source_unchanged": true,
+  "full_mmq_rebuild": true,
+  "protocol": "Marked pp2048/tg16 diagnostic, 15 decode calls; compare saved frontiers to each preceding unprofiled model arm",
+  "numerical_policy": "Existing operator/KL rejection remains; no quality promotion",
+  "goal_met": false,
+  "promoted": false,
+  "restart_scheduled": false,
+  "completed_at": "2026-10-03T16:14:41.510641+00:00",
+  "results": "config/q2-scaled-library-profile-results.json",
+  "release": "config/q2-scaled-library-profile-window-release.json"
+}

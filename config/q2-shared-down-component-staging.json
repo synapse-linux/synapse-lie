@@ -1,0 +1,14 @@
+{
+  "schema": "synapse-lie.q2-shared-down-component-staging.v1",
+  "arms": [
+    {
+      "mode": "shared-down-fixed-check",
+      "capsule_sha256": "f553a56c7cccf26bdeffca4cc486f842901853d7f31bdb5311e9b02f10043d1e",
+      "provider_files": 1028,
+      "fixture_files": 92,
+      "capsule_path": "evidence/q2-shared-down-stage-component/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

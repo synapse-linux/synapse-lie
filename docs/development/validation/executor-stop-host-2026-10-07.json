@@ -1,0 +1,340 @@
+{
+  "schema": "lie-focused-host-check-v1",
+  "at_utc": "2026-10-07T01:44:05.985844+00:00",
+  "scope": "UNAVAILABLE_EXECUTOR_STOP_METADATA_LINKAGE_ONLY;NO_MODEL_OR_GPU_EXECUTION",
+  "state": "RELEASE_AND_UNSUPPRESSED_ASAN_UBSAN_LSAN_FOCUSED_CHECK_PASS",
+  "executor_abi": 3,
+  "layout_changed": false,
+  "focused_checks": {
+    "release": "1/1",
+    "asan_ubsan_lsan": "1/1"
+  },
+  "checks": [
+    "stop metadata returns LIE_UNSUPPORTED",
+    "caller output unchanged on refusal",
+    "caller diagnostic populated when supplied",
+    "NULL output/error safe on unavailable backend",
+    "calls retained in Release without assert/NDEBUG dependence"
+  ],
+  "preserved_failures": [
+    {
+      "label": "release-build",
+      "exit_code": 1,
+      "cause": "focused standalone fixture omitted existing dispatch helper dependency"
+    },
+    {
+      "label": "release-ctest",
+      "exit_code": 8,
+      "cause": "test invoked after failed link; executable absent"
+    }
+  ],
+  "correction": "Standalone ABI fixture links src/dispatch.c; explicit return checks execute in Release.",
+  "commands": [
+    {
+      "label": "release-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/executor-stop-r82-release",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DLIE_SANITIZERS=OFF"
+      ],
+      "actual_exit_code": 0,
+      "elapsed_s": 1.0601337682455778
+    },
+    {
+      "label": "release-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/executor-stop-r82-release",
+        "-j2",
+        "--target",
+        "test-executor-abi"
+      ],
+      "actual_exit_code": 1,
+      "elapsed_s": 1.126648422330618
+    },
+    {
+      "label": "release-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/executor-stop-r82-release",
+        "--output-on-failure",
+        "-R",
+        "^executor-c-layout$"
+      ],
+      "actual_exit_code": 8,
+      "elapsed_s": 1.1340809212997556
+    },
+    {
+      "label": "release-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/executor-stop-r82-release",
+        "-j2",
+        "--target",
+        "test-executor-abi"
+      ],
+      "actual_exit_code": 0,
+      "elapsed_s": 1.0638737920671701
+    },
+    {
+      "label": "release-ctest-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/executor-stop-r82-release",
+        "--output-on-failure",
+        "-R",
+        "^executor-c-layout$"
+      ],
+      "actual_exit_code": 0,
+      "elapsed_s": 1.0892512807622552
+    },
+    {
+      "label": "asan-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/executor-stop-r82-asan",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "actual_exit_code": 0,
+      "elapsed_s": 1.082301301881671
+    },
+    {
+      "label": "asan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/executor-stop-r82-asan",
+        "-j2",
+        "--target",
+        "test-executor-abi"
+      ],
+      "actual_exit_code": 0,
+      "elapsed_s": 1.0882342802360654
+    },
+    {
+      "label": "asan-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/executor-stop-r82-asan",
+        "--output-on-failure",
+        "-R",
+        "^executor-c-layout$"
+      ],
+      "actual_exit_code": 0,
+      "elapsed_s": 1.0865757716819644
+    }
+  ],
+  "peak_cpu_c": 52.75,
+  "gpu_and_models_used": false,
+  "sources": {
+    "CMakeLists.txt": {
+      "bytes": 56585,
+      "sha256": "b977f59f78fef84f7b0cf1a319ac42f0c87bbea18481e07e70d48a69f8d1f38e"
+    },
+    "src/executor_unavailable.c": {
+      "bytes": 7819,
+      "sha256": "4be5d15080f4b39bfa9c62faf5dd51c5887444d933eb9b2b86f6c1f58545c69f"
+    },
+    "tests/test_executor_abi.c": {
+      "bytes": 943,
+      "sha256": "dbe2fad4c8e3068092d32706ddb68c4466349899d73b34ead7928de4cd5f1412"
+    }
+  },
+  "portable_raw_archive": {
+    "path": "docs/development/validation/raw/executor-stop-host-2026-10-07.tar.gz",
+    "bytes": 64490,
+    "sha256": "b798c141abce671cdf032953e68bee3f54bbad417ccdc9df99860a6953bbbd63",
+    "all_members_independently_size_sha256_verified": true
+  },
+  "archive_inventory": {
+    "CMakeLists.txt": {
+      "bytes": 56585,
+      "sha256": "b977f59f78fef84f7b0cf1a319ac42f0c87bbea18481e07e70d48a69f8d1f38e"
+    },
+    "build/executor-stop-r82-asan/test-executor-abi": {
+      "bytes": 130480,
+      "sha256": "5395e01e704f4efd2cec172661c845f71a45eeca30722cc009cf2a7f277f0d08"
+    },
+    "build/executor-stop-r82-release/test-executor-abi": {
+      "bytes": 22968,
+      "sha256": "776e8f267e58d558ffe16380df50d3dd59cd1bfe39b6fe919520edc2def45fcc"
+    },
+    "evidence/executor-stop-r82-asan-build/command.log": {
+      "bytes": 290,
+      "sha256": "cd5314f282d9386a95f47c1a90057bda3e14227c9ab2311b69c4b0ed88c67bec"
+    },
+    "evidence/executor-stop-r82-asan-build/plan.json": {
+      "bytes": 950,
+      "sha256": "208ead666c90cde86a51f7b8430bbad42e66adb0c47b1401686dea87b9e4a739"
+    },
+    "evidence/executor-stop-r82-asan-build/result.json": {
+      "bytes": 448,
+      "sha256": "b1eb8ccb9370e0b1081c405dbf8708c1d0bb30b3152995eae38454164bf94094"
+    },
+    "evidence/executor-stop-r82-asan-build/temperatures.jsonl": {
+      "bytes": 1828,
+      "sha256": "c905f907dc01ca59455f0a4246dc926037657742c5bbc3b3944ac200227c896c"
+    },
+    "evidence/executor-stop-r82-asan-configure/command.log": {
+      "bytes": 3402,
+      "sha256": "c5833d9400d7b1240aaa6f7e168f2dd810aaa2bf216ccc2934a61eefb0d42039"
+    },
+    "evidence/executor-stop-r82-asan-configure/plan.json": {
+      "bytes": 994,
+      "sha256": "82b01b8d4bf1174a9be44b0a9fcd4efb7efa0e843406b708be9b0c33c416746c"
+    },
+    "evidence/executor-stop-r82-asan-configure/result.json": {
+      "bytes": 491,
+      "sha256": "dd0a458bd172ff1e21507be607efe1a5a0437b2e14e50c7f4ee963d2d91278a4"
+    },
+    "evidence/executor-stop-r82-asan-configure/temperatures.jsonl": {
+      "bytes": 1828,
+      "sha256": "e1b072a222528b5bdf5f14d666952cde0f9fe6ea9e9d8c8aaa6094e1ea8e6a5a"
+    },
+    "evidence/executor-stop-r82-asan-ctest/command.log": {
+      "bytes": 302,
+      "sha256": "307e96890c6e064d7935d48969ad46a46fc831eddc327f5bf0996643d2d19ea4"
+    },
+    "evidence/executor-stop-r82-asan-ctest/plan.json": {
+      "bytes": 971,
+      "sha256": "67795dada4ef4bff7559b91c602bc0c6b34236d578387457c83329a96e3a55aa"
+    },
+    "evidence/executor-stop-r82-asan-ctest/result.json": {
+      "bytes": 463,
+      "sha256": "59a4015299826787ce1092d912f104ddb008d74bc6d7ec3ac17a136220da8ef7"
+    },
+    "evidence/executor-stop-r82-asan-ctest/temperatures.jsonl": {
+      "bytes": 1831,
+      "sha256": "1847152efaa271f2f9d192d89ecaf43119321fdf4e7f88b140c8639858514470"
+    },
+    "evidence/executor-stop-r82-release-build-r2/command.log": {
+      "bytes": 566,
+      "sha256": "8036291b9c6a2645b73feb53934e044366d6d56b48515b1659d43e7c7c4f0bfb"
+    },
+    "evidence/executor-stop-r82-release-build-r2/plan.json": {
+      "bytes": 953,
+      "sha256": "972a60bdd206dbed5770d99f131328458658722b1cf1e2fb7ed957c0316e8973"
+    },
+    "evidence/executor-stop-r82-release-build-r2/result.json": {
+      "bytes": 451,
+      "sha256": "9f2ac5b46c818093122de79dbadd9153fe893ab4521fa0fdcf76e6e60e5893d0"
+    },
+    "evidence/executor-stop-r82-release-build-r2/temperatures.jsonl": {
+      "bytes": 1830,
+      "sha256": "136738dd813ad89c8a7cd68748cd4641bfd203083f17770608af21976b7c174a"
+    },
+    "evidence/executor-stop-r82-release-build/command.log": {
+      "bytes": 804,
+      "sha256": "ad4d5160c73b40b10b6e967ebcc95dfe8c55b0142dbf93f62bc28f904d388acc"
+    },
+    "evidence/executor-stop-r82-release-build/plan.json": {
+      "bytes": 953,
+      "sha256": "972a60bdd206dbed5770d99f131328458658722b1cf1e2fb7ed957c0316e8973"
+    },
+    "evidence/executor-stop-r82-release-build/result.json": {
+      "bytes": 448,
+      "sha256": "576a4ca8b1de064de24a6d6a887e28466d9871e3724aa073d128b3d6cec3b630"
+    },
+    "evidence/executor-stop-r82-release-build/temperatures.jsonl": {
+      "bytes": 1828,
+      "sha256": "020a5a426b2e24befc87659d7cac604d72efacff44541450f100bb7173a7045d"
+    },
+    "evidence/executor-stop-r82-release-configure/command.log": {
+      "bytes": 3405,
+      "sha256": "c4c61da578aeadff321098192e36cea5d9fc5f2a85af2ea6b671ebf758a0ee82"
+    },
+    "evidence/executor-stop-r82-release-configure/plan.json": {
+      "bytes": 1000,
+      "sha256": "7f5f863b41d8da7352c23c2e0887a2d4bcbf362a273fd0b91c04b68ea031c395"
+    },
+    "evidence/executor-stop-r82-release-configure/result.json": {
+      "bytes": 497,
+      "sha256": "19cc49c52c129e1d8efa841d15b4f894084101d503c04f43217f2f9282e92251"
+    },
+    "evidence/executor-stop-r82-release-configure/temperatures.jsonl": {
+      "bytes": 1831,
+      "sha256": "7443490cb01a8d312dee08881c60d91ea271ef4264f356ebad4022a2faff996f"
+    },
+    "evidence/executor-stop-r82-release-ctest-r2/command.log": {
+      "bytes": 305,
+      "sha256": "59079305a58ee510544e6b6529417a3b21a0b4065fcedf6dedd520516af90d89"
+    },
+    "evidence/executor-stop-r82-release-ctest-r2/plan.json": {
+      "bytes": 968,
+      "sha256": "468301978c16d7992261895c49cd5ce5a0391b4462fd98faa7d2f969a88ba3dc"
+    },
+    "evidence/executor-stop-r82-release-ctest-r2/result.json": {
+      "bytes": 464,
+      "sha256": "c25da2df157333c357337ecf5974ed9b967b9bbba5c3b1e8f1bb3373536b9457"
+    },
+    "evidence/executor-stop-r82-release-ctest-r2/temperatures.jsonl": {
+      "bytes": 1827,
+      "sha256": "5cc90d587a762c9bf729408ed5e4ec8af0c93b3e978a52b60a7b7a9c7518c525"
+    },
+    "evidence/executor-stop-r82-release-ctest/command.log": {
+      "bytes": 5023,
+      "sha256": "ec6d2744edb823c2201c64cb15b0c98418e295dde7a321be0853ea82642d7ea6"
+    },
+    "evidence/executor-stop-r82-release-ctest/plan.json": {
+      "bytes": 968,
+      "sha256": "468301978c16d7992261895c49cd5ce5a0391b4462fd98faa7d2f969a88ba3dc"
+    },
+    "evidence/executor-stop-r82-release-ctest/result.json": {
+      "bytes": 466,
+      "sha256": "5cc12a7db090750094c9f79f9e696142c0a327a7ed9af1b15866d186149477dd"
+    },
+    "evidence/executor-stop-r82-release-ctest/temperatures.jsonl": {
+      "bytes": 1827,
+      "sha256": "83cb3e4c2aa101aa98f20071de71a1941d5a2ac0853fd24dcb720af7f78122ce"
+    },
+    "include/lie/dispatch.h": {
+      "bytes": 3620,
+      "sha256": "8b327f40c85b560833f98fb49f12760f2b0d884abbca81312233ef17b0380a3d"
+    },
+    "include/lie/executor.h": {
+      "bytes": 9842,
+      "sha256": "4f23a8d82dd7e5f5225359b99f464aa73842fe6513c00132c976dc94cd087245"
+    },
+    "src/dispatch.c": {
+      "bytes": 6426,
+      "sha256": "41099ca819f97282daf4c5c9ae6eafb3a9e3b221b1bd0f03340c3c3fcfbad674"
+    },
+    "src/executor_unavailable.c": {
+      "bytes": 7819,
+      "sha256": "4be5d15080f4b39bfa9c62faf5dd51c5887444d933eb9b2b86f6c1f58545c69f"
+    },
+    "tests/test_executor_abi.c": {
+      "bytes": 943,
+      "sha256": "dbe2fad4c8e3068092d32706ddb68c4466349899d73b34ead7928de4cd5f1412"
+    },
+    "tools/thermal-run.py": {
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    }
+  },
+  "deferred_sequence": [
+    "remaining functional implementation",
+    "integrated original-weight GPU qualification on .161",
+    "matched comparative benchmarks",
+    "Terminal Bench last"
+  ],
+  "full_campaign_or_remote_admission_started": false,
+  "six_owned_acceptance_items_closed": false
+}

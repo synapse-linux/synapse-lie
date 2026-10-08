@@ -1,0 +1,125 @@
+{
+  "scope": "CPU fixtures only, not model/GPU qualification",
+  "label": "q2-hc-sequence-host-r2",
+  "checks": [
+    {
+      "file": "03.log",
+      "all_12_pass": true
+    },
+    {
+      "file": "06.log",
+      "all_12_pass": true
+    }
+  ],
+  "source_identity": {
+    "CMakeLists.txt": true,
+    "cmake/hip/CMakeLists.txt": true,
+    "tools/q2-runner.py": true,
+    "tools/q2-remote.py": true,
+    "tests/q2_remote_test.py": true,
+    "tests/q2_hc_sequence.cpp": true,
+    "tests/q2_hc_norm_half.cpp": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2/build/debug",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQ2_SANITIZERS=OFF",
+        "-DQ2_HIP=OFF",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+      ],
+      "started_at": "2026-10-03T06:29:43.605824+00:00",
+      "pid": 2890126,
+      "start_ticks": 157437789,
+      "exit_code": 0,
+      "finished_at": "2026-10-03T06:29:44.132117+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2/build/debug",
+        "--parallel",
+        "2"
+      ],
+      "started_at": "2026-10-03T06:29:44.133485+00:00",
+      "pid": 2890196,
+      "start_ticks": 157437842,
+      "exit_code": 0,
+      "finished_at": "2026-10-03T06:29:48.658364+00:00"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2/build/debug",
+        "--output-on-failure"
+      ],
+      "started_at": "2026-10-03T06:29:48.659415+00:00",
+      "pid": 2890272,
+      "start_ticks": 157438295,
+      "exit_code": 0,
+      "finished_at": "2026-10-03T06:29:55.198207+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2/build/sanitize",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DQ2_SANITIZERS=ON",
+        "-DQ2_HIP=OFF",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151"
+      ],
+      "started_at": "2026-10-03T06:29:55.199714+00:00",
+      "pid": 2890521,
+      "start_ticks": 157438949,
+      "exit_code": 0,
+      "finished_at": "2026-10-03T06:29:55.724435+00:00"
+    },
+    {
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2/build/sanitize",
+        "--parallel",
+        "2"
+      ],
+      "started_at": "2026-10-03T06:29:55.725630+00:00",
+      "pid": 2890592,
+      "start_ticks": 157439001,
+      "exit_code": 0,
+      "finished_at": "2026-10-03T06:30:02.751472+00:00"
+    },
+    {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-sequence-host-r2/build/sanitize",
+        "--output-on-failure"
+      ],
+      "started_at": "2026-10-03T06:30:02.753863+00:00",
+      "pid": 2890670,
+      "start_ticks": 157439704,
+      "exit_code": 0,
+      "finished_at": "2026-10-03T06:30:09.290298+00:00"
+    }
+  ],
+  "collection": {
+    "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-sequence-host-r2/results.tar.gz",
+    "sha256": "e943e4cab7c6929b6224dfa7e532c8208346dc68cd980517b808aba195ac5351",
+    "verified_artifacts": 7,
+    "existing_archive": false
+  }
+}

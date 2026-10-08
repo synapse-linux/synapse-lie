@@ -1,0 +1,144 @@
+# SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.21)
+include("${CMAKE_CURRENT_LIST_DIR}/provider/Source.cmake")
+
+if(LIE_BUILD_TARGET STREQUAL "strix-halo")
+  set(architecture gfx1151)
+elseif(LIE_BUILD_TARGET STREQUAL "strix-point")
+  set(architecture gfx1150)
+else()
+  message(FATAL_ERROR "Build target must be strix-halo or strix-point")
+endif()
+if(NOT DEFINED LIE_BUILD_JOBS)
+  set(LIE_BUILD_JOBS 2)
+endif()
+if(NOT LIE_BUILD_JOBS MATCHES "^[1-9][0-9]?$" OR LIE_BUILD_JOBS GREATER 64)
+  message(FATAL_ERROR "Build jobs must be an integer from 1 to 64")
+endif()
+if(DEFINED ENV{SSH_CONNECTION})
+  message(FATAL_ERROR "Remote GPU builds require the coordinated lease runner")
+endif()
+
+set(build "${LIE_SOURCE_ROOT}/build/${LIE_BUILD_TARGET}")
+set(out "${LIE_SOURCE_ROOT}/evidence/${LIE_BUILD_TARGET}-build")
+foreach(path IN ITEMS "${LIE_SOURCE_ROOT}/build" "${build}" "${LIE_SOURCE_ROOT}/evidence" "${out}")
+  if(IS_SYMLINK "${path}")
+    message(FATAL_ERROR "Build and evidence directories must not be symbolic links")
+  endif()
+endforeach()
+file(MAKE_DIRECTORY "${build}" "${out}")
+file(LOCK "${build}/driver.lock" GUARD PROCESS TIMEOUT 0 RESULT_VARIABLE locked)
+if(NOT locked STREQUAL "0")
+  message(FATAL_ERROR "Another build owns ${build}")
+endif()
+# Separate runs preserve failure logs and the original command exit status.
+string(TIMESTAMP stamp "%Y%m%d%H%M%S" UTC)
+string(RANDOM LENGTH 6 ALPHABET 0123456789abcdef suffix)
+set(run "${out}/${stamp}-${suffix}")
+file(MAKE_DIRECTORY "${run}")
+set(receipt "{\"commands\":[],\"gpu_execution\":false,\"installation\":false,\"state\":\"RUNNING\"}")
+lie_json_quote(quoted "${LIE_BUILD_TARGET}")
+string(JSON receipt SET "${receipt}" target "${quoted}")
+lie_json_quote(quoted "${architecture}")
+string(JSON receipt SET "${receipt}" hip_architecture "${quoted}")
+file(WRITE "${run}/result.json" "${receipt}\n")
+
+function(run_recorded phase)
+  # The provider recipe additionally isolates compiler flags and private caches.
+  execute_process(COMMAND "${CMAKE_COMMAND}" -E env
+    HIP_VISIBLE_DEVICES=-1 ROCR_VISIBLE_DEVICES=-1 CUDA_VISIBLE_DEVICES=-1
+    LC_ALL=C ${ARGN}
+    WORKING_DIRECTORY "${LIE_SOURCE_ROOT}"
+    OUTPUT_FILE "${run}/${phase}.log" ERROR_FILE "${run}/${phase}.log"
+    RESULT_VARIABLE result)
+  set(row "{}")
+  lie_json_quote(quoted "${phase}")
+  string(JSON row SET "${row}" phase "${quoted}")
+  set(argv "[]")
+  set(i 0)
+  foreach(argument IN LISTS ARGN)
+    lie_json_quote(quoted "${argument}")
+    string(JSON argv SET "${argv}" ${i} "${quoted}")
+    math(EXPR i "${i}+1")
+  endforeach()
+  string(JSON row SET "${row}" argv "${argv}")
+  if(result MATCHES "^[0-9]+$")
+    string(JSON row SET "${row}" exit_code "${result}")
+  else()
+    lie_json_quote(quoted "${result}")
+    string(JSON row SET "${row}" failure "${quoted}")
+  endif()
+  string(JSON i LENGTH "${receipt}" commands)
+  string(JSON receipt SET "${receipt}" commands ${i} "${row}")
+  if(NOT result STREQUAL "0")
+    string(JSON receipt SET "${receipt}" state "\"FAILED\"")
+  endif()
+  file(WRITE "${run}/result.json" "${receipt}\n")
+  set(receipt "${receipt}" PARENT_SCOPE)
+  set(last_result "${result}" PARENT_SCOPE)
+  if(NOT result STREQUAL "0" AND NOT phase STREQUAL "reuse-provider")
+    message(FATAL_ERROR "${phase} failed (${result}); see ${run}/${phase}.log")
+  endif()
+endfunction()
+
+set(pristine "${LIE_SOURCE_ROOT}/.deps/gufo-f783fedb")
+if(NOT EXISTS "${pristine}")
+  message(STATUS "Fetching the pinned provider source")
+  run_recorded(fetch "${CMAKE_COMMAND}" -P "${LIE_SOURCE_ROOT}/cmake/provider/Fetch.cmake")
+endif()
+set(provider_ready FALSE)
+set(pointer "${build}/provider.json")
+if(EXISTS "${pointer}")
+  if(IS_SYMLINK "${pointer}")
+    message(FATAL_ERROR "Provider record must not be a symbolic link")
+  endif()
+  file(READ "${pointer}" previous)
+  string(JSON label GET "${previous}" label)
+  if(NOT label MATCHES "^${LIE_BUILD_TARGET}-[0-9]+-[0-9a-f]+$")
+    message(FATAL_ERROR "Invalid provider record")
+  endif()
+  set(source "${LIE_SOURCE_ROOT}/.deps/gufo-state-access-${label}")
+  set(provider "${LIE_SOURCE_ROOT}/build/${label}")
+  run_recorded(reuse-provider "${CMAKE_COMMAND}" "-DGUFO_SOURCE=${source}"
+    "-DGUFO_BUILD=${provider}" -DLIE_GUFO_STATE_ACCESS=ON -DLIE_DS4_RUNTIME_CACHE=ON
+    -DLIE_C17_SAMPLING=ON -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_DIRECTIONAL_STEERING=ON
+    -DLIE_ATTENTION_DISPATCH_STATS=ON -DLIE_LONG_CONTEXT_WMMA=ON
+    -DLIE_QWEN_Q2_FORMATS=ON
+    -P "${LIE_SOURCE_ROOT}/cmake/provider/Verify.cmake")
+  if(last_result STREQUAL "0")
+    run_recorded(verify-target "${CMAKE_COMMAND}" "-DGUFO_BUILD=${provider}"
+      "-DLIE_HIP_ARCHITECTURE=${architecture}" -P "${LIE_SOURCE_ROOT}/cmake/provider/Target.cmake")
+    set(provider_ready TRUE)
+  else()
+    message(STATUS "Provider no longer verifies; preserving it and creating a new build")
+  endif()
+endif()
+if(NOT provider_ready)
+  set(label "${LIE_BUILD_TARGET}-${stamp}-${suffix}")
+  set(source "${LIE_SOURCE_ROOT}/.deps/gufo-state-access-${label}")
+  set(provider "${LIE_SOURCE_ROOT}/build/${label}")
+  message(STATUS "Building the HIP provider for ${architecture}; logs: ${run}")
+  run_recorded(provider "${CMAKE_COMMAND}" "-DLABEL=${label}"
+    "-DLIE_HIP_ARCHITECTURE=${architecture}" -P "${LIE_SOURCE_ROOT}/cmake/provider/Build.cmake")
+  lie_json_quote(quoted "${label}")
+  file(WRITE "${pointer}.new" "{\"label\":${quoted}}\n")
+  file(RENAME "${pointer}.new" "${pointer}")
+endif()
+message(STATUS "Building LIE in ${build}; logs: ${run}")
+run_recorded(configure "${CMAKE_COMMAND}" -S "${LIE_SOURCE_ROOT}" -B "${build}" -G Ninja
+  -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DLIE_Q2_QUALIFICATION_ONLY=OFF
+  -DLIE_CORE_ONLY=OFF -DLIE_MTP=ON -DLIE_VISION=ON
+  -DLIE_LEGACY_PYTHON_TESTS=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
+  -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON -DLIE_GUFO_REFERENCE_BENCH=OFF
+  -DLIE_C17_SAMPLING=ON -DLIE_VISION_WEIGHT_DECODE=ON -DLIE_DIRECTIONAL_STEERING=ON
+  -DLIE_ATTENTION_DISPATCH_STATS=ON -DLIE_LONG_CONTEXT_WMMA=ON -DLIE_DS4_RUNTIME_CACHE=ON
+  -DLIE_QWEN_Q2_FORMATS=ON
+  "-DLIE_HIP_ARCHITECTURE=${architecture}" "-DGUFO_SOURCE=${source}" "-DGUFO_BUILD=${provider}")
+run_recorded(products "${CMAKE_COMMAND}" --build "${build}" --parallel "${LIE_BUILD_JOBS}"
+  --target synapse-lie-server synapse-lie-bench synapse-lie-bench-report
+  synapse-lie-monitor synapse-lie-kvc lie-steering-build)
+string(JSON receipt SET "${receipt}" state "\"BUILT_NOT_EXECUTED\"")
+lie_json_quote(quoted "${provider}")
+string(JSON receipt SET "${receipt}" provider_build "${quoted}")
+file(WRITE "${run}/result.json" "${receipt}\n")
+message(STATUS "LIE is ready in ${build}")

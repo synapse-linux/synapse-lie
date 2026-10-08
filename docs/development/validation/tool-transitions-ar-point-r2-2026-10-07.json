@@ -1,0 +1,644 @@
+{
+  "schema": "synapse-lie.point-tool-transitions-failed.v1",
+  "at_utc": "2026-10-07T14:08:41.590584+00:00",
+  "review_exit_code": 0,
+  "scope": "Offline independent review of retained failed original-weight run; no job rerun",
+  "collected_remote_files_verified": 15,
+  "unchanged_owned_provider_files_verified": 130,
+  "native_runtime_source_commit": "c6625f094bd7815493a3364703757486027d48ec",
+  "client_source_commit": "9d060f61cfc4566af997a2c3ab9e6367381e27a8",
+  "state": "FAILED_MODEL_QUALITY_COLLECTED_AND_CLOSED",
+  "new_checks_passed": 4,
+  "new_checks_failed": 1,
+  "new_checks_unexecuted": 66,
+  "baseline_controls_passed": 5,
+  "failure": {
+    "check": "greedy_chat_parallel_json",
+    "classification": "model_quality",
+    "request": {
+      "model": "qwen3.8-flash-next",
+      "store": false,
+      "seed": 123,
+      "temperature": 0,
+      "top_p": 1,
+      "top_k": 0,
+      "min_p": 0,
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_value",
+            "description": "Get the independent integer value for the selected key.",
+            "strict": true,
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "enum": [
+                    "alpha",
+                    "beta"
+                  ]
+                }
+              },
+              "required": [
+                "key"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      ],
+      "max_tokens": 512,
+      "tool_choice": "required",
+      "parallel_tool_calls": true,
+      "messages": [
+        {
+          "role": "user",
+          "content": "Call get_value exactly twice in this turn: once with key alpha and once with key beta. Both calls are independent and must be issued together. Do not explain."
+        }
+      ],
+      "stream": false
+    },
+    "response": {
+      "id": "chatcmpl-308209-250039261686339-9",
+      "object": "chat.completion",
+      "created": 1791381109,
+      "model": "qwen3.8-flash-next",
+      "system_fingerprint": "gufo-embedded-f783fedb",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": null,
+            "tool_calls": [
+              {
+                "id": "call-lie-e26287b3a36e6e6db0c5c5633d251083-9-0",
+                "type": "function",
+                "function": {
+                  "name": "get_value",
+                  "arguments": "{\"key\":\"alpha\"}"
+                }
+              }
+            ]
+          },
+          "finish_reason": "tool_calls"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 342,
+        "completion_tokens": 19,
+        "total_tokens": 361
+      },
+      "lie_timings": {
+        "schema": "synapse-lie.request-timings.v1",
+        "scope": "synchronous_executor_calls",
+        "valid": true,
+        "prefill_tokens": 342,
+        "cached_tokens": 0,
+        "cache_capture_ms": 0.0,
+        "cache_restore_ms": 0.0,
+        "ssd_cached_tokens": 0,
+        "ssd_read_ms": 0.0,
+        "decode_mode": "ar",
+        "max_decode_output_tokens": 1,
+        "mtp_drafted_tokens": 0,
+        "mtp_accepted_tokens": 0,
+        "decode_tokens": 19,
+        "output_token_limit": 512,
+        "prefill_calls": 1,
+        "decode_calls": 20,
+        "prefill_ms": 1261.498821,
+        "decode_ms": 1822.230125,
+        "prefill_tokens_per_second": 271.10607977333973,
+        "decode_tokens_per_second": 10.426784048474667
+      }
+    },
+    "cause": "Model/template/grammar cause unresolved; parallel flag permits multiple calls but does not require two"
+  },
+  "actual_exits": {
+    "controller": 1,
+    "supervisor": 1,
+    "helper": 1,
+    "server": 0,
+    "collector": 0,
+    "closure_r1": 0,
+    "whole_container_closure_r2": 0
+  },
+  "wire_rows_including_readiness": 72,
+  "telemetry_samples": 85,
+  "sampled_peak_C": {
+    "CPU": 56.75,
+    "GPU": 61.0,
+    "NVMe": 62.85
+  },
+  "models_stat_unchanged": true,
+  "model_payloads_newly_hashed": false,
+  "lease_released_at": "2026-10-07T13:51:53.807061+00:00",
+  "whole_container_closure": {
+    "state": "WHOLE_CONTAINER_AND_EXACT_GPU_IDENTITIES_CLOSED_NO_STANDING_RESERVATION",
+    "at_utc": "2026-10-07T13:59:00.872199+00:00",
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "evidence_scope": "Entire recorded container cgroup absent, all actual GPU PID/start_ticks and launcher/supervisor absent; no inferred missing-PID success",
+    "observed_container_init_PID_available": true,
+    "original_init_PID_absence_claimed": true,
+    "identities": [
+      {
+        "role": "supervisor",
+        "pid": 306760,
+        "start_ticks": 24997357,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "Distrobox launcher",
+        "pid": 306864,
+        "start_ticks": 24997433,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed container init",
+        "pid": 306973,
+        "start_ticks": 24997481,
+        "exact_identity_absent": true
+      },
+      {
+        "role": "observed native GPU owner",
+        "pid": 308209,
+        "start_ticks": 25003915,
+        "cgroup": "0::/system.slice/docker-d61d2eafe7a086036409d95450ead78a184704a8f00e3ed09e0344b48332dc2e.scope\n",
+        "exact_identity_absent": true
+      }
+    ],
+    "whole_container_process_scans": [
+      {
+        "pass": 0,
+        "processes_checked": 378,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      },
+      {
+        "pass": 1,
+        "processes_checked": 378,
+        "owned_cgroup_matches": [],
+        "unreadable": [],
+        "vanished_during_read": []
+      }
+    ],
+    "container_cgroup": {
+      "path": "/sys/fs/cgroup/system.slice/docker-d61d2eafe7a086036409d95450ead78a184704a8f00e3ed09e0344b48332dc2e.scope",
+      "exists": false,
+      "empty": true
+    },
+    "container_inspect": {
+      "exit_code": 1,
+      "stdout": "[]\n",
+      "stderr": "error: no such object: d61d2eafe7a086036409d95450ead78a184704a8f00e3ed09e0344b48332dc2e\n"
+    },
+    "label_listing": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "original_lease": {
+      "device": 66307,
+      "inode": 105946405,
+      "free_briefly": true,
+      "released": true
+    },
+    "service": {
+      "MainPID": "308644",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "http8000_listeners": [],
+    "foreign_compute_clients": [],
+    "guarded_hot": [],
+    "observation": {
+      "at": "2026-10-07T13:59:00.725673+00:00",
+      "kfd": [
+        {
+          "pid": 308644,
+          "start_ticks": 25007026,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "dri": [
+        {
+          "pid": 308644,
+          "start_ticks": 25007026,
+          "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+          "devices": [
+            "/dev/dri/renderD128",
+            "/dev/kfd"
+          ]
+        }
+      ],
+      "denied_fd": 364,
+      "temperatures": [
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp1_input",
+          "value_c": 28.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp2_input",
+          "value_c": 31.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon3/temp3_input",
+          "value_c": 28.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp1_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp2_input",
+          "value_c": 31.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "nvme",
+          "path": "/sys/class/hwmon/hwmon4/temp3_input",
+          "value_c": 30.85,
+          "limit_c": 85.0,
+          "guarded": true
+        },
+        {
+          "name": "amdgpu",
+          "path": "/sys/class/hwmon/hwmon5/temp1_input",
+          "value_c": 34.0,
+          "limit_c": 98,
+          "guarded": false
+        },
+        {
+          "name": "k10temp",
+          "path": "/sys/class/hwmon/hwmon6/temp1_input",
+          "value_c": 35.625,
+          "limit_c": 98,
+          "guarded": true
+        }
+      ],
+      "memory": {
+        "MemTotal": 132542648320,
+        "MemAvailable": 121004707840,
+        "SwapTotal": 21474828288,
+        "SwapFree": 20362645504
+      },
+      "kernel_kfd": [
+        308644
+      ],
+      "gpu": {
+        "gpu_busy_percent": 0,
+        "mem_info_gtt_total": 120259084288,
+        "mem_info_gtt_used": 18636800,
+        "mem_info_vram_total": 2147483648,
+        "mem_info_vram_used": 151187456
+      }
+    },
+    "GPU_build_run_or_service_mutation": false,
+    "standing_lease_waiter_reservation": false
+  },
+  "MTP_prepared_but_not_admitted_or_run": true,
+  "frozen_workload_modified": false,
+  "GPU_retry": false,
+  "original_weight_full_gate_passed": false,
+  "performance_claim": false,
+  "Terminal_Bench_run": false,
+  "goal_complete": false,
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "classification": "ORIGINAL_WEIGHT_SELECTED_AR_HTTP_FAILURE_NOT_FULL_ACCEPTANCE",
+  "coherent_HIP_build_receipt": {
+    "path": "docs/development/validation/mtp-capture-point-build-2026-10-07.json",
+    "bytes": 32779,
+    "sha256": "41bd76bc04dae39907c330063df88f7e6170c6115bbbcf904fd8042d6ba3d2f4"
+  },
+  "checking_code_HOST_receipt": {
+    "path": "docs/development/validation/tool-transitions-host-2026-10-07.json",
+    "bytes": 32861,
+    "sha256": "4dd15838bac572e1599dcf85a7d4d2624d989ba7494a55826877132df302c142"
+  },
+  "runtime_build_id": "rocm10-point-modern-r56-runtime",
+  "runtime_artifacts": {
+    "runtime/bin/lie-attention-qualify": "fb4ccf149c3fa16ef1f7ca2d7e1c1dd88e203e736c7e6cfa67a400c0b4e296bd",
+    "runtime/bin/lie-hip-probe": "83f148c43832f1816c9398eb271a3d484adb982a6fe3a925a5daa5d7f05850c6",
+    "runtime/bin/lie-sampling-capture": "693c051fec6a187e982faee667e9ac9a2ef14d1d28f00f2d1586193f27ab916d",
+    "runtime/bin/synapse-lie-bench": "1f5aff68e3be5c8451d2061a112fe80438310975882a8729793f2f6a84d3f528",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "48f9033fc6490c6b07ff5eeea88dc3625b62e94944f4f01aba3a48aa456e443f",
+    "runtime/bin/synapse-lie-server": "13329f24ee03d56f6dbe0df018625596a08381335b139914141e98d5a590c8e9"
+  },
+  "source_checkpoint": "9d060f61cfc4566af997a2c3ab9e6367381e27a8",
+  "server_context": 16384,
+  "prefill_chunk": 2048,
+  "RAM_cache_enabled": false,
+  "C1_sequential_requests": true,
+  "server_max_active": 2,
+  "original_model_revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+  "original_model_bytes": 111334654784,
+  "guards": {
+    "CPU_C": 98,
+    "NVMe_C": 85,
+    "GPU": "observe-only"
+  },
+  "native_source_modified": false,
+  "product_Python_dependency": false,
+  "new_HIP_build_or_model_conversion": false,
+  "publication": false,
+  "preserved_offline_count_correction": {
+    "at_utc": "2026-10-07T14:08:41.413884+00:00",
+    "scope": "Rejected uncommitted offline seal draft; original GPU failure and exits unchanged",
+    "error": "Count67 unexecuted incorrectly included the one attempted failed check. Correct count:4 passed,1 failed,66 unexecuted out of71.",
+    "GPU_retry": false,
+    "preserved_exact_bytes": [
+      {
+        "original_uncommitted_path": "docs/development/validation/tool-transitions-ar-point-2026-10-07.json",
+        "preserved_path": "evidence/context-r60-tools-ar-draft-receipt-r1.json",
+        "sha256": "e2b74c2c8812612f09bd145f8d0ea7b15609f4c17f12c041447f07350afb6780",
+        "bytes": 20908
+      },
+      {
+        "original_uncommitted_path": "docs/development/validation/raw/tool-transitions-ar-point-2026-10-07.tar.gz",
+        "preserved_path": "evidence/context-r60-tools-ar-draft-raw-r1.tar.gz",
+        "sha256": "2eb9727c9fbc015ed87e545ad8406aeb9b4851dea032632f233ac0d8555cf864",
+        "bytes": 468078
+      }
+    ],
+    "original_review_exit_code": 0,
+    "correction_requires_new_sealer_and_receipt": true
+  },
+  "standing_remote_job_lease_window_waiter_reservation": false,
+  "portable_raw_archive": {
+    "path": "docs/development/validation/raw/tool-transitions-ar-point-r2-2026-10-07.tar.gz",
+    "bytes": 945554,
+    "sha256": "b7ba1ec925e0bf0e5fb8814dd47a3228e4909c1e52ab322002539caf59109c2e",
+    "regular_members": 60
+  },
+  "raw_artifacts": {
+    "docs/BACKEND.md": {
+      "bytes": 78334,
+      "sha256": "8e5872204a462ae57d2afb96800a51068fb8f2c9f45794e08fd4f80e4d98b600"
+    },
+    "docs/COORDINATION.md": {
+      "bytes": 205401,
+      "sha256": "33c0432795300cf92036128afff1882280f4fa382c90868d7e6ab8cfb811cc8a"
+    },
+    "docs/PROGRESS.md": {
+      "bytes": 423382,
+      "sha256": "ef1fc42735d4e7e3991d3ba48f5037dca592591453a6587d0aa6e38cae9ed09e"
+    },
+    "docs/development/protocols/TOOL-TRANSITIONS-GPU-PROTOCOL.md": {
+      "bytes": 4830,
+      "sha256": "23ab51cfee9b140700aa2a3166345963cd32d4d1a63229d4042d7e2aeb2bf3a0"
+    },
+    "docs/development/validation/mtp-capture-point-build-2026-10-07.json": {
+      "bytes": 32779,
+      "sha256": "41bd76bc04dae39907c330063df88f7e6170c6115bbbcf904fd8042d6ba3d2f4"
+    },
+    "docs/development/validation/tool-transitions-host-2026-10-07.json": {
+      "bytes": 32861,
+      "sha256": "4dd15838bac572e1599dcf85a7d4d2624d989ba7494a55826877132df302c142"
+    },
+    "evidence/context-r60-before-tools-ar-r1.json": {
+      "bytes": 6790,
+      "sha256": "6cb28a16ca8bb91d8821a1c1f8b4c3ab5d64f6cd556d05495bb045b2ea5e1d99"
+    },
+    "evidence/context-r60-before-tools-ar-r1.py": {
+      "bytes": 4577,
+      "sha256": "bcd18e70afa760b7e6888a62e5f8b6b7ca4f8f0fd25d5d14ea4000f81f25895a"
+    },
+    "evidence/context-r60-before-tools-mtp-r1.py": {
+      "bytes": 4580,
+      "sha256": "f8bdca854cc4547e92af0e1ae06b9215ef850d5319a2250afafa710ae0641ae9"
+    },
+    "evidence/context-r60-peer-coordination.json": {
+      "bytes": 5662,
+      "sha256": "56b3e313a6d1c5eaf36f5b1ff0584410c467a7b0e00e1a7f39845c771c40efdd"
+    },
+    "evidence/context-r60-tools-ar-closure-r1.json": {
+      "bytes": 8081,
+      "sha256": "b6df1d94cf402fe53d2dd617021e0f34deda59f8363a3ba0c8fc5b37d904daa5"
+    },
+    "evidence/context-r60-tools-ar-closure-r1.py": {
+      "bytes": 7553,
+      "sha256": "4e8089957c7aabd3729eaa8111f80e6200c584def587cde61aea95c8d7912533"
+    },
+    "evidence/context-r60-tools-ar-closure-r2.json": {
+      "bytes": 9497,
+      "sha256": "d2763da31ddcee6ddace83c6acb0938b122aa094f25073bd16b9ab2c0007b07e"
+    },
+    "evidence/context-r60-tools-ar-closure-r2.py": {
+      "bytes": 8083,
+      "sha256": "a34f8dea6001e1a15ff9d9303b96ff7ed628380c5d187b78554daabee4099398"
+    },
+    "evidence/context-r60-tools-ar-count-correction.json": {
+      "bytes": 1047,
+      "sha256": "7e84eb024bee64cebd627f6225a0d712382a09357cdfa793572816be35161f94"
+    },
+    "evidence/context-r60-tools-ar-draft-raw-r1.tar.gz": {
+      "bytes": 468078,
+      "sha256": "2eb9727c9fbc015ed87e545ad8406aeb9b4851dea032632f233ac0d8555cf864"
+    },
+    "evidence/context-r60-tools-ar-draft-receipt-r1.json": {
+      "bytes": 20908,
+      "sha256": "e2b74c2c8812612f09bd145f8d0ea7b15609f4c17f12c041447f07350afb6780"
+    },
+    "evidence/context-r60-tools-ar-live-1.json": {
+      "bytes": 2408,
+      "sha256": "e75a76465e456237aa949aa3d254cfabf7779e9cab1fed177d4b0b8acb37fa2a"
+    },
+    "evidence/context-r60-tools-ar-live-2.json": {
+      "bytes": 2368,
+      "sha256": "fd4a5a6d5ddfc6cfe839a707a14a71bb0cebf0a6e8ffb66e0e9929fa16c83f33"
+    },
+    "evidence/context-r60-tools-ar-manifest.json": {
+      "bytes": 6218,
+      "sha256": "3334ddfc025a907ef7c186655ae33f96f25a6c28da3f2c4cb7d8e54a1a82b815"
+    },
+    "evidence/context-r60-tools-ar-offline-review-r2.json": {
+      "bytes": 9672,
+      "sha256": "719da60ba466c05177519b8d8eb5fbb67e473f90464d8c66676545d57478bc7f"
+    },
+    "evidence/context-r60-tools-ar-offline-review.json": {
+      "bytes": 9646,
+      "sha256": "d64b8015e7457cb31da823960bf3640becac2604887e394c3798057814531d5d"
+    },
+    "evidence/context-r60-tools-ar-r1/collection.json": {
+      "bytes": 7720,
+      "sha256": "796f2a52602a5f7de8281a853e07fef7e4003891808f79d0ce5431848978ed54"
+    },
+    "evidence/context-r60-tools-ar-r1/controller-result.json": {
+      "bytes": 745,
+      "sha256": "d9d8a9163fdcfcd407fba1e3539d7509c4ce398f16ed2c66e4dfddc48b4294fc"
+    },
+    "evidence/context-r60-tools-ar-r1/controller-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r60-tools-ar-r1/controller-stdout.log": {
+      "bytes": 131261,
+      "sha256": "acb0dcec233e2272519b3fce9d73267e2329034954ee89b10e4a273439f6caa3"
+    },
+    "evidence/context-r60-tools-ar-r1/distrobox-create.log": {
+      "bytes": 263,
+      "sha256": "c85be28152145024ce32b002aed3971cfbb62a0ad178d282662fd50115f64f65"
+    },
+    "evidence/context-r60-tools-ar-r1/distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "evidence/context-r60-tools-ar-r1/distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r60-tools-ar-r1/http-gate.py": {
+      "bytes": 19937,
+      "sha256": "68cce0621854c407b35305a75e33bf2a02e5a33c0847bf63bd43118cc73b07f8"
+    },
+    "evidence/context-r60-tools-ar-r1/http-result.json": {
+      "bytes": 968,
+      "sha256": "0cbbeac5ad63b3bd133d9f3fd3f3857262b9c805d52156e481d704347a291a43"
+    },
+    "evidence/context-r60-tools-ar-r1/http-tool-transitions-result.json": {
+      "bytes": 5186,
+      "sha256": "8a38141bc315243f6a19c4f368bd76c530999b9c9e705b06fca26d377176c659"
+    },
+    "evidence/context-r60-tools-ar-r1/http-tool-transitions.py": {
+      "bytes": 23284,
+      "sha256": "ae96da74d458d772466c3dc8abe8e8d1494fc900d4ef726723cdd2dc2563fb73"
+    },
+    "evidence/context-r60-tools-ar-r1/http-wire.jsonl": {
+      "bytes": 55750,
+      "sha256": "5bed2790484d8ac5a2e598c175e60fdf28c239d60fc7dc7b80f066eb6163721e"
+    },
+    "evidence/context-r60-tools-ar-r1/manifest.json": {
+      "bytes": 6218,
+      "sha256": "3334ddfc025a907ef7c186655ae33f96f25a6c28da3f2c4cb7d8e54a1a82b815"
+    },
+    "evidence/context-r60-tools-ar-r1/plan.json": {
+      "bytes": 727,
+      "sha256": "d557ed2bbc8360bb378e4cf99d97ae9f6d4b4ebb2f63c01b3fa255c5f3e81e9c"
+    },
+    "evidence/context-r60-tools-ar-r1/result.json": {
+      "bytes": 141837,
+      "sha256": "0f5d82cedfd5f8455f21df3c38498af86befde08dde0376bcb5e56944f9e0336"
+    },
+    "evidence/context-r60-tools-ar-r1/runner.py": {
+      "bytes": 165410,
+      "sha256": "25afa625431aa79589e0ca2a619c146b36d294a4aa3cc884d6a52786c910ae57"
+    },
+    "evidence/context-r60-tools-ar-r1/server.log": {
+      "bytes": 92,
+      "sha256": "4d02ccc5b6fa41089a1cb4c97685716b6eb5f6395bde3da76d6bd407f0d92ce1"
+    },
+    "evidence/context-r60-tools-ar-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r60-tools-ar-r1/stdout.log": {
+      "bytes": 70911,
+      "sha256": "006c294a9de75c0c42de80388277ea6934536132ff756cb401be3a9b0c16806a"
+    },
+    "evidence/context-r60-tools-ar-r1/telemetry.jsonl": {
+      "bytes": 127934,
+      "sha256": "2f5f19d94e49343d7842ad5bed225fcf22f12b8d2b7601ea44b3f155e6e818fa"
+    },
+    "evidence/context-r60-tools-jobs-prepared.json": {
+      "bytes": 11396,
+      "sha256": "cc44e9629a1127ddfb17e96ab7fd824223358438ac45a9a45a10034b566f9fba"
+    },
+    "evidence/context-r60-tools-mtp-manifest.json": {
+      "bytes": 6840,
+      "sha256": "b341e1f8bd7cbe54038b7b643a09aea113eec809c0938fdaf6d851e84d67d3b1"
+    },
+    "evidence/context-r60-tools-mtp-r1/http-gate.py": {
+      "bytes": 19937,
+      "sha256": "68cce0621854c407b35305a75e33bf2a02e5a33c0847bf63bd43118cc73b07f8"
+    },
+    "evidence/context-r60-tools-mtp-r1/http-tool-transitions.py": {
+      "bytes": 23284,
+      "sha256": "ae96da74d458d772466c3dc8abe8e8d1494fc900d4ef726723cdd2dc2563fb73"
+    },
+    "evidence/context-r60-tools-mtp-r1/manifest.json": {
+      "bytes": 6840,
+      "sha256": "b341e1f8bd7cbe54038b7b643a09aea113eec809c0938fdaf6d851e84d67d3b1"
+    },
+    "evidence/context-r60-tools-mtp-r1/runner.py": {
+      "bytes": 165410,
+      "sha256": "25afa625431aa79589e0ca2a619c146b36d294a4aa3cc884d6a52786c910ae57"
+    },
+    "evidence/context-r60-tools-prepare-remote.py": {
+      "bytes": 4968,
+      "sha256": "e5f6968c4eb4e0a4ddf6de7816b77bea75ea6598eb71c8adbe5465f5e77bda75"
+    },
+    "evidence/context-r60-tools-readiness.json": {
+      "bytes": 1508,
+      "sha256": "fe392669b7403031b869e47d7aa2fd3c9224766e0eb209fce10edb53dc2c53e0"
+    },
+    "evidence/launch-context-r60-tools-ar.py": {
+      "bytes": 2998,
+      "sha256": "5654dc7f40a7bd71d0ab9e39420b3f9c7eebd10a13e4098aec49218b863da92a"
+    },
+    "evidence/launch-context-r60-tools-mtp.py": {
+      "bytes": 3002,
+      "sha256": "3433e54e44468ccef5f7d3448845bbaff32a71bf87bb4bb4bd2e32ba28c08602"
+    },
+    "evidence/observe-context-r60-tools.py": {
+      "bytes": 3458,
+      "sha256": "5bbc1ce3a7f020cea0e85cb5b0ca6d9c05385ef00c15bffca72a0997140dc325"
+    },
+    "evidence/prepare-context-r60-tools.py": {
+      "bytes": 4670,
+      "sha256": "3456d73dfcb43c49f309e8efecf1bf11b8b364f09a4b26a719127a806493360f"
+    },
+    "evidence/seal-tool-transitions-ar-point-r60-r2.py": {
+      "bytes": 12056,
+      "sha256": "42b55621d00afbfd504b415a5edaf60c4ca6dcf174a562299d9bf036ce4cf766"
+    },
+    "evidence/seal-tool-transitions-ar-point-r60.py": {
+      "bytes": 11880,
+      "sha256": "6c76394c0c755a8fcffee10add305bd5a40b4b2af036e7ed62d901edf8a3ca68"
+    },
+    "tools/strix-point-bench-collect.py": {
+      "bytes": 15116,
+      "sha256": "7258acbb467ed751c46ebc37c5dfa7d15182838145cb2b3bd54975309afafa5c"
+    },
+    "tools/strix-point-campaign.py": {
+      "bytes": 165410,
+      "sha256": "25afa625431aa79589e0ca2a619c146b36d294a4aa3cc884d6a52786c910ae57"
+    },
+    "tools/strix-point-http-gate.py": {
+      "bytes": 19937,
+      "sha256": "68cce0621854c407b35305a75e33bf2a02e5a33c0847bf63bd43118cc73b07f8"
+    },
+    "tools/strix-point-tool-transition-gate.py": {
+      "bytes": 23284,
+      "sha256": "ae96da74d458d772466c3dc8abe8e8d1494fc900d4ef726723cdd2dc2563fb73"
+    }
+  }
+}

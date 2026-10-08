@@ -1,0 +1,40 @@
+{
+  "schema": "synapse-lie.q2-rejected-recovery-moe-update.v1",
+  "previous_recovery_status_sha256": "39c25dd47cb3e7d727bf676c05baa3ac4090a089f94159d34f2a10380667694b",
+  "original_inventory_sha256": "3a76a5bdef0bd3c26a8328fe0cfd04aed1f43a998447b4167ecc2a5d3083b9c0",
+  "original_reports_verified": 19,
+  "new_family": "hc-deferred-norm",
+  "new_disposition": "new_composition_measured",
+  "previous_disposition": "new_selective_integration_pending",
+  "remaining_selective_integration_families": [
+    "scaled-tiles"
+  ],
+  "disposition_family_counts": {
+    "already_in_fixed_reference": 5,
+    "new_composition_measured": 4,
+    "performance_measured_regression": 1,
+    "new_selective_integration_pending": 1
+  },
+  "new_model_result_sha256": "35a0326b288f977c225bc7288f33aad71fac8c097a8c86bdadc74072c7d6d5dc",
+  "source_manifest_sha256": "29ee4167b483f8c7739549cb9c21a602c510b92f54da9d14884cb54e1c5369c2",
+  "original_component_result_sha256": "19246d00a511afe41ec2c43b1f31a5b2b2518dc7cd509fc45e44a4520a22f4e1",
+  "candidate_prefill_tok_s": 1496.830907,
+  "candidate_decode_steps_s": 25.17435733,
+  "new_prefill_change_percent": 1.2761823059326272,
+  "combined_prefill_change_percent": 3.6821388844457736,
+  "candidate_prefill_gap_to_ud_percent": -11.208254394763129,
+  "candidate_prefill_increase_needed_for_ud_percent": 12.623081479436603,
+  "confirmed_false_format_rejection_families": [
+    "shared-q8"
+  ],
+  "all_nineteen_false_confirmed": false,
+  "qualified_controls_rerun": false,
+  "component_rerun": false,
+  "original_failures_preserved": true,
+  "original_tester_unchanged": true,
+  "numerical_acceptance": false,
+  "independent_model_quality_complete": false,
+  "entire_reaudit_complete": false,
+  "goal_met": false,
+  "full_curve_admitted": false
+}

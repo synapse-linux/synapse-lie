@@ -1,0 +1,242 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5322,6 +5322,14 @@
+   constexpr int kBUnits = BN * BK;
+   constexpr int kAPer = (kAUnits + 255) / 256;
+   constexpr int kBPer = (kBUnits + 255) / 256;
++  // Only the measured original-F16 HC down specialization changes fetch
++  // ownership. Nearby lanes load nearby uint4 chunks, instead of assigning
++  // all four chunks of a K32 row to one lane. LDS and math stay unchanged.
++  constexpr bool kChunkedHcDown =
++      kHalfWeights && !kHcMix && !kSsmConv && !kAttention && BM == 64 &&
++      BN == 128 && BK == 2 && WM == 2 && WN == 4 && kRowGroup == 5;
++  constexpr int kAChunkPer = (kAUnits * 4 + 255) / 256;
++  constexpr int kBChunkPer = (kBUnits * 4 + 255) / 256;
+ 
+   // One K block of one row or token is four 16-byte chunks; the chunks of
+   // nearby rows are permuted so a fragment read (one row per lane, 64-byte
+@@ -5384,40 +5392,76 @@
+   uint4 a_half[kHalfWeights ? kAPer : 1][4];
+   std::uint32_t a_d[kAPer];
+   uint4 b_data[kBPer][4];
++  uint4 a_chunk[kChunkedHcDown ? kAChunkPer : 1];
++  uint4 b_chunk[kChunkedHcDown ? kBChunkPer : 1];
+ 
+   const auto fetch_stage = [&](int kb0) {
+-#pragma unroll
+-    for (int p = 0; p < kAPer; ++p) {
+-      const int kb = kb0 + (((p * 256) + tid) % BK);
+-      const bool live = a_live[p] && kb < num_kb;
+-      if constexpr (kHalfWeights) {
+-        const auto* src = reinterpret_cast<const uint4*>(
+-            a_ptr[p] + static_cast<std::size_t>(kb) * 64);
+-#pragma unroll
+-        for (int c = 0; c < 4; ++c)
+-          a_half[p][c] = live ? src[c] : make_uint4(0u, 0u, 0u, 0u);
+-      } else {
+-        const std::uint8_t* blk =
+-            a_ptr[p] +
+-            (static_cast<std::size_t>(live ? kb : (num_kb - 1)) * 34);
+-        a_d[p] = live ? *reinterpret_cast<const std::uint16_t*>(blk) : 0U;
+-        __builtin_memcpy(&a_codes[p][0], blk + 2, 16);
+-        __builtin_memcpy(&a_codes[p][1], blk + 18, 16);
+-      }
+-    }
+-#pragma unroll
+-    for (int p = 0; p < kBPer; ++p) {
+-      const int kb = kb0 + (((p * 256) + tid) % BK);
+-      if (b_ptr[p] != nullptr && kb < num_kb) {
+-        const auto* src = reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
+-#pragma unroll
+-        for (int c = 0; c < 4; ++c) {
+-          b_data[p][c] = src[c];
++    if constexpr (kChunkedHcDown) {
++
++#pragma unroll
++      for (int p = 0; p < kAChunkPer; ++p) {
++        const int chunk = p * 256 + tid;
++        const int unit = chunk / 4;
++        const int row = r_block + unit / BK;
++        const int kb = kb0 + unit % BK;
++        if (unit < kAUnits && row < m_i && kb < num_kb) {
++          const auto* src = reinterpret_cast<const uint4*>(
++              w_bytes + (static_cast<std::size_t>(row) * num_kb + kb) * 64);
++          a_chunk[p] = src[chunk & 3];
++        } else {
++          a_chunk[p] = make_uint4(0u, 0u, 0u, 0u);
+         }
+-      } else {
+-#pragma unroll
+-        for (int c = 0; c < 4; ++c) {
+-          b_data[p][c] = make_uint4(0u, 0u, 0u, 0u);
++      }
++#pragma unroll
++      for (int p = 0; p < kBChunkPer; ++p) {
++        const int chunk = p * 256 + tid;
++        const int unit = chunk / 4;
++        const int token = t_block + unit / BK;
++        const int kb = kb0 + unit % BK;
++        if (unit < kBUnits && token < static_cast<int>(batch) && kb < num_kb) {
++          const auto* src = reinterpret_cast<const uint4*>(
++              x + static_cast<std::size_t>(token) * k + kb * 32);
++          b_chunk[p] = src[chunk & 3];
++        } else {
++          b_chunk[p] = make_uint4(0u, 0u, 0u, 0u);
++        }
++      }
++    } else {
++
++#pragma unroll
++      for (int p = 0; p < kAPer; ++p) {
++        const int kb = kb0 + (((p * 256) + tid) % BK);
++        const bool live = a_live[p] && kb < num_kb;
++        if constexpr (kHalfWeights) {
++          const auto* src = reinterpret_cast<const uint4*>(
++              a_ptr[p] + static_cast<std::size_t>(kb) * 64);
++#pragma unroll
++          for (int c = 0; c < 4; ++c)
++            a_half[p][c] = live ? src[c] : make_uint4(0u, 0u, 0u, 0u);
++        } else {
++          const std::uint8_t* blk =
++              a_ptr[p] +
++              (static_cast<std::size_t>(live ? kb : (num_kb - 1)) * 34);
++          a_d[p] = live ? *reinterpret_cast<const std::uint16_t*>(blk) : 0U;
++          __builtin_memcpy(&a_codes[p][0], blk + 2, 16);
++          __builtin_memcpy(&a_codes[p][1], blk + 18, 16);
++        }
++      }
++#pragma unroll
++      for (int p = 0; p < kBPer; ++p) {
++        const int kb = kb0 + (((p * 256) + tid) % BK);
++        if (b_ptr[p] != nullptr && kb < num_kb) {
++          const auto* src =
++              reinterpret_cast<const uint4*>(b_ptr[p] + (kb * 32));
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            b_data[p][c] = src[c];
++          }
++        } else {
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            b_data[p][c] = make_uint4(0u, 0u, 0u, 0u);
++          }
+         }
+       }
+     }
+@@ -5426,51 +5470,75 @@
+   const __half2 magic = __floats2half2_rn(-1152.0F, -1152.0F);
+   const __half2 zero2 = __floats2half2_rn(0.0F, 0.0F);
+   const auto commit_stage = [&]() {
+-#pragma unroll
+-    for (int p = 0; p < kAPer; ++p) {
+-      const int idx = (p * 256) + tid;
+-      if (idx >= kAUnits) {
+-        break;
+-      }
+-      const int row = idx / BK;
+-      const int kk = idx % BK;
+-      if constexpr (kHalfWeights) {
+-#pragma unroll
+-        for (int c = 0; c < 4; ++c)
+-          s_a[kk][row][swizzle(row, c)] = a_half[p][c];
+-      } else {
+-        // Q8_0 codes are signed; flipping the sign bit carries q + 128, which
+-        // the 1152 magic takes back out.
+-        const std::uint32_t words[8] = {
+-            a_codes[p][0].x, a_codes[p][0].y, a_codes[p][0].z, a_codes[p][0].w,
+-            a_codes[p][1].x, a_codes[p][1].y, a_codes[p][1].z, a_codes[p][1].w};
+-        const __half2 scale2 = __half2half2(
+-            __builtin_bit_cast(__half, static_cast<std::uint16_t>(a_d[p])));
+-        __half2 h[16];
+-#pragma unroll
+-        for (int i = 0; i < 8; ++i) {
+-          CodesToHalves(words[i] ^ 0x80808080U, magic, scale2, zero2, h[2 * i],
+-                        h[2 * i + 1]);
++    if constexpr (kChunkedHcDown) {
++
++#pragma unroll
++      for (int p = 0; p < kAChunkPer; ++p) {
++        const int chunk = p * 256 + tid;
++        const int unit = chunk / 4;
++        if (unit < kAUnits) {
++          const int row = unit / BK;
++          s_a[unit % BK][row][swizzle(row, chunk & 3)] = a_chunk[p];
+         }
++      }
++#pragma unroll
++      for (int p = 0; p < kBChunkPer; ++p) {
++        const int chunk = p * 256 + tid;
++        const int unit = chunk / 4;
++        if (unit < kBUnits) {
++          const int token = unit / BK;
++          s_b[unit % BK][token][swizzle(token, chunk & 3)] = b_chunk[p];
++        }
++      }
++    } else {
++
++#pragma unroll
++      for (int p = 0; p < kAPer; ++p) {
++        const int idx = (p * 256) + tid;
++        if (idx >= kAUnits) {
++          break;
++        }
++        const int row = idx / BK;
++        const int kk = idx % BK;
++        if constexpr (kHalfWeights) {
++#pragma unroll
++          for (int c = 0; c < 4; ++c)
++            s_a[kk][row][swizzle(row, c)] = a_half[p][c];
++        } else {
++          // Q8_0 codes are signed; flipping the sign bit carries q + 128, which
++          // the 1152 magic takes back out.
++          const std::uint32_t words[8] = {a_codes[p][0].x, a_codes[p][0].y,
++                                          a_codes[p][0].z, a_codes[p][0].w,
++                                          a_codes[p][1].x, a_codes[p][1].y,
++                                          a_codes[p][1].z, a_codes[p][1].w};
++          const __half2 scale2 = __half2half2(
++              __builtin_bit_cast(__half, static_cast<std::uint16_t>(a_d[p])));
++          __half2 h[16];
++#pragma unroll
++          for (int i = 0; i < 8; ++i) {
++            CodesToHalves(words[i] ^ 0x80808080U, magic, scale2, zero2,
++                          h[2 * i], h[2 * i + 1]);
++          }
++#pragma unroll
++          for (int c = 0; c < 4; ++c) {
++            uint4 v;
++            __builtin_memcpy(&v, &h[4 * c], 16);
++            s_a[kk][row][swizzle(row, c)] = v;
++          }
++        }
++      }
++#pragma unroll
++      for (int p = 0; p < kBPer; ++p) {
++        const int idx = (p * 256) + tid;
++        if (idx >= kBUnits) {
++          break;
++        }
++        const int t = idx / BK;
++        const int kk = idx % BK;
+ #pragma unroll
+         for (int c = 0; c < 4; ++c) {
+-          uint4 v;
+-          __builtin_memcpy(&v, &h[4 * c], 16);
+-          s_a[kk][row][swizzle(row, c)] = v;
++          s_b[kk][t][swizzle(t, c)] = b_data[p][c];
+         }
+-      }
+-    }
+-#pragma unroll
+-    for (int p = 0; p < kBPer; ++p) {
+-      const int idx = (p * 256) + tid;
+-      if (idx >= kBUnits) {
+-        break;
+-      }
+-      const int t = idx / BK;
+-      const int kk = idx % BK;
+-#pragma unroll
+-      for (int c = 0; c < 4; ++c) {
+-        s_b[kk][t][swizzle(t, c)] = b_data[p][c];
+       }
+     }
+   };

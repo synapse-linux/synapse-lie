@@ -1,0 +1,83 @@
+{
+  "schema": "synapse-lie.q2-decode-q8-shape-attribution.v1",
+  "profile": "evidence/q2-current-best-profile-r1/results/profile/q2_results.db",
+  "profile_sha256": "592d3c630e56967896d4847c83f3c0959b0c56972ce0f6a7bd8e1bdccccbaa58",
+  "provider": "historical1571, not current retained1587",
+  "decode_calls": 15,
+  "physical_input_tokens": 2048,
+  "scope": "Offline attribution only, no rerun, no current or128K profile claim",
+  "groups": [
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 524288,
+      "workgroup_threads": 32,
+      "rows_per_call": 16384,
+      "calls": 540,
+      "time_ns": 106599286,
+      "time_ms_per_token": 7.106619066666667
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 81920,
+      "workgroup_threads": 32,
+      "rows_per_call": 2560,
+      "calls": 1455,
+      "time_ns": 63423706,
+      "time_ms_per_token": 4.2282470666666665
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 7946240,
+      "workgroup_threads": 32,
+      "rows_per_call": 248320,
+      "calls": 15,
+      "time_ns": 44958823,
+      "time_ms_per_token": 2.9972548666666667
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 425984,
+      "workgroup_threads": 32,
+      "rows_per_call": 13312,
+      "calls": 180,
+      "time_ns": 28828140,
+      "time_ms_per_token": 1.921876
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, true, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 20480,
+      "workgroup_threads": 32,
+      "rows_per_call": 640,
+      "calls": 720,
+      "time_ns": 13228195,
+      "time_ms_per_token": 0.8818796666666666
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 327680,
+      "workgroup_threads": 32,
+      "rows_per_call": 10240,
+      "calls": 15,
+      "time_ns": 2152108,
+      "time_ms_per_token": 0.14347386666666667
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 16384,
+      "workgroup_threads": 32,
+      "rows_per_call": 512,
+      "calls": 180,
+      "time_ns": 1493167,
+      "time_ms_per_token": 0.09954446666666666
+    },
+    {
+      "symbol": "void qfn_mmq::mul_mat_vec_q8<1, false, 1, false>(void const*, void const*, qfn_mmq::block_q8_1 const*, float*, unsigned int, unsigned int, unsigned int, unsigned int)",
+      "grid_threads": 4096,
+      "workgroup_threads": 32,
+      "rows_per_call": 128,
+      "calls": 180,
+      "time_ns": 853901,
+      "time_ms_per_token": 0.05692673333333333
+    }
+  ]
+}

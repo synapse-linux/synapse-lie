@@ -9,9 +9,13 @@ rollback to the pinned Gufo Qwen3.8 Flash Next provider.
 **Status:** original-weight functional checks pass on `.157`: verified output,
 greedy target-AR control, sampled rejection, RAM/SSD continuation and reactive
 backpressure/cancellation. The [GPU receipt](validation/vision-mtp-gpu-2026-10-03.json)
-records the tested checkpoint (`bec0955`), scope and retained failures. The
-new sampler/vision integration awaits GPU retesting. Independent numerical/quality,
-allocation-exact memory fit and performance gates remain open.
+records the tested C17 sampler/vision checkpoint (`bec0955`), scope and retained
+failures. Later [Point functional checks](validation/point-functional-integration-2026-10-04.json)
+and [reactive/vision gates](validation/point-r5-integration-2026-10-04.json) also
+pass within their frozen binary scope. Served AR/MTP comparisons are available
+through near 256K in the [Point results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
+Independent numerical/quality, allocation-exact memory and broader fault gates
+remain open; these results do not qualify MTP at 1M.
 [Joint configuration](../guides/USAGE.md#mtp-with-images) uses the same core,
 reactive output flow and RAM/SSD state.
 

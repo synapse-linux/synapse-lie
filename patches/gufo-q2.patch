@@ -1,0 +1,600 @@
+--- a/src/core/gguf_reader.hpp
++++ b/src/core/gguf_reader.hpp
+@@ -40,6 +40,7 @@
+   kIQ4_XS = 23,
+   kI32 = 26,
+   kBF16 = 30,
++  kMXFP4 = 39,  // Descriptor support; model dispatch is checked separately.
+ };
+ 
+ [[nodiscard]] constexpr std::string_view ToString(GgmlType type) noexcept {
+@@ -82,6 +83,8 @@
+       return "IQ4_XS";
+     case GgmlType::kI32:
+       return "I32";
++    case GgmlType::kMXFP4:
++      return "MXFP4";
+     case GgmlType::kBF16:
+       return "BF16";
+   }
+--- a/src/core/quant/ggml_dequant.cpp
++++ b/src/core/quant/ggml_dequant.cpp
+@@ -182,6 +182,9 @@
+       break;
+     case core::GgmlType::kQ8_1:
+       block_bytes = 36;
++      break;
++    case core::GgmlType::kMXFP4:
++      block_bytes = 17;
+       break;
+     case core::GgmlType::kQ2_K:
+       block_bytes = 84;
+--- a/src/core/quant/ggml_dequant.hpp
++++ b/src/core/quant/ggml_dequant.hpp
+@@ -116,6 +116,7 @@
+     case core::GgmlType::kQ8_1:
+     case core::GgmlType::kQ8_0:
+     case core::GgmlType::kIQ4_NL:
++    case core::GgmlType::kMXFP4:
+       return 32;
+     case core::GgmlType::kQ2_K:
+     case core::GgmlType::kIQ2_XXS:
+--- a/src/models/qwen38_flash_next/config.cpp
++++ b/src/models/qwen38_flash_next/config.cpp
+@@ -111,7 +111,21 @@
+   c.rotary_dim = r.U32(key("rope.dimension_count"));
+   c.rope_theta = r.F32(key("rope.freq_base"), 10000000.0F);
+   {
+-    const auto sections = r.U64Array(key("rope.dimension_sections"));
++    // The original padded IQ2 artifact predates this metadata key. Its
++    // recorded source architecture is the same pinned Flash-Next profile.
++    // Do not default missing sections for arbitrary or malformed artifacts.
++    const bool legacy_q2 =
++        gguf.GetMetadataUint32("ds4.qwen4.down.logical_input") == 640 &&
++        gguf.GetMetadataUint32("ds4.qwen4.down.physical_input") == 768 &&
++        gguf.GetMetadataString("ds4.qwen4.ngram.source_repository") ==
++            "Qwen/Qwen3.8-Flash-Next" &&
++        gguf.GetMetadataString("ds4.qwen4.ngram.source_revision") ==
++            "de4b8e4d43b917e7706784d8bb445c9af86a3540";
++    const auto sections =
++        legacy_q2 &&
++                gguf.FindMetadata(key("rope.dimension_sections")) == nullptr
++            ? std::vector<std::uint64_t>{11, 11, 10, 0}
++            : r.U64Array(key("rope.dimension_sections"));
+     if (sections.size() != 4 || sections[3] != 0) {
+       r.Fail("rope.dimension_sections must contain three axes and a zero pad");
+     } else {
+@@ -172,6 +186,21 @@
+   c.num_experts = r.U32(key("expert_count"));
+   c.num_experts_used = r.U32(key("expert_used_count"));
+   c.expert_ff = r.U32(key("expert_feed_forward_length"));
++  const bool has_down_logical =
++      gguf.FindMetadata("ds4.qwen4.down.logical_input") != nullptr;
++  const bool has_down_physical =
++      gguf.FindMetadata("ds4.qwen4.down.physical_input") != nullptr;
++  c.expert_down_input = c.expert_ff;
++  if (has_down_logical || has_down_physical) {
++    const auto logical = r.U32("ds4.qwen4.down.logical_input");
++    const auto physical = r.U32("ds4.qwen4.down.physical_input");
++    if (!has_down_logical || !has_down_physical || logical != c.expert_ff ||
++        logical != 640 || physical != 768) {
++      r.Fail("unsupported Qwen routed-down storage geometry");
++      return std::nullopt;
++    }
++    c.expert_down_input = physical;
++  }
+   c.shared_expert_ff = r.U32(key("expert_shared_feed_forward_length"));
+ 
+   {
+--- a/src/models/qwen38_flash_next/config.hpp
++++ b/src/models/qwen38_flash_next/config.hpp
+@@ -56,6 +56,8 @@
+   std::uint32_t num_experts{0};       ///< 512
+   std::uint32_t num_experts_used{0};  ///< 10
+   std::uint32_t expert_ff{0};         ///< 640
++  std::uint32_t expert_down_input{
++      0};  ///< Stored AR down width; logical FF stays 640.
+   std::uint32_t shared_expert_ff{0};  ///< 640
+ 
+   // PLE n-gram hash embedding, injected into one linear-attention layer.
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
+@@ -23,6 +23,7 @@
+   void* source;
+   void* destination;
+   std::size_t count;
++  bool widen{false};
+ };
+ 
+ struct Uploader {
+@@ -187,7 +188,26 @@
+   }
+ 
+   DeviceMixer Mixer(const HcMixer& m) {
+-    return {Copy(m.norm), Copy(m.down), Copy(m.up), Copy(m.inject)};
++    DeviceMixer d{Copy(m.norm), Copy(m.down), Copy(m.up), Copy(m.inject)};
++    if (ok && !m.inject.empty() && m.inject.type == core::GgmlType::kF16) {
++      // Exact widening once at load preserves the existing fused F32 inject.
++      // Keep the uploaded F16 source alive until staging and conversion finish.
++      const std::size_t count = m.inject.ElementCount();
++      void* wide = nullptr;
++      if (hipMalloc(&wide, count * sizeof(float) + kTailMargin) != hipSuccess) {
++        Fail("hipMalloc failed for HC inject widening");
++        return d;
++      }
++      allocations.push_back(wide);
++      bytes += count * sizeof(float) + kTailMargin;
++      conversions.push_back({d.inject.data, wide, count, true});
++      d.inject.data = wide;
++      d.inject.type = core::GgmlType::kF32;
++      (void)hipMemsetAsync(
++          static_cast<std::uint8_t*>(wide) + count * sizeof(float), 0,
++          kTailMargin, nullptr);
++    }
++    return d;
+   }
+ 
+   DeviceLayer Layer(const LayerWeights& l) {
+@@ -329,8 +349,13 @@
+     return nullptr;
+   }
+   for (const auto& c : conversions) {
+-    NarrowActivations(static_cast<const float*>(c.source), c.destination, false,
+-                      c.count, nullptr);
++    if (c.widen) {
++      WidenHalf(static_cast<const __half*>(c.source),
++                static_cast<float*>(c.destination), c.count, nullptr);
++    } else {
++      NarrowActivations(static_cast<const float*>(c.source), c.destination,
++                        false, c.count, nullptr);
++    }
+   }
+   const auto status = hipDeviceSynchronize();
+   if (status != hipSuccess) {
+@@ -343,7 +368,8 @@
+   for (const auto& c : conversions) {
+     std::erase(m->allocations_, c.source);
+     (void)hipFree(c.source);
+-    m->bytes_ -= c.count * sizeof(float) + kTailMargin;
++    m->bytes_ -= c.count * (c.widen ? sizeof(std::uint16_t) : sizeof(float)) +
++                 kTailMargin;
+   }
+   return m;
+ }
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -986,9 +986,18 @@
+   int rc = -1;
+   if (!tiled) {
+     rc = qfn_mmq_moe_vec(static_cast<int>(w.type), w.data, x, ids, out, M, K, T,
+-                         E, U, stream_);
++                         E, U, stream_, nullptr, nullptr,
++                         w.type == GgmlType::kQ2_K ? config().expert_ff : K);
+   } else {
+     switch (w.type) {
++      case GgmlType::kIQ2_XXS:
++        rc = qfn_mmq_iq2_xxs_moe_raw(w.data, x, ids, out, M, K, T, E, U,
++                                     stream_);
++        break;
++      case GgmlType::kQ2_K:
++        rc = qfn_mmq_q2_K_moe_raw(w.data, x, ids, out, M, K, T, E, U, stream_,
++                                  config().expert_ff);
++        break;
+       case GgmlType::kQ4_K:
+         rc = qfn_mmq_q4_K_moe_raw(w.data, x, ids, out, M, K, T, E, U, stream_);
+         break;
+@@ -1020,7 +1029,7 @@
+                           a.cols == b.cols && a.experts == b.experts;
+   if (!MatrixRows(n_tokens) && n_used <= 32 && same_shape &&
+       (a.type == GgmlType::kQ4_K || a.type == GgmlType::kQ5_K ||
+-       a.type == GgmlType::kQ8_0)) {
++       a.type == GgmlType::kQ8_0 || a.type == GgmlType::kIQ2_XXS)) {
+     if (qfn_mmq_moe_gated_vec(
+             static_cast<int>(a.type), a.data, b.data, x, ids, out,
+             static_cast<int>(a.rows), static_cast<int>(a.cols),
+@@ -1038,6 +1047,16 @@
+                         static_cast<int>(n_used), stream_, b.data,
+                         s_.up_e) != 0) {
+       AssignError(error_msg, "expert vector pair GEMM failed");
++      return false;
++    }
++  } else if (same_shape && a.type == GgmlType::kIQ2_XXS) {
++    RoutedHints(a, n_tokens);
++    if (qfn_mmq_iq2_xxs_moe_raw(
++            a.data, x, ids, out, static_cast<int>(a.rows),
++            static_cast<int>(a.cols), static_cast<int>(n_tokens),
++            static_cast<int>(a.experts), static_cast<int>(n_used), stream_,
++            b.data, s_.up_e) != 0) {
++      AssignError(error_msg, "IQ2 expert pair GEMM failed");
+       return false;
+     }
+   } else if (same_shape && a.type == GgmlType::kQ4_K) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -15,6 +15,13 @@
+ 
+ namespace gufo::models::qwen38_flash_next::rocm {
+ namespace {
++
++__global__ void WidenHalfKernel(const __half* input, float* output,
++                                std::size_t count) {
++  const std::size_t i = std::size_t(blockIdx.x) * blockDim.x + threadIdx.x;
++  if (i < count)
++    output[i] = __half2float(input[i]);
++}
+ 
+ constexpr unsigned kThreads = 256;
+ 
+@@ -4485,6 +4492,13 @@
+                      stream, x, g, count);
+ }
+ 
++void WidenHalf(const __half* input, float* output, std::size_t count,
++               hipStream_t stream) {
++  if (count != 0)
++    hipLaunchKernelGGL(WidenHalfKernel, dim3((count + 255) / 256), dim3(256), 0,
++                       stream, input, output, count);
++}
++
+ void NarrowActivations(const float* x, void* out, bool bf16, std::size_t count,
+                        hipStream_t stream) {
+   if (bf16) {
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -135,6 +135,10 @@
+ /// out[t][m] = sum_k W[m][k] * x[t][k] for F32/BF16/F16 weights; meant for
+ /// the narrow projections (routers, alpha/beta, indexer, inject) that the
+ /// quantized tier does not cover.
++/// Exact load-time F16 widening for the small HC inject projections.
++void WidenHalf(const __half* input, float* output, std::size_t count,
++               hipStream_t stream);
++
+ /// Converts `count` floats to BF16 (or F16) for a 16-bit hipBLAS GEMM.
+ void NarrowActivations(const float* x, void* out, bool bf16, std::size_t count,
+                        hipStream_t stream);
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp
+@@ -149,6 +149,8 @@
+         case GGML_TYPE_Q8_0:    return vec_dot_q8_0_q8_1;
+         case GGML_TYPE_Q4_K:    return vec_dot_q4_K_q8_1;
+         case GGML_TYPE_Q5_K:    return vec_dot_q5_K_q8_1;
++        case GGML_TYPE_IQ2_XXS: return vec_dot_iq2_xxs_q8_1;
++        case GGML_TYPE_Q2_K:    return vec_dot_q2_K_q8_1;
+         default:                return nullptr;
+     }
+ }
+@@ -159,6 +161,8 @@
+         case GGML_TYPE_Q8_0:    return VDR_Q8_0_Q8_1_MMVQ;
+         case GGML_TYPE_Q4_K:    return VDR_Q4_K_Q8_1_MMVQ;
+         case GGML_TYPE_Q5_K:    return VDR_Q5_K_Q8_1_MMVQ;
++        case GGML_TYPE_IQ2_XXS: return VDR_IQ2_XXS_Q8_1_MMVQ;
++        case GGML_TYPE_Q2_K:    return VDR_Q2_K_Q8_1_MMVQ;
+         default:                return 1;
+     }
+ }
+@@ -643,6 +647,14 @@
+             launch_moe<GGML_TYPE_Q5_K>(weights, input, ids, output, k, rows, tokens,
+                                           experts_used, input_stride, stream);
+             break;
++        case GGML_TYPE_IQ2_XXS:
++            launch_moe<GGML_TYPE_IQ2_XXS>(weights, input, ids, output, k, rows,
++                                         tokens, experts_used, input_stride, stream);
++            break;
++        case GGML_TYPE_Q2_K:
++            launch_moe<GGML_TYPE_Q2_K>(weights, input, ids, output, k, rows,
++                                      tokens, experts_used, input_stride, stream);
++            break;
+         default: GGML_ABORT("unsupported vector weight format");
+     }
+ }
+@@ -673,6 +685,10 @@
+       launch_moe_grouped<GGML_TYPE_Q8_0>(gate, up, input, groups, output, k,
+                                          rows, tokens, experts_used,
+                                          input_stride, stream);
++    } else if (type == GGML_TYPE_IQ2_XXS) {
++      launch_moe_grouped<GGML_TYPE_IQ2_XXS>(gate, up, input, groups, output, k,
++                                          rows, tokens, experts_used,
++                                          input_stride, stream);
+     } else {
+       GGML_ASSERT(type == GGML_TYPE_Q5_K);
+       launch_moe_grouped<GGML_TYPE_Q5_K>(gate, up, input, groups, output, k,
+@@ -692,6 +708,10 @@
+     mul_mat_vec_q_moe<GGML_TYPE_Q8_0, 2, true><<<grid, block, 0, stream>>>(
+         gate, input, ids, output, k, rows, row_stride, input_stride,
+         rows * experts_used, rows * row_stride, rows, 1, experts_used, up);
++  } else if (type == GGML_TYPE_IQ2_XXS) {
++    mul_mat_vec_q_moe<GGML_TYPE_IQ2_XXS, 2, true><<<grid, block, 0, stream>>>(
++        gate, input, ids, output, k, rows, row_stride, input_stride,
++        rows * experts_used, rows * row_stride, rows, 1, experts_used, up);
+   } else {
+     GGML_ASSERT(type == GGML_TYPE_Q5_K);
+     mul_mat_vec_q_moe<GGML_TYPE_Q5_K, 2, true><<<grid, block, 0, stream>>>(
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h
+@@ -28,20 +28,31 @@
+                                  int n_tokens, int n_experts, int n_expert_used,
+                                  hipStream_t stream);
+ 
+-// Routed vector projection for GGML Q4_K/Q5_K/Q5_1/Q8_0. Optional paired
++// Routed vector projection for GGML Q4_K/Q5_K/Q5_1/Q8_0/IQ2_XXS/Q2_K. Optional paired
+ // weights use the same shape, routing and quantized input; both outputs are
+ // [n_tokens][n_expert_used][M]. W_b and out_b must be supplied together.
+ int qfn_mmq_moe_vec(int weight_type, const void* W, const float* X_f32,
+                     const int32_t* ids, float* out, int M, int K, int n_tokens,
+                     int n_experts, int n_expert_used, hipStream_t stream,
+-                    const void* W_b = nullptr, float* out_b = nullptr);
++                    const void* W_b = nullptr, float* out_b = nullptr,
++                    int input_k = 0);
+ 
+-// Q4_K/Q5_K/Q8_0 gate/up for 1–8 tokens, with the SwiGLU result in out.
++// Q4_K/Q5_K/Q8_0/IQ2_XXS gate/up for 1–8 tokens, with the SwiGLU result in out.
+ // Q4_K also accepts up to 64 independent rows, grouped by expert.
+ int qfn_mmq_moe_gated_vec(int weight_type, const void* gate, const void* up,
+                           const float* x, const int32_t* ids, float* out, int m,
+                           int k, int tokens, int experts, int experts_used,
+                           hipStream_t stream);
++
++// input_k may be less than K for Q2 padded down projections.
++int qfn_mmq_q2_K_moe_raw(
++    const void* W, const float* X, const int32_t* ids, float* out,
++    int M, int K, int n_tokens, int n_experts, int n_expert_used,
++    hipStream_t stream, int input_k);
++int qfn_mmq_iq2_xxs_moe_raw(
++    const void* W, const float* X, const int32_t* ids, float* out,
++    int M, int K, int n_tokens, int n_experts, int n_expert_used,
++    hipStream_t stream, const void* W_b = nullptr, float* out_b = nullptr);
+ 
+ size_t qfn_mmq_q8_1_bytes(int N, int K);
+ 
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp
+@@ -206,9 +206,10 @@
+         int             n_experts,
+         int             n_expert_used,
+         hipStream_t    stream,
+-        const void * W_b = nullptr, float *out_b = nullptr) {
+-
+-    if (!W || !X_f32 || !ids || !out_f32) {
++        const void * W_b = nullptr, float *out_b = nullptr,
++        int input_k = 0) {
++
++    if (!W || !X_f32 || !ids || !out_f32 || bool(W_b) != bool(out_b)) {
+         fprintf(stderr, "%s: null pointer\n", tag);
+         return -1;
+     }
+@@ -217,7 +218,9 @@
+                 tag, M, K, n_tokens, n_experts, n_expert_used);
+         return -1;
+     }
+-    if (K % 32 != 0) {
++    if (input_k == 0) input_k = K;
++    if (input_k <= 0 || input_k > K || input_k % 32 != 0 ||
++        K % ggml_blck_size(type) != 0 || n_expert_used > n_experts) {
+         fprintf(stderr, "%s: K=%d must be a multiple of 32\n", tag, K);
+         return -1;
+     }
+@@ -271,13 +274,13 @@
+         get_mmq_x_max_host(cc) * sizeof(block_q8_1_mmq);
+     ggml_hip_pool_alloc<char> src1_q8_1(ctx->pool(), nbytes_src1_q8_1);
+ 
+-    const int64_t s11_src = (int64_t)K;
+-    const int64_t s12_src = (int64_t)K * ne11;
+-    const int64_t s13_src = (int64_t)K * ne11 * ne12;
++    const int64_t s11_src = (int64_t)input_k;
++    const int64_t s12_src = (int64_t)input_k * ne11;
++    const int64_t s13_src = (int64_t)input_k * ne11 * ne12;
+ 
+         quantize_mmq_q8_1_hip(
+             X_f32, ids_src1.get(), (void *)src1_q8_1.get(),
+-            type, K, s11_src, s12_src, s13_src,
++            type, input_k, s11_src, s12_src, s13_src,
+             ne10_padded, ne_get_rows, 1, 1,
+             stream);
+ 
+@@ -353,11 +356,12 @@
+                                  float* out_f32, int M, int K, int n_tokens,
+                                  int n_experts, int n_expert_used,
+                                  hipStream_t stream, const void* W_b,
+-                                 float* out_b, bool gated) {
++                                 float* out_b, bool gated, int input_k = 0) {
+   constexpr const char* tag = "qfn_mmq_moe_vec";
+   const auto type = static_cast<ggml_type>(weight_type);
+   if (type != GGML_TYPE_Q4_K && type != GGML_TYPE_Q5_K &&
+-      type != GGML_TYPE_Q5_1 && type != GGML_TYPE_Q8_0) {
++      type != GGML_TYPE_Q5_1 && type != GGML_TYPE_Q8_0 &&
++      type != GGML_TYPE_IQ2_XXS && type != GGML_TYPE_Q2_K) {
+     fprintf(stderr, "%s: unsupported weight type %d\n", tag, weight_type);
+     return -1;
+   }
+@@ -373,7 +377,9 @@
+             M, K, n_tokens, n_experts, n_expert_used);
+     return -1;
+   }
+-  if (K % ggml_blck_size(type) != 0) {
++  if (input_k == 0) input_k = K;
++  if (input_k <= 0 || input_k > K || input_k % 32 != 0 ||
++      K % ggml_blck_size(type) != 0) {
+     fprintf(stderr, "%s: K=%d is not a whole weight block\n", tag, K);
+     return -1;
+   }
+@@ -387,7 +393,7 @@
+                                  : MMVQ_MAX_BATCH_SIZE;
+   if (gated && (n_tokens > max_gated_rows || n_expert_used > 32 ||
+                 (type != GGML_TYPE_Q4_K && type != GGML_TYPE_Q5_K &&
+-                 type != GGML_TYPE_Q8_0))) {
++                 type != GGML_TYPE_Q8_0 && type != GGML_TYPE_IQ2_XXS))) {
+     fprintf(stderr,
+             "%s: gated vector exceeds its format's row or expert limit\n",
+             tag);
+@@ -416,8 +422,8 @@
+   src1_q8_1_pool.alloc(ctx->pool(), nbytes_q8_1 + group_bytes);
+   char* src1_q8_1_ptr = src1_q8_1_pool.get();
+ 
+-  quantize_row_q8_1_hip(X_f32, nullptr, (void*)src1_q8_1_ptr, type, K,
+-                        (int64_t)K, (int64_t)K, (int64_t)K * n_tokens,
++  quantize_row_q8_1_hip(X_f32, nullptr, (void*)src1_q8_1_ptr, type, input_k,
++                        (int64_t)input_k, (int64_t)input_k, (int64_t)input_k * n_tokens,
+                         ne10_padded, 1, n_tokens, 1, stream);
+ 
+   hipError_t err = hipGetLastError();
+@@ -470,10 +476,10 @@
+                                float* out_f32, int M, int K, int n_tokens,
+                                int n_experts, int n_expert_used,
+                                hipStream_t stream, const void* W_b,
+-                               float* out_b) {
++                               float* out_b, int input_k) {
+   return moe_vector_projection(weight_type, W, X_f32, ids, out_f32, M, K,
+                                n_tokens, n_experts, n_expert_used, stream, W_b,
+-                               out_b, false);
++                               out_b, false, input_k);
+ }
+ 
+ extern "C" int qfn_mmq_moe_gated_vec(int weight_type, const void* gate,
+@@ -530,6 +536,26 @@
+     return qfn_mmq_moe_impl<GGML_TYPE_Q4_K>("qfn_mmq_q4_K_moe_pair_unique",
+         W_a, X, ids, out_a, M, K, n_tokens, n_experts, n_expert_used, stream,
+         W_b, out_b);
++}
++
++// input_k is the logical activation width; K is the stored weight width.
++// The existing quantizer supplies zero lanes without an extra float buffer.
++extern "C" int qfn_mmq_q2_K_moe_raw(
++    const void* W, const float* X, const int32_t* ids, float* out,
++    int M, int K, int n_tokens, int n_experts, int n_expert_used,
++    hipStream_t stream, int input_k) {
++  return qfn_mmq_moe_impl<GGML_TYPE_Q2_K>(
++      "qfn_mmq_q2_K_moe_raw", W, X, ids, out, M, K, n_tokens, n_experts,
++      n_expert_used, stream, nullptr, nullptr, input_k);
++}
++
++extern "C" int qfn_mmq_iq2_xxs_moe_raw(
++    const void* W, const float* X, const int32_t* ids, float* out,
++    int M, int K, int n_tokens, int n_experts, int n_expert_used,
++    hipStream_t stream, const void* W_b, float* out_b) {
++  return qfn_mmq_moe_impl<GGML_TYPE_IQ2_XXS>(
++      "qfn_mmq_iq2_xxs_moe_raw", W, X, ids, out, M, K, n_tokens, n_experts,
++      n_expert_used, stream, W_b, out_b);
+ }
+ 
+ extern "C" size_t qfn_mmq_q8_1_bytes(int N, int K) {
+@@ -664,4 +690,8 @@
+     ggml_backend_hip_context&, const mmq_args&, hipStream_t);
+ template void mul_mat_q_case<GGML_TYPE_Q5_K>(
+     ggml_backend_hip_context&, const mmq_args&, hipStream_t);
++template void mul_mat_q_case<GGML_TYPE_IQ2_XXS>(
++    ggml_backend_hip_context&, const mmq_args&, hipStream_t);
++template void mul_mat_q_case<GGML_TYPE_Q2_K>(
++    ggml_backend_hip_context&, const mmq_args&, hipStream_t);
+ } // namespace qfn_mmq
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp
+@@ -964,9 +964,9 @@
+     }
+ 
+     const int ls = aux32 >> 27 | 1; // (scale * 2 + 1)
+-    sumi = sumi * ls / 8;           // (sumi * scale + sumi / 2) / 4
+     const float d = __half2float(bq2->d) * __low2float(bq8_1[iqs/2].ds);
+-    return d * sumi;
++    // IQ2's eighths are fractional. Integer division discards live values.
++    return d * (static_cast<float>(sumi * ls) * 0.125f);
+ }
+ 
+ #define VDR_IQ2_XS_Q8_1_MMVQ 2
+--- a/src/models/qwen38_flash_next/weights.cpp
++++ b/src/models/qwen38_flash_next/weights.cpp
+@@ -31,6 +31,10 @@
+       return {32, 18};
+     case GgmlType::kQ4_K:
+       return {256, 144};
++    case GgmlType::kIQ2_XXS:
++      return {256, 66};
++    case GgmlType::kQ2_K:
++      return {256, 84};
+     case GgmlType::kQ5_K:
+       return {256, 176};
+     case GgmlType::kQ6_K:
+@@ -125,8 +129,9 @@
+         Get(prefix + "_up.weight", c.hc_low_rank, hc_dim, 1,
+             {GgmlType::kQ8_0, GgmlType::kBF16, GgmlType::kF16, GgmlType::kF32});
+     if (with_inject) {
+-      m.inject = Get(prefix + "_inject.weight", hc_dim, c.hc_count, 1,
+-                     {GgmlType::kF32, GgmlType::kQ8_0, GgmlType::kBF16});
++      m.inject = Get(
++          prefix + "_inject.weight", hc_dim, c.hc_count, 1,
++          {GgmlType::kF32, GgmlType::kQ8_0, GgmlType::kBF16, GgmlType::kF16});
+     }
+     return m;
+   }
+@@ -200,12 +205,21 @@
+ 
+     l.router = Get(p + "ffn_gate_inp.weight", hidden, c.num_experts, 1,
+                    {GgmlType::kF32});
+-    l.ffn_gate_exps = Get(p + "ffn_gate_exps.weight", hidden, c.expert_ff,
++    if (!nextn && c.expert_down_input != c.expert_ff) {
++      l.ffn_gate_exps = Get(p + "ffn_gate_exps.weight", hidden, c.expert_ff,
++                            c.num_experts, {GgmlType::kIQ2_XXS});
++      l.ffn_up_exps = Get(p + "ffn_up_exps.weight", hidden, c.expert_ff,
++                          c.num_experts, {GgmlType::kIQ2_XXS});
++      l.ffn_down_exps = Get(p + "ffn_down_exps.weight", c.expert_down_input,
++                            hidden, c.num_experts, {GgmlType::kQ2_K});
++    } else {
++      l.ffn_gate_exps = Get(p + "ffn_gate_exps.weight", hidden, c.expert_ff,
++                            c.num_experts, experts);
++      l.ffn_up_exps = Get(p + "ffn_up_exps.weight", hidden, c.expert_ff,
+                           c.num_experts, experts);
+-    l.ffn_up_exps = Get(p + "ffn_up_exps.weight", hidden, c.expert_ff,
+-                        c.num_experts, experts);
+-    l.ffn_down_exps = Get(p + "ffn_down_exps.weight", c.expert_ff, hidden,
+-                          c.num_experts, experts);
++      l.ffn_down_exps = Get(p + "ffn_down_exps.weight", c.expert_ff, hidden,
++                            c.num_experts, experts);
++    }
+     l.shexp_gate_inp =
+         Get(p + "ffn_gate_inp_shexp.weight", hidden, 1, 1, {GgmlType::kF32});
+     l.shexp_gate =
+--- a/tests/models/qwen38_flash_next/config_test.cpp
++++ b/tests/models/qwen38_flash_next/config_test.cpp
+@@ -160,6 +160,43 @@
+ void CheckMalformedMetadata() {
+   const auto valid = ValidMetadata();
+   assert(Parse(valid));
++  Require(Parse(valid)->expert_down_input == 640, "unpadded down changed");
++  auto padded = valid;
++  padded["ds4.qwen4.down.logical_input"] = std::uint32_t{640};
++  padded["ds4.qwen4.down.physical_input"] = std::uint32_t{768};
++  Require(Parse(padded) && Parse(padded)->expert_down_input == 768 &&
++              Parse(padded)->expert_ff == 640,
++          "padded Q2 must preserve logical FF width");
++  auto legacy = padded;
++  legacy.erase("qwen4exp.rope.dimension_sections");
++  Require(!Parse(legacy), "unknown missing RoPE sections accepted");
++  legacy["ds4.qwen4.ngram.source_repository"] =
++      std::string{"Qwen/Qwen3.8-Flash-Next"};
++  legacy["ds4.qwen4.ngram.source_revision"] =
++      std::string{"de4b8e4d43b917e7706784d8bb445c9af86a3540"};
++  Require(Parse(legacy) && Parse(legacy)->rope_sections ==
++                               std::array<std::uint32_t, 4>{11, 11, 10, 0},
++          "known legacy Q2 RoPE profile refused");
++  auto wrong_legacy = legacy;
++  wrong_legacy["ds4.qwen4.ngram.source_revision"] = std::string{"unknown"};
++  Require(!Parse(wrong_legacy), "unknown legacy source accepted");
++  wrong_legacy = legacy;
++  wrong_legacy["qwen4exp.rope.dimension_sections"] =
++      std::vector<std::uint64_t>{10, 11, 11, 0};
++  Require(!Parse(wrong_legacy), "explicit wrong legacy sections ignored");
++  for (const auto key :
++       {"ds4.qwen4.down.logical_input", "ds4.qwen4.down.physical_input"}) {
++    auto missing = padded;
++    missing.erase(key);
++    Require(!Parse(missing), "partial down geometry accepted");
++    for (const Value value :
++         {Value{std::uint32_t{0}}, Value{std::uint32_t{1024}},
++          Value{std::string{"768"}}}) {
++      auto bad = padded;
++      bad[key] = value;
++      Require(!Parse(bad), "invalid down geometry accepted");
++    }
++  }
+   for (const auto key : {"qwen4exp.rope.dimension_sections",
+                          "qwen4exp.attention.compress_ratios"}) {
+     auto wrong = valid;

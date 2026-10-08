@@ -1,0 +1,22 @@
+{
+  "scope": "Isolated source identity only; no GPU evidence",
+  "base": "measured F32 MoE/HC fusion",
+  "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "file_count": 1019,
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": {
+      "base_sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc",
+      "candidate_sha256": "06801ee386f3765992c6bd7d9b3b4c7ec89c3d3a8838a406ae827fe528ebb71b"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": {
+      "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+      "candidate_sha256": "efda9b7e61cd2e7cdffe0482cd1adefb9ee5885bff932385ac60200b8f5c18dc"
+    },
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": {
+      "base_sha256": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+      "candidate_sha256": "28066793d7bf18671b3b84ce9bf8a842eddf11165b90c12c4d2cb1e4d8fbb3c3"
+    }
+  },
+  "patch_sha256": "e53e3e8c9fd06f88c12cd2d468c2299f0ea57233e070b1e94f049a04bf4bcc01",
+  "generator": "tools/prepare-q2-hc-norm-half.py"
+}

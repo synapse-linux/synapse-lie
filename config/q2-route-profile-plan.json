@@ -1,0 +1,41 @@
+{
+  "schema": "synapse-lie.q2-route-profile-plan.v1",
+  "at": "2026-10-04T04:09:35.496420+00:00",
+  "state": "LOCAL_PREPARATION_COMPLETE_NOT_ADMITTED",
+  "commands": [
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "cpu",
+      "q2-route-profile-host-r1"
+    ],
+    [
+      "python3",
+      "tools/q2-remote.py",
+      "q2-curve-routes",
+      "q2-route-profile-model-r1",
+      "--source-variant",
+      "curve-routes-q2",
+      "--rebuild-mmq"
+    ]
+  ],
+  "source_manifest": "config/q2-route-profile-source.json",
+  "host_tests_per_configuration": 20,
+  "depths": [
+    0,
+    4096,
+    8192,
+    12288,
+    16384,
+    32768,
+    65536,
+    131072
+  ],
+  "control": "evidence/q2-ple-curve-control-r2",
+  "scope": "Host20 Debug/ASan followed by one complete canonical Q2 routing diagnostic; unchanged ordered kernels and PLE; all histories compared; no throughput acceptance from instrumentation.",
+  "gpu_reserved": false,
+  "remote_staged": false,
+  "restart_scheduled": false,
+  "promoted": false,
+  "goal_met": false
+}

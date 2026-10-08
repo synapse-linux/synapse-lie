@@ -115,7 +115,28 @@ bool lie_chat_tools_parse(json_object *root, lie_chat_request *r, const char **w
         if (lie_json_literal(v,"auto")) r->tool_choice=LIE_TOOLS_AUTO;
         else if (lie_json_literal(v,"none")) r->tool_choice=LIE_TOOLS_NONE;
         else if (lie_json_literal(v,"required")) r->tool_choice=LIE_TOOLS_REQUIRED;
-        else {
+        else if(lie_json_literal(field(v,"type"),"allowed_tools")) {
+            const char *const outer[]={"type","allowed_tools",NULL};
+            const char *const inner[]={"mode","tools",NULL};
+            const char *const refkeys[]={"type","function",NULL},*const fnkeys[]={"name",NULL};
+            json_object *allowed=field(v,"allowed_tools"),*refs=field(allowed,"tools"),*mode=field(allowed,"mode");
+            if(!keys(v,outer) || !keys(allowed,inner) ||
+               (!lie_json_literal(mode,"auto") && !lie_json_literal(mode,"required")) ||
+               !json_object_is_type(refs,json_type_array) || json_object_array_length(refs)>LIE_CHAT_MAX_TOOLS) return false;
+            bool selected[LIE_CHAT_MAX_TOOLS]={false};
+            for(size_t k=0;k<json_object_array_length(refs);++k) {
+                json_object *ref=json_object_array_get_idx(refs,k),*fn=field(ref,"function");
+                if(!keys(ref,refkeys) || !lie_json_literal(field(ref,"type"),"function") ||
+                   !keys(fn,fnkeys) || !named(field(fn,"name"))) return false;
+                const char *name=json_object_get_string(field(fn,"name"));
+                size_t i=0;while(i<r->tool_count && strcmp(name,r->tools[i].name)) ++i;
+                if(i==r->tool_count || selected[i]) return false;
+                selected[i]=true;
+            }
+            size_t count=0;
+            for(size_t i=0;i<r->tool_count;++i) if(selected[i]) r->tools[count++]=r->tools[i];
+            r->tool_count=count;r->tool_choice=lie_json_literal(mode,"required")?LIE_TOOLS_REQUIRED:LIE_TOOLS_AUTO;
+        } else {
             const char *const outer[]={"type","function",NULL}, *const inner[]={"name",NULL};
             json_object *fn=field(v,"function");
             if (!keys(v,outer) || !lie_json_literal(field(v,"type"),"function") || !keys(fn,inner) || !named(field(fn,"name"))) return false;

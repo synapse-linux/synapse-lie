@@ -3,3 +3,7 @@
 third_party/libuv/** -whitespace linguist-vendored
 # Review the generator and values instead of generated vector paths.
 docs/benchmarks/models/**/charts/*.svg -whitespace linguist-generated
+
+# Unified-diff blank context lines are one literal space, required by patch.
+patches/*.patch whitespace=-blank-at-eol
+experiments/*.patch whitespace=-blank-at-eol

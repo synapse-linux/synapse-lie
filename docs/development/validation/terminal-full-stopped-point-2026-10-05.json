@@ -1,0 +1,497 @@
+{
+  "schema": "synapse-lie.terminal-full-operator-stop.v1",
+  "at_utc": "2026-10-05T21:47:44.142500+00:00",
+  "state": "OPERATOR_STOPPED_CLOSED_NOT_QUALIFIED",
+  "authorization": [
+    "stoppalo subito",
+    "posticipa terminal bench alla fine delle modifiche"
+  ],
+  "source_commit": "23594881f406adcaf47e156d4f8e880aa735b081",
+  "code_checkpoint": "5bdd40573698a7afe74846ded1f9b18add616cd7",
+  "CPU_client_host": "192.168.5.157",
+  "GPU_inference_host": "192.168.5.161",
+  "HTTP_endpoint": "http://192.168.5.161:8000/v1",
+  "suite": "core19",
+  "task_count": 19,
+  "completed_tasks": 0,
+  "task_running_when_stopped": "break-filter-js-from-html",
+  "pending_tasks_when_stopped": 18,
+  "full_score_qualified": false,
+  "CPU_closure": {
+    "schema": "synapse-lie.operator-terminal-client-closure.v1",
+    "state": "OPERATOR_STOPPED_CLOSED_NOT_QUALIFIED",
+    "at_utc": "2026-10-05T21:45:02.701139+00:00",
+    "authorization": "stoppalo subito; posticipa terminal bench alla fine delle modifiche",
+    "CPU_supervisor_absent": true,
+    "all_client_children_retired": true,
+    "all_owned_groups_absent": true,
+    "owned_trial_containers_absent": true,
+    "original_CPU_lease_free": true,
+    "cpu_lease": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+      "device": 52,
+      "inode": 4486194
+    },
+    "source_files_verified_after": 232,
+    "known_child_identities": 287,
+    "known_groups": 2,
+    "actual_exit_codes": {
+      "doctor": 0,
+      "runner": 130,
+      "CPU_supervisor": 1
+    },
+    "interrupted_signal": 15,
+    "cleanup_errors": [],
+    "aggregate_finished_at": null,
+    "aggregate_stats": {
+      "n_completed_trials": 0,
+      "n_errored_trials": 0,
+      "n_running_trials": 1,
+      "n_pending_trials": 18,
+      "n_cancelled_trials": 1,
+      "n_retries": 0,
+      "evals": {},
+      "n_input_tokens": null,
+      "n_cache_tokens": null,
+      "n_output_tokens": null,
+      "cost_usd": null
+    },
+    "task_score_qualified": false,
+    "files": {
+      "benchmark/LICENSE": {
+        "bytes": 11357,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      "benchmark/NOTICE.md": {
+        "bytes": 811,
+        "sha256": "97ec1c177ea40225f0a0e683299083473c9397e621540564ecce828f5f3c1bf2"
+      },
+      "benchmark/SOURCE.json": {
+        "bytes": 26910,
+        "sha256": "de5485c2bc4934350ed53879778099a2a4439586b7ee5eb85354636141b55074"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/recording.cast": {
+        "bytes": 89192,
+        "sha256": "9fe0b362e6e419d05d2b32cc7f1701ade8c3406652ce2633c4cde682c2ce812f"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/terminus_2.pane": {
+        "bytes": 42490,
+        "sha256": "cbb6b43b376481bdf3418bceeec3301fd13d2681d81ef4522e49fbc608916c7d"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/trajectory.json": {
+        "bytes": 143250,
+        "sha256": "3a4a826ca645d6086cce61ce5c0f5a5b39134a1b629e1d3d6fd7c1553a018985"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/artifacts/manifest.json": {
+        "bytes": 159,
+        "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/config.json": {
+        "bytes": 997,
+        "sha256": "6dcb29291fb97328e215a25a40c25ff4960c9b0147ba3f959c88c1213380cdfc"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/exception.txt": {
+        "bytes": 4075,
+        "sha256": "57e9f905bba993df74b937bbe615d0769e881009d76c93567f68d12d07f096cb"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/lock.json": {
+        "bytes": 1447,
+        "sha256": "cd961fbcfdd11c5cf0a81c5bf057110a656e8857cbfc7954e77b76b78eae0c53"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/trial.log": {
+        "bytes": 14321,
+        "sha256": "f11491f9704c5e317daefaf8fb6d09c44a71ea86fff6e35c1e4baa8d8485b64c"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/config.json": {
+        "bytes": 1721,
+        "sha256": "9dfc4515720e5d9e71859854ccd5f013cbffa898d6b616cb0e29608f63cb49fa"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/harbor-console.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/job.log": {
+        "bytes": 50722,
+        "sha256": "dc7dae919e271b49e1e7cb11adaa3055f26a1013bd5cece09e38c02901568755"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/lock.json": {
+        "bytes": 35063,
+        "sha256": "456789e4b2d44118bc096042f69a93651568d64be58e3c20e4535f7f5dedea47"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/result.json": {
+        "bytes": 549,
+        "sha256": "4ebfa7ff9d11bd4b39c2cd6c30714a182440be54608d11a73b8ffd709e7efee3"
+      },
+      "benchmark/jobs/lie-point-r16-core19-full-r1/runner-meta.json": {
+        "bytes": 15704,
+        "sha256": "3afd90c6277e02e77fe9a0883a6dd47c2faa82f6b24c1a3fb3448a2a44e1f873"
+      },
+      "client-plan.json": {
+        "bytes": 1701,
+        "sha256": "c40a64943ea1d1377b8c7bf1b8adb6a2b0efc784143272651cb2c1b41aed4295"
+      },
+      "client-result.json": {
+        "bytes": 35696,
+        "sha256": "6b0e3214027cb188751e611a66d557d6db5e9bf504483b4a1d727c4be4e1cab8"
+      },
+      "client-temperatures.jsonl": {
+        "bytes": 5369847,
+        "sha256": "7112397e0fc5169ca8c5a5bd48030f4ff46c07a38153c8e2a125eca385124193"
+      },
+      "doctor.log": {
+        "bytes": 623,
+        "sha256": "eace6114793515495c1f7098ef50fc397847486d0f9f7fadb4261c9900118d5b"
+      },
+      "launch.json": {
+        "bytes": 700,
+        "sha256": "4ead60a22344523c89fde4ca36ac2290720bd477f557994ea31b1936a474729d"
+      },
+      "runner.log": {
+        "bytes": 24226,
+        "sha256": "c02de47531269579902468b6c2ed79585ec405220da694229aac0e35d035faaa"
+      },
+      "supervisor.log": {
+        "bytes": 164,
+        "sha256": "6824ec71f6b221f01b56214f751b1475558009dd3c3414fb869d4b3f575cd182"
+      }
+    },
+    "archive": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/full-r1/operator-stopped-evidence.tar.gz",
+      "bytes": 138654,
+      "sha256": "bb32e022a1e9746f8db8e8ca5e1f903e9f165fabccf50ff0e140b065c4c4716d"
+    },
+    "GPU_model_access_or_work_on_157": false,
+    "foreign_GPU_register_updated": false,
+    "restart_authorized": false
+  },
+  "GPU_closure": {
+    "schema": "synapse-lie.operator-terminal-gpu-closure.v1",
+    "state": "OPERATOR_STOPPED_CLOSED_NOT_QUALIFIED",
+    "at_utc": "2026-10-05T21:46:36.834224+00:00",
+    "identities": [
+      {
+        "original_pid": 65159,
+        "expected_start_ticks": 9972757,
+        "actual": null
+      },
+      {
+        "original_pid": 65982,
+        "expected_start_ticks": 9978951,
+        "actual": null
+      },
+      {
+        "original_pid": 66074,
+        "expected_start_ticks": 9984711,
+        "actual": null
+      }
+    ],
+    "original_GPU_lease_free": true,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405
+    },
+    "HTTP8000_listeners": "",
+    "router_restored": true,
+    "router_actual": "MainPID=68087\nActiveState=active\n",
+    "kernel_KFD_at_final_closure": [
+      68087
+    ],
+    "own_model_not_in_KFD": true,
+    "own_HTTP_rule_retired": true,
+    "firewall_before_after_equal": true,
+    "cleanup_failures": [],
+    "actual_exit_codes": {
+      "GPU_supervisor": 1,
+      "GPU_child": 137
+    },
+    "lease_released_at": "2026-10-05T21:42:39.346897+00:00",
+    "model_stats_unchanged": true,
+    "endpoint_result_state": "READY",
+    "endpoint_result_is_stale_after_operator_stop": true,
+    "postflight_before_restore_kernel_KFD": [
+      65982
+    ],
+    "scope": "Actual identity/process/socket/original-lease retirement after operator stop. Restored foreign router remains active. Stale endpoint READY file is retained, not readiness or graceful-zero exit evidence.",
+    "restart_authorized": false
+  },
+  "GPU_collector_exit_code": 0,
+  "actual_exit_codes": {
+    "doctor": 0,
+    "runner": 130,
+    "CPU_supervisor": 1,
+    "GPU_supervisor": 1,
+    "GPU_child": 137
+  },
+  "cancellation_is_not_model_or_infrastructure_quality_failure": true,
+  "endpoint_result_is_stale_after_stop": true,
+  "own_GPU_model_retired_verified_independently": true,
+  "models_unchanged": true,
+  "GPU_157_register_updated": false,
+  "terminal_bench_queue": "Deferred until functional source modifications and matching qualification are finished. No automatic restart, client migration or standing machine reservation.",
+  "smoke_qualification_unchanged": "terminal-smoke-point-gpu-2026-10-05.json: first-attempt1/1",
+  "scope": "Operator cancellation, evidence collection and actual CPU/GPU/process/container/socket/original-lease closure. No full19 score, throughput or later-source qualification. Restored preexisting router remains active.",
+  "portable_archive": {
+    "path": "docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-terminal-full-stopped-r16.tar.gz",
+    "bytes": 371954,
+    "sha256": "5a0704e9a29a68c997b2d83a850656c34397ebb808477f43ac3033ca3358c690",
+    "bound_files": 50,
+    "CPU_collected_files": 24,
+    "GPU_collected_files": 21,
+    "solution_source_included": false
+  },
+  "portable_bindings": {
+    "cpu/benchmark/LICENSE": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "cpu/benchmark/NOTICE.md": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/NOTICE.md",
+      "bytes": 811,
+      "sha256": "97ec1c177ea40225f0a0e683299083473c9397e621540564ecce828f5f3c1bf2"
+    },
+    "cpu/benchmark/SOURCE.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/SOURCE.json",
+      "bytes": 26910,
+      "sha256": "de5485c2bc4934350ed53879778099a2a4439586b7ee5eb85354636141b55074"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/recording.cast": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/recording.cast",
+      "bytes": 89192,
+      "sha256": "9fe0b362e6e419d05d2b32cc7f1701ade8c3406652ce2633c4cde682c2ce812f"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/terminus_2.pane": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/terminus_2.pane",
+      "bytes": 42490,
+      "sha256": "cbb6b43b376481bdf3418bceeec3301fd13d2681d81ef4522e49fbc608916c7d"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/trajectory.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/agent/trajectory.json",
+      "bytes": 143250,
+      "sha256": "3a4a826ca645d6086cce61ce5c0f5a5b39134a1b629e1d3d6fd7c1553a018985"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/artifacts/manifest.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/artifacts/manifest.json",
+      "bytes": 159,
+      "sha256": "c1db653f487fb773c4f9247162ab3314e7f0584a486914b9874c4b3d6949e42d"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/config.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/config.json",
+      "bytes": 997,
+      "sha256": "6dcb29291fb97328e215a25a40c25ff4960c9b0147ba3f959c88c1213380cdfc"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/exception.txt": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/exception.txt",
+      "bytes": 4075,
+      "sha256": "57e9f905bba993df74b937bbe615d0769e881009d76c93567f68d12d07f096cb"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/lock.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/lock.json",
+      "bytes": 1447,
+      "sha256": "cd961fbcfdd11c5cf0a81c5bf057110a656e8857cbfc7954e77b76b78eae0c53"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/trial.log": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/break-filter-js-from-html__xrpFLUR/trial.log",
+      "bytes": 14321,
+      "sha256": "f11491f9704c5e317daefaf8fb6d09c44a71ea86fff6e35c1e4baa8d8485b64c"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/config.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/config.json",
+      "bytes": 1721,
+      "sha256": "9dfc4515720e5d9e71859854ccd5f013cbffa898d6b616cb0e29608f63cb49fa"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/harbor-console.log": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/harbor-console.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/job.log": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/job.log",
+      "bytes": 50722,
+      "sha256": "dc7dae919e271b49e1e7cb11adaa3055f26a1013bd5cece09e38c02901568755"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/lock.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/lock.json",
+      "bytes": 35063,
+      "sha256": "456789e4b2d44118bc096042f69a93651568d64be58e3c20e4535f7f5dedea47"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/result.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/result.json",
+      "bytes": 549,
+      "sha256": "4ebfa7ff9d11bd4b39c2cd6c30714a182440be54608d11a73b8ffd709e7efee3"
+    },
+    "cpu/benchmark/jobs/lie-point-r16-core19-full-r1/runner-meta.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:benchmark/jobs/lie-point-r16-core19-full-r1/runner-meta.json",
+      "bytes": 15704,
+      "sha256": "3afd90c6277e02e77fe9a0883a6dd47c2faa82f6b24c1a3fb3448a2a44e1f873"
+    },
+    "cpu/client-plan.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:client-plan.json",
+      "bytes": 1701,
+      "sha256": "c40a64943ea1d1377b8c7bf1b8adb6a2b0efc784143272651cb2c1b41aed4295"
+    },
+    "cpu/client-result.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:client-result.json",
+      "bytes": 35696,
+      "sha256": "6b0e3214027cb188751e611a66d557d6db5e9bf504483b4a1d727c4be4e1cab8"
+    },
+    "cpu/client-temperatures.jsonl": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:client-temperatures.jsonl",
+      "bytes": 5369847,
+      "sha256": "7112397e0fc5169ca8c5a5bd48030f4ff46c07a38153c8e2a125eca385124193"
+    },
+    "cpu/doctor.log": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:doctor.log",
+      "bytes": 623,
+      "sha256": "eace6114793515495c1f7098ef50fc397847486d0f9f7fadb4261c9900118d5b"
+    },
+    "cpu/launch.json": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:launch.json",
+      "bytes": 700,
+      "sha256": "4ead60a22344523c89fde4ca36ac2290720bd477f557994ea31b1936a474729d"
+    },
+    "cpu/runner.log": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:runner.log",
+      "bytes": 24226,
+      "sha256": "c02de47531269579902468b6c2ed79585ec405220da694229aac0e35d035faaa"
+    },
+    "cpu/supervisor.log": {
+      "origin": "evidence/terminal-full-client-stopped-r16.tar.gz:supervisor.log",
+      "bytes": 164,
+      "sha256": "6824ec71f6b221f01b56214f751b1475558009dd3c3414fb869d4b3f575cd182"
+    },
+    "gpu/manifest.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/manifest.json",
+      "bytes": 4597,
+      "sha256": "ef13254b59887e0cb5283e9618b149c661e436c0bc2aaa350c20a704278672fb"
+    },
+    "gpu/runner.py": {
+      "origin": "evidence/context-r16-terminal-full-r1/runner.py",
+      "bytes": 100339,
+      "sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322"
+    },
+    "gpu/eval-window.py": {
+      "origin": "evidence/context-r16-terminal-full-r1/eval-window.py",
+      "bytes": 1851,
+      "sha256": "03a7c3fa48681a9944f301a0607bc148fbb36ad5db46b41e71d4fc7f3b2b7ca6"
+    },
+    "gpu/eval-server.py": {
+      "origin": "evidence/context-r16-terminal-full-r1/eval-server.py",
+      "bytes": 4890,
+      "sha256": "73ab8b46921f2bcbec0aa2fcf613d4709957a056928c2126e0a5d6b7c64f1883"
+    },
+    "gpu/result.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/result.json",
+      "bytes": 96554,
+      "sha256": "6a083a2c5a5bb6ffd3f455a3c305f6e93c61d5bbd30d38f42adf35b55b929fc4"
+    },
+    "gpu/telemetry.jsonl": {
+      "origin": "evidence/context-r16-terminal-full-r1/telemetry.jsonl",
+      "bytes": 10543138,
+      "sha256": "10b29704bd8becbbcbaf072a6963359d00b34d2edbdb857476ba22dc6d87656a"
+    },
+    "gpu/launch.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/launch.json",
+      "bytes": 429,
+      "sha256": "69245ffd025ab588a0899ede74963c46fe2785e33ee44295b30bf3d3518906f8"
+    },
+    "gpu/supervisor-stdout.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/supervisor-stdout.log",
+      "bytes": 92586,
+      "sha256": "2222874e9bb1140b1d8cb5d2334ce62b27875fe02b1388d620a706ad3b3400f1"
+    },
+    "gpu/supervisor-stderr.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/supervisor-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gpu/eval-server-result.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/eval-server-result.json",
+      "bytes": 1182,
+      "sha256": "cce46f28b5b8b5d594abdf7350a6e260a6608899b70be15dda9d59da4fe0a495"
+    },
+    "gpu/eval-ready.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/eval-ready.json",
+      "bytes": 1182,
+      "sha256": "cce46f28b5b8b5d594abdf7350a6e260a6608899b70be15dda9d59da4fe0a495"
+    },
+    "gpu/server.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/server.log",
+      "bytes": 89,
+      "sha256": "c953db122dcc148ceb1db56853aef03c2697ad348ececf3d312ed8b1d98cc7df"
+    },
+    "gpu/stdout.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/stdout.log",
+      "bytes": 66660,
+      "sha256": "36e771c283bd324a627821cf3f42c261cfbf22da4842281eb1a0aafd31de8e36"
+    },
+    "gpu/stderr.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gpu/distrobox-create.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/distrobox-create.log",
+      "bytes": 278,
+      "sha256": "c2ddc916bed88a180d4e09d2de34c5d812969d763c7486cf5c2da66e434ef3ca"
+    },
+    "gpu/distrobox.stdout.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/distrobox.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gpu/distrobox.stderr.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/distrobox.stderr.log",
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "gpu/http-permit-supervisor.py": {
+      "origin": "evidence/context-r16-terminal-full-r1/http-permit-supervisor.py",
+      "bytes": 3565,
+      "sha256": "e7531901773b80f621e48c649b9e9db94f7f85296030ecc35e8d59588f05d0fb"
+    },
+    "gpu/http-permit-result.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/http-permit-result.json",
+      "bytes": 10713,
+      "sha256": "05f8b0b95e0c4727c2eea02a620c6c9f194075337b02733e4a1157c4e13185e3"
+    },
+    "gpu/http-permit-launch.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/http-permit-launch.json",
+      "bytes": 900,
+      "sha256": "3935e5d3efb103c5349c5adaf0801ec79b1a007d565eedba8945b3c6205b998f"
+    },
+    "gpu/http-permit-supervisor.log": {
+      "origin": "evidence/context-r16-terminal-full-r1/http-permit-supervisor.log",
+      "bytes": 9651,
+      "sha256": "802b660d862c8cbca5565a2690feef1b22829a94bc256911b759fcba098527fc"
+    },
+    "metadata/terminal-full-operator-stop-requests-r16-r1.json": {
+      "origin": "evidence/terminal-full-operator-stop-requests-r16-r1.json",
+      "bytes": 1745,
+      "sha256": "f0feaef0441506b1aed4637b279c9b44df9bb3946f9627d77632936dcd1ffaf7"
+    },
+    "metadata/terminal-full-client-stop-closure-r16.json": {
+      "origin": "evidence/terminal-full-client-stop-closure-r16.json",
+      "bytes": 6289,
+      "sha256": "1141a001a8ca79f85c266f8710170bca1ead77009fa3bbc6b3b6ac94ae7fc2b9"
+    },
+    "metadata/terminal-full-client-stop-collection-r16.json": {
+      "origin": "evidence/terminal-full-client-stop-collection-r16.json",
+      "bytes": 126,
+      "sha256": "757fc85c4970860c2e48905347281bf8fb8a9b8be6df43978d6ea3cba669373b"
+    },
+    "metadata/terminal-full-GPU-stop-closure-r16.json": {
+      "origin": "evidence/terminal-full-GPU-stop-closure-r16.json",
+      "bytes": 1648,
+      "sha256": "c8afa8199ac902c750fe408a0d3163e9ad568241b203212982f4f19975e4e23f"
+    },
+    "metadata/collection.json": {
+      "origin": "evidence/context-r16-terminal-full-r1/collection.json",
+      "bytes": 11631,
+      "sha256": "78a193c8a0944195ad4a55177258bc50d5c2e7f42667d0a641044c8e50499058"
+    }
+  },
+  "publication": false,
+  "goal_complete": false
+}

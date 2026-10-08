@@ -1,0 +1,1316 @@
+{
+  "schema": "synapse-lie.c17-grammar-vocabulary-host-qualification.v1",
+  "at_utc": "2026-10-05T10:38:06.570824+00:00",
+  "baseline_checkpoint": "c803cd2cd88654e0b273f9bd479d0941d5d71eae",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Executed synthetic host vocabulary/trie/exact transition interning/shared canonical mask-cache algorithms and complete pristine/ON/OFF masks and accepted encoded states. NOT-INFERENCE; no new GPU continuation, memory fit, allocation-exact provider cost or performance qualification.",
+  "implementation": [
+    "Model-neutral vocabularyABI1 owns copied byte pieces/stop flags and insertion-ordered immutable trie. Defaults1Mtokens/64MiBtext/4096non-stop bytes/4Mnodes. Stop/empty pieces are excluded from trie; constructor scratch and provider temporary Piece/trie vectors retire.",
+    "C17 iterative traversal uses token-depth-bounded scratch, exact state hash/equality and lazily allocated256entry transition tables. Hash buckets grow with actual occupancy. Default8192internedslots and2Mvisited-node work budget; noncacheable numeric states and full intern capacity select direct traversal without language narrowing. Intern limit0 explicitly disables the optimization.",
+    "C17 token acceptance clones stop-complete state or advances copied pieces. GrammarABI1 adds clone/compare/internalhash and distinct no-token/vocabulary-limit/mask-work codes without changing previous structure layouts. Input keys/states and output/stats preserve ownership on refusal.",
+    "Caller-synchronized C cache owns cloned canonical keys and opaque snapshot payloads. Provider owns mutex/vector/shared_ptr projection only. Sixteen entries retain lexical eviction-before-publication semantics even for raced duplicates. Computation is outside the lock; publish consumes incoming payload only on success and retains old snapshots independently of eviction.",
+    "Ten exact edits preserve defaultON/OFF; private24-file inventory/new recipe demands matching source-bound archive/application rebuild. Inline size getter uses actual owned storage independently of compilation option; two opposite-option header-consumer tests pass. This is host structural evidence, not numerical GPU build/link qualification.",
+    "No model/device/thread/RNG/HTTP or executor/request/generation/DS4 persisted state change. Existing reactive owner/events and worker count unchanged. Schema/regex compiler, Unicode partition and provider snapshot marshalling remain delegated, not a full autonomous C executor. Product/default CTest remain Python-free."
+  ],
+  "coverage": [
+    "1718772 independent finite byte-language token-mask/accept checks,1347copied token pieces, binary prefixes through7bytes,all256single bytes,all ternary pieces length2..6. Cached/direct/cache-disabled/two-slot-capacity paths preserve the oracle language; completed states enable only stop tokens.",
+    "Every52vocabulary constructor/query/accept allocation points refuse without leaking or publishing output; cache clone/constructor fault points separately retain incoming payload/key/output/cache. Query work, node/text/token/depth/invalid-id/one-slot budgets and no-token refusals pass. A4096byte copied path uses depth4097 without recursion and reuses over4000transitions.",
+    "Independent cache order:20keys over16capacity, lexical eviction and duplicate-at-full publication retain the reference behavior and old payload lifetime. Small combined allocator fixture peak3676requested payload bytes excludes helper headers/wholeprocess/GPU/provider cost.",
+    "Complete pristine/ON/OFF11grammars/283pieces/950masks/84352accepted encoded states/260360token-by-token oracle checks, including Unicode fragments/escapes/numeric/date/tool/reasoning paths. Four cache caller threads perform384queries;24retained snapshots remain exact. These are fixture threads, not added inference workers.",
+    "All8previous complete sampling/bias/vocabulary/history/distribution/byte/numeric/Unicode witness hashes unchanged. Final22Debug+22ASan/UBSan/LeakSanitizer+22referenceproject tests plus2Debug/2SAN final contracts pass,39publicC++headers and strictC17 pass. Imports are libc/stackprotector and ownedgrammarAPI only; no thread/device dependency."
+  ],
+  "sources": [
+    {
+      "path": "src/sampling.c",
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "include/lie/sampling_history.h",
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "src/sampling_distribution.c",
+      "sha256": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b"
+    },
+    {
+      "path": "include/lie/sampling_distribution.h",
+      "sha256": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555"
+    },
+    {
+      "path": "adapters/gufo_distribution.hpp",
+      "sha256": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d"
+    },
+    {
+      "path": "src/grammar.c",
+      "sha256": "0b1d86bb54b11fe505b12eb5b762825eddaa5ee5c1b5c83867596a94ec5b5d86"
+    },
+    {
+      "path": "include/lie/grammar.h",
+      "sha256": "c1bba1c2e8f682c949fa5426a0b3ac80ca2bd95db02aba58a8b6ad3cf932cf2a"
+    },
+    {
+      "path": "adapters/gufo_grammar.hpp",
+      "sha256": "12882adaa7f88301b3d979932e72a8538d4d57c858f00633b2ff92992f213f10"
+    },
+    {
+      "path": "src/grammar_number.c",
+      "sha256": "1d0aa31ef73b2f8b81d61de0f2d931d09c54cdf5c4aef996489546b9e200b95d"
+    },
+    {
+      "path": "include/lie/grammar_number.h",
+      "sha256": "894708afc6b7c57d756f04814666fd74278e55366dfd58d4957a34fa52f4048d"
+    },
+    {
+      "path": "adapters/gufo_grammar_number.hpp",
+      "sha256": "ceb9b43371f7c2369fcf220a7bbdfaa12b2b39366cc51904ea70cc7c9f5eae65"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-number-edits.json",
+      "sha256": "c1129f9699244a01375a6835eb612ab8b63269c030009309c91c01b951b02828"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-runtime-edits.json",
+      "sha256": "0578cd14a9bdc3fb588a9fc186880d8f3156e2ac4484103a27d361cf18fcddf5"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "81c12cbc2cdbebd19c25ef557dc04efb397382843007adb6d7817ad80f538d30"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "sha256": "29bc3ca6c708a1eb29b5bdd1d4a44d45ae5806ec5f76ecb3a3d74993b4206c70"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "sha256": "6f1803423d60c7166ab59a3943fd287f0f4ce5ffe57e4501fa601a2d21cd3609"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "sha256": "1ecc19057b928d778951395bfdb35e5ff0d2301dcf0a9d69c64dab4564a37611"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "d227ff10a3d390819c0435f1d1503f941abcf5a1043b47a2699f0fa32dd9cd9f"
+    },
+    {
+      "path": "tests/test_grammar_number.c",
+      "sha256": "d801e3c6c501d7884da5204d60bf571bfd961d83729b56ca5350047f2389460b"
+    },
+    {
+      "path": "tests/sampling/number.cpp",
+      "sha256": "64a02b18488d599dc218ad8d48649dee30bacef2176112bcd67c4e46f95ba2c7"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "sha256": "d4ce3bd0429271205ab2471046a5037fbce5a4026308c9184aef7f0931d20def"
+    },
+    {
+      "path": "tests/sampling/compare.cmake",
+      "sha256": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "sha256": "5ff4bec5231ccf54e0654c15dfe0ee6dbc6eb636e5a0526035bfdfd455e3743b"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    },
+    {
+      "path": "third_party/gufo-NOTICE",
+      "sha256": "871ce4b0a08a148ca426e46af967de16f88f40fa36ce5be8747267906f3540c5"
+    },
+    {
+      "path": "third_party/gufo-LICENSE",
+      "sha256": "dc53ee4f56ce33a1587e64df04b0d9ace8abd3e875e2b00f6f9f292405bf1001"
+    },
+    {
+      "path": "src/grammar_regex.c",
+      "sha256": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f"
+    },
+    {
+      "path": "include/lie/grammar_regex.h",
+      "sha256": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex.hpp",
+      "sha256": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f"
+    },
+    {
+      "path": "src/grammar_string.c",
+      "sha256": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef"
+    },
+    {
+      "path": "include/lie/grammar_string.h",
+      "sha256": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9"
+    },
+    {
+      "path": "adapters/gufo_grammar_string.hpp",
+      "sha256": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-regex-edits.json",
+      "sha256": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-string-edits.json",
+      "sha256": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd"
+    },
+    {
+      "path": "tests/test_grammar_unicode.c",
+      "sha256": "3679c7a8603a1127e25f1e2173091b6c890d209940ba4f43c3d601253917b8b0"
+    },
+    {
+      "path": "tests/sampling/unicode.cpp",
+      "sha256": "6bcd80115ea2b3967df27dbe7e723e302546072c8533dc5690e8b72877a87589"
+    },
+    {
+      "path": "src/grammar_vocabulary.c",
+      "sha256": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b"
+    },
+    {
+      "path": "include/lie/grammar_vocabulary.h",
+      "sha256": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619"
+    },
+    {
+      "path": "adapters/gufo_grammar_vocabulary.hpp",
+      "sha256": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-vocabulary-edits.json",
+      "sha256": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885"
+    },
+    {
+      "path": "tests/test_grammar_vocabulary.c",
+      "sha256": "17dbda0a1e0d49e7e125cc43986595195440954bd254fbeeb4eb33484a2fe502"
+    },
+    {
+      "path": "tests/sampling/grammar_vocabulary.cpp",
+      "sha256": "a90a3f1bd332e701c5cc3a5960ae7d6de3236e27efcfcd7d09a950525811e154"
+    },
+    {
+      "path": "tests/sampling/vocabulary_layout.cpp",
+      "sha256": "4be8ef4994fc9835c7d2d582a83fcc41aed60592aebbedc91224e6618cec5b82"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/grammar-vocabulary-debug-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug",
+        "-DCMAKE_BUILD_TYPE=Debug"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.75,
+      "result_sha256": "9f639ea0c1f525f97f8721eb5be1fd59b0f95207997dec41518e1cc12c2edfcf",
+      "log_sha256": "1303636c94f392ae3d80be46561ef4ae76010f4a09aff7fc8a23cc0aa7bdf770",
+      "temperature_log_sha256": "476d81ff50c64194d29e33c6291888596b17b9fe3f9bf588f95c025184095329"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-asan-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/tool-http-asan",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.75,
+      "result_sha256": "5709e27148d07ce093e6d25e4214682e2e6c61b3dd3808eaa38236e67981a9a1",
+      "log_sha256": "285a73c345a99950c2c75a9eaf177d4e6b48c6cba0ab7808780ef4375d9786aa",
+      "temperature_log_sha256": "1b068b1c6ff1d8d3a32455a00b7ac8ab4dd0cb0fbc74836dbd9869bc0bc911fe"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/grammar-vocabulary-host",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 76.125,
+      "result_sha256": "e09d9791f50e63c660b32cd1bb352734f3122709fed804fb98a18178fbfb112f",
+      "log_sha256": "1d8fd1af34aad985eecce0f8f9bb74f7d2d6ae9c0172116f6e726f20862c1879",
+      "temperature_log_sha256": "4fbc40202618c055de1ab3edc157334920262712b88c60876113cd83a051515f"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 73.25,
+      "result_sha256": "8755156ad8f6c4b2beb04034c1d29273068a141fa63dbcaf5eda8fba456e08ef",
+      "log_sha256": "7635ddff118976b91e671538e534c49d790728ea7e4ae984aa936f7f7adc2aa9",
+      "temperature_log_sha256": "30295fe902042a3511a76d1d79d0025dccc5080b00369886e26b9bccb5162f42"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-asan-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 63.375,
+      "result_sha256": "c1f6f45d76cfe81bce246cc26abb597e9e0742a88a59cbdbda852d62397cc959",
+      "log_sha256": "600ac553075fb4381d64d878c37934468b8cb441458c25ef08fbe26d91530639",
+      "temperature_log_sha256": "b724e7441148196299008be9616f0a19e9d37a8a4b1dbb5fbbdc3b1ed9ec7ff8"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-vocabulary-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.375,
+      "result_sha256": "ef9487259ace55e5423be8803e5ba529145245edafb0a550f4084fcf623feac7",
+      "log_sha256": "cd2a95744aa7059bf81d1e34c7df70b7fdd675aa9e41963b667eccbc5b997548",
+      "temperature_log_sha256": "07e1be0247d15063d8f3db8070c98601210b203eba4256a42a1c4766910b8c11"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-j1",
+        "-R",
+        "^(c17-(vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-verification|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 22,
+      "cpu_max_c": 88.625,
+      "result_sha256": "6a967b5141f58319cd9504f73c19835b5c02da2eaf74ee1eda28d2237e37cfd5",
+      "log_sha256": "588eafe7ff97c5af07c0d97416311182ac6f5bf5c12e142aa9f3e8a1d249be5e",
+      "temperature_log_sha256": "778aa2a583d64cefd76e96ba58863fc54b8a8fbbd3bdeaebe5a39f3fb0086e97"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-asan-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(c17-(vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-verification|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 22,
+      "cpu_max_c": 92.125,
+      "result_sha256": "9df2a0f94a01564325ae3f3eac97901464dace69d7248ab94f68840d2d5d7c36",
+      "log_sha256": "a156976b221e9b5a0a8e80a497333e9f5a75b7a333cb4a0e7fdb0eddaf7d8792",
+      "temperature_log_sha256": "158125da510bac1d1bd6a958d199c9daaabab7ead786977d5e51e5ae949597f8"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-test-r3",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/grammar-vocabulary-host",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 22,
+      "cpu_max_c": 91.75,
+      "result_sha256": "4f1f9ed752ace61bd34a45a0ad2ca03fd7d0e68f6fb6b61507b42a05c61f80b2",
+      "log_sha256": "cfe8d10f250c92307bdd1ee58b999e0e267758a4507cd756ac011b0ec447703e",
+      "temperature_log_sha256": "4a747a939aa18e920e71ebbdfc2cc45fc08b9bc8027be0ca529c3dd7f8003c16"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-debug-final-contract-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(c17-vocabulary-grammar-contract|native-provider-verification)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 2,
+      "cpu_max_c": 76.375,
+      "result_sha256": "a1e6bf9f47c5fb35ca257f23b0c85e4b5b56947abe20820db259655cbfa76467",
+      "log_sha256": "2075d846439ff75155b330376b75b7ca7c753ec7d8900862b41b14a1dc02d3a7",
+      "temperature_log_sha256": "970e9bb08e33aea3bf8df931a69de632e9be190e1e030e0a896017d2defdfa0b"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-asan-final-contract-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-j1",
+        "-R",
+        "^(c17-vocabulary-grammar-contract|native-provider-verification)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 2,
+      "cpu_max_c": 78.0,
+      "result_sha256": "d8c411e79ba5c949f301e3782e1b329eaa4e38ff8765e15e0e299d907cb0d173",
+      "log_sha256": "ecc8c9621bb5c9ad66377bd672b656fb1fdc1aaa08a97b766b46e9f0da77d319",
+      "temperature_log_sha256": "0e9fa7ece2ec50f36d00b32b891394f18a1e8029d1e57deba0fd07222c34889a"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-cxx-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-fsyntax-only",
+        "evidence/grammar-vocabulary-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 83.75,
+      "result_sha256": "02c7a380cc66aba53dfd51738eb30930610eef69719edf0faeb4fc32669ae7d6",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "a9831e5b868c2505adc20b4a39a879776644ab80c1cdc0dce3f141c04b610e3d"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-c17-final-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/grammar_vocabulary.c",
+        "-o",
+        "evidence/grammar-vocabulary-final-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 87.25,
+      "result_sha256": "fd857185973379bc36d7feb60a02836c7c07e4df5c75fcf55ee69febe24bb497",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "3fd9926b1dc103583527e703bc1225782d9f1bfbd31e1a1593aecb39a22b2e72"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-c17-state-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/grammar.c",
+        "-o",
+        "evidence/grammar-vocabulary-state-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 85.0,
+      "result_sha256": "6191651a742c3b84c21c039aaa7d94423a5075cf70d402990d088ef4990f7496",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "3133d970efb704cf2d1126f2194e9153ef2fddd20ea5294c022dc5855cd2a37a"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-c17-symbols-r1",
+      "argv": [
+        "nm",
+        "-u",
+        "evidence/grammar-vocabulary-final-r1.o",
+        "evidence/grammar-vocabulary-state-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 57.125,
+      "result_sha256": "ece21bb462a24aa046d49c67cf422c69b15099768f3ccfbd369788b3efead4d1",
+      "log_sha256": "9bf189a3c846e60865acfb0334f517af2bdd3272093ba3d8609d575a0d881c69",
+      "temperature_log_sha256": "b9c9556ec842ce8aa892f05087ca30956213bc046614c2161913710c3aaf5aa4"
+    }
+  ],
+  "preliminary_successes": [
+    {
+      "directory": "evidence/grammar-vocabulary-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-I",
+        "include",
+        "src/grammar.c",
+        "src/grammar_vocabulary.c",
+        "tests/test_grammar_vocabulary.c",
+        "-o",
+        "evidence/grammar-vocabulary-c-r1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 53.625,
+      "result_sha256": "50a9831dd7a22d03647d19cf3d4b15d29284feec887882ac29d2c62cbe85b7f8",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "44309fff5e6455d2f30a321d736423d44b9f237e4c18d4d7db1def4376e08389"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-c-test-r1",
+      "argv": [
+        "evidence/grammar-vocabulary-c-r1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 53.75,
+      "result_sha256": "40c06cccd35575dd8914568fe5a8b9f256102ca7be35fe63fccbe1f85ecaa998",
+      "log_sha256": "46cd1c60b21c7e994a6040a79acdadc063168a6bef9b9203f58114e3aec74bbb",
+      "temperature_log_sha256": "9e1534d7f23c0bac6f05cdac16daf4b395fc0fda5bfc918e7892d7c6ef1c6a40"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-vocabulary-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.125,
+      "result_sha256": "fdf5073452d2989dfe94e118d0b88f8d276f8f9c3663fd22114ce5a80daf6a16",
+      "log_sha256": "983e6417744174db276e921699708fc6438bd3ab4133ba9b6cd9fe8cae6ac8a3",
+      "temperature_log_sha256": "2df9620314e117c9497fce0e31008e065f84a4bb1ae12ffa5f5b13f66450a0fc"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-vocabulary-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 79.125,
+      "result_sha256": "e85b1b80318ee69e11fda09c43340cab97828d16860e33a59a94dbab5b17a643",
+      "log_sha256": "cb472b300933cec3984ae1c6a3bc5a8ced3423064655925940b148e393cd1947",
+      "temperature_log_sha256": "7ab182fecbd17fd9872e6a916edc7da7cfefdc4067e571553bb7ea651d3a92b8"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-vocabulary-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 72.875,
+      "result_sha256": "f8853beb50cdaf4b4a4e91b82d01f503fd474ec0814a01ad4704694358f4844a",
+      "log_sha256": "d46da49d25f01ff936cfc018c2b625b1b7717eb89990c0125726376ef70fc455",
+      "temperature_log_sha256": "857724484a76bf6cfa7ef6b31d5d1efab30ae6e120df36be176f53cfe8029cb7"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 85.625,
+      "result_sha256": "5c2644c7a787ddb57bc21e6951aa961f04612e97a3f52aaeb64011f280e77d1a",
+      "log_sha256": "8142844508639f336ec9578160e682380aebd53a1e1c41f2c9232a4b1e19e3af",
+      "temperature_log_sha256": "4f43e8549fc45adb5909b3e2dd8d799d0ff5c45fdc01af90f1b70bca4ff96621"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 90.375,
+      "result_sha256": "f68571bdef6bd5bc4902f9c192068abbfa768ebd60f02f98a8ba172ecad5a2ca",
+      "log_sha256": "8142844508639f336ec9578160e682380aebd53a1e1c41f2c9232a4b1e19e3af",
+      "temperature_log_sha256": "adff2d472362e2345e9a09e5909f0795a2df255e9ea4c435d22666773ba7eab7"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/grammar-vocabulary-host",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 20,
+      "cpu_max_c": 91.25,
+      "result_sha256": "bd5435bb6cbd7ad5befcbff5c562623c9a28d48f98450c0b2aada25b42c77166",
+      "log_sha256": "92be8dde73a2669d7e5ca1f53f9d14b8c9119388ef017b3c6a985c821dde6e78",
+      "temperature_log_sha256": "5476657617f324996f6fc8c27a890d13049a106ef33fb4afb3f8863c2e8dfc9e"
+    },
+    {
+      "directory": "evidence/grammar-vocabulary-reference-test-r2",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/grammar-vocabulary-host",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 20,
+      "cpu_max_c": 92.125,
+      "result_sha256": "cbfad879731ad2881eae5899779d5d524bd6c20796b075b74b849c2cabb066b4",
+      "log_sha256": "80de9459e392ecbb8ae2495fa5bc4f93ff680c961d93018b8f92f22d728f7786",
+      "temperature_log_sha256": "f42860387ec2d35e4f69e8b21f93b368396dd2522649dfe465c465cdade48ae9"
+    }
+  ],
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/CANDIDATE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/FALLBACK.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/parity/REFERENCE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/biased-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/biased-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/biased-parity/CANDIDATE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/biased-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/biased-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/biased-parity/REFERENCE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/CANDIDATE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/FALLBACK.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/vocabulary-parity/REFERENCE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/CANDIDATE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/FALLBACK.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/history-parity/REFERENCE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    },
+    {
+      "suite": "distribution-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/CANDIDATE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/FALLBACK.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/distribution-parity/REFERENCE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/CANDIDATE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/FALLBACK.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-parity/REFERENCE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        }
+      ]
+    },
+    {
+      "suite": "number-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/CANDIDATE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/FALLBACK.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/number-parity/REFERENCE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        }
+      ]
+    },
+    {
+      "suite": "unicode-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/CANDIDATE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/FALLBACK.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/unicode-parity/REFERENCE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": null,
+      "files": [
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/CANDIDATE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/FALLBACK.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-vocabulary-host/grammar-vocabulary-parity/REFERENCE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        }
+      ]
+    }
+  ],
+  "binaries": [
+    {
+      "path": "build/grammar-vocabulary-host/reference-logit",
+      "sha256": "ddc0c89c2de22a7e4a981343174720fa8566c08e1cd4a8894a60487cc34e9dfa"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-grammar",
+      "sha256": "da2e8c751bb9683ff81c19089bef2f686befe92ee3a9c4b50fdbcc2e1c08688a"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-mtp",
+      "sha256": "5eb5047de2259d733031f4a4dfd224f0908076ad8ccabaed0475d7594847f6fc"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-probe",
+      "sha256": "cb59bb16687c33f7200bc5fb3512c5e2b848a129132e61169b662046b8275a8d"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-history",
+      "sha256": "b37a1c7a93117d92487df0e3db50fd3ae0315ddcc5acb4178f0d2caa873b4ad2"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-distribution",
+      "sha256": "37373b2f74101e72481b93eab599121b943941eb8805182594c472937b690510"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-vocabulary",
+      "sha256": "2b60a971e340ef9aa8ab9c3447aa588d6b840005f1d41d97c46d1fa475866fe1"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-grammar-probe",
+      "sha256": "4bcedfadb370fb635933ac936abfc1df07f77138b3d150c512b107a6cfe72102"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-number-probe",
+      "sha256": "d1a31da26f978e5a08c2a0d93ed450c2f7605692c4d5c71320c8ab5fe68f4e50"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-unicode-probe",
+      "sha256": "3948c743ef0bd4a2e344541b3ee20b66bbff01bc51c49a4e6ae570186eb58f9b"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/reference-grammar-vocabulary",
+      "sha256": "2de6fedba495c0d893110fa92cda8a083ba1212256c02f07428048ebd9dcd36c"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-logit",
+      "sha256": "66f84837fda600e71ccbb6cd17cc6793bd1452f78980eaa0ae40ef38725d561d"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-grammar",
+      "sha256": "a06dc7994a23ed8936a8803650fa2ed0985edaee59e5a8f8f47ba1e7130c99ad"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-mtp",
+      "sha256": "f07760daee0f668a55a44f7450a3da952a493113360aa2d4de35a7f78126f37c"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-probe",
+      "sha256": "4dd4397053544d1e2361c0fafd8ea4ee71cfa20e3789b611c2a3f41fe38a1bf0"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-history",
+      "sha256": "e583e10848f667666bee7aa406d5001ab231ca4175b892ccbee2d4c6bb10b366"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-distribution",
+      "sha256": "792151a3645e98b88498c12e5cf1f4395002806a87e96f1527218a710fef2a4b"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-vocabulary",
+      "sha256": "c8dc473b73fef8518f75a83a0b3a532a35a5773bbf876eefe7b903ba8824b0c9"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-grammar-probe",
+      "sha256": "c0791c6ecb9a53ad316bf975ed78a2d3c55f0017ecf64eaa441c8e172ad54e0f"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-number-probe",
+      "sha256": "8c35a20c1934e9b71c3e1752f084a94032c05cc1fd807c42fd238c1dd4c29125"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-unicode-probe",
+      "sha256": "034511753fe3ba7b7efbaa2d36a2dced811fd6e105ca7aaf38252d3e2dbdf6dc"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-grammar-vocabulary",
+      "sha256": "bda82b845f3ab9b8b33a423ae78f20bef682d4d5928f4a73266838c0bcb84759"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-logit",
+      "sha256": "c98ac5ca64d8107919546fe39c37581c64214291c870784beaa6f6e40d22e62c"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-grammar",
+      "sha256": "9ed57a2e670de95fdaef0387ebcc86c04a3f14de961f645a28bcb073ddf8e9a7"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-mtp",
+      "sha256": "651487a4eb8e816494100737693337da781ef72ed19b5440e63ea10305ff3b90"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-probe",
+      "sha256": "3a48efb2c38c7167c20301aa4e396ee02578864cb27839b401523942a5c8db67"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-history",
+      "sha256": "d379e62d74fe1a6bfbd94982ae42e02873f59d1c6a9de0cbb912003aa2bb3a03"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-distribution",
+      "sha256": "6440b73f0772d7d54a4f643a84c70700f8f430151669831f6913a82fdecd0c6e"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-vocabulary",
+      "sha256": "8eaa315c95edd50d3c6469b8a915ada36fe585385232bd173e730bba58523187"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-grammar-probe",
+      "sha256": "db436144f0f6283262e9e055579acf1899136f8cc1ba7031d9604b9ba4bd615c"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-number-probe",
+      "sha256": "6f2ee6d5412dd3aec0828173e2b04093545b587b8eeb037c84fd6ceef604dd46"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-unicode-probe",
+      "sha256": "9bf343874fe3ded11c46180fa51cfd805c326f005e831d767bc0e70ad18ea263"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-grammar-vocabulary",
+      "sha256": "8898692796b347c8b71af1d1ae1b793b1caacf73ac112a10f2545647de88061f"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-controls",
+      "sha256": "11dead92ef25cfc2cd8eb5584d6619c6325ba668a37e7fc54b31b95607e7b1d6"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/candidate-vocabulary-layout",
+      "sha256": "4c4b5fbc94bd367c045814e3af700b708940106d74c8bde56415c007597fd079"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-controls",
+      "sha256": "150aec051a8bbb9ccf6a72358b2515f7daf312bf6ec68a2d61f624bdf9504f85"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/fallback-vocabulary-layout",
+      "sha256": "0cf0187a4096c2f8b3bc8ad61ecd6b7cde4e9a9da901e62be9f3ab160a534501"
+    },
+    {
+      "path": "build/context-debug/test-grammar-vocabulary",
+      "sha256": "24f9e49557c417b77ca0bceccdda9bcfca9614275cffc9b64fb028aa773d563d"
+    },
+    {
+      "path": "build/tool-http-asan/test-grammar-vocabulary",
+      "sha256": "e9fb135183e3e3d5d4e618b39808714a801cde362f6be5f5cdb3e93f456d1c99"
+    }
+  ],
+  "build_inputs": [
+    {
+      "path": "build/grammar-vocabulary-host/variant-files.json",
+      "sha256": "d198cd442c9059abcf6c1964a00b907ae26af80eef0530b7fc169227288b2f28"
+    },
+    {
+      "path": "build/grammar-vocabulary-host/CMakeCache.txt",
+      "sha256": "e92fc6c316933ab74a91485ee3215e84e7fd76bed8834e1da5351d9f58956ba1"
+    },
+    {
+      "path": "build/context-debug/CMakeCache.txt",
+      "sha256": "7aca58176e6c4fdccd84a9eae369895040e1792830a94e4962716fe62f0da880"
+    },
+    {
+      "path": "build/tool-http-asan/CMakeCache.txt",
+      "sha256": "6ef7595e6c15e4b698512c74c4a5b193ba4998c5bfbc9f317835f96f207f99cd"
+    }
+  ],
+  "strict_imports": [
+    "__stack_chk_fail",
+    "free",
+    "lie_grammar_advance",
+    "lie_grammar_complete",
+    "lie_grammar_state_clone",
+    "lie_grammar_state_compare",
+    "lie_grammar_state_count",
+    "lie_grammar_state_hash",
+    "lie_grammar_state_release",
+    "malloc",
+    "memcpy",
+    "memset",
+    "__stack_chk_fail",
+    "free",
+    "malloc",
+    "memcmp",
+    "memcpy"
+  ],
+  "failures_and_limits": [
+    "No failed build/test command in this slice. Initial source-location rg exited2 for src/grammar paths; source discovery corrected to src/core; local evidence retains it.",
+    "Upstream fixture missing-initializer warnings retained, no suppression. Older closed-stderr benchmark abort remains unresolved; this slice claims no fix or frozen GPU receipt extension."
+  ],
+  "retained_read_failure": {
+    "path": "evidence/grammar-vocabulary-read-errors-r1.json",
+    "sha256": "4762f5f273142c6d09fa31ae7ef3dea2e31ede12c6be5e207b9db60302d41e4f"
+  },
+  "local_cpu_max_c": 92.125,
+  "gpu_visible_devices": "Masked for all host build/test commands by optional developer thermal runner.",
+  "latest_remote_readonly_witness": {
+    "path": "evidence/context-steering-availability-r31.json",
+    "sha256": "6cb029d30d18dbf055dbddf570e861c155427aa076fd8370c7e82968c05f732e",
+    "at_utc": "2026-10-05T10:32:59.150260+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "process_identity": [
+      {
+        "pid": 29223,
+        "comm": "python",
+        "exe": "/usr/bin/python3.12",
+        "cwd": "/home/pop/javaspec-lora-gemma4",
+        "workload_markers": [
+          "scripts/train_lora.py",
+          "/home/pop/hf-cache/models--google--gemma-4-E4B-it/snapshots/ee0ef6023621cff504d758262d4e04895a5af4a2"
+        ]
+      },
+      {
+        "pid": 29377,
+        "comm": "llama-server",
+        "exe": "/home/pop/.local/opt/llama.cpp-b10242-rocm72/llama-server",
+        "cwd": "/home/pop",
+        "workload_markers": []
+      }
+    ],
+    "gpu": {
+      "gpu_busy_percent": 100,
+      "mem_info_gtt_total": 120259084288,
+      "mem_info_gtt_used": 32597467136,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 172175360
+    },
+    "cpu_c": 89.25,
+    "available_ram_bytes": 85969305600,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "remote_mutations": [],
+  "publication": false,
+  "goal_complete": false,
+  "unqualified": [
+    "New original-weight AR/MTP/tool/grammar continuation, fault/fit and numerical GPU gates.",
+    "Allocation-exact provider resources and matched PP/TG/TTFT/cold/warm cost; no speedup claim.",
+    "Full regex derivative/schema/Unicode partition compiler and provider snapshot marshalling extraction.",
+    "New numerical native reference link/continuation and complete autonomous C17 model executor."
+  ]
+}

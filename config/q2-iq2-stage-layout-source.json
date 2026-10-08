@@ -1,0 +1,16 @@
+{
+  "schema": "synapse-lie.q2-iq2-stage-layout-source.v1",
+  "retained_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "retained_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "private_provider": ".deps/gufo-q2-iq2-stage-layout",
+  "private_patch": "experiments/q2-iq2-stage-layout.patch",
+  "private_patch_sha256": "533d7e0d61a555ebf74583e2f3255b4e0c2667f130d6cb324a3a9503a6db25d0",
+  "changed_files": {
+    "src/models/qwen38_flash_next/kernels/rocm/q2_iq2_fixed_bounds.inc": "125e2e41c3607472182e56429c93b1ed3976a8c394804bf5867f057242a50706",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "7a72a07e6a35f8265d1e96212e7d226165f1e45cc59b5264acc40320c0ba40c3"
+  },
+  "unchanged_files": 1026,
+  "selected_by_production": false,
+  "gpu_run": false,
+  "model_run": false
+}

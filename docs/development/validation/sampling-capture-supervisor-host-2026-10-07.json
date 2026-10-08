@@ -1,0 +1,307 @@
+{
+  "schema": "synapse-lie.sampling-capture-supervisor-host.v1",
+  "at_utc": "2026-10-07T01:10:33.913374+00:00",
+  "state": "LOCAL_SUPERVISOR_PREPARATION_CHECKED_NOT_GPU_QUALIFIED",
+  "base_commit": "333e726f051bb56641a2b1526cc1bdb16e2a4404",
+  "scope": "Optional .161 orchestration, native capture structure and partial artifact collection only",
+  "source_files": {
+    "tools/strix-point-campaign.py": {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 124410,
+      "sha256": "89f8f4edae2c9599d2636ae5dbf22345e039dcdc5afff602936fe48e19fd9a22"
+    },
+    "tools/strix-point-bench-collect.py": {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 12575,
+      "sha256": "c0b0aa3b7129f75b18154d2b778921ac53eed079d3991f60813b6c6f4ea5cf0f"
+    },
+    "tests/test_sampling_capture_campaign.py": {
+      "path": "tests/test_sampling_capture_campaign.py",
+      "bytes": 16461,
+      "sha256": "43636de489d8540b4a13cf01cfd022c939f70d37e86a3045cc2b8a34916f8030"
+    }
+  },
+  "commands_actual_exits": {
+    "evidence/sampling-capture-supervisor-r81-controls-r1": {
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_sampling_capture_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 53.75
+      },
+      "elapsed_s": 1.0824522003531456,
+      "focused_control_count": 14,
+      "scope": "CPU-only mocked transport/metadata; no model or GPU"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r2": {
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_sampling_capture_campaign.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.0
+      },
+      "elapsed_s": 1.095728175714612,
+      "focused_control_count": 15,
+      "scope": "CPU-only mocked transport/metadata; no model or GPU"
+    },
+    "evidence/sampling-capture-supervisor-r81-regressions": {
+      "argv": [
+        "python3",
+        "-B",
+        "tests/test_strix_point_campaign.py",
+        "Tests.test_restore_and_release",
+        "Tests.test_foreign_kfd_refused_and_service_restored",
+        "Tests.test_failed_core_keeps_model_identity_and_error_evidence",
+        "Tests.test_distrobox_benchmark_transport_is_explicit",
+        "Tests.test_modern_rocm10_build_is_sealed_and_device_free",
+        "Tests.test_modern_build_refuses_missing_capture_artifact",
+        "Tests.test_modern_build_refuses_changed_capture_artifact"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 47.75
+      },
+      "elapsed_s": 1.1310452139005065,
+      "focused_control_count": 7,
+      "scope": "CPU-only mocked transport/metadata; no model or GPU"
+    }
+  },
+  "focused_capture_controls": 15,
+  "focused_existing_regressions": 7,
+  "earlier_14_control_pass_preserved": true,
+  "preserved_failures": [],
+  "maximum_observed_local_CPU_C": 53.75,
+  "sensor_peaks_C": {
+    "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+    "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+    "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+    "/sys/class/hwmon/hwmon8/temp1_input": 53.75
+  },
+  "thermal_policy": "CPU98/NVMe85/lower; GPU masked/observe only",
+  "refusal_coverage": [
+    "synthetic/stale/wrong-mode/typed identity",
+    "incomplete/unordered/duplicate/extra completion",
+    "row hash/length/path/token/frontier",
+    "generation/prompt/vocabulary/constraint drift",
+    "provisional call/incomplete EOS/claimed live EOS ID",
+    "invalid required-call arguments",
+    "duplicate JSON keys/nonfinite numbers/boolean token IDs",
+    "FIFO/symlink/oversize",
+    "collector unknown paths and existing local hash drift"
+  ],
+  "failure_data": "Collect bounded empty/partial artifacts and raw rows written before unsuccessful decode",
+  "model_stat_failure_cleanup_checked": true,
+  "possible_model_attempt_marker_checked": true,
+  "native_source_files_unchanged": {
+    "CMakeLists.txt": {
+      "path": "CMakeLists.txt",
+      "bytes": 56543,
+      "sha256": "e4625d3b705b13a844a4a83a0444d5c8ca55bc403307cc77214bf99c4e9b48ff"
+    },
+    "adapters/gufo.cpp": {
+      "path": "adapters/gufo.cpp",
+      "bytes": 62087,
+      "sha256": "8d8337ca5449335b1651e6f3be2574f13a0f6b18d986df30194c7a604478c404"
+    },
+    "include/lie/executor.h": {
+      "path": "include/lie/executor.h",
+      "bytes": 9842,
+      "sha256": "4f23a8d82dd7e5f5225359b99f464aa73842fe6513c00132c976dc94cd087245"
+    },
+    "tools/sampling-capture.c": {
+      "path": "tools/sampling-capture.c",
+      "bytes": 17868,
+      "sha256": "83401d8ae5c6057c3b946b1977ac7aad6a1a84d61e97ffcfcd1d20dd54ec4b30"
+    },
+    "tools/sampling-capture-format.h": {
+      "path": "tools/sampling-capture-format.h",
+      "bytes": 1077,
+      "sha256": "832a6563a78fbe37c2a859e4af2dca684edab68855a3c60c8d6174d1ebc33482"
+    },
+    "tests/sampling/replay.cpp": {
+      "path": "tests/sampling/replay.cpp",
+      "bytes": 26932,
+      "sha256": "ce7e84b51c3349a500c06b3600159588341283ca6f19947c655ca8a270a48d7a"
+    },
+    "tests/sampling/replay_contract.cmake": {
+      "path": "tests/sampling/replay_contract.cmake",
+      "bytes": 3737,
+      "sha256": "5e055e824e93ebb593939f9cd3caa5c489220bc8c7f6578228b46ce64ee640a4"
+    },
+    "tests/sampling/tools_replay_contract.cmake": {
+      "path": "tests/sampling/tools_replay_contract.cmake",
+      "bytes": 4963,
+      "sha256": "3fd328d1fba152608e2917130eb566a839fb6a23e9bef6859e03f7aba17257a2"
+    },
+    "tests/sampling/CMakeLists.txt": {
+      "path": "tests/sampling/CMakeLists.txt",
+      "bytes": 34017,
+      "sha256": "6fabe214dcae7846f794172c1b21956ec7cedd087a1ffc817fcd02959ca8efc5"
+    },
+    "tests/sampling_capture/CMakeLists.txt": {
+      "path": "tests/sampling_capture/CMakeLists.txt",
+      "bytes": 6018,
+      "sha256": "7ddf2ee3f6de1926666c043a46f13370b6a4f5b5a933fd967465aa26cb31b84a"
+    },
+    "tests/sampling_capture_executor.c": {
+      "path": "tests/sampling_capture_executor.c",
+      "bytes": 7909,
+      "sha256": "396f5c29617c29620a45fa3f1bcf1751e8019d6cb4c80c62564ecb1dececa305"
+    },
+    "tests/test_sampling_capture.c": {
+      "path": "tests/test_sampling_capture.c",
+      "bytes": 8497,
+      "sha256": "bc61e4eb3149c9d0c5fc369388d0ba8e911cbae300d7b656ebca8d15271c53b1"
+    }
+  },
+  "unchanged_native_source_git_diff_actual_exit": 0,
+  "native_sanitizer_qualification": {
+    "path": "docs/development/validation/sampling-tools-host-2026-10-07.json",
+    "bytes": 727156,
+    "sha256": "bb8786462de0d6a63e6f659d3e4d525f2266d00d1b2ef4069e297f6df90bec92"
+  },
+  "matching_HIP_build": {
+    "path": "docs/development/validation/integrated-point-capture-hip-build-2026-10-07.json",
+    "bytes": 47534,
+    "sha256": "9cd820002221510a697159f4a15d7d5c08751ced84d53eaf831cf72a4925147f"
+  },
+  "executor_core_ABI_HTTP_reactive_numerical_code_changed": false,
+  "new_native_C_CXX_change_or_build": false,
+  "sanitizer_repeat": "Not repeated: optional Python-only orchestration; all 12 previously qualified native sources are unchanged",
+  "new_GPU_remote_model_build_test_lease_reservation": false,
+  "product_default_tests_require_Python": false,
+  "structural_receipt_closes_probability_mask_MTP_quality_performance_gates": false,
+  "root_live_handles": [],
+  "root_remote_jobs_leases_reservations": [],
+  "open_root_items": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "Terminal_Bench": "DEFERRED_LAST",
+  "next_phase": "Final integrated original-weight qualification after functional preparation; fresh peer/global/original-lease admission required",
+  "publication": false,
+  "goal_complete": false,
+  "archive": {
+    "path": "docs/development/validation/raw/sampling-capture-supervisor-host-2026-10-07.tar.gz",
+    "bytes": 95359,
+    "sha256": "1d1bd8459262fe317d24c4f3f1efbbeafbd5035abe3af907085ff60744524e63",
+    "members": 19
+  },
+  "archive_inventory": {
+    "evidence/sampling-capture-supervisor-r81-controls-r1/command.log": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r1/command.log",
+      "bytes": 113,
+      "sha256": "5588b256ee4b948aa406c335ef3d6d9593702e739835e5d99e2b8255b3339813"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r1/plan.json": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r1/plan.json",
+      "bytes": 906,
+      "sha256": "7bdb8e5c9f3dfbda389db3d3e0d8a862e15511d451582aad648f03e3401e86f2"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r1/result.json": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r1/result.json",
+      "bytes": 403,
+      "sha256": "8cb612ef219f3b33995c3025c90e72c6ae2861606c877bfa38d4334eaf3e2cae"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r1/temperatures.jsonl": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r1/temperatures.jsonl",
+      "bytes": 1830,
+      "sha256": "a978819a67040ef1e7414c517be1ecb6d07bf4bc9354bd25a1685a9dd15882e8"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r2/command.log": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r2/command.log",
+      "bytes": 114,
+      "sha256": "b419185be4e603363205b21527ca8a3418b040b8cb37bb70883ad86182b7608e"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r2/plan.json": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r2/plan.json",
+      "bytes": 906,
+      "sha256": "7bdb8e5c9f3dfbda389db3d3e0d8a862e15511d451582aad648f03e3401e86f2"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r2/result.json": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r2/result.json",
+      "bytes": 401,
+      "sha256": "30c96b3381cc5031a356a8eb9f3585cba9cb064ace3f63fde2d4214e45cfbf46"
+    },
+    "evidence/sampling-capture-supervisor-r81-controls-r2/temperatures.jsonl": {
+      "path": "evidence/sampling-capture-supervisor-r81-controls-r2/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "946b15de1daad5c4e7b940a99127f6937dd68868d8d5e07f60013805170aa1ad"
+    },
+    "evidence/sampling-capture-supervisor-r81-regressions/command.log": {
+      "path": "evidence/sampling-capture-supervisor-r81-regressions/command.log",
+      "bytes": 105,
+      "sha256": "0d6653413f55f7cf64dbfab59b6b29c640ade8e63585414ab2a44a0892a5ed0a"
+    },
+    "evidence/sampling-capture-supervisor-r81-regressions/plan.json": {
+      "path": "evidence/sampling-capture-supervisor-r81-regressions/plan.json",
+      "bytes": 1320,
+      "sha256": "b9bad85ef04fd6f5b7190b85285c39c4faa88b71e97097f0c5090005b2ca64f5"
+    },
+    "evidence/sampling-capture-supervisor-r81-regressions/result.json": {
+      "path": "evidence/sampling-capture-supervisor-r81-regressions/result.json",
+      "bytes": 817,
+      "sha256": "8ab8e36842eaa78f2bf346b67f791423a6f6659cb35ab421da7d28faece3662d"
+    },
+    "evidence/sampling-capture-supervisor-r81-regressions/temperatures.jsonl": {
+      "path": "evidence/sampling-capture-supervisor-r81-regressions/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "1167563ef4f0224c6d0a3fc73d60eacd7f8df7fed838170da65d367a234d079e"
+    },
+    "tools/strix-point-campaign.py": {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 124410,
+      "sha256": "89f8f4edae2c9599d2636ae5dbf22345e039dcdc5afff602936fe48e19fd9a22"
+    },
+    "tools/strix-point-bench-collect.py": {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 12575,
+      "sha256": "c0b0aa3b7129f75b18154d2b778921ac53eed079d3991f60813b6c6f4ea5cf0f"
+    },
+    "tests/test_sampling_capture_campaign.py": {
+      "path": "tests/test_sampling_capture_campaign.py",
+      "bytes": 16461,
+      "sha256": "43636de489d8540b4a13cf01cfd022c939f70d37e86a3045cc2b8a34916f8030"
+    },
+    "docs/development/validation/sampling-tools-host-2026-10-07.json": {
+      "path": "docs/development/validation/sampling-tools-host-2026-10-07.json",
+      "bytes": 727156,
+      "sha256": "bb8786462de0d6a63e6f659d3e4d525f2266d00d1b2ef4069e297f6df90bec92"
+    },
+    "docs/development/validation/integrated-point-capture-hip-build-2026-10-07.json": {
+      "path": "docs/development/validation/integrated-point-capture-hip-build-2026-10-07.json",
+      "bytes": 47534,
+      "sha256": "9cd820002221510a697159f4a15d7d5c08751ced84d53eaf831cf72a4925147f"
+    },
+    "evidence/seal-sampling-capture-supervisor-r81.py": {
+      "path": "evidence/seal-sampling-capture-supervisor-r81.py",
+      "bytes": 6163,
+      "sha256": "90a92b5d3c0f58bd135dddab3d1cef17ed8892f9da7a2deaa6bf310d867ba2ec"
+    }
+  }
+}

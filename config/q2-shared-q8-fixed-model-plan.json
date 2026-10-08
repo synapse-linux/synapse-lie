@@ -1,0 +1,70 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-fixed-model-plan.v1",
+  "at": "2026-10-04T18:43:40.662373+00:00",
+  "authorization": {
+    "user_instruction": "ok ma il test fallo lo stesso, magari l\u2019oracolo non calcola bene l\u2019errore",
+    "latest_scope": "non c\u2019\u00e8 neanche bisogno che rilanci quelli gi\u00e0 qualificati, i test li hai, devi solo farli sul nuovo",
+    "component_gate_override": "Exploratory candidate-only original-weight performance and replay measurement; R3 oracle failures remain retained, numerical limits and quality promotion unchanged"
+  },
+  "previous_release_sha256": "7fc079af128dc0d5c8fcf1ce3a835046440429a2e652011cbe716931628725c4",
+  "host": "q2-shared-q8-fixed-model-host-r1",
+  "arms": [
+    {
+      "label": "q2-shared-q8-fixed-model-candidate-r1",
+      "mode": "q2-counting-shared-q8",
+      "variant": "shared-q8-producer",
+      "rebuild_mmq": true
+    }
+  ],
+  "historical_controls": [
+    "q2-norm-fixed-model-before-r1",
+    "q2-norm-fixed-model-after-r1",
+    "q2-norm-fixed-model-ud-r1"
+  ],
+  "run_controls": false,
+  "control_comparison_scope": "Historical collected results, no contemporaneous bookend rerun",
+  "protocol": {
+    "host": ".157",
+    "context_capacity": 9216,
+    "chunk": 2048,
+    "physical_prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "warmup_sessions": 1,
+    "measured_sessions": 3,
+    "pause_seconds_outside_timers": 15,
+    "timer": "Frozen direct-executor tester",
+    "greedy": true,
+    "mtp": false
+  },
+  "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+  "manifests": {
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae",
+    "config/q2-shared-q8-producer-source.json": "edcb6d73784c885b50876f14a84fb599201dad90cf6dd9ba81e3dd859aff96bd",
+    "config/q2-shared-q8-producer-r3-results.json": "ed0ce56feddd571e3ea9d900a79107ac3dc06a88db2bb02d9a376c1e0c73c9c3",
+    "config/q2-shared-q8-producer-r3-format-diagnostic.json": "4dcdbe7350a23e56a88284e0ff0ee6c59e1e1dbd008cd3aec9a59d4575b05bbf",
+    "config/q2-norm-fixed-model-results.json": "cbe3a12c6bf83f784440064b7185da31e520be1c8a17d033f1fe289e72699514"
+  },
+  "fixtures": {
+    "CMakeLists.txt": "a76700516b9a689b75c45b890b102699e70ad0ae39563f8d6a4c8aaa2014c979",
+    "cmake/hip/CMakeLists.txt": "65cf6e734b5e0edd004a39a8716043029902d234aee3a5a8301f1f962eb5238c",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+    "tests/q2_remote_test.py": "26f07bfdf6e468abf7049446de7f1ccef24505246ba4540673a45a21619e592d",
+    "tests/q2_binary_replay_test.py": "5828ecc2eb554ee74328c874a653bf1c85097b98f9808612f269ca8ba96b3bb2",
+    "tools/q2-remote.py": "450f3290d830813d394e736ee7d60523cfb4b75b640bf97b588361bfb9919c59",
+    "tools/q2-runner.py": "81a1625b8868ed5c3151489aeb23d56e984ac882a1a5fb298a4a7d586ee078b4",
+    "tools/q2_binary_replay.py": "1cefcb6049e51b5ea6ab6ff211ca22daa603661100867b733ca08cd27977c274",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "window_helper_sha256": "b50172b34aee344da3ce9b6e4794d2defcb1e8fce3451d9a2e9d6e9f571450fa",
+  "norm_composed": false,
+  "quality_promotion": false,
+  "full_curve_deferred_until_fixed_ud_parity": true,
+  "cleanup": false,
+  "goal_met": false,
+  "host_receipt": "config/q2-shared-q8-fixed-model-host-results.json",
+  "host_receipt_sha256": "2650fc9dfd6d2c2c5c4c40ff84113e9231f833d371a93f7b7dc585691e180d15"
+}

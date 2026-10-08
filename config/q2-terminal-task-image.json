@@ -1,0 +1,6 @@
+{
+  "scope": "Read-only local image observation after qualified smoke and at retained smoke startup; not a retroactive first-container digest claim.",
+  "tag": "alexgshaw/git-leak-recovery:20251031",
+  "id": "sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586",
+  "repo_digest": "alexgshaw/git-leak-recovery@sha256:62160e522a4238b8bcd522411ea97b5b200f811e5899d34947e66809bef7e586"
+}

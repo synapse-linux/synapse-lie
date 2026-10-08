@@ -1,0 +1,18 @@
+{
+  "schema": "synapse-lie.q4-oneshot-deferral.v1",
+  "owner_instruction": "ok riprendi q2, lascia stare q4 per ora",
+  "q4_deferred": true,
+  "followup_ud_started": false,
+  "model_forward": false,
+  "pp_tg_samples": 0,
+  "q2_retained_prefill_tok_s": 1505.152258,
+  "release_sha256": "f1eaaaece9aab1f305d58d888a522e7ac505b9b4dd855434709d29b6f9d35424",
+  "preparation_failure_after_stop": {
+    "operation": "Attempt to create already existing failure report",
+    "exit_code": 1,
+    "mutations_before_failure": 0
+  },
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "remote_cleanup": false
+}

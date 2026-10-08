@@ -1,0 +1,249 @@
+{
+  "schema": "synapse-lie.host-validation.v1",
+  "date_utc": "2026-10-08",
+  "state": "HOST_PASS_NOT_INFERENCE_QUALIFIED",
+  "git_base": "c8b80f14b5fae4361eeb46a21876a2771a17a4ca",
+  "source_binding": "Selected original format patch is applied to current exact provider recipes; code bound by file hashes below.",
+  "feature": "LIE_QWEN_Q2_FORMATS",
+  "default_selection": "ON when the explicit owned Gufo source variant is selected; pristine provider remains unchanged",
+  "scope": [
+    "15 selected provider/test files and 38 exact hunks from patches/gufo-q2.patch at independently fetched official f783fedb",
+    "Independent patch --fuzz=0 equivalence on pristine and combined current-feature sources; all unrelated source hashes identical with format option OFF/ON",
+    "Synthetic GGUF metadata parsing, logical640/physical768 down geometry, pinned legacy RoPE recognition and malformed metadata refusal",
+    "Provider boolean selection, missing identity, selection mismatch and recipe/patch provenance refusals",
+    "Native Make/CMake orchestration, provider source-path and HIP target receipt regression checks"
+  ],
+  "selected_checks": [
+    "develop-q2-provider-host-r2",
+    "develop-q2-provider-asan-r1"
+  ],
+  "ctest": {
+    "debug": {
+      "passed": 5,
+      "total": 5,
+      "skipped": 0
+    },
+    "asan_ubsan_lsan": {
+      "passed": 5,
+      "total": 5,
+      "skipped": 0,
+      "leak_detection": true,
+      "suppressions": false
+    }
+  },
+  "selected_patch_files_sha256": {
+    "src/core/gguf_reader.hpp": "222c56638888b911a90c895fe1fd076754bde5e0e493b0983819070710c2c617",
+    "src/core/quant/ggml_dequant.cpp": "24dad545d4ecab73fe8a6352b7927d2f961fb75b97383a82e5ce0a5dbd5c83a0",
+    "src/core/quant/ggml_dequant.hpp": "cd000bad1898dc66a9da12e38b95ad1e62ed64197662c20af3798ac3a1450f6c",
+    "src/models/qwen38_flash_next/config.cpp": "37c5d04eef38a1f70622c97e67e5e68f11e6e1e6fc3adfdaa5e79a92b1b5ba29",
+    "src/models/qwen38_flash_next/config.hpp": "40da773a429404ea8a3b83ebda10ced7c9cd8b123f12082be7b1cfed6d9838ca",
+    "src/models/qwen38_flash_next/kernels/rocm/device_model.cpp": "2698f3c38cd4a9f18b4eabdd1666b3a6e30124fd394d44f92cc256f7a7bf6e1e",
+    "src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "0ae491b69d517a8ec98dc953f70b453831116548614131b0541aeac3ae18892b",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp": "cd9d189e1aad5d5d876a7e1db6ff095339d0bad281a77fc95a61c373d7c6e3f2",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp": "f868ab8ae8fb55a520aed7eaf695fa8197db1ce322f9906559ed45fa9bff166a",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h": "ba7b9a002f9ae0e3df2d1794471d7ef207967af99557ed58325a117ba38b3f64",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.hip.cpp": "5085ade562ff65c0260229b4981c9aa83a131ed4112d1d013f38730903dae09b",
+    "src/models/qwen38_flash_next/kernels/rocm/mmq/vecdotq.hpp": "3e8290b2f63e710e5645a7a4330f294a8f2030e769f4a4b59e3a53b170922dfe",
+    "src/models/qwen38_flash_next/weights.cpp": "12b97141ed359df8e508c7e91094f5e72758edaa21f9f757587273e7676a699f",
+    "tests/models/qwen38_flash_next/config_test.cpp": "78007b438754eefb75c4e5c57aae4cabc0e281773bf2076578cec106ed73c7c3"
+  },
+  "source_files_sha256": {
+    "CMakeLists.txt": "b73cadd442c63032986009e22341f8e1510131bca13195bf192d571c34a80bb6",
+    "cmake/BuildTarget.cmake": "573c2f36853e16726a58eb10b0f7e4b5eb0cb3e4dcce355255f98c26dcc7d68e",
+    "cmake/gufo-runtime/CMakeLists.txt": "71ff0ff75a5c681b052064dcb20240b381f9407296f70ffcc09f40497c9c4aac",
+    "cmake/point/Build.cmake": "25b803b10f94a61f805a9700557d93f24f48b8df9b5eb8d0533952e0acfb110d",
+    "cmake/provider/Build.cmake": "06795f2ae829426aada52d6819099b2a22a747f40e98363912d1c00de926f87e",
+    "cmake/provider/Source.cmake": "e811e9570fd884e86bad37d89dabce8ba5f8f752a6edd2cf979b359dd33f1f4e",
+    "cmake/provider/Verify.cmake": "dd83b94181c6956aa40792e721783d2cf910bdac4cb03c877c9e711434cd40c7",
+    "tests/build_target_contract.cmake": "47c5ea7045326b7536f9b6aef7e52e84168375817b278a9e194f0aa0549997c4",
+    "tests/provider_contract.cmake": "e30ecef4b37a41955da9e622b35073e3bd76aeaf8e9b3555f543ca2e0420b48a",
+    "tests/qwen_format_recipe.cmake": "93506eec3e219a4029dbfe7dffa8dd7b7f87dc687ca1f9261854248ac6259b46",
+    "adapters/gufo-state/qwen-q2-format-edits.json": "3c5898b6a7b93255c1d39c2c0de058efa76915549ffcec6cbb3b407095e7edd6",
+    "patches/gufo-q2.patch": "3029cd490bc75d045e9dcf696ac6c1b23092684ad25641c93d500cb9f2727473"
+  },
+  "commands": [
+    {
+      "label": "develop-q2-asan-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/integration-asan",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 50.625
+      },
+      "elapsed_s": 1.1359322369098663
+    },
+    {
+      "label": "develop-q2-host-config-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/integration-host",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DBUILD_TESTING=ON",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 50.625
+      },
+      "elapsed_s": 1.095891697332263
+    },
+    {
+      "label": "develop-q2-provider-asan-r1",
+      "argv": [
+        "cmake",
+        "-E",
+        "env",
+        "--unset=LSAN_OPTIONS",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1",
+        "ctest",
+        "--test-dir",
+        "build/integration-asan",
+        "--output-on-failure",
+        "-R",
+        "^(qwen-q2-format-source-contract|native-provider-verification|native-provider-source-paths|hip-provider-target-verification|native-build-entry)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 89.0
+      },
+      "elapsed_s": 20.63630305416882
+    },
+    {
+      "label": "develop-q2-provider-host-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-host",
+        "--output-on-failure",
+        "-R",
+        "^(qwen-q2-format-source-contract|native-provider-verification|native-provider-source-paths|hip-provider-target-verification|native-build-target-contract)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 36.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 36.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 79.125
+      },
+      "elapsed_s": 17.290148206055164
+    },
+    {
+      "label": "develop-q2-provider-host-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/integration-host",
+        "--output-on-failure",
+        "-R",
+        "^(qwen-q2-format-source-contract|native-provider-verification|native-provider-source-paths|hip-provider-target-verification|native-build-entry)$"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 89.625
+      },
+      "elapsed_s": 17.40529522113502
+    },
+    {
+      "label": "develop-q2-source-debug-r1",
+      "argv": [
+        "cmake",
+        "-DREPOSITORY=.",
+        "-DSANITIZERS=OFF",
+        "-P",
+        "tests/qwen_format_recipe.cmake"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.875
+      },
+      "elapsed_s": 5.225161927752197
+    },
+    {
+      "label": "develop-q2-source-debug-r2",
+      "argv": [
+        "cmake",
+        "-DREPOSITORY=.",
+        "-DSANITIZERS=OFF",
+        "-P",
+        "tests/qwen_format_recipe.cmake"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 85.625
+      },
+      "elapsed_s": 10.515200807712972
+    }
+  ],
+  "retained_failure": "develop-q2-source-debug-r1 exits1: test passed a relative patch path to a child working directory. The test now normalizes repository paths; original log and owned failed fixture are retained. No numerical or acceptance threshold changed.",
+  "gpu_execution": false,
+  "models_loaded": false,
+  "CPU_model_forward": false,
+  "remote_operations": false,
+  "installation": false,
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "gpu": "observe-only",
+    "nvme_ceiling_c": 85
+  },
+  "limitations": [
+    "No coherent HIP producer/consumer build yet for this source",
+    "No original-weight numerical, quality, GPU faults, resource-fit or matched-performance qualification",
+    "MXFP4 descriptor support is storage recognition only; original predictor execution remains unsupported",
+    "Historical optimized Q2 capsules and core sources are not production build inputs"
+  ],
+  "raw_archive": {
+    "path": "raw/qwen-q2-formats-native-host-2026-10-08.tar.gz",
+    "bytes": 5922,
+    "sha256": "626fb452371f34f4f5db8bd3ade0d548e82674c6daa4144ce92a7ce388ff937f"
+  }
+}

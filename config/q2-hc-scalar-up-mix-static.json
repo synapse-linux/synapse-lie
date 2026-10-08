@@ -1,0 +1,51 @@
+{
+  "schema": "synapse-lie.q2-hc-scalar-up-mix-static.v1",
+  "kernels": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119HcMixEpilogueKernelEPKfS5_S5_PfS6_jj",
+      "group_segment_fixed_size": 256,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 28,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 22,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_116HcUpF16VecKernelEPK6__halfPKfPf",
+      "group_segment_fixed_size": 0,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 10,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 19,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm19HcScalarUpMixKernelILb1EEEvPK6__halfPKfS8_S8_PfS9_S9_",
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 22,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 44,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm19HcScalarUpMixKernelILb0EEEvPK6__halfPKfS8_S8_PfS9_S9_",
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "sgpr_count": 18,
+      "sgpr_spill_count": 0,
+      "vgpr_count": 44,
+      "vgpr_spill_count": 0,
+      "wavefront_size": 32
+    }
+  ],
+  "gpu_run": false,
+  "performance_claim": false,
+  "complete_kernels_before": 2,
+  "complete_kernels_candidate": 1,
+  "removed_intermediate_gate_bytes": 40960,
+  "rotating_weights_bytes": 104857600
+}

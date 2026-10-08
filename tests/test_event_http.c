@@ -74,11 +74,10 @@ static size_t collect(char *p, size_t size, size_t n, void *arg) {
   q[b->bytes] = 0;
   return bytes;
 }
-static char *post(const char *base, bool responses, json_object *request,
-                  long *status) {
+static char *exchange(const char *base, const char *path, json_object *request,
+                      long *status) {
   char url[256];
-  snprintf(url, sizeof(url), "%s/%s", base,
-           responses ? "responses" : "chat/completions");
+  snprintf(url, sizeof(url), "%s/%s", base, path);
   CURL *curl = curl_easy_init();
   require(curl != NULL, "curl init");
   body_buffer b = {0};
@@ -87,7 +86,8 @@ static char *post(const char *base, bool responses, json_object *request,
   require(h != NULL, "headers");
   curl_easy_setopt(curl, CURLOPT_URL, url);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, h);
-  curl_easy_setopt(curl, CURLOPT_POSTFIELDS, nb_encoded(request));
+  if (request)
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, nb_encoded(request));
   curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 5000L);
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, collect);
   curl_easy_setopt(curl, CURLOPT_WRITEDATA, &b);
@@ -97,6 +97,11 @@ static char *post(const char *base, bool responses, json_object *request,
   curl_easy_cleanup(curl);
   require(b.data != NULL, "response body");
   return b.data;
+}
+static char *post(const char *base, bool responses, json_object *request,
+                  long *status) {
+  return exchange(base, responses ? "responses" : "chat/completions", request,
+                  status);
 }
 static json_object *request(bool responses, bool stream, const char *input,
                             unsigned budget, const char *choice, bool tools) {
@@ -165,6 +170,9 @@ static void valid(char *body, bool responses, bool stream) {
     return;
   }
   unsigned calls = 0, terminals = 0;
+  unsigned argument_fragments = 0;
+  char arguments[32768] = {0}, call_id[129] = {0}, call_name[129] = {0};
+  size_t argument_bytes = 0;
   int64_t sequence = 0;
   bool done = false;
   for (char *p = body; *p;) {
@@ -184,6 +192,18 @@ static void valid(char *body, bool responses, bool stream) {
           require(nb_number(o, "sequence_number") == sequence++,
                   "Responses sequence");
           const char *type = nb_string(o, "type");
+          if (!strcmp(type, "response.function_call_arguments.delta")) {
+            const char *delta = nb_string(o, "delta");
+            size_t length = strlen(delta);
+            require(length < sizeof(arguments) - argument_bytes,
+                    "argument limit");
+            memcpy(arguments + argument_bytes, delta, length + 1);
+            argument_bytes += length;
+            ++argument_fragments;
+          }
+          if (!strcmp(type, "response.function_call_arguments.done"))
+            require(!strcmp(arguments, nb_string(o, "arguments")),
+                    "Responses deltas do not reconstruct done arguments");
           if (!strcmp(type, "response.output_item.done")) {
             json_object *item = nb_get(o, "item");
             if (!strcmp(nb_string(item, "type"), "function_call")) {
@@ -201,8 +221,26 @@ static void valid(char *body, bool responses, bool stream) {
                         *c = nb_get(nb_get(choice, "delta"), "tool_calls");
             if (c) {
               require(json_object_array_length(c) == 1, "tool delta count");
-              call_valid(json_object_array_get_idx(c, 0), false);
-              ++calls;
+              json_object *part = json_object_array_get_idx(c, 0),
+                          *fn = nb_get(part, "function");
+              require(nb_number(part, "index") == 0, "tool index");
+              if (nb_get(part, "id")) {
+                require(!calls && *nb_string(part, "id"),
+                        "duplicate tool start");
+                snprintf(call_id, sizeof(call_id), "%s", nb_string(part, "id"));
+                snprintf(call_name, sizeof(call_name), "%s",
+                         nb_string(fn, "name"));
+                ++calls;
+              }
+              require(calls == 1, "arguments before tool start");
+              const char *delta = nb_string(fn, "arguments");
+              size_t length = strlen(delta);
+              require(length < sizeof(arguments) - argument_bytes,
+                      "argument limit");
+              memcpy(arguments + argument_bytes, delta, length + 1);
+              argument_bytes += length;
+              if (length)
+                ++argument_fragments;
             }
             if (!strcmp(nb_string(choice, "finish_reason"), "tool_calls"))
               ++terminals;
@@ -215,6 +253,18 @@ static void valid(char *body, bool responses, bool stream) {
   }
   require(calls == 1 && terminals == 1 && (responses || done),
           "SSE calls/terminal");
+  require(argument_fragments > 2,
+          "tool arguments were buffered until completion");
+  if (!responses) {
+    json_object *call = json_object_new_object(),
+                *fn = json_object_new_object();
+    nb_str(call, "id", call_id);
+    nb_str(fn, "name", call_name);
+    nb_str(fn, "arguments", arguments);
+    json_object_object_add(call, "function", fn);
+    call_valid(call, false);
+    json_object_put(call);
+  }
 }
 int main(int argc, char **argv) {
   require(argc == 2, "server argument");
@@ -276,6 +326,34 @@ int main(int argc, char **argv) {
       char *body = post(api, responses, q, &status);
       require(status == 200, "successful status");
       valid(body, responses, stream);
+      if (responses && stream) {
+        /* Replay after generator retirement must retain every provisional
+         * fragment, with the same stable IDs and sequence numbers. */
+        const char *start = strstr(body, "data: ");
+        require(start != NULL, "created event absent");
+        start += 6;
+        const char *end = strchr(start, '\n');
+        require(end != NULL, "created event framing");
+        nb_error e = {0};
+        json_object *created = nb_parse(start, (size_t)(end - start), &e);
+        require(created != NULL, e.message);
+        const char *id = nb_string(nb_get(created, "response"), "id");
+        char path[200];
+        snprintf(path, sizeof(path), "responses/%s?stream=true", id);
+        char *replay = exchange(api, path, NULL, &status);
+        require(status == 200, "retained tool replay status");
+        valid(replay, true, true);
+        require(!strcmp(body, replay),
+                "retained tool replay differs from live");
+        free(replay);
+        json_object_put(created);
+      }
+      free(body);
+      json_object_put(q);
+      q = request(responses, stream, "TOOL-JSON", 512, "auto", true);
+      body = post(api, responses, q, &status);
+      require(status == 200, "JSON function frame status");
+      valid(body, responses, stream);
       free(body);
       json_object_put(q);
       const char *inputs[] = {
@@ -292,9 +370,12 @@ int main(int argc, char **argv) {
                                  json_object_new_boolean(false));
         body = post(api, responses, q, &status);
         require(status == (stream ? 200 : 502), "failed status");
-        require(!strstr(body, "function_call_arguments.delta") &&
-                    !strstr(body, "\"tool_calls\""),
-                "malformed call escaped");
+        require(stream ? (!strstr(body, "function_call_arguments.done") &&
+                          !strstr(body, "\"finish_reason\":\"tool_calls\"") &&
+                          !strstr(body, "response.completed"))
+                       : (!strstr(body, "function_call_arguments.delta") &&
+                          !strstr(body, "\"tool_calls\"")),
+                "malformed provisional call was committed");
         require(strstr(body, stream ? (responses ? "response.failed"
                                                  : "invalid_tool_output")
                                     : "invalid_tool_output") != NULL,

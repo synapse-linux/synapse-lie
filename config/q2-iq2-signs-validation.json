@@ -1,0 +1,339 @@
+{
+  "at": "2026-10-04T00:12:12.070909+00:00",
+  "cohorts": {
+    "q2-iq2-signs-host-r1": {
+      "transport": {
+        "mode": "cpu",
+        "source_variant": "qualified",
+        "source_path": ".deps/gufo-q2",
+        "rebuild_mmq": false,
+        "label": "q2-iq2-signs-host-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-signs-host-r1",
+        "capsule_sha256": "0d67f66ee966d00c2ab4bb3e3bae3c41a549a326bdc72c7f2d72181a9b0d525c",
+        "detached": false,
+        "started_at": "2026-10-03T23:46:29.002826+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-03T23:47:01.164352+00:00"
+      },
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-host-r1/results.tar.gz",
+        "sha256": "ccac83f534261cfae29199e510282ec2b9f22d8e08bd158c2e62c93b0fd4639e",
+        "verified_artifacts": 7,
+        "existing_archive": false
+      }
+    },
+    "q2-iq2-signs-reference-r1": {
+      "transport": {
+        "mode": "iq2-signs-check",
+        "source_variant": "iq2-signs-reference",
+        "source_path": ".deps/gufo-q2-curve-q2",
+        "rebuild_mmq": true,
+        "label": "q2-iq2-signs-reference-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-signs-reference-r1",
+        "capsule_sha256": "2e8be084cada3c1c85c492cee568ca9d98debcba02dd75a859dbd452a2b7190a",
+        "detached": false,
+        "started_at": "2026-10-03T23:47:58.156113+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-03T23:49:45.826929+00:00"
+      },
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-reference-r1/results.tar.gz",
+        "sha256": "b85c4905520077dec599bd25707891b717df85e3526367bdafe4ca016c7cd4d5",
+        "verified_artifacts": 115,
+        "existing_archive": false
+      }
+    },
+    "q2-iq2-signs-candidate-r1": {
+      "transport": {
+        "mode": "iq2-signs-check",
+        "source_variant": "iq2-signs-candidate",
+        "source_path": ".deps/gufo-q2-curve-iq2-signs",
+        "rebuild_mmq": true,
+        "label": "q2-iq2-signs-candidate-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-signs-candidate-r1",
+        "capsule_sha256": "a88cd157a1d608bb1a7c4a28f0d70d4f963e6b2571edc47a0962e908e64ff98a",
+        "detached": false,
+        "started_at": "2026-10-03T23:51:25.874106+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-03T23:53:13.040727+00:00"
+      },
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-candidate-r1/results.tar.gz",
+        "sha256": "25d1a33785e5f74173fddce44f199f2bf6206daf7780f835bfc0160192a19271",
+        "verified_artifacts": 115,
+        "existing_archive": false
+      }
+    },
+    "q2-iq2-signs-host-r2": {
+      "transport": {
+        "mode": "cpu",
+        "source_variant": "qualified",
+        "source_path": ".deps/gufo-q2",
+        "rebuild_mmq": false,
+        "label": "q2-iq2-signs-host-r2",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-signs-host-r2",
+        "capsule_sha256": "3c3ebfc6fbc68c655680651580a0d3e649dfe7113c256cab1114b03b260ae1fe",
+        "detached": false,
+        "started_at": "2026-10-03T23:59:42.314931+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-04T00:00:12.225655+00:00"
+      },
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-host-r2/results.tar.gz",
+        "sha256": "9349c1c3862743471e2211597572c01e494f9970df063fde738081897e481753",
+        "verified_artifacts": 7,
+        "existing_archive": false
+      }
+    },
+    "q2-iq2-signs-ordered-r1": {
+      "transport": {
+        "mode": "iq2-signs-check",
+        "source_variant": "iq2-signs-ordered",
+        "source_path": ".deps/gufo-q2-curve-iq2-signs-ordered-asm",
+        "rebuild_mmq": true,
+        "label": "q2-iq2-signs-ordered-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-signs-ordered-r1",
+        "capsule_sha256": "6abb3584e855c19a6a533c16bb45daef8a600f7a0c460d172808a1795ee4737d",
+        "detached": false,
+        "started_at": "2026-10-04T00:01:06.457150+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-04T00:02:54.164042+00:00"
+      },
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-ordered-r1/results.tar.gz",
+        "sha256": "a85a2c5abbc337d076335b4365a8918164ef72ebe2d2e99c22e34c552c03693e",
+        "verified_artifacts": 115,
+        "existing_archive": false
+      }
+    },
+    "q2-iq2-signs-reference-r2": {
+      "transport": {
+        "mode": "iq2-signs-check",
+        "source_variant": "iq2-signs-reference",
+        "source_path": ".deps/gufo-q2-curve-q2",
+        "rebuild_mmq": true,
+        "label": "q2-iq2-signs-reference-r2",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-signs-reference-r2",
+        "capsule_sha256": "ae64e3bd606571dcd328996fd1a3c6cfed592ce5f553fe778acb6661fc157624",
+        "detached": false,
+        "started_at": "2026-10-04T00:03:57.530103+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-04T00:05:45.887505+00:00"
+      },
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-reference-r2/results.tar.gz",
+        "sha256": "295bedc05566ccd2f1e4a17245d2ef6e8dd078adf464bd4453239d363d01b9ec",
+        "verified_artifacts": 115,
+        "existing_archive": false
+      }
+    }
+  },
+  "analysis": {
+    "r1": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-signs.py",
+        "evidence/q2-iq2-signs-host-r1",
+        "evidence/q2-iq2-signs-reference-r1",
+        "evidence/q2-iq2-signs-candidate-r1",
+        "--output",
+        "config/q2-iq2-signs-results.json"
+      ],
+      "exit_code": 1,
+      "stdout": "{\"exact\": false, \"output_pairs\": 110, \"median_us\": {\"reference\": 85.41932678, \"candidate\": 49.97473526}, \"median_time_change_percent\": -41.494814881049805}\n",
+      "stderr": "",
+      "analyzer_sha256": "da59039da8bcaf49a6eeab6b4dd872469442b593cdadea1b3113b18433b9b498"
+    },
+    "r2": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-iq2-signs.py",
+        "evidence/q2-iq2-signs-host-r2",
+        "evidence/q2-iq2-signs-reference-r2",
+        "evidence/q2-iq2-signs-ordered-r1",
+        "--ordered",
+        "--output",
+        "config/q2-iq2-signs-ordered-results.json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"exact\": true, \"output_pairs\": 110, \"median_us\": {\"reference\": 85.35184479, \"candidate\": 50.04698563}, \"median_time_change_percent\": -41.3639087085513}\n",
+      "stderr": "",
+      "analyzer_sha256": "da59039da8bcaf49a6eeab6b4dd872469442b593cdadea1b3113b18433b9b498"
+    }
+  },
+  "reference_replay": {
+    "exact": true,
+    "buffers": 110,
+    "files": {
+      "iq2-signs-cycle.f32": "6badd6a4a0742e44c5492e2f9760e03f81df6faf625dee4c975a164beac51367",
+      "iq2-signs-exhaustive.f32": "a0b0162e9e9c01188423188a44b19629cfdabbfaa6637e5841bf77f3f6022b8a",
+      "operator-10-1-TG-normal-rows5-tile0.f32": "fa67bb8fe158cefcdbb73a8e107ab116551f830c3e9f9d04735e77b170895d34",
+      "operator-10-1-TG-small-rows5-tile0.f32": "8d7ee455f0c34427dcbb6bfa70fb5d22f735ba17cc0763f585f4bda8cab35e29",
+      "operator-10-17-PP-normal-rows64-tile16.f32": "5eaa7bcc909e6b597b4d4efad99c99d901fc54165070bd8b478451a2e2342060",
+      "operator-10-17-PP-normal-rows64-tile32.f32": "5eaa7bcc909e6b597b4d4efad99c99d901fc54165070bd8b478451a2e2342060",
+      "operator-10-17-PP-normal-rows64-tile48.f32": "68783faab093790c8e9c2029eaadb8932807e716fc706b1757fdddb16e344b98",
+      "operator-10-17-PP-normal-rows64-tile64.f32": "68783faab093790c8e9c2029eaadb8932807e716fc706b1757fdddb16e344b98",
+      "operator-10-17-PP-normal-rows64-tile80.f32": "4dced0e8fb514e857b9e7dc765d548b73fe969353c0086a58d72a3a6e175b847",
+      "operator-10-17-PP-small-rows64-tile16.f32": "1dbd47e494a96c7c3475640b7d45d95efffd1ccbc6e2140d7b1337aff84f5bc8",
+      "operator-10-17-PP-small-rows64-tile32.f32": "1dbd47e494a96c7c3475640b7d45d95efffd1ccbc6e2140d7b1337aff84f5bc8",
+      "operator-10-17-PP-small-rows64-tile48.f32": "ba4199a9175d4ce69a16ff4c50f83b1f087b4efe0ab6739dffa2f42084030565",
+      "operator-10-17-PP-small-rows64-tile64.f32": "ba4199a9175d4ce69a16ff4c50f83b1f087b4efe0ab6739dffa2f42084030565",
+      "operator-10-17-PP-small-rows64-tile80.f32": "25f26c97d548bac421f1c4effbc4c7e49d4fa0da4e07dd6c6a34886dbf88b946",
+      "operator-10-3-TG-normal-rows5-tile0.f32": "4e6da6dcac17a1d8363022dcda06b7fc7398d01c654c18957170e1d41f4b9966",
+      "operator-10-3-TG-small-rows5-tile0.f32": "087d87c30931d456d8d7e60ec23119749e498fbc6507f5bfac573ba877c44c53",
+      "operator-10-33-PP-normal-rows5-tile0.f32": "3a8d0a2b6ed5284d8668a6f45b71ffd7c053c86aeba075254b60f71e34093b94",
+      "operator-10-33-PP-small-rows5-tile0.f32": "57c63d61ddbe711624cf3e2b3a338de345e029fccf49a7f32996532536a8c335",
+      "operator-10-65-PP-normal-rows65-tile16.f32": "8c8e3ae4cf7349ba907dff9bd82be934f2135dc078427c9e260001733112bd1f",
+      "operator-10-65-PP-normal-rows65-tile32.f32": "8c8e3ae4cf7349ba907dff9bd82be934f2135dc078427c9e260001733112bd1f",
+      "operator-10-65-PP-normal-rows65-tile48.f32": "a0b7b3f78597221e7c1f91ec0225a2b2bf6f37bafabd7c0564d45adeab9dbb56",
+      "operator-10-65-PP-normal-rows65-tile64.f32": "6e0d2c5062eca5bd9ab7ef7103af392047971838bd2b33b486023ab46f0357f4",
+      "operator-10-65-PP-normal-rows65-tile80.f32": "08943235d9dd21bd67376ac060e21c4be68e85bfb5f3ef3a330330939203a743",
+      "operator-10-65-PP-small-rows65-tile16.f32": "4e96bfa822637ca34f7f34a5bbd686451c3e3988353856d5cc748015bff4e40f",
+      "operator-10-65-PP-small-rows65-tile32.f32": "4e96bfa822637ca34f7f34a5bbd686451c3e3988353856d5cc748015bff4e40f",
+      "operator-10-65-PP-small-rows65-tile48.f32": "8f0f80a0b7d7ea9331aefd54c5822b6c9a747f2ec269b67eb745442bcea62003",
+      "operator-10-65-PP-small-rows65-tile64.f32": "fd709217d94f906d79213ecc250488cc83a1b7988bef67dafd0595dfcb3909d2",
+      "operator-10-65-PP-small-rows65-tile80.f32": "35920d0ac4964250d1684b56cc929abb2417c6c1d4be8cb96dd89eb79d131d99",
+      "operator-10-8-TG-normal-rows5-tile0.f32": "e635a9a3a86ff85c4060a62e4869bd9c78d460a2ffd1e27937862b6bcd382597",
+      "operator-10-8-TG-small-rows5-tile0.f32": "a59f5b0a3083e3899a36f78147aa075c4a3e4401d961df2d9c5f6c8cd210f31b",
+      "operator-10-9-PP-normal-rows5-tile0.f32": "9593599ae5c87ed8c6f0d5cf488cbf6e12056adf2de9dcbd94e5c65a12b5f30b",
+      "operator-10-9-PP-small-rows5-tile0.f32": "c2ae8a5d79040515857095e22c2bcc277faf3fe359d68adbd34b7408bf2db2f5",
+      "operator-16-1-TG-normal-rows5-tile0.f32": "cf314d9058682df88e6a3615dddc3b64bbc8278e84d0569e1ec306cb6d7cd9b6",
+      "operator-16-1-TG-small-rows5-tile0.f32": "0693ab8ddf6d94042afb0183a11643a6bd8bfbbd19f819c8178b824990eeb6cc",
+      "operator-16-3-TG-normal-rows5-tile0.f32": "219268aea9768434ded7325cfe882e4a79f5e549cbf5f6e4f9eaa6c3704c917f",
+      "operator-16-3-TG-small-rows5-tile0.f32": "31b2c64ac2bc4036e741199a996b499df4468a704e9cdb14d33860a2a39c6fb1",
+      "operator-16-33-PP-normal-rows5-tile0-paired-up.f32": "8b5e112c2294ecf66228b0002084b6ab518d3cbbbff3d43a2f78159da69b876f",
+      "operator-16-33-PP-normal-rows5-tile0.f32": "1b213eb95cadbbc28ad92b5edb85fc88861b8c9336e03098cb5dc008a8e128a2",
+      "operator-16-33-PP-small-rows5-tile0-paired-up.f32": "975458157f7df698ee95b41eac5a0a131bccc5f8ea6e457b9971bba0c230b806",
+      "operator-16-33-PP-small-rows5-tile0.f32": "5790aeda2a7c7875d718553d1b9ac15ceff7ee6d2bb3bfa933c32fdf57542a74",
+      "operator-16-8-TG-normal-rows5-tile0.f32": "22626686063da701505ae6079778a7271c813c95f066894b72caa681a8d93bf4",
+      "operator-16-8-TG-small-rows5-tile0.f32": "a8f93baca03bb0afe61eefe91c97df8d554b4480f9fd0862ab5cfc5e79b3b825",
+      "operator-16-9-PP-normal-rows5-tile0-paired-up.f32": "7d97d5daae306aa8d4bf6fcdb571cfbec0694a422887f4b2a8dafb1d86d1aad4",
+      "operator-16-9-PP-normal-rows5-tile0.f32": "39065ff9f438758e076de3ad8a9f5667876010edb74ee65d9816d127c55515d2",
+      "operator-16-9-PP-small-rows5-tile0-paired-up.f32": "d43f7787885ea1051fafe3f6ae2e01356bb7db53bceff731f3fe1148947bd6b3",
+      "operator-16-9-PP-small-rows5-tile0.f32": "a583786970b0b84c86121ad632dabe93a578982b7fd2ffd5126d008440c527ea",
+      "operator-iq2-signs-cycle-0.f32": "3e9445993394663937d9f16027c13500f20818a5e11241747c528b99f87bc47c",
+      "operator-iq2-signs-cycle-1.f32": "e645a2c38707df4a19282fdae74da47c37aafc448fab59085aa8cf7a21b231d9",
+      "operator-iq2-signs-cycle-10.f32": "c6b5b7ebcb236e5bb6d48f2b87722ea926a1c367a08ddb47571212114bdbe672",
+      "operator-iq2-signs-cycle-11.f32": "0f5c58f80b13336993ea51f36c98602bb3ceed3dfa6ad94155ea320e28a49858",
+      "operator-iq2-signs-cycle-12.f32": "7cae57499570e6a857736d73f356b106976dbbd7c9ff00113157ad6d85952dfc",
+      "operator-iq2-signs-cycle-13.f32": "d9ebd32f66316234f3ae5567edd2d6a36e11260e4fb55ea4203a39f16a10ffa0",
+      "operator-iq2-signs-cycle-14.f32": "eb6fe1868b4e75190677247076e26381b9b29ccb2fa0e764c173294abdc39707",
+      "operator-iq2-signs-cycle-15.f32": "1b1cfef7453d7cd77deedc20e6a5ef9a8f68330328869a20e204cb313fb729c3",
+      "operator-iq2-signs-cycle-16.f32": "709a180f0e8852feff4e99e56aaefa09d534b3a738851d95f9f91f0c0cadf572",
+      "operator-iq2-signs-cycle-17.f32": "5d7a227fc83c57867fff3ed9059a10782554593b8c1d216487affae8a4c31bb8",
+      "operator-iq2-signs-cycle-18.f32": "8b326cbce540003eb96cbbc6bdc569297213c0ee5840823081b935b0b41f4fcd",
+      "operator-iq2-signs-cycle-19.f32": "af665b18fdf638137c69946780d747f2dd24d49ace145731713bb717e99a3b51",
+      "operator-iq2-signs-cycle-2.f32": "8ba6bbbaadd4cfb243f228cf33664d22a03a6905c2c24e9a031b6771683e605c",
+      "operator-iq2-signs-cycle-20.f32": "1faad4f27a6844c33d560d80c901df2f41986205243a434b0026151aa6e1a78c",
+      "operator-iq2-signs-cycle-21.f32": "dc3f47ccba359819386c8777915dfa8810bae976ef7e21b92f16ffb5eaf645d5",
+      "operator-iq2-signs-cycle-22.f32": "a1f07c0a275d0267d4b048084377b4908a014baf5843e2e6f072e2ef53f29105",
+      "operator-iq2-signs-cycle-23.f32": "8b9c518f25ad869afc9c487ca78b2a1a63686b53f52845d0a3334040834e585b",
+      "operator-iq2-signs-cycle-24.f32": "dfccb654946b1564641f0f1e0b6e72a7576ea7a2cd739b82423e977274eeed4f",
+      "operator-iq2-signs-cycle-25.f32": "5c4acc827257badb8e33690917f4e7165cc6011678189cef738b024b0f220ee3",
+      "operator-iq2-signs-cycle-26.f32": "ab54c82e48200a6f589f06702414be2f30ac33e55adc2304ade635e3376265dc",
+      "operator-iq2-signs-cycle-27.f32": "8f3ea0f0c8601e32b1639b750ae90df23d223adb6cb05c1f43ca0a9d679920a7",
+      "operator-iq2-signs-cycle-28.f32": "7fcc4a8f8804b29aeda37a5026dba714de3010053989177c9ed1bb3fbefdf4d1",
+      "operator-iq2-signs-cycle-29.f32": "baf29fec32e569c324177b0179c9574f90318bfd2be92d788745f9868184b4ab",
+      "operator-iq2-signs-cycle-3.f32": "05eac231433655427c950362dcd1cbb7938bd6be516e7215eb214a96d88f6fa1",
+      "operator-iq2-signs-cycle-30.f32": "dfa281e6270f00109c78ccdcb664bded5f609fc9f2e3eea24e089fd4c22f6a50",
+      "operator-iq2-signs-cycle-31.f32": "b3cc79699b7efebf5d39b72c95a470ed4403c14eec57b96208b8b24504333ac8",
+      "operator-iq2-signs-cycle-32.f32": "5d8a791af47a9b9df25863f8b8d0c623d9945439f3afbb1a440a43623bdea064",
+      "operator-iq2-signs-cycle-33.f32": "2e4c57162a5e49ddd6ca9920d2ceb22563eb2eaac20e9bd82e4040985686fc9e",
+      "operator-iq2-signs-cycle-34.f32": "a87a9937e3809fc608c3e59416ef83595f8ceb46017ea1117ac4d2bf7dbe5ebd",
+      "operator-iq2-signs-cycle-35.f32": "16125c71325f3701a27d9f3143f9b1257ba65804840625cf316d17467086caeb",
+      "operator-iq2-signs-cycle-36.f32": "0754b2ce0bc5ad73bd063bdd173fa9362b6c5dbabbfe2c81fa29ce7e8928edde",
+      "operator-iq2-signs-cycle-37.f32": "0d3e710914feb64f78cec9c935ada0115cf45f375ed34fc68866c2fc9cd7518c",
+      "operator-iq2-signs-cycle-38.f32": "418929c7fb5b7e113eaf2d8f46387f0086e3e8e37b42df3697c99113dc7d5a8c",
+      "operator-iq2-signs-cycle-39.f32": "156b43e9cd208b819ac77508994f41a3f099490dbc1c7eaf1037482ac0a540ed",
+      "operator-iq2-signs-cycle-4.f32": "c1cf7020f6701255eeb179a6d909a9534f7085f456ac3533c77b9630147865b4",
+      "operator-iq2-signs-cycle-40.f32": "95254da24a633e6c952ae126160523ee773cba964bccf13f3932111a34376be2",
+      "operator-iq2-signs-cycle-41.f32": "761b13d504eae2f100b8c3f2bf9bd24efaf5dad68152d6fd71dfffc6d9431065",
+      "operator-iq2-signs-cycle-42.f32": "56f110f509cf4f2dc6061d5191c458f9b21295ab2cc649db9e96167296216f25",
+      "operator-iq2-signs-cycle-43.f32": "2d1420e289ae0b0d689d849c2e1c0470a3b7efa271768d451818963978e69349",
+      "operator-iq2-signs-cycle-44.f32": "cb15ba931458d79c82337f209e7a13471bd18ea5f8e66dc33306d165874b0e49",
+      "operator-iq2-signs-cycle-45.f32": "b4513f6b4f3ae0c84c4a67d25460a0d60bb0d5fc98480ececbf33409f2a072ce",
+      "operator-iq2-signs-cycle-46.f32": "9e8448c56f362cd3f16da012742b0d8820b5d8b8388f1378fd414ade1d2206bd",
+      "operator-iq2-signs-cycle-47.f32": "abb161481092a04addf5f52ff91139e2de65f46f75817d468fb6b1826da5cd36",
+      "operator-iq2-signs-cycle-48.f32": "065600e685129a49cc8f25700dd1182082471a5ba5309da81860a0cd07bc7ccf",
+      "operator-iq2-signs-cycle-49.f32": "3d3698be31d4a360b7091b1f1d2ef8e1ec20c714fb232cded0722507619cd4f2",
+      "operator-iq2-signs-cycle-5.f32": "b0d4a1c6ed415c26dbc36012e3c35cc59937d876a6fa9689f3d31ca3582866ee",
+      "operator-iq2-signs-cycle-50.f32": "34797080588cf60b3cb80c278500f89adedb7718ebb8cd05bb9db98c782aa307",
+      "operator-iq2-signs-cycle-51.f32": "ca16b2e4b4eaa38d10356226971ada502a1f1b94a4c51e730c468864e055f462",
+      "operator-iq2-signs-cycle-52.f32": "5b9d96a75435c8b741475c132ff59ccf910cf0a0e0621acdaee86128682a5a73",
+      "operator-iq2-signs-cycle-53.f32": "73b7f8aa1df65196d1d02e999a30b855c996cdf78dc4d58d068374e1fb92c26e",
+      "operator-iq2-signs-cycle-54.f32": "e0da8d8ade2f110276f039e6b28d5d1a084222649452fcd378a38dc15b7e3041",
+      "operator-iq2-signs-cycle-55.f32": "c3c5aa5937e09af5fe4a94fab2b957e37dd8df3a6cd6639d7b0e0bef4ad36ac2",
+      "operator-iq2-signs-cycle-56.f32": "8ed8cb4ead95d9f90d9aef4ccc0e69cd07c4a5cba5fbed4bf54e02af7cb0611c",
+      "operator-iq2-signs-cycle-57.f32": "23d6720ba33a1fc23f2dce4358513df62d66957bb247ddd80b5f9ca476da5f99",
+      "operator-iq2-signs-cycle-58.f32": "ab5d6758b8b730152d8806498e5c233fb663b2ff4338cc48d815a776b0f54852",
+      "operator-iq2-signs-cycle-59.f32": "d4c9acaa7499be78499bb7ca7be71b64f872737fbc12fbe353b4ffa649fcb8cd",
+      "operator-iq2-signs-cycle-6.f32": "66949e4804e5dd59140bef62f60d69207b05034c29f265e72d707d23ae88a77d",
+      "operator-iq2-signs-cycle-60.f32": "d5cf4042b7be9cf6e5f037b071dbfd73cd7a8f397e911f79206cb06b9d233370",
+      "operator-iq2-signs-cycle-61.f32": "ae5343a795b3cfae730cdd320b74a9df044371e47c6e63fbd6c5e75844dd168a",
+      "operator-iq2-signs-cycle-62.f32": "a15c7414d906633d5158b98304a23c8dee116775493e0bb6678bf43801324180",
+      "operator-iq2-signs-cycle-63.f32": "3d000d5f9211a43e18d1010ba4e1a002d8d34fafa9927181ac0daf671a43de5a",
+      "operator-iq2-signs-cycle-7.f32": "7cbad1b0a5daf23a45d023d154f88669b035e74627bc40b819298d5d120f39f8",
+      "operator-iq2-signs-cycle-8.f32": "8d6ac36849432910c368ffb2e787f47ad95a2789a876361ef469bb7c1cddfd76",
+      "operator-iq2-signs-cycle-9.f32": "5d70c02259c22568c3fc1dd9e0085111909141930b48256d502b87c5ddd7c536"
+    }
+  },
+  "reports": {
+    "config/q2-iq2-signs-results.json": "9f30719502b46ef6d4be5b554bf8a0e766fd1e6dca57131e52bafa9244a1344c",
+    "config/q2-iq2-signs-ordered-results.json": "d2825cc9704f9625034c4901e789478bd31f5573ea564a7bf13077ee1d781cc9",
+    "config/q2-iq2-signs-window-release.json": "2229f3cd178b2992f4532c3bc25b66881e9c97e7ced6972641ea91197fb25ea7"
+  },
+  "ordered_static": [
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-signs-ordered/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-ordered-static-r1/ordered.s"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T23:56:45.194608+00:00",
+      "scope": "Device-only assembly, no runtime test",
+      "assembly_sha256": "f02b1a7a10d9892e538ddbf39e556428b077a63a56b6f549b12d2bc2f8b9c881"
+    },
+    {
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-curve-iq2-signs-ordered-asm/src/models/qwen38_flash_next/kernels/rocm/mmq/mmvq.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-signs-ordered-static-r2/ordered.s"
+      ],
+      "exit_code": 0,
+      "at": "2026-10-03T23:58:10.543566+00:00",
+      "scope": "Device-only assembly, no runtime test",
+      "assembly_sha256": "535ebe81f6d6faed0cde7da3c422c64cdb01738de18b368330b53f7a575f1e3f"
+    }
+  ],
+  "promoted": false,
+  "goal_met": false
+}

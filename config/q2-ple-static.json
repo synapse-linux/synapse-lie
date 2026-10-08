@@ -1,0 +1,75 @@
+{
+  "scope": "Editing host syntax/format/reconstruction only; no inference",
+  "checks": [
+    {
+      "name": "q2",
+      "kind": "syntax",
+      "argv": [
+        "g++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-D__HIP_PLATFORM_AMD__",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-q2",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-q2/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/opt/rocm/include",
+        "tests/q2_ple.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-q2-syntax-r1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "q2",
+      "kind": "format",
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-q2/tools/ci/check-format.py"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-q2-format-r1.log",
+      "sha256": "9be042c4289884b5ff5af80d145e0239ab1847c4f39557001262724cb5f3dd36"
+    },
+    {
+      "name": "q2",
+      "kind": "patch_reconstruction",
+      "exit_code": 0,
+      "identical_files": 1020
+    },
+    {
+      "name": "ud",
+      "kind": "syntax",
+      "argv": [
+        "g++",
+        "-std=c++20",
+        "-fsyntax-only",
+        "-DENGINE_ENABLE_HIP=1",
+        "-D__HIP_PLATFORM_AMD__",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-ud",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-ud/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-I/opt/rocm/include",
+        "tests/q2_ple.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-ud-syntax-r1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ud",
+      "kind": "format",
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-ud/tools/ci/check-format.py"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-ud-format-r1.log",
+      "sha256": "9be042c4289884b5ff5af80d145e0239ab1847c4f39557001262724cb5f3dd36"
+    },
+    {
+      "name": "ud",
+      "kind": "patch_reconstruction",
+      "exit_code": 0,
+      "identical_files": 1020
+    }
+  ]
+}

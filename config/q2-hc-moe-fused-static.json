@@ -1,0 +1,84 @@
+{
+  "scope": "Local static compilation and source reconstruction only; no GPU or model evidence",
+  "kernel_resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_121HcCombineMoeF32KernelEPfPKfS6_S6_S6_jjS6_jS6_S4_jf",
+      "group_segment_fixed_size": 10368,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 84,
+      "next_free_sgpr": 30
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119HcCombineVec4KernelIfEEvPfPKfS7_jS7_PT_Pvjf",
+      "group_segment_fixed_size": 128,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 96,
+      "next_free_sgpr": 28
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_121MoeEpilogueVec4KernelIfEEvPKT_PKfS9_S9_jPfjj",
+      "group_segment_fixed_size": 0,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 12,
+      "next_free_sgpr": 20
+    }
+  ],
+  "assembly_sha256": "9d3c9059934373b3e916d0f58c57c115cb136c0a2c9018bac5557debd72c9fcf",
+  "patch_exit": 0,
+  "reconstructed_files": 1019,
+  "mismatches": [],
+  "checks": [
+    {
+      "name": "fixture",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_moe_fused.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "executor",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused/src/models/qwen38_flash_next/kernels/rocm/mmq",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused/src/models/qwen38_flash_next/kernels/rocm/executor.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "official_format",
+      "argv": [
+        "python3",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused/tools/ci/check-format.py"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

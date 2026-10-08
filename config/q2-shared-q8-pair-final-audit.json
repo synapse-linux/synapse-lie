@@ -1,0 +1,54 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-pair-final.v1",
+  "plan_sha256": "703170621b38c5dff3b5fbb638b0a397c1d45e3ff207dfff01e217bf23112c91",
+  "model_result_sha256": "3edf33b225adaf57da0413ac6bede070ff70bf518f56abc3f0bfc11f41366e08",
+  "component_result_sha256": "4ce1334d94a6b5ad9e43764b2a9272732b4c9c8ddb7f319a662b95066b90d11d",
+  "release_sha256": "10329ad71b7f407d36bb290992a8a8f0a4f06b648bc18d79155398b7c1f3d907",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "standard_artifacts_verified": 37,
+  "additional_output_arrays_verified": 86,
+  "output_collection_sha256": "5902ef8d823e5ac22b393a00d91afa773fe082fe57b855017d0b4de180d5faa1",
+  "frozen_fixtures_verified": 75,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1027,
+  "retired_identities": 1019,
+  "retired_groups": 811,
+  "figures": {
+    "docs/figures/q2-shared-q8-pair-component.csv": "d8f7c6f10611c0bde1088e73bf7d29932319d6aca51da5ed2aaf20d6273cf8dc",
+    "docs/figures/q2-shared-q8-pair-component.svg": "d9d93971336043217dbfbd289c66507b95ad4ba62a2245d1e28c0153cc695d7b",
+    "docs/figures/q2-shared-q8-pair-component.png": "effce95a709d5d340bd6ee1a58c94caeeb50b9b44cb5800713a2bc7f43d6ed6d",
+    "docs/figures/q2-shared-q8-pair-model-wrapped.csv": "3d3dbb0ad0f2626d3def93308e42117522b22e544a2488eeafd5cce2ff3152f4",
+    "docs/figures/q2-shared-q8-pair-model-wrapped.svg": "e5b14fd8f670424d8defd43c350cefc4ba44e3b0dca5f5b8b4ba2696a4d1d47e",
+    "docs/figures/q2-shared-q8-pair-model-wrapped.png": "fae3a66dc3a441668e64c1959250cb8a3c6c3fe36f23ca09dc6de052f4952609"
+  },
+  "preserved_preparation_failures": {
+    "shared-format-command.json": 1
+  },
+  "all43_component_pairs_exact": true,
+  "all24_sampled_fp64_operators_pass": true,
+  "all28_timings_retained": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false
+}

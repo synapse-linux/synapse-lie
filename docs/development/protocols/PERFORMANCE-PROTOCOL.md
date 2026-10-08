@@ -1,4 +1,12 @@
-# Current-runtime performance protocol
+<!-- SPDX-License-Identifier: MIT -->
+# Historical initial-runtime performance protocol
+
+This retained protocol describes the initial `.157` runtime before MTP,
+vision and native decode batching were integrated. Its settings and acceptance
+rules remain historical evidence. For the current suites, timing definitions,
+context profiles and reproduction commands, use the
+[benchmark guide](../../guides/BENCHMARKS.md); current GPU results and remaining
+coverage are organized [by model and platform](../../benchmarks/README.md).
 
 User request: a complete performance test on .157 with the GPU. This covers the
 implemented LIE text/function runtime, not unimplemented vision/MTP, an internal

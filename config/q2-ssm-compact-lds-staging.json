@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-ssm-compact-lds-staging.v1",
+  "arms": [
+    {
+      "mode": "ssm-compact-lds-check",
+      "capsule_sha256": "75c04832d6ccd66c48aeeebec126470601512a8a3c4db20ce213fbd7b3a5bff6",
+      "provider_files": 1027,
+      "fixture_files": 102,
+      "capsule_path": "evidence/q2-ssmcl-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-ssm-compact-lds",
+      "capsule_sha256": "d99e127d832ade2c52e5d15b652428e571822eef24835ad8702f0a1a8143ca02",
+      "provider_files": 1027,
+      "fixture_files": 102,
+      "capsule_path": "evidence/q2-ssmcl-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

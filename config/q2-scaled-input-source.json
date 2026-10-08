@@ -1,0 +1,32 @@
+{
+  "scope": "Prepared arithmetic experiment; accuracy and performance unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-scaled-input",
+  "changed_files": [
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/executor.cpp",
+      "base_sha256": "b527672b4bb79566438ee2b3e9e501f8fc10a8cea90f81e44d293528911728cc",
+      "sha256": "db05475f9bc9209f016694445ab34275242fa0a9fd203f6ce91e6589c3b2f50a"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+      "sha256": "0a72a7524c9cb04f967503a01b114b22f28cc3d63c44891a7b598e9553c949b4"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp",
+      "base_sha256": "7276c8a714fc5eef58e63b967b777586374dfcc69526ea1454733dbd0da8750e",
+      "sha256": "04fe3d519a6b526b9d1626350b15ef2c12f30aff62b243a03c398b85e917ebbd"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc",
+      "base_sha256": null,
+      "sha256": "24d259a90bbe6130240ca80576274864abd3f014d4e999b0078fca2aa1db45c1"
+    }
+  ],
+  "patch_sha256": "3418b0bc0a8087ad6c3b71eaea5810029ea5688f108899d72f75e1774e0c94d1",
+  "tensor_allocation_bytes_added": 0,
+  "activation_contract": "F32 SwiGLU -> per-slot power-of-two scale -> one F16 plane -> F32 down sum -> inverse scale",
+  "limits": "No new encoded weight format, no tolerance relaxation; exact replay not assumed"
+}

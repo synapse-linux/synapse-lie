@@ -1,0 +1,69 @@
+{
+  "schema": "synapse-lie.ssd-text-restart-host.v1",
+  "state": "HOST_ONLY_PREPARED_NOT_GPU_QUALIFIED",
+  "at_utc": "2026-10-06T02:47:57.033282+00:00",
+  "product_code_checkpoint": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "scope": "Ten host rejection/comparison tests for optional qualification tooling; no model forward, numerical/performance or original-weight SSD restart claim. Default products and CTest remain Python-free.",
+  "bindings": [
+    {
+      "path": "tools/strix-point-ssd-text-restart-gate.py",
+      "bytes": 11179,
+      "sha256": "4d889d2e6bb856eb959fbc9b77e39f0679c84a0657316333a04df38d32f020b1"
+    },
+    {
+      "path": "tests/test_strix_point_ssd_text_restart.py",
+      "bytes": 6472,
+      "sha256": "69618ad017000ebf5b4ecad3feb757cb67b360e47e74334361fad90ee041eb58"
+    },
+    {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 103245,
+      "sha256": "0be4dc27b744d71379ea4d52e5643f5b409fe2623bb7de1b0be5a7d2fb4d1fca"
+    },
+    {
+      "path": "tools/strix-point-launch.py",
+      "bytes": 6368,
+      "sha256": "2ab8a15a6a499b9ecbf99f486582f5d810a071aaa63b4ba67f3953d81fea18a5"
+    },
+    {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 8247,
+      "sha256": "8f1f5ee91f1ff19f536597f327cd43d7f9972e760494f76059c6112603fdd85c"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/plan.json",
+      "bytes": 959,
+      "sha256": "13478ca41ff088b046d321fcc0867449f9afb225a125e84d6980a64a29549479"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/result.json",
+      "bytes": 455,
+      "sha256": "98a4d82c630955f418ac32f22e58117fba8f88bc0c13d8a294020824197cfe27"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/command.log",
+      "bytes": 1283,
+      "sha256": "fb01aba7db4c962ea60896e6cec4c9b6e25a1ee8ceabecbbeafeaff2be868bc1"
+    },
+    {
+      "path": "evidence/ssd-text-restart-host-r2/temperatures.jsonl",
+      "bytes": 1828,
+      "sha256": "e36cebb5589788d4f79ba1bfcf51b59ec8ee60c302fc24ef2796fb9f94e17dd7"
+    }
+  ],
+  "host_tests": 10,
+  "actual_test_exit_code": 0,
+  "four_process_phases": [
+    "calibration",
+    "fresh",
+    "cold",
+    "hot"
+  ],
+  "physical_prefix_tokens": 2048,
+  "confirmed_output_tokens": 32,
+  "runtime_or_ABI_or_format_changed": false,
+  "GPU_activity": false,
+  "scheduled_physical_index_gate": false,
+  "all_six_tasks_open": true,
+  "Terminal_Bench": "Stopped/closed/deferred until functional modifications and matching qualification finish. No reservation."
+}

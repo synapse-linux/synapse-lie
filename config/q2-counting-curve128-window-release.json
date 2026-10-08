@@ -1,0 +1,687 @@
+{
+  "schema": "synapse-lie.q2-counting-curve128-window.v3",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "state": "Q2_COUNTING_CURVE128_RELEASED",
+  "at": "2026-10-08T06:06:52.191019+00:00",
+  "plan_sha256": "ca98934de387a4b37884262541e5e6f288345ccda67b36344b2d9690cdbee670",
+  "admission_sha256": "54b091cb6519818b930a4935a7d890cbf3cfcd302e3b0fc16bdedba0e39da010",
+  "pair_result_sha256": "e295cfd88842c59161d5fd42ad2c7be2fafabd3401701c93a69c0fbd33a3c4d0",
+  "pair_state": "COMPLETE",
+  "kfd_empty": true,
+  "original_model_stats_unchanged": true,
+  "original_leases_free": true,
+  "retired_owned_identities": [
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 48359,
+      "start_ticks": 3747056,
+      "process_group": 48355
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 48361,
+      "start_ticks": 3747070,
+      "process_group": 48361
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 55484,
+      "start_ticks": 4416647,
+      "process_group": 55484
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 62125,
+      "start_ticks": 5043404,
+      "process_group": 62125
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 65662,
+      "start_ticks": 5381546,
+      "process_group": 65662
+    }
+  ],
+  "retired_identities": [
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 4683,
+      "start_ticks": 183766,
+      "process_group": 4683
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 4755,
+      "start_ticks": 184946,
+      "process_group": 4755
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 7300,
+      "start_ticks": 438311,
+      "process_group": 7300
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 7361,
+      "start_ticks": 439391,
+      "process_group": 7361
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 9337,
+      "start_ticks": 645240,
+      "process_group": 9337
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 15082,
+      "start_ticks": 1232115,
+      "process_group": 15078
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 15084,
+      "start_ticks": 1232132,
+      "process_group": 15084
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 15146,
+      "start_ticks": 1233238,
+      "process_group": 15146
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 16912,
+      "start_ticks": 1387836,
+      "process_group": 16912
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 18436,
+      "start_ticks": 1511057,
+      "process_group": 18436
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 19316,
+      "start_ticks": 1579073,
+      "process_group": 19316
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 20623,
+      "start_ticks": 1691894,
+      "process_group": 20623
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 22115,
+      "start_ticks": 1824109,
+      "process_group": 22115
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 23456,
+      "start_ticks": 1934955,
+      "process_group": 23445
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 23458,
+      "start_ticks": 1934967,
+      "process_group": 23458
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 23525,
+      "start_ticks": 1936072,
+      "process_group": 23525
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 25606,
+      "start_ticks": 2130794,
+      "process_group": 25606
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 26920,
+      "start_ticks": 2236486,
+      "process_group": 26920
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 27562,
+      "start_ticks": 2278715,
+      "process_group": 27562
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 29245,
+      "start_ticks": 2419404,
+      "process_group": 29241
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 29247,
+      "start_ticks": 2419421,
+      "process_group": 29247
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 29308,
+      "start_ticks": 2420526,
+      "process_group": 29308
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 30801,
+      "start_ticks": 2545894,
+      "process_group": 30801
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 30803,
+      "start_ticks": 2545901,
+      "process_group": 30803
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 31546,
+      "start_ticks": 2586656,
+      "process_group": 31546
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 31549,
+      "start_ticks": 2586666,
+      "process_group": 31549
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 31794,
+      "start_ticks": 2586828,
+      "process_group": 31794
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 32426,
+      "start_ticks": 2649827,
+      "process_group": 32426
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 32428,
+      "start_ticks": 2649842,
+      "process_group": 32428
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 32685,
+      "start_ticks": 2650004,
+      "process_group": 32685
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 33231,
+      "start_ticks": 2650326,
+      "process_group": 33231
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 33305,
+      "start_ticks": 2650408,
+      "process_group": 33305
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 33306,
+      "start_ticks": 2650429,
+      "process_group": 33306
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 33307,
+      "start_ticks": 2650452,
+      "process_group": 33307
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 34936,
+      "start_ticks": 2808956,
+      "process_group": 34932
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 34938,
+      "start_ticks": 2808969,
+      "process_group": 34938
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 35026,
+      "start_ticks": 2810100,
+      "process_group": 35026
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 35141,
+      "start_ticks": 2823852,
+      "process_group": 35141
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 35208,
+      "start_ticks": 2824957,
+      "process_group": 35208
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 36575,
+      "start_ticks": 2920470,
+      "process_group": 36571
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 36577,
+      "start_ticks": 2920489,
+      "process_group": 36577
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 36633,
+      "start_ticks": 2921594,
+      "process_group": 36633
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 36876,
+      "start_ticks": 2944575,
+      "process_group": 36876
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 36944,
+      "start_ticks": 2945680,
+      "process_group": 36944
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 37240,
+      "start_ticks": 2969060,
+      "process_group": 37240
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 37308,
+      "start_ticks": 2970165,
+      "process_group": 37308
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 39916,
+      "start_ticks": 3181935,
+      "process_group": 39912
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 39918,
+      "start_ticks": 3181948,
+      "process_group": 39918
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 40239,
+      "start_ticks": 3209074,
+      "process_group": 40239
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 40517,
+      "start_ticks": 3233600,
+      "process_group": 40517
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 42343,
+      "start_ticks": 3413269,
+      "process_group": 42340
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 42345,
+      "start_ticks": 3413276,
+      "process_group": 42345
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 42600,
+      "start_ticks": 3413479,
+      "process_group": 42600
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 43178,
+      "start_ticks": 3413882,
+      "process_group": 43178
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 43254,
+      "start_ticks": 3413964,
+      "process_group": 43254
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 43255,
+      "start_ticks": 3413985,
+      "process_group": 43255
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 43262,
+      "start_ticks": 3414007,
+      "process_group": 43262
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 44419,
+      "start_ticks": 3500987,
+      "process_group": 44415
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 44421,
+      "start_ticks": 3501000,
+      "process_group": 44421
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 44504,
+      "start_ticks": 3504806,
+      "process_group": 44504
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 44607,
+      "start_ticks": 3509112,
+      "process_group": 44607
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 44709,
+      "start_ticks": 3514821,
+      "process_group": 44709
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 44818,
+      "start_ticks": 3520729,
+      "process_group": 44818
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 45744,
+      "start_ticks": 3601433,
+      "process_group": 45740
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 45746,
+      "start_ticks": 3601448,
+      "process_group": 45746
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 46504,
+      "start_ticks": 3659450,
+      "process_group": 46501
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 46506,
+      "start_ticks": 3659458,
+      "process_group": 46506
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 46769,
+      "start_ticks": 3659660,
+      "process_group": 46769
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 47347,
+      "start_ticks": 3660063,
+      "process_group": 47347
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 47421,
+      "start_ticks": 3660145,
+      "process_group": 47421
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 47422,
+      "start_ticks": 3660167,
+      "process_group": 47422
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 47423,
+      "start_ticks": 3660189,
+      "process_group": 47423
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 48359,
+      "start_ticks": 3747056,
+      "process_group": 48355
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 48361,
+      "start_ticks": 3747070,
+      "process_group": 48361
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 55484,
+      "start_ticks": 4416647,
+      "process_group": 55484
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 62125,
+      "start_ticks": 5043404,
+      "process_group": 62125
+    },
+    {
+      "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+      "pid": 65662,
+      "start_ticks": 5381546,
+      "process_group": 65662
+    }
+  ],
+  "retired_groups": [
+    4683,
+    4755,
+    7300,
+    7361,
+    9337,
+    15078,
+    15084,
+    15146,
+    16912,
+    18436,
+    19316,
+    20623,
+    22115,
+    23445,
+    23458,
+    23525,
+    25606,
+    26920,
+    27562,
+    29241,
+    29247,
+    29308,
+    30801,
+    30803,
+    31546,
+    31549,
+    31794,
+    32426,
+    32428,
+    32685,
+    33231,
+    33305,
+    33306,
+    33307,
+    34932,
+    34938,
+    35026,
+    35141,
+    35208,
+    36571,
+    36577,
+    36633,
+    36876,
+    36944,
+    37240,
+    37308,
+    39912,
+    39918,
+    40239,
+    40517,
+    42340,
+    42345,
+    42600,
+    43178,
+    43254,
+    43255,
+    43262,
+    44415,
+    44421,
+    44504,
+    44607,
+    44709,
+    44818,
+    45740,
+    45746,
+    46501,
+    46506,
+    46769,
+    47347,
+    47421,
+    47422,
+    47423,
+    48355,
+    48361,
+    55484,
+    62125,
+    65662
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "device": 54,
+      "inode": 3116203,
+      "bytes": 147207127040,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "device": 54,
+      "inode": 3206497,
+      "bytes": 10946624,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "device": 54,
+      "inode": 3228516,
+      "bytes": 49859583136,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "device": 54,
+      "inode": 3211726,
+      "bytes": 49376141504,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "device": 54,
+      "inode": 3207513,
+      "bytes": 12087983520,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "device": 54,
+      "inode": 3206512,
+      "bytes": 2786568256,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    },
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q4.gguf",
+      "device": 54,
+      "inode": 3116346,
+      "bytes": 177280286720,
+      "mtime_ns": 1789871998360000000,
+      "ctime_ns": 1790258428459084412
+    }
+  ],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 54,
+      "inode": 3232146
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 54,
+      "inode": 3206482
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 54,
+      "inode": 3228451
+    },
+    {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/gpu-coordination/epochs/8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653/gpu.lock",
+      "device": 54,
+      "inode": 5068717
+    }
+  ],
+  "glm_model_path": "/home/paperboy/ds4-launcher/models/gguf/GLM-5.3-Flash-Q2.gguf",
+  "glm_model_stats": {
+    "st_dev": 54,
+    "st_ino": 786094,
+    "st_size": 96505816384,
+    "st_mtime_ns": 1787989371366313995,
+    "st_ctime_ns": 1787989421761133727,
+    "st_atime_ns": 1787939182094821252
+  },
+  "core_cpu_lease": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/root-terminal-bench-r16/client.lock",
+    "device": 54,
+    "inode": 4486194
+  },
+  "historical_release": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/glm53-prefill-head-native2048-r2/artifacts/release.json",
+  "historical_release_sha256": "9fef948a4ee77264874f841f52a2f6071c2205176a36003793fead387329c8fe",
+  "remote_cleanup": false,
+  "gpu_reserved": false,
+  "next_window_owner": "core"
+}

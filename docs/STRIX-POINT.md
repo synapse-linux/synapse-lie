@@ -1,11 +1,24 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Strix Point UD port — .161
 
-Status: **gfx1150 original UD direct inference passes through near-256K physical
-prompts; all four copied shards are verified and source files retained**.
-Same-stack LIE/Gufo frontiers match in the recorded direct campaigns. Served
-HTTP performance, cross-stack numerical equivalence and the newly integrated
-MTP/vision/runtime composition remain unqualified on `.161`.
+Current status — 2026-10-04 UTC: **gfx1150 original UD direct and served HTTP
+AR/MTP inference pass through near-256K physical prompts**. The platform merge
+is on `develop` at `30598a3`. Original-weight image/reactive/SSD functional
+gates pass at their recorded checkpoints. Paired HTTP concurrency and context
+results, methods and graphs are on the [Point benchmark page](benchmarks/models/qwen3.8-flash-next/strix-point/README.md).
+
+The qualified kernel is now `7.1.5-76070105-generic`. The authorized reboot
+activates 112 GiB GTT; short-input capacity allocation at 1M passes. The
+physical 1M test completes all 1,048,448 prefill tokens, then naturally stops
+after 43 output tokens; its required TG128 gate remains failed and closure is
+collected. Broader quality remains open. The
+[context guide](guides/CONTEXT.md) distinguishes these gates. Cross-stack
+numerical equivalence and new OpenAI AR/MTP control gates remain pending.
+
+## Earlier direct campaigns — 2026-10-02
+
+The following records describe earlier binaries and host configurations.
+They remain historical evidence; current qualification is summarized above.
 The [full qualification report](STRIX-POINT-RESULT.md) consolidates all recorded
 samples, prefill/cache/decode timings, resource and thread graphs, validation,
 failures and remaining coverage. Its portable CSV/JSON/PNG/SVG bundle reproduces
@@ -22,7 +35,7 @@ frontier parity. A further matched direct fresh-prompt pair passes 1500/8000/
 8192/32768/131072 physical tokens with two measured repetitions and exact
 frontiers. The separate near-256K direct pair also passes with 258794
 physical prompt tokens, two full output samples per arm and exact frontiers.
-Served performance retains its own qualification gate. The operator authorized a
+Served performance was a separate open gate at this checkpoint. The operator authorized a
 100 C manifest-scoped ceiling for the new full-depth campaigns; CPU Tctl
 triggered the old 85 C
 stop; [AMD lists the HX 370 Tjmax as 100 C](https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-9-hx-370.html).

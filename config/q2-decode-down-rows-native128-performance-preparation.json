@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.q2-decode-down-rows-native128-performance-preparation.v1",
+  "runner_sha256": "6f280e0896a77a1b008234dc32daf86b2392691dc3329afcd4bdc1fafe391551",
+  "cpu_test_source_sha256": "e035da9caa6cedf83a7f42599175155c0260e710bcb3f4a07317f55d04f2fad7",
+  "remote_cpu_exit": 0,
+  "collected_sha256": {
+    "cpu-test.stdout": "90dc2a04f26ce46ec611694e27f5b9cc490bd9dc706c0a2f53671c440194270c",
+    "cpu-test.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cpu-test-command.json": "3bcc8365665eb047ae2f7ecc9cb7a1b360031d8d9dcd8794ac0573dac98fa439",
+    "owner-restored-power.json": "f92ebaefbc7dd9715248860503479da0ded6c1b20eea8a37c44ffe6c9a5a379c"
+  },
+  "owner_restored_mode": true,
+  "agent_tuning": false,
+  "native_server_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "native_server_rebuilt": false,
+  "gpu_run": false
+}

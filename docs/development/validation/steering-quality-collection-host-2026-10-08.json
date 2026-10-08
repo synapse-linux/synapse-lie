@@ -1,0 +1,73 @@
+{
+  "schema": "synapse-lie.steering-quality-collection-host.v1",
+  "state": "HOST_TRANSFER_BOUNDARIES_VERIFIED_ORIGINAL_RESPONSES_UNRUN",
+  "at_utc": "2026-10-08T06:09:41.675535+00:00",
+  "host_only": true,
+  "checks": 11,
+  "actual_test_exit_code": 0,
+  "actual_thermal_guard_exit_code": 0,
+  "elapsed_seconds": 1.0623013535514474,
+  "temperature_peaks_c": {
+    "nvme": 31.85,
+    "amdgpu": 45.0,
+    "k10temp": 48.25
+  },
+  "scope": [
+    "Complete absent/bank artifacts and local rehash after nested transfer",
+    "Complete quality failure and infrastructure partial files retained with actual exits",
+    "Live or unreleased state, incomplete phase, changed frozen source/input and helper provenance refused",
+    "Nested symlink/FIFO/foreign-file and phase-directory symlink refused",
+    "Serialized inventory checks executed locally on synthetic files",
+    "Receipt replay refused; observation timeout retains unknown command exit and never restarts a campaign"
+  ],
+  "native_model_inference_or_GPU_or_remote_operation": false,
+  "model_quality_or_performance_qualified": false,
+  "runtime_source_commit": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "actual_native_source_comparison_exit_code": 0,
+  "default_C17_products_and_build_dependencies_unchanged": true,
+  "raw": {
+    "path": "docs/development/validation/raw/steering-quality-collection-host-2026-10-08.tar.gz",
+    "bytes": 10985,
+    "sha256": "ec3a0c6ec04afa781741791654b48a40e49f28acc9375da4291574751382e204",
+    "members": {
+      "tools/strix-point-steering-quality-collect.py": {
+        "bytes": 11409,
+        "sha256": "4b57d860e4636a9444ca87f8d37cc9c56c3ccc9fc8c9476e2723f80d6ac73019"
+      },
+      "tests/test_strix_point_steering_quality_collection.py": {
+        "bytes": 10573,
+        "sha256": "fa22ecf7506605107066ced814733ecc45d95d9045e6530e526fe0427cf29b4c"
+      },
+      "tools/strix-point-steering-build-collect.py": {
+        "bytes": 13022,
+        "sha256": "1d72bd097f01c80e1ad057e746aa1f26690f7845deb820e1b3ee508afba6d3ff"
+      },
+      "tools/thermal-run.py": {
+        "bytes": 5743,
+        "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+      },
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "evidence/steering-quality-collection-host-guard-r1/plan.json": {
+        "bytes": 920,
+        "sha256": "532053b85fb19884ba17be727b2c2e326f9a2740b7cef6a7137b4f2e9c29c6f7"
+      },
+      "evidence/steering-quality-collection-host-guard-r1/result.json": {
+        "bytes": 417,
+        "sha256": "b900c0bb4e94e7b46778801e08da78cf48892ce79e09fcbdbada2341b9cd7e4d"
+      },
+      "evidence/steering-quality-collection-host-guard-r1/command.log": {
+        "bytes": 527,
+        "sha256": "655699d27c986e11d7de6a6f8af86727ce0007c91f37297bdac8323147f05332"
+      },
+      "evidence/steering-quality-collection-host-guard-r1/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "69021ab95b1bd1aaec1214beb5c128bb421a3a05446a0fbf8a5a0badbe9de2ac"
+      }
+    }
+  },
+  "all_portable_members_and_current_sources_independently_reverified": true,
+  "new_build_directories": []
+}

@@ -19,7 +19,7 @@ static lie_core_info wait_state(lie_core *c,lie_core_state target){
     assert(!"core deadline");return i;
 }
 static uint64_t state_bytes(unsigned n){
-    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4};lie_model *m=NULL;
+    lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4,LIE_ROPE_NATIVE};lie_model *m=NULL;
     lie_sequence *s=NULL;lie_error error={0};lie_state_layout layout;uint64_t bytes=0;
     int32_t tokens[128]={0};
     assert(lie_backend_open(":fixture:",&o,&m,&error)==LIE_OK);

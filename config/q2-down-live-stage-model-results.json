@@ -1,0 +1,1029 @@
+{
+  "schema": "synapse-lie.q2-down-live-stage-model.v1",
+  "plan_sha256": "07b81977cf37f5543d8b12d6e119f69d2b7eca6a4e4746d7892a9998398b0802",
+  "host": {
+    "capsule_sha256": "b48a9b5b54aeef8727d6df6695f4df097159ee695b87b7f25a511f7503b15d3a",
+    "archive_sha256": "647aee730d3948d65e1800cd9f7f2d41868d09e78fb4b75cdce38ba9daef0486",
+    "fixture_files_verified": 63,
+    "source_files_verified": 1020
+  },
+  "component_result_sha256": "f88675f33b55c2a936b470c063df1630838e3a38bcf267b360824d64767ed237",
+  "source_variant": "down-live-stage",
+  "additional_table_device_bytes": 0,
+  "model": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-down-live-stage-model-r1",
+    "binary_sha256": "58cc8ffebaa6677d78d33f7e0898976b1a558754aae91e991afe484bd89f9b95",
+    "complete": true,
+    "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+    "thermal_stop": null,
+    "command_wall_s": 97.802254,
+    "mmq_reuse": null,
+    "thermal_max_mc": {
+      "amdgpu": 77000,
+      "k10temp": 85375
+    },
+    "finished_at": "2026-10-05T11:45:39.028544+00:00",
+    "samples": [
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 0,
+        "warmup": true,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.359415277,
+        "decode_s": 5.062321361,
+        "prefill_tok_s": 1506.530076,
+        "decode_steps_s": 25.087305,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 1,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.359549124,
+        "decode_s": 5.048893535,
+        "prefill_tok_s": 1506.381758,
+        "decode_steps_s": 25.15402615,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 2,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.359214137,
+        "decode_s": 5.0418127,
+        "prefill_tok_s": 1506.753016,
+        "decode_steps_s": 25.18935303,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 3,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.35681794,
+        "decode_s": 5.048467908,
+        "prefill_tok_s": 1509.414004,
+        "decode_steps_s": 25.15614684,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      }
+    ],
+    "shared_fork": [],
+    "within_arm_replay": {
+      "checks": 9,
+      "exact": 9
+    },
+    "measurements": {
+      "prefill_tok_s": {
+        "samples": [
+          1506.381758,
+          1506.753016,
+          1509.414004
+        ],
+        "min": 1506.381758,
+        "median": 1506.753016,
+        "max": 1509.414004
+      },
+      "decode_steps_s": {
+        "samples": [
+          25.15402615,
+          25.18935303,
+          25.15614684
+        ],
+        "min": 25.15402615,
+        "median": 25.15614684,
+        "max": 25.18935303
+      },
+      "prefill_s": {
+        "samples": [
+          1.359549124,
+          1.359214137,
+          1.35681794
+        ],
+        "min": 1.35681794,
+        "median": 1.359214137,
+        "max": 1.359549124
+      },
+      "decode_s": {
+        "samples": [
+          5.048893535,
+          5.0418127,
+          5.048467908
+        ],
+        "min": 5.0418127,
+        "median": 5.048467908,
+        "max": 5.048893535
+      }
+    },
+    "capsule_sha256": "e9927e507de82ce8da1863b5336db964850ee9853d336f70aec4ca485f70dfc9",
+    "archive_sha256": "a923af189919fda063157406cb577be1f8b18796b5d64980925ac9ed03514deb",
+    "fixture_files_verified": 63,
+    "source_files_verified": 1025,
+    "command_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "artifact_count": 26,
+    "command_wall_seconds": [
+      2.02852,
+      153.244372,
+      0.522385,
+      97.802254
+    ],
+    "compilation_excluded_from_pp_tg": true,
+    "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35",
+    "loaded": {
+      "event": "loaded",
+      "seconds": 10.68242489,
+      "resident_bytes": 43156012544,
+      "deferred_scratch_bytes": 7946240,
+      "mtp": false,
+      "max_context": 9216,
+      "prefill_chunk": 2048
+    }
+  },
+  "references": {
+    "fixed_q2": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1",
+      "binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 98.292599,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 80750
+      },
+      "finished_at": "2026-10-04T10:50:28.925760+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.423943804,
+          "decode_s": 5.062085753,
+          "prefill_tok_s": 1438.259006,
+          "decode_steps_s": 25.08847266,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.41887387,
+          "decode_s": 5.058620886,
+          "prefill_tok_s": 1443.398207,
+          "decode_steps_s": 25.10565683,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.418603928,
+          "decode_s": 5.062386263,
+          "prefill_tok_s": 1443.672867,
+          "decode_steps_s": 25.08698337,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.418437954,
+          "decode_s": 5.060576497,
+          "prefill_tok_s": 1443.841794,
+          "decode_steps_s": 25.09595499,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1443.398207,
+            1443.672867,
+            1443.841794
+          ],
+          "min": 1443.398207,
+          "median": 1443.672867,
+          "max": 1443.841794
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.10565683,
+            25.08698337,
+            25.09595499
+          ],
+          "min": 25.08698337,
+          "median": 25.09595499,
+          "max": 25.10565683
+        },
+        "prefill_s": {
+          "samples": [
+            1.41887387,
+            1.418603928,
+            1.418437954
+          ],
+          "min": 1.418437954,
+          "median": 1.418603928,
+          "max": 1.41887387
+        },
+        "decode_s": {
+          "samples": [
+            5.058620886,
+            5.062386263,
+            5.060576497
+          ],
+          "min": 5.058620886,
+          "median": 5.060576497,
+          "max": 5.062386263
+        }
+      }
+    },
+    "fixed_ud": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1",
+      "binary_sha256": "e745e1a4e518a26e3e78be4bb853ab79280c70ff9c750babad169c14ef3e5eac",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 108.313503,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 76375
+      },
+      "finished_at": "2026-10-04T10:54:51.708359+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.212520558,
+          "decode_s": 5.217234208,
+          "prefill_tok_s": 1689.043527,
+          "decode_steps_s": 24.34239962,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.214447147,
+          "decode_s": 5.216416355,
+          "prefill_tok_s": 1686.364042,
+          "decode_steps_s": 24.34621613,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.214869991,
+          "decode_s": 5.217375049,
+          "prefill_tok_s": 1685.777092,
+          "decode_steps_s": 24.34174251,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.215141798,
+          "decode_s": 5.258576845,
+          "prefill_tok_s": 1685.400011,
+          "decode_steps_s": 24.15102104,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1686.364042,
+            1685.777092,
+            1685.400011
+          ],
+          "min": 1685.400011,
+          "median": 1685.777092,
+          "max": 1686.364042
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.34621613,
+            24.34174251,
+            24.15102104
+          ],
+          "min": 24.15102104,
+          "median": 24.34174251,
+          "max": 24.34621613
+        },
+        "prefill_s": {
+          "samples": [
+            1.214447147,
+            1.214869991,
+            1.215141798
+          ],
+          "min": 1.214447147,
+          "median": 1.214869991,
+          "max": 1.215141798
+        },
+        "decode_s": {
+          "samples": [
+            5.216416355,
+            5.217375049,
+            5.258576845
+          ],
+          "min": 5.216416355,
+          "median": 5.217375049,
+          "max": 5.258576845
+        }
+      }
+    },
+    "best_parent": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-iq2-live-compose-model-r1",
+      "binary_sha256": "233d0282b224c8c0562393f4c44b0c6d76ded39ccf52efd933eb135ed0df189b",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 97.813988,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 75000,
+        "k10temp": 84875
+      },
+      "finished_at": "2026-10-05T11:26:31.985283+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.353879821,
+          "decode_s": 5.051851407,
+          "prefill_tok_s": 1512.689655,
+          "decode_steps_s": 25.1392984,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.357544831,
+          "decode_s": 5.05162026,
+          "prefill_tok_s": 1508.605796,
+          "decode_steps_s": 25.1404487,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.354239192,
+          "decode_s": 5.050334727,
+          "prefill_tok_s": 1512.288237,
+          "decode_steps_s": 25.14684805,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.35530654,
+          "decode_s": 5.049964735,
+          "prefill_tok_s": 1511.097261,
+          "decode_steps_s": 25.14869047,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1508.605796,
+            1512.288237,
+            1511.097261
+          ],
+          "min": 1508.605796,
+          "median": 1511.097261,
+          "max": 1512.288237
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.1404487,
+            25.14684805,
+            25.14869047
+          ],
+          "min": 25.1404487,
+          "median": 25.14684805,
+          "max": 25.14869047
+        },
+        "prefill_s": {
+          "samples": [
+            1.357544831,
+            1.354239192,
+            1.35530654
+          ],
+          "min": 1.354239192,
+          "median": 1.35530654,
+          "max": 1.357544831
+        },
+        "decode_s": {
+          "samples": [
+            5.05162026,
+            5.050334727,
+            5.049964735
+          ],
+          "min": 5.049964735,
+          "median": 5.050334727,
+          "max": 5.05162026
+        }
+      }
+    }
+  },
+  "replay": {
+    "fixed_q2": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        }
+      ],
+      "input_exact": true,
+      "output_tokens_exact": true
+    },
+    "fixed_ud": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 6.06878137588501,
+          "relative_l2": 0.4223758632239935,
+          "kl_p_to_candidate": 0.0002118531093080066,
+          "matched_history": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.100843191146851,
+          "relative_l2": 0.4688412778248509,
+          "kl_p_to_candidate": 0.0032016805003220634,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 5.407170414924622,
+          "relative_l2": 0.3402211481301516,
+          "kl_p_to_candidate": 0.0006029427942386622,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.399147033691406,
+          "relative_l2": 0.5086457459700853,
+          "kl_p_to_candidate": 0.0004026051968799985,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        }
+      ],
+      "input_exact": true,
+      "output_tokens_exact": true
+    },
+    "best_parent": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        }
+      ],
+      "input_exact": true,
+      "output_tokens_exact": true
+    }
+  },
+  "checks": {
+    "fixed_q2": {
+      "input_exact": true,
+      "output_tokens_exact": true,
+      "changed_files": [
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "max_matched_history_kl": 0.001256655237433772
+    },
+    "fixed_ud": {
+      "input_exact": true,
+      "output_tokens_exact": true,
+      "changed_files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "max_matched_history_kl": 0.008626378681797702
+    },
+    "best_parent": {
+      "input_exact": true,
+      "output_tokens_exact": true,
+      "changed_files": [],
+      "max_matched_history_kl": 0.0
+    }
+  },
+  "candidate_median_change_percent": {
+    "fixed_q2": {
+      "prefill_tok_s": 4.369421247840077,
+      "decode_steps_s": 0.23984682003130864,
+      "prefill_s": -4.186495598086348,
+      "decode_s": -0.23927291697255493
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -10.619676637532582,
+      "decode_steps_s": 3.3457108901116195,
+      "prefill_s": 11.881447979564076,
+      "decode_s": -3.2373969556276028
+    },
+    "best_parent": {
+      "prefill_tok_s": -0.28748943645924285,
+      "decode_steps_s": 0.03697795438026841,
+      "prefill_s": 0.2883183165337533,
+      "decode_s": -0.036964262784788815
+    }
+  },
+  "within_arm_exact": true,
+  "observed_pp_tg_point_parity": false,
+  "release_at": "2026-10-05T11:47:01.122226+00:00",
+  "release_sha256": "fa9d67ad511e9083944312521bda4f9e0278aec987f2dc4e488729675ed9d029",
+  "controls_rerun": false,
+  "component_rerun": false,
+  "contemporaneous_bookends": false,
+  "original_tester_unchanged": true,
+  "numerical_acceptance": false,
+  "independent_model_quality": false,
+  "promoted": false,
+  "goal_met": false,
+  "full_curve_admitted": false,
+  "limits": "One new candidate on original exact2048/tg128; complete samples and logits retained. Synthetic whole-output equality is differential only. Historical model comparators do not establish contemporaneous repeatability, independent quality, serving or full-curve parity."
+}

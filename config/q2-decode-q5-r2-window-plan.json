@@ -1,0 +1,26 @@
+{
+  "schema": "synapse-lie.q2-decode-q5-window-plan.v1",
+  "label": "q2-decode-q5-component-r2",
+  "at": "2026-10-07T09:08:02.816031+00:00",
+  "source_commit": "746f25cf0ba0d4ce95ff60ad161ed3c50c961b2b",
+  "previous_release": "q2-decode-q5-component-r1/release.json",
+  "previous_release_sha256": "9541f95e7e87086610e58dbe25bf0817fa6cfae093fc0dba68311a93caf4874f",
+  "staged_sha256": {
+    "q2_decode_q5_dense_check": "9e92fc1f27a47ef3eaee218396e3bbcab6b1e44901c355d793487634412a32b8",
+    "q2-decode-q5-window.py": "caf73895bfbb8ee8d36a1ccce783215a6e3af106ac5cd87851fa24d3285b4293",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "fixture.hip": "2b97846f690c2c8a223d7922c59b847543dad2822441fb67a5af02646dcfab99",
+    "q5-dense.inc": "6093262fe406a6ef0f99b50201bc29cccbf399e7c61374460f52d5883cfe22f2",
+    "q8-control.inc": "3f91d04b00bab5e62d4f9b5370e453b5c5f0152a560e65312ae79e3d2cae1fcb",
+    "source-manifest.json": "94720c9db69f6647c19c3ae7f7a79bd401c2ded83a5640727c96cc681e8899cf",
+    "static-report.json": "7e2ad18a7e69876d168ee830f99ffc1e09290668fa9ad2b97e036c3c2e7e5f80",
+    "r1-failure.json": "d613ce1bb8c8de980a250722507e8fab6de74c23867c00de096a74b56838c93b"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 900,
+  "scope": "Retry only the private synthetic one-token Q5_0/Q8_0 dense component with corrected encoded Q8_1.s FP64 oracle. Same device image as failed r1; equal effective weights; guarded distinct outputs; rotated hipMalloc banks >48MiB; seven interleaved repetitions of at least64 calls. No original model, service, conversion, tuning or cleanup."
+}

@@ -1,0 +1,32 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5089,6 +5089,8 @@
+ 
+ }  // namespace
+ 
++#include "q2_hc_rms_owner_ordinary.inc"
++
+ void EmbedTokens(const void* table, WeightType type, const std::int32_t* tokens,
+                  float* res, std::uint32_t n_tokens, std::uint32_t hidden,
+                  std::uint32_t streams, hipStream_t stream) {
+@@ -5189,9 +5191,17 @@
+       gamma == nullptr || xn == nullptr || norm_half == nullptr) {
+     return false;
+   }
+-  hipLaunchKernelGGL(HcCombineF32HalfKernel, dim3(n_tokens), dim3(kThreads), 0,
+-                     stream, res, block_out, inject, inject_parts, gamma, xn,
+-                     norm_half, hidden, eps);
++  // Keep scalar/decode and small ragged dispatch unchanged. The complete
++  // ordinary owner kernel is qualified at n97/129 and the fixed n2048 point.
++  if (n_tokens >= 96) {
++    hipLaunchKernelGGL(HcNormOwnerDraftOrdinaryKernel, dim3(n_tokens),
++                       dim3(kThreads), 0, stream, res, block_out, inject,
++                       inject_parts, gamma, xn, norm_half, hidden, eps);
++  } else {
++    hipLaunchKernelGGL(HcCombineF32HalfKernel, dim3(n_tokens), dim3(kThreads), 0,
++                       stream, res, block_out, inject, inject_parts, gamma, xn,
++                       norm_half, hidden, eps);
++  }
+   return true;
+ }
+ 

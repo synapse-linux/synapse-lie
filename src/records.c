@@ -9,6 +9,7 @@ typedef struct {
   uint64_t token_offset;
   uint32_t tokens;
   lie_event_kind kind;
+  lie_output_call fragment;
 } retained_event;
 struct lie_record {
   lie_records *owner;
@@ -62,6 +63,14 @@ static void drop(lie_record *r) {
   }
   free(r->id);
   free(r->text);
+  for (size_t i = 0; i < r->event_count; ++i) {
+    if (r->events[i].kind == LIE_EVENT_TOOL_START ||
+        r->events[i].kind == LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+      free((void *)r->events[i].fragment.id);
+      free((void *)r->events[i].fragment.name);
+      free((void *)r->events[i].fragment.arguments_json);
+    }
+  }
   free(r->events);
   free(r->storage);
   free(r);
@@ -137,8 +146,10 @@ lie_record *lie_records_insert(lie_records *s, const char *id, int64_t created,
     free(r);
     return NULL;
   }
-  r->text_budget = (size_t)input->max_tokens * LIE_CORE_TOKEN_BYTES * 3 + 8;
-  r->event_capacity = (size_t)input->max_tokens + LIE_CHAT_MAX_CALLS + 2;
+  size_t max_tokens = input->max_tokens ? input->max_tokens : LIE_CORE_MAX_OUTPUT;
+  r->text_budget = max_tokens * LIE_CORE_TOKEN_BYTES * 3 + 8;
+  r->event_capacity =
+      2u * max_tokens + 3u * LIE_CHAT_MAX_CALLS + 4;
   r->allocated = sizeof(*r) + size + strlen(id) + 1 + r->text_budget +
                  r->event_capacity * sizeof(*r->events);
   if (r->allocated > s->options.max_bytes - s->bytes) {
@@ -227,6 +238,7 @@ lie_flow_status lie_record_next(lie_record *r, lie_event *e) {
     return rc;
   bool ok = true;
   size_t offset = r->bytes, call = r->call_count;
+  lie_output_call fragment = {0};
   if (e->kind == LIE_EVENT_TEXT) {
     ok = reserve(r, r->bytes + e->bytes + 1);
     if (ok) {
@@ -261,11 +273,36 @@ lie_flow_status lie_record_next(lie_record *r, lie_event *e) {
     r->done = true;
     r->info = e->info;
   }
-  if (ok && (e->kind == LIE_EVENT_TEXT || e->kind == LIE_EVENT_TOOL_CALL)) {
+  bool provisional = e->kind == LIE_EVENT_TOOL_START ||
+                     e->kind == LIE_EVENT_TOOL_ARGUMENT_DELTA;
+  if (provisional) {
+    const lie_output_call *c = e->call;
+    size_t extra = strlen(c->id) + strlen(c->name) + c->arguments_bytes + 3;
+    ok = r->event_count < r->event_capacity &&
+         extra <= r->owner->options.max_bytes - r->owner->bytes;
+    if (ok) {
+      fragment = *c;
+      fragment.id = strdup(c->id);
+      fragment.name = strdup(c->name);
+      fragment.arguments_json = strndup(c->arguments_json, c->arguments_bytes);
+      ok = fragment.id && fragment.name && fragment.arguments_json;
+      if (ok) {
+        r->allocated += extra;
+        r->owner->bytes += extra;
+      } else {
+        free((void *)fragment.id);
+        free((void *)fragment.name);
+        free((void *)fragment.arguments_json);
+      }
+    }
+  }
+  if (ok && (e->kind == LIE_EVENT_TEXT || e->kind == LIE_EVENT_TOOL_CALL ||
+             provisional)) {
     ok = r->event_count < r->event_capacity;
     if (ok)
-      r->events[r->event_count++] = (retained_event){
-          offset, e->bytes, call, e->token_offset, e->tokens, e->kind};
+      r->events[r->event_count++] =
+          (retained_event){offset,    e->bytes, call,    e->token_offset,
+                           e->tokens, e->kind,  fragment};
   }
   if (!ok) {
     lie_job_event_release(r->job, e->ticket);
@@ -286,11 +323,12 @@ bool lie_record_pump(lie_record *r) {
       return true;
     if (lie_job_event_release(r->job, e.ticket) != LIE_FLOW_OK)
       return false;
-    if (e.tokens && lie_job_event_request(r->job, e.tokens) != LIE_FLOW_OK &&
-        !r->done) {
-      lie_job_info info;
-      lie_job_snapshot(r->job, &info);
-      if (!info.retired)
+    if (e.tokens) {
+      lie_flow_status credit = lie_job_event_request(r->job, e.tokens);
+      /* EOS/length closes demand when the last output is published. Sequence
+       * teardown can still be running: CLOSED is a normal terminal boundary,
+       * not a failed consumer. Keep pumping until semantic TURN_END retires. */
+      if (credit != LIE_FLOW_OK && credit != LIE_FLOW_CLOSED)
         return false;
     }
   }
@@ -316,8 +354,11 @@ bool lie_record_replay(lie_record *r, size_t index, lie_event *e) {
       .bytes = saved->bytes,
       .tokens = saved->tokens,
       .token_offset = saved->token_offset,
-      .call =
-          saved->kind == LIE_EVENT_TOOL_CALL ? r->calls + saved->call : NULL};
+      .call = saved->kind == LIE_EVENT_TOOL_CALL ? r->calls + saved->call
+              : saved->kind == LIE_EVENT_TOOL_START ||
+                      saved->kind == LIE_EVENT_TOOL_ARGUMENT_DELTA
+                  ? &saved->fragment
+                  : NULL};
   return true;
 }
 bool lie_record_history(lie_record *r, lie_core_request *out, void **storage) {

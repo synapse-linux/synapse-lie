@@ -6,10 +6,12 @@
 #define LIE_EXECUTOR_H
 #include <stddef.h>
 #include <stdint.h>
+#include "lie/rope.h"
+#include "lie/dispatch.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
-#define LIE_EXECUTOR_ABI 2u
+#define LIE_EXECUTOR_ABI 3u
 typedef struct lie_model lie_model;
 typedef struct lie_sequence lie_sequence;
 typedef enum {
@@ -23,6 +25,7 @@ typedef struct {
     uint32_t struct_bytes;
     uint32_t context_tokens;
     uint32_t prefill_chunk_tokens;
+    lie_rope_profile rope_profile;
 } lie_model_options;
 typedef struct {
     uint32_t abi_version, context_tokens, vocab_tokens, prefill_capacity;
@@ -31,6 +34,10 @@ typedef struct {
     uint64_t weights_bytes, session_bytes, deferred_workspace_bytes;
 } lie_model_info;
 typedef struct { int32_t token; uint32_t emitted, stop, position; } lie_decode_result;
+/* EOS remains a sampled token in fixed-budget measurements; it is not masked.
+ * The default stops at EOS. Select before prefill/restore/sampling, on the owner. */
+typedef enum { LIE_EOS_STOP = 0, LIE_EOS_IGNORE = 1 } lie_eos_policy;
+lie_status lie_sequence_set_eos_policy(lie_sequence *, lie_eos_policy, lie_error *);
 typedef enum { LIE_CHAT_SYSTEM, LIE_CHAT_USER, LIE_CHAT_ASSISTANT, LIE_CHAT_TOOL } lie_chat_role;
 typedef struct { lie_chat_role role; const char *content; size_t bytes; } lie_chat_message;
 #define LIE_CHAT_BODY_BYTES (8u * 1024u * 1024u)
@@ -65,7 +72,7 @@ typedef struct {
 } lie_chat_template;
 /* Additive generation controls; default initialization is greedy. The caller
  * supplies ABI/version size; configuration occurs before any prefill/dispatch. */
-#define LIE_GENERATION_ABI 2u
+#define LIE_GENERATION_ABI 3u
 #define LIE_LOGIT_BIAS_MAX 1024u
 #define LIE_TOP_LOGPROBS_MAX 20u
 typedef struct {
@@ -85,6 +92,8 @@ typedef struct {
   const lie_logit_bias *logit_bias;
   size_t logit_bias_count;
   uint32_t logprobs, top_logprobs;
+  int32_t top_k; /* Zero disables; a positive value caps candidate count. */
+  double min_p; /* 0..1; relative to the most probable retained candidate. */
 } lie_generation_options;
 lie_status lie_sequence_configure(lie_sequence *,
                                   const lie_generation_options *, lie_error *);
@@ -134,11 +143,19 @@ lie_status lie_backend_open_batch(const char *, const lie_model_options *, uint3
  * No handle can be freed while another thread can still cancel/use it. */
 lie_status lie_gufo_open(const char *path, const lie_model_options *, lie_model **out, lie_error *);
 lie_status lie_model_get_info(lie_model *, lie_model_info *, lie_error *);
+/* Additive owner-only diagnostics. No device call/wait, including after poison.
+ * Tagged output required; unsupported providers return a supported=false view.
+ * Observations count only actual prefill attention selections. */
+lie_status lie_model_attention_dispatch_snapshot(lie_model *,
+  lie_attention_dispatch_info *, lie_error *);
 lie_status lie_model_close(lie_model **, lie_error *);
 lie_status lie_model_tokenize(lie_model *, const char *utf8, size_t bytes,
                               int32_t *out, size_t capacity, size_t *required, lie_error *);
 lie_status lie_model_token_text(lie_model *, int32_t token, char *out, size_t capacity,
                                 size_t *required, lie_error *);
+/* Owner-only vocabulary metadata; no model forward or sampler mutation.
+ * Success copies exactly 0 or 1. Invalid tokens/destinations refuse. */
+lie_status lie_model_token_is_stop(lie_model *, int32_t token, uint32_t *out, lie_error *);
 /* Bounded text-only Qwen rendering, thinking disabled; caller owns token buffer.
  * BUFFER_SMALL reports required physical tokens without creating/mutating a session. */
 lie_status lie_model_chat_tokens(lie_model *, const lie_chat_message *, size_t count,
@@ -164,7 +181,7 @@ typedef struct { lie_status status; lie_decode_result result; } lie_decode_outco
 lie_status lie_sequences_decode(lie_sequence *const *, size_t,
                                 lie_decode_outcome *, lie_error *);
 lie_status lie_sequence_logits(lie_sequence *, float *out, size_t capacity, size_t *required, lie_error *);
-/* Target logits after grammar/bias/penalties and temperature, before top-p. */
+/* Target logits after grammar/bias/penalties and temperature, before filters. */
 lie_status lie_sequence_sampling_logits(lie_sequence *, float *, size_t, size_t *, lie_error *);
 /* Thread-safe latch only; no GPU preemption. In-flight work completes; its
  * output is suppressed on cancellation. Lifetime must be pinned externally. */

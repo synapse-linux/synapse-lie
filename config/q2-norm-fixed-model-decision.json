@@ -1,0 +1,56 @@
+{
+  "schema": "synapse-lie.q2-norm-fixed-model-decision.v1",
+  "at": "2026-10-04T16:50:33.807672+00:00",
+  "report_sha256": "cbe3a12c6bf83f784440064b7185da31e520be1c8a17d033f1fe289e72699514",
+  "plan_sha256": "26d6d3693d714645989d983a6cd6753c6e8a2e82ef3e309c12554aec61aa6ca3",
+  "candidate_manifest_sha256": "84967b93bc552eb3bc3c4e9a4f0125d5cdff814350bd1b07488d0875ccbf0351",
+  "component_result_sha256": "d7bb1e45df39149a410def9f8468b6bf0662e73b424dd3fc05ff892e07b1eb08",
+  "user_instruction": "con un vantaggio marginale non la scarterei del tutto",
+  "disposition": "RETAIN_ISOLATED_CANDIDATE_FOR_TARGETED_COMPOSITION",
+  "evidence": {
+    "before": {
+      "prefill_tok_s": -0.02740689816300712,
+      "decode_steps_s": 0.16908724987587664,
+      "prefill_s": 0.027414361499156215,
+      "decode_s": -0.16880181807819028
+    },
+    "after": {
+      "prefill_tok_s": 0.09770670341295862,
+      "decode_steps_s": 0.10199979232559109,
+      "prefill_s": -0.09761136194534892,
+      "decode_s": -0.10189585400666168
+    },
+    "ud": {
+      "prefill_tok_s": -14.462772522688072,
+      "decode_steps_s": 3.423250573795844,
+      "prefill_s": 16.90816139423601,
+      "decode_s": -3.3099429499562683
+    },
+    "fixed_q2": {
+      "prefill_tok_s": 0.05497526608291281,
+      "decode_steps_s": 0.3004533600337034,
+      "prefill_s": -0.0549450755503611,
+      "decode_s": -0.29955334158047187
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -14.314500009826926,
+      "decode_steps_s": 3.408195282893889,
+      "prefill_s": 16.705860339256652,
+      "decode_s": -3.2958657636268374
+    }
+  },
+  "control_drift_percent": {
+    "prefill_tok_s": -0.1249914765247051,
+    "decode_steps_s": 0.06701909820929774,
+    "prefill_s": 0.1251478819965568,
+    "decode_s": -0.06697420801274889
+  },
+  "model_logit_kl_to_control": 0.004092912681218487,
+  "benefit_repeatable": false,
+  "component_gate_unchanged": true,
+  "numerical_thresholds_unchanged": true,
+  "promoted": false,
+  "goal_met": false,
+  "next_curve_admitted": false,
+  "limits": "Retention is not measured additive benefit or numerical acceptance. Any composition must use a relevant component and the unchanged fixed exact2048 model comparison before full curve admission."
+}

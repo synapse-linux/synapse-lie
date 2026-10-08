@@ -1,0 +1,310 @@
+{
+  "schema": "synapse-lie.background-retirement-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "SHARED_C17_TERMINAL_DEMAND_RACE_CORRECTION_CPU_FIXTURES_NOT_INFERENCE_WITH_PRESERVED_ORIGINAL_WEIGHT_AR_FAILURE",
+  "parent_source_commit": "533ca41",
+  "target_gpu_host": "pop@192.168.5.161",
+  "failure_mechanism": "Final output closes reactive demand before sequence teardown publishes retired metadata; the old record consumer treated CLOSED demand plus non-retired metadata as collection failure and cancelled background generation.",
+  "correction": "Accept CLOSED demand as normal, preserve last output, wait for semantic TURN_END; other credit errors still fail.",
+  "deterministic_regression": "Hold FAKE_CLOSE after last-token publication, pump and preserve one output while retired=false, then release and require LENGTH with exactly one journal event.",
+  "cpu_tests_passed_debug": 7,
+  "cpu_tests_passed_asan_ubsan_lsan": 7,
+  "sanitizer_options": {
+    "ASAN_OPTIONS": "detect_leaks=1:abort_on_error=1",
+    "UBSAN_OPTIONS": "halt_on_error=1"
+  },
+  "runs": {
+    "debug-build-before-fix": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "--target",
+          "test-openai-core",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 54.25
+        },
+        "elapsed_s": 1.0577019834890962
+      },
+      "command_log_sha256": "900d4a6f8c91e744ab3064217c6088a8ce00792c6ec9670dca7700609a37d10d"
+    },
+    "debug-regression-before-fix": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "-R",
+          "^openai-headless-controls-state$",
+          "--output-on-failure"
+        ],
+        "child_exit_code": 8,
+        "exit_code": 8,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 53.5
+        },
+        "elapsed_s": 1.1238424899056554
+      },
+      "command_log_sha256": "bbef61633882f10a8f9bf010c7f8d1d18962b8c3c0eaa0b32c409dfe57990140"
+    },
+    "debug-build-after-fix": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "--target",
+          "test-openai-core",
+          "test-core-events",
+          "test-flow",
+          "test-openai-http",
+          "test-event-http",
+          "test-event-mtp-http",
+          "test-synthetic-server",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.25
+        },
+        "elapsed_s": 2.141810300759971
+      },
+      "command_log_sha256": "f8716376cdcd0b58f29a67c0b19aee417b85908196230fe4c88ede0226994ec4"
+    },
+    "asan-build-after-fix": {
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "--target",
+          "test-openai-core",
+          "test-core-events",
+          "test-flow",
+          "test-openai-http",
+          "test-event-http",
+          "test-event-mtp-http",
+          "test-synthetic-server",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.25
+        },
+        "elapsed_s": 2.1398993292823434
+      },
+      "command_log_sha256": "eb5ffcb1f6d5e53810b733b393cba533e382aea24e6c08d19c46ba4389761f51"
+    },
+    "debug-ctest-after-fix": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "-R",
+          "^(openai-headless-controls-state|core-semantic-events|reactive-flow|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract)$",
+          "--output-on-failure"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.875
+        },
+        "elapsed_s": 19.937795699574053
+      },
+      "command_log_sha256": "ca89f7f3e4cd2f2f191f84c772bb126b6aa10fb6c71942b160e3901864ced08a"
+    },
+    "asan-ctest-after-fix": {
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "-R",
+          "^(openai-headless-controls-state|core-semantic-events|reactive-flow|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract)$",
+          "--output-on-failure"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 60.0
+        },
+        "elapsed_s": 19.94850266445428
+      },
+      "command_log_sha256": "7ea2accd7f62a65adee1ef4360270f56f63f9e4b76a99d5723ba8a864730e19a"
+    }
+  },
+  "source_sha256": {
+    "src/records.c": "29214195db6f997538672105521e775fdc1f6cef4dd4480f6684ef4a3637fc6b",
+    "include/lie/records.h": "aeba28c5b14b0b1fb4eb2164adca4f9f7e096cf3437e9dbc26b10003f6053519",
+    "tests/fake_executor.c": "56bb1c447418930c863dad868ececd3a51b99d625644b0efe31638b9ed0a8ca7",
+    "tests/fake_executor.h": "d4e3eb2677368eb7485f15eda263c79913161e612dde6e1cf46aa32eb92f6e9c",
+    "tests/test_openai_core.c": "44bd6039ca7575f60dc6275cb2e9672e024b84842d7025839f71625ca145f67a"
+  },
+  "receipt_generation_prior_failure": {
+    "exit_code": 1,
+    "reason": "Initial validator expected a different CTest footer spelling; actual log states 100% tests passed out of 7. No receipt had been written."
+  },
+  "original_weight_failed_gate": {
+    "label": "context-r10-openai-controls-ar",
+    "source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+    "state": "FAILED",
+    "child_exit": 1,
+    "controller_exit": 1,
+    "supervisor_exit": 1,
+    "server_exit": 0,
+    "collection_exit": 0,
+    "collection_sha256": "0f10c5068399378ede32e422967e17590d1b5746a617f8d46df10c8e74e03fc3",
+    "prior_checks_passed": [
+      "models",
+      "chat_json",
+      "chat_sse",
+      "responses_json",
+      "responses_sse",
+      "chat_function_json",
+      "chat_function_sse",
+      "chat_tool_result",
+      "responses_function_json",
+      "responses_function_sse",
+      "responses_tool_replay",
+      "responses_tool_result",
+      "allowed_tools"
+    ],
+    "additional_checks_passed": [
+      "chat_choices_json",
+      "chat_choices_sse",
+      "chat_seed_replay",
+      "chat_logprobs",
+      "chat_logprobs_sse",
+      "chat_bias_positive",
+      "chat_bias_negative",
+      "chat_stop_json",
+      "chat_stop_sse",
+      "chat_json_object",
+      "responses_json_object",
+      "chat_json_schema",
+      "responses_json_schema",
+      "chat_store_crud"
+    ],
+    "error": "RuntimeError('Response retired before requested observation')",
+    "verified_files": {
+      "manifest.json": {
+        "bytes": 4580,
+        "sha256": "147d838fc4ba413d1e9100f6ae64670d5e8b3512b7481708856abcd1e80b4246"
+      },
+      "runner.py": {
+        "bytes": 89993,
+        "sha256": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918"
+      },
+      "http-gate.py": {
+        "bytes": 18251,
+        "sha256": "9e1d92380795d5eac9a005025e2a804e97353c970e4df5b950f8abc5270dcfe5"
+      },
+      "result.json": {
+        "bytes": 97031,
+        "sha256": "bdd8d307d497cf0f7b34660d0aa94179a82bd191d7b7225a9d8f3b9b9a4a40d6"
+      },
+      "telemetry.jsonl": {
+        "bytes": 158062,
+        "sha256": "c31f8f9a62cf40cb17dbc3cf442a6531c1521a8716c78e6ba3a59fb5f94beed2"
+      },
+      "http-result.json": {
+        "bytes": 1165,
+        "sha256": "2d025a3465b301bbe5d5ea35d1d6df9944e890de166c64458568686d5e782af5"
+      },
+      "http-wire.jsonl": {
+        "bytes": 214274,
+        "sha256": "f8709de878179fb6ff7055f4381b04707934f9d5ed46582e62fdd065d209fef6"
+      },
+      "server.log": {
+        "bytes": 92,
+        "sha256": "e3d109fa324ba9df74b32e1cfc2c63e029040d6b83d7da95ec540b6c96ee5bed"
+      },
+      "stdout.log": {
+        "bytes": 66686,
+        "sha256": "150fec5bb126017a91dbabf33293abd9b95c64eeffda416ec6ad20cee7787349"
+      },
+      "stderr.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox-create.log": {
+        "bytes": 284,
+        "sha256": "6b04a97d9c576cf07904fa5561719c778935ee7783e76b43e146e5dca0f39c0a"
+      },
+      "distrobox.stdout.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "distrobox.stderr.log": {
+        "bytes": 1073,
+        "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+      },
+      "http-controls.py": {
+        "bytes": 18408,
+        "sha256": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd"
+      },
+      "http-controls-result.json": {
+        "bytes": 2152,
+        "sha256": "aa9ad5236adcbaac39f6f13d2bff302b8072e12243542841664fbd9f0b5e4cd7"
+      }
+    },
+    "closure": {
+      "supervisor_absent": true,
+      "gpu_child_absent": true,
+      "owned_child_absent": true,
+      "lease_free": true
+    },
+    "model_stat_unchanged": true,
+    "router_restored": {
+      "MainPID": "13572",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "lease_released_at": "2026-10-04T18:55:10.267458+00:00"
+  },
+  "corrected_gpu_gate": {
+    "AR": "PASSED_34_ORIGINAL_WEIGHT_CHECKS",
+    "MTP": "PENDING_AFTER_FOREIGN_GPU_ADMISSION_REFUSAL",
+    "receipt": "openai-controls-point-gpu-2026-10-04.json",
+    "source_commit": "abb69d57101d04e7b28ae0fe71ad18e50027cfc2"
+  },
+  "api_semantics_source": "https://developers.openai.com/api/docs/guides/background",
+  "provider_or_HTTP_contract_change": false,
+  "additional_inference_threads": 0,
+  "GPU_model_execution_in_cpu_tests": false,
+  "DS4_mutation": false,
+  "publication": false,
+  "corrected_gpu_gate_at_cpu_checkpoint": "PENDING_SEPARATE_BUILD_AND_AR_MTP_ADMISSIONS"
+}

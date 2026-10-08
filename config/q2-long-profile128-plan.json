@@ -1,0 +1,67 @@
+{
+  "schema": "synapse-lie.q2-long-profile128-plan.v1",
+  "fixtures": {
+    "CMakeLists.txt": "cc7d272dcd518b60ed51258a2420b7077f805b9206e6cf059e69a27bf497b3e3",
+    "cmake/curve/CMakeLists.txt": "02b11fe1b734309dc98ac703134e88c2da62e5a362a056308a6d7d7f821d801b",
+    "cmake/hip/CMakeLists.txt": "3ef9593274ab2322d091bb1b9e9a1ee1c8bcf8a731ce31ed741b02a579b1c1cd",
+    "tools/q2-remote.py": "88d194df2d56b17bb5c5f5738785f3960938358fceb3cf5772f022aa05ae8cc3",
+    "tools/q2-runner.py": "ee0c3dfdc36cd431f9b46e4b2911ede81f2b9bf80b2a808046a3fb2f7b0b4175",
+    "tools/q2-curve-session.py": "ab443f53a5cd5812b9286e3c51b47331919dec11d79fd2dffab01dfe37c0c913",
+    "tools/q2_window_registry.py": "fcf4446b230453ef5c6b272ef4487e9440f3afbe41829b78d81a7eca5ea896c0",
+    "tools/q2_process.py": "32d2f266a2c9c4472929874003c4f9914c19233349f50388b14db1087762d0e9",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_long_profile.py": "89ffea7c97e88d037ce7ae9881f1cc95967fcdf580b1fecad4bd8ced43c09883",
+    "tools/q2_long_profile128.py": "3616888d7e861975afccb6066eabc25d7810cce47def20511fec9454de1246b0",
+    "tools/q2-long-profile128-phase.py": "a382337f43245a5637a21b76a011127bc58e208338184b0ec99c945eb523c6af",
+    "tools/q2-long-profile128-window.py": "16577a3c98e4cef7b99e516df0f67c574ebee0152aa636a608c27f14141945b6",
+    "tools/q2-long-profile128-preflight.py": "42d09681961a7ab95a98e9712ab4aca7f8ed37eebc5a23c05d191b0a7d1467fb",
+    "tools/freeze-q2-long-profile128-plan.py": "e25b9d664c4f5b3e5e845031640150df0be690cf1a52f2dee32b6c89980cf6e0",
+    "tools/analyze-q2-long-profile128.py": "1f1bf8798d666ce7dc8b7a827f30da94e8f3b3017fbb9eab04933aa9171c8c57",
+    "tools/q2_full_prefill128.py": "65b7f3d71cf3dbf6a8a73b0979984c9272fc67f39d305b5a21f0c549cf0b88e5",
+    "tests/q2_remote_test.py": "3b46922cccd76546d9834b00eed93ab3e19940bf465f69ade3120f5215120307"
+  },
+  "manifests": {
+    "config/q2-curve128-binaries.json": "1d60ea5df2e751fa68c0bcf432292760c923541a46b0aa20a9db2dfdfa339d08",
+    "config/q2-curve128-source.json": "dbe8e6aafad31ee89bf770d8fcbecbfdfb5de7431794182f24bb8a7afcfd5005",
+    "config/q2-native-bench-source.json": "4af4e2f0c399a034348fdd22ecc4a1487bbb9a11f07e181d571fd70ce2ab4b53",
+    "config/q2-iq2-fixed-bounds-source.json": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+    "config/q2-full-prefill128-inputs.json": "f5838b87a01b7e1d782a27106978fcf3368f008cee1d3a046e2b4fc5e8e8caad",
+    "config/q2-full-prefill128-requests.jsonl": "a6144ae1c72b80869cfacfcf6ee58a645e691ac184ee5e3af1a1a36394b0a7db",
+    "config/q2-full-prefill128-results.json": "74a7d49e94d1c68bf350fa127289326520427f086d35480e8182b69723b446e6",
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1"
+  },
+  "components": [],
+  "arms": [
+    {
+      "label": "q2-long-profile128-r1",
+      "mode": "q2-prefill128",
+      "variant": "prefill128-q2",
+      "flags": [
+        "--native-curve",
+        "--profile-prefix128k"
+      ]
+    }
+  ],
+  "host": "q2-long-profile128-host-r1",
+  "host_result_sha256": "cd1865587f188f158c56032ec1c97697f0816fa6ca9d207714d08917de548519",
+  "host_source_capsule_sha256": "21dee733a7ada4d98019f4259eb9954de9998feb3063783dfae19d2eb1423f8a",
+  "host_collection_sha256": "f3f23d1eb569d69356f705d5d8aecbd7de9257f0387add88c720cccb12d7f936",
+  "host_test_counts": {
+    "debug": 43,
+    "asan_ubsan": 43
+  },
+  "previous_release": "config/q2-iq2-token256-window-release.json",
+  "previous_release_sha256": "f2b163b68e87cf5cfa1e68733fd41c9535e2818a9c794c7fc7771c91813381a6",
+  "window_helper": "tools/q2-long-profile128-window.py",
+  "window_helper_sha256": "16577a3c98e4cef7b99e516df0f67c574ebee0152aa636a608c27f14141945b6",
+  "phase_helper": "tools/q2-long-profile128-phase.py",
+  "phase_helper_sha256": "a382337f43245a5637a21b76a011127bc58e208338184b0ec99c945eb523c6af",
+  "preflight_helper": "tools/q2-long-profile128-preflight.py",
+  "preflight_helper_sha256": "42d09681961a7ab95a98e9712ab4aca7f8ed37eebc5a23c05d191b0a7d1467fb",
+  "admission_path": "config/q2-long-profile128-window-admission.json",
+  "release_path": "config/q2-long-profile128-window-release.json",
+  "gpu_admitted": false,
+  "model_inference": true,
+  "production_dispatch_changed": false,
+  "scope": "One profiler-instrumented native C1 original 130925-token Q2 request using saved server9993fdce and client87d856cf. Original three preparations, capacity133760, chunks2048, AR output8 and zero prefix hits. No model/source rebuild, prompt change, control rerun, cache reset, dependency install, host tuning or remote cleanup. Instrumented timings are diagnostic, not throughput rates. Collect and release before offline analysis."
+}

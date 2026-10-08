@@ -1,8 +1,10 @@
 /* SPDX-License-Identifier: MIT */
 #include "bench_native.h"
+#include "lie/core.h"
 #include <inttypes.h>
 #include <limits.h>
 #include <math.h>
+#include <openssl/evp.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -80,6 +82,16 @@ static bool repetition_config(json_object *id) {
          nb_count(id, "output_limit", 1, 65536, NULL) &&
          json_object_is_type(nb_get(id, "synthetic"), json_type_boolean);
 }
+static bool prefill_config(json_object *id,bool old_direct,
+                           int64_t *chunk,int64_t *capacity) {
+  *chunk=LIE_PREFILL_DEFAULT_CHUNK;
+  if(nb_get(id,"prefill_chunk")) {
+    if(!nb_count(id,"prefill_chunk",1,LIE_PREFILL_MAX_CHUNK,chunk))return false;
+  } else if(!old_direct)return false;
+  *capacity=*chunk;
+  return !nb_get(id,"prefill_capacity") ||
+    nb_count(id,"prefill_capacity",*chunk,LIE_PREFILL_MAX_CHUNK,capacity);
+}
 static bool direct_phase_bounds(json_object *id, json_object *row) {
   const char *keys[] = {"sample_begin_monotonic_ns", "sample_begin_wall_time_ns",
                         "prefill_begin_monotonic_ns", "prefill_end_monotonic_ns",
@@ -108,6 +120,7 @@ static bool direct_phase_bounds(json_object *id, json_object *row) {
       goto bad;                                                                \
     }                                                                          \
   } while (0)
+#include "report_walk.inc"
 static json_object *direct(json_object *rows, nb_error *e) {
   json_object *id = json_object_array_get_idx(rows, 0),
               *out = json_object_new_object(),
@@ -117,7 +130,11 @@ static json_object *direct(json_object *rows, nb_error *e) {
   nb_add(out, "identity", id);
   json_object_object_add(out, "configurations", points);
   json_object_object_add(out, "loading", select_rows(rows, "model_loaded"));
-  CHECK(repetition_config(id), "Invalid direct benchmark identity");
+  int64_t chunk,capacity;
+  CHECK(repetition_config(id)&&prefill_config(id,true,&chunk,&capacity), "Invalid direct benchmark identity");
+  CHECK(!nb_get(id,"measurement_contract")||eqs(id,"measurement_contract",direct_contract(id)),
+        "Invalid direct measurement contract");
+  bool walk=eqs(id,"suite","ds4-walk");
   size_t reps =
       (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
   CHECK(json_object_array_length(samples) ==
@@ -125,9 +142,10 @@ static json_object *direct(json_object *rows, nb_error *e) {
         "Unbound or missing direct samples");
   CHECK(json_object_array_length(input) || eqs(id, "suite", "loading"),
         "No direct workload inputs");
+  if(walk&&!walk_evidence(rows,id,input,reps,e))goto bad;
   for (size_t p = 0; p < json_object_array_length(input); p++) {
     json_object *in = json_object_array_get_idx(input, p);
-    CHECK(ids(in) && nb_count(in, "users", 1, 8, NULL) &&
+    CHECK((walk||ids(in)) && nb_count(in, "users", 1, 8, NULL) &&
               nb_count(in, "depth", 0, 1048576, NULL) &&
               nb_count(in, "context_capacity", 1, 2097152, NULL) &&
               nb_count(in, "point", 0, 65535, NULL),
@@ -144,6 +162,8 @@ static json_object *direct(json_object *rows, nb_error *e) {
     fields(
         point, in,
         "point depth users context_capacity prompt_tokens physical_ids_sha256");
+    nb_num(point, "prefill_chunk", chunk);
+    nb_num(point, "prefill_capacity", capacity);
     nb_num(point, "repetitions", nb_number(id, "repetitions"));
     json_object *group = json_object_new_array();
     json_object_object_add(point, "_rows", group);
@@ -219,6 +239,17 @@ static json_object *direct(json_object *rows, nb_error *e) {
                            metric(group, "prefill_ns", 1e-9, true));
     json_object_object_add(point, "decode_seconds",
                            metric(group, "decode_ns", 1e-9, true));
+    if(walk){
+      json_object_object_add(point,"checkpoint_seconds",metric(group,"checkpoint_ns",1e-9,true));
+      json_object *restores=json_object_new_array();
+      for(size_t j=0;j<json_object_array_length(rows);++j){
+        json_object *r=json_object_array_get_idx(rows,j);
+        if(eqs(r,"event","walk_restore")&&nb_same(r,in,"point")&&nb_number(r,"rep")>=nb_number(id,"warmups"))
+          json_object_array_add(restores,json_object_get(r));
+      }
+      json_object_object_add(point,"restore_seconds",metric(restores,"elapsed_ns",1e-9,false));
+      json_object_put(restores);
+    }
     json_object_object_del(point, "_rows");
   }
   json_object_put(input);
@@ -237,12 +268,20 @@ static json_object *core_generation(json_object *id) {
   const char *keys[] = {"temperature", "top_p", "frequency_penalty", "presence_penalty"};
   const double lower[] = {0, 0, -2, -2}, upper[] = {2, 1, 2, 2};
   double values[] = {0, 1, 0, 0};
-  int64_t seed = -1;
+  int64_t seed = -1, top_k = 0;
+  double min_p = 0;
   json_object *declared = NULL;
   if (json_object_object_get_ex(id, "generation", &declared)) {
-    if (!json_object_is_type(declared, json_type_object) ||
-        json_object_object_length(declared) != 5)
+    if (!json_object_is_type(declared, json_type_object))
       return NULL;
+    json_object_object_foreach(declared, name, entry) {
+      (void)entry;
+      bool known = !strcmp(name, "seed") || !strcmp(name, "top_k") || !strcmp(name, "min_p");
+      for (size_t k = 0; k < 4; ++k)
+        known = known || !strcmp(name, keys[k]);
+      if (!known)
+        return NULL;
+    }
     for (size_t k = 0; k < 4; ++k) {
       json_object *v = nb_get(declared, keys[k]);
       if (!json_object_is_type(v, json_type_int) && !json_object_is_type(v, json_type_double))
@@ -259,13 +298,119 @@ static json_object *core_generation(json_object *id) {
     if (seed < -1 || (seed >= 0 && json_object_get_uint64(v) > INT64_MAX) ||
         (values[0] > 0 && seed < 0))
       return NULL;
+    if (json_object_object_get_ex(declared, "top_k", &v)) {
+      if (!json_object_is_type(v, json_type_int) || json_object_get_int64(v) < 0 ||
+          json_object_get_uint64(v) > INT32_MAX)
+        return NULL;
+      top_k = json_object_get_int64(v);
+    }
+    if (json_object_object_get_ex(declared, "min_p", &v)) {
+      if (!json_object_is_type(v, json_type_int) && !json_object_is_type(v, json_type_double))
+        return NULL;
+      min_p = json_object_get_double(v);
+      if (!isfinite(min_p) || min_p < 0 || min_p > 1)
+        return NULL;
+    }
   }
   /* Historical core streams predate configurable sampling and are greedy. */
   json_object *out = json_object_new_object();
   for (size_t k = 0; k < 4; ++k)
     nb_real(out, keys[k], values[k]);
   nb_num(out, "seed", seed);
+  nb_num(out, "top_k", top_k);
+  nb_real(out, "min_p", min_p);
   return out;
+}
+static bool steering_scale(json_object *o,const char *key,double *out){
+  json_object *v=nb_get(o,key);
+  if(!json_object_is_type(v,json_type_int)&&!json_object_is_type(v,json_type_double))return false;
+  double x=json_object_get_double(v);if(!isfinite(x)||fabs(x)>100)return false;
+  *out=x==0?0:x;return true;
+}
+static bool steering_hash(json_object *o,const char *key,bool bank){
+  json_object *v=nb_get(o,key);if(!json_object_is_type(v,json_type_string))return false;
+  const char *s=json_object_get_string(v);size_t n=json_object_get_string_len(v);
+  return n==(bank?64u:0u)&&strlen(s)==n&&strspn(s,"0123456789abcdef")==n;
+}
+static json_object *core_steering(json_object *id,json_object *loading){
+  json_object *requested=NULL;bool declared=json_object_object_get_ex(id,"steering",&requested),bank=false;
+  double ffn=0,attention=0;int64_t budget=16u*1024u*1024u;
+  if(declared){
+    if(!json_object_is_type(requested,json_type_object)||
+       !json_object_is_type(nb_get(requested,"requested"),json_type_boolean)||
+       !steering_scale(requested,"ffn",&ffn)||!steering_scale(requested,"attention",&attention)||
+       !nb_count(requested,"vector_budget_bytes",1,INT64_MAX,&budget))return NULL;
+    bank=flag(requested,"requested");if(!bank&&(ffn||attention))return NULL;
+    json_object_object_foreach(requested,key,value){
+      (void)value;if(strcmp(key,"requested")&&strcmp(key,"ffn")&&strcmp(key,"attention")&&strcmp(key,"vector_budget_bytes")&&strcmp(key,"schedule"))return NULL;
+    }
+  }
+  json_object *schedule=declared?nb_get(requested,"schedule"):NULL;
+  if(schedule){
+    if(!json_object_is_type(schedule,json_type_array)||json_object_array_length(schedule)>LIE_STEERING_SCHEDULE_MAX||
+       (!bank&&json_object_array_length(schedule)))return NULL;
+    int64_t previous=-1;
+    for(size_t i=0;i<json_object_array_length(schedule);++i){json_object *row=json_object_array_get_idx(schedule,i);int64_t position;double f,a;
+      if(!json_object_is_type(row,json_type_object)||json_object_object_length(row)!=3||
+         !nb_count(row,"position",0,LIE_CORE_MAX_CONTEXT-1,&position)||position<=previous||
+         !steering_scale(row,"ffn",&f)||!steering_scale(row,"attention",&a)||
+         (double)(float)f!=f||(double)(float)a!=a)return NULL;
+      previous=position;
+    }
+  }
+  json_object *admitted=NULL;
+  if(json_object_array_length(loading)==1)admitted=nb_get(json_object_array_get_idx(loading,0),"steering");
+  if(declared&&!json_object_is_type(admitted,json_type_object))return NULL;
+  if(admitted){
+    double actual_ffn,actual_attention;int64_t host=0;
+    if(!json_object_is_type(admitted,json_type_object)||
+       !json_object_is_type(nb_get(admitted,"admitted"),json_type_boolean)||flag(admitted,"admitted")!=bank||
+       !steering_scale(admitted,"ffn",&actual_ffn)||!steering_scale(admitted,"attention",&actual_attention)||
+       actual_ffn!=ffn||actual_attention!=attention||
+       !nb_count(admitted,"host_vector_bytes",bank?4:0,bank?budget:0,&host)||host%4||
+       !nb_count(admitted,"device_vector_bytes",0,bank?INT64_MAX:0,NULL)||
+       !steering_hash(admitted,"bank_file_sha256",bank)||!steering_hash(admitted,"bank_scope_sha256",bank))return NULL;
+  }
+  /* Historical streams with no steering declaration/admission are unsteered.
+   * Allocation counts are observations, not arithmetic comparison keys. */
+  json_object *out=json_object_new_object();
+  json_object_object_add(out,"admitted",json_object_new_boolean(bank));
+  nb_real(out,"ffn",ffn);nb_real(out,"attention",attention);nb_num(out,"vector_budget_bytes",budget);
+  nb_str(out,"bank_file_sha256",bank?nb_string(admitted,"bank_file_sha256"):"");
+  nb_str(out,"bank_scope_sha256",bank?nb_string(admitted,"bank_scope_sha256"):"");
+  json_object_object_add(out,"schedule",schedule?json_object_get(schedule):json_object_new_array());
+  return out;
+}
+static bool core_schedule_result(json_object *job,json_object *steering,int64_t prompt,int64_t budget){
+  json_object *plan=nb_get(steering,"schedule"),*actual=nb_get(job,"steering_schedule");
+  size_t count=json_object_array_length(plan);if(!count)return actual==NULL;
+  if(!json_object_is_type(actual,json_type_object)||
+     !nb_count(actual,"completed",count,count,NULL)||!nb_count(actual,"applied",count,count,NULL)||
+     !json_object_is_type(nb_get(actual,"terminal"),json_type_boolean)||!flag(actual,"terminal")||
+     !nb_count(actual,"completed_positions",prompt+nb_number(job,"output_tokens"),prompt+nb_number(job,"output_tokens"),NULL)||
+     !nb_count(actual,"history_epochs",0,prompt+nb_number(job,"output_tokens"),NULL)||
+     !steering_hash(actual,"combined_scope_sha256",true))return false;
+  json_object *results=nb_get(actual,"steps");
+  if(!json_object_is_type(results,json_type_array)||json_object_array_length(results)!=count)return false;
+  for(size_t i=0;i<count;++i){json_object *step=json_object_array_get_idx(plan,i),*result=json_object_array_get_idx(results,i);
+    int64_t position=nb_number(step,"position");
+    if(position>=prompt+budget||position>prompt+nb_number(job,"output_tokens")||
+       !nb_count(result,"position",position,position,NULL)||!nb_count(result,"actual_position",position,position,NULL)||
+       !nb_count(result,"status",LIE_OK,LIE_OK,NULL)||
+       !nb_same(result,step,"ffn")||!nb_same(result,step,"attention")||
+       !json_object_is_type(nb_get(result,"attempted"),json_type_boolean)||!flag(result,"attempted")||
+       !json_object_is_type(nb_get(result,"applied"),json_type_boolean)||!flag(result,"applied"))return false;
+  }
+  json_object *last=json_object_array_get_idx(plan,count-1);double f,a;
+  return steering_scale(actual,"final_ffn",&f)&&steering_scale(actual,"final_attention",&a)&&
+         f==json_object_get_double(nb_get(last,"ffn"))&&a==json_object_get_double(nb_get(last,"attention"));
+}
+static int64_t core_schedule_cache_limit(json_object *steering,int64_t prompt){
+  json_object *plan=nb_get(steering,"schedule");
+  for(size_t i=0;i<json_object_array_length(plan);++i){int64_t position=nb_number(json_object_array_get_idx(plan,i),"position");
+    if(position>0)return position<prompt?position:prompt;
+  }
+  return prompt;
 }
 static json_object *core(json_object *rows, nb_error *e) {
   json_object *id = json_object_array_get_idx(rows, 0),
@@ -273,19 +418,35 @@ static json_object *core(json_object *rows, nb_error *e) {
               *points = json_object_new_array(),
               *input = select_rows(rows, "input"),
               *samples = select_rows(rows, "sample"),
-              *jobs = select_rows(rows, "job"), *generation = NULL;
+              *jobs = select_rows(rows, "job"), *generation = NULL, *steering = NULL;
   nb_add(out, "identity", id);
   json_object_object_add(out, "configurations", points);
   nb_add(out, "samples", samples);
   nb_add(out, "jobs", jobs);
   json_object_object_add(out, "loading", select_rows(rows, "core_ready"));
+  int64_t chunk,capacity;
+  json_object *probe = NULL;
+  CHECK(!json_object_object_get_ex(id, "prefill_probe", &probe),
+        "Functional prefill qualification is not a performance benchmark");
   CHECK(repetition_config(id) && eqs(id, "suite", "core") &&
             eqs(id, "execution", "shared-reactive-core") &&
             nb_count(id, "users", 1, 8, NULL) &&
-            nb_count(id, "prefill_chunk", 1, 2048, NULL),
+            prefill_config(id,false,&chunk,&capacity),
         "Invalid core identity");
   generation = core_generation(id);
   CHECK(generation, "Invalid core sampling controls or missing reproducible seed");
+  steering = core_steering(id, nb_get(out, "loading"));
+  CHECK(steering, "Invalid core steering request/admission identity");
+  json_object *eos_value = NULL;
+  bool eos_declared = json_object_object_get_ex(id, "eos_policy", &eos_value);
+  CHECK(!eos_declared || (json_object_is_type(eos_value, json_type_string) &&
+                         (eqs(id, "eos_policy", "stop") || eqs(id, "eos_policy", "ignore"))),
+        "Invalid core EOS policy");
+  bool ignore_eos = eos_declared && eqs(id, "eos_policy", "ignore");
+  CHECK(!nb_get(id,"progress_interval_ms") ||
+            (nb_count(id,"progress_interval_ms",0,60000,NULL) &&
+             (!nb_number(id,"progress_interval_ms") || nb_number(id,"progress_interval_ms")>=100)),
+        "Invalid core progress interval");
   size_t users = (size_t)nb_number(id, "users"),
          reps =
              (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
@@ -366,10 +527,20 @@ static json_object *core(json_object *rows, nb_error *e) {
                 nb_number(r, "user") == (int64_t)u &&
                 flag(r, "warmup") == flag(s, "warmup"),
             "Core peer ordering");
+      if(nb_get(r,"prefill_chunk")||nb_get(r,"prefill_capacity")||nb_get(r,"prefill_revision"))
+        CHECK(nb_count(r,"prefill_chunk",chunk,chunk,NULL)&&
+              nb_count(r,"prefill_capacity",capacity,capacity,NULL)&&
+              nb_count(r,"prefill_revision",1,INT64_MAX,NULL),"Core job prefill configuration mismatch");
       int64_t cached = nb_number(r, "cached_tokens"),
               ssd = nb_number(r, "ssd_cached_tokens"),
               tg = nb_number(r, "output_tokens"),
               total = nb_number(r, "total_ns");
+      CHECK(core_schedule_result(r,steering,pp,nb_number(id,"output_limit"))&&nb_same(r,first,"steering_schedule"),
+            "Core steering schedule boundaries or applied history mismatch");
+      int64_t cache_limit=core_schedule_cache_limit(steering,pp);
+      CHECK(cached<=cache_limit,"Core steering schedule cache boundary crossed");
+      CHECK(!ignore_eos || (tg == nb_number(id, "output_limit") && eqs(r, "finish", "length")),
+            "Incomplete fixed-budget core decode");
       CHECK((!nb_get(r, "cached_tokens") ||
              nb_count(r, "cached_tokens", 0, pp, NULL)) &&
                 (!nb_get(r, "ssd_cached_tokens") ||
@@ -381,7 +552,7 @@ static json_object *core(json_object *rows, nb_error *e) {
                 (disk || !nb_number(r, "ssd_read_ns")),
             "Core disk timing");
       CHECK(!eqs(id, "checkpoint_policy", "legacy") || cached == pp ||
-                cached % nb_number(id, "prefill_chunk") == 0,
+                cached % nb_number(id, "prefill_chunk") == 0 || (cache_limit<pp&&cached==cache_limit),
             "Unaligned legacy cache reuse");
       CHECK(nb_number(r, "prompt_tokens") == pp &&
                 nb_count(r, "prefill_tokens", 0, pp, NULL) &&
@@ -466,12 +637,17 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object *point = json_object_new_object();
   json_object_array_add(points, point);
   nb_add(point, "generation", generation);
+  nb_add(point, "steering", steering);
+  nb_str(point, "eos_policy", ignore_eos ? "ignore" : "stop");
+  nb_num(point,"prefill_capacity",capacity);
   fields(point, id,
-         "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit "
+         "mode mtp_model mtp_draft_tokens_requested vision_model image_sha256 image_bytes users context_capacity prefill_chunk input_kind output_limit rope_scaling "
          "repetitions cache_policy prefix_cache_bytes cache_retention_policy "
          "checkpoint_compression checkpoint_codec checkpoint_policy "
          "state_format ssd_quota_bytes ssd_staging_bytes");
   nb_str(point, "cache_policy", cache);
+  nb_num(point, "progress_interval_ms", nb_number(id,"progress_interval_ms"));
+  nb_str(point, "rope_scaling", nb_get(id, "rope_scaling") ? nb_string(id, "rope_scaling") : "native");
   nb_num(point, "prefix_cache_bytes", nb_number(id, "prefix_cache_bytes"));
   nb_num(point, "ssd_quota_bytes", nb_number(id, "ssd_quota_bytes"));
   nb_num(point, "ssd_staging_bytes", nb_number(id, "ssd_staging_bytes"));
@@ -531,9 +707,11 @@ static json_object *core(json_object *rows, nb_error *e) {
   json_object_put(samples);
   json_object_put(jobs);
   json_object_put(generation);
+  json_object_put(steering);
   return out;
 bad:
   json_object_put(generation);
+  json_object_put(steering);
   json_object_put(out);
   json_object_put(input);
   json_object_put(samples);
@@ -769,6 +947,8 @@ static json_object *read_result(const char *path, nb_error *e) {
       out = http_summary(rows, e);
     else if (eqs(id, "schema", "synapse-lie.http-multi-bench.v1"))
       out = nb_http_multi_summary(rows, e);
+    else if (eqs(id, "schema", "synapse-lie.http-curve-bench.v1"))
+      out = nb_http_curve_summary(rows, e);
     else {
       nb_fail(e, "Unsupported benchmark report schema");
       goto bad;
@@ -795,6 +975,10 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
   CHECK(nb_same(ai, bi, "schema") && nb_same(ai, bi, "synthetic") &&
             nb_same(ai, bi, "suite"),
         "Comparison scope or provider-kind mismatch");
+  CHECK(!eqs(ai,"schema","synapse-lie.bench.v1")||!strcmp(direct_contract(ai),direct_contract(bi)),
+        "Comparison measurement contract mismatch");
+  CHECK(!eqs(ai,"suite","ds4-walk")||nb_same(ai,bi,"rope_scaling"),
+        "DS4 walk comparison RoPE profiles differ");
   bool iscore = eqs(ai, "suite", "core"),
        http = eqs(ai, "schema", "synapse-lie.http-bench.v1");
   CHECK(!cache_build || iscore, "Cache build comparison requires core results");
@@ -827,10 +1011,10 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
     }
     CHECK(q, "Missing comparison point");
     const char *samecore[] = {"users",           "context_capacity",
-                              "prefill_chunk",   "input_kind",
+                              "prefill_chunk",   "prefill_capacity", "input_kind",
                               "output_limit",    "physical_ids_sha256",
                               "cache_policy",    "prefix_cache_bytes",
-                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation"};
+                              "ssd_quota_bytes", "ssd_staging_bytes", "image_sha256", "vision_model", "generation", "steering", "rope_scaling", "progress_interval_ms", "eos_policy"};
     if (iscore) {
       for (size_t k = 0; k < sizeof(samecore) / sizeof(*samecore); k++)
         CHECK(nb_same(p, q, samecore[k]),
@@ -840,7 +1024,8 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
             "HTTP comparison request or physical counts differ");
     else
       CHECK(nb_same(p, q, "context_capacity") &&
-                nb_same(p, q, "physical_ids_sha256"),
+                nb_same(p, q, "physical_ids_sha256") &&
+                nb_same(p, q, "prefill_chunk") && nb_same(p, q, "prefill_capacity"),
             "Comparison capacity or physical input mismatch");
     json_object *r = json_object_new_object();
     json_object_array_add(out, r);
@@ -949,7 +1134,8 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
   bool iscore = eqs(nb_get(a, "identity"), "suite", "core"),
        http = nb_get(a, "cases") != NULL,
        ssd = eqs(a, "schema", "synapse-lie.http-ssd-bench.v1"),
-       loading = eqs(nb_get(a, "identity"), "suite", "loading");
+       loading = eqs(nb_get(a, "identity"), "suite", "loading"),
+       walk = eqs(nb_get(a,"identity"),"suite","ds4-walk");
   if (ssd)
     fputs("case,api,stream,users,samples,metric,n,p50,p95,p99,min,max\n", f);
   else if (http)
@@ -967,11 +1153,14 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
           f);
   else if (loading)
     fputs("label,context_capacity,users,model_load_seconds\n", f);
-  else
+  else {
     fputs("label,depth,users,context_capacity,prompt_tokens,repetitions,full_"
           "output_budget,pp_median_tps,pp_min_tps,pp_max_tps,tg_median_tps,tg_"
-          "min_tps,tg_max_tps,pp_median_s,pp_min_s,pp_max_s,tg_median_s,tg_min_s,tg_max_s\n",
+          "min_tps,tg_max_tps,pp_median_s,pp_min_s,pp_max_s,tg_median_s,tg_min_s,tg_max_s",
           f);
+    if(walk)fputs(",measurement_contract,new_prefill_tokens,checkpoint_median_s,restore_median_s",f);
+    fputc('\n',f);
+  }
   json_object *series[] = {a, b};
   const char *labels[] = {label, ref};
   for (unsigned s = 0; s < (b ? 2u : 1u); s++) {
@@ -1034,6 +1223,12 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
         for (unsigned k = 0; k < 2; k++)
           for (unsigned j = 0; j < 3; j++)
             csv_stat(f, r, k ? "decode_seconds" : "prefill_seconds", stats[j], 1);
+        if(walk){
+          fputc(',',f);csv_string(f,direct_contract(nb_get(series[s],"identity")));
+          fprintf(f,",%" PRId64,nb_number(r,"prompt_tokens")-nb_number(r,"depth"));
+          csv_stat(f,r,"checkpoint_seconds","median",1);
+          csv_stat(f,r,"restore_seconds","median",1);
+        }
       }
       fputc('\n', f);
     }
@@ -1111,6 +1306,8 @@ static bool export_graph(const char *dir, json_object *a, json_object *b,
                         : loading ? "OS file cache uncontrolled"
                         : iscore || eqs(nb_get(a, "identity"), "suite", "multi")
                             ? "Concurrent users"
+                        : eqs(nb_get(a, "identity"), "suite", "ds4-walk")
+                            ? "Physical frontier (incremental prefill)"
                         : eqs(nb_get(a, "identity"), "suite", "fresh")
                             ? "Full prompt tokens"
                             : "Reused prefix tokens";
@@ -1175,7 +1372,7 @@ static bool export_graph(const char *dir, json_object *a, json_object *b,
           snprintf(tick, sizeof(tick), "model load");
         else
           snprintf(tick, sizeof(tick), "%" PRId64 " tokens",
-                   nb_number(r, eqs(nb_get(data, "identity"), "suite", "fresh")
+                   nb_number(r, (eqs(nb_get(data, "identity"), "suite", "fresh")||eqs(nb_get(data,"identity"),"suite","ds4-walk"))
                                     ? "prompt_tokens"
                                     : "depth"));
         v->ticks[i] = strdup(tick);
@@ -1230,6 +1427,12 @@ int nb_report(const char *input, const char *directory, const char *label,
     if(cache_build){nb_fail(e,"Cache build ablation is not an HTTP multi comparison");goto end;}
     if(reference){b=read_result(reference,e);if(!b)goto end;}
     rc=nb_http_multi_export(a,b,directory,label,ref_label,e);
+    goto end;
+  }
+  if (eqs(nb_get(a,"identity"),"schema","synapse-lie.http-curve-bench.v1")) {
+    if (cache_build) { nb_fail(e,"Cache build ablation is not a canonical curve comparison"); goto end; }
+    if (reference) { b=read_result(reference,e); if (!b) goto end; }
+    rc=nb_http_curve_export(a,b,directory,label,ref_label,e);
     goto end;
   }
   bool ssd = eqs(a, "schema", "synapse-lie.http-ssd-bench.v1"),

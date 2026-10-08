@@ -1,0 +1,1018 @@
+{
+  "schema": "synapse-lie.q2-q8-grouped-model.v1",
+  "plan_sha256": "32a697d2581f1e3846561ffea6ccd85c9fc155c963137d19f003273cd4fba35f",
+  "host": {
+    "capsule_sha256": "345ba563d63c74f86baad055e6a217c992607d19b6808bb3d6952578d7aef193",
+    "archive_sha256": "12d1dbe50e62419dcb2bf0383d6ef289800db182e9571f2eec4c6b94631d8aa6",
+    "fixture_files_verified": 26,
+    "source_files_verified": 1020
+  },
+  "component_result_sha256": "4bb476975847f0b4e4b05169fceecbd79c86776de4d37d01a3de66b7e6bc3cda",
+  "model": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-q8-grouped-model-r1",
+    "binary_sha256": "6049bb8ca816e351c6b6e5d72b15bdcc8abf4baaa76795715ba23368b0409115",
+    "complete": true,
+    "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+    "thermal_stop": null,
+    "command_wall_s": 97.802806,
+    "mmq_reuse": null,
+    "thermal_max_mc": {
+      "amdgpu": 74000,
+      "k10temp": 85375
+    },
+    "finished_at": "2026-10-04T23:49:45.774754+00:00",
+    "samples": [
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 0,
+        "warmup": true,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.367874455,
+        "decode_s": 5.043544628,
+        "prefill_tok_s": 1497.213427,
+        "decode_steps_s": 25.18070313,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 1,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.367619072,
+        "decode_s": 5.046388567,
+        "prefill_tok_s": 1497.49301,
+        "decode_steps_s": 25.16651231,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 2,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.370363377,
+        "decode_s": 5.046450383,
+        "prefill_tok_s": 1494.494113,
+        "decode_steps_s": 25.16620404,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 3,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.369530344,
+        "decode_s": 5.046612656,
+        "prefill_tok_s": 1495.403157,
+        "decode_steps_s": 25.16539482,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      }
+    ],
+    "shared_fork": [],
+    "within_arm_replay": {
+      "checks": 9,
+      "exact": 9
+    },
+    "measurements": {
+      "prefill_tok_s": {
+        "samples": [
+          1497.49301,
+          1494.494113,
+          1495.403157
+        ],
+        "min": 1494.494113,
+        "median": 1495.403157,
+        "max": 1497.49301
+      },
+      "decode_steps_s": {
+        "samples": [
+          25.16651231,
+          25.16620404,
+          25.16539482
+        ],
+        "min": 25.16539482,
+        "median": 25.16620404,
+        "max": 25.16651231
+      },
+      "prefill_s": {
+        "samples": [
+          1.367619072,
+          1.370363377,
+          1.369530344
+        ],
+        "min": 1.367619072,
+        "median": 1.369530344,
+        "max": 1.370363377
+      },
+      "decode_s": {
+        "samples": [
+          5.046388567,
+          5.046450383,
+          5.046612656
+        ],
+        "min": 5.046388567,
+        "median": 5.046450383,
+        "max": 5.046612656
+      }
+    },
+    "capsule_sha256": "82140ac3cba96ef65db09231ddd53c12712275949a58095aa6ebbacdd0eee0a8",
+    "archive_sha256": "6a514f8da080ac91aff88511aaf7e08255ae75f11ce62c69f5c3ac502ce41023",
+    "fixture_files_verified": 26,
+    "source_files_verified": 1025,
+    "command_exits": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "artifact_count": 26,
+    "command_wall_seconds": [
+      2.027148,
+      153.746133,
+      0.519809,
+      97.802806
+    ],
+    "compilation_excluded_from_pp_tg": true,
+    "input_sha256": "75343e606f5b815fe01f69ddc6ce50a997e2de96d8a20304a82a7f24f1180b35"
+  },
+  "references": {
+    "fixed_q2": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1",
+      "binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 98.292599,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 80750
+      },
+      "finished_at": "2026-10-04T10:50:28.925760+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.423943804,
+          "decode_s": 5.062085753,
+          "prefill_tok_s": 1438.259006,
+          "decode_steps_s": 25.08847266,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.41887387,
+          "decode_s": 5.058620886,
+          "prefill_tok_s": 1443.398207,
+          "decode_steps_s": 25.10565683,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.418603928,
+          "decode_s": 5.062386263,
+          "prefill_tok_s": 1443.672867,
+          "decode_steps_s": 25.08698337,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.418437954,
+          "decode_s": 5.060576497,
+          "prefill_tok_s": 1443.841794,
+          "decode_steps_s": 25.09595499,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1443.398207,
+            1443.672867,
+            1443.841794
+          ],
+          "min": 1443.398207,
+          "median": 1443.672867,
+          "max": 1443.841794
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.10565683,
+            25.08698337,
+            25.09595499
+          ],
+          "min": 25.08698337,
+          "median": 25.09595499,
+          "max": 25.10565683
+        },
+        "prefill_s": {
+          "samples": [
+            1.41887387,
+            1.418603928,
+            1.418437954
+          ],
+          "min": 1.418437954,
+          "median": 1.418603928,
+          "max": 1.41887387
+        },
+        "decode_s": {
+          "samples": [
+            5.058620886,
+            5.062386263,
+            5.060576497
+          ],
+          "min": 5.058620886,
+          "median": 5.060576497,
+          "max": 5.062386263
+        }
+      }
+    },
+    "fixed_ud": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1",
+      "binary_sha256": "e745e1a4e518a26e3e78be4bb853ab79280c70ff9c750babad169c14ef3e5eac",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 108.313503,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 76375
+      },
+      "finished_at": "2026-10-04T10:54:51.708359+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.212520558,
+          "decode_s": 5.217234208,
+          "prefill_tok_s": 1689.043527,
+          "decode_steps_s": 24.34239962,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.214447147,
+          "decode_s": 5.216416355,
+          "prefill_tok_s": 1686.364042,
+          "decode_steps_s": 24.34621613,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.214869991,
+          "decode_s": 5.217375049,
+          "prefill_tok_s": 1685.777092,
+          "decode_steps_s": 24.34174251,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.215141798,
+          "decode_s": 5.258576845,
+          "prefill_tok_s": 1685.400011,
+          "decode_steps_s": 24.15102104,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1686.364042,
+            1685.777092,
+            1685.400011
+          ],
+          "min": 1685.400011,
+          "median": 1685.777092,
+          "max": 1686.364042
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.34621613,
+            24.34174251,
+            24.15102104
+          ],
+          "min": 24.15102104,
+          "median": 24.34174251,
+          "max": 24.34621613
+        },
+        "prefill_s": {
+          "samples": [
+            1.214447147,
+            1.214869991,
+            1.215141798
+          ],
+          "min": 1.214447147,
+          "median": 1.214869991,
+          "max": 1.215141798
+        },
+        "decode_s": {
+          "samples": [
+            5.216416355,
+            5.217375049,
+            5.258576845
+          ],
+          "min": 5.216416355,
+          "median": 5.217375049,
+          "max": 5.258576845
+        }
+      }
+    },
+    "best_parent": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-moe-deferred-model-r1",
+      "binary_sha256": "fe3d566c3e914f4c2695d5cd9a4c91a028aefbd11a78efe896047871b5d97971",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 98.291149,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 75000,
+        "k10temp": 83125
+      },
+      "finished_at": "2026-10-04T22:43:43.470595+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.36755199,
+          "decode_s": 5.049952552,
+          "prefill_tok_s": 1497.566465,
+          "decode_steps_s": 25.14875114,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.370185422,
+          "decode_s": 5.044815975,
+          "prefill_tok_s": 1494.688213,
+          "decode_steps_s": 25.17435733,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.366648953,
+          "decode_s": 5.050827256,
+          "prefill_tok_s": 1498.556008,
+          "decode_steps_s": 25.14439587,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.368224019,
+          "decode_s": 5.039240888,
+          "prefill_tok_s": 1496.830907,
+          "decode_steps_s": 25.20220859,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1494.688213,
+            1498.556008,
+            1496.830907
+          ],
+          "min": 1494.688213,
+          "median": 1496.830907,
+          "max": 1498.556008
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.17435733,
+            25.14439587,
+            25.20220859
+          ],
+          "min": 25.14439587,
+          "median": 25.17435733,
+          "max": 25.20220859
+        },
+        "prefill_s": {
+          "samples": [
+            1.370185422,
+            1.366648953,
+            1.368224019
+          ],
+          "min": 1.366648953,
+          "median": 1.368224019,
+          "max": 1.370185422
+        },
+        "decode_s": {
+          "samples": [
+            5.044815975,
+            5.050827256,
+            5.039240888
+          ],
+          "min": 5.039240888,
+          "median": 5.044815975,
+          "max": 5.050827256
+        }
+      }
+    }
+  },
+  "replay": {
+    "fixed_q2": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": false,
+          "max_absolute_delta": 1.2001672983169556,
+          "relative_l2": 0.07413415537883954,
+          "kl_p_to_candidate": 1.6656011983593852e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 2.5350577533245087,
+          "relative_l2": 0.20692975407673064,
+          "kl_p_to_candidate": 0.001256655237433772,
+          "matched_history": true
+        }
+      ],
+      "input_exact": true,
+      "output_tokens_exact": true
+    },
+    "fixed_ud": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 6.06878137588501,
+          "relative_l2": 0.4223758632239935,
+          "kl_p_to_candidate": 0.0002118531093080066,
+          "matched_history": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.100843191146851,
+          "relative_l2": 0.4688412778248509,
+          "kl_p_to_candidate": 0.0032016805003220634,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 5.407170414924622,
+          "relative_l2": 0.3402211481301516,
+          "kl_p_to_candidate": 0.0006029427942386622,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.399147033691406,
+          "relative_l2": 0.5086457459700853,
+          "kl_p_to_candidate": 0.0004026051968799985,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": false,
+          "max_absolute_delta": 3.372383862733841,
+          "relative_l2": 0.1911373731640093,
+          "kl_p_to_candidate": 3.1594812461221425e-06,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": false,
+          "max_absolute_delta": 5.893324851989746,
+          "relative_l2": 0.6158125287704344,
+          "kl_p_to_candidate": 0.008626378681797702,
+          "matched_history": true
+        }
+      ],
+      "input_exact": true,
+      "output_tokens_exact": true
+    },
+    "best_parent": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0,
+          "matched_history": true
+        }
+      ],
+      "input_exact": true,
+      "output_tokens_exact": true
+    }
+  },
+  "checks": {
+    "fixed_q2": {
+      "input_exact": true,
+      "output_tokens_exact": true,
+      "changed_files": [
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "max_matched_history_kl": 0.001256655237433772
+    },
+    "fixed_ud": {
+      "input_exact": true,
+      "output_tokens_exact": true,
+      "changed_files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-prefill.f32",
+        "counting-0-last.f32",
+        "counting-0-prefill.f32",
+        "pp2048-0-last.f32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-prefill.f32"
+      ],
+      "max_matched_history_kl": 0.008626378681797702
+    },
+    "best_parent": {
+      "input_exact": true,
+      "output_tokens_exact": true,
+      "changed_files": [],
+      "max_matched_history_kl": 0.0
+    }
+  },
+  "candidate_median_change_percent": {
+    "fixed_q2": {
+      "prefill_tok_s": 3.5832418259336807,
+      "decode_steps_s": 0.2799218042429219,
+      "prefill_s": -3.459287192950733,
+      "decode_s": -0.27914041035391746
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -11.29294827313978,
+      "decode_steps_s": 3.3870275706897157,
+      "prefill_s": 12.730609377608705,
+      "decode_s": -3.276066305272818
+    },
+    "best_parent": {
+      "prefill_tok_s": -0.09538485565223631,
+      "decode_steps_s": -0.032387281602153095,
+      "prefill_s": 0.09547595875087911,
+      "decode_s": 0.03239777244798958
+    }
+  },
+  "within_arm_exact": true,
+  "observed_pp_tg_point_parity": false,
+  "release_at": "2026-10-04T23:51:12.818938+00:00",
+  "release_sha256": "5f9870a0d33b98de64236275a9b69b5ddf6802cb52d91f2efb6ed88da2183e00",
+  "controls_rerun": false,
+  "component_rerun": false,
+  "contemporaneous_bookends": false,
+  "original_tester_unchanged": true,
+  "numerical_acceptance": false,
+  "independent_model_quality": false,
+  "promoted": false,
+  "goal_met": false,
+  "full_curve_admitted": false,
+  "limits": "One new candidate on original exact2048/tg128; complete samples and logits retained. Synthetic whole-output equality is differential only. Historical model comparators do not establish contemporaneous repeatability, independent quality, serving or full-curve parity."
+}

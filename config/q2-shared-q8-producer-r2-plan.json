@@ -1,0 +1,69 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-producer-r2-plan.v1",
+  "previous_goal_turn": "R1 actual exits0/0/1, eight GPU producer/consumer byte pairs exact at96; CPU byte oracle scale differs1ULP in317 blocks. Failure and release retained; same GPU source reused.",
+  "previous_turn_revalidated": "Feature worktree was clean3338c93; latest full-model evidence still lacks UD PP parity. Goal remains Q2 PP/TG parity on all requested curve points.",
+  "previous_release_sha256": "742b5fd0152c1902eca3e74e6c2d0b0cf37eb172b4f026d925f06b1732842c00",
+  "manifests": {
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-iq2-mixed-model-source.json": "8b45bea7e4f7557372a7bd044587c9e3350f2566398c764e7e1ddd47edbfae26",
+    "config/q2-shared-q8-producer-source.json": "edcb6d73784c885b50876f14a84fb599201dad90cf6dd9ba81e3dd859aff96bd",
+    "config/q2-shared-q8-producer-static.json": "bda243789c31361a8b23bf208276834aead65be951c6cd047532079463a01f3e",
+    "config/q2-shared-q8-producer-r2-host-results.json": "ef3a9f79877bd0e2dfe0e7d8d7726e5571a86010db9eabfb947fbc560413798b",
+    "config/q2-shared-q8-producer-r1-results.json": "c0fee349540c2c801cece2d2d45c81933b2103c64713ca880fe1c26402135e7a",
+    "config/q2-shared-q8-producer-r1-format-diagnostic.json": "8efd144bf84180ee0d8ecb19463727c57d7b060fd8b0105080b80e6944f2287b",
+    "config/q2-shared-q8-producer-plan.json": "46e97cfc5ea20f75c16aee9ed9cdde7246500782f9fadc550e348d0320b3afe9"
+  },
+  "fixtures": {
+    "tests/q2_shared_q8_producer.cpp": "f49775ec0ed1e2ef1acddb2b7d03756daf1d1c7e22db0faa9796ad9f0c1c552d",
+    "tests/q2_hc_up_fused.cpp": "e002dacd5abeb28bf5f8dc576df557065ce829120966b63f629e275f5f2dab8a",
+    "tests/q2_remote_test.py": "efc517cf6fd01dae0c5740b042e975127830898dc135e803b92a570ae3bbd06e",
+    "tools/q2-remote.py": "0a0f00ee130c1ebe56e646f108b9cfc6239e6e6ced14647f03aa778f02f95a42",
+    "tools/q2-runner.py": "64518ab43e564647b54166181cb69e0080a24004656f46a7972673a6c664718f",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "cmake/hip/CMakeLists.txt": "8e716041917ad6caaeccd869ecc7fe5a5d1a1df35fd7d19a64135161523b62c7",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52"
+  },
+  "window_helper_sha256": "c80da9ae5d2cd314beded9d8a9ca6f79e6a3467fc4214991927a3be1e8049784",
+  "arms": [
+    {
+      "label": "q2-shared-q8-producer-component-r2",
+      "mode": "shared-q8-producer-check",
+      "variant": "shared-q8-producer"
+    }
+  ],
+  "protocol": {
+    "n": 2048,
+    "shared_m": 640,
+    "shared_k": 2560,
+    "shared_down_m": 2560,
+    "shared_down_k": 640,
+    "repetitions": 15,
+    "reference_candidate_reference_each_repetition": true,
+    "scopes": [
+      "producer",
+      "complete"
+    ],
+    "rotating_weight_sets": 16,
+    "rotating_weight_bytes": 191037440,
+    "timing": "HIP events, includes queued launch gaps, excludes warmup/allocation/readback/verification"
+  },
+  "advance_gate": {
+    "all_pairs_byte_exact": true,
+    "independent_q8_bytes_exact": true,
+    "independent_hc_rms_and_scaled_max_limits": 2e-05,
+    "complete_median_positive_against_both_controls": true,
+    "minimum_per_repetition_wins_against_both_controls": 12,
+    "producer_medians_positive_against_both_controls": true
+  },
+  "marginal_candidate_retained": true,
+  "norm_candidate_composed": false,
+  "model_run": false,
+  "model_baseline_changed": false,
+  "whole_control_binary_replay_implemented": false,
+  "full_curve_deferred_until_fixed_ud_parity": true,
+  "cleanup": false,
+  "goal_met": false,
+  "oracle_correction": "Independent scalar CPU scale uses exact F32 0x1.020408p-7 multiply, matching production HIP rounded-reciprocal lowering. Every scale/code/padded byte remains exact-gated; GPU source and2e-5 HC thresholds unchanged.",
+  "retained_r1_failure": true
+}

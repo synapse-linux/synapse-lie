@@ -1,0 +1,68 @@
+{
+  "cases": 18,
+  "relative_rms_max": 0.000569941123956,
+  "error_over_peak_max": 0.000521096293995,
+  "cross_width_replay": [
+    {
+      "reference": "operator-IQ2-pair-n17-m5-tile16-normal.f32",
+      "candidate": "operator-IQ2-pair-n17-m5-tile48-normal.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n17-m5-tile16-normal.f32",
+      "candidate": "operator-IQ2-pair-n17-m5-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n17-m5-tile16-normal.f32",
+      "candidate": "operator-IQ2-pair-n17-m5-tile128-normal.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n17-m5-tile16-tiny.f32",
+      "candidate": "operator-IQ2-pair-n17-m5-tile48-tiny.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n17-m5-tile16-tiny.f32",
+      "candidate": "operator-IQ2-pair-n17-m5-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n17-m5-tile16-tiny.f32",
+      "candidate": "operator-IQ2-pair-n17-m5-tile128-tiny.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n65-m129-tile16-normal.f32",
+      "candidate": "operator-IQ2-pair-n65-m129-tile48-normal.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n65-m129-tile16-normal.f32",
+      "candidate": "operator-IQ2-pair-n65-m129-tile64-normal.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n65-m129-tile16-normal.f32",
+      "candidate": "operator-IQ2-pair-n65-m129-tile128-normal.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n65-m129-tile16-tiny.f32",
+      "candidate": "operator-IQ2-pair-n65-m129-tile48-tiny.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n65-m129-tile16-tiny.f32",
+      "candidate": "operator-IQ2-pair-n65-m129-tile64-tiny.f32",
+      "exact": true
+    },
+    {
+      "reference": "operator-IQ2-pair-n65-m129-tile16-tiny.f32",
+      "candidate": "operator-IQ2-pair-n65-m129-tile128-tiny.f32",
+      "exact": true
+    }
+  ],
+  "scope": "Independent synthetic FP64 gate/up/SwiGLU over original IQ2 bytes and F16 activations; no model inference."
+}

@@ -1,0 +1,83 @@
+{
+  "schema": "synapse-lie.q2-down-half-pair-disposition.v1",
+  "decision": "RETAIN_FASTER_PARENT_EXACT_EXPERIMENT_INHERITED_QUALITY_PENDING",
+  "model_result_sha256": "02784123e40dae20453f616fe33d21d4fa324517a70139fe7ee65759affdb6c5",
+  "component_result_sha256": "2fe5ac66187a6e4306811a01d47ae176d736b565d2b2b7e80bdd7aaea55b8b5a",
+  "final_audit_sha256": "cbbb24bb90c14515428dbbfc683079dc6bb4e564da39e839ad8d26ec4d8c5182",
+  "candidate_pp": 1566.950178,
+  "candidate_tg": 25.19259094,
+  "parent_pp": 1547.273268,
+  "parent_tg": 25.17198641,
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 8.53914441546404,
+      "decode_steps_s": 0.3850658404452201,
+      "prefill_s": -7.867340826931645,
+      "decode_s": -0.3835887672384186
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -7.04879159670061,
+      "decode_steps_s": 3.495429423963614,
+      "prefill_s": 7.583324280169834,
+      "decode_s": -3.377375660079751
+    },
+    "best_parent": {
+      "prefill_tok_s": 1.2717152429986944,
+      "decode_steps_s": 0.0818550020820652,
+      "prefill_s": -1.2557457545165462,
+      "decode_s": -0.08178804525476036
+    }
+  },
+  "absolute_pp_gain": 19.676910000000134,
+  "required_pp_increase_to_ud_percent": 7.583324324431717,
+  "parent_model_files_exact": 21,
+  "model_parent_tokens_exact": true,
+  "changed_parent_logit_files": [],
+  "max_parent_kl": 0.0,
+  "within_arm_replays": {
+    "checks": 9,
+    "exact": 9
+  },
+  "inherited_quality_source": "config/q2-down-half-storage-disposition.json",
+  "inherited_quality_source_sha256": "41bc75e7ab6eaf21c2d39de1cca51bbb28c629f7def6f44a9caf0ac9770a58c5",
+  "component_output_pairs": 513,
+  "component_consumer_pairs": 99,
+  "component_timings": 168,
+  "component_parent_exact": true,
+  "thermal_peaks_c": {
+    "q2-down-half-pair-component-r1": {
+      "amdgpu": 46.0,
+      "k10temp": 69.375
+    },
+    "q2-down-half-pair-model-r1": {
+      "amdgpu": 76.0,
+      "k10temp": 84.625
+    }
+  },
+  "collection_completed_before_release": true,
+  "model_collection_finished_at": "2026-10-05T12:59:12.831794+00:00",
+  "release_at": "2026-10-05T12:59:27.317557+00:00",
+  "preparation_failures": [
+    {
+      "path": "evidence/q2-down-half-pair-preparation/host-command.json",
+      "sha256": "881be681318422eacdc59a59c4b93aa51c1d52b7d1ce8103b7b43b0bab337836",
+      "exit_code": 255
+    },
+    {
+      "path": "evidence/q2-down-half-pair-preparation/host-authorized-command.json",
+      "sha256": "038bb40938560dfed41cc11ce96787f19d1656164457a4f194bb143743de9cad",
+      "exit_code": 1
+    },
+    {
+      "path": "evidence/q2-down-half-pair-preparation/component-observer-initial-failure.json",
+      "sha256": "c3332bd0d09ac9d024d14b559698b2b1c01803759828a53eab2c710ee4b9c4f1",
+      "exit_code": 1
+    }
+  ],
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "quality_accepted": false,
+  "promoted": false,
+  "goal_met": false,
+  "reason": "New original fixed-model PP improves nominally1.271715%, with retained component savings and nonoverlapping observed PP ranges. All21 saved half-parent model files and9 internal replays are exact. No new rounding is observed, but inherited half-storage quality remains open. Preserve1566.950178 candidate and1547.273268 parent; no production default or whole-curve parity claim."
+}

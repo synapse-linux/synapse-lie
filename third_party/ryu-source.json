@@ -1,0 +1,54 @@
+{
+  "schema": "synapse-lie.ryu-source.v1",
+  "repository": "https://github.com/ulfjack/ryu",
+  "commit": "4c0618b0e44f7ef027ebae05d2cc7812048f7c8f",
+  "at_utc": "2026-10-06T01:35:26.262363+00:00",
+  "license_selected": "BSL-1.0 (dual upstream Apache-2.0/Boost alternatives retained unchanged)",
+  "scope": "Bundled C binary64 shortest formatter and fast parser; no project CPU/GPU model code or sibling artifacts.",
+  "files": {
+    "LICENSE-Apache2": {
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    "LICENSE-Boost": {
+      "bytes": 1338,
+      "sha256": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566"
+    },
+    "ryu/d2s.c": {
+      "bytes": 17705,
+      "sha256": "d24323c7eb77d63f1e52c415212b50060b776f0883525d907d04954fcd48cf64"
+    },
+    "ryu/s2d.c": {
+      "bytes": 8362,
+      "sha256": "9485e78f329ec1cf931b737333ef7bd85195864dfb9dd096413f0d336a7a46d3"
+    },
+    "ryu/ryu.h": {
+      "bytes": 1360,
+      "sha256": "b7feab0ba1df5e9ef3d602f386592ad152491405e49b408fb21c0e0e9e6bfb16"
+    },
+    "ryu/ryu_parse.h": {
+      "bytes": 1367,
+      "sha256": "da8ad9764b2701627cb75926b9d14b540fdfd7be693d671da9594eb16dabd27a"
+    },
+    "ryu/common.h": {
+      "bytes": 3648,
+      "sha256": "0bbd71d26da6193e678d0776cf418f43f287c73d6fd6725353df0aadf70f2a19"
+    },
+    "ryu/digit_table.h": {
+      "bytes": 1745,
+      "sha256": "8b782573abc0b8554d74163ae6c02f0beb5c30d1e63eaebdb0ddf2c98d817e01"
+    },
+    "ryu/d2s_intrinsics.h": {
+      "bytes": 13015,
+      "sha256": "1d05702f2edacce428223d4b43dd3095c1bd1f3ad30128ce1761d84356dddc7d"
+    },
+    "ryu/d2s_full_table.h": {
+      "bytes": 34501,
+      "sha256": "2618f6e5fae6c4443899b184efe3d08295dd267dc9f1a994c983c7caca59ebe6"
+    },
+    "ryu/d2s_small_table.h": {
+      "bytes": 7641,
+      "sha256": "54fec51f1c5eed786a8ce6de881b81582dd71f0812dcd4324b37396617bb0fa9"
+    }
+  }
+}

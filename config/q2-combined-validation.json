@@ -1,0 +1,340 @@
+{
+  "scope": "Frozen inputs, actual exits and evidence integrity; not numerical promotion",
+  "runs": {
+    "q2-combined-host-r1": {
+      "source_files_verified": 1020,
+      "source_capsule_sha256": "eba74d35f1e48f415e0ee3d87bcfa79758927acab65d4626fdb711d86c00c46c",
+      "archive_sha256": "0eb75f7bf39ce46c090c9713c479e7e1ddd98ac87acdae94f6aab48fa9046650",
+      "artifacts_verified": 7,
+      "temperature_max_c": {
+        "amdgpu": 38.0,
+        "k10temp": 65.875
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "source_variant": "qualified",
+      "finished_at": "2026-10-03T14:32:59.122915+00:00"
+    },
+    "q2-combined-retained-narrow-r1": {
+      "source_files_verified": 1020,
+      "source_capsule_sha256": "acf49b5b4aea3ed99e1cfd749f3239e400f01966a667e69eba118c16e2d099c4",
+      "archive_sha256": "5f4213febc403f8154cd4d8e61f5df9247d3d829d40ed3d5eda48c0c960d49f7",
+      "artifacts_verified": 4,
+      "temperature_max_c": {
+        "amdgpu": 38.0,
+        "k10temp": 68.875
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "source_variant": "combined-retained",
+      "finished_at": "2026-10-03T14:34:16.299311+00:00"
+    },
+    "q2-combined-scaled-narrow-r1": {
+      "source_files_verified": 1021,
+      "source_capsule_sha256": "ff5677530ed88a502b6b9d7a4fc410cd37248c9ee8f65536ad1bca6f62a14b53",
+      "archive_sha256": "89e3b124ef86fc15db57c3cdc8509834db10cfb60837c3aad194ca1d9011f04a",
+      "artifacts_verified": 4,
+      "temperature_max_c": {
+        "amdgpu": 39.0,
+        "k10temp": 69.0
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "SYNTHETIC_OPERATORS_PASS_NOT_MODEL_QUALIFIED",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "source_variant": "combined-scaled",
+      "finished_at": "2026-10-03T14:35:14.260430+00:00"
+    },
+    "q2-combined-reference-r1": {
+      "source_files_verified": 1019,
+      "source_capsule_sha256": "b8cb47839dbc713d6df0894ee8c4bf2cc52d10540b1af551f2ffacb9ab8235f4",
+      "archive_sha256": "dbac1c3dfc2300dd9a0879a0ee2d5d3bd03eed6c59e49474bc11526cbef8daee",
+      "artifacts_verified": 26,
+      "temperature_max_c": {
+        "amdgpu": 73.0,
+        "k10temp": 85.375
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "source_variant": "hc-up-chains",
+      "finished_at": "2026-10-03T14:40:54.320301+00:00"
+    },
+    "q2-combined-retained-model-r1": {
+      "source_files_verified": 1020,
+      "source_capsule_sha256": "6e33dba737b2336e0c685b171b880f1b7ef7c2950eb46061053591d1f5e36630",
+      "archive_sha256": "cb3d885eabeadcbc97c6854c243c48d06e6d35a6f266ba77ec7250c58a4fbf39",
+      "artifacts_verified": 26,
+      "temperature_max_c": {
+        "amdgpu": 71.0,
+        "k10temp": 80.875
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "source_variant": "combined-retained",
+      "finished_at": "2026-10-03T14:51:06.608556+00:00"
+    },
+    "q2-combined-scaled-model-r1": {
+      "source_files_verified": 1021,
+      "source_capsule_sha256": "ec95e67712d2dc55293c204b6260872ea8e9e7d8d83e4c215b2537ebc84ac8e1",
+      "archive_sha256": "0661d674b414079134121a5edc8cd273fff6e6268d69dc96e64837bcaf1fb19a",
+      "artifacts_verified": 26,
+      "temperature_max_c": {
+        "amdgpu": 70.0,
+        "k10temp": 86.5
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "source_variant": "combined-scaled",
+      "finished_at": "2026-10-03T14:56:29.980681+00:00"
+    },
+    "q2-combined-scaled-control-r1": {
+      "source_files_verified": 1020,
+      "source_capsule_sha256": "0ee84c98472cadc59aa86b4af2675c9ac0efb0830888e54205890b2bda069350",
+      "archive_sha256": "dc007424064a00c8c8a324723f9cc76cdb40898fa7102b172baa41790ca4a3e2",
+      "artifacts_verified": 26,
+      "temperature_max_c": {
+        "amdgpu": 69.0,
+        "k10temp": 85.625
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "source_variant": "scaled-input",
+      "finished_at": "2026-10-03T15:01:14.709801+00:00"
+    },
+    "q2-combined-ud-r1": {
+      "source_files_verified": 1019,
+      "source_capsule_sha256": "032b954dbc6faa73f735efef708d84c96cc16fa4ae4916fd45d03c5f0e428b5a",
+      "archive_sha256": "dbdbd1103a247718d716771dd42fdec5f42665c58d2553cca8595721032a356a",
+      "artifacts_verified": 26,
+      "temperature_max_c": {
+        "amdgpu": 74.0,
+        "k10temp": 75.375
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "source_variant": "qualified",
+      "finished_at": "2026-10-03T15:05:33.873966+00:00"
+    },
+    "q2-combined-ple-r1": {
+      "source_files_verified": 1021,
+      "source_capsule_sha256": "be28727606400f1361160dd287d38ce26aafbcaf1ffe24ccf8b03c61ba2faa58",
+      "archive_sha256": "faa2dcb0caff286e951b64fbc351983de93ac3d029054be60e64c8909d365ea7",
+      "artifacts_verified": 31,
+      "temperature_max_c": {
+        "amdgpu": 84.0,
+        "k10temp": 88.125
+      },
+      "fixtures_sha256": {
+        "CMakeLists.txt": "7473f302836a8d5c6e2cd79e0c2ba985c1f6bf35ab55236d883501eb4189fd8a",
+        "cmake/hip/CMakeLists.txt": "493a7fd311f6ffbd8d07f0236a405d3a0e12f580f744d9082976c2fbe972c424",
+        "tools/q2-remote.py": "2f350662faf05d0203aebf97501b8d56d6ac79b577859dd4e11bcb042e41027e",
+        "tools/q2-runner.py": "115ef020098228d449ecb3855c1d706509ba74992960b60096d9a4cb29a6762f",
+        "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+        "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+        "tools/q2_reuse.py": "18120aa859d825261ed9e9c844d93dc5cc431206dbf93bca567d681375c3d214",
+        "experiments/ple_flow.c": "15a88454be85957badd425c69e01b3f0d3ea3d365970a64ddc7cea981ece7f41",
+        "experiments/ple_flow.h": "d1f32b0ab2f4176eff0b5bcc827ea833dc5fc642154255f6d698d5a01de69b2b",
+        "tests/q2_remote_test.py": "9c215880c5bca4e5626fcb085a5e9634001bb7235aaca7e88c2d6574d18f1b61",
+        "tests/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+        "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+        "tests/q2_narrow_vector.cpp": "f04051373bce56300e5b17e523b7ef5c1463a909ff62ddfee0fbbac972ed44f3",
+        "tests/ple_flow.c": "c2d440c03d78dcba355dfc44493fa1a0638fa6637fce41241ea005946d801c71",
+        "tests/q2_ple_lookahead.cpp": "2483133accb21d028878e875b1142a71b6a5d4a334502a2ad6807c76bda326b2"
+      },
+      "state": "PLE_DIAGNOSTIC_COMPLETE_NOT_PERFORMANCE_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "source_variant": "combined-scaled",
+      "finished_at": "2026-10-03T15:11:24.531028+00:00"
+    }
+  },
+  "artifacts_verified": 176,
+  "source_files_verified": 9181
+}

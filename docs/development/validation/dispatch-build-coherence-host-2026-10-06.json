@@ -1,0 +1,324 @@
+{
+  "archive": {
+    "file_hashes": {
+      "build/dispatch-r75-release/provider-fixture-6b87f7a0950e/valid.log": "a603349d6de3fd7d7ce578a23ddc3cd86f3518dd986ba4fb0d7ceea7f23b04e8",
+      "cmake/provider/Verify.cmake": "10559f446f2875c177ed56c0b9dc7b767f7f136f7d79dfdb0eec74f43bc54f1d",
+      "docs/BACKEND.md": "ca860702081423b4d6bf8e0297b1f6a1207854375c22c6ea95b9d5308d2a044c",
+      "docs/COORDINATION.md": "0014cdcc2556a272d9576ab0931bafc1e0782b1293a171376ed64100e7e9dc19",
+      "docs/PROGRESS.md": "ac3a9cf245a16c4d8928fc562dbd300f121a192fc661f05ffb9e6e8d5b1d387a",
+      "docs/guides/BUILD.md": "755a31c0b7c462dd396959caae03e1e0ba067acb1a189b47a62963b3093dc3cc",
+      "docs/reference/ABI.md": "4783b22c0bdf61acc01aa050fd7642f4c559858937f12e24b3458dd885a47530",
+      "evidence/check-point-compile-r76.py": "8d9c607e346465a27a4f5a90db125590bbf83b658f958425741777c18009c753",
+      "evidence/dispatch-r76-asan-provider/command.log": "9dd88780861dac6cb6851b405fe3a121cef9536fcdda0b80075cf8a690e6ef77",
+      "evidence/dispatch-r76-asan-provider/plan.json": "e0622c2a0dc0690134ba4f7405aa8f3e8f640f2f0735ecbd387fb114289aa751",
+      "evidence/dispatch-r76-asan-provider/result.json": "2e9fc811aa87251fb38c319ec200384ce404a85e1fd45903400004df699125d7",
+      "evidence/dispatch-r76-asan-provider/temperatures.jsonl": "8b2fc11ebab787be4a008ffa2b72e9b3f8af235989704920bdcd361ee7570054",
+      "evidence/dispatch-r76-coordinator-control/command.log": "9e1453196bda09e71a9b064b69c1cde803d57900df26df35a6b1b202cc902369",
+      "evidence/dispatch-r76-coordinator-control/plan.json": "d3dd82b5b476b1c3db89c6f78eb59e6fbe96881d968313c88df316bc5398eb52",
+      "evidence/dispatch-r76-coordinator-control/result.json": "58d0f7c3893a8ee35e23cec88998a2fc652bff2f69fd85bb063f73416ddae9e4",
+      "evidence/dispatch-r76-coordinator-control/temperatures.jsonl": "35e02de6b878d418654d6705b9412296a7ba0d18b87590d9620f9ae359bb1b7d",
+      "evidence/dispatch-r76-coordinator-fixture/CONTROL-ONLY.json": "ea16ff216ae53ea5dccbe173faa9639148f49d2dc1072d7040f27fe791348bf8",
+      "evidence/dispatch-r76-coordinator-fixture/build/rocm10-point-linked-r1/lie-hip-probe": "242a5c9b3d6f085baf307cd5c7f8f3bc0492cadf1d547d31991aa9cee7011a5b",
+      "evidence/dispatch-r76-coordinator-fixture/build/rocm10-point-linked-r1/synapse-lie-bench": "242a5c9b3d6f085baf307cd5c7f8f3bc0492cadf1d547d31991aa9cee7011a5b",
+      "evidence/dispatch-r76-coordinator-fixture/build/rocm10-point-linked-r1/synapse-lie-bench-gufo-reference": "242a5c9b3d6f085baf307cd5c7f8f3bc0492cadf1d547d31991aa9cee7011a5b",
+      "evidence/dispatch-r76-coordinator-fixture/build/rocm10-point-linked-r1/synapse-lie-server": "242a5c9b3d6f085baf307cd5c7f8f3bc0492cadf1d547d31991aa9cee7011a5b",
+      "evidence/dispatch-r76-coordinator-fixture/evidence/rocm10-point-compile-r1/configure.log": "8fd303e9af32a1215aa616182723d514969cfc4d8cb7144e0860900d9da6d760",
+      "evidence/dispatch-r76-coordinator-fixture/evidence/rocm10-point-compile-r1/libraries.log": "8fd303e9af32a1215aa616182723d514969cfc4d8cb7144e0860900d9da6d760",
+      "evidence/dispatch-r76-coordinator-fixture/evidence/rocm10-point-compile-r1/link.log": "8fd303e9af32a1215aa616182723d514969cfc4d8cb7144e0860900d9da6d760",
+      "evidence/dispatch-r76-coordinator-fixture/evidence/rocm10-point-compile-r1/reference-libraries.log": "8fd303e9af32a1215aa616182723d514969cfc4d8cb7144e0860900d9da6d760",
+      "evidence/dispatch-r76-coordinator-fixture/evidence/rocm10-point-compile-r1/result.json": "3e27af93da687cbdbb1153f228e86f851e391e4afcfff1161d856013ea1224e9",
+      "evidence/dispatch-r76-coordinator-fixture/third_party/gufo-source.json": "f87f4bfb36ed7b7d7f7157e63ff2a588bbc97cad90787c31ab183cd635971a0a",
+      "evidence/dispatch-r76-native-test-inventory.json": "d28ace6b2d22bad38561daa688a8acf3372dc3ee8846a8e4260b8155fb95ce0a",
+      "evidence/dispatch-r76-provider-before/command.log": "ccacf864d6a7992e406ddfca2040911fa6079fda8e66fcb6e6b1eb76407098d3",
+      "evidence/dispatch-r76-provider-before/plan.json": "240307f0066933f89aa88c2290e2d5c411adf6e31f252e731af69966a2144360",
+      "evidence/dispatch-r76-provider-before/result.json": "a0c31c65c22c1773906c4291c19760b5695b8e33acb5ada8a44835ed911c876e",
+      "evidence/dispatch-r76-provider-before/temperatures.jsonl": "fb5711c838ae2832cc9caa448c0bc714515ceed6ad4d2068a1d3dad941a3ca4b",
+      "evidence/dispatch-r76-release-provider/command.log": "e11563c341bc7979fbc3b44d0f2d98c642b85a72d1e6d1db58a5dc0294b0a716",
+      "evidence/dispatch-r76-release-provider/plan.json": "1f821545a64131c711359bbfc946505cb8f80d525312241a9f0063b1c32d03f2",
+      "evidence/dispatch-r76-release-provider/result.json": "b00073273f131d717315a40941df41d7fd1d3c1d43beec477c3b97e2005d522e",
+      "evidence/dispatch-r76-release-provider/temperatures.jsonl": "e0b4cb52b9b9f52ec9f307328403c8f45894cffa2c79ddb68206a73e6de4c6ca",
+      "evidence/functional-source-ready-r76.json": "092bfc3334b0eafaac4ea32fd2d42cd779134b51b88e8349dcaf52834b34e942",
+      "evidence/seal-dispatch-coherence-r76.py": "4a5109e21683e7a8aefea9dd81f359fa0fe865a60aeb9d6c9c587bcedfb04322",
+      "tests/provider_contract.cmake": "8e5ecb121c10b4bba051f7d9321520799522ca4edfdc13db0277375bf1fa1448",
+      "tools/strix-point-rocm10-compile.py": "0eb0032e917ea52ec85d3ab03ea9ad7ec431d691dd1787864c1bc3f5a9589433"
+    },
+    "members": 41,
+    "path": "docs/development/validation/raw/dispatch-build-coherence-host-2026-10-06.tar.gz",
+    "sha256": "df4361f1e28e0f26472b8c462b6bcad3e40807ee99c24ef5a10395fbcf637623"
+  },
+  "base_commit": "bc0e9209abfaaa259ba4401d50c9644ee41929d6",
+  "checks": {
+    "c17_memory_instrumentation_for_these_cmake_controls": false,
+    "compiler_mocked_coordinator_control": true,
+    "release_configuration": {
+      "actual_exit_code": 0,
+      "passed": 3,
+      "total": 3
+    },
+    "sanitizer_configuration": {
+      "actual_exit_code": 0,
+      "passed": 3,
+      "total": 3
+    }
+  },
+  "commands": {
+    "dispatch-r76-asan-provider": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/dispatch-r75-asan",
+        "--output-on-failure",
+        "-R",
+        "^(native-provider-verification|native-provider-source-paths|hip-provider-target-verification)$",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "elapsed_s": 6.231200943700969,
+      "exit_code": 0,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.625
+      },
+      "reason": null
+    },
+    "dispatch-r76-coordinator-control": {
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/check-point-compile-r76.py"
+      ],
+      "child_exit_code": 0,
+      "elapsed_s": 1.090748516842723,
+      "exit_code": 0,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 51.75
+      },
+      "reason": null
+    },
+    "dispatch-r76-provider-before": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/dispatch-r75-release",
+        "--output-on-failure",
+        "-R",
+        "^native-provider-verification$"
+      ],
+      "child_exit_code": 8,
+      "elapsed_s": 1.086217688396573,
+      "exit_code": 8,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 47.875
+      },
+      "reason": null
+    },
+    "dispatch-r76-release-provider": {
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/dispatch-r75-release",
+        "--output-on-failure",
+        "-R",
+        "^(native-provider-verification|native-provider-source-paths|hip-provider-target-verification)$",
+        "--parallel",
+        "2"
+      ],
+      "child_exit_code": 0,
+      "elapsed_s": 6.2356855953112245,
+      "exit_code": 0,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 31.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 31.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 48.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 78.5
+      },
+      "reason": null
+    }
+  },
+  "compiler_invoked": false,
+  "controls": [
+    "Boolean type required; string/number/null/object/array rejected",
+    "DefaultON and explicitOFF matching accepted; either mismatch refused",
+    "Missing identity, missing/short/extra inventory, source/header mutation refused",
+    "Recipe missing/hash/drift refused under selected state access",
+    "Canonical full CMake ON/OFF provider route with identical state/cache/dispatch/HIP options; all subprocesses mocked"
+  ],
+  "date_utc": "2026-10-06",
+  "functional_source_readiness": {
+    "base_commit": "bc0e9209abfaaa259ba4401d50c9644ee41929d6",
+    "new_remote_action": false,
+    "requirements": {
+      "3": {
+        "feature": "1M context/RoPE, native recall and continuation",
+        "paths": [
+          "include/lie/rope.h",
+          "src/rope.c",
+          "src/worker.c",
+          "tools/native/recall.c",
+          "tools/native/http_bench.c",
+          "tools/native/http_transport.c"
+        ],
+        "pending": "Original-weight long-context HTTP/recall qualification",
+        "source_hashes": {
+          "include/lie/rope.h": "8ca6cb6297f587fafa4ae5ea7ef0ec6441f63297fac80a01b026dab36c4f1186",
+          "src/rope.c": "723688c17fbf669014ad120d29250119db72ef153c6a1af14c95641120fc1c9c",
+          "src/worker.c": "e05d0ff449055f258ef9e9e759801b37fa755a8f18470c662e4ecce106cb5f4a",
+          "tools/native/http_bench.c": "0e701baa3561254ca8e9a4146449d1fae1a183b7948eccdabbd3dc66296722a9",
+          "tools/native/http_transport.c": "c9cb36aeaf6871c5c629d99a5ec2e49c3393663827e7ab5d7c0c197ce43e057c",
+          "tools/native/recall.c": "ae154a585d3d81a533fc31f8c144fdeacef64c76ef8a9922dff2cad3ae11775c"
+        }
+      },
+      "4": {
+        "feature": "Native core/http/depth/cohort benchmark methods, reports/graphs and prefill dispatch",
+        "paths": [
+          "tools/core-bench.c",
+          "tools/executor-bench.c",
+          "tools/native/http_curve.c",
+          "tools/native/http_multi.c",
+          "tools/native/report.c",
+          "tools/native/plot.c",
+          "include/lie/dispatch.h",
+          "src/dispatch.c"
+        ],
+        "pending": "Actual HIP/GPU dispatch, matched 1M/C1/2/4/6/8 comparisons and reactive/instrumentation cost",
+        "source_hashes": {
+          "include/lie/dispatch.h": "8b327f40c85b560833f98fb49f12760f2b0d884abbca81312233ef17b0380a3d",
+          "src/dispatch.c": "41099ca819f97282daf4c5c9ae6eafb3a9e3b221b1bd0f03340c3c3fcfbad674",
+          "tools/core-bench.c": "9c31539950f40fb5008e3e663b92e2e1f7b7b826ccbf8144c3d2fbe1889fe63c",
+          "tools/executor-bench.c": "164a3a1708fe79f18827ca84bbd726dab1a5cc1f2ace5e42776e6eb420c0d265",
+          "tools/native/http_curve.c": "5801d1d05e4c9497a0f0fd212f4db6a329e20cc75c4d460d9d838e249e760209",
+          "tools/native/http_multi.c": "17b0380348b2953206964f2bc1d8898ace3ac492d9ef6843a41c34d493f00931",
+          "tools/native/plot.c": "1976d583dd9bf167227ae54520cb7e95074982f452885c3a76ef842168a1efc5",
+          "tools/native/report.c": "610b62114e71928d52d8fdd87efa53f983154865189d8666bf64e11b06ed55ff"
+        }
+      },
+      "5": {
+        "feature": "Model-neutral banks, live/planned changes, retained frontier and RAM/SSD semantic identity",
+        "paths": [
+          "include/lie/steering.h",
+          "include/lie/steering_state.h",
+          "src/steering.c",
+          "src/steering_state.c",
+          "src/worker.c",
+          "adapters/gufo.cpp",
+          "adapters/gufo-state/steering-edits.json"
+        ],
+        "pending": "Learned-direction quality, independent graph/correction/fault/vision and matched cost",
+        "source_hashes": {
+          "adapters/gufo-state/steering-edits.json": "223a28d0891acaa9f814d620255618db53f9a86bfb255f07e51efe2ba0189bf3",
+          "adapters/gufo.cpp": "3d32407551669a9ace0e4229fdc99b8de1b8a28232be2a991942b6a07f3a038b",
+          "include/lie/steering.h": "665c3c12bb7c4a64d29fa76b8904afff5aa0ed011dc42399e31b58d6d8d15103",
+          "include/lie/steering_state.h": "2b652e888965e7f0175028eb83b91214b00b159c9056bb42af1211b5e4e63f87",
+          "src/steering.c": "afba4d069b4c811963abbc21ca3852172630043b4fc477ca19e0e7f68ef68a42",
+          "src/steering_state.c": "26940bcbf97039a126a868b5b19764c0fc7901a51fc2dcb7562564f862dd2519",
+          "src/worker.c": "e05d0ff449055f258ef9e9e759801b37fa755a8f18470c662e4ecce106cb5f4a"
+        }
+      },
+      "6": {
+        "feature": "Greedy/DS4 profiles, top-k/min-p, seeded AR/MTP and HTTP controls",
+        "paths": [
+          "include/lie/sampling.h",
+          "src/sampling.c",
+          "src/wire_options.c",
+          "adapters/gufo_sampling.hpp",
+          "adapters/gufo_distribution.hpp",
+          "tools/core-bench.c"
+        ],
+        "pending": "Independent original-weight probabilities/filter/tool transitions and matched cost",
+        "source_hashes": {
+          "adapters/gufo_distribution.hpp": "71558ee3e3da4447c8275c21217aabc78219fff681c4667628cb10a757f35d8d",
+          "adapters/gufo_sampling.hpp": "87e637cadcf94059ca4059dcf54b99c91594f02138d4b64bb790dc8edf563346",
+          "include/lie/sampling.h": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09",
+          "src/sampling.c": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439",
+          "src/wire_options.c": "50e587c329be58f20eb68d3137e296393683902a0b0eb931cf0204d50f56bbb5",
+          "tools/core-bench.c": "9c31539950f40fb5008e3e663b92e2e1f7b7b826ccbf8144c3d2fbe1889fe63c"
+        }
+      },
+      "7": {
+        "feature": "Exactly three owned C17 sampler responsibilities: grammar/masking, history and compact speculative distributions with buffer ownership",
+        "paths": [
+          "src/grammar.c",
+          "src/sampling_history.c",
+          "src/sampling_distribution.c",
+          "src/sampling_storage.c",
+          "adapters/gufo_grammar.hpp",
+          "adapters/gufo_history.hpp",
+          "adapters/gufo_distribution.hpp",
+          "adapters/gufo_sampling_storage.hpp",
+          "cmake/provider/Source.cmake",
+          "cmake/provider/Verify.cmake"
+        ],
+        "pending": "Coherent latest private HIP producer/consumer compilation, original-weight numerical/fault/resources/quality/cost; no full model/controller/kernel rewrite added",
+        "source_hashes": {
+          "adapters/gufo_distribution.hpp": "71558ee3e3da4447c8275c21217aabc78219fff681c4667628cb10a757f35d8d",
+          "adapters/gufo_grammar.hpp": "16e73d18a411edaf20a8a548bc70b84589820212365eff46a8c7e29cb4ce5e4d",
+          "adapters/gufo_history.hpp": "01010ad8767be8a687915e2a6f5060649826cb7ab87366edd6ce68992bf5b93f",
+          "adapters/gufo_sampling_storage.hpp": "cd0836ff94644850e7d50f428d2c129d63a78e16ea9dd71322e2c55c03ccba53",
+          "cmake/provider/Source.cmake": "08bb3764211b85c3fb466bcfbbeb4d751274765418a8104f0327fc7542d1ee3f",
+          "cmake/provider/Verify.cmake": "10559f446f2875c177ed56c0b9dc7b767f7f136f7d79dfdb0eec74f43bc54f1d",
+          "src/grammar.c": "1cbd0e696df67cf860372bb8a71b7c2f522ae3149d31a36891ab1b221970455e",
+          "src/sampling_distribution.c": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b",
+          "src/sampling_history.c": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398",
+          "src/sampling_storage.c": "97cc0eacf33b28f50f8e7a839e8dd5984182c1ea3b3f4f4b3eba4e5df84e3eb0"
+        }
+      }
+    },
+    "root_items_open": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "state": "CURRENT_FUNCTIONAL_SOURCE_INTEGRATED_READY_FOR_COMBINED_QUALIFICATION_NOT_RUNTIME_ACCEPTANCE",
+    "terminal_bench": "Item2 OPEN, stopped/collected/closed, deferred last"
+  },
+  "model_run": false,
+  "preserved_failure": {
+    "actual_ctest_exit_code": 8,
+    "reason": "Synthetic receipt omitted newly required observer identity; underlying verifier refusal exit1 recorded in valid.log",
+    "run": "dispatch-r76-provider-before"
+  },
+  "remote_action": false,
+  "resources": {
+    "cpu_guard_c": 98,
+    "cpu_peak_c": 78.625,
+    "fan_clock_power_mutation": false,
+    "gpu_masked": true,
+    "lower_sensor_limits_honored": true,
+    "nvme_guard_c": 85
+  },
+  "root_items_open": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "schema": "lie.focused-host-validation.v1",
+  "scope": "Build selection/receipt/source/target controls and compiler-mocked coordinator; NOT-INFERENCE, NOT-HIP-COMPILATION",
+  "sequencing": "Final combined local qualification, fresh .161 admission/coherent build, functional-quality-fault qualification, matched benchmarks, Terminal Bench last",
+  "source_file_count": 8,
+  "source_files": {
+    "cmake/provider/Verify.cmake": "10559f446f2875c177ed56c0b9dc7b767f7f136f7d79dfdb0eec74f43bc54f1d",
+    "docs/BACKEND.md": "ca860702081423b4d6bf8e0297b1f6a1207854375c22c6ea95b9d5308d2a044c",
+    "docs/COORDINATION.md": "0014cdcc2556a272d9576ab0931bafc1e0782b1293a171376ed64100e7e9dc19",
+    "docs/PROGRESS.md": "ac3a9cf245a16c4d8928fc562dbd300f121a192fc661f05ffb9e6e8d5b1d387a",
+    "docs/guides/BUILD.md": "755a31c0b7c462dd396959caae03e1e0ba067acb1a189b47a62963b3093dc3cc",
+    "docs/reference/ABI.md": "4783b22c0bdf61acc01aa050fd7642f4c559858937f12e24b3458dd885a47530",
+    "tests/provider_contract.cmake": "8e5ecb121c10b4bba051f7d9321520799522ca4edfdc13db0277375bf1fa1448",
+    "tools/strix-point-rocm10-compile.py": "0eb0032e917ea52ec85d3ab03ea9ad7ec431d691dd1787864c1bc3f5a9589433"
+  },
+  "state": "BUILD_METADATA_CONTROLS_PASS_SOURCE_READY_PRIVATE_HIP_GPU_PENDING"
+}

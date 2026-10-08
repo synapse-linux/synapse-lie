@@ -1,0 +1,22 @@
+{
+  "schema": "synapse-lie.q2-expert-cache-staging.v1",
+  "arms": [
+    {
+      "mode": "expert-cache-check",
+      "capsule_sha256": "a42a62c44eab6daa747d7726c00346cd6361abb50ecf9bc47826349e46fdfcc3",
+      "provider_files": 1029,
+      "fixture_files": 98,
+      "capsule_path": "evidence/q2-expert-cache-stage-component/source.tar.gz",
+      "ssh_executed": false
+    },
+    {
+      "mode": "q2-counting-expert-cache",
+      "capsule_sha256": "5cccb04e6320a8ed219f35545f9aa0be6a3002395ba07bbb067f032f4109523f",
+      "provider_files": 1029,
+      "fixture_files": 98,
+      "capsule_path": "evidence/q2-expert-cache-stage-model/source.tar.gz",
+      "ssh_executed": false
+    }
+  ],
+  "gpu_run": false
+}

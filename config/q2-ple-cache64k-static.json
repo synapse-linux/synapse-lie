@@ -1,0 +1,134 @@
+{
+  "scope": "Static only; current formatter rejects two unchanged upstream test files in both bases and candidates",
+  "checks": {
+    "raw": {
+      "commands": [
+        {
+          "kind": "reconstruct",
+          "argv": [
+            "patch",
+            "--batch",
+            "-p1",
+            "-i",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-ple-cache64k-raw.patch"
+          ],
+          "exit_code": 0,
+          "log": "evidence/q2-ple-cache-raw-reconstruct-r2.log"
+        },
+        {
+          "kind": "format_all",
+          "argv": [
+            "python3",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-cache64k/tools/ci/check-format.py"
+          ],
+          "exit_code": 1,
+          "log": "evidence/q2-ple-cache-raw-format_all-r2.log"
+        },
+        {
+          "kind": "format_base",
+          "argv": [
+            "python3",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-moe-fused/tools/ci/check-format.py"
+          ],
+          "exit_code": 1,
+          "log": "evidence/q2-ple-cache-raw-format_base-r2.log"
+        },
+        {
+          "kind": "format_changed",
+          "argv": [
+            "clang-format",
+            "--dry-run",
+            "--Werror",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-cache64k/src/models/qwen38_flash_next/ngram.cpp"
+          ],
+          "exit_code": 0,
+          "log": "evidence/q2-ple-cache-raw-format_changed-r2.log"
+        },
+        {
+          "kind": "syntax",
+          "argv": [
+            "g++",
+            "-std=c++20",
+            "-include",
+            "chrono",
+            "-fsyntax-only",
+            "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-cache64k",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-ple-cache64k/src/models/qwen38_flash_next/ngram.cpp"
+          ],
+          "exit_code": 0,
+          "log": "evidence/q2-ple-cache-raw-syntax-r2.log"
+        }
+      ],
+      "reconstructed_files": 1019,
+      "same": true,
+      "changed_files": [
+        "src/models/qwen38_flash_next/ngram.cpp"
+      ]
+    },
+    "diagnostic": {
+      "commands": [
+        {
+          "kind": "reconstruct",
+          "argv": [
+            "patch",
+            "--batch",
+            "-p1",
+            "-i",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-ple-cache64k-diagnostic.patch"
+          ],
+          "exit_code": 0,
+          "log": "evidence/q2-ple-cache-diagnostic-reconstruct-r2.log"
+        },
+        {
+          "kind": "format_all",
+          "argv": [
+            "python3",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-cache64k/tools/ci/check-format.py"
+          ],
+          "exit_code": 1,
+          "log": "evidence/q2-ple-cache-diagnostic-format_all-r2.log"
+        },
+        {
+          "kind": "format_base",
+          "argv": [
+            "python3",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-q2/tools/ci/check-format.py"
+          ],
+          "exit_code": 1,
+          "log": "evidence/q2-ple-cache-diagnostic-format_base-r2.log"
+        },
+        {
+          "kind": "format_changed",
+          "argv": [
+            "clang-format",
+            "--dry-run",
+            "--Werror",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-cache64k/src/models/qwen38_flash_next/ngram.cpp"
+          ],
+          "exit_code": 0,
+          "log": "evidence/q2-ple-cache-diagnostic-format_changed-r2.log"
+        },
+        {
+          "kind": "syntax",
+          "argv": [
+            "g++",
+            "-std=c++20",
+            "-include",
+            "chrono",
+            "-fsyntax-only",
+            "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-cache64k",
+            "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-ple-cache64k/src/models/qwen38_flash_next/ngram.cpp"
+          ],
+          "exit_code": 0,
+          "log": "evidence/q2-ple-cache-diagnostic-syntax-r2.log"
+        }
+      ],
+      "reconstructed_files": 1020,
+      "same": true,
+      "changed_files": [
+        "src/models/qwen38_flash_next/ngram.cpp"
+      ]
+    }
+  },
+  "formatter": "clang-format version 23.1.1"
+}

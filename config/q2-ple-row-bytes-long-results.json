@@ -1,0 +1,200 @@
+{
+  "schema": "synapse-lie.q2-ple-row-bytes-long-results.v1",
+  "plan_sha256": "071b49e121d53b66dc759fcee2493c215110b690c9d7aa6f5598786a1d726a1c",
+  "release_sha256": "570f32f14dd69e4e8cc2198995cc50d483ebbb18e224b212f1492189bdf10528",
+  "rows": [
+    {
+      "case": "original-16-prefix-65536",
+      "depth": 65536,
+      "attempt": 0,
+      "tokens": 65440,
+      "calls": 32,
+      "full_chunks": 31,
+      "tail": 1952,
+      "parent_pp": 1388.4203461151435,
+      "candidate_pp": 1369.779064322502,
+      "pp_change_percent": -1.3426252247599635,
+      "parent_prefill_ms": 47132.700254,
+      "candidate_prefill_ms": 47774.127744,
+      "parent_tg": 25.992436889664685,
+      "candidate_tg": 26.20162417055811,
+      "tg_change_percent": 0.8048005724949903,
+      "parent_decode_ms": 307.781838,
+      "candidate_decode_ms": 305.324584,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 48.530307323,
+      "candidate_cache_capture_ms": 361.766864,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1349.7983405940743,
+      "reply_exact": true
+    },
+    {
+      "case": "original-18-prefix-131072",
+      "depth": 131072,
+      "attempt": 0,
+      "tokens": 130925,
+      "calls": 64,
+      "full_chunks": 63,
+      "tail": 1901,
+      "parent_pp": 1310.874604519482,
+      "candidate_pp": 1296.4374729982028,
+      "pp_change_percent": -1.1013358159128739,
+      "parent_prefill_ms": 99876.06713,
+      "candidate_prefill_ms": 100988.287308,
+      "parent_tg": 25.34421282245145,
+      "candidate_tg": 25.66035874746811,
+      "tg_change_percent": 1.2474087367850606,
+      "parent_decode_ms": 315.653915,
+      "candidate_decode_ms": 311.764932,
+      "decode_calls": 8,
+      "candidate_wall_seconds": 102.149404481,
+      "candidate_cache_capture_ms": 743.115219,
+      "cached_tokens": 0,
+      "archived_ud_pp": 1253.555692482095,
+      "reply_exact": true
+    }
+  ],
+  "cohorts": [
+    {
+      "label": "q2-ple-row-bytes-64-r1",
+      "result_sha256": "f6f9f49cb4edace218c9eaee242719d92ace61002a4ea74bff3a322abf0635f3",
+      "samples_sha256": "3d761b47119a25a0f7af33f7da4d35684963ded397233dd98808271a12a1b7b6",
+      "reference_samples_sha256": "f36cbef122fd55ddafdcddfe020fc595655f28823ac4bd4f4a0298799e602945",
+      "commands": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 10,
+      "validation": {
+        "all_saved_inputs_exact": true,
+        "context_capacity": 133760,
+        "chunk_size": 2048,
+        "preparation_and_prefix_history_exact": true,
+        "samples": 4,
+        "full_prefixes": [
+          {
+            "case": "original-16-prefix-65536",
+            "depth": 65536,
+            "tokens": 65440,
+            "calls": 32,
+            "prefill_ms": 47774.127744,
+            "prefill_tps": 1369.779064322502
+          }
+        ]
+      },
+      "quality": [
+        {
+          "case": "original-0-calibration-overhead-0",
+          "streamed_pieces_and_reply_exact": true
+        },
+        {
+          "case": "original-1-calibration-probe-0",
+          "streamed_pieces_and_reply_exact": true
+        },
+        {
+          "case": "original-2-warmup-0",
+          "streamed_pieces_and_reply_exact": true
+        },
+        {
+          "case": "original-16-prefix-65536",
+          "streamed_pieces_and_reply_exact": true
+        }
+      ],
+      "telemetry": {
+        "samples": 33,
+        "scope": "whole model session including startup",
+        "thermal_peaks_c": {
+          "amdgpu": 94.0,
+          "k10temp": 91.5
+        },
+        "sampled_gpu_clock_mhz": {
+          "min": 622,
+          "max": 2693
+        },
+        "memory": {
+          "min_available_bytes": 74807820288,
+          "max_anonymous_bytes": 1399885824,
+          "max_cached_bytes": 46563639296,
+          "first_cached_bytes": 46330003456,
+          "last_cached_bytes": 46563639296
+        },
+        "limitation": "System memory includes the loaded model and prior reclaimable cache; it does not isolate the reader. Runner /proc counters describe the session controller, not the GPU server, and are not server I/O evidence."
+      }
+    },
+    {
+      "label": "q2-ple-row-bytes-128-r1",
+      "result_sha256": "642f5e02b4631becb422a752cde43224dc889e9f57d39d0c315c065acc401b96",
+      "samples_sha256": "c301ec4f8a56de564f7a6ded768777c4e5e446cc480765faa1ce25730b7facdf",
+      "reference_samples_sha256": "34cb33c48be8d9f1782a7eb44877a43cb5b06bf55f43f38993b41c69d421d3f5",
+      "commands": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 10,
+      "validation": {
+        "all_saved_inputs_exact": true,
+        "context_capacity": 133760,
+        "chunk_size": 2048,
+        "preparation_and_prefix_history_exact": true,
+        "samples": 4,
+        "full_prefixes": [
+          {
+            "case": "original-18-prefix-131072",
+            "depth": 131072,
+            "tokens": 130925,
+            "calls": 64,
+            "prefill_ms": 100988.287308,
+            "prefill_tps": 1296.4374729982028
+          }
+        ]
+      },
+      "quality": [
+        {
+          "case": "original-0-calibration-overhead-0",
+          "streamed_pieces_and_reply_exact": true
+        },
+        {
+          "case": "original-1-calibration-probe-0",
+          "streamed_pieces_and_reply_exact": true
+        },
+        {
+          "case": "original-2-warmup-0",
+          "streamed_pieces_and_reply_exact": true
+        },
+        {
+          "case": "original-18-prefix-131072",
+          "streamed_pieces_and_reply_exact": true
+        }
+      ],
+      "telemetry": {
+        "samples": 60,
+        "scope": "whole model session including startup",
+        "thermal_peaks_c": {
+          "amdgpu": 101.0,
+          "k10temp": 95.5
+        },
+        "sampled_gpu_clock_mhz": {
+          "min": 628,
+          "max": 2701
+        },
+        "memory": {
+          "min_available_bytes": 70515814400,
+          "max_anonymous_bytes": 5722759168,
+          "max_cached_bytes": 46855888896,
+          "first_cached_bytes": 43669008384,
+          "last_cached_bytes": 44006752256
+        },
+        "limitation": "System memory includes the loaded model and prior reclaimable cache; it does not isolate the reader. Runner /proc counters describe the session controller, not the GPU server, and are not server I/O evidence."
+      }
+    }
+  ],
+  "all_streamed_replies_exact": true,
+  "controls_rebuilt_or_rerun": false,
+  "candidate_rebuilt": false,
+  "promoted": false,
+  "limits": "Original single observations versus saved controls, cooled separate64K/128K sessions. Eight decode calls are not TG128. Greedy agreement is not independent task quality. No causal correction for temperature/clocks or page-cache residency."
+}

@@ -1,0 +1,18 @@
+{
+  "scope": "Static HC down instructions after removal of comments and translation-unit block-label IDs; not runtime cache counters",
+  "same": true,
+  "instruction_sha256": [
+    "bdf8fef16f17025ba841436de558da3db2240590c278ec2f2797ad7229581c7a",
+    "bdf8fef16f17025ba841436de558da3db2240590c278ec2f2797ad7229581c7a"
+  ],
+  "assemblies": [
+    {
+      "path": "evidence/q2-hc-moe-fused-static-r1.s",
+      "sha256": "9d3c9059934373b3e916d0f58c57c115cb136c0a2c9018bac5557debd72c9fcf"
+    },
+    {
+      "path": "evidence/q2-hc-norm-half-static-r3.s",
+      "sha256": "070110ed47ab024b5f89af51ec621220f3e3ef31efe6f44cc43e143f67e75cba"
+    }
+  ]
+}

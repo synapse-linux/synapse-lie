@@ -1,0 +1,61 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "license": "MIT",
+  "edits": [
+    {
+      "path": "src/core/json_schema_regex.hpp",
+      "old": "namespace gufo::sampling {",
+      "new": "struct lie_regex_program;\n\nnamespace gufo::sampling {"
+    },
+    {
+      "path": "src/core/json_schema_regex.hpp",
+      "old": "  [[nodiscard]] std::uint32_t Start() const { return 0; }",
+      "new": "  [[nodiscard]] const lie_regex_program* C17Program() const;\n  [[nodiscard]] std::uint32_t Start() const { return 0; }"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "#include <vector>",
+      "new": "#include <vector>\n#ifndef LIE_C17_SAMPLING\n#define LIE_C17_SAMPLING 0\n#endif\n#if LIE_C17_SAMPLING\n#include \"gufo_grammar_regex.hpp\"\n#endif"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "  Id maximum_suffix{0};",
+      "new": "  Id maximum_suffix{0};\n  std::shared_ptr<const lie_regex_program> c17_program;"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "  std::vector<std::vector<Id>> predecessors(impl->states.size());\n  std::deque<Id> queue;\n  for (Id i = 0; i < impl->states.size(); ++i) {\n    auto& state = impl->states[i];\n    if (state.accepting) {\n      state.distance = 0;\n      queue.push_back(i);\n    }\n    std::set<Id> unique;\n    for (auto next : state.next)\n      if (next != kDead)\n        unique.insert(next);\n    state.successors.assign(unique.begin(), unique.end());\n    for (auto next : unique)\n      predecessors[next].push_back(i);\n  }\n  while (!queue.empty()) {\n    const auto state = queue.front();\n    queue.pop_front();\n    for (auto previous : predecessors[state])\n      if (impl->states[previous].distance == kDead) {\n        impl->states[previous].distance = impl->states[state].distance + 1;\n        queue.push_back(previous);\n      }\n  }\n  for (auto& state : impl->states)\n    for (auto& next : state.next)\n      if (next != kDead && impl->states[next].distance == kDead)\n        next = kDead;\n  for (const auto& state : impl->states)\n    if (state.distance != kDead)\n      impl->maximum_suffix = std::max(impl->maximum_suffix, state.distance);\n",
+      "new": "#if LIE_C17_SAMPLING\n  impl->c17_program = lie_gufo::regex_program(*impl);\n  // C owns the sealed graph; release transitional construction containers.\n  decltype(impl->states){}.swap(impl->states);\n  decltype(impl->alphabet){}.swap(impl->alphabet);\n#else\n  std::vector<std::vector<Id>> predecessors(impl->states.size());\n  std::deque<Id> queue;\n  for (Id i = 0; i < impl->states.size(); ++i) {\n    auto& state = impl->states[i];\n    if (state.accepting) {\n      state.distance = 0;\n      queue.push_back(i);\n    }\n    std::set<Id> unique;\n    for (auto next : state.next)\n      if (next != kDead)\n        unique.insert(next);\n    state.successors.assign(unique.begin(), unique.end());\n    for (auto next : unique)\n      predecessors[next].push_back(i);\n  }\n  while (!queue.empty()) {\n    const auto state = queue.front();\n    queue.pop_front();\n    for (auto previous : predecessors[state])\n      if (impl->states[previous].distance == kDead) {\n        impl->states[previous].distance = impl->states[state].distance + 1;\n        queue.push_back(previous);\n      }\n  }\n  for (auto& state : impl->states)\n    for (auto& next : state.next)\n      if (next != kDead && impl->states[next].distance == kDead)\n        next = kDead;\n  for (const auto& state : impl->states)\n    if (state.distance != kDead)\n      impl->maximum_suffix = std::max(impl->maximum_suffix, state.distance);\n#endif\n"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "bool JsonSchemaRegex::Accepting(Id state) const {\n  return state != kDead && impl_->states.at(state).accepting;\n}\n",
+      "new": "bool JsonSchemaRegex::Accepting(Id state) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::regex_accepting(impl_->c17_program.get(),state);\n#else\n  return state != kDead && impl_->states.at(state).accepting;\n#endif\n}\n"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "Id JsonSchemaRegex::MaximumSuffix() const {\n  return impl_->maximum_suffix;\n}\n",
+      "new": "Id JsonSchemaRegex::MaximumSuffix() const {\n#if LIE_C17_SAMPLING\n  return lie_regex_maximum_suffix(impl_->c17_program.get());\n#else\n  return impl_->maximum_suffix;\n#endif\n}\n"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "Id JsonSchemaRegex::Advance(Id state, Id cp) const {\n  if (state == kDead)\n    return kDead;\n  for (Id i = 0; i < impl_->alphabet.size(); ++i)\n    if (impl_->alphabet[i].contains(static_cast<UChar32>(cp)))\n      return impl_->states.at(state).next[i];\n  return kDead;\n}\n",
+      "new": "Id JsonSchemaRegex::Advance(Id state, Id cp) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::regex_advance(impl_->c17_program.get(),state,cp);\n#else\n  if (state == kDead)\n    return kDead;\n  for (Id i = 0; i < impl_->alphabet.size(); ++i)\n    if (impl_->alphabet[i].contains(static_cast<UChar32>(cp)))\n      return impl_->states.at(state).next[i];\n  return kDead;\n#endif\n}\n"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "bool JsonSchemaRegex::CanFinish(Id state, Id minimum, Id maximum) const {\n  if (state == kDead || minimum > maximum)\n    return false;\n  const auto distance = impl_->states.at(state).distance;\n  if (distance == kDead || distance > maximum)\n    return false;\n  if (distance >= minimum)\n    return true;\n  std::vector<Id> active{state};\n  auto anchor = active;\n  std::vector<bool> reachable(impl_->states.size());\n  Id steps = 0, block = 1, period = 0;\n  bool cycle = false;\n  while (steps < minimum) {\n    std::fill(reachable.begin(), reachable.end(), false);\n    for (auto current : active)\n      for (auto successor : impl_->states[current].successors)\n        if (impl_->states[successor].distance != kDead)\n          reachable[successor] = true;\n    active.clear();\n    for (Id next = 0; next < reachable.size(); ++next)\n      if (reachable[next])\n        active.push_back(next);\n    if (active.empty())\n      return false;\n    ++steps;\n    if (!cycle) {\n      ++period;\n      if (active == anchor) {\n        // Brent cycle detection bounds scratch memory even for very large\n        // minLength. Whole periods preserve the set of possible DFA states.\n        steps += ((minimum - steps) / period) * period;\n        cycle = true;\n      } else if (period == block) {\n        anchor = active;\n        block *= 2;\n        period = 0;\n      }\n    }\n  }\n  return std::ranges::any_of(active, [&](Id current) {\n    return impl_->states[current].distance <= maximum - minimum;\n  });\n}\n",
+      "new": "bool JsonSchemaRegex::CanFinish(Id state, Id minimum, Id maximum) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::regex_finish(impl_->c17_program.get(),state,minimum,maximum);\n#else\n  if (state == kDead || minimum > maximum)\n    return false;\n  const auto distance = impl_->states.at(state).distance;\n  if (distance == kDead || distance > maximum)\n    return false;\n  if (distance >= minimum)\n    return true;\n  std::vector<Id> active{state};\n  auto anchor = active;\n  std::vector<bool> reachable(impl_->states.size());\n  Id steps = 0, block = 1, period = 0;\n  bool cycle = false;\n  while (steps < minimum) {\n    std::fill(reachable.begin(), reachable.end(), false);\n    for (auto current : active)\n      for (auto successor : impl_->states[current].successors)\n        if (impl_->states[successor].distance != kDead)\n          reachable[successor] = true;\n    active.clear();\n    for (Id next = 0; next < reachable.size(); ++next)\n      if (reachable[next])\n        active.push_back(next);\n    if (active.empty())\n      return false;\n    ++steps;\n    if (!cycle) {\n      ++period;\n      if (active == anchor) {\n        // Brent cycle detection bounds scratch memory even for very large\n        // minLength. Whole periods preserve the set of possible DFA states.\n        steps += ((minimum - steps) / period) * period;\n        cycle = true;\n      } else if (period == block) {\n        anchor = active;\n        block *= 2;\n        period = 0;\n      }\n    }\n  }\n  return std::ranges::any_of(active, [&](Id current) {\n    return impl_->states[current].distance <= maximum - minimum;\n  });\n#endif\n}\n"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "bool JsonSchemaRegex::CanAdvance(Id state, Id first, Id last, Id minimum,\n                                 Id maximum) const {\n  if (state == kDead || first > last)\n    return false;\n  const auto& row = impl_->states.at(state);\n  for (Id i = 0; i < impl_->alphabet.size(); ++i)\n    if (row.next[i] != kDead &&\n        impl_->alphabet[i].containsSome(static_cast<UChar32>(first),\n                                        static_cast<UChar32>(last)) &&\n        CanFinish(row.next[i], minimum, maximum))\n      return true;\n  return false;\n}\n",
+      "new": "bool JsonSchemaRegex::CanAdvance(Id state, Id first, Id last, Id minimum,\n                                 Id maximum) const {\n#if LIE_C17_SAMPLING\n  return lie_gufo::regex_can_advance(impl_->c17_program.get(),state,first,last,minimum,maximum);\n#else\n  if (state == kDead || first > last)\n    return false;\n  const auto& row = impl_->states.at(state);\n  for (Id i = 0; i < impl_->alphabet.size(); ++i)\n    if (row.next[i] != kDead &&\n        impl_->alphabet[i].containsSome(static_cast<UChar32>(first),\n                                        static_cast<UChar32>(last)) &&\n        CanFinish(row.next[i], minimum, maximum))\n      return true;\n  return false;\n#endif\n}\n"
+    },
+    {
+      "path": "src/core/json_schema_regex.cpp",
+      "old": "bool JsonSchemaRegex::Accepting(Id state) const {",
+      "new": "const lie_regex_program* JsonSchemaRegex::C17Program() const {\n  return impl_->c17_program.get();\n}\n\nbool JsonSchemaRegex::Accepting(Id state) const {"
+    }
+  ]
+}

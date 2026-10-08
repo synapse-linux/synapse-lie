@@ -1,0 +1,25 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-pair-r1-disposition.v1",
+  "status": "CLOSED_INFRASTRUCTURE_FAILURE_NO_AB_COMPARISON",
+  "first_arm": {
+    "arm": "retained",
+    "prefill_tps": 1423.9429751777618,
+    "prefill_ms": 22972.127796
+  },
+  "runner_exit_code": 2,
+  "failure": "[Errno 98] Address already in use",
+  "failure_stage": "port availability check before candidate server start",
+  "result_sha256": "bad5d8ac24d1801157dbe981951a5c30799198d26b8cb7465230680fd1103f83",
+  "release_sha256": "98fa22ff6b21c035c1ba387a30af48793e79a8e614dae91ab741bd77b9f65e17",
+  "artifact_sha256": {
+    "results/00-receipt.json": "a970d93b418d4ca77f1934842c0133f7e06c8cbd4f1b429f3f837eeed4c21fd9",
+    "results/00-retained.client.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/00-retained.jsonl": "efa435615f8e8ba863b69a11a47b6dbb45e7f869e88a6a072eb332cd60f87a86",
+    "results/00-retained.server.log": "c845037420d0d8b6f1bb7729092957dc073bae403dd0f7a0ee818ab55f4af8f1",
+    "results/00-retained.telemetry.jsonl": "74924dd93d3c892fc9c0d5a174fdd546976a181bec17c1e33f1ef6e9a3f018f8",
+    "results/pair-result.json": "bad5d8ac24d1801157dbe981951a5c30799198d26b8cb7465230680fd1103f83"
+  },
+  "all_collected_artifacts_match_remote": true,
+  "model_comparison_valid": false,
+  "remote_cleanup": false
+}

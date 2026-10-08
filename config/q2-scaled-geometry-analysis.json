@@ -1,0 +1,67 @@
+{
+  "scope": "Read-only analysis of retained GPU trace plus static compiler resources; no new performance run",
+  "profile": "evidence/q2-scaled-input-profile-r1/results",
+  "database_sha256": "409ed8617b65388c2aa69bf0176a0d63fbf802ef1d6526c17e2c13879289015b",
+  "profile_binary_sha256": "3a563f308351ee309b0dfedf50bfe6aa3b96e6309482c4b2bc1aeea7bfb98023",
+  "prefill_kernel_ns": 1511193353,
+  "down_ns": 190310223,
+  "pack_ns": 22097931,
+  "down_and_pack_fraction": 0.14055656979851738,
+  "gate_up_ns": 265461430,
+  "down_tiles": {
+    "min": 512,
+    "median": 669.0,
+    "max": 712
+  },
+  "down_slot_capacity_fraction": {
+    "min": 0.599250936329588,
+    "max": 0.8333333333333334
+  },
+  "gate_tile_counts": {
+    "128": 19,
+    "64": 29
+  },
+  "static_resources": [
+    {
+      "tile_rows": 48,
+      "vgpr": 96,
+      "lds_bytes": 18560,
+      "scratch_bytes": 0
+    },
+    {
+      "tile_rows": 64,
+      "vgpr": 104,
+      "lds_bytes": 20608,
+      "scratch_bytes": 0
+    },
+    {
+      "tile_rows": 128,
+      "vgpr": 169,
+      "lds_bytes": 28800,
+      "scratch_bytes": 0
+    }
+  ],
+  "separate_unprofiled_comparison": {
+    "candidate_prefill_s": 1.485868312,
+    "ud_prefill_s": 1.216892396,
+    "required_wall_reduction_s": 0.26897591600000004,
+    "required_wall_reduction_fraction": 0.18102271501971434
+  },
+  "fixture_followup": {
+    "baseline_tile": 48,
+    "candidate_tiles": [
+      64,
+      128
+    ],
+    "operator_cases": 16,
+    "timing_cohorts": 6,
+    "gpu_execution_pending": true
+  },
+  "limits": [
+    "The trace does not contain expert bucket histograms or hardware occupancy counters.",
+    "Slot capacity fraction is a geometry ratio, not ALU utilization; source skips inactive 16-row WMMA tiles.",
+    "Gate/up and down timings are different operators, not a 64-vs-128 performance comparison.",
+    "Profile cost shares and unprofiled wall times are distinct; a zero-cost-component scenario is only a prioritization heuristic.",
+    "All numerical rejections and Q2/UD parity remain open."
+  ]
+}

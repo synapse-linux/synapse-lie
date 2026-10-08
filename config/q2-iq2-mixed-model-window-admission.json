@@ -1,0 +1,330 @@
+{
+  "schema": "synapse-lie.q2-iq2-mixed-model-window.v1",
+  "at": "2026-10-04T09:40:03.638575+00:00",
+  "state": "Q2_IQ2_MIXED_MODEL_WINDOW_ADMITTED",
+  "owner": "synapse-lie-q2",
+  "source_checkpoint": "452b0dd",
+  "previous_release": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-mixed-window-release.json",
+  "previous_release_sha256": "a60daa4f4328529c0184f3aa2704fe5cf1801a570964f59c91eb8bef2885c8a0",
+  "previous_registry_event": {
+    "event": "window_release",
+    "owner": "synapse-lie-q2",
+    "label": "q2-iq2-mixed",
+    "at": "2026-10-04T08:32:30.689733+00:00",
+    "state": "Q2_IQ2_MIXED_WINDOW_RELEASED",
+    "receipt": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-iq2-mixed-window-release.json",
+    "receipt_sha256": "a60daa4f4328529c0184f3aa2704fe5cf1801a570964f59c91eb8bef2885c8a0",
+    "next_window_owner": "core"
+  },
+  "cohorts": [
+    {
+      "label": "q2-iq2-mixed-model-host-r1",
+      "finished_at": "2026-10-04T09:04:59.363367+00:00",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "retired_identities": [
+    {
+      "pid": 3447355,
+      "start_ticks": 166089525
+    },
+    {
+      "pid": 3447363,
+      "start_ticks": 166089687
+    },
+    {
+      "pid": 3447576,
+      "start_ticks": 166089940
+    },
+    {
+      "pid": 3447719,
+      "start_ticks": 166091398
+    },
+    {
+      "pid": 3447980,
+      "start_ticks": 166096063
+    },
+    {
+      "pid": 3447981,
+      "start_ticks": 166096126
+    },
+    {
+      "pid": 3448182,
+      "start_ticks": 166096329
+    },
+    {
+      "pid": 3448316,
+      "start_ticks": 166097791
+    },
+    {
+      "pid": 3448548,
+      "start_ticks": 166102415
+    },
+    {
+      "pid": 3448577,
+      "start_ticks": 166102541
+    },
+    {
+      "pid": 3448772,
+      "start_ticks": 166102744
+    },
+    {
+      "pid": 3448912,
+      "start_ticks": 166104198
+    },
+    {
+      "pid": 3480871,
+      "start_ticks": null
+    },
+    {
+      "pid": 3480873,
+      "start_ticks": 166733401
+    },
+    {
+      "pid": 3480948,
+      "start_ticks": 166733453
+    },
+    {
+      "pid": 3481114,
+      "start_ticks": 166734056
+    },
+    {
+      "pid": 3481649,
+      "start_ticks": null
+    },
+    {
+      "pid": 3481650,
+      "start_ticks": 166740734
+    },
+    {
+      "pid": 3481720,
+      "start_ticks": 166740787
+    },
+    {
+      "pid": 3481874,
+      "start_ticks": 166741340
+    },
+    {
+      "pid": 3482092,
+      "start_ticks": 166742093
+    },
+    {
+      "pid": 3482169,
+      "start_ticks": 166742145
+    },
+    {
+      "pid": 3482361,
+      "start_ticks": 166742998
+    },
+    {
+      "pid": 3485053,
+      "start_ticks": null
+    },
+    {
+      "pid": 3485054,
+      "start_ticks": 166796463
+    },
+    {
+      "pid": 3485258,
+      "start_ticks": 166796673
+    },
+    {
+      "pid": 3485405,
+      "start_ticks": 166798128
+    },
+    {
+      "pid": 3485658,
+      "start_ticks": null
+    },
+    {
+      "pid": 3485659,
+      "start_ticks": 166803213
+    },
+    {
+      "pid": 3485856,
+      "start_ticks": 166803416
+    },
+    {
+      "pid": 3486003,
+      "start_ticks": 166804871
+    },
+    {
+      "pid": 3495232,
+      "start_ticks": null
+    },
+    {
+      "pid": 3495239,
+      "start_ticks": 167006298
+    },
+    {
+      "pid": 3495313,
+      "start_ticks": 167006351
+    },
+    {
+      "pid": 3495471,
+      "start_ticks": 167006953
+    },
+    {
+      "pid": 3495716,
+      "start_ticks": 167007707
+    },
+    {
+      "pid": 3495786,
+      "start_ticks": 167007759
+    },
+    {
+      "pid": 3495985,
+      "start_ticks": 167008612
+    }
+  ],
+  "retired_groups": [
+    3447363,
+    3447576,
+    3447719,
+    3447981,
+    3448182,
+    3448316,
+    3448577,
+    3448772,
+    3448912,
+    3480873,
+    3480948,
+    3481114,
+    3481650,
+    3481720,
+    3481874,
+    3482092,
+    3482169,
+    3482361,
+    3485054,
+    3485258,
+    3485405,
+    3485659,
+    3485856,
+    3486003,
+    3495239,
+    3495313,
+    3495471,
+    3495716,
+    3495786,
+    3495985
+  ],
+  "owned_group_members": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "unchanged_free_EX_NB": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "unchanged_free_EX_NB": true
+    }
+  ],
+  "models": [
+    {
+      "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+      "bytes": 147207127040,
+      "device": 52,
+      "inode": 3116203,
+      "mtime_ns": 1789830972390000000,
+      "ctime_ns": 1790245042601989314
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 52,
+      "inode": 3206497,
+      "mtime_ns": 1790711324843554872,
+      "ctime_ns": 1790711324862554699
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 52,
+      "inode": 3228516,
+      "mtime_ns": 1790736177583897747,
+      "ctime_ns": 1790736200535707812
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 52,
+      "inode": 3211726,
+      "mtime_ns": 1790722377225361874,
+      "ctime_ns": 1790722399329150549
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 52,
+      "inode": 3207513,
+      "mtime_ns": 1790713947624076845,
+      "ctime_ns": 1790713953424001688
+    },
+    {
+      "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 52,
+      "inode": 3206512,
+      "mtime_ns": 1790711824619908153,
+      "ctime_ns": 1790711826279892467
+    }
+  ],
+  "model_stats_unchanged": true,
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 34000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 36375,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "scope": "Four full canonical HTTP0\u2013128K curves: ordered Q2 before, mixed-map Q2, ordered Q2 after, pristine UD; full MMQ builds, same frozen C17 core. No interleaving.",
+  "gpu_reserved": true,
+  "restart_scheduled": false,
+  "observer_or_waiter": false,
+  "remote_cleanup": false,
+  "model_inference": true,
+  "planned_labels": [
+    "q2-iq2-mixed-curve-before-r1",
+    "q2-iq2-mixed-curve-candidate-r1",
+    "q2-iq2-mixed-curve-after-r1",
+    "q2-iq2-mixed-curve-ud-r1"
+  ]
+}

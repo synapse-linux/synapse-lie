@@ -1,0 +1,196 @@
+{
+  "scope": "Local source reconstruction, syntax, formatting and build-graph only; no runtime/GPU execution",
+  "checks": [
+    {
+      "label": "changed-format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        ".deps/gufo-q2-bench-hc-library-ragged/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp",
+        "tests/q2_hc_library_ragged.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/changed-format.log"
+    },
+    {
+      "label": "library-syntax",
+      "argv": [
+        "clang++",
+        "-std=c++20",
+        "-D__HIP_PLATFORM_AMD__",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/opt/rocm/include",
+        "-I.deps/gufo-q2-bench-hc-library-ragged",
+        "-include",
+        "chrono",
+        "-fsyntax-only",
+        ".deps/gufo-q2-bench-hc-library-ragged/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/library-syntax.log"
+    },
+    {
+      "label": "fixture-syntax",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-bench-hc-library-ragged",
+        "-isystem",
+        "/opt/rocm/include",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsyntax-only",
+        "tests/q2_hc_library_ragged.cpp"
+      ],
+      "exit_code": 1,
+      "log": "evidence/q2-hc-library-ragged-static/fixture-syntax.log"
+    },
+    {
+      "label": "fixture-format",
+      "argv": [
+        "clang-format",
+        "-i",
+        "tests/q2_hc_library_ragged.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/fixture-format.log"
+    },
+    {
+      "label": "fixture-syntax-corrected",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I.deps/gufo-q2-bench-hc-library-ragged",
+        "-isystem",
+        "/opt/rocm/include",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsyntax-only",
+        "tests/q2_hc_library_ragged.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/fixture-syntax-corrected.log"
+    },
+    {
+      "label": "shared-format",
+      "argv": [
+        "python3",
+        ".deps/gufo-q2-bench-hc-library-ragged/tools/ci/check-format.py"
+      ],
+      "exit_code": 1,
+      "log": "evidence/q2-hc-library-ragged-static/shared-format.log"
+    },
+    {
+      "label": "parent-shared-format",
+      "argv": [
+        "python3",
+        ".deps/gufo-q2-bench-library-norm-bound/tools/ci/check-format.py"
+      ],
+      "exit_code": 1,
+      "log": "evidence/q2-hc-library-ragged-static/parent-shared-format.log"
+    },
+    {
+      "label": "cmake-configure",
+      "argv": [
+        "cmake",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit",
+        "-B",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/q2-hc-library-ragged-configure",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+        "-DQ2_HIP=ON",
+        "-DCMAKE_HIP_ARCHITECTURES=gfx1151",
+        "-DGUFO_SOURCE=/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-library-ragged"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/cmake-configure.log"
+    },
+    {
+      "label": "build-graph",
+      "argv": [
+        "cmake",
+        "--build",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/q2-hc-library-ragged-configure",
+        "--target",
+        "q2_hc_library_ragged",
+        "--",
+        "-n"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/build-graph.log"
+    },
+    {
+      "label": "reconstruct",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-library-ragged.patch"
+      ],
+      "cwd": "evidence/q2-hc-library-ragged-static/reconstruction",
+      "exit_code": 0,
+      "log": "evidence/q2-hc-library-ragged-static/reconstruct.log"
+    }
+  ],
+  "input_sha256": {
+    "cmake/hip/CMakeLists.txt": "a2c8ac41c2a6023690657c4388600eee56f40ddb271226947d0edfbb426573de",
+    "tools/q2-remote.py": "e1dfa33c465a00c3301d3c1ebe89e316e0a8ffdcfe0dcbe7d0796ddb1add528e",
+    "tools/q2-runner.py": "e5fb89123bfe4e0578af8d1fcd1c7c2ce2376b416bbf695ad07b20acd5569fd9",
+    "tests/q2_remote_test.py": "600952fda3124c40d567cadfd014b2837678f0979c6691aadfa6428952bde4fc",
+    "tests/q2_hc_library_ragged.cpp": "54f07efa1c1074292599afe3010a1d56386e372c5edc42df9a4b4eac2fe87533",
+    "tools/prepare-q2-hc-library-ragged.py": "53abe8f5deb5b621b37deef699b792452d7a026478c603728aff8cb4a4ccdc7f",
+    "tools/analyze-q2-hc-library-ragged.py": "bc38e9ef29b706bc846c1592f34cc042eae9d0d4ed47cfe4ba98db06127487eb",
+    "experiments/q2-hc-library-ragged.patch": "e075c1199e9b416d38270b06ccac3bf4da6b839b9f662d2d3ee8ff2c5523974c",
+    "config/q2-hc-library-ragged-source.json": "ccc14aad25e932138db3540946dbbf913808a0ddd433dee848e054f2ccac73c5"
+  },
+  "log_sha256": {
+    "evidence/q2-hc-library-ragged-static/build-graph.log": "1945e13717642178a989be02f9774fe5e4babbcc33d6d19c689f44008e28b465",
+    "evidence/q2-hc-library-ragged-static/changed-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/q2-hc-library-ragged-static/cmake-configure.log": "a7c413542c10feffcf2cc610c2e47fd7f79699d50d09621bbdaca980ae2e1358",
+    "evidence/q2-hc-library-ragged-static/fixture-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/q2-hc-library-ragged-static/fixture-syntax-corrected.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/q2-hc-library-ragged-static/fixture-syntax.log": "e141403515fd61f5cba04c87940ba02a281ab06aed419dde1bce9ad32564baea",
+    "evidence/q2-hc-library-ragged-static/library-syntax.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/q2-hc-library-ragged-static/parent-shared-format.log": "bbf07a58823a9bf9c870d87464428c36d9d928005c863d64455d1f1de9aa4f4b",
+    "evidence/q2-hc-library-ragged-static/reconstruct.log": "c1fd26b299adc9c33c658a541325b6dae6f25e46c817cdddafa2ce56a3ec93c5",
+    "evidence/q2-hc-library-ragged-static/shared-format.log": "bbf07a58823a9bf9c870d87464428c36d9d928005c863d64455d1f1de9aa4f4b"
+  },
+  "reconstructed_files": 1020,
+  "unchanged_provider_files": 1019,
+  "shared_formatter_matches_parent": true,
+  "shared_formatter_inherited_violations": 5,
+  "strict_fixture_syntax_exit": 0,
+  "initial_fixture_syntax_exit": 1,
+  "build_graph_commands": 5,
+  "host_tests_executed": false,
+  "gpu_executed": false,
+  "numerical_pass": null,
+  "performance_pass": null,
+  "goal_met": false
+}

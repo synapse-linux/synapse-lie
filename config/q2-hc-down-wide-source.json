@@ -1,0 +1,16 @@
+{
+  "scope": "Prepared source; numerical replay and runtime benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-hc-down-wide",
+  "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "candidate_sha256": "656389a25d51d3e1e25c33cc5b4faee9278b06dba62d5651c6c4684f0251d500",
+  "patch_sha256": "1c50363edb38c7f29d3c65694d2a31f823f6659fb52eb4f36c5c7cabef820546",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "dispatch": "Only original-F16 M320/K10240 at n>=96: 128x128/BK2/WM4/WN2, three row groups, 512 threads",
+  "numeric_contract": "Original F16 bytes, unchanged ordered low/high K16 chains and final F32 low+high sum",
+  "ownership": "Existing stage and transpose LDS; unchanged input/output ownership and model storage",
+  "limit": "Three blocks replace five per token stripe, but padding adds 20% matrix work and LDS increases; no gain assumed"
+}

@@ -22,7 +22,7 @@ static void retire(lie_inference_row *r,bool publish) {
     }else assert(lie_flow_abort(r->flow,r->reservation.ticket,1)==LIE_FLOW_OK);
 }
 int main(void) {
-    lie_error e={0};lie_model *m=NULL;lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4};
+    lie_error e={0};lie_model *m=NULL;lie_model_options o={LIE_EXECUTOR_ABI,sizeof(o),128,4,LIE_ROPE_NATIVE};
     assert(lie_backend_open_batch(":fixture:",&o,2,&m,&e)==LIE_OK);
     lie_sequence *seq[2]={0};lie_flow *f[2]={0};lie_flow_options fo={1,8,4096};
     int32_t ids[]={1,10,10,10};

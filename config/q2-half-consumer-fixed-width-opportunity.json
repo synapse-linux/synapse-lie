@@ -1,0 +1,37 @@
+{
+  "schema": "synapse-lie.q2-half-consumer-fixed-width-opportunity.v1",
+  "source": ".deps/gufo-q2-half-consumer-eight-run/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc",
+  "source_sha256": "49543b405a90d42c9ebb4a5b0804c96201e7d5c88c26f1a2e5faee097f9cc601",
+  "assembly": "evidence/q2-half-consumer-eight-preparation/candidate.s",
+  "assembly_sha256": "33e7077a4ddf0385076c3d909856090da973692d44a2c2541f41b0e4aa053504",
+  "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm34HcCombineMoeHalfDeferredNormKernelEPfPK6__halfPKfS8_S8_jjS8_jS8_S3_jfPS4_",
+  "static_instructions": 1763,
+  "resources": {
+    "group_segment_fixed_size": 10368,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 84,
+    "next_free_sgpr": 32,
+    "wavefront_size32": 1
+  },
+  "selected_mnemonics": {
+    "s_mul_hi_u32": 28,
+    "v_cndmask_b32_e32": 48,
+    "v_cndmask_b32_e64": 116,
+    "v_dual_cndmask_b32": 11,
+    "v_mul_hi_u32": 20,
+    "v_rcp_f32_e32": 6,
+    "v_rcp_iflag_f32_e32": 11,
+    "v_readfirstlane_b32": 20
+  },
+  "dispatch_contract": "HcCombineMoeHalfDeferredNorm refuses hidden!=2560 and streams!=4, but its launched kernel still receives hidden as a runtime parameter.",
+  "current": "Both residual/update and normalized-output loops use e/hidden and e<hc_dim. Width is already fixed by wrapper, while compiler sees generic integer division/index selection.",
+  "proposal": "In a new isolated candidate, make only integer indexing/bounds for supported2560 width compile-time constants. Keep the runtime float hidden operand in the normalization division to preserve its rounded operation. Preserve wrapper rejection, FMA/reduction order, and check complete consumer/model outputs and timing.",
+  "limits": "Static mnemonic counts do not isolate dynamic cost or prove a speedup. No fixed-width patch, new assembly, GPU/model result or promotion yet. The parent eight-value consumer measures1571.716479 PP with overlapping historical ranges; independent F16 task quality remains open.",
+  "implementation_prepared": false,
+  "gpu_run": false,
+  "performance_measured": false,
+  "quality_accepted": false,
+  "goal_met": false,
+  "measured_parent": "config/q2-half-consumer-eight-model-results.json",
+  "measured_parent_sha256": "929b9f47797975380e492c44b959dc45bac92f668cac4cb16a6ca404d3b9a89f"
+}

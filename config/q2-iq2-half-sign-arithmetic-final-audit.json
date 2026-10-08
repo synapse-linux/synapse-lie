@@ -1,0 +1,165 @@
+{
+  "schema": "synapse-lie.q2-iq2-half-sign-arithmetic-final-audit.v1",
+  "plan_sha256": "5574bf36295703da917b5077874c99d51837e47ae41240d4551b937ab1a8627d",
+  "model_result_sha256": "d9fd5cda57649c21601771df22b3a95e4521015205886bd3cd8eaa4b23ed6a5a",
+  "release_sha256": "40974980f0a7ea990462d8cc825c9e8c96b3986bb828776253997fe268f02749",
+  "qualified_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "command_receipts": {
+    "pre-host-handover": {
+      "exit_code": 0,
+      "sha256": "0befbf88ffde31516523ee8412841bc092120594ccd17832b788739920fdd4c9"
+    },
+    "host-r1": {
+      "exit_code": 0,
+      "sha256": "7d2ba4ac9356743957f80347b295c787e90328f2f3a81eb26de045c69e13196b"
+    },
+    "collect-host-r1": {
+      "exit_code": 0,
+      "sha256": "32fc2ef49792138c3b41c6c0b0c34798457de35235b73e475329fb7c02d74848"
+    },
+    "freeze-r2": {
+      "exit_code": 0,
+      "sha256": "15a1cabcea705b32c482ae92098bb08f0542e06d1119a34d6d1bd2629a1d5d0b"
+    },
+    "transfer-window": {
+      "exit_code": 0,
+      "sha256": "1d37744563df7468ea051d5444875951ad40960636f39783a0aa19a25f0588b2"
+    },
+    "admission": {
+      "exit_code": 0,
+      "sha256": "c56e9e9320df7dc0cc9681d00521ba638e7e6c124a2de6bb1367eda95d0b7cfe"
+    },
+    "publish-admission": {
+      "exit_code": 0,
+      "sha256": "7ad777951b0d11df94097b0188fb92d08d481480aac8dc63bd5cef44ba7e116e"
+    },
+    "component": {
+      "exit_code": 0,
+      "sha256": "527e94a14f25c70f3928c369613ee681cf9e32401bdfc3573e3f8ec739b58890"
+    },
+    "collect-component": {
+      "exit_code": 0,
+      "sha256": "d7d3abd59d351c2e05de0e005597003e25acab96d20894a7ecac65c1335f6252"
+    },
+    "model": {
+      "exit_code": 0,
+      "sha256": "787029527a637b996e0fc4862d353e05509d43b4482ac91055116301dafda709"
+    },
+    "collect-model-terminal-r2": {
+      "exit_code": 0,
+      "sha256": "ce880e4f28719e70fd381b7db2517a326e370433918314d9be0bdfa7cae654c8"
+    },
+    "release": {
+      "exit_code": 0,
+      "sha256": "00f2129b040dd55f1ceab1cc6c9c5eb94c0efd1689cee531e0a9b94158087438"
+    },
+    "publish-release": {
+      "exit_code": 0,
+      "sha256": "c907c16cd9635b9f02abf63f0ca3c00922a29a75fb6809aa23f192275d4c4e45"
+    },
+    "component-analysis": {
+      "exit_code": 0,
+      "sha256": "4391af2861b892d7df74b9b8ad63a08155d8e5c142820e0f1b7a4b557d388870"
+    },
+    "model-analysis": {
+      "exit_code": 0,
+      "sha256": "283439f7ca3f6c9c4fc2954f07afca10239acd1c86d2dd2180011f673b11c23b"
+    },
+    "plot": {
+      "exit_code": 0,
+      "sha256": "360028126bf83f17186a6f3251b16be75d1d34e55c66f5640d21be1b4c91eb40"
+    }
+  },
+  "preserved_preparation_failures": {
+    "generation": {
+      "argv": [
+        "python3",
+        "tools/prepare-q2-iq2-half-sign-arithmetic.py"
+      ],
+      "started_at": "2026-10-06T11:01:20.709606+00:00",
+      "finished_at": "2026-10-06T11:01:20.774482+00:00",
+      "exit_code": 1
+    },
+    "fixture-host": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-half-sign-arithmetic-preparation/compile-local.py",
+        "fixture-host"
+      ],
+      "started_at": "2026-10-06T11:09:00.162657+00:00",
+      "finished_at": "2026-10-06T11:09:02.232899+00:00",
+      "exit_code": 1
+    },
+    "fixture-device": {
+      "argv": [
+        "python3",
+        "evidence/q2-iq2-half-sign-arithmetic-preparation/compile-local.py",
+        "fixture-device"
+      ],
+      "started_at": "2026-10-06T11:09:00.165260+00:00",
+      "finished_at": "2026-10-06T11:09:02.192239+00:00",
+      "exit_code": 1
+    },
+    "freeze": {
+      "argv": [
+        "python3",
+        "tools/freeze-q2-iq2-half-sign-arithmetic-plan.py",
+        "--output",
+        "config/q2-iq2-half-sign-arithmetic-plan.json"
+      ],
+      "started_at": "2026-10-06T11:12:36.019872+00:00",
+      "finished_at": "2026-10-06T11:12:36.055781+00:00",
+      "exit_code": 1
+    },
+    "collect-model-terminal": {
+      "argv": [
+        "python3",
+        "tools/q2-remote.py",
+        "collect",
+        "q2-iq2-half-sign-arithmetic-model-r1"
+      ],
+      "started_at": "2026-10-06T11:20:50.877373+00:00",
+      "finished_at": "2026-10-06T11:20:50.920509+00:00",
+      "exit_code": 1
+    }
+  },
+  "premature_collection_snapshot_files": 24,
+  "premature_collection_reported_verified_artifacts": 0,
+  "component_result_sha256": "f1120a79172bafff596be93e156511e8c022a35e0ed57b997f549a5dea7af262",
+  "component_output_pairs": 101,
+  "exhaustive_sign_code_pairs": 32768,
+  "invalid_HIP_timers": 70,
+  "verified_artifacts": 39,
+  "frozen_files": 159,
+  "provider_files": 1028,
+  "exact_parent_files": 21,
+  "samples_exported": 16,
+  "retired_identities": 1424,
+  "retired_groups": 1140,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "performance_default": "ssm-fixed-bounds",
+  "robust_model_speedup": false,
+  "independent_quality": false,
+  "goal_met": false,
+  "report_tool_sha256": "62c7867042206e14a38f29c0ddbf12819e7d144eaee8af7f8f1c446c401fbc95",
+  "graph_hashes": {
+    ".csv": "53d02486bfac66206f92af7e167faa66ab83d6bf8d95b413646682de96a65a77",
+    ".svg": "b675fcf17b8c4c5e9cd21b82eff7d980bb7cc619b16ab9fea853bb8dc1a71926",
+    ".png": "0da456a935476539fb78196aef0deb22586f9512b1210be529fcb38cf5e50636"
+  }
+}

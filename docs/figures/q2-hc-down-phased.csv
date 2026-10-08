@@ -1,0 +1,21 @@
+arm,source,shape,repetition,microseconds
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,1,1140.77603817
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,2,1216.216206551
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,3,1166.437745094
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,4,1179.214715958
+Retained Q2,evidence/q2-hc-phased-reference-r1,320x10240,5,1175.599932671
+Phased operands,evidence/q2-hc-phased-candidate-r1,320x10240,1,1685.423493385
+Phased operands,evidence/q2-hc-phased-candidate-r1,320x10240,2,1741.667032242
+Phased operands,evidence/q2-hc-phased-candidate-r1,320x10240,3,1871.025204659
+Phased operands,evidence/q2-hc-phased-candidate-r1,320x10240,4,1872.877597809
+Phased operands,evidence/q2-hc-phased-candidate-r1,320x10240,5,1908.511638641
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,1,932.7871203423
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,2,948.4266638756
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,3,954.6840190887
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,4,963.7837409973
+Retained Q2,evidence/q2-hc-phased-reference-r1,10240x320,5,951.9391059875
+Phased operands,evidence/q2-hc-phased-candidate-r1,10240x320,1,936.7703795433
+Phased operands,evidence/q2-hc-phased-candidate-r1,10240x320,2,955.6295871735
+Phased operands,evidence/q2-hc-phased-candidate-r1,10240x320,3,950.9071707726
+Phased operands,evidence/q2-hc-phased-candidate-r1,10240x320,4,945.1547861099
+Phased operands,evidence/q2-hc-phased-candidate-r1,10240x320,5,946.1622834206

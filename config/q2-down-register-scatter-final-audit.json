@@ -1,0 +1,71 @@
+{
+  "schema": "synapse-lie.q2-down-register-scatter-final.v1",
+  "plan_sha256": "edb8ca6208f58a8bdc20ae8a64b08af76f4606ec2a992886daa408b34e7bb159",
+  "model_result_sha256": "7f614307733b8807c96bfd4a7976a6ffcd9fd6b94044b104f804eec62ab34d53",
+  "component_result_sha256": "b954ea6035d5668d93b93d94373e04d320400782957a2c8d1ad6f85814ca265f",
+  "release_sha256": "b9e05fd2abb1736794dccca78250187522e9a5a3fe467bfdc3c3f3a0f49f422e",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "standard_artifacts_verified": 37,
+  "frozen_fixtures_verified": 85,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1027,
+  "retired_identities": 1099,
+  "retired_groups": 876,
+  "figures": {
+    "docs/figures/q2-down-register-scatter-component.csv": "ee9f4281254ba0334f97663bb1eb778efb631a96a14446438a9549d8d9f9e0f7",
+    "docs/figures/q2-down-register-scatter-component.svg": "0e9dd15cad004c85b1098d5d4670651c1bfa334aa09904149cb5d7ad56a0b7f8",
+    "docs/figures/q2-down-register-scatter-component.png": "20019d3b15f8162bf195e10a135e5726cfa2d6b340a027052512c5e807bd5070",
+    "docs/figures/q2-down-register-scatter-model-wrapped.csv": "99c774c6458b33bcb6a836b401a4d0c8b6c3a572a0f7204e0431d3982e6909c4",
+    "docs/figures/q2-down-register-scatter-model-wrapped.svg": "32f08cd879bb8fac33ba2d7e9c89d4d2b3e0f18a27c9c317dbf11256c7c04664",
+    "docs/figures/q2-down-register-scatter-model-wrapped.png": "179dd8cfe3b198d0def5d6db579e05127e5ab8742ab92e318d097d4cec517c1c"
+  },
+  "preserved_nonzero_exits": {
+    "shared-format-command.json": 1,
+    "changed-format-command.json": 1,
+    "staging-final-command.json": 2,
+    "root-smoke-recheck-r2-command.json": 255
+  },
+  "full_down_pairs_exact": 705,
+  "full_consumer_pairs_exact": 93,
+  "independent_rounding_exact": true,
+  "all28_timings_retained": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "thermal_max_c": {
+    "q2-down-register-scatter-host-r1": {
+      "amdgpu": 41.0,
+      "k10temp": 68.125
+    },
+    "q2-down-register-scatter-component-r1": {
+      "amdgpu": 43.0,
+      "k10temp": 68.5
+    },
+    "q2-down-register-scatter-model-r1": {
+      "amdgpu": 75.0,
+      "k10temp": 81.125
+    }
+  },
+  "controls_rerun": false,
+  "independent_quality": false,
+  "full_curve": false,
+  "goal_met": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "synapse-lie.q2-shared-q8-pair-disposition.v1",
+  "decision": "RETAIN_MARGINAL_PREFILL_CANDIDATE_AND_SAVED1571",
+  "next_composition_variant": "shared-q8-pair",
+  "source_manifest": "config/q2-shared-q8-pair-source.json",
+  "retained_parent_manifest": "config/q2-half-consumer-eight-source.json",
+  "model_result": "config/q2-shared-q8-pair-model-results.json",
+  "model_result_sha256": "3edf33b225adaf57da0413ac6bede070ff70bf518f56abc3f0bfc11f41366e08",
+  "component_result_sha256": "4ce1334d94a6b5ad9e43764b2a9272732b4c9c8ddb7f319a662b95066b90d11d",
+  "release_sha256": "10329ad71b7f407d36bb290992a8a8f0a4f06b648bc18d79155398b7c1f3d907",
+  "prefill_tok_s": 1573.621201,
+  "decode_steps_s": 25.11363913,
+  "nominal_pp_gain_percent": 0.12118737860482565,
+  "nominal_decode_change_percent": -0.3716458391810895,
+  "observed_historical_pp_ranges_overlap": true,
+  "required_pp_increase_to_fixed_ud_percent": 7.1272483446923385,
+  "component_cycle_time_changes_percent": {
+    "gate_up_swiglu": -1.8676906400370452,
+    "complete_shared_cycle": -3.3089838271183836
+  },
+  "all21_parent_files_exact": true,
+  "independent_quality": false,
+  "inherited_quality_record": "config/q2-down-half-storage-disposition.json",
+  "thermal_max_c": {
+    "q2-shared-q8-pair-component-r1": {
+      "k10temp": 68.25,
+      "amdgpu": 38.0
+    },
+    "q2-shared-q8-pair-model-r1": {
+      "k10temp": 83.125,
+      "amdgpu": 73.0
+    }
+  },
+  "controls_rerun": false,
+  "full_curve_admitted": false,
+  "promoted": false,
+  "goal_met": false,
+  "limits": "Marginal historical model PP difference with overlapping ranges. Scalar decode dispatch/bodies unchanged; observed TG difference not causally assigned. Component gain is distinct and not additive. Keep both sources; inherited F16 task quality and full PP/TG curve parity remain open."
+}

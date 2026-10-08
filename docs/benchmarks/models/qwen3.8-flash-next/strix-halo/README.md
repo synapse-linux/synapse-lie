@@ -3,13 +3,74 @@
 
 [All benchmarks](../../../README.md) · [Run these workloads](../../../../guides/BENCHMARKS.md)
 
-**Latest measurements: October 4, 2026.** The seeded shared-core comparison
+**Latest performance measurements: October 4, 2026.** The seeded shared-core comparison
 below is the latest run; the existing context/concurrency tables retain their
 recorded builds. PP means prefill throughput; TG means
 confirmed generation throughput, both in tokens per second. Tables include PP
 wait time. Charts use separate PP/TG scales beginning at zero; bars show observed
 minimum/maximum around the median. Duration columns in downloaded CSVs are
 seconds; throughput columns are tokens per second.
+
+## Current Q2 and native walk qualification — October 8
+
+The combined current provider passes fourteen native commands and independent
+review on `.157`, `gfx1151`, native ROCm 7.2.4. It uses the original Q2/IQ2
+and UD-Q4 weights, the shared reactive C17 core and its matched sampler-OFF
+control. These are functional checks with one sample per arm and no warmup.
+
+| Check | Physical work | Verified result |
+| --- | --- | --- |
+| Q2 advancing walk | 2,048 new PP tokens at frontiers 2K/4K/6K/8K; TG128 at each | Snapshot, replay and control have identical PP/TG logits hashes and all output IDs. |
+| UD-Q4 advancing walk | The same corpus frontiers and output budget | Snapshot and control replay have identical logits hashes and all output IDs. |
+| Q2 shared core C2 | Two identical 8,192-token prompts; TG128 per job | Both outputs match walk C1; 128 real batches and 256 decode rows. |
+| UD-Q4 direct/core C1/C2 | Identical 2,048-token prompt; TG32 per job | All output IDs match; direct primary/control logits hashes also match. |
+| UD-Q4 greedy MTP | The same 2K prompt and TG32 | Output matches AR; 28 tokens drafted and 12 accepted. |
+| Reactive output ownership | Hold one output loan while its peer runs, then cancel | Peer completes TG32; blocked job cancels and batch progress is confirmed. |
+
+Walk capacity is 133,760 with native RoPE and chunk 2,048; UD short core
+controls use capacity 4,096 and chunk 256. Cache retention is off. Snapshot
+creation and restoration/replay stay outside PP/TG timing. All twenty walk
+samples produce 128 tokens; natural EOS handling remains enabled.
+
+CPU/GPU/NVMe peaks are 87.75/89/72.85 C. Independent collection verifies
+104 native files, all original model stats, whole process groups, empty KFD
+and release of the five original leases.
+[Complete measurements, commands and 176-member raw archive](../../../../development/validation/develop-q2-halo-functional-2026-10-08.json).
+One serial sample per arm does not establish performance parity or reactive
+speedup. The older optimized Q2 capsule's C1/C2 divergence remains recorded
+under that distinct source; this selected current composition passes the 8K
+C2 output check.
+
+## Earlier r70 functional qualification — October 8
+
+The current C17 core with the transitional Gufo provider passes seven native
+commands on `.157`, `gfx1151`, native ROCm 7.2.4. Original UD-Q4 weights,
+2,048 identical physical prompt tokens, TG32, native context4096, chunk256,
+greedy AR and cache off are fixed. LIE and its matched Gufo C1 reference have
+identical prefill/decode logits hashes and all 32 output IDs. The production
+core C1 and both C2 jobs produce those same IDs.
+
+| Client | Completed decode calls | Batch rows | Exact output parity |
+| --- | ---: | ---: | --- |
+| Direct LIE C1 | 32 single | 0 | 32/32 |
+| Matched Gufo C1 reference | 32 single | 0 | 32/32 |
+| Shared core C1 | 32 single | 0 | 32/32 |
+| Shared core C2 | 32 batches | 64 | Both jobs, 32/32 |
+
+The direct-core reactive probe holds one borrowed output buffer while the other
+job completes 32 tokens, then cancels the blocked job. Thirteen generated sparse
+WMMA cases also pass full byte comparisons through 1M geometry; these are GPU
+component checks. The short model workload does not qualify model inference
+through 1M, wider feature/task quality or reactive speedup.
+
+CPU/GPU/NVMe peaks are 82.5/84/71.85 C. All commands, collection, independent
+review and process/group closure pass; all five original leases are released.
+The [receipt and complete raw data](../../../../development/validation/halo-r70-functional-2026-10-08.json)
+retain 88 collected native files and 137 portable members. Observed direct
+PP/TG rates are LIE723.782/20.302 and reference731.566/20.751 tok/s, with
+one sample, zero warmup and sequential order. These are functional-run timings,
+not a qualified performance comparison. Q2 uses a separate numerical provider;
+this UD-Q4 parity does not resolve its C1/batch divergence.
 
 ## Seeded shared-core sampler comparison — October 4
 

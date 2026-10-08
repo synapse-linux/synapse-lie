@@ -1,0 +1,13 @@
+{
+  "schema": "synapse-lie.ds4-walk-bench-build.v1",
+  "source_manifest_sha256": "187706aa11f99968c91496e07fe5cba79c3fc79cd5e102fbe9f339af409b6417",
+  "wrapper_sha256": "e876d4e8a2d25021017169de753e81d7a2333afe472db5cc113722b71cc95c13",
+  "binary": ".deps/build-ds4-walk-gpu/core/synapse-lie-bench",
+  "sha256": "24b19cb7baa9b2a81af461e4dc69f16f6f66a010b9ef463452668d0c19e05a3b",
+  "retained_numerical_archives_manifest": "config/q2-counting-bench-build.json",
+  "retained_numerical_archives_sha256": "824aacae786af3ce7a14bcee1b74b4d9d7c5c557ba21feead40c54afc8e3277d",
+  "local_link_only": true,
+  "remote_build": false,
+  "model_inference": false,
+  "cpu_tests_receipt_sha256": "d5be05c0e5f6e2d4d53519edd6ec1cce57b5d6af7cf991347c150aad5387c37e"
+}

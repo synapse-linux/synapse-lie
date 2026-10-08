@@ -1,0 +1,15 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1091,9 +1091,9 @@
+   // Keep F32 xn for the Q2 mixer and inject path, while producing exactly
+   // the narrowed copy its original-F16 down projection already consumes.
+   const bool produce_half =
+-      !wide_mixer_ && n_tokens == 2048 && n_tokens <= options_.max_batch &&
+-      gamma != nullptr && c.hc_count == 4 && c.hidden_size == 2560 &&
+-      c.HcDim() <= model_->max_half_cols();
++      !wide_mixer_ && n_tokens >= 96 && n_tokens <= 2048 &&
++      n_tokens <= options_.max_batch && gamma != nullptr && c.hc_count == 4 &&
++      c.hidden_size == 2560 && c.HcDim() <= model_->max_half_cols();
+   auto* norm_half = produce_half ? static_cast<__half*>(s_.x_half) : nullptr;
+   const auto publish_half = [&]() {
+     half_src_ = s_.xn;

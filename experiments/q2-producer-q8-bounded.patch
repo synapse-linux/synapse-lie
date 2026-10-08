@@ -1,0 +1,1302 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/CMakeLists.txt
++++ b/src/models/qwen38_flash_next/CMakeLists.txt
+@@ -27,6 +27,7 @@
+   set(QFN_MMQ_SOURCES
+     ${QFN_MMQ_DIR}/qfn_ggml_stubs.hip.cpp
+     ${QFN_MMQ_DIR}/qfn_mmq.hip.cpp
++    ${QFN_MMQ_DIR}/q2_producer_q8.hip.cpp
+     ${QFN_MMQ_DIR}/mmid.hip.cpp
+     ${QFN_MMQ_DIR}/mmvq.hip.cpp
+     ${QFN_MMQ_DIR}/moe_wave64.hip.cpp
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1827,6 +1827,10 @@
+                             (l.ffn_down_exps.type == GgmlType::kQ5_1 ||
+                              l.ffn_down_exps.type == GgmlType::kQ8_0) &&
+                             c.hidden_size % 256 == 0 && c.expert_ff % 64 == 0;
++  const std::size_t q8_capacity = RoutedCompactRows(slots, c.num_experts);
++  const bool producer_q8 =
++      compact_down &&
++      q8_capacity * 6 * 144 <= std::size_t(slots) * c.expert_ff * sizeof(float);
+   if (iq2_wmma) {
+     RoutedCompact(s_.ids, s_.expert_counts, s_.routed_bounds, s_.routed_cursors,
+                   s_.rows_token, s_.rows_slot, n_tokens, used, c.num_experts,
+@@ -1849,6 +1853,12 @@
+         scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
+     const auto gate_up = [&](std::uint32_t offset, std::uint32_t count,
+                              std::uint32_t rows) {
++      if (producer_q8)
++        return RoutedGatedIQ2ProducerQ8Gemm(
++            l.ffn_gate_exps.data, l.ffn_up_exps.data,
++            static_cast<const __half*>(s_.x_half), s_.routed_tiles + offset,
++            count, rows, s_.routed_bounds, s_.rows_token, s_.rows_slot,
++            s_.gate_e, c.expert_ff, c.hidden_size, q8_capacity, stream_);
+       return RoutedGatedIQ2Gemm(l.ffn_gate_exps.data, l.ffn_up_exps.data,
+                                 static_cast<const __half*>(s_.x_half),
+                                 s_.routed_tiles + offset, count, rows,
+@@ -1866,19 +1876,26 @@
+                       pair_map ? routed_pair_tiles_ : routed_n_tiles_,
+                       pair_map ? routed_pair_rows_ : routed_tile_rows_);
+     if (!gate_ok ||
+-        !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+-                          c.expert_ff, stream_) ||
+-        !(compact_down
+-              ? RoutedQ2ScaledHalfGemm(
+-                    l.ffn_down_exps.data, scaled, inverse, s_.routed_tiles,
+-                    routed_n_tiles_, routed_tile_rows_, s_.routed_bounds,
+-                    s_.rows_slot, reinterpret_cast<__half*>(s_.down_e),
+-                    c.hidden_size, c.expert_ff, stream_)
+-              : RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+-                                   s_.routed_tiles, routed_n_tiles_,
+-                                   routed_tile_rows_, s_.routed_bounds,
+-                                   s_.rows_slot, s_.down_e, c.hidden_size,
+-                                   c.expert_ff, stream_))) {
++        (producer_q8
++             ? qfn_q2_producer_q8_down(
++                   l.ffn_down_exps.data, s_.gate_e, s_.routed_tiles,
++                   routed_n_tiles_, routed_tile_rows_, s_.expert_counts,
++                   s_.routed_bounds, s_.rows_slot, s_.down_e, c.hidden_size,
++                   static_cast<unsigned>(q8_capacity), stream_) != 0
++             : (!PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
++                                  c.expert_ff, stream_) ||
++                !(compact_down
++                      ? RoutedQ2ScaledHalfGemm(
++                            l.ffn_down_exps.data, scaled, inverse,
++                            s_.routed_tiles, routed_n_tiles_, routed_tile_rows_,
++                            s_.routed_bounds, s_.rows_slot,
++                            reinterpret_cast<__half*>(s_.down_e), c.hidden_size,
++                            c.expert_ff, stream_)
++                      : RoutedQ2ScaledGemm(
++                            l.ffn_down_exps.data, scaled, inverse,
++                            s_.routed_tiles, routed_n_tiles_, routed_tile_rows_,
++                            s_.routed_bounds, s_.rows_slot, s_.down_e,
++                            c.hidden_size, c.expert_ff, stream_))))) {
+       AssignError(error_msg, "routed IQ2 paired gate/up or Q2 down failed");
+       return false;
+     }
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -6418,6 +6418,7 @@
+ #include "q2_hc_down_bk256.inc"
+ #include "q2_hc_moe_deferred.inc"
+ #include "q2_down_half_storage.inc"
++#include "q2_producer_q8.inc"
+ 
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -634,6 +634,13 @@
+                                   std::uint32_t n_tokens, std::uint32_t hidden,
+                                   std::uint32_t streams, float eps,
+                                   hipStream_t stream, __half* norm_half);
++bool RoutedGatedIQ2ProducerQ8Gemm(
++    const void* gate, const void* up, const __half* x,
++    const std::int32_t* tiles, std::uint32_t n_tiles, std::uint32_t tile_rows,
++    const std::int32_t* bounds, const std::int32_t* rows_token,
++    const std::int32_t* rows_slot, float* out, std::size_t m, std::size_t k,
++    std::size_t q8_capacity, hipStream_t stream);
++
+ }  // namespace gufo::models::qwen38_flash_next::rocm
+ 
+ #endif  // GUFO_MODELS_QWEN38_FLASH_NEXT_KERNELS_ROCM_KERNELS_HPP_
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/q2_producer_q8.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/q2_producer_q8.hip.cpp
+@@ -0,0 +1,237 @@
++// SPDX-License-Identifier: MIT
++// Bounded routed Q2 consumer. Arithmetic helpers derive from official Gufo's
++// llama.cpp MMQ port; see mmq/VENDOR.md and the pinned LIE source manifest.
++#include "qfn_mmq_prelude.h"
++namespace qfn_mmq {
++#include "qfn_mmq.h"
++#include "common.hpp"
++#include "mmq.hpp"
++template<int mmq_x, int mmq_y>
++static __device__ __forceinline__ void ProducerQ8Dot(const int* __restrict__ x,
++                                                     const int* __restrict__ y,
++                                                     float* __restrict__ sum,
++                                                     const int k00) {
++#if defined(AMD_MFMA_AVAILABLE) || defined(AMD_WMMA_AVAILABLE)
++  constexpr data_layout input_layout = get_input_data_layout();
++  typedef tile<16, 4, int, input_layout> tile_A;
++  typedef tile<16, 4, int, input_layout> tile_B;
++  typedef tile<16, 16, int, DATA_LAYOUT_J_MAJOR> tile_C;
++
++  constexpr int granularity = mmq_get_granularity_device(mmq_x);
++  constexpr int rows_per_warp = granularity;
++  constexpr int ntx =
++      rows_per_warp / tile_C::I;  // Number of x minitiles per warp.
++  /* ds4: see QFN_WMMA_MMQ_NCW. `ncw` warps share this row group and
++   * take every ncw-th column tile; `wrow` is the warp's index within the
++   * row decomposition upstream assumes. */
++  constexpr int ncw = mmq_get_ncw_device();
++  /* mmq_x is a multiple of j_stride for every width the host selector offers;
++   * unreachable specializations are still instantiated, so this cannot assert.
++   */
++  constexpr int j_stride = ncw * ntx * tile_C::J;
++  const int cgroup = threadIdx.y % ncw;
++  const int wrow = threadIdx.y / ncw;
++
++  y += (wrow % ntx) * (tile_C::J * MMQ_TILE_Y_K);
++
++  const int* x_qs = (const int*)x;
++  const half2* x_dm = (const half2*)x_qs + MMQ_TILE_NE_K * 2;
++  const int* y_qs = (const int*)y + 4;
++  const half2* y_ds = (const half2*)y;
++
++  const int i0 = (wrow / ntx) * rows_per_warp;
++
++#pragma unroll 1
++  for (int k01 = 0; k01 < MMQ_TILE_NE_K; k01 += 4) {
++    const int k0 = k00 + k01;
++
++    tile_A A[ntx];
++#pragma unroll
++    for (int n = 0; n < ntx; ++n) {
++      load_ldmatrix(A[n],
++                    x_qs + (i0 + n * tile_A::I) * MMQ_MMA_TILE_X_K_Q2_K + k0,
++                    MMQ_MMA_TILE_X_K_Q2_K);
++    }
++
++#pragma unroll
++    for (int j0 = cgroup * ntx * tile_C::J; j0 < mmq_x; j0 += j_stride) {
++      tile_B B;
++      load_ldmatrix(B, y_qs + j0 * MMQ_TILE_Y_K + k01, MMQ_TILE_Y_K);
++
++      const int j = j0 + tile_C::get_j(0);
++      const float dB = (k01 < MMQ_TILE_NE_K / 2)
++                           ? __half22float2(y_ds[j * MMQ_TILE_Y_K]).x
++                           : __half22float2(y_ds[j * MMQ_TILE_Y_K]).y;
++      const float sB =
++          (k01 >= MMQ_TILE_NE_K * 3 / 4)
++              ? 0
++              : (((k01 / 4) % 2)
++                     ? __half22float2(
++                           y_ds[j * MMQ_TILE_Y_K + (1 + k01 / QI8_1)])
++                           .y
++                     : __half22float2(
++                           y_ds[j * MMQ_TILE_Y_K + (1 + k01 / QI8_1)])
++                           .x);
++
++      tile_C Cm;
++      if (k01 >= MMQ_TILE_NE_K * 3 / 4) {
++        tile_A A1;
++#pragma unroll
++        for (int l = 0; l < tile_A::ne; ++l) {
++          A1.x[l] = 0x01010101;
++        }
++        mma(Cm, A1, B);
++      }
++
++#pragma unroll
++      for (int n = 0; n < ntx; ++n) {
++        tile_C Cd;
++        mma(Cd, A[n], B);
++
++#pragma unroll
++        for (int l = 0; l < tile_C::ne; ++l) {
++          const int i = i0 + n * tile_C::I + tile_C::get_i(l);
++          const float2 dm =
++              __half22float2(x_dm[i * MMQ_MMA_TILE_X_K_Q2_K + k0 / 4]);
++          float tmp = Cd.x[l] * dm.x;
++          if (k01 >= MMQ_TILE_NE_K * 3 / 4) {
++            tmp -= Cm.x[l] * dm.y;
++          }
++          sum[((j0 - cgroup * ntx * tile_C::J) / j_stride * ntx + n) *
++                  tile_C::ne +
++              l] += tmp * dB;
++          sum[((j0 - cgroup * ntx * tile_C::J) / j_stride * ntx + n) *
++                  tile_C::ne +
++              l] -= dm.y * sB;
++        }
++      }
++    }
++  }
++#else
++  GGML_UNUSED_VARS(x, y, sum, k00);
++  NO_DEVICE_CODE;
++#endif  // AMD_MFMA_AVAILABLE || AMD_WMMA_AVAILABLE
++}
++
++template<int BN, bool CheckRows>
++__global__ __launch_bounds__(128, 2) void Q2ProducerQ8DownKernel(
++    const char* __restrict__ weights, const int* __restrict__ packed,
++    const std::int32_t* __restrict__ tiles,
++    const std::uint32_t* __restrict__ counts,
++    const std::int32_t* __restrict__ bounds,
++    const std::int32_t* __restrict__ slots, half* __restrict__ output, int m,
++    int capacity) {
++#if defined(__HIP_DEVICE_COMPILE__)
++  static_assert(ggml_hip_get_physical_warp_size() == 32);
++  static_assert(mmq_get_nwarps_device() == 4 && get_mmq_y_device() == 64);
++  static_assert(mmq_get_ncw_device() == 1);
++#endif
++  constexpr int BM = 64, Threads = 128;
++  const int tid = threadIdx.y * 32 + threadIdx.x;
++  const int descriptor = tiles[blockIdx.y];
++  const int expert = descriptor & 0xffff;
++  const int token_begin = (descriptor >> 16) * BN;
++  const int remaining = int(counts[expert]) - token_begin;
++  if (remaining <= 0)
++    return;
++  const int live = remaining < BN ? remaining : BN;
++  const int physical_begin = bounds[expert] + token_begin;
++  const int output_begin = int(blockIdx.x) * BM;
++  const int output_last = m - output_begin - 1;
++  __shared__ int ids[BN];
++  __shared__ int y_tile[GGML_PAD(BN * MMQ_TILE_Y_K, Threads)];
++  __shared__ int x_tile[BM * MMQ_MMA_TILE_X_K_Q2_K];
++  if (tid < BN)
++    ids[tid] = tid < live ? slots[physical_begin + tid] : 0;
++  float sum[BN * BM / Threads] = {0.0F};
++  constexpr int Words = sizeof(block_q8_1_mmq) / sizeof(int);
++  const int weight_begin = (expert * m + output_begin) * 3;
++#pragma unroll 1
++  for (int kb = 0; kb < 3; ++kb) {
++    load_tiles_q2_K<BM, CheckRows>(weights, x_tile, weight_begin + kb,
++                                   output_last, 3);
++    // All padding is masked at load: no cross-expert read or global slack.
++#pragma unroll
++    for (int l0 = 0; l0 < BN * MMQ_TILE_Y_K; l0 += Threads) {
++      const int l = l0 + tid;
++      if (l < BN * MMQ_TILE_Y_K)
++        y_tile[l] =
++            l / Words < live
++                ? packed[(kb * 2 * capacity + physical_begin) * Words + l]
++                : 0;
++    }
++    __syncthreads();
++    ProducerQ8Dot<BN, BM>(x_tile, y_tile, sum, 0);
++    __syncthreads();
++#pragma unroll
++    for (int l0 = 0; l0 < BN * MMQ_TILE_Y_K; l0 += Threads) {
++      const int l = l0 + tid;
++      if (l < BN * MMQ_TILE_Y_K)
++        y_tile[l] =
++            l / Words < live
++                ? packed[((kb * 2 + 1) * capacity + physical_begin) * Words + l]
++                : 0;
++    }
++    __syncthreads();
++    ProducerQ8Dot<BN, BM>(x_tile, y_tile, sum, MMQ_TILE_NE_K);
++    __syncthreads();
++  }
++  // Original gfx1151 MMQ accumulator ownership, narrowed once at the consumer.
++  using Tile = tile<16, 16, int, DATA_LAYOUT_J_MAJOR>;
++#pragma unroll
++  for (int j0 = 0; j0 < BN; j0 += 16) {
++#pragma unroll
++    for (int l = 0; l < Tile::ne; ++l) {
++      const int row = int(threadIdx.y) * 16 + Tile::get_i(l);
++      const int token = j0 + Tile::get_j(l);
++      if (token < live && (!CheckRows || row <= output_last))
++        output[std::size_t(ids[token]) * m + output_begin + row] =
++            __float2half_rn(sum[(j0 / 16) * Tile::ne + l]);
++    }
++  }
++}
++
++template<int BN>
++static void LaunchQ2ProducerQ8Down(
++    const void* weights, const void* packed, const std::int32_t* tiles,
++    unsigned tile_count, const std::uint32_t* counts,
++    const std::int32_t* bounds, const std::int32_t* slots, void* output,
++    unsigned m, unsigned capacity, hipStream_t stream) {
++  const dim3 grid((m + 63) / 64, tile_count), block(32, 4);
++  if (m % 64)
++    Q2ProducerQ8DownKernel<BN, true><<<grid, block, 0, stream>>>(
++        static_cast<const char*>(weights), static_cast<const int*>(packed),
++        tiles, counts, bounds, slots, static_cast<half*>(output), m, capacity);
++  else
++    Q2ProducerQ8DownKernel<BN, false><<<grid, block, 0, stream>>>(
++        static_cast<const char*>(weights), static_cast<const int*>(packed),
++        tiles, counts, bounds, slots, static_cast<half*>(output), m, capacity);
++}
++
++extern "C" int qfn_q2_producer_q8_down(
++    const void* weights, const void* packed, const std::int32_t* tiles,
++    unsigned tile_count, unsigned tile_rows, const std::uint32_t* counts,
++    const std::int32_t* bounds, const std::int32_t* slots, void* output,
++    unsigned m, unsigned capacity, hipStream_t stream) {
++  if (!weights || !packed || !tiles || !counts || !bounds || !slots ||
++      !output || !m || !capacity || !tile_count)
++    return -1;
++  switch (tile_rows) {
++    case 16:
++      LaunchQ2ProducerQ8Down<16>(weights, packed, tiles, tile_count, counts,
++                                 bounds, slots, output, m, capacity, stream);
++      break;
++    case 48:
++      LaunchQ2ProducerQ8Down<48>(weights, packed, tiles, tile_count, counts,
++                                 bounds, slots, output, m, capacity, stream);
++      break;
++    case 64:
++      LaunchQ2ProducerQ8Down<64>(weights, packed, tiles, tile_count, counts,
++                                 bounds, slots, output, m, capacity, stream);
++      break;
++    default:
++      return -1;
++  }
++  return hipGetLastError() == hipSuccess ? 0 : -2;
++}
++}  // namespace qfn_mmq
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h
+@@ -6,21 +6,22 @@
+ extern "C" {
+ int qfn_mmq_init(int device);
+ 
++int qfn_q2_producer_q8_down(const void* weights, const void* packed,
++                            const int32_t* tiles, unsigned tile_count,
++                            unsigned tile_rows, const uint32_t* counts,
++                            const int32_t* bounds, const int32_t* slots,
++                            void* output, unsigned m, unsigned capacity,
++                            hipStream_t stream);
++
+ void qfn_mmq_set_routed_max_expert_rows(int rows);
+ 
+ void qfn_mmq_set_routed_tile_cols(int cols);
+ 
+-int qfn_mmq_routed_tile_cols_for_counts(const unsigned int *counts,
++int qfn_mmq_routed_tile_cols_for_counts(const unsigned int* counts,
+                                         int n_experts);
+ 
+-int qfn_mmq_q8_0_dense(
+-    const void  * W_q8_0,
+-    const float * X_f32,
+-    float       * out_f32,
+-    int           M,
+-    int           N,
+-    int           K,
+-    hipStream_t  stream);
++int qfn_mmq_q8_0_dense(const void* W_q8_0, const float* X_f32, float* out_f32,
++                       int M, int N, int K, hipStream_t stream);
+ 
+ int qfn_mmq_q4_K_moe_pair_unique(const void* W_a, const void* W_b,
+                                  const float* X_f32, const int32_t* ids,
+@@ -28,9 +29,9 @@
+                                  int n_tokens, int n_experts, int n_expert_used,
+                                  hipStream_t stream);
+ 
+-// Routed vector projection for GGML Q4_K/Q5_K/Q5_1/Q8_0/IQ2_XXS/Q2_K. Optional paired
+-// weights use the same shape, routing and quantized input; both outputs are
+-// [n_tokens][n_expert_used][M]. W_b and out_b must be supplied together.
++// Routed vector projection for GGML Q4_K/Q5_K/Q5_1/Q8_0/IQ2_XXS/Q2_K. Optional
++// paired weights use the same shape, routing and quantized input; both outputs
++// are [n_tokens][n_expert_used][M]. W_b and out_b must be supplied together.
+ int qfn_mmq_moe_vec(int weight_type, const void* W, const float* X_f32,
+                     const int32_t* ids, float* out, int M, int K, int n_tokens,
+                     int n_experts, int n_expert_used, hipStream_t stream,
+@@ -45,14 +46,14 @@
+                           hipStream_t stream);
+ 
+ // input_k may be less than K for Q2 padded down projections.
+-int qfn_mmq_q2_K_moe_raw(
+-    const void* W, const float* X, const int32_t* ids, float* out,
+-    int M, int K, int n_tokens, int n_experts, int n_expert_used,
+-    hipStream_t stream, int input_k);
+-int qfn_mmq_iq2_xxs_moe_raw(
+-    const void* W, const float* X, const int32_t* ids, float* out,
+-    int M, int K, int n_tokens, int n_experts, int n_expert_used,
+-    hipStream_t stream, const void* W_b = nullptr, float* out_b = nullptr);
++int qfn_mmq_q2_K_moe_raw(const void* W, const float* X, const int32_t* ids,
++                         float* out, int M, int K, int n_tokens, int n_experts,
++                         int n_expert_used, hipStream_t stream, int input_k);
++int qfn_mmq_iq2_xxs_moe_raw(const void* W, const float* X, const int32_t* ids,
++                            float* out, int M, int K, int n_tokens,
++                            int n_experts, int n_expert_used,
++                            hipStream_t stream, const void* W_b = nullptr,
++                            float* out_b = nullptr);
+ 
+ size_t qfn_mmq_q8_1_bytes(int N, int K);
+ 
+@@ -67,28 +68,25 @@
+                                 const void* X_q8, float* out_f32, int M, int N,
+                                 int K, hipStream_t stream);
+ 
+-int qfn_mmq_build_ids_maps(
+-        const int32_t * ids, int32_t * ids_src1, int32_t * ids_dst, int32_t * expert_bounds,
+-        int n_experts, int n_tokens, int n_expert_used, int nchannels_y, int si1, int sis1, hipStream_t stream);
++int qfn_mmq_build_ids_maps(const int32_t* ids, int32_t* ids_src1,
++                           int32_t* ids_dst, int32_t* expert_bounds,
++                           int n_experts, int n_tokens, int n_expert_used,
++                           int nchannels_y, int si1, int sis1,
++                           hipStream_t stream);
+ 
+-int qfn_mmq_q8_0_moe_raw(
+-    const void * W, const float * X_f32, const int32_t * ids, float * out,
+-    int M, int K, int n_tokens, int n_experts, int n_expert_used,
+-    hipStream_t stream);
++int qfn_mmq_q8_0_moe_raw(const void* W, const float* X_f32, const int32_t* ids,
++                         float* out, int M, int K, int n_tokens, int n_experts,
++                         int n_expert_used, hipStream_t stream);
+ 
+-int qfn_mmq_q4_K_moe_raw(
+-    const void * W, const float * X_f32, const int32_t * ids, float * out,
+-    int M, int K, int n_tokens, int n_experts, int n_expert_used,
+-    hipStream_t stream);
++int qfn_mmq_q4_K_moe_raw(const void* W, const float* X_f32, const int32_t* ids,
++                         float* out, int M, int K, int n_tokens, int n_experts,
++                         int n_expert_used, hipStream_t stream);
+ 
+-int qfn_mmq_q5_1_moe_raw(
+-    const void * W, const float * X_f32, const int32_t * ids, float * out,
+-    int M, int K, int n_tokens, int n_experts, int n_expert_used,
+-    hipStream_t stream);
++int qfn_mmq_q5_1_moe_raw(const void* W, const float* X_f32, const int32_t* ids,
++                         float* out, int M, int K, int n_tokens, int n_experts,
++                         int n_expert_used, hipStream_t stream);
+ 
+-int qfn_mmq_q5_K_moe_raw(
+-    const void * W, const float * X_f32, const int32_t * ids, float * out,
+-    int M, int K, int n_tokens, int n_experts, int n_expert_used,
+-    hipStream_t stream);
+-
++int qfn_mmq_q5_K_moe_raw(const void* W, const float* X_f32, const int32_t* ids,
++                         float* out, int M, int K, int n_tokens, int n_experts,
++                         int n_expert_used, hipStream_t stream);
+ }
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_producer_q8.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_producer_q8.inc
+@@ -0,0 +1,840 @@
++// SPDX-License-Identifier: MIT
++// Same 144-byte D2S6 block contract as the attributed MMQ quantizer.
++struct Q2ProducerQ8Block {
++  __half d2s6[8];
++  std::int8_t qs[128];
++};
++static_assert(sizeof(Q2ProducerQ8Block) == 144);
++
++// One complete wave owns a 64-value group; every live lane has two values.
++// Adjacent even lanes reconstruct the quantizer's original four-value sum.
++__device__ __forceinline__ void EmitQ2ProducerQ8(float a, float b, void* output,
++                                                 std::size_t capacity,
++                                                 std::size_t physical_row,
++                                                 int r_block, int lane) {
++  float peak = fmaxf(fabsf(a), fabsf(b));
++#pragma unroll
++  for (int offset = 16; offset; offset >>= 1)
++    peak = fmaxf(peak, __shfl_xor(peak, offset, 32));
++  const float inv = peak == 0.0F ? 0.0F : 127.0F / peak;
++  const std::int8_t qa = static_cast<std::int8_t>(roundf(a * inv));
++  const std::int8_t qb = static_cast<std::int8_t>(roundf(b * inv));
++  auto* blocks = static_cast<Q2ProducerQ8Block*>(output);
++  auto& block = blocks[std::size_t(r_block / 128) * capacity + physical_row];
++  const int q_index = r_block % 128 + lane * 2;
++  const std::uint16_t codes =
++      std::uint8_t(qa) | (std::uint16_t(std::uint8_t(qb)) << 8);
++  *reinterpret_cast<std::uint16_t*>(block.qs + q_index) = codes;
++  const float c = __shfl_down(a, 1, 32);
++  const float d = __shfl_down(b, 1, 32);
++  float sum = a + b + c + d;
++  sum += __shfl_xor(sum, 4, 32);
++  sum += __shfl_xor(sum, 2, 32);
++  if (q_index % 16 == 0 && q_index < 96)
++    block.d2s6[2 + q_index / 16] = __float2half_rn(sum);
++  if (lane == 0)
++    block.d2s6[r_block % 128 / 64] =
++        __float2half_rn(peak == 0.0F ? 0.0F : 1.0F / inv);
++  // The final live64 group also initializes the entire stored640..767 tail.
++  if (r_block == 576) {
++    auto& tail = blocks[5 * capacity + physical_row];
++    reinterpret_cast<std::uint32_t*>(tail.qs)[lane] = 0;
++    if (lane < 4)
++      reinterpret_cast<std::uint32_t*>(tail.d2s6)[lane] = 0;
++  }
++}
++
++template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
++         bool kPacked = false, bool kScaled = false>
++__launch_bounds__(256) __global__ void RoutedIQ2ProducerQ8Kernel(
++    const void* __restrict__ w,
++    const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
++                             __half>* __restrict__ x,
++    const std::int32_t* __restrict__ tiles,
++    const std::int32_t* __restrict__ pad_bounds,
++    const std::int32_t* __restrict__ rows_in,
++    const std::int32_t* __restrict__ rows_out,
++    const float* __restrict__ swiglu_gate, float* __restrict__ out,
++    __half* __restrict__ out_half, std::size_t m, std::size_t k,
++    const void* __restrict__ w_up, std::size_t q8_capacity) {
++  static_assert(BM == 128 || BM == 256, "eight waves, 16-row tiles");
++  static_assert(!kPair || BM == 128);
++  static_assert(BN % 16 == 0 && BN / 16 <= 8);
++  static_assert(BK == 2, "one stage is one 32-byte Q4_K nibble group");
++  constexpr int kTokTiles = BN / 16;
++  constexpr int kWaveRowTiles = BM / 128;  // 16-row tiles per wave
++  constexpr bool kQ5 = kType == WeightType::kQ5_1;
++  constexpr bool kQ5K = kType == WeightType::kQ5_K;
++  constexpr bool kQ8 = kType == WeightType::kQ8_0;
++  constexpr bool kQ2 = kType == WeightType::kQ2_K;
++  constexpr bool kResidual = kQ2 && !kScaled;
++  static_assert(!kScaled || (kQ2 && !kPacked && !kPair));
++  constexpr bool kIQ2 = kType == WeightType::kIQ2_XXS;
++  static_assert(kIQ2 && kPair && !kPacked && !kScaled);
++  constexpr bool kSigned = kQ8 || kIQ2;
++  constexpr bool kKQuant = kType == WeightType::kQ4_K || kQ5K;
++  // 16-byte code chunks per row and stage: Q4_K's nibble pair and Q5_1's
++  // two nibble blocks are two, Q8_0's two byte blocks are four.
++  constexpr int kChunks = (kSigned || kQ2) ? 2 * BK : BK;
++
++  // LDS plan (bytes): the code plane holds BM rows x kChunks 16-byte chunks
++  // with the chunks of nearby rows permuted so a fragment read (one row per
++  // lane) covers all bank groups; the activation plane is
++  // [kb][16-element quarter][token][16 B] so a fragment read is 256
++  // contiguous bytes; the epilogue reuses it all.
++  constexpr int kCodeBytes = BM * kChunks * 16;
++  constexpr int kHighBytes = (kQ5 || kQ5K) ? BK * BM * 4 : 0;
++  constexpr int kScaleBytes = (kQ2 ? 4 : 1) * BK * BM * 4;
++  // One slot of padding per activation quarter plane: the eight chunks of
++  // a token then land on eight bank groups when they are written.
++  constexpr int kActStride = BN + 1;
++  constexpr int kActPlaneBytes = BK * 4 * kActStride * 16;
++  constexpr int kActBytes = (kResidual ? 2 : 1) * kActPlaneBytes;
++  // The epilogue transposes one 16x16 tile per wave through the same
++  // bytes (8 KB), which the narrow tile's stages do not reach.
++  constexpr int kStageBytes = kCodeBytes + kHighBytes + kScaleBytes + kActBytes;
++  constexpr int kLdsBytes = kStageBytes > 8 * 1024 ? kStageBytes : 8 * 1024;
++  __shared__ __attribute__((aligned(16))) std::uint8_t lds[kLdsBytes];
++  auto* s_codes = reinterpret_cast<uint4*>(lds);
++  auto* s_high = reinterpret_cast<std::uint32_t*>(lds + kCodeBytes);
++  auto* s_scale =
++      reinterpret_cast<std::uint32_t*>(lds + kCodeBytes + kHighBytes);
++  auto* s_act =
++      reinterpret_cast<uint4*>(lds + kCodeBytes + kHighBytes + kScaleBytes);
++
++  const std::int32_t tile = tiles[blockIdx.y];
++  const int expert = tile & 0xFFFF;
++  const int t_local = (tile >> 16) * BN;
++  const int bucket_begin = pad_bounds[expert];
++  const int bucket_rows = pad_bounds[expert + 1] - bucket_begin;
++  const int live_tok_tiles =
++      std::min(kTokTiles, (bucket_rows - t_local + 15) / 16);
++  const int num_kb = static_cast<int>(k / 32);
++  const int m_i = static_cast<int>(m);
++  const std::size_t row_bytes = RoutedF16RowBytes<kType>(k);
++  const auto* w_expert = static_cast<const std::uint8_t*>(w) +
++                         static_cast<std::size_t>(expert) * m * row_bytes;
++
++  const int tid = static_cast<int>(threadIdx.x);
++  const int wave_id = tid >> 5;
++  const int lane_id = tid & 31;
++  const int sub_lane = lane_id & 15;
++  const int half_id = lane_id >> 4;
++  constexpr int kRows = kPair ? BM / 2 : BM;
++  const int r_block = static_cast<int>(blockIdx.x) * kRows;
++
++  // Weight fetch: unit u of a thread is (row = tid / 2 + 128 u, chunk c =
++  // tid % 2). Q4_K: the two 16-byte halves of one 32-byte nibble group (two
++  // K blocks, low and high nibbles); Q5_1: one 24-byte K block each.
++  const int f_c = tid & 1;
++  const std::uint8_t* f_ptr[kWaveRowTiles];
++  bool f_live[kWaveRowTiles];
++  uint4 f_header[kWaveRowTiles];
++#pragma unroll
++  for (int u = 0; u < kWaveRowTiles; ++u) {
++    const int r =
++        r_block + (kPair ? (tid >> 1) % kRows : (tid >> 1) + (u * 128));
++    f_live[u] = r < m_i;
++    const std::uint8_t* weights = w_expert;
++    if constexpr (kPair) {
++      if ((tid >> 1) >= kRows) {
++        weights = static_cast<const std::uint8_t*>(w_up) +
++                  static_cast<std::size_t>(expert) * m * row_bytes;
++      }
++    }
++    f_ptr[u] = weights +
++               static_cast<std::size_t>(f_live[u] ? r : (m_i - 1)) * row_bytes;
++    f_header[u] = make_uint4(0u, 0u, 0u, 0u);
++  }
++  // The next stage's weights and activations, fetched one stage ahead. The
++  // (scale, bias) pair is derived from the raw header word only when the
++  // stage is committed, so nothing waits on the loads before the compute.
++  uint4 f_codes[kWaveRowTiles];
++  uint2 f_iq2_group[kWaveRowTiles];
++  __half f_iq2_d[kWaveRowTiles];
++  // Paired gate/up tiles reuse the full quantized block over four stages.
++  // Keep its remaining codes in registers alongside the cached header.
++  uint4 code_cache[kWaveRowTiles][4];
++  uint4 f_codes_hi[kWaveRowTiles];  ///< Q8_0: the block's second 16 codes
++  uint4 f_qh[kWaveRowTiles][2];     ///< Q5_K: the superblock's high bits
++  std::uint32_t f_high[kWaveRowTiles];
++  std::uint32_t f_dm[kWaveRowTiles];  ///< Q5_1: d | m; Q8_0: d
++  int f_sb32[kWaveRowTiles];          ///< Q4_K: the K block in its superblock
++  constexpr int kActFetch = BN <= 64 ? 2 : 4;
++  uint4 a_data[kActFetch];
++  uint4 a_residual[kActFetch];
++
++  // Activation fetch: BN tokens x (BK * 64) bytes per stage in 16-byte
++  // chunks, eight per token; each thread fetches consecutive 256-chunk
++  // strides, up to four for a 128-token tile.
++  constexpr int kActChunks = BN * BK * 4;
++  static_assert(kActChunks <= kActFetch * 256);
++  using Activation = std::conditional_t<kResidual, float, __half>;
++  const Activation* a_src[kActFetch];
++  int a_slot[kActFetch];
++#pragma unroll
++  for (int i = 0; i < kActFetch; ++i) {
++    const int chunk = tid + (i * 256);
++    const int t = chunk / (BK * 4);
++    const int sub = chunk % (BK * 4);
++    const int c_row = t_local + t;
++    const std::int32_t src = (chunk < kActChunks && c_row < bucket_rows)
++                                 ? rows_in[bucket_begin + c_row]
++                                 : -1;
++    a_src[i] = src >= 0 ? x + (static_cast<std::size_t>(src) * k) + (sub * 8)
++                        : nullptr;
++    // Every K stage consumes only the live 16-row fragments. Keep
++    // zero padding inside the last live fragment; wholly dead fragments
++    // have no LDS reader. Decide this once, outside the stage loop.
++    const bool store_live =
++        chunk < kActChunks &&
++        (!(kIQ2 && kPair && kTokTiles > 1) || t < live_tok_tiles * 16);
++    // s_act[(kb * 4 + quarter) * kActStride + t]
++    a_slot[i] = store_live ? (sub * kActStride) + t : -1;
++  }
++
++  const auto swizzle = [](int row, int c) {
++    return (row * kChunks) +
++           (c ^ (kChunks == 4 ? ((row >> 1) & 3) : ((row >> 2) & 1)));
++  };
++
++  const auto fetch_stage = [&](int kb0) {
++#pragma unroll
++    for (int u = 0; u < kWaveRowTiles; ++u) {
++      if constexpr (kQ5) {
++        const int kb = kb0 + f_c;
++        const auto* words = reinterpret_cast<const uint2*>(f_ptr[u]) + (kb * 3);
++        const uint2 w0 = words[0];
++        const uint2 w1 = words[1];
++        const uint2 w2 = words[2];
++        f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
++        f_high[u] = w0.y;
++        f_dm[u] = w0.x;
++      } else if constexpr (kIQ2) {
++        const int sb32 = kb0 + f_c;
++        const auto* block = f_ptr[u] + (sb32 / 8) * 66;
++        // SPDX-License-Identifier: MIT
++        // Keep only the original group/header live across current-stage WMMA.
++        // No codebook/sign lookup or conversion waits on these loads here.
++        __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
++        __builtin_memcpy(&f_iq2_d[u], block, 2);
++      } else if constexpr (kQ2) {
++        // Each Q2_K superblock stores 256 codes with independent affine
++        // scales every 16 elements. The input's logical K may end halfway
++        // through the last block; row storage remains padded to 256.
++        const int sb32 = kb0 + f_c;
++        const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
++        const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
++        __builtin_memcpy(&f_codes[u], codes, 16);
++        __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
++        __builtin_memcpy(&f_dm[u], blk + 80, 4);
++        f_high[u] = blk[2 * (sb32 % 8)] |
++                    (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
++        const unsigned shift = 2U * unsigned(sb32 % 4);
++        const auto unpack = [shift](uint4 v) {
++          return make_uint4(
++              (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
++              (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
++        };
++        f_codes[u] = unpack(f_codes[u]);
++        f_codes_hi[u] = unpack(f_codes_hi[u]);
++      } else if constexpr (kQ8) {
++        // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
++        const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
++        f_dm[u] = *reinterpret_cast<const std::uint16_t*>(blk);
++        __builtin_memcpy(&f_codes[u], blk + 2, 16);
++        __builtin_memcpy(&f_codes_hi[u], blk + 18, 16);
++      } else {
++        constexpr int kBlockChunks = kQ5K ? 11 : 9;
++        constexpr int kCodeChunk = kQ5K ? 3 : 1;
++        const int block = kb0 / 8;
++        const auto* blk =
++            reinterpret_cast<const uint4*>(f_ptr[u]) + (block * kBlockChunks);
++        // The K sweep enters a new superblock every eight Q8-sized blocks.
++        if (kb0 % 8 == 0) {
++          f_header[u] = blk[0];
++          if constexpr (kPair) {
++#pragma unroll
++            for (int group = 0; group < 4; ++group)
++              code_cache[u][group] = blk[kCodeChunk + group * 2 + f_c];
++          }
++          if constexpr (kQ5K) {
++            f_qh[u][0] = blk[1];
++            f_qh[u][1] = blk[2];
++          }
++        }
++        const int sb32 = (kb0 % 8) + f_c;
++        if constexpr (kPair) {
++          const int group = sb32 / 2;
++          f_codes[u] = group == 0   ? code_cache[u][0]
++                       : group == 1 ? code_cache[u][1]
++                       : group == 2 ? code_cache[u][2]
++                                    : code_cache[u][3];
++        } else {
++          f_codes[u] = blk[kCodeChunk + (sb32 / 2) * 2 + f_c];
++        }
++        f_sb32[u] = sb32;
++        if constexpr (kQ5K) {
++          // Bit sb32 of the 32 high-bit bytes, packed as the Q5_1 word.
++          const std::uint32_t qh[8] = {f_qh[u][0].x, f_qh[u][0].y, f_qh[u][0].z,
++                                       f_qh[u][0].w, f_qh[u][1].x, f_qh[u][1].y,
++                                       f_qh[u][1].z, f_qh[u][1].w};
++          std::uint32_t high = 0;
++#pragma unroll
++          for (int i = 0; i < 8; ++i) {
++            high |= GatherBit(qh[i], sb32) << (4 * i);
++          }
++          f_high[u] = high;
++        }
++      }
++    }
++#pragma unroll
++    for (int i = 0; i < kActFetch; ++i) {
++      if constexpr (kResidual && kPacked) {
++        // Eight existing 32-bit slots hold (half high, scaled half residual).
++        // Read each slot once; extracting halves replaces repeated conversion
++        // of the same F32 activation in every output-row block.
++        const auto* packed = reinterpret_cast<const uint4*>(
++            a_src[i] != nullptr ? a_src[i] + kb0 * 32 : nullptr);
++        const uint4 a = packed ? packed[0] : make_uint4(0u, 0u, 0u, 0u);
++        const uint4 b = packed ? packed[1] : make_uint4(0u, 0u, 0u, 0u);
++        const auto high = [](uint4 v) {
++          return make_uint2((v.x & 0xFFFFU) | (v.y << 16U),
++                            (v.z & 0xFFFFU) | (v.w << 16U));
++        };
++        const auto low = [](uint4 v) {
++          return make_uint2((v.x >> 16U) | (v.y & 0xFFFF0000U),
++                            (v.z >> 16U) | (v.w & 0xFFFF0000U));
++        };
++        const uint2 ah = high(a), bh = high(b), al = low(a), bl = low(b);
++        a_data[i] = make_uint4(ah.x, ah.y, bh.x, bh.y);
++        a_residual[i] = make_uint4(al.x, al.y, bl.x, bl.y);
++      } else if constexpr (kResidual) {
++        __half hi[8], lo[8];
++#pragma unroll
++        for (int v = 0; v < 8; ++v) {
++          const float value =
++              a_src[i] != nullptr ? a_src[i][kb0 * 32 + v] : 0.0F;
++          hi[v] = __float2half_rn(value);
++          // Scale the residual to retain small/subnormal activations.
++          lo[v] = __float2half_rn((value - __half2float(hi[v])) * 4096.0F);
++        }
++        __builtin_memcpy(&a_data[i], hi, 16);
++        __builtin_memcpy(&a_residual[i], lo, 16);
++      } else {
++        a_data[i] = a_src[i] != nullptr
++                        ? *reinterpret_cast<const uint4*>(a_src[i] + (kb0 * 32))
++                        : make_uint4(0u, 0u, 0u, 0u);
++      }
++    }
++  };
++
++  const auto commit_stage = [&]() {
++#pragma unroll
++    for (int u = 0; u < kWaveRowTiles; ++u) {
++      const int row = (tid >> 1) + (u * 128);
++      std::uint32_t scale_bias = 0;
++      if constexpr (kIQ2) {
++        const uint2 group = f_iq2_group[u];
++        const __half d = f_iq2_d[u];
++        // SPDX-License-Identifier: MIT
++        // Each lane retains its original ten-byte prefetch and scale owner.
++        // Four lanes transpose decode ownership: each writes one eight-value
++        // slice for each peer's group, preserving every compact LDS byte.
++        const int part = lane_id & 3;
++#pragma unroll
++        for (int owner = 0; owner < 4; ++owner) {
++          const int peer_lane = (lane_id & ~3) + owner;
++          const int peer_tid = (tid & ~3) + owner;
++          const std::uint32_t indices = __shfl(group.x, peer_lane, 32);
++          const std::uint32_t signs = __shfl(group.y, peer_lane, 32);
++          const unsigned code = (indices >> (8 * part)) & 255U;
++          const unsigned sign = (signs >> (7 * part)) & 127U;
++          const uint2 magnitude =
++              reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
++          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++          const uint2 decoded =
++              make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                         magnitude.y ^ (mask.y & 0x80808080U));
++          const int peer_row = (peer_tid >> 1) + (u * 128);
++          const int chunk = 2 * (peer_tid & 1) + (part >> 1);
++          reinterpret_cast<uint2*>(
++              s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++        }
++        const float scale =
++            __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
++        const std::uint32_t dm =
++            __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
++        scale_bias = f_live[u] ? dm : 0U;
++      } else if constexpr (kSigned || kQ2) {
++        s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
++        s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
++        scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
++      } else {
++        s_codes[swizzle(row, f_c)] = f_codes[u];
++      }
++      if constexpr (kQ5K) {
++        s_high[(f_c * BM) + row] = f_high[u];
++      }
++      if constexpr (kQ2) {
++        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++#pragma unroll
++        for (int part = 0; part < 2; ++part) {
++          const unsigned sm = (f_high[u] >> (8 * part)) & 0xFFU;
++          const float d = f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
++          const float b =
++              f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
++          // Keep the affine in F32. Rounding its coefficients separately
++          // to F16 amplifies cancellation in small routed outputs.
++          auto* affine = reinterpret_cast<float*>(s_scale) +
++                         2 * (((2 * f_c + part) * BM) + row);
++          affine[0] = d;
++          affine[1] = b;
++        }
++      } else if constexpr (kSigned) {
++      } else if constexpr (kQ5) {
++        s_high[(f_c * BM) + row] = f_high[u];
++        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++        const float d = f_live[u] ? __low2float(dm) : 0.0F;
++        const float mn = f_live[u] ? __high2float(dm) : 0.0F;
++        scale_bias =
++            __builtin_bit_cast(std::uint32_t, __floats2half2_rn(d, mn));
++      } else {
++        const int sb32 = f_sb32[u];
++        std::uint32_t sc = 0;
++        std::uint32_t mn = 0;
++        if (sb32 < 4) {
++          sc = HeaderByte(f_header[u], 4 + sb32) & 0x3FU;
++          mn = HeaderByte(f_header[u], 8 + sb32) & 0x3FU;
++        } else {
++          sc = (HeaderByte(f_header[u], 8 + sb32) & 0x0FU) |
++               ((HeaderByte(f_header[u], sb32) >> 6U) << 4U);
++          mn = (HeaderByte(f_header[u], 8 + sb32) >> 4U) |
++               ((HeaderByte(f_header[u], 4 + sb32) >> 6U) << 4U);
++        }
++        const __half2 dm = __builtin_bit_cast(__half2, f_header[u].x);
++        const float scale =
++            f_live[u] ? __low2float(dm) * static_cast<float>(sc) : 0.0F;
++        const float offset =
++            f_live[u] ? __high2float(dm) * static_cast<float>(mn) : 0.0F;
++        scale_bias = __builtin_bit_cast(std::uint32_t,
++                                        __floats2half2_rn(scale, -offset));
++      }
++      if constexpr (!kQ2)
++        s_scale[(f_c * BM) + row] = scale_bias;
++    }
++#pragma unroll
++    for (int i = 0; i < kActFetch; ++i) {
++      if (a_slot[i] >= 0) {
++        s_act[a_slot[i]] = a_data[i];
++        if constexpr (kResidual)
++          s_act[kActPlaneBytes / 16 + a_slot[i]] = a_residual[i];
++      }
++    }
++  };
++
++  v8f acc[kWaveRowTiles][kTokTiles];
++  v8f acc_residual[kResidual ? kWaveRowTiles : 1][kResidual ? kTokTiles : 1];
++#pragma unroll
++  for (int u = 0; u < kWaveRowTiles; ++u) {
++#pragma unroll
++    for (int j = 0; j < kTokTiles; ++j) {
++      acc[u][j] = v8f{0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
++      if constexpr (kResidual)
++        acc_residual[u][j] = acc[u][j];
++    }
++  }
++
++  const __half2 magic = __floats2half2_rn(kSigned ? -1152.0F : -1024.0F,
++                                          kSigned ? -1152.0F : -1024.0F);
++  const auto compute_stage = [&]() {
++    uint4 raw[kWaveRowTiles][BK];
++    if constexpr (!kSigned && !kQ2) {
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        const int row = (wave_id * 16) + (u * 128) + sub_lane;
++#pragma unroll
++        for (int c = 0; c < BK; ++c) {
++          raw[u][c] = s_codes[swizzle(row, c)];
++        }
++      }
++    }
++#pragma unroll
++    for (int kb = 0; kb < BK; ++kb) {
++      v16h a_lo[kWaveRowTiles];
++      v16h a_hi[kWaveRowTiles];
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        const int row = (wave_id * 16) + (u * 128) + sub_lane;
++        const __half2 sb =
++            kQ2 ? __float2half2_rn(0.0F)
++                : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
++        const __half2 scale2 = __low2half2(sb);
++        const __half2 bias2 = __high2half2(sb);
++        std::uint32_t nib[8];
++        if constexpr (kSigned || kQ2) {
++          // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
++          // flipping the sign bit carries q + 128, which the 1152 magic
++          // takes back out.
++          const uint4 c0 = s_codes[swizzle(row, 2 * kb)];
++          const uint4 c1 = s_codes[swizzle(row, (2 * kb) + 1)];
++          const std::uint32_t words[8] = {c0.x, c0.y, c0.z, c0.w,
++                                          c1.x, c1.y, c1.z, c1.w};
++#pragma unroll
++          for (int i = 0; i < 8; ++i) {
++            nib[i] = (kSigned && !kIQ2) ? words[i] ^ 0x80808080U : words[i];
++          }
++        } else if constexpr (kQ5) {
++          // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
++          // the low nibbles, 16-31 the high, plus bit j of the high-bit
++          // word.
++          const uint4 r = raw[u][kb];
++          const std::uint32_t high = s_high[(kb * BM) + row];
++          const std::uint32_t words[4] = {r.x, r.y, r.z, r.w};
++#pragma unroll
++          for (int i = 0; i < 4; ++i) {
++            nib[i] = (words[i] & 0x0F0F0F0FU) |
++                     SpreadHighBits((high >> (4 * i)) & 0xFU);
++            nib[4 + i] = ((words[i] >> 4U) & 0x0F0F0F0FU) |
++                         SpreadHighBits((high >> (16 + 4 * i)) & 0xFU);
++          }
++        } else {
++          // Q4_K / Q5_K: elements 0-15 of K block kb0 + kb are the low
++          // (kb = 0) or high (kb = 1) nibbles of chunk 0, elements 16-31
++          // of chunk 1; Q5_K adds bit j of the staged high-bit word.
++          const unsigned shift = 4U * static_cast<unsigned>(kb);
++          const std::uint32_t words[8] = {raw[u][0].x, raw[u][0].y, raw[u][0].z,
++                                          raw[u][0].w, raw[u][1].x, raw[u][1].y,
++                                          raw[u][1].z, raw[u][1].w};
++          const std::uint32_t high = kQ5K ? s_high[(kb * BM) + row] : 0U;
++#pragma unroll
++          for (int i = 0; i < 8; ++i) {
++            nib[i] = (words[i] >> shift) & 0x0F0F0F0FU;
++            if constexpr (kQ5K) {
++              nib[i] |= SpreadHighBits((high >> (4 * i)) & 0xFU);
++            }
++          }
++        }
++        __half2 h[16];
++        uint2 palette[kQ2 && (kPacked || kScaled) ? 2 : 1];
++        if constexpr (kQ2 && (kPacked || kScaled)) {
++          // A sixteen-element affine group has only four possible weights.
++          // Preserve each F32 FMA and F16 rounding, then select its exact
++          // half bits instead of repeating the affine for every element.
++#pragma unroll
++          for (int part = 0; part < 2; ++part) {
++            const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                 2 * (((2 * kb + part) * BM) + row);
++            const float d = affine[0], bias = affine[1];
++            palette[part] = make_uint2(
++                __builtin_bit_cast(std::uint32_t,
++                                   __floats2half2_rn(fmaf(0.0F, d, bias),
++                                                     fmaf(1.0F, d, bias))),
++                __builtin_bit_cast(std::uint32_t,
++                                   __floats2half2_rn(fmaf(2.0F, d, bias),
++                                                     fmaf(3.0F, d, bias))));
++          }
++        }
++#pragma unroll
++        for (int i = 0; i < 8; ++i) {
++          if constexpr (kQ2 && (kPacked || kScaled)) {
++            const uint2 values = palette[i / 4];
++            // Duplicate each two-bit code into the two byte selectors for
++            // its half; perm indices 0..3 read the second source word.
++            const auto lo =
++                (__builtin_amdgcn_perm(nib[i], nib[i], 0x01010000U) << 1U) |
++                0x01000100U;
++            const auto hi =
++                (__builtin_amdgcn_perm(nib[i], nib[i], 0x03030202U) << 1U) |
++                0x01000100U;
++            h[2 * i] = __builtin_bit_cast(
++                __half2, __builtin_amdgcn_perm(values.y, values.x, lo));
++            h[2 * i + 1] = __builtin_bit_cast(
++                __half2, __builtin_amdgcn_perm(values.y, values.x, hi));
++          } else if constexpr (kQ2) {
++            const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                 2 * (((2 * kb + (i / 4)) * BM) + row);
++            const float d = affine[0], bias = affine[1];
++            h[2 * i] =
++                __floats2half2_rn(fmaf(float(nib[i] & 3U), d, bias),
++                                  fmaf(float((nib[i] >> 8U) & 3U), d, bias));
++            h[2 * i + 1] =
++                __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
++                                  fmaf(float((nib[i] >> 24U) & 3U), d, bias));
++          } else if constexpr (kIQ2) {
++            Iq2HalfBytesToHalves(nib[i], scale2, bias2, h[2 * i], h[2 * i + 1]);
++          } else {
++            CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i], h[2 * i + 1]);
++          }
++        }
++        __builtin_memcpy(&a_lo[u], &h[0], 32);
++        __builtin_memcpy(&a_hi[u], &h[8], 32);
++      }
++#pragma unroll
++      for (int j = 0; j < kTokTiles; ++j) {
++        if constexpr (kPair || ((kQ5 || kQ8 || kQ2) && BN >= 48)) {
++          // Keep one token tile's LDS fragments live at a time. Hoisting
++          // all eight tiles spills registers and defeats the wider tile's
++          // reuse of each weight decode. This is a compiler barrier only.
++          asm volatile("" ::: "memory");
++        }
++        // A short expert bucket has no output in the remaining token
++        // tiles, so omit their WMMA work.
++        if constexpr ((kPair || ((kQ5 || kQ8 || kQ2) && BN >= 48)) &&
++                      kTokTiles > 1) {
++          if (j >= live_tok_tiles)
++            continue;
++        }
++        const uint4* frag =
++            s_act + ((kb * 4) * kActStride) + (j * 16) + sub_lane;
++        uint4 b[4];
++#pragma unroll
++        for (int q = 0; q < 4; ++q) {
++          b[q] = frag[q * kActStride];
++        }
++        v16h b_lo;
++        v16h b_hi;
++        __builtin_memcpy(&b_lo, &b[0], 32);
++        __builtin_memcpy(&b_hi, &b[2], 32);
++#pragma unroll
++        for (int u = 0; u < kWaveRowTiles; ++u) {
++          acc[u][j] = Wmma(a_lo[u], b_lo, acc[u][j]);
++          acc[u][j] = Wmma(a_hi[u], b_hi, acc[u][j]);
++        }
++        if constexpr (kResidual) {
++#pragma unroll
++          for (int q = 0; q < 4; ++q)
++            b[q] = frag[kActPlaneBytes / 16 + q * kActStride];
++          __builtin_memcpy(&b_lo, &b[0], 32);
++          __builtin_memcpy(&b_hi, &b[2], 32);
++#pragma unroll
++          for (int u = 0; u < kWaveRowTiles; ++u) {
++            acc_residual[u][j] = Wmma(a_lo[u], b_lo, acc_residual[u][j]);
++            acc_residual[u][j] = Wmma(a_hi[u], b_hi, acc_residual[u][j]);
++          }
++        }
++      }
++    }
++  };
++
++  fetch_stage(0);
++  for (int kb0 = 0; kb0 < num_kb; kb0 += BK) {
++    commit_stage();
++    __syncthreads();
++    if (kb0 + BK < num_kb) {
++      fetch_stage(kb0 + BK);
++    }
++    compute_stage();
++    __syncthreads();
++  }
++
++  if constexpr (kResidual) {
++#pragma unroll
++    for (int u = 0; u < kWaveRowTiles; ++u)
++#pragma unroll
++      for (int j = 0; j < kTokTiles; ++j)
++        acc[u][j] += acc_residual[u][j] * (1.0F / 4096.0F);
++  }
++
++  if constexpr (kPair) {
++    // Four waves compute gate rows and four compute the matching up rows.
++    // Pair them in the existing LDS allocation, keeping the K accumulation
++    // order and avoiding the gate's F32 write/read between projections.
++    // Two padding floats keep the accumulator scatter off repeated banks.
++    constexpr unsigned stride = 18;
++    constexpr unsigned plane = 16 * stride;
++    static_assert(8 * plane * sizeof(float) <= kLdsBytes);
++    float* base = reinterpret_cast<float*>(lds);
++    float* scratch = base + wave_id * plane;
++#pragma unroll
++    for (int j = 0; j < kTokTiles; ++j) {
++#pragma unroll
++      for (int l = 0; l < 8; ++l) {
++        scratch[sub_lane * stride + 2 * l + half_id] = acc[0][j][l];
++      }
++      __syncthreads();
++#pragma unroll
++      for (int unit = 0; unit < 2; ++unit) {
++        const int flat = (unit * 256 + tid) * 2;
++        const int t = t_local + j * 16 + flat / kRows;
++        const int r = flat % kRows;
++        if (t < bucket_rows && r_block + r < m_i) {
++          const std::int32_t dst = rows_out[bucket_begin + t];
++          if (dst >= 0) {
++            const int idx = (r / 16) * plane + (flat / kRows) * stride + r % 16;
++            // Preserve the separate projection epilogue's F32 evaluation
++            // order before narrowing. Fast-math can otherwise regroup the
++            // products and change an F16 rounding tie.
++            __half values[2];
++            float wide_values[2];
++            std::uint32_t packed_values[2];
++#pragma unroll
++            for (int v = 0; v < 2; ++v) {
++              float product = base[idx + v + 4 * plane] * base[idx + v];
++              asm volatile("" : "+v"(product));
++              float value = product * SigmoidF(base[idx + v]);
++              asm volatile("" : "+v"(value));
++              values[v] = __float2half(value);
++              if constexpr (kIQ2 && kPacked) {
++                const __half residual = __float2half_rn(
++                    (value - __half2float(values[v])) * 4096.0F);
++                packed_values[v] = __builtin_bit_cast(
++                    std::uint32_t, __halves2half2(values[v], residual));
++              } else if constexpr (kIQ2) {
++                wide_values[v] = value;
++              }
++            }
++            EmitQ2ProducerQ8(wide_values[0], wide_values[1], out, q8_capacity,
++                             bucket_begin + t, r_block, lane_id);
++          }
++        }
++      }
++      __syncthreads();
++    }
++    return;
++  }
++
++  // One wave writes a complete 128-byte line of F16 output. Padding the
++  // shared row by two floats also makes the accumulator scatter conflict-free.
++  // Narrow buckets keep the lighter wave-local epilogue below.
++  if constexpr (BN >= 48) {
++    static_assert(kLdsBytes >= 16 * (BM + 2) * sizeof(float));
++    if (out_half != nullptr) {
++      constexpr unsigned stride = BM + 2;
++      float* scratch = reinterpret_cast<float*>(lds);
++#pragma unroll
++      for (int j = 0; j < kTokTiles; ++j) {
++#pragma unroll
++        for (int u = 0; u < kWaveRowTiles; ++u) {
++#pragma unroll
++          for (int l = 0; l < 8; ++l)
++            scratch[sub_lane * stride + wave_id * 16 + u * 128 + 2 * l +
++                    half_id] = acc[u][j][l];
++        }
++        __syncthreads();
++#pragma unroll
++        for (int round = 0; round < 16 * BM / (256 * 2); ++round) {
++          const unsigned flat = (round * 256 + tid) * 2;
++          const unsigned tr = flat / BM, row = flat % BM;
++          const unsigned t = t_local + j * 16 + tr, r = r_block + row;
++          if (t < unsigned(bucket_rows) && r < m) {
++            const int dst = rows_out[bucket_begin + t];
++            if (dst >= 0) {
++              float2 v =
++                  *reinterpret_cast<const float2*>(scratch + tr * stride + row);
++              const size_t o = size_t(dst) * m + r;
++              if (swiglu_gate != nullptr) {
++                v.x *= SiluF(swiglu_gate[o]);
++                if (r + 1 < m)
++                  v.y *= SiluF(swiglu_gate[o + 1]);
++              }
++              if (m % 2 == 0 && r + 1 < m)
++                *reinterpret_cast<__half2*>(out_half + o) =
++                    __floats2half2_rn(v.x, v.y);
++              else {
++                out_half[o] = __float2half(v.x);
++                if (r + 1 < m)
++                  out_half[o + 1] = __float2half(v.y);
++              }
++            }
++          }
++        }
++        __syncthreads();
++      }
++      return;
++    }
++  }
++  // Transpose each 16x16 tile through LDS, then scatter the 16 rows of each
++  // token to its output row.
++  float* tile_scratch = reinterpret_cast<float*>(lds) + (wave_id * 256);
++#pragma unroll
++  for (int u = 0; u < kWaveRowTiles; ++u) {
++    const int r0 = r_block + (wave_id * 16) + (u * 128);
++#pragma unroll
++    for (int j = 0; j < kTokTiles; ++j) {
++#pragma unroll
++      for (int l = 0; l < 8; ++l) {
++        tile_scratch[(sub_lane * 16) + (2 * l) + half_id] = acc[u][j][l];
++      }
++      __builtin_amdgcn_wave_barrier();
++      const int t0 = t_local + (j * 16);
++#pragma unroll
++      for (int s = 0; s < 8; ++s) {
++        const int flat = (s * 32) + lane_id;
++        const int t = t0 + (flat >> 4);
++        const int r = r0 + (flat & 15);
++        if (t < bucket_rows && r < m_i) {
++          const std::int32_t dst = rows_out[bucket_begin + t];
++          if (dst >= 0) {
++            const std::size_t o = (static_cast<std::size_t>(dst) * m) +
++                                  static_cast<std::size_t>(r);
++            float v = tile_scratch[flat];
++            if (out_half != nullptr) {
++              out_half[o] = __float2half(
++                  swiglu_gate != nullptr ? v * SiluF(swiglu_gate[o]) : v);
++            } else {
++              if constexpr (kScaled)
++                out[o] = v * static_cast<const float*>(w_up)[dst];
++              else
++                out[o] = v;
++            }
++          }
++        }
++      }
++      __builtin_amdgcn_wave_barrier();
++    }
++  }
++}
++
++template<int BN, bool kPacked = false>
++void LaunchRoutedIQ2ProducerQ8(const void* gate, const void* up,
++                               const __half* x, const std::int32_t* tiles,
++                               std::uint32_t n_tiles,
++                               const std::int32_t* bounds,
++                               const std::int32_t* rows_token,
++                               const std::int32_t* rows_slot, float* out,
++                               std::size_t m, std::size_t k,
++                               std::size_t q8_capacity, hipStream_t stream) {
++  const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
++  hipLaunchKernelGGL((RoutedIQ2ProducerQ8Kernel<WeightType::kIQ2_XXS, 128, BN,
++                                                2, true, kPacked>),
++                     grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds,
++                     rows_token, rows_slot, nullptr, out, nullptr, m, k, up,
++                     q8_capacity);
++}
++
++bool RoutedGatedIQ2ProducerQ8Gemm(
++    const void* gate, const void* up, const __half* x,
++    const std::int32_t* tiles, std::uint32_t n_tiles, std::uint32_t tile_rows,
++    const std::int32_t* bounds, const std::int32_t* rows_token,
++    const std::int32_t* rows_slot, float* out, std::size_t m, std::size_t k,
++    std::size_t q8_capacity, hipStream_t stream) {
++  if (!gate || !up || !x || !out || !tiles || !bounds || !rows_token ||
++      !rows_slot || m != 640 || !q8_capacity || !m || !k || k % 256 || !n_tiles)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchRoutedIQ2ProducerQ8<16, false>(gate, up, x, tiles, n_tiles, bounds,
++                                           rows_token, rows_slot, out, m, k,
++                                           q8_capacity, stream);
++      break;
++    case 48:
++      LaunchRoutedIQ2ProducerQ8<48, false>(gate, up, x, tiles, n_tiles, bounds,
++                                           rows_token, rows_slot, out, m, k,
++                                           q8_capacity, stream);
++      break;
++    case 64:
++      LaunchRoutedIQ2ProducerQ8<64, false>(gate, up, x, tiles, n_tiles, bounds,
++                                           rows_token, rows_slot, out, m, k,
++                                           q8_capacity, stream);
++      break;
++    case 128:
++      LaunchRoutedIQ2ProducerQ8<128, false>(gate, up, x, tiles, n_tiles, bounds,
++                                            rows_token, rows_slot, out, m, k,
++                                            q8_capacity, stream);
++      break;
++    default:
++      return false;
++  }
++  return hipGetLastError() == hipSuccess;
++}

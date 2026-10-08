@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/mmq/q2_producer_q8.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/mmq/q2_producer_q8.hip.cpp
+@@ -138,11 +138,10 @@
+   const int physical_begin = bounds[expert] + token_begin;
+   const int output_begin = int(blockIdx.x) * BM;
+   const int output_last = m - output_begin - 1;
+-  __shared__ int ids[BN];
++
+   __shared__ int y_tile[GGML_PAD(BN * MMQ_TILE_Y_K, Threads)];
+   __shared__ int x_tile[BM * MMQ_MMA_TILE_X_K_Q2_K];
+-  if (tid < BN)
+-    ids[tid] = tid < live ? slots[physical_begin + tid] : 0;
++
+   float sum[BN * BM / Threads] = {0.0F};
+   constexpr int Words = sizeof(block_q8_1_mmq) / sizeof(int);
+   const int weight_begin = (expert * m + output_begin) * 3;
+@@ -176,6 +175,10 @@
+     ProducerQ8Dot<BN, BM>(x_tile, y_tile, sum, MMQ_TILE_NE_K);
+     __syncthreads();
+   }
++  int* ids = x_tile;
++  if (tid < BN)
++    ids[tid] = tid < live ? slots[physical_begin + tid] : 0;
++  __syncthreads();
+   // Original gfx1151 MMQ accumulator ownership, narrowed once at the consumer.
+   using Tile = tile<16, 16, int, DATA_LAYOUT_J_MAJOR>;
+ #pragma unroll

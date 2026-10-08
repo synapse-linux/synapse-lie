@@ -1,0 +1,13 @@
+{
+  "profile": "config/q2-scaled-library-profile-results.json",
+  "profile_sha256": "f8749c740ca2308c55b7799eb5a2666685da51dd69d07cb20c925f5314bcc2c7",
+  "steps": 15,
+  "scope": "Previous scaled/library trace, not the new paired-norm binary; scalar kernels unchanged",
+  "q8_dense_ms_per_step": 17.477265266666667,
+  "q8_fraction_of_kernel_time": 0.4671140112054381,
+  "hc_down_up_ms_per_step": 5.8947582,
+  "hc_down_extra_ms_per_step": 1.2961568,
+  "inter_kernel_gap_ms_per_step": 5.606820933333333,
+  "hip_graphs_already_implemented": true,
+  "new_decode_optimization_implemented": false
+}

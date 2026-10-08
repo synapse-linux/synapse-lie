@@ -1,0 +1,1120 @@
+{
+  "schema": "synapse-lie.q2-counting-regression.v1",
+  "scope": "Exact historical counting pp2048/tg128 harness, including one warmup, three measurements, 127 timed decode calls and 15-second pauses outside timing. Not canonical HTTP.",
+  "model": {
+    "legacy": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-legacy-r2",
+      "binary_sha256": "fd92d521bc9180d67ef9028a78da38e5aa64445e477d956c64571a461de7b844",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 100.287833,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 79000
+      },
+      "finished_at": "2026-10-04T10:41:15.580236+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.464505233,
+          "decode_s": 5.348449306,
+          "prefill_tok_s": 1398.424501,
+          "decode_steps_s": 23.74520029,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.424370171,
+          "decode_s": 5.261855972,
+          "prefill_tok_s": 1437.828481,
+          "decode_steps_s": 24.1359704,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.426185047,
+          "decode_s": 5.267420525,
+          "prefill_tok_s": 1435.998789,
+          "decode_steps_s": 24.11047293,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.42632871,
+          "decode_s": 5.261862384,
+          "prefill_tok_s": 1435.854152,
+          "decode_steps_s": 24.13594099,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1437.828481,
+            1435.998789,
+            1435.854152
+          ],
+          "min": 1435.854152,
+          "median": 1435.998789,
+          "max": 1437.828481
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.1359704,
+            24.11047293,
+            24.13594099
+          ],
+          "min": 24.11047293,
+          "median": 24.13594099,
+          "max": 24.1359704
+        },
+        "prefill_s": {
+          "samples": [
+            1.424370171,
+            1.426185047,
+            1.42632871
+          ],
+          "min": 1.424370171,
+          "median": 1.426185047,
+          "max": 1.42632871
+        },
+        "decode_s": {
+          "samples": [
+            5.261855972,
+            5.267420525,
+            5.261862384
+          ],
+          "min": 5.261855972,
+          "median": 5.261862384,
+          "max": 5.267420525
+        }
+      },
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "3de7345b6a7e78555a26c50a28bf34aedef5b0665f440a23aa26f6407d253bbb",
+        "archive_sha256": "0c45d6f961d090b5e4e35a25a7cb361ea4e6e561e43dbbff21114788700ccdbb",
+        "artifacts_verified": 26,
+        "temperature_max_c": {
+          "amdgpu": 77.0,
+          "k10temp": 79.0
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+          "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+          "tools/q2-remote.py": "27649adbf827b35262d1b52b5a6e89811a435e690a928b693ea21dd329047bac",
+          "tools/q2-runner.py": "0a78772fd90bc2eeaac3161ffe619c8ae8ee396415b9b5c7ec1c509e79b208cc",
+          "tests/q2_remote_test.py": "d76793d9ba49d1ae346b737e395c01469cc0e9ffee6135f5c9277fe8a3bac0a6",
+          "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+          "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+          "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae"
+        }
+      },
+      "source_inventory_sha256": "5d8c11543dadb3a94b182a2bb12999513c5b306169f9812e55b6edef0664ecfe"
+    },
+    "ordered": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-iq2-r1",
+      "binary_sha256": "225f0ec7f78648923cf42e7124de882edfdd050d39486a33cdce0e7c1b4204d4",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 98.308539,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 86750
+      },
+      "finished_at": "2026-10-04T10:45:58.617195+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.42544632,
+          "decode_s": 5.060824916,
+          "prefill_tok_s": 1436.742984,
+          "decode_steps_s": 25.09472311,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.421650752,
+          "decode_s": 5.052564112,
+          "prefill_tok_s": 1440.578846,
+          "decode_steps_s": 25.1357523,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.422209015,
+          "decode_s": 5.046554045,
+          "prefill_tok_s": 1440.013372,
+          "decode_steps_s": 25.16568709,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.421480491,
+          "decode_s": 5.047959076,
+          "prefill_tok_s": 1440.751395,
+          "decode_steps_s": 25.15868257,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1440.578846,
+            1440.013372,
+            1440.751395
+          ],
+          "min": 1440.013372,
+          "median": 1440.578846,
+          "max": 1440.751395
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.1357523,
+            25.16568709,
+            25.15868257
+          ],
+          "min": 25.1357523,
+          "median": 25.15868257,
+          "max": 25.16568709
+        },
+        "prefill_s": {
+          "samples": [
+            1.421650752,
+            1.422209015,
+            1.421480491
+          ],
+          "min": 1.421480491,
+          "median": 1.421650752,
+          "max": 1.422209015
+        },
+        "decode_s": {
+          "samples": [
+            5.052564112,
+            5.046554045,
+            5.047959076
+          ],
+          "min": 5.046554045,
+          "median": 5.047959076,
+          "max": 5.052564112
+        }
+      },
+      "validation": {
+        "source_files_verified": 1020,
+        "source_capsule_sha256": "e2dd32508cb0f9d3c9e3550cedf936eb56b166587f7fe2678a64ceef4ebd5400",
+        "archive_sha256": "a7be020557d79234dbe68a66921cf3296c8e1c3cc97c60eac3152f4910de6fd6",
+        "artifacts_verified": 26,
+        "temperature_max_c": {
+          "amdgpu": 77.0,
+          "k10temp": 86.75
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+          "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+          "tools/q2-remote.py": "27649adbf827b35262d1b52b5a6e89811a435e690a928b693ea21dd329047bac",
+          "tools/q2-runner.py": "0a78772fd90bc2eeaac3161ffe619c8ae8ee396415b9b5c7ec1c509e79b208cc",
+          "tests/q2_remote_test.py": "d76793d9ba49d1ae346b737e395c01469cc0e9ffee6135f5c9277fe8a3bac0a6",
+          "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+          "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+          "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae"
+        }
+      },
+      "source_inventory_sha256": "f2c3d2a794e2531d1e4d6de6649c1a3716b23dce8c008e8b40c0149bdb704ad7"
+    },
+    "mixed": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1",
+      "binary_sha256": "fb2a243fbe4e7db822ad718ea694a84e2d54a4950a855451c1399ebed7a00326",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 98.292599,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 80750
+      },
+      "finished_at": "2026-10-04T10:50:28.925760+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.423943804,
+          "decode_s": 5.062085753,
+          "prefill_tok_s": 1438.259006,
+          "decode_steps_s": 25.08847266,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.41887387,
+          "decode_s": 5.058620886,
+          "prefill_tok_s": 1443.398207,
+          "decode_steps_s": 25.10565683,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.418603928,
+          "decode_s": 5.062386263,
+          "prefill_tok_s": 1443.672867,
+          "decode_steps_s": 25.08698337,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.418437954,
+          "decode_s": 5.060576497,
+          "prefill_tok_s": 1443.841794,
+          "decode_steps_s": 25.09595499,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1443.398207,
+            1443.672867,
+            1443.841794
+          ],
+          "min": 1443.398207,
+          "median": 1443.672867,
+          "max": 1443.841794
+        },
+        "decode_steps_s": {
+          "samples": [
+            25.10565683,
+            25.08698337,
+            25.09595499
+          ],
+          "min": 25.08698337,
+          "median": 25.09595499,
+          "max": 25.10565683
+        },
+        "prefill_s": {
+          "samples": [
+            1.41887387,
+            1.418603928,
+            1.418437954
+          ],
+          "min": 1.418437954,
+          "median": 1.418603928,
+          "max": 1.41887387
+        },
+        "decode_s": {
+          "samples": [
+            5.058620886,
+            5.062386263,
+            5.060576497
+          ],
+          "min": 5.058620886,
+          "median": 5.060576497,
+          "max": 5.062386263
+        }
+      },
+      "validation": {
+        "source_files_verified": 1022,
+        "source_capsule_sha256": "0dacee2cc2d7ec88a735ed13fa42e3071b682f6ccc458b2fe41ae6018fdbde0b",
+        "archive_sha256": "58bb3b20aa543177afe351b69fbf7e7cc875be314aa779e4d37f089f0dd48a3a",
+        "artifacts_verified": 26,
+        "temperature_max_c": {
+          "amdgpu": 77.0,
+          "k10temp": 80.75
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+          "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+          "tools/q2-remote.py": "27649adbf827b35262d1b52b5a6e89811a435e690a928b693ea21dd329047bac",
+          "tools/q2-runner.py": "0a78772fd90bc2eeaac3161ffe619c8ae8ee396415b9b5c7ec1c509e79b208cc",
+          "tests/q2_remote_test.py": "d76793d9ba49d1ae346b737e395c01469cc0e9ffee6135f5c9277fe8a3bac0a6",
+          "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+          "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+          "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae"
+        }
+      },
+      "source_inventory_sha256": "9083402dda66c073337a15a7f5d37206b33d5fcf94228ee03429d3c3dd6b77d3"
+    },
+    "ud": {
+      "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1",
+      "binary_sha256": "e745e1a4e518a26e3e78be4bb853ab79280c70ff9c750babad169c14ef3e5eac",
+      "complete": true,
+      "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "thermal_stop": null,
+      "command_wall_s": 108.313503,
+      "mmq_reuse": null,
+      "thermal_max_mc": {
+        "amdgpu": 77000,
+        "k10temp": 76375
+      },
+      "finished_at": "2026-10-04T10:54:51.708359+00:00",
+      "samples": [
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 0,
+          "warmup": true,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.212520558,
+          "decode_s": 5.217234208,
+          "prefill_tok_s": 1689.043527,
+          "decode_steps_s": 24.34239962,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 1,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.214447147,
+          "decode_s": 5.216416355,
+          "prefill_tok_s": 1686.364042,
+          "decode_steps_s": 24.34621613,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 2,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.214869991,
+          "decode_s": 5.217375049,
+          "prefill_tok_s": 1685.777092,
+          "decode_steps_s": 24.34174251,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        },
+        {
+          "event": "sample",
+          "label": "pp2048",
+          "rep": 3,
+          "warmup": false,
+          "prompt_tokens": 2048,
+          "output_tokens": 128,
+          "decode_steps": 127,
+          "prefill_s": 1.215141798,
+          "decode_s": 5.258576845,
+          "prefill_tok_s": 1685.400011,
+          "decode_steps_s": 24.15102104,
+          "session_bytes": 376777748,
+          "eos": false,
+          "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+        }
+      ],
+      "shared_fork": [],
+      "within_arm_replay": {
+        "checks": 9,
+        "exact": 9
+      },
+      "measurements": {
+        "prefill_tok_s": {
+          "samples": [
+            1686.364042,
+            1685.777092,
+            1685.400011
+          ],
+          "min": 1685.400011,
+          "median": 1685.777092,
+          "max": 1686.364042
+        },
+        "decode_steps_s": {
+          "samples": [
+            24.34621613,
+            24.34174251,
+            24.15102104
+          ],
+          "min": 24.15102104,
+          "median": 24.34174251,
+          "max": 24.34621613
+        },
+        "prefill_s": {
+          "samples": [
+            1.214447147,
+            1.214869991,
+            1.215141798
+          ],
+          "min": 1.214447147,
+          "median": 1.214869991,
+          "max": 1.215141798
+        },
+        "decode_s": {
+          "samples": [
+            5.216416355,
+            5.217375049,
+            5.258576845
+          ],
+          "min": 5.216416355,
+          "median": 5.217375049,
+          "max": 5.258576845
+        }
+      },
+      "validation": {
+        "source_files_verified": 1019,
+        "source_capsule_sha256": "0c0d41027cb3bd658cca5c194087a993d56ae55231e7873422827428514faffd",
+        "archive_sha256": "0991791329fba9e5a86974135e876d8fc6f21d291954612bfa955f422f93cde5",
+        "artifacts_verified": 26,
+        "temperature_max_c": {
+          "amdgpu": 77.0,
+          "k10temp": 76.375
+        },
+        "fixtures_sha256": {
+          "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+          "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+          "tools/q2-remote.py": "27649adbf827b35262d1b52b5a6e89811a435e690a928b693ea21dd329047bac",
+          "tools/q2-runner.py": "0a78772fd90bc2eeaac3161ffe619c8ae8ee396415b9b5c7ec1c509e79b208cc",
+          "tests/q2_remote_test.py": "d76793d9ba49d1ae346b737e395c01469cc0e9ffee6135f5c9277fe8a3bac0a6",
+          "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+          "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+          "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae"
+        }
+      },
+      "source_inventory_sha256": "eb84834933b6446888f6fcebda14486a93f1717b4ced89013678ead257d01308"
+    }
+  },
+  "historical": {
+    "path": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-library-norm-model-candidate-r1",
+    "binary_sha256": "81b7338e3f3adced0379e7d1a45eed3e7040f29116b904dc5e9cc31012847c2b",
+    "complete": true,
+    "runner_state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+    "thermal_stop": null,
+    "command_wall_s": 98.801948,
+    "mmq_reuse": null,
+    "thermal_max_mc": {
+      "amdgpu": 73000,
+      "k10temp": 84500
+    },
+    "finished_at": "2026-10-03T16:44:22.617099+00:00",
+    "samples": [
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 0,
+        "warmup": true,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.425243335,
+        "decode_s": 5.269120296,
+        "prefill_tok_s": 1436.947607,
+        "decode_steps_s": 24.10269511,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 1,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.421813045,
+        "decode_s": 5.270721534,
+        "prefill_tok_s": 1440.414411,
+        "decode_steps_s": 24.09537275,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 2,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.422949266,
+        "decode_s": 5.26929707,
+        "prefill_tok_s": 1439.264244,
+        "decode_steps_s": 24.10188652,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      },
+      {
+        "event": "sample",
+        "label": "pp2048",
+        "rep": 3,
+        "warmup": false,
+        "prompt_tokens": 2048,
+        "output_tokens": 128,
+        "decode_steps": 127,
+        "prefill_s": 1.423942158,
+        "decode_s": 5.270458928,
+        "prefill_tok_s": 1438.260668,
+        "decode_steps_s": 24.09657332,
+        "session_bytes": 376777748,
+        "eos": false,
+        "text": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 3"
+      }
+    ],
+    "shared_fork": [],
+    "within_arm_replay": {
+      "checks": 9,
+      "exact": 9
+    },
+    "measurements": {
+      "prefill_tok_s": {
+        "samples": [
+          1440.414411,
+          1439.264244,
+          1438.260668
+        ],
+        "min": 1438.260668,
+        "median": 1439.264244,
+        "max": 1440.414411
+      },
+      "decode_steps_s": {
+        "samples": [
+          24.09537275,
+          24.10188652,
+          24.09657332
+        ],
+        "min": 24.09537275,
+        "median": 24.09657332,
+        "max": 24.10188652
+      },
+      "prefill_s": {
+        "samples": [
+          1.421813045,
+          1.422949266,
+          1.423942158
+        ],
+        "min": 1.421813045,
+        "median": 1.422949266,
+        "max": 1.423942158
+      },
+      "decode_s": {
+        "samples": [
+          5.270721534,
+          5.26929707,
+          5.270458928
+        ],
+        "min": 5.26929707,
+        "median": 5.270458928,
+        "max": 5.270721534
+      }
+    }
+  },
+  "replay": {
+    "legacy_vs_historical": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        }
+      ]
+    },
+    "ordered_vs_legacy": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        }
+      ]
+    },
+    "mixed_vs_ordered": {
+      "files": [
+        "arithmetic-0-last.f32",
+        "arithmetic-0-output.u32",
+        "arithmetic-0-prefill.f32",
+        "arithmetic-input.i32",
+        "counting-0-last.f32",
+        "counting-0-output.u32",
+        "counting-0-prefill.f32",
+        "counting-input.i32",
+        "pp2048-0-last.f32",
+        "pp2048-0-output.u32",
+        "pp2048-0-prefill.f32",
+        "pp2048-1-last.f32",
+        "pp2048-1-output.u32",
+        "pp2048-1-prefill.f32",
+        "pp2048-2-last.f32",
+        "pp2048-2-output.u32",
+        "pp2048-2-prefill.f32",
+        "pp2048-3-last.f32",
+        "pp2048-3-output.u32",
+        "pp2048-3-prefill.f32",
+        "pp2048-input.i32"
+      ],
+      "changed": [],
+      "frontiers": [
+        {
+          "name": "arithmetic-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "arithmetic-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "counting-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "counting-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-0-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-0-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-1-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-1-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-2-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-2-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-3-last.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        },
+        {
+          "name": "pp2048-3-prefill.f32",
+          "exact": true,
+          "max_absolute_delta": 0.0,
+          "relative_l2": 0.0,
+          "kl_p_to_candidate": 0.0
+        }
+      ]
+    }
+  },
+  "histories_exact": true,
+  "median_change_percent": {
+    "ordered": {
+      "legacy": {
+        "prefill_tok_s": 0.3189457425092579,
+        "decode_steps_s": 4.23742161295364,
+        "prefill_s": -0.317931744519262,
+        "decode_s": -4.0651634799577
+      },
+      "ordered": {
+        "prefill_tok_s": 0.0,
+        "decode_steps_s": 0.0,
+        "prefill_s": 0.0,
+        "decode_s": 0.0
+      },
+      "ud": {
+        "prefill_tok_s": -14.545116739550512,
+        "decode_steps_s": 3.3561280983248842,
+        "prefill_s": 17.020813958026217,
+        "decode_s": -3.247149599346355
+      }
+    },
+    "mixed": {
+      "legacy": {
+        "prefill_tok_s": 0.5344069966343179,
+        "decode_steps_s": 3.9775287833101247,
+        "prefill_s": -0.5315662940056032,
+        "decode_s": -3.8253734573534204
+      },
+      "ordered": {
+        "prefill_tok_s": 0.21477623446928273,
+        "decode_steps_s": -0.24932776120319966,
+        "prefill_s": -0.214315927854547,
+        "decode_s": 0.24995093680508784
+      },
+      "ud": {
+        "prefill_tok_s": -14.361579959113602,
+        "decode_steps_s": 3.0984325780710087,
+        "prefill_s": 16.770019714809138,
+        "decode_s": -3.0053149433842963
+      }
+    }
+  },
+  "retained_preparation_failures": [
+    {
+      "label": "q2-counting-regression-legacy-r1",
+      "state": "FAILED",
+      "model_access": false,
+      "exit_code": 1,
+      "reason": "CMake PROJECT_SOURCE_DIR belongs to upstream; qualification fixture paths incorrectly used it.",
+      "result_sha256": "ba8b1a0ca548757c41709594674298bbc5cae6f8f9e699c9ff393f0fdb825e91"
+    }
+  ],
+  "promoted": false,
+  "goal_met": false,
+  "independent_model_quality": false,
+  "limits": "Historical counting regression check only. Sequential arms, three measurements each; no canonical HTTP, broad-context or statistical zero-margin acceptance."
+}

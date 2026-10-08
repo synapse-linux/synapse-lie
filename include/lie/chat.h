@@ -17,7 +17,7 @@ typedef struct {
     size_t count, tool_count;
     lie_image_input images[LIE_VISION_MAX_IMAGES];
     size_t image_count;
-    unsigned max_tokens;
+    unsigned max_tokens; /* Zero for an omitted/null HTTP limit. */
     lie_generation_options generation;
     lie_logit_bias bias[LIE_LOGIT_BIAS_MAX];
     lie_output_format format;

@@ -1,0 +1,27 @@
+{
+  "schema": "synapse-lie.q2-curve256-model-limit-failure.v1",
+  "cohort": "q2-curve256-retained-r2",
+  "commands": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "actual_model_inference": false,
+  "client_started": false,
+  "backend_state": "FAILED",
+  "backend_error": "context exceeds the model's 262144 tokens",
+  "requested_capacity": 266240,
+  "declared_capacity": 262144,
+  "collection_artifacts": 9,
+  "release_sha256": "d866e817ee4ede438a13889d6728a47c9ca69a52a16dbe2c614b2da4adfcf2ae",
+  "own_failed_server_terminated": {
+    "pid": 346665,
+    "start_ticks": 186112490,
+    "process_group": 346664
+  },
+  "foreign_processes_touched": false,
+  "correction": "Exact private host configuration headroom before DeviceModel upload for Q2 and UD; fail readiness immediately on backendFAILED"
+}

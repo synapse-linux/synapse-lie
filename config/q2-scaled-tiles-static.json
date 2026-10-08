@@ -1,0 +1,170 @@
+{
+  "scope": "Local static compilation only; no GPU or model execution",
+  "checks": [
+    {
+      "name": "device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-scaled-tiles",
+        "-isystem",
+        "/opt/rocm/include",
+        "--offload-device-only",
+        "-S",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-scaled-tiles/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-scaled-tiles-static/kernels.s"
+      ],
+      "started_at": "2026-10-03T11:10:25.045550+00:00",
+      "finished_at": "2026-10-03T11:10:34.596806+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "q2_scaled_tiles.cpp",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-scaled-tiles",
+        "-isystem",
+        "/opt/rocm/include",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-static-include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_scaled_tiles.cpp"
+      ],
+      "started_at": "2026-10-03T11:10:34.597178+00:00",
+      "finished_at": "2026-10-03T11:10:35.445862+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "q2_scaled.cpp",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-scaled-tiles",
+        "-isystem",
+        "/opt/rocm/include",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-static-include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_scaled.cpp"
+      ],
+      "started_at": "2026-10-03T11:10:35.446354+00:00",
+      "finished_at": "2026-10-03T11:10:36.253146+00:00",
+      "exit_code": 0
+    },
+    {
+      "name": "q2_packed_bench.cpp",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-scaled-tiles",
+        "-isystem",
+        "/opt/rocm/include",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-staged-static-include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_packed_bench.cpp"
+      ],
+      "started_at": "2026-10-03T11:10:36.253529+00:00",
+      "finished_at": "2026-10-03T11:10:37.000601+00:00",
+      "exit_code": 0
+    }
+  ],
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi16ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "group_segment_fixed_size": 14464,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 86,
+      "next_free_sgpr": 30
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi48ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "group_segment_fixed_size": 18560,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 96,
+      "next_free_sgpr": 36
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi64ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "group_segment_fixed_size": 20608,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 104,
+      "next_free_sgpr": 36
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi128ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_",
+      "group_segment_fixed_size": 28800,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 169,
+      "next_free_sgpr": 44
+    }
+  ],
+  "reconstruction": {
+    "argv": [
+      "patch",
+      "--batch",
+      "--fuzz=0",
+      "-p1",
+      "-i",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-scaled-tiles.patch"
+    ],
+    "exit_code": 0,
+    "files": 1020,
+    "mismatches": []
+  },
+  "instruction_bodies": {
+    "reference": 150,
+    "candidate": 151,
+    "added": [
+      "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_119RoutedF16GEMMKernelILNS2_10WeightTypeE10ELi128ELi128ELi2ELb0ELb0ELb1EEEvPKvPKNSt11conditionalIXaaeqT_LS5_10EntT5_Ef6__halfE4typeEPKiSF_SF_SF_PKfPfPS9_mmS7_"
+    ],
+    "missing": [],
+    "changed": [],
+    "normalization": "Only .LBB/.Lfunc_end function ordinals, BB ordinals inside comments, and whitespace before comments/end of line; all instruction operands retained",
+    "coverage": "Every .type @function definition must match; first incomplete parser observation retained in evidence"
+  },
+  "assembly_sha256": "3941a0594ffd187c98cf1768ca550480df576542e7fd01fbd92ada6ce8af3887",
+  "fixture_sha256": {
+    "tests/q2_scaled_tiles.cpp": "411c381ce7f52b1977574afb1c6f8bb8efcb385a5f4d2b093249604adcb955ea",
+    "tests/q2_packed_bench.cpp": "832b66e226c8b240f300d4648e78ad1ce34abbe6a4f3619988ec12321f47187b"
+  },
+  "preparation_observations": [
+    "Initial generator rejected indentation anchor with exit 1 before copying; corrected r2 exits 0.",
+    "Initial body reader covered only one function and was rejected; final reader covers every function declaration.",
+    "A comparison assertion retained loop-comment/padding differences; final normalization is explicitly limited to labels/comments/whitespace."
+  ]
+}

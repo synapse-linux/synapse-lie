@@ -38,6 +38,26 @@ def main():
         files['gufo-build.py'] = helper
     if tokens is not None:
         files['tokens.json'] = tokens
+    if manifest.get('bench_profile') == 'modern-http':
+        helper = (ROOT/'tools/strix-point-http-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('http_gate_sha256'):
+            parser.error('HTTP gate helper SHA-256 differs from manifest')
+        files['http-gate.py'] = helper
+        if manifest.get('http_control_gate', False):
+            controls = (ROOT/'tools/strix-point-openai-controls.py').read_bytes()
+            if hashlib.sha256(controls).hexdigest() != manifest.get('http_controls_sha256'):
+                parser.error('HTTP controls helper SHA-256 differs from manifest')
+            files['http-controls.py'] = controls
+        if manifest.get('http_output_budget_gate', False):
+            budget = (ROOT/'tools/strix-point-output-budget-gate.py').read_bytes()
+            if hashlib.sha256(budget).hexdigest() != manifest.get('http_output_budget_sha256'):
+                parser.error('HTTP output-budget helper SHA-256 differs from manifest')
+            files['http-output-budget.py'] = budget
+        if manifest.get('http_schema_integer_gate', False):
+            integer = (ROOT/'tools/strix-point-schema-integer-gate.py').read_bytes()
+            if hashlib.sha256(integer).hexdigest() != manifest.get('http_schema_integer_sha256'):
+                parser.error('HTTP integer-schema helper SHA-256 differs from manifest')
+            files['http-schema-integer.py'] = integer
     if manifest.get('bench_profile') == 'modern-http-multi':
         case = manifest.get('http_case')
         if case not in ('prose', 'repetition'):
@@ -54,6 +74,21 @@ def main():
         if hashlib.sha256(helper).hexdigest() != manifest.get('http_depth_gate_sha256'):
             parser.error('HTTP depth helper SHA-256 differs from manifest')
         files['http-depth-gate.py'] = helper
+    if manifest.get('bench_profile') == 'modern-core-ssd-text-restart':
+        helper = (ROOT/'tools/strix-point-ssd-text-restart-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('ssd_text_restart_gate_sha256'):
+            parser.error('SSD text restart helper SHA-256 differs from manifest')
+        files['ssd-text-restart-gate.py'] = helper
+    if manifest.get('bench_profile') in ('modern-core-steering-restart', 'modern-core-steering-admission'):
+        helper = (ROOT/'tools/strix-point-steering-restart-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('steering_restart_gate_sha256'):
+            parser.error('Steering restart helper SHA-256 differs from manifest')
+        files['steering-restart-gate.py'] = helper
+    if manifest.get('bench_profile') == 'modern-core-steering-admission':
+        helper = (ROOT/'tools/strix-point-steering-admission-gate.py').read_bytes()
+        if hashlib.sha256(helper).hexdigest() != manifest.get('steering_admission_gate_sha256'):
+            parser.error('Steering admission helper SHA-256 differs from manifest')
+        files['steering-admission-gate.py'] = helper
     for name, data in files.items(): (out/name).write_bytes(data)
     encoded = {name: base64.b64encode(data).decode() for name, data in files.items()}
     program = '''import base64,os,pathlib,sys

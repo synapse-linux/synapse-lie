@@ -1,0 +1,40 @@
+{
+  "schema": "synapse-lie.q2-hc-moe-deferred-host.v1",
+  "label": "q2-hc-moe-deferred-host-r1",
+  "capsule_sha256": "4125e4f2db7c0edac9c565627fe9baad23fb5f03a091b4ca4594f1ee257ff449",
+  "archive_sha256": "90079df67f471e3ffa76d2d0d8729de73a4d6fd494f9fe5084b61683de50b883",
+  "fixture_files_verified": 18,
+  "source_files_verified": 1020,
+  "fixture_files": {
+    "CMakeLists.txt": "4111bb00e585ef5639f220e05fde0baae2c3835dd51b394879328cd522db82ee",
+    "cmake/hip/CMakeLists.txt": "9925cde949b9f39b05791c2cc5a33c351dda71f084f0d2d0efaef76515d9ed24",
+    "tests/q2_hc_bk256.cpp": "d58035790ba10af5ba29ed9a3dee3df0a30646c8773b2362a1222c5c8abbb48e",
+    "tests/q2_hc_library_norm.cpp": "691590bfa9710e91578b75e0e351bef37cd90cca8038c1e12e827e991cd055c8",
+    "tests/q2_hc_sequence.cpp": "9949bf6df8e4119a0c2d1eda99b9cda4af3e69f94a5270fedbc607c694247b8a",
+    "tests/q2_hc_norm_half.cpp": "94aae9e5c7acaa14778b363e272a1d874ec7b222395c4b0a8d1d754a54f648c8",
+    "tests/q2_hc_moe_fused.cpp": "f743aed14d492b9bdc2de25e69f9b126c534964da61443d275e49c6bc14f4483",
+    "tests/q2_remote_test.py": "1e6af7a8cf3f7a13d85ccf1d09b17d9bfabfe8e32029d46b529d549c2f06dee1",
+    "tools/q2-remote.py": "dd15336ffcd2819d4b204642f87da542e728947fcb5c508e303bf62e5130c443",
+    "tools/q2-runner.py": "9c49edad4f5e057d7d0c32135edda1291bb3ca57ba4a4766a10db3962c4f018e",
+    "tools/q2_process.py": "dc86e88ba37e5870f09f401d06fdc6d75a6a153ceb4594dc54c8272acd92aa01",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "experiments/q2_hc_blaslt_control.cpp": "869d748e87e0a00f7317ed8200c687b383ba375e06355269ebba37eb787b17aa",
+    "experiments/q2_hc_blaslt_control.hpp": "a7d60e6be24acaed5570844a34eff4735573ceaf247db3df89d68298a98eacdb",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+    "experiments/q2_deferred_norm_state.h": "ae04cd47fd9c30f8ac25418a48e31b1ca38cae46b3d4333c3d7dfe51e4568668",
+    "tests/q2_deferred_norm_state.c": "2a8225eb7aae0d80943fb6f813625dc5831230b6507c278deff6e59b34aede41"
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "debug_tests": 24,
+  "sanitizer_tests": 24,
+  "model_forward": false,
+  "gpu_run": false
+}

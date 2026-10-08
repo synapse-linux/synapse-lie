@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.q2-ple-cache-first-host-preparation.v1",
+  "at": "2026-10-04T01:59:15.590665+00:00",
+  "previous_checkpoint": "9f4b76698db106d31c00f0df91476ad306bd0306",
+  "checks": [
+    {
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-pthread",
+        "-include",
+        "chrono",
+        "-I",
+        ".deps/gufo-q2-curve-q2",
+        "-fsyntax-only",
+        "tests/q2_ple_cache_first.cpp",
+        ".deps/gufo-q2-curve-q2/src/models/qwen38_flash_next/ngram.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-cache-first-host-control-syntax-r1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wpedantic",
+        "-pthread",
+        "-include",
+        "chrono",
+        "-I",
+        ".deps/gufo-q2-curve-ple-cache-first",
+        "-fsyntax-only",
+        "tests/q2_ple_cache_first.cpp",
+        ".deps/gufo-q2-curve-ple-cache-first/src/models/qwen38_flash_next/ngram.cpp"
+      ],
+      "exit_code": 0,
+      "log": "evidence/q2-ple-cache-first-host-candidate-syntax-r1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "python_ast_passed": [
+    "tools/q2-remote.py",
+    "tools/q2-runner.py",
+    "tools/analyze-q2-ple-cache-first.py",
+    "tests/q2_remote_test.py",
+    "tools/prepare-q2-ple-cache-first.py"
+  ],
+  "provider_files_verified": 2040,
+  "artifacts": {
+    "tools/q2-remote.py": "5646f0607bbbf0b5c7657fcb9042e542728f8bce63a742b3751df90ce96ef221",
+    "tools/q2-runner.py": "0b9832e61fd705c6047a9e4ec1d5a56d9fb9282b67928d1710873895cd7738bb",
+    "tools/analyze-q2-ple-cache-first.py": "36024a5ba26ee316e0147504395d5120fb44bcc760765b3bf095fd7b6a443e0b",
+    "tests/q2_remote_test.py": "590a9aa444aca3edddb2819d33a22c88254f366cec9f102eb719f1f8aa7c558b",
+    "tools/prepare-q2-ple-cache-first.py": "1521227a48ec68272b9fe5972ad43a2850bee63b7470f069eb753df6d2d959c8",
+    "CMakeLists.txt": "4cdf53bf4e324a17f022ca2386c1a427fc3d9f67e594ba7765311784f985d02c",
+    "tests/q2_ple_cache_first.cpp": "73a02daabccb29777396357580cd349c41b65bea1c8ab57b56101ae9c249740a",
+    "config/q2-ple-cache-first-source.json": "a8b50af63a222f367bf21d2947736f1bf8abe32bed1e77de481555859509953b",
+    "config/q2-curve-source.json": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540"
+  },
+  "runtime_validated": false,
+  "model_access": false,
+  "promoted": false,
+  "goal_met": false
+}

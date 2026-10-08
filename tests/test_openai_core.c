@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 /* Native headless contracts. Synthetic fixture, not model inference. */
 #include "../src/generation.h"
+#include "fake_executor.h"
 #include "lie/choices.h"
 #include "lie/output.h"
 #include "lie/records.h"
@@ -72,6 +73,67 @@ static void pump(lie_record *r) {
   }
   assert(!"record deadline");
 }
+static void invalid_sampling_admission(lie_core *core) {
+  fake_calls before = fake_calls_snapshot();
+  for (unsigned i = 0; i < 10; ++i) {
+    lie_chat_message m; lie_core_request r = request("ok", &m);
+    switch (i) {
+    case 0: r.abi_version = LIE_CORE_REQUEST_ABI - 1; break;
+    case 1: --r.struct_bytes; break;
+    case 2: r.generation.abi_version = LIE_GENERATION_ABI - 1; break;
+    case 3: --r.generation.struct_bytes; break;
+    case 4: r.generation.top_k = -1; break;
+    case 5: r.generation.min_p = -.01; break;
+    case 6: r.generation.min_p = 1.01; break;
+    case 7: r.generation.min_p = NAN; break;
+    case 8: r.generation.min_p = INFINITY; break;
+    case 9: r.generation.min_p = -INFINITY; break;
+    }
+    lie_job *job = NULL;
+    assert(lie_core_submit(core, &r, &job) == 3 && !job);
+  }
+  fake_calls after = fake_calls_snapshot();
+  assert(before.create == after.create && before.close == after.close &&
+         before.prefill == after.prefill && before.decode == after.decode &&
+         before.text == after.text && before.batch == after.batch &&
+         before.capture == after.capture && before.restore == after.restore);
+}
+static void retained_terminal_before_retirement(lie_core *core) {
+  lie_records_options limits = {1, 4 * 1048576, 10};
+  lie_records *records = lie_records_create(&limits);
+  assert(records);
+  lie_chat_message message;
+  lie_core_request input = request("ok", &message);
+  input.max_tokens = 1;
+  lie_record *record =
+      lie_records_insert(records, "resp_terminal_pending", 100, &input, 0, true);
+  assert(record);
+  lie_job *job = NULL;
+  /* Publishing the last output closes demand before sequence teardown and
+   * retired metadata. Hold that real lifecycle boundary deterministically. */
+  fake_barrier_arm_phase(FAKE_CLOSE);
+  assert(!lie_core_submit(core, &input, &job) && lie_record_attach(record, job));
+  fake_barrier_wait();
+  lie_record_view view;
+  lie_record_snapshot(record, &view);
+  assert(!view.done && !view.info.retired && view.info.output_tokens == 1);
+  assert(lie_record_pump(record));
+  lie_record_snapshot(record, &view);
+  assert(!view.done && !view.info.retired && view.info.output_tokens == 1 &&
+         view.bytes == 8 && !memcmp(view.text, "fixture:", 8));
+  /* Await retirement without cancelling or duplicating the retained output. */
+  assert(lie_record_pump(record));
+  fake_barrier_release();
+  pump(record);
+  lie_record_snapshot(record, &view);
+  assert(view.done && view.info.retired &&
+         view.info.finish == LIE_FINISH_LENGTH && view.info.output_tokens == 1 &&
+         view.bytes == 8 && !memcmp(view.text, "fixture:", 8) &&
+         lie_record_event_count(record) == 1);
+  assert(lie_records_delete(records, "resp_terminal_pending"));
+  lie_record_release(record);
+  lie_records_destroy(records);
+}
 static void nested_tools(void) {
   const char *schema =
       "{\"type\":\"object\",\"properties\":{\"items\":{\"type\":\"array\","
@@ -107,6 +169,8 @@ int main(void) {
   lie_core *core = lie_core_create(&o);
   assert(core);
   state(core, LIE_READY);
+  invalid_sampling_admission(core);
+  retained_terminal_before_retirement(core);
   lie_chat_message m;
   lie_core_request r = request("ok", &m);
   r.stop[0] = "🙂";
@@ -216,7 +280,7 @@ int main(void) {
   assert(lie_records_delete(tiny, "resp_quota"));
   lie_record_release(quota);
   lie_records_destroy(tiny);
-  lie_records_options limits = {2, 1048576, 10};
+  lie_records_options limits = {2, 4 * 1048576, 10};
   lie_records *records = lie_records_create(&limits);
   assert(records);
   lie_chat_message messages[] = {{LIE_CHAT_SYSTEM, "old instructions", 16},
@@ -253,6 +317,50 @@ int main(void) {
   assert(found == record);
   lie_record_release(found);
   assert(!lie_records_get(records, "resp_one", 110));
+  lie_record_release(record);
+  /* The retained journal owns provisional arguments after the job retires.
+   * Replaying it reconstructs exactly the committed complete call. */
+  r = request("TOOL", &m);
+  r.max_tokens = 512;
+  lie_chat_tool tool = {
+      "read", "Read",
+      "{\"type\":\"object\",\"properties\":{\"path\":{\"type\":\"string\"},"
+      "\"offset\":{\"type\":\"integer\"},\"options\":{\"type\":\"object\"}},"
+      "\"required\":[\"path\"],\"additionalProperties\":false}",
+      "{}"};
+  r.chat.tools = &tool;
+  r.chat.tool_count = 1;
+  record = lie_records_insert(records, "resp_tool_journal", 111, &r, 0, true);
+  assert(record);
+  job = NULL;
+  assert(!lie_core_submit(core, &r, &job) && lie_record_attach(record, job));
+  pump(record);
+  char reconstructed[4096] = {0};
+  size_t argument_bytes = 0;
+  unsigned starts = 0, deltas = 0, committed = 0;
+  for (size_t i = 0; i < lie_record_event_count(record); ++i) {
+    lie_event e;
+    assert(lie_record_replay(record, i, &e));
+    if (e.kind == LIE_EVENT_TOOL_START) {
+      ++starts;
+      assert(e.call->index == 0 && !e.call->arguments_bytes);
+    }
+    if (e.kind == LIE_EVENT_TOOL_ARGUMENT_DELTA) {
+      assert(starts == 1 &&
+             e.call->arguments_bytes < sizeof(reconstructed) - argument_bytes);
+      memcpy(reconstructed + argument_bytes, e.call->arguments_json,
+             e.call->arguments_bytes);
+      argument_bytes += e.call->arguments_bytes;
+      reconstructed[argument_bytes] = 0;
+      ++deltas;
+    }
+    if (e.kind == LIE_EVENT_TOOL_CALL) {
+      assert(!strcmp(reconstructed, e.call->arguments_json));
+      ++committed;
+    }
+  }
+  assert(starts == 1 && deltas > 2 && committed == 1);
+  assert(lie_records_delete(records, "resp_tool_journal"));
   lie_record_release(record);
   r = request("SLOW-DECODE", &m);
   r.max_tokens = 100;

@@ -4,18 +4,20 @@
 #include "lie/executor.h"
 #include "lie/mtp.h"
 #include "lie/vision.h"
+#include "lie/steering.h"
 #include "lie/flow.h"
 #include "lie/store.h"
+#include "lie/prefill.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 #define LIE_CORE_JOBS 8
 #define LIE_OUTPUT_SLOTS 8
-#define LIE_CORE_MAX_CONTEXT 262144u
+#define LIE_CORE_MAX_CONTEXT LIE_CONTEXT_LIMIT
 #define LIE_CORE_MAX_OUTPUT 4096u
 #define LIE_CORE_TOKEN_BYTES 256u
 #define LIE_CORE_INPUT_BYTES (32u * 1024u * 1024u)
-#define LIE_CORE_REQUEST_ABI 5u
+#define LIE_CORE_REQUEST_ABI 8u
 #define LIE_STOP_MAX 4u
 #define LIE_STOP_BYTES 256u
 #define LIE_PREFIX_CACHE_DEFAULT_BYTES (UINT64_C(4) * 1024u * 1024u * 1024u)
@@ -44,7 +46,9 @@ typedef struct {
     size_t token_count;
     const char *text;
     size_t text_bytes;
-    unsigned max_tokens;
+    unsigned max_tokens; /* Zero: min(remaining context, LIE_CORE_MAX_OUTPUT),
+                          * resolved after prompt preparation on the owner.
+                          * Nonzero: exact caller budget, never silently capped. */
     lie_generation_options generation;
     lie_output_format format;
     const char *schema_json;
@@ -53,6 +57,8 @@ typedef struct {
     const char *stop[LIE_STOP_MAX];
     size_t stop_count;
     lie_cache_metadata cache; /* Optional client-owned visible key / extension bytes. */
+    lie_eos_policy eos_policy; /* Default STOP. IGNORE: raw text/tokens only,
+                               * no stop strings or constrained output. */
 } lie_core_request;
 void lie_core_request_init(lie_core_request *);
 
@@ -69,6 +75,7 @@ typedef struct {
     uint32_t mtp_draft_tokens; /* Zero selects this model provider's default. */
     const char *vision_model_path; /* Explicit encoder admission. */
     uint32_t context, chunk, max_active;
+    lie_rope_profile rope_profile; /* Native default; explicit extended profile. */
     uint64_t prefix_cache_bytes; /* Zero explicitly disables RAM retention. */
     lie_cache_policy cache_policy;
     lie_store_options ssd; /* Explicit directory enables; zero defaults off. */
@@ -90,12 +97,15 @@ typedef struct {
     lie_cache_policy cache_policy;
     lie_store_info ssd;
     lie_model_info model;
+    lie_rope_profile rope_profile;
     lie_mtp_info mtp;
     lie_vision_info vision;
     char error[256];
 } lie_core_info;
 typedef struct {
     unsigned prompt_tokens, output_tokens;
+    unsigned output_token_limit; /* Zero before preparation; then the resolved
+                                 * exact generation budget, including auto. */
     lie_job_finish finish;
     bool prepared, retired;
     bool semantic_checked, output_invalid;
@@ -117,6 +127,96 @@ typedef struct {
 /* One device owner; cancellation is a lifetime-protected cross-thread latch.
  * Request/metadata APIs never call the numerical provider on client threads. */
 lie_core *lie_core_create(const lie_core_options *);
+/* Explicit initial model-wide directions. Both option structures and the path
+ * are copied before return; admission/load runs on the existing device owner.
+ * NULL preserves lie_core_create's exact absent-bank provider path. Existing
+ * unversioned options/info layouts and request ABI are unchanged. */
+lie_core *lie_core_create_steered(const lie_core_options *,
+                                  const lie_steering_model_options *);
+/* Additive capacity admission; NULL prefill preserves the initial chunk's
+ * existing scratch reservation. Both option structures are copied before
+ * return. Existing options/info/request layouts remain unchanged. */
+lie_core *lie_core_create_prefill(const lie_core_options *,
+                                 const lie_prefill_options *,
+                                 const lie_steering_model_options *);
+/* READY-only, nonblocking configuration change for subsequently admitted
+ * jobs. Existing/queued jobs retain their captured chunk and cache identity.
+ * Values must be 1..LIE_PREFILL_MAX_CHUNK and fit the reserved capacity.
+ * No worker, allocation, model reload or provider call is added. */
+lie_status lie_core_set_prefill_chunk(lie_core *, uint32_t tokens, lie_error *);
+/* Copied under the core gate in any state. Tagged output required; refusal
+ * leaves it unchanged. Capacity is a reserved upper bound; actual calls are
+ * also bounded by context and the provider's advertised capacity. */
+lie_status lie_core_prefill_snapshot(lie_core *, lie_prefill_info *, lie_error *);
+/* Immutable admission choice, available while the caller holds a job pin. */
+lie_status lie_job_prefill_snapshot(lie_job *, lie_prefill_info *, lie_error *);
+/* READY-only admission record copied under the core gate; never a provider
+ * call on the client. Tagged output required; refusal leaves it unchanged.
+ * Host vector bytes and provider-reported device vector bytes are separate
+ * from model weights/KV and do not include allocation overhead/workspaces. */
+lie_status lie_core_steering_snapshot(lie_core *, lie_steering_model_info *, lie_error *);
+/* Copied last completed owner observation; callable from clients in any state.
+ * No numerical provider call, lock overlap, thread or device synchronization.
+ * Tagged output required; unavailable observations never imply zero GPU work. */
+lie_status lie_core_attention_dispatch_snapshot(lie_core *,
+  lie_attention_dispatch_info *, lie_error *);
+#define LIE_JOB_STEERING_ABI 1u
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    bool policy_ready, pending;
+    uint64_t submitted, completed, applied_position;
+    lie_status status; /* Latest completed change; pending is separate. */
+    lie_steering_settings requested;
+    lie_steering_policy_info policy; /* Last owner-confirmed retained frontier. */
+    unsigned char semantic_scope[32], combined_scope[32];
+    char error[256];
+} lie_job_steering_info;
+/* One pending copied change per job; no provider call, wait or added thread.
+ * Ticket output stays unchanged on refusal. Success means admission only:
+ * observe completed==ticket and status in the snapshot. The existing owner
+ * applies at a scheduling boundary; an already selected call can finish first.
+ * applied_position names the retained boundary, never a promised output index.
+ * Latest completion is retained until the next completion, including retirement.
+ * Caller must hold a live job pin; scales require a model-admitted bank. */
+lie_status lie_job_change_steering(lie_job *, const lie_steering_settings *,
+                                  uint64_t *ticket, lie_error *);
+lie_status lie_job_steering_snapshot(lie_job *, lie_job_steering_info *, lie_error *);
+#define LIE_STEERING_SCHEDULE_ABI 1u
+#define LIE_STEERING_SCHEDULE_MAX 64u
+typedef struct {
+    uint64_t position; /* Retained physical frontier, including prompt positions. */
+    lie_steering_settings settings;
+} lie_steering_step;
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    size_t count;
+    const lie_steering_step *steps;
+} lie_steering_schedule;
+typedef struct {
+    bool attempted, applied;
+    lie_status status;
+    uint64_t actual_position;
+} lie_steering_step_result;
+typedef struct {
+    uint32_t abi_version, struct_bytes;
+    size_t count, completed, applied;
+    bool terminal;
+    lie_steering_step steps[LIE_STEERING_SCHEDULE_MAX];
+    lie_steering_step_result results[LIE_STEERING_SCHEDULE_MAX];
+} lie_steering_schedule_info;
+/* Admission copies 1..64 strictly increasing steps before job publication.
+ * Position zero changes the initial session policy before cache lookup; later
+ * boundaries split prefill and limit each row's retained AR/MTP burst. Existing
+ * logits/tensors remain unchanged. Cache reuse cannot cross an unapplied step.
+ * Positions must fit the prepared prompt plus output budget; natural EOS can
+ * retire before a step, which remains unapplied/Cancelled in the final snapshot.
+ * Live unscheduled changes are refused for planned jobs to preserve identity.
+ * NULL schedule preserves lie_core_submit. Return codes are those of submit. */
+int lie_core_submit_steering(lie_core *, const lie_core_request *,
+                              const lie_steering_schedule *, lie_job **out);
+/* Tagged snapshot, unchanged on refusal. No plan reports count zero. */
+lie_status lie_job_steering_schedule_snapshot(lie_job *,
+                                             lie_steering_schedule_info *, lie_error *);
 void lie_core_stop(lie_core *);
 /* STOPPED and all consumer job references released are required. */
 void lie_core_destroy(lie_core *);

@@ -1,0 +1,83 @@
+{
+  "schema": "synapse-lie.q2-iq2-prefill-reuse-decision.v1",
+  "result_sha256": "830f729c7fcff15ad7174020dc37575130bffacd9e57bc4c068fd8477a5f061a",
+  "source_checkpoint": "a405f48",
+  "component_pass": true,
+  "independent_checks_per_arm": 51,
+  "output_pairs_per_comparison": 102,
+  "comparisons": 3,
+  "complete_cycle_samples": 140,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "verified_artifacts": 431,
+  "thermal_peaks_c": {
+    "before": {
+      "k10temp": 69.0,
+      "amdgpu": 73.0
+    },
+    "scale": {
+      "k10temp": 67.0,
+      "amdgpu": 69.0
+    },
+    "grid": {
+      "k10temp": 69.625,
+      "amdgpu": 70.0
+    },
+    "after": {
+      "k10temp": 67.0,
+      "amdgpu": 67.0
+    }
+  },
+  "scale": {
+    "decision": "prepare_canonical_model_validation",
+    "reason": "Faster medians on all four recorded routing distributions against both unchanged controls; full-tile control is 0.445 percent slower than the second control.",
+    "source_manifest": "config/q2-iq2-prefill-scale-reuse-source.json",
+    "source_manifest_sha256": "70bf2949b5fdcbed91df0796eb39d5a01da6db0283714bb0eafa17910e1704fe",
+    "model_gain_measured": false,
+    "model_run_admitted": false,
+    "promoted": false
+  },
+  "grid": {
+    "decision": "do_not_advance",
+    "reason": "Small mixed routing changes and full-tile regressions against both controls.",
+    "promoted": false
+  },
+  "next_model_validation": {
+    "driver": "synapse-lie-bench native C canonical curve, owned by core workstream",
+    "workload": "Unchanged Gufo prose pp2048/tg128 cached-prefix 0/4/8/12/16/32/64/128K, C1 AR",
+    "arms": [
+      "ordered Q2 reference",
+      "scale-reuse Q2 only",
+      "repeated ordered Q2 reference",
+      "pristine UD"
+    ],
+    "pending": [
+      "Native C canonical driver conformance and frozen core checkpoint",
+      "Fresh host capsule and full GPU/MMQ source build",
+      "Fresh coordinated GPU admission",
+      "Identical request/token/output history and whole-curve PP/TG comparisons"
+    ],
+    "no_python_curve_fallback": true,
+    "no_new_arithmetic_composition": true
+  },
+  "model_inference": false,
+  "goal_met": false
+}

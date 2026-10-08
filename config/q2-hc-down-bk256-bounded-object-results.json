@@ -1,0 +1,23 @@
+{
+  "schema": "synapse-lie.q2-hc-down-bk256-bounded-object.v1",
+  "command_exits": [
+    0,
+    0,
+    0
+  ],
+  "candidate_source_sha256": "2476f04ac7befa564bafbb36366ddb7297dbee1d3359401798f2bfb80f03d1d8",
+  "bundle_sha256": "5ca2a95524377669f698adb20a8dc3857c141eafae14f82832e5394717c41544",
+  "device_object_sha256": "1005926c72b0b61ec28976d4c4600bdb8cbc73f40ec9796373c0e6f9313974e4",
+  "fields": {
+    "name": "_ZN4gufo6models17qwen38_flash_next4rocm12_GLOBAL__N_117HcDownBk256KernelILi64ELi32ELi16ELi16ELi256ELi1EEEvPKtS6_Pfiiiii",
+    "group_segment_fixed_size": "50688",
+    "private_segment_fixed_size": "0",
+    "vgpr_count": "138",
+    "sgpr_count": "22",
+    "wavefront_size": "32",
+    "max_flat_workgroup_size": "256"
+  },
+  "gpu_run": false,
+  "numerical_qualification": false,
+  "performance_qualification": false
+}

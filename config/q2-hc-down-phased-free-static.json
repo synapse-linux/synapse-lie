@@ -1,0 +1,70 @@
+{
+  "scope": "Local device-only compilation, no GPU/model result",
+  "compile": {
+    "argv": [
+      "/opt/rocm/llvm/bin/clang++",
+      "-x",
+      "hip",
+      "--offload-arch=gfx1151",
+      "-std=c++20",
+      "-O3",
+      "-ffast-math",
+      "-fno-finite-math-only",
+      "-DQFN_ROCM_BUILD=1",
+      "-DENGINE_ENABLE_HIP=1",
+      "-isystem",
+      "/opt/rocm/include",
+      "--offload-device-only",
+      "-S",
+      "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-phased-free",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-phased-free/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+      "-o",
+      "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-down-phased-free-static/kernels.s"
+    ],
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "name": "format",
+      "argv": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-down-phased-free/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-down-phased-free.patch"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "instruction_bodies": {
+    "base": 146,
+    "candidate": 146,
+    "changed": [
+      "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi5ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE"
+    ]
+  },
+  "unchanged_bodies": 145,
+  "normalization": "Function ordinals in LBB labels, comments and whitespace only",
+  "resources": {
+    "group_segment_fixed_size": 24576,
+    "private_segment_fixed_size": 0,
+    "next_free_vgpr": 251,
+    "next_free_sgpr": 22
+  },
+  "assembly_sha256": "7b72d8fcec833ba31f5fe7919dd87cbf30b5b2e670525ae45085bae316bb354a",
+  "reconstructed_files": 1019,
+  "reconstruction_exact": true,
+  "fixture_sha256": "9bf7453ef0f3db7e75fabc73ee882938095a5ca9ecaf8d724b45b91b4cd7dfb2"
+}

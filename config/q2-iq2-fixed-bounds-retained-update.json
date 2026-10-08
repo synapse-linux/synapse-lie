@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.q2-iq2-fixed-bounds-retained-update.v1",
+  "model_result": "config/q2-iq2-fixed-bounds-model-results.json",
+  "model_result_sha256": "08885e1cbd1e50a110fa58c50d7101cd32071f23416ee1e07a9dea0495905ca3",
+  "next_experimental_parent": "iq2-fixed-bounds",
+  "nominal_prefill_tok_s": 1587.893545,
+  "stable_comparison_parent": "ssm-fixed-bounds",
+  "saved_parent_prefill_tok_s": 1585.308983,
+  "frozen_reference": "config/q2-fixed-prefill-reference.json",
+  "frozen_reference_unchanged": true,
+  "remaining_nominal_prefill_milliseconds": 74.889015,
+  "robust_causal_speedup": false,
+  "production_adoption": false,
+  "independent_quality": false,
+  "full_curve_admitted": false,
+  "goal_met": false
+}

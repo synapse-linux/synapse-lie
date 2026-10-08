@@ -1,0 +1,17 @@
+{
+  "schema": "synapse-lie.q2-select-key-tile-steady-source.v1",
+  "parent_manifest": "config/q2-select-key-tile-source.json",
+  "parent_manifest_sha256": "26bced90268fb7fbe890257af71839f03b2e9bc69f11e53c97ca70f589966f14",
+  "fixture": "tests/q2_select_key_tile_steady.hip",
+  "fixture_sha256": "abc4d75fe6c716235ec565dd61752fb0a1950e489ff2864e02b268febf7a5983",
+  "base_fixture_sha256": "aeb7c91084384752858071249fa7ba6cf8527a55a348b22b5ad743df33d888c0",
+  "candidate_sha256": "846826d838539faef0c608e15830057e2d8057b328bbebc9aecc7a23fd28495a",
+  "pairs": 8,
+  "first_positions_per_arm": 4,
+  "separate_output_for_every_timed_launch": true,
+  "host_checks_after_completed_batch": true,
+  "packing_inside_timer": true,
+  "kernels_changed": false,
+  "model_dispatch_changed": false,
+  "gpu_run": false
+}

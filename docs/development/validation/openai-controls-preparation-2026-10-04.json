@@ -1,0 +1,274 @@
+{
+  "schema": "synapse-lie.openai-controls-preparation.v1",
+  "at_utc": "2026-10-04T18:05:41.945676+00:00",
+  "base_checkpoint": "36ec8670789e327bc73797e1b49638652d6658a0",
+  "scope": "Optional original-weight qualification supervision; no C17 runtime/server/model numerical changes",
+  "declared_GPU_controls": [
+    "chat_bias_negative",
+    "chat_bias_positive",
+    "chat_choices_json",
+    "chat_choices_sse",
+    "chat_json_object",
+    "chat_json_schema",
+    "chat_logprobs",
+    "chat_logprobs_sse",
+    "chat_seed_replay",
+    "chat_stop_json",
+    "chat_stop_sse",
+    "chat_store_crud",
+    "responses_background_disconnect",
+    "responses_cancel_after_output",
+    "responses_cursor_replay",
+    "responses_delete",
+    "responses_input_pagination",
+    "responses_json_object",
+    "responses_json_schema",
+    "responses_truncation",
+    "unsupported_fields"
+  ],
+  "declared_GPU_control_count": 21,
+  "CPU_fixtures_passed": 54,
+  "commands": [
+    {
+      "label": "controls-host-r3",
+      "passed": 8,
+      "result": {
+        "argv": [
+          "python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_strix_point_openai_controls.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 57.875
+        },
+        "elapsed_s": 1.1022989228367805
+      },
+      "command_log_sha256": "637ad693971420b70a01476cd5d51065ecc3c7af270c41cfe91899ec8c2db4bd",
+      "temperature_log_sha256": "ee4395094eed0a7407136640837c0127e78753877e9b403f5ccb8354a047790f",
+      "device_visibility": "Masked; CPU-only protocol and supervision fixtures"
+    },
+    {
+      "label": "campaign-host-r3",
+      "passed": 46,
+      "result": {
+        "argv": [
+          "python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 57.875
+        },
+        "elapsed_s": 1.0984988026320934
+      },
+      "command_log_sha256": "86234c6998a7d3b50bd44f0de804f38c35e8ba420ef3a3df06cc32fce5ff14c1",
+      "temperature_log_sha256": "482b94406c51129d48928043b109fe06e6deb0174a941311b8c1574246e1cb1a",
+      "device_visibility": "Masked; CPU-only protocol and supervision fixtures"
+    }
+  ],
+  "preserved_first_failure": {
+    "path": "evidence/openai-controls-20261004/campaign-host",
+    "result": {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_strix_point_campaign.py"
+      ],
+      "child_exit_code": 1,
+      "exit_code": 1,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 55.5
+      },
+      "elapsed_s": 1.065264013595879
+    },
+    "command_log_sha256": "51382db5194ea76ded421f17b5e8e3fdf9f4dd5c17cfa74bd0c30b292b58c21b",
+    "reason": "A legacy tool-count assertion was placed in the newly inserted boolean-refusal fixture; scope corrected."
+  },
+  "prepared_GPU_manifests": [
+    {
+      "mode": "ar",
+      "state": "PREPARED_NOT_SUBMITTED",
+      "path": "evidence/context-r10-openai-controls-ar-manifest.json",
+      "sha256": "147d838fc4ba413d1e9100f6ae64670d5e8b3512b7481708856abcd1e80b4246",
+      "runtime_source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+      "server_sha256": "95730b6b1150a7ae404d4c98a6eeb1cc5dc845c3835b6ba8c52f24bddef26019",
+      "context": 16384,
+      "max_active": 8,
+      "kv_cache": "off"
+    },
+    {
+      "mode": "mtp",
+      "state": "PREPARED_NOT_SUBMITTED",
+      "path": "evidence/context-r10-openai-controls-mtp-manifest.json",
+      "sha256": "4451709646ff6d3e0b7c9e56171d0702b6d1e2980d93070305ae55d92c62a2d3",
+      "runtime_source_commit": "e6f537fcedd946f565d2fc8c32ad8f98b383e896",
+      "server_sha256": "95730b6b1150a7ae404d4c98a6eeb1cc5dc845c3835b6ba8c52f24bddef26019",
+      "context": 16384,
+      "max_active": 8,
+      "kv_cache": "off"
+    }
+  ],
+  "new_GPU_gates_executed": false,
+  "active_physical_1m_observation": {
+    "at_unix": 1791136967.5696387,
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "processes": [
+      {
+        "pid": 5052,
+        "start_ticks": 62594,
+        "state": "S",
+        "user_ticks": 2392,
+        "system_ticks": 1290,
+        "cgroup": "0::/user.slice/user-1000.slice/session-31.scope",
+        "argv": [
+          "/usr/bin/python3",
+          "-B",
+          "/home/pop/workspace/synapse-lie/context-r10-yarn4-physical1m-smoke/runner.py",
+          "/home/pop/workspace/synapse-lie/context-r10-yarn4-physical1m-smoke"
+        ]
+      },
+      {
+        "pid": 5917,
+        "start_ticks": 66589,
+        "state": "S",
+        "user_ticks": 525955,
+        "system_ticks": 1564,
+        "cgroup": "0::/system.slice/docker-2f5d5b86d91806e55e29d8db9816c1a28354aaa94939afb21536d00296286536.scope",
+        "argv": [
+          "/bundle/runtime/bin/synapse-lie-bench",
+          "--suite",
+          "core",
+          "--model",
+          "/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+          "--tokens-file",
+          "/work/tokens.json",
+          "--output",
+          "/work/measurements.jsonl",
+          "--kv-cache-ram-mb",
+          "0",
+          "--kv-cache-policy",
+          "ds4",
+          "--timeout-ms",
+          "86400000",
+          "--rope-scaling",
+          "yarn4",
+          "--context",
+          "1048576",
+          "--chunk",
+          "256",
+          "--users",
+          "1",
+          "--tg",
+          "128",
+          "--warmups",
+          "0",
+          "--repetitions",
+          "1"
+        ]
+      }
+    ],
+    "memory": {
+      "MemAvailable": 6555389952,
+      "SwapFree": 21366427648
+    },
+    "gpu": {
+      "mem_info_gtt_total": 120259084288,
+      "mem_info_gtt_used": 116965175296,
+      "gpu_busy_percent": 100
+    },
+    "temperatures": [
+      {
+        "name": "k10temp",
+        "path": "/sys/class/hwmon/hwmon6/temp1_input",
+        "value_c": 77.5
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp3_input",
+        "value_c": 39.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "value_c": 39.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon4/temp2_input",
+        "value_c": 36.85
+      },
+      {
+        "name": "amdgpu",
+        "path": "/sys/class/hwmon/hwmon5/temp1_input",
+        "value_c": 75.0
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp3_input",
+        "value_c": 37.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp1_input",
+        "value_c": 37.85
+      },
+      {
+        "name": "nvme",
+        "path": "/sys/class/hwmon/hwmon3/temp2_input",
+        "value_c": 38.85
+      }
+    ],
+    "measurements_bytes": 1339,
+    "state": "RUNNING_NOT_YET_QUALIFIED",
+    "snapshot_receipt_path": "evidence/openai-controls-20261004/physical-snapshot-at-preparation.json",
+    "snapshot_receipt_sha256": "eef0adcba285ad6c8934b59de9add71b1b0d064511119a8cd808404f367afd93"
+  },
+  "source_sha256": {
+    "tools/strix-point-openai-controls.py": "5a52223a674d850f4493794cc5cc190e807abd10b01adbe9faa29285fa0b54bd",
+    "tools/strix-point-http-gate.py": "9e1d92380795d5eac9a005025e2a804e97353c970e4df5b950f8abc5270dcfe5",
+    "tools/strix-point-campaign.py": "32e02afce5b39ea06107a6fadb252d2f7e24c937f1d0d7b2ed98f9d2a6ae5918",
+    "tools/strix-point-launch.py": "83260ab5cd0f216b719d98bdd0a7f6dbcb00d80a2cd49c31fd29a5e427ba4d8d",
+    "tools/strix-point-bench-collect.py": "b6eee0cb322ea98d97d384ee95aed43a8195bb3a51c6c6a07b49a4b9ecf58964",
+    "tests/test_strix_point_openai_controls.py": "c4700dfdc80bfbab165339a577b39e157bd629f17c66c4b3687f378330c8722c",
+    "tests/test_strix_point_campaign.py": "8defd1f91f4776d7af1301bd847f6f1eeea4a019f726787813b5bd8924c0c854"
+  },
+  "product_Python_dependency_added": false,
+  "remote_build_or_dependency_install": false,
+  "publication": false,
+  "remaining_gates": [
+    "Original-weight AR and MTP controls after verified physical1M ownership closure",
+    "Physical1M completion, long-context recall and performance qualification",
+    "Independent numerical logprob/structured-output oracle and full Terminal Bench task evaluation"
+  ]
+}

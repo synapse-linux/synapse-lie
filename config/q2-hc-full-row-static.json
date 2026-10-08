@@ -1,0 +1,163 @@
+{
+  "scope": "Local static checks; no GPU execution",
+  "at": "2026-10-03T05:37:53.030939+00:00",
+  "changed_file_format": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "full_format_matches_baseline": true,
+  "full_format_exit_code": 1,
+  "preexisting_format_files": [
+    "tests/models/deepseek_v4_flash/serving_test.cpp",
+    "tests/models/qwen/cpu/generator_test.cpp"
+  ],
+  "reconstructed_files": 1019,
+  "mismatches": [],
+  "assembly_sha256": "3f5d27f756214b93a061b03da1fe062868a8bb624e332ca223ba9b1332a9c664",
+  "resources": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 24576,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 242,
+      "next_free_sgpr": 27
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi320ELi32ELi2ELi4ELi2ELi1ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "group_segment_fixed_size": 45056,
+      "private_segment_fixed_size": 0,
+      "next_free_vgpr": 241,
+      "next_free_sgpr": 24
+    }
+  ],
+  "source_checks_pass": true,
+  "prior_attempt": "evidence/q2-hc-full-row-static/report-r1-wrong-source.json",
+  "checks": [
+    {
+      "name": "device",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-device-only",
+        "-S",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-full-row",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-full-row/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp",
+        "-o",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-full-row-static/kernels-r3.s"
+      ],
+      "exit_code": 0,
+      "stdout": "evidence/q2-hc-full-row-static/device-r3.stdout",
+      "stderr": "evidence/q2-hc-full-row-static/device-r3.stderr"
+    },
+    {
+      "name": "host",
+      "argv": [
+        "/opt/rocm/llvm/bin/clang++",
+        "-x",
+        "hip",
+        "--offload-arch=gfx1151",
+        "--offload-host-only",
+        "-fsyntax-only",
+        "-std=c++20",
+        "-O3",
+        "-ffast-math",
+        "-fno-finite-math-only",
+        "-DQFN_ROCM_BUILD=1",
+        "-DENGINE_ENABLE_HIP=1",
+        "-I/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/.deps/gufo-q2-bench-hc-full-row",
+        "-isystem",
+        "/opt/rocm/include",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/tests/q2_hc_pp.cpp"
+      ],
+      "exit_code": 0,
+      "stdout": "evidence/q2-hc-full-row-static/host-r3.stdout",
+      "stderr": "evidence/q2-hc-full-row-static/host-r3.stderr"
+    },
+    {
+      "name": "format",
+      "argv": [
+        "python3",
+        "tools/ci/check-format.py"
+      ],
+      "exit_code": 1,
+      "stdout": "evidence/q2-hc-full-row-static/format-r3.stdout",
+      "stderr": "evidence/q2-hc-full-row-static/format-r3.stderr"
+    },
+    {
+      "name": "reconstruction",
+      "argv": [
+        "patch",
+        "--batch",
+        "--fuzz=0",
+        "--no-backup-if-mismatch",
+        "-p1",
+        "-i",
+        "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/experiments/q2-hc-full-row.patch"
+      ],
+      "exit_code": 0,
+      "stdout": "patching file src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp\n",
+      "stderr": ""
+    }
+  ],
+  "assembly_path": "evidence/q2-hc-full-row-static/kernels-r3.s",
+  "compiled_source_sha256": "dc94fbb95cdd4e9d3ddd58c12f2dbdb689854e4f2945da9169a812571a7c3445",
+  "unchanged_dense_bodies": [
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi128ELi64ELi4ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi1ELi4ELi2ELi8ELb1ELb0ELb0ELb1ELb1EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb0ELb1ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi256ELi128ELi2ELi8ELi1ELi1ELb0ELb1ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi128ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb0ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    },
+    {
+      "symbol": "_ZN4gufo6models17qwen38_flash_next4rocm18DenseF16GEMMKernelILi64ELi64ELi2ELi2ELi4ELi1ELb0ELb0ELb0ELb1ELb0EEEvPKvPK6__halfPfmmmPKNSt11conditionalIXT8_EfS6_E4typeEPS6_PvPKfS9_NS2_25AttentionProjectionOutputE",
+      "exact": true
+    }
+  ],
+  "reference_assembly_sha256": "335f902e4830be16d898df41896613f259da0f41db30cecbaad76904cfba7c93",
+  "epilogue_isolation": "Initial general epilogue altered control assembly; final isolated epilogue retains all shared dense instruction bodies exactly after function-local label normalization"
+}

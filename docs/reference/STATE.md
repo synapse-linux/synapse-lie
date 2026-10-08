@@ -1,5 +1,45 @@
 # C17 prefix state, RAM cache and optional SSD
 
+The model's immutable reserved prefill capacity remains part of its provider
+state/cache identity. The captured descriptor's `prefill_chunk` records the job's
+selected chunk. The core additionally binds each admitted job's selected
+chunk into its semantic prompt scope when chunk differs from capacity. This
+scope is shared by RAM and SSD lookup/capture and is composed with image and
+steering identities. Changing the engine chunk cannot restore a prefix produced
+with another chunk; switching back permits reuse of the original matching
+scope. Revision is an observation counter, not numerical identity. The historical
+capacity-equals-chunk path retains its exact prior scope. DS4 tensor payloads,
+KVC framing and existing public state layouts are unchanged. Scoped text captures
+reuse the existing typed semantic auxiliary trailer; tensor bytes remain unchanged.
+
+Attention-dispatch observation belongs to the admitted model owner, not a
+sequence checkpoint. Inline C17 staging requires no heap or device storage; its
+borrowed pointer outlives the numerical model. The shared core retains a copied
+view after cancellation, poison and shutdown. One nonzero process-local model
+domain identifies the observation epoch; exact deltas cannot cross epochs or
+processes. These counters never enter prefix identity, KV tensors, RAM/SSD
+checkpoint framing or model numerical state.
+
+Native C17 sampler history/probability owners keep request-local token windows,
+generated counts and sampling workspace in RAM. Deep clones are independent;
+exact moves rebind callback ownership. They do not enter model-prefix checkpoints,
+KV tensors or DS4 RAM/SSD framing. Source and default-ON integration are currently
+unverified; final lifetime/fault/continuation qualification is pending. Matching
+private sampler/distribution consumers must rebuild together. See
+[sampler storage](../development/C17-SAMPLING.md#native-sampler-buffer-ownership).
+
+The selected static RoPE profile and the exact frequency/amplitude plan bind
+SSD cache identity. Native policy identity is preserved; YaRN2/YaRN4 checkpoints
+cannot be reused by native or differently scaled models. RAM stores belong to
+one model runtime and likewise cannot cross profiles. DS4 tensor payload framing
+does not change. See [context configuration](../guides/CONTEXT.md).
+
+Automatic output budgets are resolved by the core after prompt preparation;
+they do not alter prefix identity or DS4 tensor framing. A compatible cached
+prompt must still leave room for the resolved output budget. An explicit budget
+that exceeds the remaining context, or an automatic request with no output room,
+refuses before sequence creation. See the [request contract](ABI.md).
+
 RAM prefix retention is **enabled by default**, with a lazy 4 GiB budget shared
 by consumers of each core instance. HTTP and `synapse-lie-bench --suite core`
 use the same implementation; separate processes do not share a RAM store.
@@ -22,6 +62,207 @@ variant includes field access and, with default `LIE_DS4_RUNTIME_CACHE=ON`,
 complete raw index retention and eager pooled keys. Source/build hashes identify
 this separately from the earlier friend-only control. Active execution storage and forward math
 remain delegated; this does not claim an autonomous C model executor.
+
+The newer `1bff953` Point grammar/history/distribution GPU controls and seeded
+profiles preserve these DS4 payload and cache identities. Their
+[receipt](../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+is wire/generation qualification with prompt cache disabled, not new original-
+weight RAM/SSD continuation, mixed-history lookup or state-fault evidence.
+
+The matching composition/codec `20777005` AR/MTP gates preserve admitted model/
+predictor stats and the existing DS4 payload/cache identities. Prompt retention
+is disabled for these [controls](../development/validation/c17-binary64-point-gpu-2026-10-06.json);
+they add no original-weight SSD BPE restore, mixed-history or state-fault claim.
+
+The shared C17 binary64 codec owns no persistent or request-local state. It
+borrows text and writes caller storage synchronously; exact arithmetic and
+digits use bounded stack scratch. Immutable Ryu lookup tables do not enter
+model-prefix state, KV checkpoints or DS4 RAM/SSD framing. No locale/FENV/RNG,
+reactive frontier, worker or cache identity changes. Typed JSON containers and
+complete JSON parsing now use the separate C17 contracts described below.
+[Host checks](../development/validation/c17-binary64-host-2026-10-06.json)
+do not qualify new original-weight continuation or SSD restore.
+
+Each C17 JSON value root owns a bounded allocator domain, exact string/key bytes
+and ordered child tables. Borrowed children remain stable across sibling growth;
+replacing a payload or releasing a root retires its spans/views. Copies stage
+before publication and moves retire sources only after success. Refusals retain
+content; diagnostic allocation/peak counters may advance. Destruction and
+serialization traverse iteratively. These trees are schema/message construction
+state; they are not model-prefix state, KV tensors or DS4 RAM/SSD payloads.
+Private C++ facade references and synchronized string projections borrow the
+same C tree. Model/controller storage remains transitional. The
+matching `5227bf4f` selected
+[AR/MTP controls](../development/validation/c17-json-value-point-gpu-2026-10-06.json)
+use prompt retention disabled and preserve existing state/cache identities;
+they add no SSD restore, mixed-history, GPU state-fault or matched-cost claim.
+
+Immutable reasoning/tool grammar composition now belongs to C17. Construction
+copies source tables/names and imports ordered lexeme origins by program
+identity; the C17 ordered predicate table retains the corresponding immutable
+number/string/whitespace objects. Their numeric/DFA policies are also retained
+in C. The construction-only predicate memo borrows immutable schema identities;
+it is retired after compilation. Sealed tables and predicates allow concurrent
+reads, while release requires retiring all grammar borrowers. These new
+ownership paths have separate [host validation](../development/validation/c17-lexeme-host-2026-10-06.json)
+and matching `688b74c5` selected
+[AR/MTP controls](../development/validation/c17-lexeme-point-gpu-2026-10-06.json).
+The GPU controls use prompt retention disabled; they add no SSD restore,
+mixed-history, state-fault or matched-cost qualification. C++ facades, schema/regex
+compilation and model/controller remain transitional; newer request-snapshot
+ownership is described below.
+Construction and imported templates are not model-prefix state, KV cache or
+SSD payloads. Grammar stacks remain independently copied request state, including
+speculative verification; no mutable reasoning/tool phase enters the model or
+cache. The additive description view borrows source tables until program release.
+[Host validation](../development/validation/c17-composition-host-2026-10-06.json)
+does not qualify new original-weight continuation, correction or restore.
+
+Default-ON request grammar stacks and lexeme bytes now remain owned C snapshots
+through byte/token transitions and mask queries. Speculative sampler copies use
+independent C17 duplication; correction/discard releases only the tentative copy.
+Views remain borrowed/read-only until owner replacement/release, and copy refusal
+preserves source and destination. Copying can outlive the program, but advancing
+still requires a live matching program and predicate context. The allocator
+context outlives all copies. Explicit legacy-vector import/export remains outside
+the default-ON runtime path. These request snapshots are not KV/recurrent tensors
+or DS4 RAM/SSD payloads. Matching new original-weight continuation, correction,
+fault and resource/cost gates remain open. See
+[ownership](../development/C17-SAMPLING.md#owned-request-grammar-snapshots).
+
+[Root schema admission](../development/C17-SAMPLING.md#root-schema-admission)
+uses construction-only identity scratch, freed before Visit or return. It
+changes no request snapshot, KV/recurrent tensor, model identity or DS4 RAM/SSD
+framing. Prompt/value/exception projections remain private adapters; existing
+reactive cancellation and snapshot-copy lifetimes are preserved.
+
+The compiled-schema C17 cache stores opaque grammar programs and copied schema
+keys. It is independent of KV/recurrent state, prefix retention and SSD files;
+its insertion/eviction never changes model cache identity or DS4 framing. Client
+copies outlive eviction. No schema cache is persisted in model checkpoints.
+
+The C17 Unicode context owns construction-only set/input storage. It performs
+no model or checkpoint operation and changes no DS4 RAM/SSD payload or cache
+identity. Sealed grammar programs copy their runtime tables independently of
+that context. ICU/Unicode version diagnostics are not persisted model IDs.
+
+Request-local [C17 sampler history](../development/C17-SAMPLING.md#request-history)
+tracks prompt repetition and committed generated counts. It is rebuilt for each
+request and is not serialized into DS4 model-prefix payloads. Model RAM/SSD cache
+identity, predictor state and tensor framing remain unchanged. Copies retain
+independent history; RNG/deferred draws and grammar keep their existing owners.
+
+The owned C17 compact/speculative probability component uses borrowed rows and
+caller-owned scratch only. It retains no proposal, model state or pointers, and
+changes no DS4 RAM/SSD format, cache identity or predictor/controller checkpoint.
+Verification refusal does not publish its acceptance draw or a correction token.
+Rollback, pending/deferred corrections and confirmed model frontier remain with
+the existing inference owner; host probability checks do not qualify GPU restore.
+
+Owned C17 byte-grammar snapshots are request-local and independently copied
+while sampling or verifying speculation. Programs/mask-cache predicates are not
+serialized in DS4 RAM/SSD model-prefix payloads. Failed expansion/advance or
+canonicalization does not change the request's live state. The provider still
+supplies typed predicate/container storage. Concrete
+rule/primitive construction and productive/nullable/cycle validation now use
+the C17 builder. Unicode registry/input and snapshot read/write planning/copies
+now use shared C17 contracts, with ICU retained for set/property/conversion
+semantics. Its private layout requires matching source, archive and application
+rebuilds.
+Original-weight grammar/correction/cache continuation remains pending.
+
+C17 schema transformations borrow immutable typed JSON views and publish only
+private staging results. Equality/pointer/pattern scratch retires on every path;
+the provider retires its deque/container staging at the exception boundary.
+Conjunction refusal leaves input trees and the published result unchanged.
+Typed JSON payloads and child tables now belong to C17; predicate storage and
+private reference/string projections remain transitional. These construction
+objects add no inference state, DS4
+payload, RAM/SSD identity, RNG transition or reactive frontier.
+
+Finite-value normalization owns only private construction results and temporary
+scratch. Ordered canonical objects preserve schema property order, followed by
+permitted extra members; array order remains unchanged. Exclusion publishes no
+value and refusal preserves the previous result. Literal and object/array
+rules copy spans into the C builder. Nested visitor callbacks share one private
+property/character counter object; partial successful increments are retired
+with failed construction. Sixteen inline frames and bounded stack/quote/symbol/
+required-name buffers retire on success and refusal. These objects add no model
+or sampler checkpoint, DS4 RAM/SSD payload, cache identity or reactive frontier.
+The newer source still requires matching provider/application rebuild and its
+own original-weight continuation/resource/cost qualification.
+
+C17 numeric policies own their copied canonical bounds and multiple, including
+integer-grid reduction. Prefix checks own and retire private arithmetic scratch;
+refusal changes neither the policy nor the caller's match/value outputs. These
+policies are not serialized in DS4 model-prefix payloads and change no cache
+identity. The JSON value bridge, JSON Schema compiler and Unicode-set/property
+identity remain transitional; host exact-decimal checks do not qualify GPU
+continuation or cost.
+
+C17 string state retains exactly the five native uint32 fields used by the
+provider: DFA/count/value/extra/mode. It keeps partial UTF8/escape/surrogate state
+across tokens and independently clones mask keys; canonicalizing a mask key does
+not change the live character count. Programs deep-copy DFA tables, derive and
+prune their own graph, and release query scratch on all paths. Schema/regex
+construction vectors are retired after sealing. Refusal leaves request state
+and match unchanged. These transient objects are not DS4 model-prefix payloads.
+
+The C17 vocabulary slice owns copied immutable bytes/trie and per-query interned
+snapshot/transition storage. Query scratch retires on success and refusal.
+Caller-synchronized shared mask caches own cloned canonical C state keys and
+opaque retained payloads. Vector/shared_ptr projection remains adapter glue;
+retained snapshots survive cache eviction. Canonical keys never mutate live
+request counters. Hashes are internal accelerators, not DS4 RAM/SSD identities.
+No model state serialization or reactive frontier changes in this slice.
+
+Regex construction now owns C17 expression DAGs, nullable context bits,
+derivative memo tables and temporary Unicode partition/BFS graphs. A sealed
+program deep-copies its data and survives compiler release; refusal preserves
+published output and programs. Internal successful memo entries may remain after
+a refused construction call. No compiler tables enter DS4 RAM/SSD checkpoints
+or change model-prefix scope or the reactive frontier. Parser AST and iterative
+assertion expansion scratch are now owned and retired in C17; UTF16 input and
+opaque set callbacks are borrowed for one synchronous call. The Unicode context
+owns full-set registry, range translations and UTF8 buffers through ICU C APIs;
+ICU remains the property/set/conversion dependency. JSON Schema compilation and
+provider container storage remain transitional. The C17 builder owns concrete
+rule/primitive construction and iterative validation, while schema dispatch/
+reference memo and provider composition templates remain transitional.
+Structural transformations and finite-value/container algorithms now use C17.
+Snapshot bridge planning, validation and payload copies now use C17.
+
+Finalized grammar programs copy their C tables before construction owners retire.
+Predicate/table and allocator contexts outlive programs and states; composition
+retains imported primitives before source retirement. Removal of private C++
+template copies changes no persisted/request/KV format. See
+[ownership](../development/C17-SAMPLING.md#immutable-grammar-table-ownership).
+
+Per-compilation derived values and transformation/normalization staging now
+retain native JSON roots in a shared C17 collection. The compiler borrows root
+views until compilation retires; transformation results transfer their exact
+roots to owning facades before the collection retires. Collection growth never
+moves a root or child. Cumulative admission and collection-heap budgets are
+separate from each root's existing domain budget. These temporary roots do not
+enter request snapshots or DS4 RAM/SSD checkpoints. See
+[derived value ownership](../development/C17-SAMPLING.md#derived-schema-value-ownership).
+
+Direct native arena copies accept a NULL JSON-value source as logical JSON null
+and publish an independently owned explicit root or child. Typed const lazy-null
+inputs are borrowed without materialization or ownership changes. Root transfer,
+mutation targets and raw schema-node reader/writer callbacks still require actual
+non-NULL nodes. The null-copy correction passes combined HOST regression controls;
+no persisted request, model or RAM/SSD checkpoint layout changes.
+
+The C17 compilation workflow publishes its native prompt and immutable program
+only after initial-state validation succeeds. They have independent ownership;
+both require release. Input and builder retirement preserves the published
+prompt/program. Predicate contexts outlive the program and its states; paired
+allocator contexts outlive both outputs. Reasoning/tools share an immutable
+prompt owner. Refusal retires workflow staging but may leave earlier builder or
+visitor mutations, so the entire failed compilation must retire. These prompt
+objects do not enter DS4 RAM/SSD checkpoints or change reactive request state.
+See [publication lifetimes](../development/C17-SAMPLING.md#schema-compilation-and-prompt-publication).
 
 ## MTP development boundary
 
@@ -51,13 +292,51 @@ This branch exposes [VISION inference inputs/output](../development/VISION.md),
 and its live complete-history provider now binds semantic image identity and
 MRoPE positions to shared RAM/SSD lookup and restore. `LIE_STATE_CACHE_SCOPE`
 is a model-neutral U8[32] component (layer zero), containing the full prepared
-image-prompt SHA-256. Text-only state has no scope section and uses the zero key.
+image-prompt SHA-256 when steering is unused. Legacy unsteered text state has no
+scope section and uses the zero key; steered text has an explicit policy scope.
 KVC scope resides after the AUXILIARY boundary; the DS4 tensor payload remains
 unchanged. Old AR files/names retain their existing framing.
+
+The independent [C17 steering policy](../development/STEERING.md#session-policy-and-transactional-history)
+derives bank/scale/history scopes and can compose them with semantic image
+identity. Its versioned 192-byte metadata codec and staged restore are tested
+through the shared RAM/SSD envelope with synthetic host state. The optional
+layer-zero U8[192] `LIE_STATE_STEERING_POLICY` role requires a cache-scope section
+and, for KVC, resides after the auxiliary boundary. Its contents and combined
+scope must be validated before model transfer; layout validation alone is
+insufficient. The DS4 tensor body and leading client extension remain unchanged.
+The owned C17 model-state binding now couples policy history and actual model
+positions in provider capture/restore source. The underlying model codec validates
+the unchanged model prefix, while policy/scales/combined scope are admitted
+before transfer. Matching initial prefix histories are required; mixed or switched-off
+histories cannot be reused as initially unsteered state. Inactive unused directions
+preserve legacy framing. Shared-worker scoped lookup and live-job capture have
+host qualification. The core refreshes scope after every completed changed-policy
+forward, preserving the separate image identity and refusing uniform-history
+reuse of mixed state. Actual GPU continuation remains pending. Existing opens
+without a bank retain their RAM/SSD path.
+Scheduled jobs select token-key candidates bounded by the first unapplied
+physical step. Position-zero settings are applied before lookup; a longer
+uniform cached prompt cannot skip a future change. Captures retain actual
+mixed-history scopes. The initial lookup does not yet seek a mixed-history
+checkpoint beyond that first boundary. No state framing or DS4 tensor body
+changes for schedule metadata, which is a copied client control rather than
+model state.
+HTTP creation-time plans and the shared choices factory use these same rules.
+Each child has independent model state, steering history and cache scope;
+changing one choice does not change another or relabel its completed prefix.
+Stored choice references preserve control snapshots after the foreground closes,
+with retention charged to the record budget when a direction bank is present.
+See the [format and restore contract](../development/STEERING.md#state-metadata-and-staged-restore).
 
 Lookup, deduplication, supersession and protected prefixes all compare scope.
 SSD indexes read only a bounded provisional scope; complete file digest/layout
 validation and scope revalidation still precede returning a usable state.
+Text-prefix restore reconstructs the saved physical tokens and tokenizes only
+the suffix before checking the prompt frontier. A saved spelling can contain
+more tokens than a fresh tokenizer pass. Scope validation precedes reconstruction;
+geometry validation still precedes upload. Scheduled steering uses token-prefix
+lookup and disables reconstruction to preserve its physical token indices.
 Image jobs never use text-prefix reconstruction. Original images must be
 resupplied after restart; neither pixels nor embeddings are persisted. Changing
 future images conservatively prevents earlier-prefix reuse. The live Qwen
@@ -190,7 +469,12 @@ Dynamic index memory is accounted separately. Compile-time
 `--cache-policy legacy` selects the previous capture schedule. Full contracts,
 CLI options and CPU/GPU status are in [CACHE-DS4-POLICY.md](CACHE-DS4-POLICY.md).
 
-Packing operates only on a uniquely owned immutable state. Physical tokens stay
+Packing operates only on a uniquely owned immutable aligned state. Exact DS4/KVC
+payloads and semantic-scope bindings are excluded so their representation stays
+unchanged. The original AR RAM/SSD chunk-namespace probes preserve raw DS4
+payloads and pass full-prefix/output equality
+([functional receipt](../development/validation/prefill-cache-original-point-2026-10-07.json)).
+For an eligible aligned payload, physical tokens stay
 uncompressed; all remaining bytes, including floating-point bit patterns, use
 independent 1 MiB Zstandard/raw blocks. Four-byte words are reversibly split
 into byte planes before level-1 compression, without interpreting their values.
@@ -389,3 +673,9 @@ reactor pins remain charged until released. Worker scratch and numerical
 sequence state are released at device retirement; immutable witnesses remain
 until the final job reference. This store is separate from model weights,
 active KV state and the RAM/SSD reusable prefix cache.
+
+Final output can close reactive demand before numerical sequence teardown
+publishes `retired`. The retained consumer accepts CLOSED demand and continues
+until semantic TURN_END; it neither treats that interval as a collection error
+nor declares the response complete early. This rule also applies after the
+creating background stream disconnects. Invalid credit operations remain errors.

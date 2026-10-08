@@ -1,0 +1,99 @@
+{
+  "schema": "synapse-lie.q2-target-priorities-hc-lds.v1",
+  "at": "2026-10-06T04:44:47.936618+00:00",
+  "inputs": {
+    "previous_queue": {
+      "path": "config/q2-target-priorities-update.json",
+      "sha256": "1089309d4a7e0a16e3d90448d611388197a61308c2349896ba517c2612ea0961"
+    },
+    "fixed_reference": {
+      "path": "config/q2-fixed-prefill-reference.json",
+      "sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1"
+    },
+    "retained_model": {
+      "path": "config/q2-ssm-fixed-bounds-model-results.json",
+      "sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd"
+    },
+    "down_model": {
+      "path": "config/q2-down-register-palette-model-results.json",
+      "sha256": "c57ca6f884082d490473e1fe0aa726b8abbabd145c8f26350b837a1165b6a563"
+    },
+    "historical_profile": {
+      "path": "config/q2-current-best-profile-results.json",
+      "sha256": "efb16d4015e3fce00af978374573b17aa4bbc3b2250007bf126eb459651b2f7f"
+    },
+    "private_draft": {
+      "path": "config/q2-hc-inject-reuse-draft-v3.json",
+      "sha256": "89f13ec071849d49268aed61596f136d4b2131aebc6da84fc460bf9526c25885"
+    },
+    "private_static": {
+      "path": "config/q2-hc-inject-reuse-draft-static-v3.json",
+      "sha256": "1e48b77c895b6b31582c55690a811f98df567e8cb8df41d146679e8fd93ce83c"
+    },
+    "producer_boundary": {
+      "path": "config/q2-producer-fusion-boundary.json",
+      "sha256": "ede2b4e253c0b4117c68b9ad8fe0849042417aba59e01c20cb4376c5b037f105"
+    },
+    "last_release": {
+      "path": "config/q2-down-register-palette-v2-window-release.json",
+      "sha256": "e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db"
+    }
+  },
+  "retained_variant": "ssm-fixed-bounds",
+  "retained_PP": 1585.308983,
+  "retained_TG": 25.16079073,
+  "fixed_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.3374465216160525,
+  "required_prefill_saving_ms": 76.99173599999986,
+  "current_regions_from_saved1571_profile": {
+    "injection_ms": 39.548835,
+    "affected_mix_ms": 85.284003,
+    "packing_ms": 17.096259,
+    "IQ2_gate_up_ms": 239.499759
+  },
+  "profile_is_fresh1585": false,
+  "first": "HC normalized-input reuse plus once-per-CTA injection coefficient staging",
+  "first_next_step": "New guarded full raw/raw-Q8/deferred mix/inject cycle with validated timing; qualify borrowed scratch before candidate-only original2048 model",
+  "first_new_lds_or_persistent_allocation": false,
+  "first_extra_block_barriers": 0,
+  "second": "Whole640 producer/packing ownership preserving the whole-row scale and live producer reuse",
+  "second_implementation_prepared": false,
+  "injection_alone_cannot_close_gap": true,
+  "projected_model_rate": null,
+  "numerical_probability_estimated": false,
+  "old_negative_trials_queued_for_rerun": false,
+  "saved_comparators_rebuilt_or_rerun": false,
+  "full_curve": false,
+  "Q4": false,
+  "GPU_run": false,
+  "GPU_reserved": false,
+  "production_provider_changed": false,
+  "remote_cleanup": false,
+  "commands": [
+    {
+      "path": "evidence/q2-hc-inject-reuse-draft-preparation/lds-draft-v3-generation-command.json",
+      "sha256": "f3200a538e515222a5212e6091836265d7df1ca4df084eda724a1002510ef45a",
+      "actual_exit": 0
+    },
+    {
+      "path": "evidence/q2-hc-inject-reuse-draft-preparation/lds-draft-v3-assembly-command.json",
+      "sha256": "781b6f68863f14538872826202212eab7eedc604d8f3622b226c0a56c7b13d0a",
+      "actual_exit": 0
+    },
+    {
+      "path": "evidence/q2-hc-inject-reuse-draft-preparation/lds-draft-v3-static-audit-command.json",
+      "sha256": "e1cb10bd121e9c05b37aae2cc0ed0eaf187c783343ef9587eb9e20d595f42783",
+      "actual_exit": 1
+    },
+    {
+      "path": "evidence/q2-hc-inject-reuse-draft-preparation/lds-draft-v3-static-audit-v2-command.json",
+      "sha256": "71cd0875daf17002cbaf39275a32377fbeac42cefa89d0fb542891a583388aea",
+      "actual_exit": 0
+    }
+  ],
+  "user_report": "docs/Q2-HC-INJECTION-REUSE-DRAFT.md",
+  "user_report_sha256": "ade4734720630fb332244e5d23d2ef19b05aa1fea84c545afb23192d7cfa1b53",
+  "independent_quality": false,
+  "performance_increment_found": false,
+  "goal_met": false
+}

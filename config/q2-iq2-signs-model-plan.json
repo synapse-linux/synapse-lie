@@ -1,0 +1,82 @@
+{
+  "state": "COMPLETE_CURVES_VERIFIED_WINDOW_RELEASED_GOAL_OPEN",
+  "goal": "Q2 PP and TG parity at every canonical context depth; component gains are insufficient",
+  "machine": "192.168.5.157",
+  "provider": ".deps/gufo-q2-curve-iq2-signs-ordered-asm",
+  "provider_manifest_sha256": "1d33845808eebf9c3992d2e4a785600fe21fbdcff71fe6d152f6d3499c1151d5",
+  "core_commit": "15c6082152c3df0cb1f40d89ba5329692f307d7b",
+  "core_manifest_sha256": "53a35366f2ee3699c7fd9adf371e55c5b71c883c3abdbbb7df104cbd28453540",
+  "workload": "Same pinned Gufo prose HTTP recipe, calibration and seeds, depth0/4096/8192/12288/16384/32768/65536/131072, actual cached/new frontiers retained,128 AR completions, same C17 executor timers",
+  "settings": "C1 greedy,capacity133760,chunk2048,RAM prefix cache; thinking/MTP/vision/SSD off",
+  "arms": [
+    "fresh canonical Q2 baseline",
+    "ordered IQ2 sign Q2",
+    "fresh pristine UD control"
+  ],
+  "required": [
+    "Distinct source identity and isolated canonical dispatch, full MMQ rebuild for every provider",
+    "Host guard tests on .157 before model launch",
+    "Record PP/TG, complete request payload/output history, actual work and cache timing",
+    "Verify quality separately; preserve existing numerical failures",
+    "Repeat/reverse if gain is order-sensitive; never replace the whole curve with counting workload"
+  ],
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "model_dispatch_implemented": true,
+  "source_code_delta": "Only IQ2_XXS vector dot sign expansion and reference scale rounding; no prefill WMMA or PLE changes",
+  "at": "2026-10-04T01:07:43.339021+00:00",
+  "checkpoint_base": "9334a5b",
+  "model_mode": "q2-curve-iq2",
+  "model_source_variant": "curve-iq2-q2",
+  "build_id": "q2-canonical-curve-iq2-signs",
+  "client_flag": "--iq2-signs",
+  "report_analyzer": "tools/analyze-q2-iq2-curve.py",
+  "plotter": "tools/plot-q2-curve.py",
+  "proposed_sequence": [
+    {
+      "mode": "cpu",
+      "label": "q2-iq2-curve-host-r1"
+    },
+    {
+      "mode": "q2-curve",
+      "source_variant": "curve-q2",
+      "label": "q2-iq2-curve-baseline-r1",
+      "rebuild_mmq": true
+    },
+    {
+      "mode": "q2-curve-iq2",
+      "source_variant": "curve-iq2-q2",
+      "label": "q2-iq2-curve-candidate-r1",
+      "rebuild_mmq": true
+    },
+    {
+      "mode": "q2-curve",
+      "source_variant": "curve-q2",
+      "label": "q2-iq2-curve-baseline-r2",
+      "rebuild_mmq": true
+    },
+    {
+      "mode": "ud-curve",
+      "source_variant": "curve-ud",
+      "label": "q2-iq2-curve-ud-r1",
+      "rebuild_mmq": true
+    }
+  ],
+  "admission": "config/q2-iq2-curve-admission.json",
+  "host_evidence": "evidence/q2-iq2-curve-host-r1",
+  "host_debug_passed": 19,
+  "host_sanitizer_passed": 19,
+  "baseline_evidence": "evidence/q2-iq2-curve-baseline-r1",
+  "baseline_validation": "config/q2-iq2-curve-baseline-validation.json",
+  "baseline_full_grid_passed": true,
+  "baseline_previous_history_exact": true,
+  "active_label": null,
+  "order_control": "config/q2-iq2-curve-order-control.json",
+  "repeat_admission": "config/q2-iq2-curve-repeat-admission.json",
+  "report": "config/q2-iq2-canonical-results.json",
+  "window_release": "config/q2-iq2-curve-window-release.json",
+  "full_curve_parity": false,
+  "numerical_qualified": false,
+  "promoted": false,
+  "goal_met": false
+}

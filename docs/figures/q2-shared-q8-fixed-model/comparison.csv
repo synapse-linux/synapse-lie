@@ -1,0 +1,13 @@
+arm,source,repetition,warmup,prompt_tokens,output_tokens,decode_steps,prefill_tok_s,decode_steps_s,prefill_s,decode_s
+fixed_q2,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1,0,True,2048,128,127,1438.259006,25.08847266,1.423943804,5.062085753
+fixed_q2,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1,1,False,2048,128,127,1443.398207,25.10565683,1.41887387,5.058620886
+fixed_q2,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1,2,False,2048,128,127,1443.672867,25.08698337,1.418603928,5.062386263
+fixed_q2,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-mixed-r1,3,False,2048,128,127,1443.841794,25.09595499,1.418437954,5.060576497
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-shared-q8-fixed-model-candidate-r1,0,True,2048,128,127,1436.62496,24.74499304,1.425563426,5.132351413
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-shared-q8-fixed-model-candidate-r1,1,False,2048,128,127,1445.840323,25.11034503,1.416477302,5.057676421
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-shared-q8-fixed-model-candidate-r1,2,False,2048,128,127,1447.807929,25.09939089,1.414552275,5.059883747
+candidate,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-shared-q8-fixed-model-candidate-r1,3,False,2048,128,127,1446.083285,25.10338822,1.416239314,5.059078038
+fixed_ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1,0,True,2048,128,127,1689.043527,24.34239962,1.212520558,5.217234208
+fixed_ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1,1,False,2048,128,127,1686.364042,24.34621613,1.214447147,5.216416355
+fixed_ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1,2,False,2048,128,127,1685.777092,24.34174251,1.214869991,5.217375049
+fixed_ud,/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-counting-regression-ud-r1,3,False,2048,128,127,1685.400011,24.15102104,1.215141798,5.258576845

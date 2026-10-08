@@ -1,0 +1,32 @@
+{
+  "schema": "synapse-lie.gufo-sampling-observer.v1",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Explicit owner-only borrowed observations of completed target/proposal/verification draws; no numerical algorithm or private layout change.",
+  "edits": [
+    {
+      "path": "src/core/sampling.hpp",
+      "old": "  [[nodiscard]] std::span<const TokenId> history() const noexcept;",
+      "new": "  [[nodiscard]] std::span<const TokenId> history() const noexcept;\n  [[nodiscard]] std::shared_ptr<const std::vector<std::uint8_t>> SamplingObservationAllowed() const {\n    return config_.constraint ? config_.constraint->Allowed(constraint_state_) : nullptr;\n  }"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "#include \"src/models/qwen38_flash_next/mtp_sampling.hpp\"",
+      "new": "#include \"src/models/qwen38_flash_next/mtp_sampling.hpp\"\n#include \"gufo_sampling_observer.hpp\""
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "pending.proposals.push_back(SampleMtpProposal(",
+      "new": "pending.proposals.push_back(lie_gufo::observed_mtp_proposal("
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "sampler.Sample(logits_)",
+      "new": "lie_gufo::observed_target_draw(sampler, logits_)"
+    },
+    {
+      "path": "src/models/qwen38_flash_next/engine.cpp",
+      "old": "VerifyMtpProposal(std::span<const float>(verify_logits_)",
+      "new": "lie_gufo::observed_mtp_verify(std::span<const float>(verify_logits_)"
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "at": "2026-10-03T04:17:41.779789+00:00",
+  "state": "Q2_DOWN_TILES_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2837585,
+      "absent": true,
+      "finished_at": "2026-10-03T03:58:37.692494+00:00"
+    },
+    {
+      "label": "q2-down-tiles-micro-r1",
+      "pid": 2838652,
+      "absent": true,
+      "finished_at": "2026-10-03T03:59:55.490255+00:00"
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840378,
+      "absent": true,
+      "finished_at": "2026-10-03T04:05:01.142735+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2837586,
+      "start_ticks": 156528629,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2837666,
+      "start_ticks": 156528682,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2837742,
+      "start_ticks": 156529135,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2837992,
+      "start_ticks": 156529789,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2838062,
+      "start_ticks": 156529841,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r1",
+      "pid": 2838157,
+      "start_ticks": 156530544,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-micro-r1",
+      "pid": 2838653,
+      "start_ticks": 156536917,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-micro-r1",
+      "pid": 2838882,
+      "start_ticks": 156537120,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-micro-r1",
+      "pid": 2839021,
+      "start_ticks": 156538524,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840379,
+      "start_ticks": 156566923,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840449,
+      "start_ticks": 156566977,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840575,
+      "start_ticks": 156567430,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840784,
+      "start_ticks": 156568084,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840854,
+      "start_ticks": 156568136,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-down-tiles-host-r2",
+      "pid": 2840989,
+      "start_ticks": 156568889,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2844769,
+    "state": "R",
+    "group": 2844766,
+    "session": 2844766,
+    "start_ticks": 156645580
+  },
+  "models": [],
+  "result_sha256": {
+    "q2-down-tiles-host-r1": "584c1958b7d969aae2181e7c385b0775d8906b84ef19483bd94258890bd25fd0",
+    "q2-down-tiles-micro-r1": "7d8fb695f55025d66c3c5d26a2fffa59756f3e6acf87fbd9925d8bf6053e0708",
+    "q2-down-tiles-host-r2": "3b2175257d24b953386cca1fbd97409976aed878744efa84387100cc3ed9839b"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46500",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "50000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "47500",
+    "/sys/class/hwmon/hwmon1/temp6_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+  }
+}

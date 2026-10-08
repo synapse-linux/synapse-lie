@@ -1,0 +1,12 @@
+{
+  "schema": "synapse-lie.q2-iq2-live-compose-staging.v1",
+  "capsule_sha256": "9ac7052a1983b9dec5f1f2392ffaf009245b55567d24495332c46a7d0ecae945",
+  "fixture_files_verified": 61,
+  "provider_files_verified": 1025,
+  "network_boundary_reached": true,
+  "network_calls_executed": 0,
+  "gpu_run": false,
+  "remote_build": false,
+  "model_inference": false,
+  "goal_met": false
+}

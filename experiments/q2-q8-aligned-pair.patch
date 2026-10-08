@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4582,11 +4582,13 @@
+           const uint2 magnitude =
+               reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+           const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          const uint2 decoded = make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+-                                           magnitude.y ^ (mask.y & 0x80808080U));
++          const uint2 decoded =
++              make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                         magnitude.y ^ (mask.y & 0x80808080U));
+           const int peer_row = (peer_tid >> 1) + (u * 128);
+           const int chunk = 2 * (peer_tid & 1) + (part >> 1);
+-          reinterpret_cast<uint2*>(s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++          reinterpret_cast<uint2*>(
++              s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
+         }
+         const float scale =
+             __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
+@@ -5834,6 +5836,43 @@
+         for (int c = 0; c < 4; ++c)
+           a_half[p][c] = live ? src[c] : make_uint4(0u, 0u, 0u, 0u);
+       } else {
++        // Adjacent lanes own the two K32 blocks of one row. Read all68
++        // original bytes once at4-byte-aligned offsets; preserve both scales
++        // and every signed code. Other geometry/odd K/unaligned bases retain
++        // the original fetch. No extra weight copy or arithmetic change.
++        if constexpr (BM == 256 && BN == 128 && BK == 2 && WM == 8 && WN == 1 &&
++                      kRowGroup == 1 && !kHcMix) {
++          if ((num_kb & 1) == 0 &&
++              (reinterpret_cast<std::uintptr_t>(w_bytes) & 3u) == 0) {
++            const auto* pair =
++                static_cast<const std::uint8_t*>(__builtin_assume_aligned(
++                    a_ptr[p] + static_cast<std::size_t>(kb & ~1) * 34, 4));
++            const bool odd = (lane_id & 1) != 0;
++            const unsigned offset = odd ? 36u : 0u;
++            uint4 lo, hi;
++            __builtin_memcpy(&lo, pair + offset, 16);
++            __builtin_memcpy(&hi, pair + offset + 16, 16);
++            std::uint32_t end_word = 0;
++            if (!odd)
++              __builtin_memcpy(&end_word, pair + 32, 4);
++            // All lanes participate after the conditional load. An even
++            // lane supplies its own adjacent odd lane's original scale.
++            end_word = __shfl(end_word, lane_id & ~1);
++            a_d[p] = live ? (odd ? end_word >> 16 : lo.x & 0xffffu) : 0u;
++            if (odd) {
++              a_codes[p][0] = lo;
++              a_codes[p][1] = hi;
++            } else {
++              a_codes[p][0] = make_uint4(
++                  (lo.x >> 16) | (lo.y << 16), (lo.y >> 16) | (lo.z << 16),
++                  (lo.z >> 16) | (lo.w << 16), (lo.w >> 16) | (hi.x << 16));
++              a_codes[p][1] = make_uint4(
++                  (hi.x >> 16) | (hi.y << 16), (hi.y >> 16) | (hi.z << 16),
++                  (hi.z >> 16) | (hi.w << 16), (hi.w >> 16) | (end_word << 16));
++            }
++            continue;
++          }
++        }
+         const std::uint8_t* blk =
+             a_ptr[p] +
+             (static_cast<std::size_t>(live ? kb : (num_kb - 1)) * 34);

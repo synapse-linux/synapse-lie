@@ -6,6 +6,7 @@ This checks wire contracts and execution, not model quality or Pi connectivity.
 """
 import datetime
 import http.client
+import importlib.util
 import json
 from pathlib import Path
 import socket
@@ -28,17 +29,18 @@ def port():
         return sock.getsockname()[1]
 
 
-def exchange(port_number, path, payload=None):
+def exchange(port_number, path, payload=None, method=None):
     connection = http.client.HTTPConnection('127.0.0.1', port_number, timeout=180)
     data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode()
     try:
-        connection.request('GET' if data is None else 'POST', path, data,
+        verb = method or ('GET' if data is None else 'POST')
+        connection.request(verb, path, data,
                            {} if data is None else {'Content-Type': 'application/json'})
         response = connection.getresponse()
         body = response.read(LIMIT + 1)
         if len(body) > LIMIT:
             raise RuntimeError('HTTP response exceeds fixture bound')
-        row = {'path': path, 'request': payload, 'status': response.status,
+        row = {'method': verb, 'path': path, 'request': payload, 'status': response.status,
                'headers': dict(response.getheaders()), 'body': body.decode('utf-8')}
         with (ROOT/'http-wire.jsonl').open('a') as out:
             out.write(json.dumps(row, ensure_ascii=False) + '\n')
@@ -61,10 +63,176 @@ def events(body):
     return rows
 
 
+def abandon_response_stream(api, payload):
+    """Close only this connection after a witnessed original text delta."""
+    connection = http.client.HTTPConnection('127.0.0.1', api, timeout=180)
+    partial = bytearray()
+    frames = []
+    try:
+        connection.request('POST','/v1/responses',json.dumps(payload).encode(),
+                           {'Content-Type':'application/json'})
+        response = connection.getresponse()
+        if response.status != 200: raise RuntimeError('Background SSE refused')
+        frame = bytearray()
+        identity = None
+        while True:
+            line = response.readline(LIMIT+1)
+            if not line or len(partial)+len(line)>LIMIT:
+                raise RuntimeError('No bounded original background text delta')
+            partial.extend(line); frame.extend(line)
+            if line == b'\n':
+                current = events(frame.decode('utf-8'))
+                if len(current)!=1 or not isinstance(current[0],dict):
+                    raise RuntimeError('Background frame malformed')
+                item = current[0]; frames.append(item); frame.clear()
+                if item['type']=='response.created': identity=item['response']['id']
+                if item['type']=='response.output_text.delta' and item['delta']:
+                    if not identity: raise RuntimeError('Background delta preceded identity')
+                    return {'id':identity,'sequence_number':item['sequence_number'],
+                            'delta_bytes':len(item['delta'].encode('utf-8'))}
+                if item['type'] in ('response.completed','response.incomplete','response.failed'):
+                    raise RuntimeError('Background retired before original text')
+    finally:
+        connection.close()
+        with (ROOT/'http-wire.jsonl').open('a') as out:
+            out.write(json.dumps({'method':'POST','path':'/v1/responses','request':payload,
+                                  'abandoned_after_delta':bool(frames and frames[-1].get('type')=='response.output_text.delta'),
+                                  'body':partial.decode('utf-8',errors='replace')})+'\n')
+
+
+def function_call(call, responses):
+    fn = call if responses else call['function']
+    identity = call['call_id' if responses else 'id']
+    if (not identity or fn['name'] != 'get_value' or
+            json.loads(fn['arguments']) != {'key': 'answer'}):
+        raise RuntimeError('Function identity/arguments mismatch')
+    return identity
+
+
+def tool_gate(api, result):
+    schema = {'type': 'object', 'properties': {'key': {'type': 'string', 'enum': ['answer']}},
+              'required': ['key'], 'additionalProperties': False}
+    fn = {'name': 'get_value', 'description': 'Get the answer identified by its key.',
+          'parameters': schema, 'strict': True}
+    prompt = 'Call get_value with key answer. Do not explain.'
+    chat = {'model': MODEL_ID, 'messages': [{'role': 'user', 'content': prompt}],
+            'tools': [{'type': 'function', 'function': fn}],
+            'tool_choice': {'type': 'function', 'function': {'name': 'get_value'}},
+            'temperature': 0, 'max_tokens': 512, 'store': False}
+    plain = exchange(api, '/v1/chat/completions', chat)
+    if plain['status'] != 200:
+        raise RuntimeError('Chat function JSON failed')
+    choice = json.loads(plain['body'])['choices'][0]
+    message = choice['message']
+    calls = message.get('tool_calls', [])
+    if choice['finish_reason'] != 'tool_calls' or len(calls) != 1:
+        raise RuntimeError('Chat function did not commit exactly one call')
+    call_id = function_call(calls[0], False)
+    result['passed'].append('chat_function_json')
+    streamed = exchange(api, '/v1/chat/completions', dict(chat, stream=True))
+    chunks = events(streamed['body'])
+    arguments, identity, fragments, finishes = '', None, 0, 0
+    for chunk in chunks:
+        if chunk == '[DONE]':
+            continue
+        for item in chunk.get('choices', []):
+            if item.get('finish_reason') == 'tool_calls':
+                finishes += 1
+            for part in item['delta'].get('tool_calls', []):
+                if part['index'] != 0:
+                    raise RuntimeError('Chat function index changed')
+                if 'id' in part:
+                    if identity or part['function']['name'] != 'get_value':
+                        raise RuntimeError('Repeated/incorrect Chat function start')
+                    identity = part['id']
+                delta = part['function'].get('arguments', '')
+                if not identity:
+                    raise RuntimeError('Chat arguments preceded their call start')
+                arguments += delta
+                fragments += bool(delta)
+    if (streamed['status'] != 200 or not chunks or chunks[-1] != '[DONE]' or
+            chunks.count('[DONE]') != 1 or finishes != 1 or fragments < 2):
+        raise RuntimeError('Chat incremental function SSE failed')
+    function_call({'id': identity, 'function': {'name': 'get_value', 'arguments': arguments}}, False)
+    result['passed'].append('chat_function_sse')
+    followup = dict(chat, tool_choice='none', max_tokens=64,
+                    messages=chat['messages']+[message,
+                        {'role': 'tool', 'tool_call_id': call_id, 'content': '{"value":4}'},
+                        {'role': 'user', 'content': 'Reply with the value returned by the function.'}])
+    row = exchange(api, '/v1/chat/completions', followup)
+    if row['status'] != 200 or not json.loads(row['body'])['choices'][0]['message']['content']:
+        raise RuntimeError('Correlated Chat tool result failed')
+    result['passed'].append('chat_tool_result')
+
+    response = {'model': MODEL_ID, 'input': prompt,
+                'tools': [dict(fn, type='function')],
+                'tool_choice': {'type': 'function', 'name': 'get_value'},
+                'temperature': 0, 'max_output_tokens': 512, 'store': False}
+    row = exchange(api, '/v1/responses', response)
+    if row['status'] != 200:
+        raise RuntimeError('Responses function JSON failed')
+    output = json.loads(row['body'])
+    calls = [item for item in output['output'] if item['type'] == 'function_call']
+    if output['status'] != 'completed' or len(calls) != 1:
+        raise RuntimeError('Responses did not commit exactly one function')
+    function_call(calls[0], True)
+    result['passed'].append('responses_function_json')
+    row = exchange(api, '/v1/responses', dict(response, stream=True, store=True))
+    chunks = events(row['body'])
+    if (row['status'] != 200 or not chunks or chunks[-1]['type'] != 'response.completed' or
+            [x['sequence_number'] for x in chunks] != list(range(len(chunks)))):
+        raise RuntimeError('Responses function SSE terminal/sequence mismatch')
+    deltas = [x for x in chunks if x['type'] == 'response.function_call_arguments.delta']
+    done = [x for x in chunks if x['type'] == 'response.function_call_arguments.done']
+    final = chunks[-1]['response']
+    calls = [x for x in final['output'] if x['type'] == 'function_call']
+    if len(deltas) < 2 or len(done) != 1 or len(calls) != 1:
+        raise RuntimeError('Responses function arguments not streamed incrementally')
+    arguments = ''.join(x['delta'] for x in deltas)
+    if done[0]['arguments'] != arguments or calls[0]['arguments'] != arguments:
+        raise RuntimeError('Responses argument deltas differ from committed JSON')
+    call_id = function_call(calls[0], True)
+    result['passed'].append('responses_function_sse')
+    replay = exchange(api, '/v1/responses/'+final['id']+'?stream=true')
+    if replay['status'] != 200 or replay['body'] != row['body']:
+        raise RuntimeError('Retired Responses function journal changed during replay')
+    result['passed'].append('responses_tool_replay')
+    continuation = {'model': MODEL_ID, 'previous_response_id': final['id'],
+                    'input': [{'type': 'function_call_output', 'call_id': call_id, 'output': '{"value":4}'},
+                              {'role': 'user', 'content': 'Reply with the value returned by the function.'}],
+                    'temperature': 0, 'max_output_tokens': 64, 'store': False}
+    followup = exchange(api, '/v1/responses', continuation)
+    if followup['status'] != 200 or not json.loads(followup['body'])['output']:
+        raise RuntimeError('Correlated retained Responses function result failed')
+    result['passed'].append('responses_tool_result')
+    restricted = dict(chat, tools=chat['tools']+[{'type': 'function', 'function': dict(fn, name='unused')}],
+                      tool_choice={'type': 'allowed_tools', 'allowed_tools': {
+                          'mode': 'required', 'tools': [{'type': 'function', 'function': {'name': 'get_value'}}]}})
+    row = exchange(api, '/v1/chat/completions', restricted)
+    if row['status'] != 200:
+        raise RuntimeError('Allowed function subset request failed')
+    choice = json.loads(row['body'])['choices'][0]
+    calls = choice['message'].get('tool_calls', [])
+    if choice['finish_reason'] != 'tool_calls' or len(calls) != 1:
+        raise RuntimeError('Allowed function subset did not commit one call')
+    function_call(calls[0], False)
+    result['passed'].append('allowed_tools')
+
+
 def main():
-    if len(sys.argv) not in (4, 5) or sys.argv[3] not in ('ar', 'mtp') or (len(sys.argv) == 5) != (sys.argv[3] == 'mtp'):
-        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR]')
-    binary, model, mode = sys.argv[1:4]
+    args = sys.argv[1:]
+    flags = set()
+    while args and args[-1] in ('--tools','--controls','--output-budget','--schema-integer','--tool-transitions'):
+        flag = args.pop()
+        if flag in flags: raise SystemExit('Duplicate HTTP gate flag')
+        flags.add(flag)
+    check_tools, check_controls = '--tools' in flags, '--controls' in flags
+    check_output = '--output-budget' in flags
+    check_integer = '--schema-integer' in flags
+    check_transitions = '--tool-transitions' in flags
+    if len(args) not in (3, 4) or args[2] not in ('ar', 'mtp') or (len(args) == 4) != (args[2] == 'mtp'):
+        raise SystemExit('Usage: http-gate.py SERVER MODEL ar|mtp [PREDICTOR] [--tools] [--controls] [--output-budget] [--schema-integer] [--tool-transitions]')
+    binary, model, mode = args[:3]
     api, management = port(), port()
     while management == api:
         management = port()
@@ -74,10 +242,10 @@ def main():
     command = [binary, '--model', model, '--model-id', MODEL_ID,
                '--host', '127.0.0.1', '--port', str(api),
                '--management-host', '127.0.0.1', '--management-port', str(management),
-               '--context', '16384', '--prefill-chunk', '2048', '--max-active', '2',
+               '--context', '16384', '--prefill-chunk', '2048', '--max-active', '8' if check_controls else '2',
                '--kv-cache-ram-mb', '0', '--request-timeout-ms', '180000']
     if mode == 'mtp':
-        command += ['--model-mtp', sys.argv[4], '--mtp-draft-tokens', '7']
+        command += ['--model-mtp', args[3], '--mtp-draft-tokens', '7']
     result['server_argv'] = command
     server = None
     try:
@@ -145,6 +313,34 @@ def main():
                     chunks[-1]['response']['output'][0]['content'][0]['text'] != response_text):
                 raise RuntimeError('Responses SSE contract/output mismatch')
             result['passed'].append('responses_sse')
+            if check_tools:
+                tool_gate(api, result)
+            if check_controls:
+                spec = importlib.util.spec_from_file_location('original_controls',ROOT/'http-controls.py')
+                controls = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(controls)
+                checked = controls.controls_gate(api,MODEL_ID,exchange,events,abandon_response_stream,ROOT)
+                result['passed'].extend(checked['passed'])
+            if check_output:
+                spec = importlib.util.spec_from_file_location('original_output_budget',ROOT/'http-output-budget.py')
+                budget = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(budget)
+                checked = budget.output_budget_gate(api,MODEL_ID,exchange,events,ROOT)
+                result['passed'].extend(checked['passed'])
+            if check_integer:
+                spec = importlib.util.spec_from_file_location('original_schema_integer', ROOT/'http-schema-integer.py')
+                integer = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(integer)
+                checked = integer.integer_gate(api, MODEL_ID, exchange, events, ROOT)
+                # Keep the separate inventory and the general gate's count.
+                result['schema_integer_checks'] = len(checked['passed'])
+            if check_transitions:
+                spec = importlib.util.spec_from_file_location('original_tool_transitions', ROOT/'http-tool-transitions.py')
+                transitions = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(transitions)
+                checked = transitions.transitions_gate(api, MODEL_ID, exchange, events, ROOT,
+                                                       management=management, mode=mode)
+                result['passed'].extend(checked['passed'])
             result['chat_text'] = text
             result['responses_text'] = response_text
             result['state'] = 'PASSED'

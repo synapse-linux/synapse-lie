@@ -1,0 +1,143 @@
+{
+  "at": "2026-10-03T23:03:30.243030+00:00",
+  "state": "Q2_CURVE_PROFILE_WINDOW_RELEASED",
+  "labels": [
+    "q2-curve-profile-host-r1",
+    "q2-canonical-http-ud-r2",
+    "q2-canonical-http-q2-r2",
+    "q2-canonical-ple-ud-r1",
+    "q2-canonical-ple-q2-r1"
+  ],
+  "command_exits": {
+    "q2-curve-profile-host-r1": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-canonical-http-ud-r2": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-canonical-http-q2-r2": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-canonical-ple-ud-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q2-canonical-ple-q2-r1": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "checked_pids": [
+    3272764,
+    3272767,
+    3272843,
+    3272944,
+    3273212,
+    3273290,
+    3273400,
+    3273773,
+    3273774,
+    3274223,
+    3275470,
+    3275472,
+    3275473,
+    3275474,
+    3275660,
+    3277171,
+    3277172,
+    3277613,
+    3279089,
+    3279090,
+    3279092,
+    3279093,
+    3279182,
+    3281041,
+    3281070,
+    3281499,
+    3282759,
+    3282760,
+    3282761,
+    3282762,
+    3282930,
+    3284392,
+    3284393,
+    3284833,
+    3286307,
+    3286314,
+    3286315,
+    3286316,
+    3286434
+  ],
+  "live_owned": [],
+  "live_owned_groups": [],
+  "kfd": [],
+  "unreadable_or_retired_proc_entries": 0,
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "thermal": [
+    {
+      "path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "device": "amdgpu",
+      "temperature_mc": 45000,
+      "limit_mc": null,
+      "inclusive": false,
+      "limit_source": "no_exposed_gpu_threshold",
+      "over_limit": false
+    },
+    {
+      "path": "/sys/class/hwmon/hwmon3/temp1_input",
+      "device": "k10temp",
+      "temperature_mc": 48000,
+      "limit_mc": 98000,
+      "inclusive": true,
+      "limit_source": "owner_cpu_limit",
+      "over_limit": false
+    }
+  ],
+  "gpu_reserved": false,
+  "restart_scheduled": false,
+  "qualification": "Reverse-order full HTTP curve and separate PLE/Forward profiles complete. Instrumented rates remain excluded from performance claims; numerical rejection and whole-curve parity requirement unchanged."
+}

@@ -7,39 +7,435 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
-### Fixed
+- Original Qwen IQ2_XXS/Q2_K storage support in the current provider, including
+  logical/physical down-width validation and exact F16 HC injection widening.
+  `LIE_QWEN_Q2_FORMATS` is default ON; provider/client selections and provenance
+  must match. The stored MXFP4 predictor remains unsupported for execution.
 
-- The Point GPU supervisor recognizes an already observed owned process while
-  its `/proc/fd` entry retires before the kernel KFD list, checking PID start
-  tick and container cgroup before allowing the short retirement gap.
+- Current Strix Halo Q2/UD-Q4 functional qualification passes advancing-walk
+  snapshot/replay and original-sampler parity at 2K/4K/6K/8K. The selected Q2
+  two-user batch matches C1 at 8K; UD-Q4 AR/MTP and reactive output ownership
+  checks also pass. This is separate from comparative performance qualification.
 
-- The direct-core reactive probe waits for aggregate retirement counters after
-  job completion, avoiding a race between independently published snapshots.
+- Native C17 `ds4-walk` benchmark for contiguous raw-corpus frontiers, with
+  appended-token prefill accounting and separate checkpoint/restore timings.
+  Snapshot and replay use the current state API; reports refuse incompatible
+  measurement contracts and RoPE profiles. CSV, JSON, SVG and PNG need no Python.
 
-- Shared-core benchmark reports refuse zero-time executed phases, inconsistent
-  dispatch counts and phase durations outside the job's wall time, including warmups.
+- Prepared HTTP graphs use short concurrency labels so C8 remains visible;
+  multi-case labels refer to case indices, with full identifiers in CSV/JSON.
 
-- Benchmark comparisons keep both series visible in every category when their
-  values coincide; data and vertical scales are unchanged.
+- Build the GPU server and tools with `make strix-halo` or `make strix-point`.
+  These native CMake entry points fetch the pinned provider, reuse verified
+  builds and require no Python interpreter.
 
-- Qualification supervisors apply temperature stops to the CPU and SSD;
-  GPU temperatures remain recorded without a software temperature stop.
-- Removed the retired LZ4 checkpoint codec and its build/link dependency;
-  current compressed checkpoints use Zstandard. Historical reports retain
-  their original codec label as provenance.
+- Current r70 Strix Point recall passes both cold, cache-off YaRN4 turns near
+  one million physical tokens. The model/platform table includes prefill,
+  decode, TTFT and full durations, with independently verified raw evidence.
 
-- Combined benchmark CSV duration columns now explicitly use seconds.
+- Shared C17 steering preparation now collects complete last-prompt-token
+  activations and learns normalized directions from paired target/contrast
+  prompts with explicit memory bounds. Provider capture hooks are added;
+  HOST/sanitizer checks pass. Native C17 `lie-steering-build` now reads paired
+  prompt files, retains raw captures and physical token IDs, and publishes
+  DS4-compatible `.f32` banks only after complete successful learning.
+  Input/format/failure and sanitizer checks and coherent HIP compilation pass;
+  the first eight original-weight prompt pairs pass independent raw-row/bank
+  reconstruction on Strix Point with single-chunk and multi-chunk prefill,
+  including four final one-token chunks. Their raw captures and both banks
+  match byte for byte. The optional checking route now admits 128 pairs and
+  reads raw activations by row, with 100-pair fixture and mutation checks.
+  A held-out arithmetic/conciseness protocol and independent saved-SSE checker
+  now have native-client HOST coverage; original response quality remains unqualified.
+  Optional own-child supervision now records serial server lifetimes and stored
+  application snapshots, with timeout/signal/retirement and bank-identity checks.
+  The separate qualification campaign body binds original training provenance,
+  corpus, model/runtime and bank identities and independently reviews all saved
+  responses. Its deadline now includes snapshot reads and owned retirement.
+  The `modern-steering-quality` coordination profile is integrated with bounded
+  immutable helper execution.
+  Optional training artifact transfer now supports FFN-only captures and
+  streamed raw files up to 512 MiB, retaining failures and refusing overwrite.
+  Original 100-pair FFN learning now passes on Strix Point: 200 complete prefills,
+  9,600 captured rows and exact independent normalized-bank reconstruction.
+  Complete collected/closed evidence is retained in ordered archive parts.
+  Optional held-out response collection now retains both server phases' full
+  wire and partial failures, binds frozen inputs and verifies transferred
+  content without replaying inference. Twelve local transfer checks pass.
+  The first original held-out run retains 68/70 responses before storage refusal;
+  partial wire and full process retirement are independently verified. The
+  qualification supervisor now reserves 256 MiB for stored responses, with
+  native synthetic-server coverage of the old limit and the complete cohort.
+  The unchanged complete original cohort now retains all seventy responses and
+  independently verified applied policies, with complete process closure.
+  Its quality gate fails: baseline arithmetic is 6/10 and negative-scale outputs
+  truncate. Full observations and actual failed exits are retained; wider runtime
+  qualification remains pending. Runtime `.f32` and DS4 cache formats are unchanged.
 
-- Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
-  when the trunk GGUF metadata has no embedded predictor block.
+- Optional Strix Point recall coordination now runs the native benchmark on
+  separate context/RoPE/seed cohorts through 1M, with complete continuation,
+  exact-answer checking, memory admission and failed-artifact retention.
+  Original-weight native 8K, 128K and near-256K AR checks, seed 77, pass both cold turns
+  at each size. Separate current-runtime YaRN4 controls pass both turns
+  at 8K, 128K, near-256K, near-512K and 786K physical inputs, with 1M configured capacity and independent
+  saved-wire/closure verification; larger inputs remain pending. Native products remain
+  Python-free.
+
+- Responses now accepts `seed`, `frequency_penalty` and `presence_penalty`
+  through the shared generation profile, and retains them in completed/stored
+  response objects. Seeds are integers in 0..9223372036854775807; penalties
+  use the same finite -2..2 range as Chat. Null and invalid types/ranges are
+  refused. Local parser, HTTP and sanitizer checks, coherent HIP compilation
+  and the 71-check original-weight tool gate pass in both AR and MTP.
+  Each mode also passes five baseline controls; wider qualification remains open.
+
+- Tool results received in a different order now have a shared C17 correlation
+  view based on their call IDs. The model binding renders each complete group
+  in call order while preserving the received history and image ownership.
+  Local Release, sanitizer checks and coherent HIP compilation pass. Original
+  Chat and Responses JSON/streaming checks preserve distinct values when results
+  arrive in reverse order across greedy, DS4 and filtered sampling in AR and MTP.
+  Wider quality and performance acceptance remains pending.
+
+- Strict function calls now receive model-layer JSON format guidance matching
+  the constrained sampler, for text and image prompts. The pinned Qwen renderer
+  and ordinary text formatting are preserved. HOST checks and coherent HIP
+  compilation pass; wider original-weight qualification remains required.
+
+- Shared-engine prefill chunks up to 32,768 tokens, with an independent startup
+  scratch reservation and a live setter for new requests. The management endpoint
+  exposes the same control; queued and active jobs keep their original chunk.
+  Native benchmarks and reports record both chunk and capacity. RAM/SSD cache
+  identities isolate different chunks. GPU qualification remains pending.
+
+- Experimental sparse WMMA prefill workspace through 1M visible tokens, selected
+  by default-ON `LIE_LONG_CONTEXT_WMMA`. Short contexts keep their existing
+  kernel; OFF retains the 262k WMMA limit and scalar fallback. Provider/client
+  selections must match. Original-weight correctness and performance remain
+  under qualification.
+
+- C17 sparse-prefill admission distinguishes visible mask words from allocated
+  row stride, preserving the numerical kernel's workspace limits. Source and
+  focused host controls pass; HIP and performance qualification are pending.
+
+- Builds without the Gufo adapter now export the public stop-token metadata
+  query, returning an explicit unsupported status without changing caller output.
+
+- C17 development client for complete raw-logit capture before ordinary AR
+  draws, including strict required-function calls, bound vocabulary and stop
+  metadata. Offline original/C17/OFF replay checks complete masks, probabilities
+  and calls. Selected original-weight AR probabilities now pass; required-tool
+  and MTP numerical qualification remain open. Product executables
+  and default tests gain no Python dependency.
+  Point ROCm build receipts also bind the capture executable to its runtime.
+  The optional Point supervisor executes and collects native text/tool captures,
+  retaining partial failure data for offline replay.
+
+- Native core benchmark JSONL reports prefill attention selections, separating
+  completed and unconfirmed work and distinguishing unsupported measurements
+  from zero. The model-neutral C17 observer is shared with other core clients;
+  GPU dispatch and instrumentation cost remain under qualification.
+
+- Native `long-context-recall` benchmark preset generates independent bindings
+  at start/middle/end, retrieves previously unanswered keys on a second turn,
+  exports exact response oracles and retains all quality misses separately from
+  HTTP failures. Original-weight recall qualification remains pending.
+
+- Native schema staging preserves lazy JSON null inputs during copying and
+  normalization. The correction passes combined HOST regression controls;
+  original-weight GPU qualification remains pending.
+
+- C17 owns bounded sampler history and probability buffers, including deep
+  clones, exact moves, allocation limits and requested-byte accounting. The
+  default sampler uses these buffers; private provider/client rebuilds and final
+  qualification are pending.
+
+- Production schema and generic JSON compilation use a complete native C17
+  frontend, with independently owned program/prompt/predicate results and stable
+  error diagnostics. Private C++ projections remain; final qualification is pending.
+
+- String schema admission and predicate construction use the shared C17 core,
+  including length bounds, pattern/format intersection and hostname narrowing.
+  Unrestricted predicates remain reusable; final qualification is pending.
+
+- Native C17 schema staging creates, copies and modifies JSON trees directly,
+  with explicit root transfer and bounded ownership. The default-ON adapter
+  keeps typed projections and original error classes; final qualification is pending.
+
+- A reusable C17 schema compiler context owns initialization, temporary builders,
+  reference/predicate memos, derived schemas and counters. Published grammar and
+  prompt lifetimes stay independent. The default-ON adapter uses this context;
+  final qualification is pending.
+
+- Shared C17 final schema validation preserves output digits for fractional
+  bounds, numeric `enum`/`const` and exact `multipleOf`, including nested values.
+  New comparison/divisibility APIs are reusable by other clients. This increment
+  awaits the final qualification phase.
+
+- C17 schema-number descriptions now use the shared binary64 codec directly
+  by default. Serialization and parsing callbacks are independent optional
+  overrides; native failures preserve outputs and record deterministic errors.
+
+- Shared C17 JSON binary64 formatting and parsing, preserving number spelling,
+  negative zero and nearest-even rounding. Bundled pinned Ryu adds no system
+  dependency; MPFR is used only by optional developer tests. The matching
+  composition/codec build passes 37 original-weight OpenAI controls in both AR
+  and MTP on Strix Point; individual numerical branches and cost remain open.
+
+- Shared C17 immutable reasoning/tool grammar composition, including marker
+  transitions, argument imports, JSON name quoting and parallel-call stop policy.
+  Original/default-ON/OFF complete states and masks agree in host checks;
+  matching original-weight AR/MTP controls pass. Broader branch/resource/cost
+  qualification remains open.
+
+- The matching 66-file C17 provider/application build passes 37 original-weight
+  OpenAI controls in both AR and MTP on Strix Point. These qualify selected
+  integrated paths; individual numeric/format branches, faults and cost remain open.
+
+- Shared C17 ordered cache policy for reasoning and tool grammars, including
+  duplicate reuse, synchronization and bounded eviction. Typed provider keys
+  remain private. Matching selected AR/MTP controls
+  pass; individual branch, resource and cost gates remain pending.
+
+- Shared C17 JSON Schema format expansion for the nine existing formats,
+  including ordered IPv6 patterns and hostname bounds. Original/OFF patterns,
+  prefix decisions and intersections agree in host checks. The matching build
+  passes selected AR/MTP controls; individual format GPU branches remain pending.
+
+- Shared C17 numeric schema control for ordered constraints, scalar acceptance,
+  exact `multipleOf` representability and literal construction. Host checks
+  preserve original/OFF behavior; the binary64 codec remains private. Matching
+  selected AR/MTP controls pass; independent numeric GPU gates remain pending.
 
 ### Added
+
+- Shared C17 JSON ownership slots for lazy initialization, borrowed/root values,
+  copy/move assignment and root transfer. The default-ON provider uses the same
+  core API; complete HOST original/C17/OFF witnesses agree. Matching GPU
+  qualification remains pending.
+
+- Optional developer GPU qualification for bounded-integer schemas, with 66
+  separate Chat/Responses JSON/SSE membership and refusal checks. HOST wire and
+  supervision tests pass; matching original-weight AR/MTP gates now pass all
+  66 checks in each mode on Strix Point.
+
+- Shared C17 signed integer-bound compilation, preserving exact large integer
+  magnitudes, exclusive endpoints and `-0`. Original/default-ON/OFF HOST grammar
+  witnesses agree; matching HIP ON/OFF builds and selected original-weight
+  AR37/MTP37 controls pass on Strix Point. Individual branch and cost
+  qualification remain open.
+
+- Shared C17 schema compilation publication and immutable prompt ownership.
+  Reasoning and tools share the exact prompt bytes; failed compilation publishes
+  no output. HOST lifetime, allocation-failure and original/ON/OFF checks pass.
+  The matching HIP build passes 37 selected original-weight OpenAI controls in
+  both AR and MTP on Strix Point. Typed construction/bootstrap/errors and
+  model/controller remain transitional; broader quality and cost stay open.
+
+- Shared C17 ownership and limits for derived schema values and transformation
+  staging. Results transfer their exact roots without cloning and survive staging
+  retirement. HOST lifetime and complete original/default-ON/OFF comparisons pass;
+  the matching HIP build passes 37 selected original-weight OpenAI controls in
+  both AR and MTP on Strix Point. Existing C17 option preserves the original
+  OFF compiler path; broader quality, resource and cost gates remain open.
+
+- Default-ON immutable grammar programs no longer duplicate C tables into C++
+  rule/class containers. HOST state/mask and lifetime checks pass; matching HIP
+  ON/OFF builds pass 37 selected GPU OpenAI controls in both AR and MTP on Strix
+  Point. Existing public ABI, reactive workers and cache
+  formats are retained; original OFF behavior remains available.
+
+- Shared C17 root schema admission, including reference-cycle detection and
+  ordered root construction. Bounded temporary identity storage retires before
+  compilation callbacks. Original/OFF behavior is retained; the matching
+  96-file HIP build passes 37 selected original-weight OpenAI controls in each
+  AR/MTP mode on Strix Point. Broader qualification and performance remain open.
+
+- Shared C17 ownership of request grammar snapshots and independent speculative
+  copies. Runtime transitions and masks use native snapshots directly, removing
+  repeated C++ vector/string transfers. Host original/default-ON/OFF states and
+  masks agree; the matching 93-file HIP build passes 37 selected original-weight
+  OpenAI controls in each AR/MTP mode on Strix Point. Broader qualification
+  and performance remain open.
+  The original OFF path and existing reactive worker/cache contracts remain.
+  The Gufo comparison executable uses a separately verified complete OFF
+  provider to preserve its private model/controller layouts.
+
+- Shared C17 immutable primitive ownership, ordered predicate tables and a
+  construction-only schema identity memo. Runtime grammar dispatch calls the
+  C numeric/string/DFA algorithms directly. Host original/default-ON/OFF
+  witnesses agree; the matching 92-file HIP build passes 37 selected
+  original-weight OpenAI controls in each AR/MTP mode on Strix Point.
+  Broader branch, fault, quality, resource and cost qualification remains open.
+  Existing reactive scheduling, cache format and original OFF paths remain.
+
+- Shared C17 typed JSON ownership, including exact string/key bytes, ordered
+  object/array storage, transactional copies/moves, parsing and serialization.
+  Private C++ references and synchronized string projections preserve existing
+  callers. Original/default-ON/OFF host witnesses agree. The matching 89-file HIP
+  build passes 37 selected original-weight OpenAI controls in each AR/MTP mode
+  on Strix Point. Broader fault/resource/quality/cost gates remain open.
+  No dependency or runtime thread is added; the original OFF implementation
+  remains available.
+
+- Shared C17 complete JSON parser with ordered events, strict UTF-8/escape
+  decoding, decoded duplicate-key detection and bounded allocation/work.
+  Original/default-ON/OFF host trees and errors agree. The matching build passes
+  37 original-weight OpenAI controls in each AR/MTP mode on Strix Point;
+  broader fault/resource/quality/cost qualification remains open.
+
+- Shared C17 JSON Schema body policy for definitions, references, `anyOf` and
+  `enum/const`, with preserved validation order and lifetime/refusal checks.
+  Default-ON and original OFF host grammars agree. The matching schema
+  memo/dispatch/Visit/body build passes 37 original-weight OpenAI controls in
+  both AR and MTP on Strix Point; broader branch, fault and cost gates remain open.
+
+- Shared C17 recursive schema Visit sequencing, including identity hits,
+  placeholder publication and empty branches. Default-ON and original OFF
+  paths retain host grammar behavior; selected matching AR/MTP GPU controls pass.
+
+- Shared C17 JSON Schema type/nullable/keyword validation and ordered branch
+  dispatch. The default-ON provider retains original OFF bodies; host language
+  and refusal comparisons cover nested schemas. Selected AR/MTP GPU controls pass.
+
+- Shared C17 per-compilation schema reference memo with bounded storage,
+  recursive placeholders and allocation accounting. Default-ON and original
+  OFF paths pass host recursion/lifetime/refusal comparisons and selected
+  matching AR/MTP GPU controls.
+
+- Original-weight Terminal Bench Core-19 smoke qualification on Strix Point:
+  1/1 unchanged task passes at the first attempt, with portable score/transcript
+  and verified CPU/GPU closure. The full 19-task evaluation is stopped at the
+  owner's request and deferred until functional modifications are finished;
+  cancelled logs and actual machine closure are retained.
+
+- Original-weight Strix Point 1M capacity/function qualification: complete
+  physical prefill and fixed 128-token generation, with raw evidence, phase
+  durations, memory and reproduction instructions. Recall and matched
+  long-context performance comparisons remain pending.
+
+- Shared C17 compiled-schema cache with copied keys, bounded opaque values and
+  concurrent access. Compilation stays outside its lock; the default-ON
+  provider retains an OFF reference. Host cache/ownership/refusal comparisons
+  and matching GPU OpenAI AR/MTP controls pass; broader branch, fault and
+  matched cost checks remain pending.
+
+- Shared C17 finite JSON value filtering/canonicalization, string/key quoting,
+  ordered object/array rules and bounded character accounting. The default-ON
+  provider retains an OFF reference. Host language/refusal checks and matching
+  GPU OpenAI AR/MTP controls pass; broader numerical, fault and cost gates remain
+  pending.
+
+- Shared C17 JSON Schema conjunction, local reference resolution, structural
+  value equality and keyword validation. The default-ON selection retains an
+  OFF reference. Provider JSON storage and format/binary-double leaf policy
+  remain transitional; GPU correctness, resources and cost remain pending.
+
+- Shared C17 grammar construction, JSON byte primitives, decimal-prefix
+  intervals, productivity/cycle validation and dead-alternative pruning.
+  Schema dispatch/caching and provider composition templates remain transitional;
+  host language/lifetime checks pass, while GPU resources/cost remain pending.
+
+- Shared C17 snapshot read/write bridge with bounded import, staged export,
+  capacity and overlap validation. Provider container views/growth preserve
+  its existing private layout; callbacks retain no input/context. Host
+  copy/refusal comparisons pass; original-weight resources/cost remain pending.
+
+- Reusable C17 Unicode-set registry and UTF8 input handling through public ICU
+  C APIs. The default-ON module preserves full-set identity, supplementary/NUL
+  input and replacement decoding. ICU remains the set/property/conversion
+  dependency; minimal core builds can omit the module. Host comparisons pass;
+  original-weight resources/cost and ICU internal faults remain unqualified.
+
+- Shared C17 string/Unicode-DFA runtime: UTF8, JSON escapes, surrogate pairs,
+  pending ranges, length reachability, cycle skipping, copied mask keys and
+  bounded whitespace. Temporary compiler tables are retired after C sealing.
+  Default ON retains an OFF reference; original-weight resources/cost remain pending.
+
+- Shared C17 exact-decimal numeric grammar policies, prefix matching and
+  `multipleOf` intersection. The default-ON sampler selection retains an OFF
+  reference. Host rational and complete prefix/value/LCM checks qualify the
+  algorithm; original-weight continuation/resources/cost remain pending.
+
+- Shared C17 byte-grammar runtime and dense/compact mask application, with copied
+  immutable tables, bounded owned snapshots and allocation/refusal checks. The
+  default-ON sampler option selects it; OFF retains Gufo runtime methods. Host
+  state/mask comparisons pass. Schema/predicate/trie/cache extraction and GPU
+  correctness/resources/cost remain pending.
+
+- Shared C17 compact probability distributions, p-q residual correction and exact
+  host MTP proposal/verification arithmetic. Caller-owned storage and refusal
+  checks preserve RNG/results. The default-ON sampler option selects the port;
+  OFF retains Gufo numerical behavior. GPU correctness and cost remain pending.
+
+- Shared C17 sampler history for prompt-tail repetition and full committed-token
+  frequency/presence counts, with independent copying and transactional refusals.
+  The default-ON sampler option selects it in the provider; OFF retains Gufo
+  bookkeeping. Host/reference checks pass; GPU correctness and cost remain open.
+
+- Experimental initial directional-steering controls shared by server and native
+  core bench: `--dir-steering-file`, `--dir-steering-ffn`, `--dir-steering-attn`.
+  Admission and bank resources stay in the C17 core; reports refuse matched
+  comparisons with different banks/scales. Host tests pass; numerical GPU
+  quality/performance qualification remains pending.
+- Native `--dir-steering-plan` changes at exact retained physical positions,
+  prefill/MTP boundary enforcement and strict applied-plan report identity.
+  HTTP requests accept `dir_steering_plan`; stored requests expose asynchronous
+  `/steering` controls with admission tickets, confirmed policy and plan results.
+  `/steering/{choice}` controls independent choices and retains charged snapshots.
+  Host qualification only.
+- Asynchronous per-job steering changes in the shared C17 core, with bounded
+  admission, completion tickets and mixed-history RAM/SSD scopes. The provider
+  source invalidates graphs and MTP controller/proposal scratch while preserving
+  retained state and sampled corrections. Host tests pass; GPU gates remain open.
+- C17 history-aware steering prefix-state binding for RAM/SSD, including scoped
+  text lookup and predictor/vision composition. Direction history is validated
+  before model transfer; inactive unused directions keep legacy DS4 framing.
+- Optional original-weight output-budget qualification checks model limits and
+  actual generation past 128 tokens with omitted/null limits in JSON and SSE.
+  The server and native benchmark gain no Python dependency.
+
+- The shared C17 steering library prepares bounded scale transactions and
+  derives cache identities from retained target history, including steering
+  switched off after earlier use. Original-weight qualification remains pending.
+
+- Shared C17 direction-bank loading with geometry/budget checks, immutable
+  references and file/shape identities. Provider steering and client controls
+  remain under development.
+- Shared-core top-k/min-p controls in Chat, Responses and the native benchmark.
+  Paired reports reject different filter settings and accept historical disabled
+  filters. Generation/request ABI callers must rebuild; greedy defaults remain.
+- Optional GPU qualification forwards explicit sampling profiles to the native
+  core bench and requires matching typed result settings.
+- Native core benchmark progress on stderr with `--progress-ms`, reporting
+  completed prefill, cache reuse and confirmed/consumer-observed output. Paired reports
+  require matching progress policy; benchmark samples remain separate.
+- Optional Point qualification verifies declared native progress intervals and
+  matches retired final observations to completed job counts and phase timings.
+- Optional original-weight HTTP qualification controls for 2/8 choices,
+  probabilities, structured output and retained Responses lifecycle, with
+  pinned helpers and independently recorded AR/MTP outcomes. All 34 corrected
+  AR and MTP GPU checks pass for the frozen r11 runtime; the earlier
+  foreign-client refusal is retained separately.
+- Shared-core incremental function starts and argument fragments, projected
+  into Chat/Responses SSE and retained stream replay. Calls commit only after
+  full validation; cancellation preserves borrowed payloads until release.
+- Function `allowed_tools` subsets for Chat and Responses, with explicit
+  rejection of unknown or duplicate references.
+
+- Explicit native/YaRN2/YaRN4 context profiles in the shared C17 core, HTTP
+  server and direct benchmark, with capacity up to 1,048,576 physical tokens
+  and profile-specific cache identity. Extended GPU fit and quality are pending.
 
 - A supervised Strix Point cold HTTP context campaign compares original-weight
   LIE and official Gufo AR/MTP through near 256K with two full-prefill
   repetitions per engine, physical-token/cache validation, draft acceptance,
   TTFT/wall timing, resource samples, sealed raw evidence and offline
   regeneration of CSV/JSON/SVG comparisons.
+- Native `http-curve` benchmark reproduces the pinned Gufo cached-conversation
+  depth protocol: exact seeded prompts, token calibration, actual prefix replies
+  and bounded retries. Execution and validated CSV/JSON/SVG/PNG reports require
+  no Python; failed or incomplete curves cannot produce averages.
 
 - Native C `http-multi` benchmark for prepared C1/2/4/6/8 HTTP cohorts, with
   pinned Gufo prose/repetition prompts, complete-stream validation and four
@@ -118,6 +514,21 @@ stable release is declared. Detailed validation history is in
 
 ### Changed
 
+- Regex syntax parsing and assertion expansion now use the shared C17 core,
+  retaining lookaheads, bounded nesting and the original refusal messages.
+  The default-ON selection keeps an OFF control. Unicode-set/property storage
+  and UTF8 decoding remain provider glue; GPU correctness and cost remain pending.
+
+- Regex expression simplification, iterative derivatives, Unicode partitioning
+  and DFA construction now use the shared C17 core. The default-ON sampler
+  selection retains an OFF reference. Regex syntax/Unicode properties and JSON
+  Schema parsing remain in the provider; GPU correctness and cost remain pending.
+
+- Token vocabulary tries, grammar mask traversal, transition interning and shared
+  mask-cache policy now use the model-neutral C17 core. Matching provider and
+  application rebuilds are required. Default selection remains ON, with the
+  provider control available at compile time; GPU cost qualification is pending.
+
 - Retired the LZ4 checkpoint reader and dependency. Raw checkpoints, Zstandard
   compression and the exact DS4 runtime payload format remain supported.
 
@@ -145,6 +556,82 @@ stable release is declared. Detailed validation history is in
   technical contracts and historical development records.
 
 ### Fixed
+
+- Shared-core integer output validation preserves all digits at large inclusive
+  and exclusive bounds and rejects fractional values hidden by binary64 rounding.
+  Integral decimal/exponent spelling and signed zero remain supported. HOST
+  regression and sanitizer checks pass; matching original-weight AR/MTP gates
+  pass 37 general controls and 66 integer checks in each mode on Strix Point.
+
+- Native HTTP benchmark deadlines now allow up to 24 hours. The long-context
+  preset defaults to four hours, covering the recorded 1M prefill that exceeded
+  the former two-hour client maximum. Ordinary workload defaults are unchanged.
+
+- Optional steering qualification now accepts valid zero-acceptance MTP runs
+  while requiring actual drafting and exact confirmed output parity. Strix Point
+  passes selected malformed-bank and absent/zero/fresh-core recovery controls;
+  the initial QA failure is retained, with no runtime or dependency change.
+
+- SSD text-prefix restoration when a saved spelling uses more tokens than a
+  fresh tokenization. Rebuild the saved history before checking its physical
+  frontier, while preserving scheduled steering boundaries and cache scopes.
+  Selected original-weight AR/MTP restart cases now restore the exact complete
+  prompt with zero prefill and matching outputs
+  ([qualification](docs/development/validation/ssd-text-restart-point-gpu-2026-10-06.json));
+  selected scheduled SSD cases also preserve physical indices and matching
+  AR/MTP outputs ([qualification](docs/development/validation/steering-physical-index-point-gpu-2026-10-06.json)).
+
+- Optimized C17 schema-body compilation with strict warnings. Release test
+  executables now retain their assertion checks; production flags are unchanged.
+
+- Gufo adapter compilation with the C17 distribution bridge and live steering:
+  provide its private bridge-header include path and fully initialize the
+  steering snapshot without relaxing compiler warnings.
+
+- Omitting an HTTP output limit, or passing null, now uses the remaining context
+  up to the existing 4,096-token engine ceiling instead of silently defaulting
+  to 128. Explicit positive budgets remain exact. Models advertise their context
+  and output limits; responses retain the resolved budget. Request ABI 8 callers
+  must rebuild; executor and generation ABI 3 are unchanged.
+
+- Native core benchmarks can explicitly continue past EOS with `--ignore-eos`
+  for fixed-token measurements. Results retain the EOS policy, refuse unmatched
+  policies and reject incomplete fixed-budget output. Normal serving keeps EOS.
+
+- Retained background responses accept closed output demand while numerical
+  teardown is pending, preserving generation after a stream disconnect instead
+  of cancelling at the final token.
+- Optional qualification staging can explicitly verify a filesystem device
+  renumbering after reboot against boot ID and filesystem UUID, preserving
+  pinned model receipts and all other file identity checks.
+- Strict JSON function frames now stream exact argument fragments once the
+  complete function name is known, including nested and escaped JSON values.
+- Explicit smaller prefill chunks now bound provider scratch allocation while
+  preserving space for admitted decode and MTP rows. The default stays 2,048.
+
+- The Point GPU supervisor recognizes an already observed owned process while
+  its `/proc/fd` entry retires before the kernel KFD list, checking PID start
+  tick and container cgroup before allowing the short retirement gap.
+
+- The direct-core reactive probe waits for aggregate retirement counters after
+  job completion, avoiding a race between independently published snapshots.
+
+- Shared-core benchmark reports refuse zero-time executed phases, inconsistent
+  dispatch counts and phase durations outside the job's wall time, including warmups.
+
+- Benchmark comparisons keep both series visible in every category when their
+  values coincide; data and vertical scales are unchanged.
+
+- Qualification supervisors apply temperature stops to the CPU and SSD;
+  GPU temperatures remain recorded without a software temperature stop.
+- Removed the retired LZ4 checkpoint codec and its build/link dependency;
+  current compressed checkpoints use Zstandard. Historical reports retain
+  their original codec label as provenance.
+
+- Combined benchmark CSV duration columns now explicitly use seconds.
+
+- Qwen prefix-cache geometry now includes an explicitly loaded MTP predictor
+  when the trunk GGUF metadata has no embedded predictor block.
 
 - MTP text output uses a UTF-8 buffer sized for the admitted burst, including
   full-size token pieces, rather than a single-token HTTP buffer.

@@ -2,6 +2,7 @@
 #ifndef LIE_RESPONSES_H
 #define LIE_RESPONSES_H
 #include "lie/chat.h"
+#include "lie/events.h"
 #include "lie/worker.h"
 #include <json-c/json.h>
 /* Normalize a stateless text/function Responses request into the owned chat contract. */
@@ -18,4 +19,9 @@ char *lie_response_since(char *owned,int64_t starting_after);
 bool lie_response_retrieve_query(const char *,bool *stream,int64_t *starting_after);
 char *lie_response_end(const char *,const char *,int64_t,const char *,size_t,
                        json_object *calls,const lie_job_info *,uint64_t *sequence,bool text_started);
+char *lie_response_end_streamed(const char *,const char *,int64_t,const char *,size_t,
+                       json_object *,const lie_job_info *,uint64_t *,bool,size_t started_calls);
+char *lie_response_tool_event(const char *,const lie_output_call *,bool start,
+                              size_t index,uint64_t *);
+char *lie_response_text_event(const char *,const char *,size_t,uint64_t *,bool *started);
 #endif

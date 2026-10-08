@@ -1,0 +1,48 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -636,9 +636,12 @@
+                                        const float* inject,
+                                        std::uint32_t inject_parts,
+                                        const float* gamma, float* xn,
+-                                       __half* norm_half, std::uint32_t hidden,
++                                       __half* norm_half, std::uint32_t normalization_hidden,
+                                        float eps) {
+   constexpr std::uint32_t kStreams = 4;
++  // The public dispatcher rejects every other width. Keep the original
++  // runtime norm divisor to preserve its floating-point instruction path.
++  constexpr std::uint32_t hidden = 2560;
+   constexpr std::uint32_t kMaxChunks = 10;  // 4 x 2560 / 4 / kThreads
+   __shared__ float shared[kStreams][kThreads / 32];
+   const std::uint32_t t = blockIdx.x;
+@@ -703,7 +706,7 @@
+     for (std::uint32_t q = 0; q < kThreads / 32; ++q) {
+       total += shared[k][q];
+     }
+-    scale[k] = rsqrtf(total / static_cast<float>(hidden) + eps);
++    scale[k] = rsqrtf(total / static_cast<float>(normalization_hidden) + eps);
+   }
+ #pragma unroll
+   for (std::uint32_t c = 0; c < kMaxChunks; ++c) {
+@@ -849,9 +852,12 @@
+     float* res, const float* expert_out, const float* weights,
+     const float* shared_out, const float* gate, std::uint32_t gate_stride,
+     std::uint32_t used, const float* inject, std::uint32_t inject_parts,
+-    const float* gamma, float* xn, std::uint32_t hidden, float eps,
++    const float* gamma, float* xn, std::uint32_t normalization_hidden, float eps,
+     __half* norm_half) {
+   constexpr std::uint32_t kStreams = 4;
++  // The public dispatcher rejects every other width. Keep the original
++  // runtime norm divisor to preserve its floating-point instruction path.
++  constexpr std::uint32_t hidden = 2560;
+   constexpr std::uint32_t kMaxChunks = 10;  // 4 x 2560 / 4 / kThreads
+   __shared__ float shared[kStreams][kThreads / 32];
+   const std::uint32_t t = blockIdx.x;
+@@ -942,7 +948,7 @@
+     for (std::uint32_t q = 0; q < kThreads / 32; ++q) {
+       total += shared[k][q];
+     }
+-    scale[k] = rsqrtf(total / static_cast<float>(hidden) + eps);
++    scale[k] = rsqrtf(total / static_cast<float>(normalization_hidden) + eps);
+   }
+ #pragma unroll
+   for (std::uint32_t c = 0; c < kMaxChunks; ++c) {

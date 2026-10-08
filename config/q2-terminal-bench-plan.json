@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "state": "THREE_ARM_SMOKE_COMPLETE_QUALIFIED_FULL_RUNNING",
+  "repository": "https://github.com/kyuz0/terminal-bench-mini",
+  "revision": "07034484346dc724d0e2c47c821fd196add1d6fb",
+  "manifest": "suites/core19.json",
+  "manifest_sha256": "2f40baa79c73b357830dc09388170e318411b9b99db0b5dbe14c7f5bbd91f9ad",
+  "suite": "core19",
+  "suite_version": "1.0.0",
+  "tiers": {
+    "smoke": [
+      "git-leak-recovery"
+    ],
+    "full": [
+      "pypi-server",
+      "nginx-request-logging",
+      "git-leak-recovery",
+      "fix-git",
+      "cobol-modernization",
+      "regex-log",
+      "headless-terminal",
+      "mailman",
+      "fix-ocaml-gc",
+      "break-filter-js-from-html",
+      "sqlite-with-gcov",
+      "sparql-university",
+      "llm-inference-batching-scheduler",
+      "configure-git-webserver",
+      "build-cython-ext",
+      "extract-elf",
+      "openssl-selfsigned-cert",
+      "overfull-hbox",
+      "mteb-retrieve"
+    ]
+  },
+  "model_family": "Qwen3.8-Flash-Next",
+  "quant": "Q2",
+  "arms": [
+    "qualified",
+    "hc-up-chains",
+    "scaled-input"
+  ],
+  "host": "192.168.5.157",
+  "endpoint": "http://127.0.0.1:8000/v1",
+  "platform": "strix-halo",
+  "backend": "rocm",
+  "harbor": "0.20.0",
+  "agent": "terminus-2@2.0.0",
+  "concurrency": 1,
+  "attempts": 2,
+  "retry_policy": "Only a failed first attempt receives the second attempt; preserve both outcomes.",
+  "agent_timeout_seconds": 10800,
+  "mtp": false,
+  "thinking": false,
+  "prefix_cache": false,
+  "context_policy": "Use same real endpoint-advertised capacity for all arms; no runner override. Target 262144 after real endpoint qualification.",
+  "status_notes": [
+    "All three original-Q2 arithmetic variants pass git-leak-recovery on first attempt, five original verifier checks each.",
+    "Three-arm task/agent/serving protocol equality validated; 69 task files collected and hash verified.",
+    "Candidate uses nine agent steps and 2159 output tokens; retained uses eight and 1792. One task does not establish general equivalence.",
+    "Qualified full Core-19 has started Harbor and its first task after a complete server/MMQ build; retained/scaled full arms follow sequentially and have not started. Numerical gates remain unchanged."
+  ],
+  "scoring": [
+    "Report pass@1 and pass@2 separately, task by task.",
+    "Count a pass only for final reward exactly 1.",
+    "Distinguish verifier failure, timeout, context/output truncation and infrastructure error.",
+    "Record baseline-only passes and candidate-only passes; equal aggregate scores can hide regressions.",
+    "Keep prompts, agent version, context, serving and attempt policies identical.",
+    "Preserve sampling configuration, transcripts and raw outcomes; no grading from logits.",
+    "A small or noisy paired sample does not prove general quality equivalence."
+  ],
+  "dependency_proposal": {
+    "scope": "Task-owned persistent uv cache plus Docker benchmark images; no system package, driver or service changes.",
+    "uv_cache_dir": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-terminal-bench/uv-cache",
+    "harbor_argv": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "harbor==0.20.0",
+      "harbor",
+      "--version"
+    ],
+    "images": "Only unmodified task environments selected by the pinned Core-19 manifest.",
+    "cleanup": "Only containers owned by this campaign; no foreign removal or image prune."
+  },
+  "dependency_authorization": "User explicitly approved isolated benchmark dependencies in this conversation.",
+  "serving_limits": {
+    "max_output_tokens": 4096,
+    "request_timeout_max_ms": 1800000,
+    "qualification": "Existing LIE server limits; classify length/time truncations separately. This profile is not an uncapped serving comparison.",
+    "default_output_tokens": 4096
+  },
+  "jobs": {
+    "qualified_smoke": "q2-terminal-qualified-smoke-r1",
+    "retained_smoke": "q2-terminal-retained-smoke-r1",
+    "scaled_smoke": "q2-terminal-scaled-smoke-r1",
+    "qualified_full": "q2-terminal-qualified-full-r1"
+  },
+  "qualified_smoke_result": {
+    "task": "git-leak-recovery",
+    "pass_at_1": true,
+    "reward": 1.0,
+    "duration_ms": 325667,
+    "tokens": {
+      "input": 22068,
+      "cached": 0,
+      "output": 1691,
+      "peak_context": 4113
+    },
+    "agent_steps": 8,
+    "verifier_tests_passed": 5,
+    "claim_scope": "One original smoke task only; not a full benchmark or candidate-quality verdict."
+  },
+  "smoke_report": "config/q2-terminal-smoke-results.json"
+}

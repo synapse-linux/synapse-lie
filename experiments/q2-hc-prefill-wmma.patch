@@ -1,0 +1,41 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5409,6 +5409,25 @@
+                         hipStream_t stream) {
+   if (m == 0 || batch == 0 || k == 0 || k % 32 != 0)
+     return false;
++  // Original F16 HC weights use the same raw-half WMMA pipeline as the
++  // unquantized router. Retain the two FP32 K16 accumulation chains; only
++  // macro-tile geometry differs. The caller has already narrowed inputs.
++  if (batch >= 96 && m == 320 && k == 10240) {
++    // Group all five row tiles around one 128-token input stripe. The
++    // original F16 full-batch input alone exceeds the 32 MiB cache.
++    hipLaunchKernelGGL(
++        (DenseF16GEMMKernel<64, 128, 2, 2, 4, 5, false, false, false, true>),
++        dim3((batch + 127) / 128, 5), dim3(kThreads), 0, stream, w, x, out,
++        batch, m, k);
++    return true;
++  }
++  if (batch >= 96 && m == 10240 && k == 320) {
++    hipLaunchKernelGGL(
++        (DenseF16GEMMKernel<128, 128, 1, 4, 2, 8, false, false, false, true>),
++        dim3((batch + 127) / 128, 80), dim3(kThreads), 0, stream, w, x, out,
++        batch, m, k);
++    return true;
++  }
+   hipLaunchKernelGGL(
+       (DenseF16GEMMKernel<64, 64, 2, 2, 4, 1, false, false, false, true>),
+       dim3((batch + 63) / 64, (m + 63) / 64), dim3(kThreads), 0, stream, w, x,
+--- a/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/blaslt.cpp
+@@ -127,7 +127,9 @@
+   // Library edge tiles change the accumulation order when the same token
+   // moves within a batch. Router and recurrent-gate errors then amplify across
+   // layers. Keep one K reduction for every row and prefill chunk size.
+-  if (type == HIP_R_16F && k == 2560 && (m == 96 || m == 513)) {
++  const bool hc_half =
++      n >= 96 && ((m == 320 && k == 10240) || (m == 10240 && k == 320));
++  if (type == HIP_R_16F && ((k == 2560 && (m == 96 || m == 513)) || hc_half)) {
+     return UnquantizedF16Gemm(weights, static_cast<const __half*>(input), out,
+                               n, m, k, stream_);
+   }

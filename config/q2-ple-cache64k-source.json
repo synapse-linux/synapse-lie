@@ -1,0 +1,23 @@
+{
+  "scope": "Isolated BF16 capacity experiment; kernels and all row values unchanged",
+  "original_encoded_bytes": 5242880,
+  "candidate_encoded_bytes": 20971520,
+  "metadata_entries_before": 16384,
+  "metadata_entries_after": 65536,
+  "variants": {
+    "raw": {
+      "base": "gufo-q2-bench-hc-moe-fused",
+      "out": "gufo-q2-bench-ple-cache64k",
+      "base_sha256": "7f39b2ed99982301d9874fd850aebace7cc1ec3c601936c53e1d4f97a34cdf37",
+      "candidate_sha256": "89b49fcf39debff5fc4a9adf34ea8283ce685ef521020b7c000e79b79816a97e",
+      "patch_sha256": "e7d2d08c0ab7502de0f00d3d294f82d51c8de7585b28ef087af201d6de53419b"
+    },
+    "diagnostic": {
+      "base": "gufo-ple-q2",
+      "out": "gufo-ple-cache64k",
+      "base_sha256": "4bdf53fe33420f2df34f609fc9f24b21e8e110c4b7d8a05f4cb51a0899296f35",
+      "candidate_sha256": "9267a0cce252db8c6e1c303fbe48e0af94b7cd844fce9e6dd350424f5e79a79b",
+      "patch_sha256": "838128b522ccb9e1ec63af65edd1957d60efdd196806966c4a3816467f2914bc"
+    }
+  }
+}

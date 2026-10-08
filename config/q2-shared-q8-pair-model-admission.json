@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-05T15:43:06.243370+00:00",
+  "component_result_sha256": "4ce1334d94a6b5ad9e43764b2a9272732b4c9c8ddb7f319a662b95066b90d11d",
+  "guarded_outputs_finite_written": true,
+  "full_output_pairs": 43,
+  "sampled_fp64_operators": 24,
+  "rotated_timing_rows": 28,
+  "numerical_exact": true,
+  "oracle_pass": true,
+  "original_model_performance_admitted": true,
+  "controls_rerun": false,
+  "goal_met": false
+}

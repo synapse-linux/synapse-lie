@@ -2,12 +2,14 @@
 #ifndef LIE_EVENTS_H
 #define LIE_EVENTS_H
 #include "lie/core.h"
-#define LIE_EVENT_ABI 1u
+#define LIE_EVENT_ABI 2u
 typedef enum {
   LIE_EVENT_PROGRESS,
   LIE_EVENT_TEXT,
   LIE_EVENT_TOOL_CALL,
-  LIE_EVENT_TURN_END
+  LIE_EVENT_TURN_END,
+  LIE_EVENT_TOOL_START,
+  LIE_EVENT_TOOL_ARGUMENT_DELTA
 } lie_event_kind;
 typedef enum {
   LIE_TURN_STOP,
@@ -39,8 +41,11 @@ typedef struct {
 /* Exactly one consumer. Choose semantic events OR the legacy raw flow for a
  * job; mixing them is refused. No HTTP/JSON-library/provider types here.
  * TEXT is incremental valid UTF-8. A tool-enabled turn emits credit-bearing
- * PROGRESS while buffering, then TEXT and validated whole TOOL_CALL events.
- * All calls validate before any call is exposed. No tool is executed here.
+ * PROGRESS, provisional TEXT/TOOL_START/TOOL_ARGUMENT_DELTA, then validated
+ * whole TOOL_CALL events. Delta arguments may be incomplete JSON; append by
+ * call index and never execute before TOOL_CALL validation and successful turn
+ * completion. A malformed or cancelled turn discards all provisional calls.
+ * No tool is executed here. Delta tokens are zero (counted in PROGRESS).
  * Every nonterminal event is borrowed until release, even with zero tokens.
  * Release before requesting more credits or releasing the job. TURN_END has
  * no loan and is observed once, after outstanding device work has retired.

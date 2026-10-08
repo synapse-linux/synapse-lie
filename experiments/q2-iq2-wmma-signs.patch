@@ -1,0 +1,20 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4338,10 +4338,13 @@
+           const unsigned sign = (group.y >> (7 * part)) & 127U;
+           const uint2 magnitude =
+               reinterpret_cast<const uint2*>(iq2xxs_grid)[code];
+-          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          signed_codes[part] =
+-              make_uint2((magnitude.x ^ mask.x) + (mask.x & 0x01010101U),
+-                         (magnitude.y ^ mask.y) + (mask.y & 0x01010101U));
++          // Official Gufo DeepSeek integer sign expansion, now in the
++          // active Qwen WMMA loader. Preserve all scale and WMMA arithmetic.
++          const unsigned signs = sign | ((__popc(sign) & 1U) << 7U);
++          const unsigned add0 = ((signs & 15U) * 0x00204081U) & 0x01010101U;
++          const unsigned add1 = ((signs >> 4U) * 0x00204081U) & 0x01010101U;
++          signed_codes[part] = make_uint2((magnitude.x ^ (add0 * 255U)) + add0,
++                                          (magnitude.y ^ (add1 * 255U)) + add1);
+         }
+         f_codes[u] = make_uint4(signed_codes[0].x, signed_codes[0].y,
+                                 signed_codes[1].x, signed_codes[1].y);

@@ -1,0 +1,103 @@
+{
+  "schema": "synapse-lie.q2-iq2-lane-commit-final-audit.v1",
+  "fixtures_verified": 57,
+  "manifests_verified": 4,
+  "provider_files": 1025,
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifact_count": 37,
+  "component_result_sha256": "5e28c55ee52bf332b3fc45a8d13ab2f2a7144bb64455c801107836c763df7ab5",
+  "model_result_sha256": "e9d69b32dc28ba77dc402bc7202be8df94d2474fdfc3b4a0bbdcef7fcb7f0cb1",
+  "component_numerical_exact": true,
+  "within_arm_exact": true,
+  "changed_parent_files": [],
+  "measurements": {
+    "prefill_tok_s": {
+      "samples": [
+        1510.259601,
+        1509.852296,
+        1508.620907
+      ],
+      "min": 1508.620907,
+      "median": 1509.852296,
+      "max": 1510.259601
+    },
+    "decode_steps_s": {
+      "samples": [
+        25.20649263,
+        25.17944517,
+        25.20625148
+      ],
+      "min": 25.17944517,
+      "median": 25.20625148,
+      "max": 25.20649263
+    },
+    "prefill_s": {
+      "samples": [
+        1.356058256,
+        1.356424072,
+        1.357531233
+      ],
+      "min": 1.356058256,
+      "median": 1.356424072,
+      "max": 1.357531233
+    },
+    "decode_s": {
+      "samples": [
+        5.038384429,
+        5.043796602,
+        5.038432633
+      ],
+      "min": 5.038384429,
+      "median": 5.038432633,
+      "max": 5.043796602
+    }
+  },
+  "changes": {
+    "fixed_q2": {
+      "prefill_tok_s": 4.584101461816825,
+      "decode_steps_s": 0.43949907482678796,
+      "prefill_s": -4.383172411461134,
+      "decode_s": -0.43757591675822605
+    },
+    "fixed_ud": {
+      "prefill_tok_s": -10.43582789414248,
+      "decode_steps_s": 3.5515492354125655,
+      "prefill_s": 11.651788425811894,
+      "decode_s": -3.429740325727537
+    },
+    "best_parent": {
+      "prefill_tok_s": 0.31226329263494,
+      "decode_steps_s": 0.20398737940388045,
+      "prefill_s": -0.3112912832259118,
+      "decode_s": -0.20357210431470874
+    }
+  },
+  "admission_exit": 0,
+  "host_rerun": false,
+  "release_sha256": "5011dbe0bde42ce6c865e0b568ac45905b9e4aa55bceae9be69cf4c4ab843c31",
+  "retired_identities": 834,
+  "retired_groups": 660,
+  "gpu_released": true,
+  "model_stats_unchanged": true,
+  "main_release_mirrors_exact": true,
+  "controls_rerun": false,
+  "component_rerun": false,
+  "q4_run": false,
+  "full_curve_run": false,
+  "promoted": false,
+  "goal_met": false
+}

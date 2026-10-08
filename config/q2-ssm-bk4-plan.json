@@ -1,0 +1,28 @@
+{
+  "schema": "synapse-lie.q2-ssm-bk4-window-plan.v1",
+  "label": "q2-ssm-bk4-component-r1",
+  "source_commit": "a03ea54d8144a66159b1aca50800489e8b4d1a2e",
+  "previous_release": "q2-hc-down-silu-native128-r1/release.json",
+  "previous_release_sha256": "5252b3d92dc74f479b748107c729488be5476394ead7a8ef9ca5eec0b5157177",
+  "staged_sha256": {
+    "candidate.inc": "3192cf2e8a04adf8dc2b0e9b010affc7f448377fa4068f809199890d01279371",
+    "fixture.hip": "f3a79b3dd9e5544231277fa5b550d8177f6e075561a9b9aecee3303224730084",
+    "oracle.inc": "29609c9f4e94d84907e3c975902fe5ab60ec8fb87e96b1ac23b983b22b1a58d0",
+    "q2-ssm-bk4-window.py": "596a368288f638760958baa8340293fc85752d42995e1be8dd2e7d1dfd34f7dd",
+    "q2_ssm_bk4_check": "c935fe895dccf90fe3f85c14b15e0679d09208f9bf2fb4e4e18c134ccab2844e",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "source-manifest.json": "01d00ae66dee307268b64b2d0d2b942a8524b310974ccc3ecc3316733bdf867d"
+  },
+  "cpu_check_sha256": {
+    "cpu-check/tests/q2_ssm_bk4_window_test.py": "9d61c1d959f3e978c23b7377c0a92dd3642187815ed23878fcde743f0ad0b7ca",
+    "cpu-check/tools/q2-ssm-bk4-window.py": "596a368288f638760958baa8340293fc85752d42995e1be8dd2e7d1dfd34f7dd",
+    "cpu-check/tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "scope": "Original Q8 SSM full projection/convolution, BK4 geometry, same K16 order and rounding. 72 guarded complete replays,144 independent FP64 checks,133693440-byte weight rotation,14 paired warmup/measured timings. Prefill2048 only; no new precision boundary or model/control rerun."
+}

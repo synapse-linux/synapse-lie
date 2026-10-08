@@ -1,0 +1,298 @@
+{
+  "scope": "HC component hypotheses and fresh C1 pp2048/tg128 model screen; broad quality/context/parity remains open",
+  "goal_met": false,
+  "qualified_runtime_promoted": false,
+  "runs": {
+    "q2-hc-direct-host-r1": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "started_at": "2026-10-02T23:25:14.963104+00:00",
+      "finished_at": "2026-10-02T23:25:40.648138+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "df3b3af887a229b37d69f405a0c35e6c115f5d2ea584ba9b1722cd5c53c6a54d",
+      "collection_sha256": "06397b1fbaeac4fb9bdbdbcaaea8b0d5ffb43928b7aab16f820134fb22ed79b2",
+      "kernel_sha256": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77000
+      }
+    },
+    "q2-hc-direct-micro-ref-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "affine-palette",
+      "started_at": "2026-10-02T23:26:47.939758+00:00",
+      "finished_at": "2026-10-02T23:27:07.561411+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "a5ff773790a25e83d6c6c444e022efd99ec99ad153d906c4f60d4efe6a02386a",
+      "collection_sha256": "22a7079ec45d1bb20e83be1d2e88a6f1bc19c89b6c8107e1465a02dddc2fa20c",
+      "kernel_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+      "binary_sha256": "917b3f2df324d0008abd389a3a39274012c95ce9256a0b69504254538274e6a8",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 79875
+      }
+    },
+    "q2-hc-direct-micro-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-direct",
+      "started_at": "2026-10-02T23:27:54.711447+00:00",
+      "finished_at": "2026-10-02T23:28:14.403358+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "500cf3e1ae19c844ef4348981f1808a61468cdc4f530510d387bb11ebb05702e",
+      "collection_sha256": "03c61b5730d83f3c9e789d56a89e9c9e48456b29cce6e2a56a573762f56afbd2",
+      "kernel_sha256": "d98171d2283584abce3749616ae07458e2906c9fd09d99605357066d8921490f",
+      "binary_sha256": "78a2b29acfde92ba28c921093cd785544e395bdc83bed045919980f2c73eba59",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77500
+      }
+    },
+    "q2-hc-chain-host-r1": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "started_at": "2026-10-02T23:36:03.660886+00:00",
+      "finished_at": "2026-10-02T23:36:29.346938+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "f698ebdf110ddb1a82447890b73581a59227f7a9eb9f79a92f38a4d20069004c",
+      "collection_sha256": "5535e387678bf81774eb84ea7462ea5b4f80203ac107d965890f8fbc5b7d94af",
+      "kernel_sha256": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 77250
+      }
+    },
+    "q2-hc-chain-micro-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-chain-waves",
+      "started_at": "2026-10-02T23:37:14.417853+00:00",
+      "finished_at": "2026-10-02T23:37:34.111825+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "3350554b99a655bb59a7f643f63383c59bde4489803fd0d5865a85093f29de86",
+      "collection_sha256": "7c4e6c933b14a8338fff235a50f8dba9b4ad07803d9a7a9a43e5e0772d4cf859",
+      "kernel_sha256": "7c4721b5e2b37e8a7a2a0b9b7cc180ab0223b602e1fdff8443b83cdd2180d9a3",
+      "binary_sha256": "9056da703a1a7baddc5680eba44816e2ebea0569b13c4577b0a2618d10feb39d",
+      "thermal_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 79000
+      }
+    },
+    "q2-hc-chain-coalesced-host-r1": {
+      "mode": "cpu",
+      "source_variant": "qualified",
+      "started_at": "2026-10-02T23:41:57.664900+00:00",
+      "finished_at": "2026-10-02T23:42:23.868374+00:00",
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 7,
+      "capsule_sha256": "b49ba021735d6f4426a9da7d4275d1a6d6406a549d0ebaa021931f6455c01cf7",
+      "collection_sha256": "ec56dffc0c6530ff2a682884163d8b8f0a50035f56fd56002089a8f88aa5bf36",
+      "kernel_sha256": "2902a6d771f954eddc7ef00ea9b1a493198472add3fd8300ebefb54b0743ecd1",
+      "binary_sha256": null,
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76375
+      }
+    },
+    "q2-hc-chain-coalesced-micro-r1": {
+      "mode": "hc-pp-bench",
+      "source_variant": "hc-chain-coalesced",
+      "started_at": "2026-10-02T23:43:15.089871+00:00",
+      "finished_at": "2026-10-02T23:43:34.215023+00:00",
+      "state": "FAILED",
+      "transport_exit": 1,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "artifacts": 48,
+      "capsule_sha256": "20e6fff552c3dd5b77abee0d2b41f21e45111c6eb8466f7d31d1542966528ca2",
+      "collection_sha256": "4274a6df2b4d1250178583157010e9fc865bbe4e9d004315bfe566b8b90bea96",
+      "kernel_sha256": "f92ed87029211b44c5c9dd7d0e460c52fb15b686397d387f9012c33faf13fc50",
+      "binary_sha256": "3a45beed39b1ecebc545fc132e428c4e7c156261ba34e4534e0a062bada984b1",
+      "thermal_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 80000
+      }
+    },
+    "q2-hc-chain-model-ref-r1": {
+      "mode": "q2-bench2k",
+      "source_variant": "affine-palette",
+      "started_at": "2026-10-02T23:45:50.674192+00:00",
+      "finished_at": "2026-10-02T23:50:08.367004+00:00",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "71e3aa12c1f765cf9ba1aba03659c760338883eaaa5bd305592f8ce735fe914c",
+      "collection_sha256": "6ad2937b17f58f2518605e10248ecab42186a1b17f4b2476a6ea3377b694cc7e",
+      "kernel_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+      "binary_sha256": "0ce0cacaa3917f82a296822545fece9977ec34bdbc8d08af3f2ba65049c6880d",
+      "thermal_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 92875
+      }
+    },
+    "q2-hc-chain-model-r1": {
+      "mode": "q2-bench2k",
+      "source_variant": "hc-chain-coalesced",
+      "started_at": "2026-10-02T23:52:34.607508+00:00",
+      "finished_at": "2026-10-02T23:56:51.859131+00:00",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "ec38cc7e53463637a9c02feb1b9b53672db00c8a8c452bd2614783c2b35fcc48",
+      "collection_sha256": "4c296ce0483da44f7aed51cbb3a664ab8e26ebcf468c2f198e73c988669595b4",
+      "kernel_sha256": "f92ed87029211b44c5c9dd7d0e460c52fb15b686397d387f9012c33faf13fc50",
+      "binary_sha256": "0c39d131f802cb866d3a71c9fd490bbdcfc19f8f6ccd6e96b3726022a578c51b",
+      "thermal_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 88875
+      }
+    },
+    "q2-hc-chain-ud-r1": {
+      "mode": "ud-bench2k",
+      "source_variant": "qualified",
+      "started_at": "2026-10-02T23:58:55.876691+00:00",
+      "finished_at": "2026-10-03T00:02:44.029743+00:00",
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "transport_exit": 0,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "artifacts": 26,
+      "capsule_sha256": "4701fd4824d1b47de5a232ae5703d3232251db14622490b6a4afd29cc88654e7",
+      "collection_sha256": "de0423e7c0557d177387ad93d5887fc366b6934a7ce480ffba54034496030411",
+      "kernel_sha256": "45f73e260494ca2a7b801485e6a4c1df464998c57c048a519dfdbf49b4d80d25",
+      "binary_sha256": "2a9ba50086b8d40ead7afa2d185751c95abf442f6588c0efa6a48d0b768cef6d",
+      "thermal_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 84750
+      }
+    }
+  },
+  "checks": {
+    "exit_code": 0,
+    "runs": 10,
+    "commands": 42,
+    "artifacts": 291,
+    "component_full_output_comparisons_exact": 66,
+    "retained_component_failures": "Four identical original library control failures in each of four component arms; actual exit 1 retained",
+    "host_tests": "Three host arms: each 12/12 Debug and 12/12 ASan/UBSan",
+    "model_frontier_token_comparisons": 21,
+    "changed_model_frontiers_or_tokens": [],
+    "reference_retained_replay_exact": 21,
+    "q2_ud_token_files_exact": 9,
+    "within_arm_model_comparisons_exact": 27
+  },
+  "retained_local_failures": [
+    "Three whole-upstream formatting exits 1 in unchanged test files"
+  ],
+  "selection": {
+    "source": ".deps/gufo-q2-bench-affine-palette",
+    "kernel_sha256": "4de114a41d58e2b6f74038abfbf27bef8dc285dadf4b95ef69ae3b51b6b8a9fe",
+    "unchanged": true,
+    "rejected_candidates": [
+      "hc-direct",
+      "hc-chain-waves",
+      "hc-chain-coalesced"
+    ],
+    "reason": "Direct/paired-only components are slower; combined component benefit does not survive the complete-model comparison.",
+    "candidate_relative_to_reference": {
+      "prefill_tok_s": 0.9970347313982592,
+      "decode_steps_s": 1.001320163840342
+    },
+    "retained_relative_to_fresh_ud": {
+      "prefill_tok_s": 0.7928681818347679,
+      "decode_steps_s": 0.9897250623859386
+    }
+  },
+  "lifecycle": {
+    "exit_code": 0,
+    "release_at": "2026-10-03T00:04:15.591646+00:00",
+    "observer_retired_at": "2026-10-03T00:04:44.987086+00:00",
+    "release_path": "config/q2-hc-data-reuse-window-release.json",
+    "release_sha256": "efa99c2d155ce7e7c49d7fc2ee3c2b7b8b377d6755473fa9eaa1ad118ad02af1",
+    "retirement_path": "config/q2-hc-data-reuse-observer-retired.json",
+    "retirement_sha256": "57f956565af476ef5901aead78a733744e1e52855e2a6a8af9ede58d4215cd1b",
+    "release_command_exit": 0,
+    "retirement_command_exit": 0,
+    "result_receipts_verified": 10,
+    "runners_absent": 10,
+    "commands_absent": 42,
+    "original_leases_free": 4,
+    "original_models_stat_unchanged": 5,
+    "kfd_empty": true,
+    "remote_job_or_retry_remaining": false
+  },
+  "coordination_notification": {
+    "delivered": false,
+    "error": "Local codex_tui MCP transport request to 127.0.0.1:36669 failed",
+    "handover": "docs/COORDINATION.md, persistent remote release receipt and shared registry"
+  }
+}

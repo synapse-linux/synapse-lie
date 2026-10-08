@@ -1,0 +1,285 @@
+--- a/src/models/qwen38_flash_next/engine.cpp
++++ b/src/models/qwen38_flash_next/engine.cpp
+@@ -23,9 +23,7 @@
+ namespace gufo::models::qwen38_flash_next {
+ namespace {
+ 
+-// gfx1151 pp4096 at depths 0/4096: the 512/1024/2048/4096 sweep favored
+-// 2048; larger chunks used more scratch without improving throughput.
+-constexpr std::uint32_t kPrefillChunkTokens = 2048;
++// The serving owner selects scratch capacity explicitly.
+ 
+ void AssignError(std::string* error_msg, std::string_view message) {
+   if (error_msg != nullptr) {
+@@ -82,6 +80,10 @@
+                 "Flash-Next MTP supports at most seven draft tokens");
+     return nullptr;
+   }
++  if (!options.prefill_chunk_tokens || options.prefill_chunk_tokens > 8192) {
++    AssignError(error_msg, "prefill chunk must be between one and 8192");
++    return nullptr;
++  }
+   m->options_ = options;
+   m->reader_ = core::GgufReader::OpenFile(model_path, error_msg);
+   if (!m->reader_) {
+@@ -198,7 +200,7 @@
+ }
+ 
+ std::uint32_t Model::PrefillCapacity() const noexcept {
+-  return std::min(kPrefillChunkTokens, options_.max_context);
++  return std::min(options_.prefill_chunk_tokens, options_.max_context);
+ }
+ 
+ bool Model::HasMtp() const noexcept {
+--- a/src/models/qwen38_flash_next/engine.hpp
++++ b/src/models/qwen38_flash_next/engine.hpp
+@@ -36,6 +36,8 @@
+ 
+ struct ModelOptions {
+   std::uint32_t max_context = 4096;
++  /// Explicit bounded prefill capacity; default preserves the retained path.
++  std::uint32_t prefill_chunk_tokens = 2048;
+   /// Optional MTP draft sidecar (`mtp-...-shared-*.gguf`). Empty leaves
+   /// speculative decoding off.
+   std::string mtp_model_path;
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,5 +1,4 @@
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+-#include "iq2_mixed_tiles.h"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -14,6 +13,7 @@
+ #include <type_traits>
+ #include <vector>
+ 
++#include "iq2_mixed_tiles.h"
+ #include "qfn_mmq.h"
+ #include "src/core/hip/snapshot_transfer.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+@@ -957,7 +957,7 @@
+   // Append the 64-token map for gate/up and eligible down projections.
+   // Wide expert buckets also get a 128-token gate/up map: it amortizes
+   // weight decoding, while short buckets retain the cheaper 64-token tile.
+-  if (mixed_iq2 && n_tokens >= 1024 && n_tokens <= 4096 &&
++  if (mixed_iq2 && n_tokens >= 1024 && n_tokens <= 8192 &&
+       c.num_experts <= 512 && routed_tile_rows_ == kRoutedTileRowsWide) {
+     // Keep the original down map at offset zero. Append only the two
+     // gate/up spans; their total fits one existing map-capacity reservation.
+@@ -1139,9 +1139,9 @@
+   // Keep F32 xn for the Q2 mixer and inject path, while producing exactly
+   // the narrowed copy its original-F16 down projection already consumes.
+   const bool produce_half =
+-      !wide_mixer_ && n_tokens == 2048 && n_tokens <= options_.max_batch &&
+-      gamma != nullptr && c.hc_count == 4 && c.hidden_size == 2560 &&
+-      c.HcDim() <= model_->max_half_cols();
++      !wide_mixer_ && lie_q2_deferred_norm_rows(n_tokens) &&
++      n_tokens <= options_.max_batch && gamma != nullptr && c.hc_count == 4 &&
++      c.hidden_size == 2560 && c.HcDim() <= model_->max_half_cols();
+   auto* norm_half = produce_half ? static_cast<__half*>(s_.x_half) : nullptr;
+   const auto publish_half = [&]() {
+     half_src_ = s_.xn;
+@@ -1829,10 +1829,10 @@
+                         l.ffn_down_exps.cols == 768;
+   // Only the measured wide Q2 path changes its transient storage.
+   // Reuse the existing F16-pending lifetime and keep F32 allocation capacity.
+-  const bool compact_down = iq2_wmma && !wide_mixer_ && n_tokens == 2048 &&
+-                            c.hc_count == 4 && c.hc_low_rank == 320 &&
+-                            c.num_experts_used > 0 &&
+-                            c.num_experts_used <= 32 && out == s_.block_out;
++  const bool compact_down =
++      iq2_wmma && !wide_mixer_ && lie_q2_deferred_norm_rows(n_tokens) &&
++      c.hc_count == 4 && c.hc_low_rank == 320 && c.num_experts_used > 0 &&
++      c.num_experts_used <= 32 && out == s_.block_out;
+   if (!RouteHints(n_tokens, error_msg, iq2_wmma)) {
+     return false;
+   }
+--- a/src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.c
++++ b/src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.c
+@@ -1,32 +1,32 @@
+ /* SPDX-License-Identifier: MIT */
+ #include "iq2_mixed_tiles.h"
+ 
+-int lie_iq2_mixed_tiles(const uint32_t *counts, uint32_t experts,
+-                        uint32_t tokens, uint32_t used, int32_t *map,
+-                        size_t capacity, struct lie_iq2_tile_spans *spans) {
+-    if (!counts || !map || !spans || !experts || experts > 512 ||
+-        !tokens || tokens > 4096 || !used || used > experts)
+-        return 0;
+-    uint32_t total = 0, wide = 0, tail = 0;
+-    for (uint32_t e = 0; e < experts; ++e) {
+-        if (counts[e] > tokens)
+-            return 0;
+-        const uint32_t groups = (counts[e] + 63u) / 64u;
+-        wide += groups / 2u;
+-        tail += groups & 1u;
+-        total += counts[e];
+-    }
+-    if (total != tokens * used || (size_t)wide + tail > capacity)
+-        return 0;
+-    uint32_t wi = 0, ti = wide;
+-    for (uint32_t e = 0; e < experts; ++e) {
+-        const uint32_t groups = (counts[e] + 63u) / 64u;
+-        for (uint32_t j = 0; j < groups / 2u; ++j)
+-            map[wi++] = (int32_t)(e | (j << 16));
+-        if (groups & 1u)
+-            map[ti++] = (int32_t)(e | ((groups - 1u) << 16));
+-    }
+-    spans->wide = wide;
+-    spans->tail = tail;
+-    return 1;
++int lie_iq2_mixed_tiles(const uint32_t* counts, uint32_t experts,
++                        uint32_t tokens, uint32_t used, int32_t* map,
++                        size_t capacity, struct lie_iq2_tile_spans* spans) {
++  if (!counts || !map || !spans || !experts || experts > 512 || !tokens ||
++      tokens > 8192 || !used || used > experts)
++    return 0;
++  uint32_t total = 0, wide = 0, tail = 0;
++  for (uint32_t e = 0; e < experts; ++e) {
++    if (counts[e] > tokens)
++      return 0;
++    const uint32_t groups = (counts[e] + 63u) / 64u;
++    wide += groups / 2u;
++    tail += groups & 1u;
++    total += counts[e];
++  }
++  if (total != tokens * used || (size_t)wide + tail > capacity)
++    return 0;
++  uint32_t wi = 0, ti = wide;
++  for (uint32_t e = 0; e < experts; ++e) {
++    const uint32_t groups = (counts[e] + 63u) / 64u;
++    for (uint32_t j = 0; j < groups / 2u; ++j)
++      map[wi++] = (int32_t)(e | (j << 16));
++    if (groups & 1u)
++      map[ti++] = (int32_t)(e | ((groups - 1u) << 16));
++  }
++  spans->wide = wide;
++  spans->tail = tail;
++  return 1;
+ }
+--- a/src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/iq2_mixed_tiles.h
+@@ -9,19 +9,19 @@
+ #endif
+ 
+ struct lie_iq2_tile_spans {
+-    uint32_t wide;
+-    uint32_t tail;
++  uint32_t wide;
++  uint32_t tail;
+ };
+ 
+ /* Experimental host map for the existing Qwen IQ2 128/64-row kernels.
+  * Descriptors encode expert in bits 0..15 and the width-relative tile index
+  * in bits 16..30. Wide descriptors precede tails; each live row occurs once.
+  * Inputs/outputs must not alias. Failure leaves map and spans unchanged.
+- * Supports the current qualification bound: 1..512 experts, <=4096 tokens.
++ * Supports the current qualification bound: 1..512 experts, <=8192 tokens.
+  * No allocation, device access or model execution. */
+-int lie_iq2_mixed_tiles(const uint32_t *counts, uint32_t experts,
+-                        uint32_t tokens, uint32_t used, int32_t *map,
+-                        size_t capacity, struct lie_iq2_tile_spans *spans);
++int lie_iq2_mixed_tiles(const uint32_t* counts, uint32_t experts,
++                        uint32_t tokens, uint32_t used, int32_t* map,
++                        size_t capacity, struct lie_iq2_tile_spans* spans);
+ 
+ #ifdef __cplusplus
+ }
+--- a/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_deferred_norm_state.h
+@@ -8,34 +8,44 @@
+ /* Host identity only. Device buffers remain owned by the transitional executor
+  * and all producer/consumer launches use its existing ordered stream. */
+ typedef struct {
+-    const float *residual;
+-    const float *gamma;
+-    float *scales;
+-    uint32_t rows;
++  const float* residual;
++  const float* gamma;
++  float* scales;
++  uint32_t rows;
+ } lie_q2_deferred_norm_state;
+ 
+-static inline void lie_q2_deferred_norm_clear(lie_q2_deferred_norm_state *state) {
+-    state->residual = NULL;
+-    state->gamma = NULL;
+-    state->scales = NULL;
+-    state->rows = 0;
++/* Only selected full chunk shapes; other partial rows retain their fallback. */
++static inline bool lie_q2_deferred_norm_rows(uint32_t rows) {
++  return rows == 2048 || rows == 4096 || rows == 8192;
+ }
+ 
+-static inline bool lie_q2_deferred_norm_publish(lie_q2_deferred_norm_state *state,
+-        const float *residual, const float *gamma, float *scales, uint32_t rows) {
+-    lie_q2_deferred_norm_clear(state);
+-    if (residual == NULL || gamma == NULL || scales == NULL || rows != 2048)
+-        return false;
+-    state->residual = residual;
+-    state->gamma = gamma;
+-    state->scales = scales;
+-    state->rows = rows;
+-    return true;
++static inline void lie_q2_deferred_norm_clear(
++    lie_q2_deferred_norm_state* state) {
++  state->residual = NULL;
++  state->gamma = NULL;
++  state->scales = NULL;
++  state->rows = 0;
+ }
+ 
+-static inline bool lie_q2_deferred_norm_matches(const lie_q2_deferred_norm_state *state,
+-        const float *residual, const float *gamma, uint32_t rows) {
+-    return state->rows == 2048 && state->scales != NULL &&
+-        state->residual == residual && state->gamma == gamma && state->rows == rows;
++static inline bool lie_q2_deferred_norm_publish(
++    lie_q2_deferred_norm_state* state, const float* residual,
++    const float* gamma, float* scales, uint32_t rows) {
++  lie_q2_deferred_norm_clear(state);
++  if (residual == NULL || gamma == NULL || scales == NULL ||
++      !lie_q2_deferred_norm_rows(rows))
++    return false;
++  state->residual = residual;
++  state->gamma = gamma;
++  state->scales = scales;
++  state->rows = rows;
++  return true;
++}
++
++static inline bool lie_q2_deferred_norm_matches(
++    const lie_q2_deferred_norm_state* state, const float* residual,
++    const float* gamma, uint32_t rows) {
++  return lie_q2_deferred_norm_rows(state->rows) && state->scales != NULL &&
++         state->residual == residual && state->gamma == gamma &&
++         state->rows == rows;
+ }
+ #endif
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_hc_down_bk256.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_hc_down_bk256.inc
+@@ -22,10 +22,11 @@
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ */
+-// Adapted from Aristo94/GSQHalo.cpp, pin5fc881b114c1ea130f5df6a30a98be2f8d397de6,
+-// ggml/src/ggml-cuda/mmb.cu mmb_hcd_kernel and fragment loaders.
+-// LIE adaptation: original F16 operands, two K16 chains, gfx1151 only.
+-// Arithmetic equivalence to hipBLASLt7526 is not asserted.
++// Adapted from Aristo94/GSQHalo.cpp,
++// pin5fc881b114c1ea130f5df6a30a98be2f8d397de6, ggml/src/ggml-cuda/mmb.cu
++// mmb_hcd_kernel and fragment loaders. LIE adaptation: original F16 operands,
++// two K16 chains, gfx1151 only. Arithmetic equivalence to hipBLASLt7526 is not
++// asserted.
+ namespace {
+ typedef std::uint32_t HcDownVector4 __attribute__((ext_vector_type(4)));
+ __device__ __forceinline__ v16h HcDownFragment16(const std::uint16_t* p) {
+@@ -173,7 +174,7 @@
+ bool HcDownBk256F16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+                         hipStream_t stream) {
+-  if (!w || !x || !out || batch < 96 || batch > 2048 || m != 320 || k != 10240)
++  if (!w || !x || !out || batch < 96 || batch > 8192 || m != 320 || k != 10240)
+     return false;
+   hipLaunchKernelGGL((HcDownBk256Kernel<64, 32, 16, 16, 256, 1>),
+                      dim3(5, (batch + 31) / 32), dim3(256), 0, stream,

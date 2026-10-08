@@ -1,0 +1,119 @@
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -5536,42 +5536,82 @@
+     // freely, the compiler sinks them below it and the commit waits on
+     // the full memory latency.
+     __builtin_amdgcn_sched_barrier(0);
+-#pragma unroll
+-    for (int kb = 0; kb < BK; ++kb) {
+-      v16h a_lo[kWaveRowTiles];
+-      v16h a_hi[kWaveRowTiles];
+-#pragma unroll
+-      for (int i = 0; i < kWaveRowTiles; ++i) {
+-        const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
+-        uint4 c[4];
+-#pragma unroll
+-        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
+-          c[q] = s_a[kb][row][swizzle(row, q + (kHcUpChains ? chain * 2 : 0))];
++    if constexpr (kHalfWeights && !kHcMix && BM == 64 && BN == 128 && BK == 2 &&
++                  WM == 2 && WN == 4 && kRowGroup == 5) {
++      // Keep the two original ordered K16 sums. Consume each operand half
++      // before loading the other, shortening LDS-fragment register lifetimes.
++#pragma unroll
++      for (int kb = 0; kb < BK; ++kb) {
++#pragma unroll
++        for (int phase = 0; phase < 2; ++phase) {
++          v16h a[kWaveRowTiles];
++#pragma unroll
++          for (int i = 0; i < kWaveRowTiles; ++i) {
++            const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
++            uint4 c[2];
++#pragma unroll
++            for (int q = 0; q < 2; ++q)
++              c[q] = s_a[kb][row][swizzle(row, q + phase * 2)];
++            __builtin_memcpy(&a[i], &c[0], 32);
++          }
++#pragma unroll
++          for (int j = 0; j < kWaveTokTiles; ++j) {
++            const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
++            uint4 c[2];
++#pragma unroll
++            for (int q = 0; q < 2; ++q)
++              c[q] = s_b[kb][t][swizzle(t, q + phase * 2)];
++            v16h b;
++            __builtin_memcpy(&b, &c[0], 32);
++#pragma unroll
++            for (int i = 0; i < kWaveRowTiles; ++i) {
++              if (phase == 0)
++                acc[i][j] = Wmma(a[i], b, acc[i][j]);
++              else
++                acc_high[i][j] = Wmma(a[i], b, acc_high[i][j]);
++            }
++          }
+         }
+-        __builtin_memcpy(&a_lo[i], &c[0], 32);
+-        if constexpr (!kHcUpChains)
+-          __builtin_memcpy(&a_hi[i], &c[2], 32);
+-      }
+-#pragma unroll
+-      for (int j = 0; j < kWaveTokTiles; ++j) {
+-        const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
+-        uint4 c[4];
+-#pragma unroll
+-        for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
+-          c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
++      }
++    } else {
++#pragma unroll
++      for (int kb = 0; kb < BK; ++kb) {
++        v16h a_lo[kWaveRowTiles];
++        v16h a_hi[kWaveRowTiles];
++#pragma unroll
++        for (int i = 0; i < kWaveRowTiles; ++i) {
++          const int row = (((wave_row * kWaveRowTiles) + i) * 16) + sub_lane;
++          uint4 c[4];
++#pragma unroll
++          for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++            c[q] =
++                s_a[kb][row][swizzle(row, q + (kHcUpChains ? chain * 2 : 0))];
++          }
++          __builtin_memcpy(&a_lo[i], &c[0], 32);
++          if constexpr (!kHcUpChains)
++            __builtin_memcpy(&a_hi[i], &c[2], 32);
+         }
+-        v16h b_lo;
+-        v16h b_hi;
+-        __builtin_memcpy(&b_lo, &c[0], 32);
+-        if constexpr (!kHcUpChains)
+-          __builtin_memcpy(&b_hi, &c[2], 32);
+-#pragma unroll
+-        for (int i = 0; i < kWaveRowTiles; ++i) {
+-          acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
+-          if constexpr (kHalfWeights && !kHcUpChains)
+-            acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
+-          else if constexpr (!kHcUpChains)
+-            acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
++#pragma unroll
++        for (int j = 0; j < kWaveTokTiles; ++j) {
++          const int t = (((wave_tok * kWaveTokTiles) + j) * 16) + sub_lane;
++          uint4 c[4];
++#pragma unroll
++          for (int q = 0; q < (kHcUpChains ? 2 : 4); ++q) {
++            c[q] = s_b[kb][t][swizzle(t, q + (kHcUpChains ? chain * 2 : 0))];
++          }
++          v16h b_lo;
++          v16h b_hi;
++          __builtin_memcpy(&b_lo, &c[0], 32);
++          if constexpr (!kHcUpChains)
++            __builtin_memcpy(&b_hi, &c[2], 32);
++#pragma unroll
++          for (int i = 0; i < kWaveRowTiles; ++i) {
++            acc[i][j] = Wmma(a_lo[i], b_lo, acc[i][j]);
++            if constexpr (kHalfWeights && !kHcUpChains)
++              acc_high[i][j] = Wmma(a_hi[i], b_hi, acc_high[i][j]);
++            else if constexpr (!kHcUpChains)
++              acc[i][j] = Wmma(a_hi[i], b_hi, acc[i][j]);
++          }
+         }
+       }
+     }

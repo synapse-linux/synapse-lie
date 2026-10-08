@@ -58,6 +58,62 @@ frontiers differ at every point, so the cross-stack rates are observations
 across changed kernel/runtime/container configurations, not a controlled
 quality-equivalent comparison.
 
+## Terminal Bench Core-19
+
+The unchanged `git-leak-recovery` smoke passes **1/1 at the first attempt**
+(configured pass@2). Harbor 0.20 / Terminus-2 2.0 executes the terminal commands
+on CPU host `.157`; original-weight GPU inference uses `.161` HTTP port 8000.
+The upstream benchmark is independently fetched at `07034484346d`, with 232
+source files verified. Tasks, prompts and verifiers stay unchanged.
+
+| Run | Final score | Attempts executed | Input tokens | Output tokens | Task duration |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Core-19 smoke, `git-leak-recovery` | 1/1, zero errors | 1 | 26,497 | 1,907 | 401.330 s |
+| Core-19 full, 19 tasks | Stopped by owner; deferred | — | — | — | — |
+
+The [smoke receipt](../../../../development/validation/terminal-smoke-point-gpu-2026-10-05.json)
+and [portable score, transcript and closure evidence](data/rocm10-terminal-smoke-r16.tar.gz)
+bind 65 files. The client, task containers and model processes actually retire;
+both original leases are free, the router is restored and the own temporary
+HTTP permit is removed with identical firewall status before/after. GPU host
+CPU/GPU/NVMe maxima are 76.75/77/66.85 C; client CPU maximum is 65.5 C. The
+server observes 44 whole-process threads, including runtime helpers; this does
+not count reactive workers or establish a speedup. This single task does not
+establish the full 19-task score or native OpenAI function-call quality.
+
+The full run started separately at **20:08:35 UTC, 2026-10-05**, using the same
+`2359488` runtime/code `5bdd405`, UD-Q4_K_XL, ROCm 10 and AR profile.
+The [startup receipt](../../../../development/validation/terminal-full-point-start-2026-10-05.json)
+and [startup evidence](data/rocm10-terminal-full-start-r16.tar.gz) verify doctor,
+actual Harbor and a real model endpoint; startup is not a score or release.
+The owner stopped it at **21:42 UTC**, before any task completed, and deferred
+Terminal Bench until the functional modifications are finished. The
+[stop receipt](../../../../development/validation/terminal-full-stopped-point-2026-10-05.json)
+and [retained logs and closure](data/rocm10-terminal-full-stopped-r16.tar.gz)
+record actual client/model/container/lease/HTTP retirement and router restoration.
+The unfinished run has no full score. A later run needs the finished runtime,
+a new job name and fresh machine coordination.
+Both runs preserve the original C1, two conditional attempts and three hours
+per attempt, with context 262,144 discovered from `/v1/models`. The full run can
+take many hours. The command used for the stopped run is retained below; it is
+not an instruction to resume the cancelled job. From the independently fetched
+external benchmark root:
+
+```sh
+./terminal_bench.py run --tier full \
+  --endpoint http://192.168.5.161:8000/v1 \
+  --model qwen3.8-flash-next --platform strix-point \
+  --model-name Qwen3.8-Flash-Next --engine synapse-lie \
+  --engine-version 23594881f406adcaf47e156d4f8e880aa735b081 \
+  --backend rocm --backend-version 10.0 \
+  --quant UD-Q4_K_XL --inference-profile ar \
+  --job-name lie-point-r16-core19-full-r1
+```
+
+Harbor/Terminal Bench are optional external evaluation tools that use Python.
+Synapse LIE and `synapse-lie-bench`, including their default tests and native
+CSV/JSON/SVG/PNG reports, remain Python-free.
+
 ## Fresh full-prompt prefill through 128K
 
 The paired `fresh-128k` runs each begin with an empty sequence, reserve 262,144
@@ -98,7 +154,8 @@ directory:
 ```sh
 cmake -S . -B build/point-report -G Ninja -DBUILD_TESTING=OFF
 cmake --build build/point-report --target synapse-lie-bench -j2
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-rocm10-fresh128/lie run/point-rocm10-fresh128/gufo
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh128-lie.tar.gz \
   -C run/point-rocm10-fresh128/lie measurements.jsonl
@@ -147,7 +204,8 @@ LIE and 82.375/86/70.85 C for Gufo. Reproduce the report offline with the
 native C17 reporter:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-rocm10-fresh256/lie run/point-rocm10-fresh256/gufo
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-fresh256-lie.tar.gz \
   -C run/point-rocm10-fresh256/lie measurements.jsonl
@@ -163,6 +221,135 @@ build/point-report/synapse-lie-bench --suite report \
 The pre-integration binary at source checkpoint `1877b03` has no newly added
 prefill/decode phase clocks. The two samples per point show observed variation,
 not a broad confidence interval or a new-runtime speed claim.
+
+## Physical 1M context and fixed generation
+
+The `1bff953` runtime completes a fresh **1,048,448-token physical prompt plus
+128 output tokens** at capacity 1,048,576, using YaRN4, AR, chunk256, C1,
+zero warmups and one measured repetition. RAM/SSD prefix caching is off.
+`--ignore-eos` explicitly continues generation to the fixed budget. The earlier
+natural-EOS run ended after 43 tokens and remains a failed TG128 gate.
+
+| Physical prompt | Output | Prefill tok/s | Prefill seconds | Decode tok/s | Decode seconds | First output seconds | Complete wall seconds |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1,048,448 | 128 | 140.642 | 7,454.744 | 7.741 | 16.535 | 7,462.251 | 7,478.560 |
+
+GPU GTT peaks at **109.183 GiB**; minimum sampled available RAM is **5.379 GiB**.
+CPU/GPU/NVMe maxima are **78 / 79 / 66.85 C**. All child/controller exits are
+zero, the owned GPU processes retire, original weights stay unchanged and the
+router and original lease are restored/released. Process thread counts were
+not recorded for this window; C1 identifies one client. This is a capacity and
+functional result. Recall quality, repetitions and matched Gufo/Halogen results
+at 1M remain pending. Its chunk size, YaRN profile and runtime differ from the
+earlier 128K/256K tables, so they do not form a controlled speed comparison.
+
+The [complete CSV](charts/physical1m-fixed-r15.csv),
+[validation receipt](../../../../development/validation/physical1m-fixed-point-gpu-2026-10-05.json)
+and [portable raw archive](data/rocm10-physical1m-fixed-r15.tar.gz) contain the
+physical input/output IDs, timings, all progress snapshots, telemetry and
+closure evidence. After checking `data/archives.sha256`, extract its `tokens.json`
+to reproduce the physical workload with a matching GPU build and fresh admission:
+
+```sh
+synapse-lie-bench --suite core --model /path/to/model-00001-of-00004.gguf \
+  --tokens-file /path/to/extracted/tokens.json --output run/physical1m.jsonl \
+  --context 1048576 --rope-scaling yarn4 --chunk 256 --users 1 --tg 128 \
+  --ignore-eos --kv-cache-ram-mb 0 --kv-cache-policy ds4 \
+  --warmups 0 --repetitions 1 --timeout-ms 86400000 --progress-ms 10000
+```
+
+## Original-weight recall: 8K, 128K and near 256K
+
+The current `90a88455`/r68 runtime passes both cold Chat SSE turns at each size
+on `.161` with the native `long-context-recall` preset, seed 77, native RoPE, capacity
+262,144, chunk/scratch 256 and one active sequence. Prefix caching is disabled.
+Turn one retrieves the middle binding; turn two retains the full original ledger
+and retrieves the start/end bindings, whose values were absent from the first
+reply. Three calibration requests per window are unscored. C1 denotes one sequence.
+
+| Target / turn | Physical input | Output | Prefill tok/s (s) | Decode tok/s (s) | TTFT s | Wall s | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 8K / middle | 8,190 | 38 | 271.661 (30.148) | 10.375 (3.663) | 30.672 | 34.254 | Pass |
+| 8K / start/end | 8,298 | 74 | 268.181 (30.942) | 10.395 (7.119) | 31.468 | 38.509 | Pass |
+| 128K / middle | 131,070 | 38 | 238.781 (548.912) | 10.018 (3.793) | 549.447 | 553.156 | Pass |
+| 128K / start/end | 131,178 | 74 | 238.027 (551.106) | 10.033 (7.376) | 551.639 | 558.933 | Pass |
+| Near 256K / middle | 261,630 | 38 | 227.420 (1150.426) | 9.655 (3.936) | 1150.974 | 1154.824 | Pass |
+| Near 256K / start/end | 261,738 | 74 | 226.864 (1153.723) | 9.661 (7.659) | 1154.265 | 1161.839 | Pass |
+
+First physical inputs round down from targets 8,192/131,072/261,632 to complete records.
+Outputs finish naturally below the 128-token budget. These distinct quality
+turns are not a fixed-output performance comparison or repeated measurements
+of one prompt. All three windows verify 18 artifacts each, complete saved SSE, original
+model stats and process/container/router/lease retirement. The
+[8K receipt and raw data](../../../../development/validation/recall-native-8k-ar-point-2026-10-07.json)
+retain the corrected local sealing assertion failure, without a GPU repeat;
+the [128K receipt and raw data](../../../../development/validation/recall-native-128k-ar-point-2026-10-07.json)
+retain 49 portable members. Its 1000 thermal samples peak CPU 78.75 / GPU 80 /
+NVMe 64.85 C. The
+[near-256K receipt and raw data](../../../../development/validation/recall-native-near256k-ar-point-2026-10-07.json)
+retain 47 portable members. Its 1937 samples peak CPU 80 / GPU 81 / NVMe 67.85 C.
+The interim reader ran after the supervisor had exited and refused with exit 1;
+complete collected wire and strong closure verify independently, without a GPU repeat.
+
+The 128K prefill snapshot records 28 process threads and one active sequence.
+Management GETs return HTTP 200 during prefill; this single observation does
+not establish latency distributions, thread-role attribution or reactive speedup.
+Thread counts were not recorded in the 8K window. The
+[recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
+defines the remaining three-seed native/YaRN ladder through 1M. The newer
+YaRN4 8K, 128K, near-256K, near-512K, 786K and near-1M controls are below; other seeds/profiles,
+MTP quality and matched comparisons remain pending.
+
+### YaRN4 short recall control: current r70 runtime
+
+The separate `4c703b3d`/r70 runs use the same seed 77 questions, cold two-turn
+workload and chunk 256, with YaRN4 and capacity 1,048,576. Actual inputs cover
+8K, 128K, near-256K, near-512K, 786K and near-1M. These selected quality cohorts
+do not qualify other seeds/profiles or matched scaling/runtime performance.
+
+| Target / turn | Physical input | Output | Prefill tok/s (s) | Decode tok/s (s) | TTFT s | Wall s | Recall |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 8K / middle | 8,190 | 38 | 268.409 (30.513) | 10.348 (3.672) | 32.293 | 35.919 | Pass |
+| 8K / start/end | 8,298 | 74 | 264.892 (31.326) | 10.361 (7.143) | 33.118 | 40.212 | Pass |
+| 128K / middle | 131,070 | 38 | 236.240 (554.818) | 10.002 (3.799) | 556.617 | 560.362 | Pass |
+| 128K / start/end | 131,178 | 74 | 235.401 (557.254) | 10.010 (7.393) | 559.038 | 566.381 | Pass |
+| Near-256K / middle | 261,630 | 38 | 224.678 (1164.464) | 9.670 (3.930) | 1166.266 | 1170.141 | Pass |
+| Near-256K / start/end | 261,738 | 74 | 223.663 (1170.234) | 9.684 (7.642) | 1172.039 | 1179.627 | Pass |
+| Near-512K / middle | 523,774 | 38 | 210.096 (2493.021) | 9.026 (4.210) | 2494.857 | 2499.005 | Pass |
+| Near-512K / start/end | 523,882 | 74 | 209.716 (2498.055) | 9.027 (8.198) | 2499.884 | 2508.019 | Pass |
+| 786K / middle | 786,430 | 38 | 198.139 (3969.079) | 8.409 (4.519) | 3970.928 | 3975.378 | Pass |
+| 786K / start/end | 786,538 | 74 | 197.833 (3975.766) | 8.436 (8.772) | 3977.603 | 3986.305 | Pass |
+| Near-1M / middle | 1,048,062 | 38 | 187.678 (5584.360) | 8.007 (4.746) | 5586.228 | 5590.895 | Pass |
+| Near-1M / start/end | 1,048,170 | 74 | 187.413 (5592.847) | 7.960 (9.297) | 5594.716 | 5603.938 | Pass |
+
+The [near-1M receipt and complete raw data](../../../../development/validation/recall-yarn4-near1m-ar-point-2026-10-08.json)
+verify both saved SSE answers, all 18 collected artifacts, five actual process
+identities and complete container/service/lease retirement. The 8,965 thermal
+samples peak CPU83/GPU82/NVMe68.85 C. Natural outputs remain below TG128;
+these results do not qualify a fixed-output throughput comparison.
+
+Both outputs stop naturally. The [receipt and complete raw data](../../../../development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
+bind independent saved-SSE answers, full continuation, all 18 collected hashes
+and actual process/container/service/lease closure. The 151 thermal samples peak
+CPU 74.125/GPU 74/NVMe 63.85 C. The
+[128K receipt and complete raw data](../../../../development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+retain the same independent answers and closure checks, with 47 portable members.
+Its 988 thermal samples peak CPU 79.5/GPU 80/NVMe 65.85 C; GPU is observed only.
+The [near-256K receipt and complete raw data](../../../../development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+retain 55 portable members and all 18 verified hashes. Its 2028 thermal samples
+peak CPU 82.875/GPU 83/NVMe 65.85 C, with CPU/NVMe guarded and GPU observed only.
+The [near-512K receipt and complete raw data](../../../../development/validation/recall-yarn4-near512k-ar-point-2026-10-08.json)
+retain 53 portable members and all 18 verified hashes. Both exact answers pass
+with full continuation; 4104 thermal samples peak CPU 80.5/GPU 81/NVMe 65.85 C.
+All four observed identities and the full container are retired; all four peers
+receive verified release. CPU/NVMe are guarded and GPU is observed only.
+The [786K receipt and complete raw data](../../../../development/validation/recall-yarn4-786k-ar-point-2026-10-08.json)
+verify both exact answers, zero cached tokens and all 18 artifact hashes. Both
+responses stop naturally. All five actual process identities and the complete
+container retire, the original lease is released, and all four peers receive
+verified release. The 6,450 observations peak CPU 80.75/GPU 82/NVMe 68.85 C.
+These cohorts do not provide a matched fixed-output performance graph. Runtime/profile
+identities remain explicit; historical r68 native-RoPE rows are not r70 qualification.
 
 ## Modern C17 core MTP vs AR on the GPU
 
@@ -236,7 +423,8 @@ Reproduce an 8K comparison and its prefill/decode CSV and graphs offline from
 the repository root, without model weights or GPU access:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-mtp-replay-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-r3.tar.gz \
   -C run/point-modern-mtp-replay-r3
@@ -288,7 +476,8 @@ PID 101236 in KFD, no LIE container and the private lease free.
 Replay the two comparisons with the native C17 reporter:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-cache-replay-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-mtp-cache-r3.tar.gz \
   -C run/point-modern-cache-replay-r3
@@ -302,6 +491,127 @@ done
 ```
 
 ### Original-weight HTTP AR and MTP gates
+
+The current matching `33d12a02` build adds the C17 schema publication workflow
+and independent immutable prompt ownership shared by reasoning/tools. It passes
+the unchanged **37 controls in AR and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-schema-compile-point-gpu-2026-10-06.json)
+and [portable raw evidence](data/rocm10-schema-compile-openai-r31.tar.gz) record
+coherent 102-file HIP ON/OFF providers, private LIE/model/reference consumers,
+telemetry and actual closure. The official Gufo HTTP frontend is not built in
+this gate. These are selected functional controls; no new performance graph or
+throughput comparison is implied.
+
+The preceding matching `72e9e831` build adds C17 ownership of derived schema
+values and transformation staging. It passes the unchanged **37 controls in AR
+and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-schema-store-point-gpu-2026-10-06.json)
+and [portable raw evidence](data/rocm10-schema-store-openai-r30.tar.gz)
+record coherent 99-file HIP ON/OFF providers, matching private consumers,
+telemetry and actual closure. These are selected functional controls, with no
+new throughput measurement or graph. HOST lifetime and complete grammar
+witnesses retain their separate scope.
+
+The preceding matching `ad53e681` build removes duplicate C++ grammar rule/class
+payloads and passes the same **37 controls in AR and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-grammar-storage-point-gpu-2026-10-06.json)
+and [portable raw evidence](data/rocm10-grammar-storage-openai-r29.tar.gz)
+retain coherent 96-file HIP ON/OFF providers, matching private model/frontends,
+telemetry and actual closure. This is functional qualification; no new
+throughput comparison or graph is claimed.
+
+The preceding matching `3c4cac56` build adds C17 root schema admission and passes
+these same **37 controls in AR and MTP**. The
+[source-bound receipt](../../../../development/validation/c17-schema-root-point-gpu-2026-10-06.json)
+and [portable raw archive](data/rocm10-schema-root-openai-r28.tar.gz)
+record the complete coherent 96-file ON/OFF providers, actual compiler/linker
+selections, telemetry and closure. These qualify selected functional paths;
+individual root GPU branches and matched performance remain open. The earlier
+`117cbae6` C1 correctness controls below retain their own source identity.
+
+The matching `117cbae6` build, including C17 request grammar snapshots and
+independent speculative copies, passes the same 37 original-weight controls in
+both AR and MTP. The
+[source-bound receipt](../../../../development/validation/c17-request-state-point-gpu-2026-10-06.json)
+and [portable raw archive](data/rocm10-request-state-openai-r27.tar.gz)
+record both coherent 93-file ON/OFF providers, actual compiler/linker selections,
+all exits, model/predictor stats and complete process/lease retirement. Two C1
+direct controls also match full physical inputs, 128 outputs per point and
+prefill/final-decode frontier hashes with Gufo at prefix depths 0/4,096;
+warmup0/rep1 provides a correctness control. These are selected functional
+controls; individual numeric/format branches, SSD BPE, independent probabilities,
+faults, quality, resources and matched performance remain open. No new benchmark
+curve is added by this functional gate.
+
+
+The earlier frozen r11 runtime (`abb69d5`) passes **34/34 checks in both AR and
+MTP**, including incremental function arguments/results/replay, allowed tools,
+2/8 choices, seeded replay, probabilities/bias, stops, constrained JSON and
+retained/background Responses lifecycle. These are functional wire/lifetime
+checks, separate from the served throughput comparisons above.
+The [AR receipt and retained failures](../../../../development/validation/openai-controls-point-gpu-2026-10-04.json)
+and [new MTP receipt](../../../../development/validation/openai-controls-mtp-point-gpu-2026-10-04.json)
+bind the original weights, predictor, source/binaries, exact checks and closure.
+The MTP window verifies fifteen artifacts and releases at 22:22:10.325729 UTC;
+server/client/controller/supervisor exits are 0, CPU/GPU/NVMe maxima are
+61.5/66/66.85 C, models are unchanged and the named router/lease are restored.
+Terminal Bench full evaluation and qualification of later sampling-filter,
+fixed-EOS and steering changes remain separate gates. The earlier short gates below
+retain their original methods and results.
+
+The newer r12 runtime (`a3066a7`) passes **37/37 AR checks**, adding advertised
+context/output limits and automatic omitted/null budgets. Both APIs generate
+327 tokens in JSON and SSE, beyond the earlier implicit 128-token default,
+with identical complete constrained output. This verifies budget behavior,
+not task quality or throughput. The new MTP37 window is interrupted by an
+external GPU client and remains unqualified; its actual failure and successful
+process/service/lease closure are retained in the
+[r12 receipt](../../../../development/validation/automatic-output-point-gpu-2026-10-04.json).
+
+The integrated r15 runtime (`1bff953`) now passes **37/37 in both AR and MTP**,
+including automatic output budgets. Its newer C17 grammar/history/distribution
+components remain tied to that source and binary inventory.
+The [GPU receipt](../../../../development/validation/c17-sampling-point-gpu-2026-10-05.json)
+also records two seeded PP1500/TG128 sessions for each profile below. Each pair
+reproduces identical output token IDs. These short functional samples use an
+empty prompt cache and explicit ignore-EOS; they are not a paired Gufo cost or
+long-context/quality comparison. Rates are the two complete samples, in tok/s.
+
+| Profile | Prefill samples | Decode samples |
+| --- | ---: | ---: |
+| Greedy AR, temperature 0 | 460.451 / 461.022 | 10.587 / 10.573 |
+| DS4 AR, temperature 1, min-p 0.05 | 461.621 / 462.139 | 10.314 / 10.434 |
+| DS4 MTP, temperature 1, min-p 0.05 | 449.433 / 456.537 | 12.634 / 12.660 |
+
+All profiles use seed 123, top-p 1, top-k 0 and no frequency/presence penalty;
+greedy min-p is 0. MTP drafts 228 and accepts 124 tokens across its two sessions.
+The five completed r15 windows have CPU/GPU/NVMe maxima 71.125/71/67.85 C,
+verified model/process/service/lease closure and 67 SHA-verified artifacts.
+The separate [physical1M fixed-TG128 gate](#physical-1m-context-and-fixed-generation)
+also passes; recall and matched long-context comparisons remain open.
+
+The newer `2359488` runtime includes default-ON C17 finite values/container
+construction and compiled-schema caching. Its matching build and **37 AR plus
+37 MTP OpenAI controls** pass with 40 SHA-verified artifacts and complete
+process/model/service/lease closure. The
+[receipt and raw bindings](../../../../development/validation/c17-finite-cache-point-gpu-2026-10-05.json)
+and [portable archive](data/rocm10-finite-cache-openai-r16.tar.gz) identify that
+source. These are functional checks; the earlier rate tables retain their
+original runtimes. Broader numerical/fault/resource/matched-cost gates remain
+open. The later unchanged [Terminal smoke](#terminal-bench-core-19) passes 1/1;
+the full 19-task evaluation is stopped and deferred until functional changes
+and their qualification finish.
+
+The matching r18 runtime (`6a48da3`) adds C17 schema memo/dispatch/Visit/body
+control and passes **37/37 AR and 37/37 MTP controls**. The
+[receipt](../../../../development/validation/c17-schema-body-point-gpu-2026-10-05.json)
+and [portable evidence](data/rocm10-schema-body-openai-r18.tar.gz) bind the
+57-file provider, successful build and actual closure. CPU/GPU/NVMe maxima in
+the inference windows are 66.25/69/65.85 C. Both modes observe 44 whole-process
+threads, including runtime helpers; no inference worker is added and this is
+no measured reactive speedup. Earlier performance tables retain their source
+identities. New SSD BPE cases are host-qualified; original-weight cache/branch/
+fault/resource/cost acceptance remains separate.
 
 Two additional `.161` windows start `synapse-lie-server` in the same supervised
 ROCm 10 Distrobox, once with AR and once with the copied Q8 predictor explicitly
@@ -329,7 +639,8 @@ the restored router PID 103651 in KFD, no LIE container and the private lease
 free. Recheck the archive from the repository root:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-http-replay-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-http-r3.tar.gz \
   -C run/point-modern-http-replay-r3
@@ -372,7 +683,8 @@ the authorized router and release the private lease; final postflight sees
 only router PID 106168 in KFD and no LIE container.
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-ssd-restart-r3
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-ssd-restart-r3.tar.gz \
   -C run/point-modern-ssd-restart-r3
@@ -384,6 +696,121 @@ done
 
 This qualifies normal cross-process persistence on `.161`. Abrupt process
 failure, host reboot and SSD eviction remain separate tests.
+
+### SSD text reconstruction across processes
+
+This functional check uses the unchanged qualified `20777005` runtime. Four
+independent core processes calibrate a token, measure fresh BPE, persist a
+longer physical history, then restore it from identical visible text. RAM
+retention is zero; SSD quota/staging are 4 GiB/512 MiB. Context is 4,096, chunk
+256, C1, greedy sampling, EOS ignored, one repetition and no warmup.
+
+| Mode | Fresh BPE tokens | Saved physical tokens | Hot SSD tokens | Hot prefill tokens | Matching output IDs | MTP drafted/accepted, cold and hot |
+| --- | ---: | ---: | ---: | ---: | ---: | --- |
+| AR | 256 | 2,048 | 2,048 | 0 | 32 | 0 / 0 |
+| MTP | 272 | 2,064 | 2,064 | 0 | 32 | 28 / 21 |
+
+MTP adds a separately tokenized 16-token question after the repeated-character
+prefix. The core captures the full prompt before decode as well as the early
+2,048-token checkpoint; finish capture is disabled. All four native processes
+exit 0 in each selected case. AR's wrapper exits 0. MTP's original wrapper exits
+1 because its expectation omitted the full-prompt checkpoint; corrected strict
+offline validation passes without replay. The
+[receipt](../../../../development/validation/ssd-text-restart-point-gpu-2026-10-06.json)
+preserves that exit and the earlier mount/zero-accepted-draft refusals.
+This qualifies exact reconstruction, not matched performance, scheduled steering
+or general output quality.
+
+The [raw archive](data/rocm10-ssd-text-restart-r21.tar.gz) contains JSONL, telemetry,
+actual exits and both original/corrected QA sources, with no model or KV payload.
+To inspect the records without starting inference:
+
+```sh
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
+mkdir -p run/point-ssd-text-r21
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-ssd-text-restart-r21.tar.gz \
+  -C run/point-ssd-text-r21
+cat run/point-ssd-text-r21/context-r21-mtp-r3-offline-validation-r1.json
+```
+
+### Scheduled steering with SSD
+
+Separate AR/MTP windows use six independent native core processes each. A bounded
+metadata reader sizes an owned sparse 48-by-2560 nonzero direction fixture;
+this is not a learned DS4 bank. Initial scales are zero. FFN/attention change
+at physical indices 128, 273 and 279, covering prefill and generation.
+Context is 4,096, chunk 256, C1, greedy sampling, EOS ignored, one repetition,
+no warmup and RAM retention zero. SSD quota/staging are 4 GiB/512 MiB.
+
+| Scheduled case, both AR and MTP | Physical prompt | SSD-cached tokens | Physically prefilled tokens | Matching output IDs |
+| --- | ---: | ---: | ---: | ---: |
+| Cold reference, SSD off | 272 | 0 | 272 | 32 |
+| SSD with divergent 2,064-token saved spelling | 272 | 0 | 272 | 32 |
+| SSD with compatible prefix before first step | 272 | 128 | 144 | 32 |
+
+All actual step positions and final policies match within and across modes.
+MTP drafts 14 and accepts 3 in each scheduled case. All twelve native processes
+and both supervisors exit 0; model/predictor stats remain unchanged.
+CPU peaks are 64/65.5 C, NVMe 71.85/75.85 C and whole-process thread maxima 44/44,
+including runtime helpers. Fresh 04:04:00 UTC closure retires both windows,
+releases the original lease and verifies restored router 101740 as the only
+KFD owner. No new inference thread or performance gain is claimed.
+
+The [receipt](../../../../development/validation/steering-physical-index-point-gpu-2026-10-06.json)
+and [raw archive](data/rocm10-steering-physical-index-r22.tar.gz) retain source,
+exact input/output/policy witnesses, all exits and telemetry. They contain no
+model or KV payload. This qualifies the selected physical-index/cache regression;
+learned-direction quality, independent graph/correction/fault, vision, later
+mixed-history lookup and matched cost remain open.
+
+```sh
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
+mkdir -p run/point-steering-r22
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-physical-index-r22.tar.gz \
+  -C run/point-steering-r22
+cat run/point-steering-r22/context-r22-cross-mode-r1.json
+```
+
+### Steering bank admission and zero-scale controls
+
+The `modern-core-steering-admission` profile checks model admission and confirmed
+output equality. It uses context 4,096, chunk 256, C1, greedy sampling, EOS
+ignored, no warmup, one repetition and no RAM/SSD retention. The owned sparse
+48-by-2560 direction bank has 48 nonzero values; both active scales are zero.
+
+| Both AR and MTP | Native exits | Physical prompt tokens | Matching output IDs |
+| --- | --- | ---: | ---: |
+| Bank absent | 0 | 272 | 32 |
+| Nonzero bank admitted, scales zero | 0 | 272 | 32 |
+| Fresh core after twelve bank refusals | 0 | 272 | 32 |
+
+Each mode refuses empty/truncated/oversized banks, quiet/signaling NaN and
+infinities, directories, symlinks, FIFOs and missing files. All twelve refusals
+retain actual exit 1, the exact diagnostic and no readiness/numerical job.
+Successful inputs/outputs match within and across modes. MTP drafts six and
+accepts zero per positive request; this qualifies drafting and confirmed-output
+parity, without an accepted-burst claim. The first MTP QA attempt incorrectly
+required positive acceptance; its native exit 0 and wrapper exit 1 are preserved.
+
+CPU peaks AR/MTP are 56.625/57.875 C, NVMe 69.85/70.85 C; whole-process thread
+maxima are 44/44, including runtime helpers. All windows are collected/retired
+and the original lease released. These are functional checks; learned-direction
+quality, independent graph/correction/GPU faults, vision and matched cost remain
+open. The [receipt](../../../../development/validation/steering-admission-point-gpu-2026-10-06.json)
+and [176-member raw archive](data/rocm10-steering-admission-r23.tar.gz) bind the
+unchanged runtime, exact token witnesses, actual failures and telemetry, without
+model or KV payloads. Archive inspection needs no model execution:
+
+```sh
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
+mkdir -p run/point-steering-r23
+tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-steering-admission-r23.tar.gz \
+  -C run/point-steering-r23
+cat run/point-steering-r23/evidence/context-r23-steering-mtp-r2/steering-admission-result.json
+```
 
 ### Direct reactive core and Q8 vision gates
 
@@ -448,7 +875,8 @@ physical tokens, build receipts and telemetry. Verify and unpack them from
 the repository root:
 
 ```sh
-sha256sum -c docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/archives.sha256
+(cd docs/benchmarks/models/qwen3.8-flash-next/strix-point/data &&
+ sed 's@  docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/@  @' archives.sha256 | sha256sum -c -)
 mkdir -p run/point-modern-functional-r4-r5
 tar -xzf docs/benchmarks/models/qwen3.8-flash-next/strix-point/data/rocm10-modern-functional-r4-r5.tar.gz \
   -C run/point-modern-functional-r4-r5

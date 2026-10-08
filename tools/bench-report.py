@@ -221,6 +221,8 @@ def read_core_result(path,rows):
     if rows[-1]!={'event':'complete','exit_code':0}:
         raise ValueError('incomplete/failed core benchmark')
     identity=rows[0]
+    if 'prefill_probe' in identity:
+        raise ValueError('functional prefill qualification is not a performance benchmark')
     if identity.get('suite')!='core' or identity.get('execution')!='shared-reactive-core':
         raise ValueError('invalid core benchmark identity')
     state_format=identity.get('state_format','synthetic-aligned-components' if identity.get('synthetic') else 'lie-aligned-components')

@@ -1,0 +1,59 @@
+{
+  "scope": "Offline evidence/source/campaign consistency, not numerical or model qualification",
+  "checks": {
+    "campaign": {
+      "runners": 4,
+      "commands": 18,
+      "exit_0": 16,
+      "numeric_exit_1": 2,
+      "artifacts": 94,
+      "closure_at": "2026-10-03T06:35:11.147429+00:00",
+      "observer_retired_at": "2026-10-03T06:35:35.885265+00:00"
+    },
+    "host_cohorts": [
+      {
+        "host": "q2-hc-sequence-host-r1",
+        "gpu": "q2-hc-sequence-micro-r1",
+        "frozen_files": 42,
+        "debug": 12,
+        "sanitizers": 12
+      },
+      {
+        "host": "q2-hc-sequence-host-r2",
+        "gpu": "q2-hc-sequence-half-row-micro-r1",
+        "frozen_files": 42,
+        "debug": 12,
+        "sanitizers": 12
+      }
+    ],
+    "static_sources": true,
+    "format": {
+      "changed_pass": true,
+      "full_exit_code": 1,
+      "unchanged_failures": [
+        "tests/models/deepseek_v4_flash/serving_test.cpp",
+        "tests/models/qwen/cpu/generator_test.cpp"
+      ]
+    },
+    "all_40_plot_samples_match": true,
+    "diff_check": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "staged_generated_artifact_format": {
+      "initial_exit_code": 2,
+      "files": [
+        "docs/figures/q2-hc-sequence.csv",
+        "docs/figures/q2-hc-sequence.svg"
+      ],
+      "corrected_exit_code": 0,
+      "change": "Normalize line endings/trailing spaces only; SVG path commands unchanged",
+      "evidence": [
+        "evidence/q2-hc-sequence-precommit.json",
+        "evidence/q2-hc-sequence-precommit-r2.json"
+      ]
+    }
+  },
+  "validation_pass": true
+}

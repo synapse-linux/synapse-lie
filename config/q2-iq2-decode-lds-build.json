@@ -1,0 +1,45 @@
+{
+  "schema": "synapse-lie.q2-iq2-decode-lds-build.v1",
+  "provider_manifest_sha256": "dadd4900d25ef2a3de73cbfb2c82b302f0eb7a93c2524bd6edbd6ad6e16bd5ac",
+  "provider_files_verified": 1034,
+  "core_manifest": "config/q2-curve128-source.json",
+  "core_manifest_sha256": "dbe8e6aafad31ee89bf770d8fcbecbfdfb5de7431794182f24bb8a7afcfd5005",
+  "core_files_verified": 333,
+  "core_changed_files": [],
+  "server": ".deps/build-iq2-decode-lds/cmake/curve/core/synapse-lie-server",
+  "server_sha256": "30fdc4f6cd3fff2a574a9ec0f1e1380c4d8582df095f8a83962c041b38996e1c",
+  "build_type": "RelWithDebInfo",
+  "saved_build_type": "RelWithDebInfo",
+  "mmq_archive": ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "mmq_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "device_audit_sha256": "7a7d03d77db7c1514457adcabab48e87e60524c87bf0b5645319d33574344b42",
+  "common_device_functions": 923,
+  "byte_exact_device_functions": 923,
+  "common_function_size_changes": 0,
+  "common_function_resource_changes": 0,
+  "new_device_function": {
+    "sha256": "e9555d96c9e4b86588a809ba38281a51c67089b2f5e800a73bd773eb4b8b6d91",
+    "bytes": 2648,
+    "bundle": "3",
+    "resources": {
+      "num_vgpr": 62,
+      "num_agpr": 0,
+      "private_seg_size": 0
+    }
+  },
+  "new_device_function_matches_component_after_verified_address_relocation": true,
+  "component_relocation_audit_sha256": "ce2b8e72f4d1dbeac194a1341eb65a33ac6f35aa4839f77c1543c90c0e0ae5aa",
+  "commands": {
+    "00.json": "4ac4147533354f95029708cf1d550c363911287ff9a643fdcb744455aa274d73",
+    "01.json": "bb4ca406547108c519ca9e80c48eba4869556c2b7b0d16eff9cdf9913ff02cea",
+    "02.json": "e5c3fe94f86b630853d1454a5ceebefe6bbe1edc6175764f741303e057bf68af"
+  },
+  "configure_and_build_exits": [
+    0,
+    0,
+    0
+  ],
+  "remote_build": false,
+  "native_model_run": false,
+  "new_precision_boundary": false
+}

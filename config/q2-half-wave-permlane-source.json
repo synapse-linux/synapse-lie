@@ -1,0 +1,14 @@
+{
+  "scope": "Static preparation only; GPU numerical equivalence and benefit unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-moe-fused",
+  "candidate": ".deps/gufo-q2-bench-half-wave-permlane",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "92faa287e2b5681d16f0f54c2f99a3eba0a14c5faaf398e631f8a12b7548cbad",
+  "candidate_sha256": "3a639f0fa97f0db2e3cb4b9a83ec2b329d359afd7af6c6193d324a2a0263ac7b",
+  "patch_sha256": "90ff28253e17b79ca853a726d4176d422a5d531e7a34b0899fd13ef5d8acd2f1",
+  "exchange": "permlane",
+  "mechanism": "Paired half-waves decode opposite K16 halves, exchange rounded F16 bits; original LDS layout and WMMA accumulation order retained"
+}

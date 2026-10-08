@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-counting-host.v1",
+  "label": "q2-counting-regression-host-r2",
+  "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+  "tests": {
+    "debug": 22,
+    "asan_ubsan": 22
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 7,
+  "capsule_sha256": "e619362d5d94a90493bf4aaaffb235d467c633586f81911ce69ec88667f60ad7",
+  "archive_sha256": "5737043dbe33dd46de00080bdd57ad48a5bd4766684cb81353105a3508cce939",
+  "fixtures": {
+    "CMakeLists.txt": "e81e0380bf40e5152570ed937bdf4b22800ee86cf624ef94f48f98b881db3eab",
+    "cmake/hip/CMakeLists.txt": "433bc9c13b290d8ade7580cf5731fa70a7bd648a70492aa423b35b986127639f",
+    "tools/q2-remote.py": "27649adbf827b35262d1b52b5a6e89811a435e690a928b693ea21dd329047bac",
+    "tools/q2-runner.py": "0a78772fd90bc2eeaac3161ffe619c8ae8ee396415b9b5c7ec1c509e79b208cc",
+    "tests/q2_remote_test.py": "d76793d9ba49d1ae346b737e395c01469cc0e9ffee6135f5c9277fe8a3bac0a6",
+    "experiments/counting-baseline/q2_model.cpp": "681f00a308135c2a241e480bde23d071cf1ec4fa05002456fcb2623eabfb5d52",
+    "tests/q2_profile_markers.hip": "16a2c7dc73783b9fe779cb5ba135c22625a38863a87388f7d69fc2f2f9524867",
+    "config/q2-counting-harness.json": "153c953edbfe47e14e4469fe25d45d20a7bf44021742b648973b2d1589474aae"
+  },
+  "model_inference": false
+}

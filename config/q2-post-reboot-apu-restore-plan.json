@@ -1,0 +1,88 @@
+{
+  "schema": "synapse-lie.q2-post-reboot-apu-restore-plan.v1",
+  "state": "SUPERSEDED_OWNER_RESTORED_READBACK_VERIFIED",
+  "prepared_at": "2026-10-07T15:25:17.589613+00:00",
+  "host": "192.168.5.157",
+  "boot_id": "8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653",
+  "scope": "Restore the previously observed runtime APU performance/120 W mode after the power outage, then repeat only the existing Q2 down candidate on the identical original128K request.",
+  "authorization_required": "AGENTS.md forbids tuning. Existing exception authorizes fan curves only; ComfyUI may remain stopped. This plan requests a separate runtime APU-mode exception.",
+  "authorization_received": false,
+  "evidence": "config/q2-post-reboot-apu-observation.json",
+  "evidence_sha256": "81dc8a6b58c92006f03850f6a60a81825fdc2982976ea81083fb12c8ad0552d4",
+  "expected_before": {
+    "apu_power_mode": "balanced",
+    "tdp_watts": 85
+  },
+  "command": [
+    "sudo",
+    "-n",
+    "/usr/bin/axb35-ctl",
+    "set",
+    "apu",
+    "performance"
+  ],
+  "expected_after": {
+    "apu_power_mode": "performance",
+    "tdp_watts": 120
+  },
+  "readback_command": [
+    "/usr/bin/axb35-ctl",
+    "get",
+    "all"
+  ],
+  "fan_curves_must_equal": {
+    "fan1": {
+      "mode": "curve",
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan2": {
+      "mode": "curve",
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    },
+    "fan3": {
+      "mode": "curve",
+      "rampup_curve": "40,50,60,70,82",
+      "rampdown_curve": "35,45,55,65,78"
+    }
+  },
+  "stored_config_must_equal_sha256": "2d06c52faed9b353806204c985d2b52a076a4f07b9f5ca281c42296ea0808ce7",
+  "persistent_settings_changed": false,
+  "fan_settings_changed": false,
+  "other_services_changed": false,
+  "model_or_binary_changed": false,
+  "maximum_mode": "Existing performance mode only; no custom clocks, voltages, TDP or thermal-limit changes.",
+  "coordination": {
+    "previous_release": "run/q2-decode-down-rows-native128-r2/release.json",
+    "previous_release_sha256": "d984054686e339d9febb0e4fc3c89c26dbfcfc6966df33cdbe569c5ed46d9089",
+    "registry": "run/gpu-coordination/epochs/8b9cbb46-c7d4-47c3-b5cc-32e1fdad0653/runs.jsonl",
+    "required": "Fresh Core non-use, matching boot/latest registry, five original leases EX|NB, empty KFD and unchanged model stats. Record command exit, before/after mode and release before any fresh GPU admission."
+  },
+  "failure_action": "Do not run the benchmark if the write fails, readback differs, fans/config change or coordination fails. Preserve actual exit and evidence; do not retry different power settings.",
+  "repeat": {
+    "server_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+    "client_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9",
+    "request_sha256": "fcee51efeebfcbd25209ba90d09064d37aead6d3b0c6bbe7a9f97f328a4f24ef",
+    "prefix_tokens": 130925,
+    "output_tokens": 8,
+    "capacity": 133760,
+    "chunk": 2048,
+    "cached_tokens": 0,
+    "port": 8000,
+    "controls_rebuilt_or_rerun": false,
+    "new_quantization": false,
+    "new_admission_required": true
+  },
+  "resolution": {
+    "owner_message": "ho rimesso performance",
+    "agent_apu_command_executed": false,
+    "owner_command_unknown": true,
+    "readback_path": "evidence/q2-decode-down-rows-native128-r3/owner-restored-power.json",
+    "readback_sha256": "f92ebaefbc7dd9715248860503479da0ded6c1b20eea8a37c44ffe6c9a5a379c",
+    "readback_at": "2026-10-07T15:46:15.617389+00:00",
+    "apu_power_mode": "performance",
+    "tdp_watts": 120,
+    "confirmation_no_longer_needed": true
+  }
+}

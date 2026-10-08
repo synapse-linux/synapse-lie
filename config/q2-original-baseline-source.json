@@ -1,0 +1,19 @@
+{
+  "repository": "synapse-lie",
+  "commit": "7f85ef8090506c32998780a8249aa0e10cd9e091",
+  "source": "experiments/original-baseline",
+  "files": {
+    "LICENSE": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d",
+    "tools/executor-bench.c": "27e2df5af26319df5f8d650cb610b1c754e7b82db79b9733f8f2fa5e0996066d",
+    "include/lie/executor.h": "e7f18980248e38376404f2029c8b22717c91217983c379513995bd7365db9fe9",
+    "adapters/gufo.cpp": "6385ad9a215b1670eafdb680b596b8897a6f9fd60c8431c63beaea0ab1cd82d1",
+    "adapters/gufo_binding.c": "e9e9bb8d70faed72030f1f51ba0b4943105386010ceb9b8ef4ab7b76213a4d28",
+    "adapters/gufo_device.cpp": "1b18751a11cd2758df53f83ca5bb29d1709624ff64fc3da4d9b86acb081b2e89"
+  },
+  "historical_manifest_sha256": "85b7e9cbf6ada23f332839d65eb7ce9e14dd5ad51662d3ded386bcd18300b3f1",
+  "historical_measurement_sha256": "c60dba6a099ec97f9cbe98048601ab4850a805b49d6dbc7f97b9c57a563afc7a",
+  "historical_binary_sha256": "594ef2f21281c456618ecbcd3cb877861eb65ac5b2b33327f8ba2756cd5220a2",
+  "scope": "Byte-exact first-party benchmark, ABI and adapter; independently pinned Gufo is linked afresh. No old numerical artifact or DS4 source imported.",
+  "runtime": "Pending .157 after verified core handover; full MMQ build required",
+  "goal_met": false
+}

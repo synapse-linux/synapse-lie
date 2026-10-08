@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-iq2-lane-commit-host.v1",
+  "capsule_sha256": "3e7d2028bfd79264e56c51cce41dfc8345a0129e5e78f537d820eae1765735ca",
+  "archive_sha256": "37b61ae46194823e682b6d293bd3239fe87bfaf4d6b5d63ba07615f6a9e5fe74",
+  "fixture_files_verified": 57,
+  "source_files_verified": 1020,
+  "plan_sha256": "34c4bf98c3ce2bf4a1a1d5b2688c24f398f7cd711fb80dd3f259493f47819af7",
+  "test_counts": {
+    "debug": 27,
+    "asan_ubsan": 27
+  },
+  "command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts": 7,
+  "model_inference": false,
+  "gpu_run": false,
+  "goal_met": false
+}

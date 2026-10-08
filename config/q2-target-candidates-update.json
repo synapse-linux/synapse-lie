@@ -1,0 +1,106 @@
+{
+  "schema": "synapse-lie.q2-target-candidates-update.v1",
+  "at": "2026-10-06T05:11:35.507303+00:00",
+  "inputs": {
+    "fixed_reference": {
+      "path": "config/q2-fixed-prefill-reference.json",
+      "sha256": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1"
+    },
+    "retained_model": {
+      "path": "config/q2-ssm-fixed-bounds-model-results.json",
+      "sha256": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd"
+    },
+    "previous_queue": {
+      "path": "config/q2-target-priorities-hc-lds-update.json",
+      "sha256": "71fabbbecf50d030422cfd0e18c7d392177e886ce341dfcec815351cd26aa919"
+    },
+    "injection_component_source": {
+      "path": "config/q2-hc-inject-reuse-component-source-v2.json",
+      "sha256": "02844fce13d36725871f1fde8486fb7cc43dcbce3e67a630b8d85a416416261e"
+    },
+    "injection_component_preparation": {
+      "path": "config/q2-hc-inject-reuse-component-preparation-v2.json",
+      "sha256": "bc9ca0af2386963f5cc25ecbda433845ed68225997d1c8a6ba801d55445fd70c"
+    },
+    "norm_owner_source": {
+      "path": "config/q2-hc-norm-owner-draft.json",
+      "sha256": "bbea876dc9ff91ce15f6dfa9a8e3a536e0c1df85da1228a999894fd724462a8c"
+    },
+    "norm_owner_static": {
+      "path": "config/q2-hc-norm-owner-draft-static.json",
+      "sha256": "415c627a06f0b7714f3a53a10b4d494610c7ab5e566345c38efcdd95b6d4cead"
+    },
+    "producer_boundary": {
+      "path": "config/q2-producer-fusion-boundary.json",
+      "sha256": "ede2b4e253c0b4117c68b9ad8fe0849042417aba59e01c20cb4376c5b037f105"
+    },
+    "last_release": {
+      "path": "config/q2-down-register-palette-v2-window-release.json",
+      "sha256": "e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db"
+    }
+  },
+  "new_files": {
+    "tools/audit-q2-target-candidates.py": "ba1ffa93c3931f0d82c0384cafeb9e69a1ca2108d7b2582be7f5b1c0b01e36d5",
+    "tools/prepare-q2-hc-norm-owner-draft.py": "643787351d69c037b03d253d297c39c826088797a5ab44fe338ad6f487bfb56d",
+    "tools/analyze-q2-hc-norm-owner-draft.py": "702fd0747c5d0148ade01de90f0a58453c074fda54fefcfafdd28defea0e325e",
+    "experiments/q2-hc-norm-owner-draft.inc": "da8c91d45cc5e6b95e818b63b7b948d10a5c5442161743822b26865d69461893",
+    "docs/Q2-HC-TARGET-CANDIDATES.md": "79da84944542723140f86d4300cd3d8192ff363269965a3bd3cd89aed80795b5",
+    "third_party/gufo/LIE-Q2-HC-NORM-OWNER-DRAFT.md": "683d90a1395bf2d6fd98956f2b5bcf84376d720a793a0d8fa364155ad55f300b"
+  },
+  "retained_variant": "ssm-fixed-bounds",
+  "retained_PP": 1585.308983,
+  "retained_TG": 25.16079073,
+  "fixed_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.3374465216160525,
+  "required_prefill_saving_ms": 76.99173599999986,
+  "ranking_is_engineering_judgment_not_numerical_probability": true,
+  "profile_is_fresh1585": false,
+  "priorities": [
+    {
+      "order": 1,
+      "mechanism": "HC normalized input/injection coefficient reuse",
+      "separate_injection_ms": 39.548835,
+      "affected_mix_ms": 85.284003,
+      "complete_fixture_prepared": true,
+      "runtime_qualification": false
+    },
+    {
+      "order": 2,
+      "mechanism": "Four-owner final RMS scale calculation",
+      "whole_combine_region_ms": 145.80316,
+      "kernel_probes_compiled": true,
+      "numerical_source_sequence_preserved": true,
+      "runtime_qualification": false,
+      "extra_barrier": 1,
+      "extra_shared_bytes": 16,
+      "parent_VGPR": 84,
+      "draft_VGPR": 65,
+      "compiler_occupancy_changed": false
+    },
+    {
+      "order": 3,
+      "mechanism": "Whole640 producer/packing ownership",
+      "implementation_prepared": false,
+      "whole_row_scale_and_producer_reuse_required": true
+    }
+  ],
+  "injection_alone_cannot_close_gap": true,
+  "whole_region_is_not_a_removable_time_estimate": true,
+  "existing_negative_sources_and_evidence_preserved": true,
+  "saved_comparators_rebuilt_or_rerun": false,
+  "full_curve": false,
+  "Q4": false,
+  "independent_quality": false,
+  "GPU_run": false,
+  "GPU_reserved": false,
+  "remote_state": "SSH255_NO_ROUTE_TO_HOST_BEFORE_CORE_CHECK_CONNECTION",
+  "host_checks_run": false,
+  "model_inference": false,
+  "production_provider_changed": false,
+  "borrowed_executor_scratch_qualified": false,
+  "performance_increment_found": false,
+  "projected_model_rate": null,
+  "waiter_or_retry_scheduled": false,
+  "remote_cleanup": false,
+  "goal_met": false
+}

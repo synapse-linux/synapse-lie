@@ -1,6 +1,47 @@
 # Benchmark closure and the 1M context gate
 
-Audit date: 2026-10-02. The qualified GPU endpoint remains native 262144 total
+Current implementation exposes native, YaRN2 and YaRN4 profiles through
+1,048,576 total tokens. Strix Point completes **1,048,448 physical prefill tokens
+and 128 fixed output tokens** with explicit YaRN4 and `--ignore-eos`. The
+[capacity/function receipt](validation/physical1m-fixed-point-gpu-2026-10-05.json)
+records actual work, telemetry and retirement. The older natural-EOS43 failure
+remains evidence. Independent long-context recall quality and matched repeated
+Gufo/Halogen performance comparisons remain open.
+
+[Pinned-source analysis](validation/long-context-sparse-dispatch-source-2026-10-06.json)
+also identifies a sparse-attention dispatch confounder: a mask pitch
+above 2,048 words refuses the WMMA path. With the pinned ratio of four,
+this corresponds to configured capacity above 262,144 tokens; 1M uses
+8,192 words. The frozen 1M run did not record dispatch. New profiling must
+separate this fallback from reactive scheduling, physical work and YaRN.
+Removing the guard alone would exceed the current kernel workspaces.
+
+The owned variant now admits the actually visible span and adds an optional,
+default-ON 8,192-word sparse workspace. Its local compilation preserves the
+original short kernels; `.161` GPU acceptance is still pending. The native
+[component qualification client](PREFILL-ANALYSIS.md#long-workspace-component-qualification)
+checks complete long/short outputs through 1M without model weights. It does not
+replace the original-weight and quality gates below.
+
+The [current Point results](../benchmarks/models/qwen3.8-flash-next/strix-point/README.md)
+include served concurrency and cold prefill through near 256K. The native
+benchmark client and graphs require no Python. Selected original-weight OpenAI
+controls pass 37 checks in each AR/MTP mode on the source-bound checkpoints;
+the newest [C17 signed integer receipt](validation/c17-schema-integer-point-gpu-2026-10-06.json)
+identifies its scope. Terminal Bench smoke passes 1/1; full Core-19 remains
+stopped and deferred until functional modifications and their qualification
+finish. See the [current roadmap](../BACKEND.md#current-roadmap--2026-10-06-utc).
+
+The estimates and matrix below describe earlier checkpoints. In particular,
+the old allocation estimate omits raw index history and must not be used for
+current 1M memory admission.
+
+## Historical audit — 2026-10-02
+
+The matrix and source estimates below describe the earlier checkpoint, including
+gaps subsequently closed above. They must not be read as current feature status.
+
+Audit date: 2026-10-02. The qualified GPU endpoint at that checkpoint was native 262144 total
 tokens. A client capable of sending a million-token prompt is not evidence that
 the server can execute it. The new `long-context` HTTP preset is a client-side
 workload; it does not change LIE's model configuration or claim a 1M GPU result.
@@ -43,14 +84,17 @@ separate API objective, not something the benchmark suite establishes.
 
 The C executable implements `--suite http` natively; no adjacent script or
 Python interpreter is required. The preset defaults to targets **258794, 524288, 786432, 1004581**, output budget
-64, three measured repetitions, zero discarded warmups and a 3600-second HTTP
-socket timeout. The endpoint's own deadline and the supervising campaign deadline
-must also cover the work; a socket timeout is not a total campaign deadline.
+64, three measured repetitions, zero discarded warmups and a 14400-second
+deadline for each complete HTTP request, including streaming. All native HTTP
+clients accept an explicit `--timeout` up to 86400 seconds. The frozen physical
+1M run took 7478.56 seconds, exceeding the former 7200-second client limit.
+The endpoint's own deadline and the supervising campaign deadline must also
+cover the work; the per-request client deadline is not a total campaign deadline.
 
 Example for a separately admitted, already 1M-qualified endpoint:
 
 ```sh
-synapse-lie-bench --suite http --url http://192.168.5.157:8000/v1 \
+synapse-lie-bench --suite http --url http://192.168.5.161:8000/v1 \
   --model qwen3.8-flash-next --server-label 'exact build / weights / AR / YaRN4' \
   --server-kv-cache off --preset long-context \
   --context-capacity 1048576 --rope-scaling yarn4 \
@@ -58,10 +102,13 @@ synapse-lie-bench --suite http --url http://192.168.5.157:8000/v1 \
   --output long.jsonl --graphs long-charts
 ```
 
-**This invocation is not currently executable against LIE's 256K backend.**
-To exercise only its native point after ordinary GPU admission, use
-`--sizes 258794 --context-capacity 262144 --rope-scaling native`.
-Neither declaration reconfigures or independently verifies the server.
+The server must be started with the declared context and YaRN profile, and its
+deadline must cover the complete prefill/generation work, for example
+`--request-timeout-ms 14400000`. Physical 1M capacity
+is qualified by the separate direct-core gate above; this HTTP command and its
+repetitions have not been measured as a full 1M comparison. For the native point
+use `--sizes 258794 --context-capacity 262144 --rope-scaling native`.
+Client declarations do not reconfigure or independently verify the server.
 
 The original deterministic corpus contains varied three-digit numeric records,
 not a repeated maintenance paragraph. It is a synthetic throughput stressor,

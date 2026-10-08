@@ -1,0 +1,1884 @@
+// SPDX-License-Identifier: MIT
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.cpp
+@@ -3,8 +3,12 @@
+ #include <hip/hip_runtime.h>
+ 
+ #include <algorithm>
++#include <chrono>
++#include <cstdio>
+ #include <initializer_list>
+-
++#include <limits>
++
++#include "lie_q2_expert_cache_policy.h"
+ #include "src/core/hip/weight_upload.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/mmq/qfn_mmq.h"
+@@ -371,6 +375,91 @@
+     m->bytes_ -= c.count * (c.widen ? sizeof(std::uint16_t) : sizeof(float)) +
+                  kTailMargin;
+   }
++  // SPDX-License-Identifier: MIT
++  // Private upload-time preparation. Publish only after all conversions finish.
++  const auto cache_start = std::chrono::steady_clock::now();
++  std::size_t cache_bytes = 0;
++  unsigned cache_layers = 0;
++  for (unsigned index = 0; index < m->layers_.size(); ++index) {
++    auto& layer = m->layers_[index];
++    const bool supported =
++        layer.ffn_gate_exps.type == core::GgmlType::kIQ2_XXS &&
++        layer.ffn_up_exps.type == core::GgmlType::kIQ2_XXS &&
++        layer.ffn_down_exps.type == core::GgmlType::kQ2_K &&
++        layer.ffn_gate_exps.rows == 640 && layer.ffn_gate_exps.cols == 2560 &&
++        layer.ffn_up_exps.rows == 640 && layer.ffn_up_exps.cols == 2560 &&
++        layer.ffn_down_exps.rows == 2560 && layer.ffn_down_exps.cols == 768 &&
++        layer.ffn_gate_exps.experts == 512 &&
++        layer.ffn_up_exps.experts == 512 && layer.ffn_down_exps.experts == 512;
++    if (!supported || index % 8)
++      continue;
++    std::size_t free_bytes = 0, total_bytes = 0;
++    if (hipMemGetInfo(&free_bytes, &total_bytes) != hipSuccess) {
++      (void)hipGetLastError();
++      break;
++    }
++    lie_q2_expert_cache_plan plan;
++    const int admitted = lie_q2_expert_cache_admit(
++        index, m->layers_.size(), m->config_.num_experts,
++        m->config_.hidden_size, m->config_.expert_ff, supported, cache_bytes,
++        free_bytes, &plan);
++    if (admitted == 0)
++      continue;
++    if (admitted < 0 ||
++        plan.layer_allocation_bytes >
++            std::numeric_limits<std::size_t>::max() - m->bytes_) {
++      up.Fail("Q2 expert cache accounting failed");
++      return nullptr;
++    }
++    void* buffers[3] = {};
++    unsigned allocated = 0;
++    for (; allocated < 3; ++allocated) {
++      if (hipMalloc(&buffers[allocated], plan.tensor_allocation_bytes) !=
++          hipSuccess)
++        break;
++    }
++    if (allocated != 3) {
++      for (unsigned i = 0; i < allocated; ++i)
++        (void)hipFree(buffers[i]);
++      (void)hipGetLastError();
++      break;  // Original compressed path remains valid for this and later
++              // layers.
++    }
++    DeviceTensor* tensors[3] = {&layer.ffn_gate_exps, &layer.ffn_up_exps,
++                                &layer.ffn_down_exps};
++    for (void* p : buffers)
++      m->allocations_.push_back(p);
++    m->bytes_ += plan.layer_allocation_bytes;
++    cache_bytes = plan.next_cache_bytes;
++    for (unsigned i = 0; i < 3; ++i) {
++      if (hipMemsetAsync(static_cast<std::uint8_t*>(buffers[i]) +
++                             plan.tensor_payload_bytes,
++                         0, LIE_Q2_EXPERT_CACHE_TAIL, nullptr) != hipSuccess ||
++          !ConvertExpertCache(tensors[i]->data, buffers[i], i != 2, 512,
++                              i == 2 ? 2560 : 640, i == 2 ? 640 : 2560,
++                              nullptr)) {
++        (void)hipDeviceSynchronize();
++        up.Fail("Q2 expert cache conversion launch failed");
++        return nullptr;
++      }
++      tensors[i]->prefill_cache = buffers[i];
++    }
++    ++cache_layers;
++  }
++  if (hipDeviceSynchronize() != hipSuccess) {
++    up.Fail("Q2 expert cache conversion failed");
++    return nullptr;
++  }
++  const double cache_seconds =
++      std::chrono::duration<double>(std::chrono::steady_clock::now() -
++                                    cache_start)
++          .count();
++  std::fprintf(stderr,
++               "{\"event\":\"q2_expert_cache_ready\",\"layers\":%u,"
++               "\"bytes\":%zu,\"budget_bytes\":%zu,\"prepare_s\":%.9f}\n",
++               cache_layers, cache_bytes, LIE_Q2_EXPERT_CACHE_BUDGET,
++               cache_seconds);
++
+   return m;
+ }
+ 
+--- a/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/device_model.hpp
+@@ -15,6 +15,8 @@
+ /// One weight resident in device memory, still in its GGUF encoding.
+ struct DeviceTensor {
+   void* data{nullptr};
++  // SPDX-License-Identifier: MIT
++  void* prefill_cache{nullptr};
+   core::GgmlType type{core::GgmlType::kF32};
+   std::uint32_t cols{0};
+   std::uint32_t rows{0};
+--- a/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/executor.cpp
+@@ -1,5 +1,4 @@
+ #include "src/models/qwen38_flash_next/kernels/rocm/executor.hpp"
+-#include "iq2_mixed_tiles.h"
+ 
+ #include <algorithm>
+ #include <array>
+@@ -14,6 +13,7 @@
+ #include <type_traits>
+ #include <vector>
+ 
++#include "iq2_mixed_tiles.h"
+ #include "qfn_mmq.h"
+ #include "src/core/hip/snapshot_transfer.hpp"
+ #include "src/models/qwen38_flash_next/kernels/rocm/kernels.hpp"
+@@ -1849,11 +1849,14 @@
+         scaled + static_cast<std::size_t>(n_tokens) * used * c.expert_ff);
+     const auto gate_up = [&](std::uint32_t offset, std::uint32_t count,
+                              std::uint32_t rows) {
+-      return RoutedGatedIQ2Gemm(l.ffn_gate_exps.data, l.ffn_up_exps.data,
+-                                static_cast<const __half*>(s_.x_half),
+-                                s_.routed_tiles + offset, count, rows,
+-                                s_.routed_bounds, s_.rows_token, s_.rows_slot,
+-                                s_.gate_e, c.expert_ff, c.hidden_size, stream_);
++      const bool cached =
++          l.ffn_gate_exps.prefill_cache && l.ffn_up_exps.prefill_cache;
++      return (cached ? RoutedCachedIQ2Gemm : RoutedGatedIQ2Gemm)(
++          cached ? l.ffn_gate_exps.prefill_cache : l.ffn_gate_exps.data,
++          cached ? l.ffn_up_exps.prefill_cache : l.ffn_up_exps.data,
++          static_cast<const __half*>(s_.x_half), s_.routed_tiles + offset,
++          count, rows, s_.routed_bounds, s_.rows_token, s_.rows_slot, s_.gate_e,
++          c.expert_ff, c.hidden_size, stream_);
+     };
+     const bool gate_ok =
+         routed_iq2_mixed_
+@@ -1869,16 +1872,23 @@
+         !PackQ2ScaledRows(s_.gate_e, scaled, inverse, n_tokens * used,
+                           c.expert_ff, stream_) ||
+         !(compact_down
+-              ? RoutedQ2ScaledHalfGemm(
+-                    l.ffn_down_exps.data, scaled, inverse, s_.routed_tiles,
+-                    routed_n_tiles_, routed_tile_rows_, s_.routed_bounds,
+-                    s_.rows_slot, reinterpret_cast<__half*>(s_.down_e),
+-                    c.hidden_size, c.expert_ff, stream_)
+-              : RoutedQ2ScaledGemm(l.ffn_down_exps.data, scaled, inverse,
+-                                   s_.routed_tiles, routed_n_tiles_,
+-                                   routed_tile_rows_, s_.routed_bounds,
+-                                   s_.rows_slot, s_.down_e, c.hidden_size,
+-                                   c.expert_ff, stream_))) {
++              ? (l.ffn_down_exps.prefill_cache ? RoutedCachedQ2ScaledHalfGemm
++                                               : RoutedQ2ScaledHalfGemm)(
++                    l.ffn_down_exps.prefill_cache
++                        ? l.ffn_down_exps.prefill_cache
++                        : l.ffn_down_exps.data,
++                    scaled, inverse, s_.routed_tiles, routed_n_tiles_,
++                    routed_tile_rows_, s_.routed_bounds, s_.rows_slot,
++                    reinterpret_cast<__half*>(s_.down_e), c.hidden_size,
++                    c.expert_ff, stream_)
++              : (l.ffn_down_exps.prefill_cache ? RoutedCachedQ2ScaledGemm
++                                               : RoutedQ2ScaledGemm)(
++                    l.ffn_down_exps.prefill_cache
++                        ? l.ffn_down_exps.prefill_cache
++                        : l.ffn_down_exps.data,
++                    scaled, inverse, s_.routed_tiles, routed_n_tiles_,
++                    routed_tile_rows_, s_.routed_bounds, s_.rows_slot,
++                    s_.down_e, c.hidden_size, c.expert_ff, stream_))) {
+       AssignError(error_msg, "routed IQ2 paired gate/up or Q2 down failed");
+       return false;
+     }
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp
+@@ -4277,7 +4277,7 @@
+ }
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
++         bool kPacked = false, bool kScaled = false, bool kMirror = false>
+ __launch_bounds__(256) __global__ void RoutedF16GEMMKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+@@ -4313,9 +4313,9 @@
+   // lane) covers all bank groups; the activation plane is
+   // [kb][16-element quarter][token][16 B] so a fragment read is 256
+   // contiguous bytes; the epilogue reuses it all.
+-  constexpr int kCodeBytes = BM * kChunks * 16;
++  constexpr int kCodeBytes = kMirror ? 0 : BM * kChunks * 16;
+   constexpr int kHighBytes = (kQ5 || kQ5K) ? BK * BM * 4 : 0;
+-  constexpr int kScaleBytes = (kQ2 ? 4 : 1) * BK * BM * 4;
++  constexpr int kScaleBytes = kMirror ? 0 : (kQ2 ? 4 : 1) * BK * BM * 4;
+   // One slot of padding per activation quarter plane: the eight chunks of
+   // a token then land on eight bank groups when they are written.
+   constexpr int kActStride = BN + 1;
+@@ -4430,92 +4430,95 @@
+   };
+ 
+   const auto fetch_stage = [&](int kb0) {
+-#pragma unroll
+-    for (int u = 0; u < kWaveRowTiles; ++u) {
+-      if constexpr (kQ5) {
+-        const int kb = kb0 + f_c;
+-        const auto* words = reinterpret_cast<const uint2*>(f_ptr[u]) + (kb * 3);
+-        const uint2 w0 = words[0];
+-        const uint2 w1 = words[1];
+-        const uint2 w2 = words[2];
+-        f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
+-        f_high[u] = w0.y;
+-        f_dm[u] = w0.x;
+-      } else if constexpr (kIQ2) {
+-        const int sb32 = kb0 + f_c;
+-        const auto* block = f_ptr[u] + (sb32 / 8) * 66;
+-        // SPDX-License-Identifier: MIT
+-        // Keep only the original group/header live across current-stage WMMA.
+-        // No codebook/sign lookup or conversion waits on these loads here.
+-        __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
+-        __builtin_memcpy(&f_iq2_d[u], block, 2);
+-      } else if constexpr (kQ2) {
+-        // Each Q2_K superblock stores 256 codes with independent affine
+-        // scales every 16 elements. The input's logical K may end halfway
+-        // through the last block; row storage remains padded to 256.
+-        const int sb32 = kb0 + f_c;
+-        const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
+-        const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
+-        __builtin_memcpy(&f_codes[u], codes, 16);
+-        __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
+-        __builtin_memcpy(&f_dm[u], blk + 80, 4);
+-        f_high[u] = blk[2 * (sb32 % 8)] |
+-                    (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
+-        const unsigned shift = 2U * unsigned(sb32 % 4);
+-        const auto unpack = [shift](uint4 v) {
+-          return make_uint4(
+-              (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
+-              (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
+-        };
+-        f_codes[u] = unpack(f_codes[u]);
+-        f_codes_hi[u] = unpack(f_codes_hi[u]);
+-      } else if constexpr (kQ8) {
+-        // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
+-        const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
+-        f_dm[u] = *reinterpret_cast<const std::uint16_t*>(blk);
+-        __builtin_memcpy(&f_codes[u], blk + 2, 16);
+-        __builtin_memcpy(&f_codes_hi[u], blk + 18, 16);
+-      } else {
+-        constexpr int kBlockChunks = kQ5K ? 11 : 9;
+-        constexpr int kCodeChunk = kQ5K ? 3 : 1;
+-        const int block = kb0 / 8;
+-        const auto* blk =
+-            reinterpret_cast<const uint4*>(f_ptr[u]) + (block * kBlockChunks);
+-        // The K sweep enters a new superblock every eight Q8-sized blocks.
+-        if (kb0 % 8 == 0) {
+-          f_header[u] = blk[0];
++    if constexpr (!kMirror) {
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        if constexpr (kQ5) {
++          const int kb = kb0 + f_c;
++          const auto* words =
++              reinterpret_cast<const uint2*>(f_ptr[u]) + (kb * 3);
++          const uint2 w0 = words[0];
++          const uint2 w1 = words[1];
++          const uint2 w2 = words[2];
++          f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
++          f_high[u] = w0.y;
++          f_dm[u] = w0.x;
++        } else if constexpr (kIQ2) {
++          const int sb32 = kb0 + f_c;
++          const auto* block = f_ptr[u] + (sb32 / 8) * 66;
++          // SPDX-License-Identifier: MIT
++          // Keep only the original group/header live across current-stage WMMA.
++          // No codebook/sign lookup or conversion waits on these loads here.
++          __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
++          __builtin_memcpy(&f_iq2_d[u], block, 2);
++        } else if constexpr (kQ2) {
++          // Each Q2_K superblock stores 256 codes with independent affine
++          // scales every 16 elements. The input's logical K may end halfway
++          // through the last block; row storage remains padded to 256.
++          const int sb32 = kb0 + f_c;
++          const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
++          const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
++          __builtin_memcpy(&f_codes[u], codes, 16);
++          __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
++          __builtin_memcpy(&f_dm[u], blk + 80, 4);
++          f_high[u] = blk[2 * (sb32 % 8)] |
++                      (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
++          const unsigned shift = 2U * unsigned(sb32 % 4);
++          const auto unpack = [shift](uint4 v) {
++            return make_uint4(
++                (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
++                (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
++          };
++          f_codes[u] = unpack(f_codes[u]);
++          f_codes_hi[u] = unpack(f_codes_hi[u]);
++        } else if constexpr (kQ8) {
++          // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
++          const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
++          f_dm[u] = *reinterpret_cast<const std::uint16_t*>(blk);
++          __builtin_memcpy(&f_codes[u], blk + 2, 16);
++          __builtin_memcpy(&f_codes_hi[u], blk + 18, 16);
++        } else {
++          constexpr int kBlockChunks = kQ5K ? 11 : 9;
++          constexpr int kCodeChunk = kQ5K ? 3 : 1;
++          const int block = kb0 / 8;
++          const auto* blk =
++              reinterpret_cast<const uint4*>(f_ptr[u]) + (block * kBlockChunks);
++          // The K sweep enters a new superblock every eight Q8-sized blocks.
++          if (kb0 % 8 == 0) {
++            f_header[u] = blk[0];
++            if constexpr (kPair) {
++#pragma unroll
++              for (int group = 0; group < 4; ++group)
++                code_cache[u][group] = blk[kCodeChunk + group * 2 + f_c];
++            }
++            if constexpr (kQ5K) {
++              f_qh[u][0] = blk[1];
++              f_qh[u][1] = blk[2];
++            }
++          }
++          const int sb32 = (kb0 % 8) + f_c;
+           if constexpr (kPair) {
+-#pragma unroll
+-            for (int group = 0; group < 4; ++group)
+-              code_cache[u][group] = blk[kCodeChunk + group * 2 + f_c];
++            const int group = sb32 / 2;
++            f_codes[u] = group == 0   ? code_cache[u][0]
++                         : group == 1 ? code_cache[u][1]
++                         : group == 2 ? code_cache[u][2]
++                                      : code_cache[u][3];
++          } else {
++            f_codes[u] = blk[kCodeChunk + (sb32 / 2) * 2 + f_c];
+           }
++          f_sb32[u] = sb32;
+           if constexpr (kQ5K) {
+-            f_qh[u][0] = blk[1];
+-            f_qh[u][1] = blk[2];
++            // Bit sb32 of the 32 high-bit bytes, packed as the Q5_1 word.
++            const std::uint32_t qh[8] = {
++                f_qh[u][0].x, f_qh[u][0].y, f_qh[u][0].z, f_qh[u][0].w,
++                f_qh[u][1].x, f_qh[u][1].y, f_qh[u][1].z, f_qh[u][1].w};
++            std::uint32_t high = 0;
++#pragma unroll
++            for (int i = 0; i < 8; ++i) {
++              high |= GatherBit(qh[i], sb32) << (4 * i);
++            }
++            f_high[u] = high;
+           }
+-        }
+-        const int sb32 = (kb0 % 8) + f_c;
+-        if constexpr (kPair) {
+-          const int group = sb32 / 2;
+-          f_codes[u] = group == 0   ? code_cache[u][0]
+-                       : group == 1 ? code_cache[u][1]
+-                       : group == 2 ? code_cache[u][2]
+-                                    : code_cache[u][3];
+-        } else {
+-          f_codes[u] = blk[kCodeChunk + (sb32 / 2) * 2 + f_c];
+-        }
+-        f_sb32[u] = sb32;
+-        if constexpr (kQ5K) {
+-          // Bit sb32 of the 32 high-bit bytes, packed as the Q5_1 word.
+-          const std::uint32_t qh[8] = {f_qh[u][0].x, f_qh[u][0].y, f_qh[u][0].z,
+-                                       f_qh[u][0].w, f_qh[u][1].x, f_qh[u][1].y,
+-                                       f_qh[u][1].z, f_qh[u][1].w};
+-          std::uint32_t high = 0;
+-#pragma unroll
+-          for (int i = 0; i < 8; ++i) {
+-            high |= GatherBit(qh[i], sb32) << (4 * i);
+-          }
+-          f_high[u] = high;
+         }
+       }
+     }
+@@ -4561,98 +4564,101 @@
+   };
+ 
+   const auto commit_stage = [&]() {
+-#pragma unroll
+-    for (int u = 0; u < kWaveRowTiles; ++u) {
+-      const int row = (tid >> 1) + (u * 128);
+-      std::uint32_t scale_bias = 0;
+-      if constexpr (kIQ2) {
+-        const uint2 group = f_iq2_group[u];
+-        const __half d = f_iq2_d[u];
+-        // SPDX-License-Identifier: MIT
+-        // Each lane retains its original ten-byte prefetch and scale owner.
+-        // Four lanes transpose decode ownership: each writes one eight-value
+-        // slice for each peer's group, preserving every compact LDS byte.
+-        const int part = lane_id & 3;
+-#pragma unroll
+-        for (int owner = 0; owner < 4; ++owner) {
+-          const int peer_lane = (lane_id & ~3) + owner;
+-          const int peer_tid = (tid & ~3) + owner;
+-          const std::uint32_t indices = __shfl(group.x, peer_lane, 32);
+-          const std::uint32_t signs = __shfl(group.y, peer_lane, 32);
+-          const unsigned code = (indices >> (8 * part)) & 255U;
+-          const unsigned sign = (signs >> (7 * part)) & 127U;
+-          const uint2 magnitude =
+-              reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+-          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          const uint2 decoded =
+-              make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+-                         magnitude.y ^ (mask.y & 0x80808080U));
+-          const int peer_row = (peer_tid >> 1) + (u * 128);
+-          const int chunk = 2 * (peer_tid & 1) + (part >> 1);
+-          reinterpret_cast<uint2*>(
+-              s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++    if constexpr (!kMirror) {
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        const int row = (tid >> 1) + (u * 128);
++        std::uint32_t scale_bias = 0;
++        if constexpr (kIQ2) {
++          const uint2 group = f_iq2_group[u];
++          const __half d = f_iq2_d[u];
++          // SPDX-License-Identifier: MIT
++          // Each lane retains its original ten-byte prefetch and scale owner.
++          // Four lanes transpose decode ownership: each writes one eight-value
++          // slice for each peer's group, preserving every compact LDS byte.
++          const int part = lane_id & 3;
++#pragma unroll
++          for (int owner = 0; owner < 4; ++owner) {
++            const int peer_lane = (lane_id & ~3) + owner;
++            const int peer_tid = (tid & ~3) + owner;
++            const std::uint32_t indices = __shfl(group.x, peer_lane, 32);
++            const std::uint32_t signs = __shfl(group.y, peer_lane, 32);
++            const unsigned code = (indices >> (8 * part)) & 255U;
++            const unsigned sign = (signs >> (7 * part)) & 127U;
++            const uint2 magnitude =
++                reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
++            const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++            const uint2 decoded =
++                make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                           magnitude.y ^ (mask.y & 0x80808080U));
++            const int peer_row = (peer_tid >> 1) + (u * 128);
++            const int chunk = 2 * (peer_tid & 1) + (part >> 1);
++            reinterpret_cast<uint2*>(
++                s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++          }
++          const float scale =
++              __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
++          const std::uint32_t dm =
++              __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
++          scale_bias = f_live[u] ? dm : 0U;
++        } else if constexpr (kSigned || kQ2) {
++          s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
++          s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
++          scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
++        } else {
++          s_codes[swizzle(row, f_c)] = f_codes[u];
+         }
+-        const float scale =
+-            __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
+-        const std::uint32_t dm =
+-            __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
+-        scale_bias = f_live[u] ? dm : 0U;
+-      } else if constexpr (kSigned || kQ2) {
+-        s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
+-        s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
+-        scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
+-      } else {
+-        s_codes[swizzle(row, f_c)] = f_codes[u];
+-      }
+-      if constexpr (kQ5K) {
+-        s_high[(f_c * BM) + row] = f_high[u];
+-      }
+-      if constexpr (kQ2) {
+-        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
+-#pragma unroll
+-        for (int part = 0; part < 2; ++part) {
+-          const unsigned sm = (f_high[u] >> (8 * part)) & 0xFFU;
+-          const float d = f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
+-          const float b =
+-              f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
+-          // Keep the affine in F32. Rounding its coefficients separately
+-          // to F16 amplifies cancellation in small routed outputs.
+-          auto* affine = reinterpret_cast<float*>(s_scale) +
+-                         2 * (((2 * f_c + part) * BM) + row);
+-          affine[0] = d;
+-          affine[1] = b;
++        if constexpr (kQ5K) {
++          s_high[(f_c * BM) + row] = f_high[u];
+         }
+-      } else if constexpr (kSigned) {
+-      } else if constexpr (kQ5) {
+-        s_high[(f_c * BM) + row] = f_high[u];
+-        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
+-        const float d = f_live[u] ? __low2float(dm) : 0.0F;
+-        const float mn = f_live[u] ? __high2float(dm) : 0.0F;
+-        scale_bias =
+-            __builtin_bit_cast(std::uint32_t, __floats2half2_rn(d, mn));
+-      } else {
+-        const int sb32 = f_sb32[u];
+-        std::uint32_t sc = 0;
+-        std::uint32_t mn = 0;
+-        if (sb32 < 4) {
+-          sc = HeaderByte(f_header[u], 4 + sb32) & 0x3FU;
+-          mn = HeaderByte(f_header[u], 8 + sb32) & 0x3FU;
++        if constexpr (kQ2) {
++          const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++#pragma unroll
++          for (int part = 0; part < 2; ++part) {
++            const unsigned sm = (f_high[u] >> (8 * part)) & 0xFFU;
++            const float d =
++                f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
++            const float b =
++                f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
++            // Keep the affine in F32. Rounding its coefficients separately
++            // to F16 amplifies cancellation in small routed outputs.
++            auto* affine = reinterpret_cast<float*>(s_scale) +
++                           2 * (((2 * f_c + part) * BM) + row);
++            affine[0] = d;
++            affine[1] = b;
++          }
++        } else if constexpr (kSigned) {
++        } else if constexpr (kQ5) {
++          s_high[(f_c * BM) + row] = f_high[u];
++          const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++          const float d = f_live[u] ? __low2float(dm) : 0.0F;
++          const float mn = f_live[u] ? __high2float(dm) : 0.0F;
++          scale_bias =
++              __builtin_bit_cast(std::uint32_t, __floats2half2_rn(d, mn));
+         } else {
+-          sc = (HeaderByte(f_header[u], 8 + sb32) & 0x0FU) |
+-               ((HeaderByte(f_header[u], sb32) >> 6U) << 4U);
+-          mn = (HeaderByte(f_header[u], 8 + sb32) >> 4U) |
+-               ((HeaderByte(f_header[u], 4 + sb32) >> 6U) << 4U);
++          const int sb32 = f_sb32[u];
++          std::uint32_t sc = 0;
++          std::uint32_t mn = 0;
++          if (sb32 < 4) {
++            sc = HeaderByte(f_header[u], 4 + sb32) & 0x3FU;
++            mn = HeaderByte(f_header[u], 8 + sb32) & 0x3FU;
++          } else {
++            sc = (HeaderByte(f_header[u], 8 + sb32) & 0x0FU) |
++                 ((HeaderByte(f_header[u], sb32) >> 6U) << 4U);
++            mn = (HeaderByte(f_header[u], 8 + sb32) >> 4U) |
++                 ((HeaderByte(f_header[u], 4 + sb32) >> 6U) << 4U);
++          }
++          const __half2 dm = __builtin_bit_cast(__half2, f_header[u].x);
++          const float scale =
++              f_live[u] ? __low2float(dm) * static_cast<float>(sc) : 0.0F;
++          const float offset =
++              f_live[u] ? __high2float(dm) * static_cast<float>(mn) : 0.0F;
++          scale_bias = __builtin_bit_cast(std::uint32_t,
++                                          __floats2half2_rn(scale, -offset));
+         }
+-        const __half2 dm = __builtin_bit_cast(__half2, f_header[u].x);
+-        const float scale =
+-            f_live[u] ? __low2float(dm) * static_cast<float>(sc) : 0.0F;
+-        const float offset =
+-            f_live[u] ? __high2float(dm) * static_cast<float>(mn) : 0.0F;
+-        scale_bias = __builtin_bit_cast(std::uint32_t,
+-                                        __floats2half2_rn(scale, -offset));
+-      }
+-      if constexpr (!kQ2)
+-        s_scale[(f_c * BM) + row] = scale_bias;
++        if constexpr (!kQ2)
++          s_scale[(f_c * BM) + row] = scale_bias;
++      }
+     }
+ #pragma unroll
+     for (int i = 0; i < kActFetch; ++i) {
+@@ -4678,9 +4684,9 @@
+ 
+   const __half2 magic = __floats2half2_rn(kSigned ? -1152.0F : -1024.0F,
+                                           kSigned ? -1152.0F : -1024.0F);
+-  const auto compute_stage = [&]() {
++  const auto compute_stage = [&](int kb0) {
+     uint4 raw[kWaveRowTiles][BK];
+-    if constexpr (!kSigned && !kQ2) {
++    if constexpr (!kMirror && !kSigned && !kQ2) {
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+         const int row = (wave_id * 16) + (u * 128) + sub_lane;
+@@ -4697,109 +4703,133 @@
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+         const int row = (wave_id * 16) + (u * 128) + sub_lane;
+-        const __half2 sb =
+-            kQ2 ? __float2half2_rn(0.0F)
+-                : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
+-        const __half2 scale2 = __low2half2(sb);
+-        const __half2 bias2 = __high2half2(sb);
+-        std::uint32_t nib[8];
+-        if constexpr (kSigned || kQ2) {
+-          // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
+-          // flipping the sign bit carries q + 128, which the 1152 magic
+-          // takes back out.
+-          const uint4 c0 = s_codes[swizzle(row, 2 * kb)];
+-          const uint4 c1 = s_codes[swizzle(row, (2 * kb) + 1)];
+-          const std::uint32_t words[8] = {c0.x, c0.y, c0.z, c0.w,
+-                                          c1.x, c1.y, c1.z, c1.w};
+-#pragma unroll
+-          for (int i = 0; i < 8; ++i) {
+-            nib[i] = (kSigned && !kIQ2) ? words[i] ^ 0x80808080U : words[i];
++        // SPDX-License-Identifier: MIT
++        if constexpr (kMirror) {
++          static_assert(kIQ2 || (kQ2 && kScaled));
++          const int logical_row = r_block + (kPair ? row % kRows : row);
++          const void* cached = w;
++          if constexpr (kPair) {
++            if (row >= kRows)
++              cached = w_up;
+           }
+-        } else if constexpr (kQ5) {
+-          // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
+-          // the low nibbles, 16-31 the high, plus bit j of the high-bit
+-          // word.
+-          const uint4 r = raw[u][kb];
+-          const std::uint32_t high = s_high[(kb * BM) + row];
+-          const std::uint32_t words[4] = {r.x, r.y, r.z, r.w};
+-#pragma unroll
+-          for (int i = 0; i < 4; ++i) {
+-            nib[i] = (words[i] & 0x0F0F0F0FU) |
+-                     SpreadHighBits((high >> (4 * i)) & 0xFU);
+-            nib[4 + i] = ((words[i] >> 4U) & 0x0F0F0F0FU) |
+-                         SpreadHighBits((high >> (16 + 4 * i)) & 0xFU);
++          if (logical_row < m_i) {
++            const auto* weights = static_cast<const __half*>(cached) +
++                                  std::size_t(expert) * m * k;
++            const std::size_t offset =
++                (std::size_t(kb0 + kb) * 2 * m + logical_row) * 16;
++            __builtin_memcpy(&a_lo[u], weights + offset, 32);
++            __builtin_memcpy(&a_hi[u], weights + offset + m * 16, 32);
++          } else {
++            a_lo[u] = v16h{};
++            a_hi[u] = v16h{};
+           }
+         } else {
+-          // Q4_K / Q5_K: elements 0-15 of K block kb0 + kb are the low
+-          // (kb = 0) or high (kb = 1) nibbles of chunk 0, elements 16-31
+-          // of chunk 1; Q5_K adds bit j of the staged high-bit word.
+-          const unsigned shift = 4U * static_cast<unsigned>(kb);
+-          const std::uint32_t words[8] = {raw[u][0].x, raw[u][0].y, raw[u][0].z,
+-                                          raw[u][0].w, raw[u][1].x, raw[u][1].y,
+-                                          raw[u][1].z, raw[u][1].w};
+-          const std::uint32_t high = kQ5K ? s_high[(kb * BM) + row] : 0U;
+-#pragma unroll
+-          for (int i = 0; i < 8; ++i) {
+-            nib[i] = (words[i] >> shift) & 0x0F0F0F0FU;
+-            if constexpr (kQ5K) {
+-              nib[i] |= SpreadHighBits((high >> (4 * i)) & 0xFU);
++          const __half2 sb =
++              kQ2 ? __float2half2_rn(0.0F)
++                  : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
++          const __half2 scale2 = __low2half2(sb);
++          const __half2 bias2 = __high2half2(sb);
++          std::uint32_t nib[8];
++          if constexpr (kSigned || kQ2) {
++            // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
++            // flipping the sign bit carries q + 128, which the 1152 magic
++            // takes back out.
++            const uint4 c0 = s_codes[swizzle(row, 2 * kb)];
++            const uint4 c1 = s_codes[swizzle(row, (2 * kb) + 1)];
++            const std::uint32_t words[8] = {c0.x, c0.y, c0.z, c0.w,
++                                            c1.x, c1.y, c1.z, c1.w};
++#pragma unroll
++            for (int i = 0; i < 8; ++i) {
++              nib[i] = (kSigned && !kIQ2) ? words[i] ^ 0x80808080U : words[i];
++            }
++          } else if constexpr (kQ5) {
++            // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
++            // the low nibbles, 16-31 the high, plus bit j of the high-bit
++            // word.
++            const uint4 r = raw[u][kb];
++            const std::uint32_t high = s_high[(kb * BM) + row];
++            const std::uint32_t words[4] = {r.x, r.y, r.z, r.w};
++#pragma unroll
++            for (int i = 0; i < 4; ++i) {
++              nib[i] = (words[i] & 0x0F0F0F0FU) |
++                       SpreadHighBits((high >> (4 * i)) & 0xFU);
++              nib[4 + i] = ((words[i] >> 4U) & 0x0F0F0F0FU) |
++                           SpreadHighBits((high >> (16 + 4 * i)) & 0xFU);
++            }
++          } else {
++            // Q4_K / Q5_K: elements 0-15 of K block kb0 + kb are the low
++            // (kb = 0) or high (kb = 1) nibbles of chunk 0, elements 16-31
++            // of chunk 1; Q5_K adds bit j of the staged high-bit word.
++            const unsigned shift = 4U * static_cast<unsigned>(kb);
++            const std::uint32_t words[8] = {
++                raw[u][0].x, raw[u][0].y, raw[u][0].z, raw[u][0].w,
++                raw[u][1].x, raw[u][1].y, raw[u][1].z, raw[u][1].w};
++            const std::uint32_t high = kQ5K ? s_high[(kb * BM) + row] : 0U;
++#pragma unroll
++            for (int i = 0; i < 8; ++i) {
++              nib[i] = (words[i] >> shift) & 0x0F0F0F0FU;
++              if constexpr (kQ5K) {
++                nib[i] |= SpreadHighBits((high >> (4 * i)) & 0xFU);
++              }
+             }
+           }
++          __half2 h[16];
++          uint2 palette[kQ2 && (kPacked || kScaled) ? 2 : 1];
++          if constexpr (kQ2 && (kPacked || kScaled)) {
++            // A sixteen-element affine group has only four possible weights.
++            // Preserve each F32 FMA and F16 rounding, then select its exact
++            // half bits instead of repeating the affine for every element.
++#pragma unroll
++            for (int part = 0; part < 2; ++part) {
++              const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                   2 * (((2 * kb + part) * BM) + row);
++              const float d = affine[0], bias = affine[1];
++              palette[part] = make_uint2(
++                  __builtin_bit_cast(std::uint32_t,
++                                     __floats2half2_rn(fmaf(0.0F, d, bias),
++                                                       fmaf(1.0F, d, bias))),
++                  __builtin_bit_cast(std::uint32_t,
++                                     __floats2half2_rn(fmaf(2.0F, d, bias),
++                                                       fmaf(3.0F, d, bias))));
++            }
++          }
++#pragma unroll
++          for (int i = 0; i < 8; ++i) {
++            if constexpr (kQ2 && (kPacked || kScaled)) {
++              const uint2 values = palette[i / 4];
++              // Duplicate each two-bit code into the two byte selectors for
++              // its half; perm indices 0..3 read the second source word.
++              const auto lo =
++                  (__builtin_amdgcn_perm(nib[i], nib[i], 0x01010000U) << 1U) |
++                  0x01000100U;
++              const auto hi =
++                  (__builtin_amdgcn_perm(nib[i], nib[i], 0x03030202U) << 1U) |
++                  0x01000100U;
++              h[2 * i] = __builtin_bit_cast(
++                  __half2, __builtin_amdgcn_perm(values.y, values.x, lo));
++              h[2 * i + 1] = __builtin_bit_cast(
++                  __half2, __builtin_amdgcn_perm(values.y, values.x, hi));
++            } else if constexpr (kQ2) {
++              const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                   2 * (((2 * kb + (i / 4)) * BM) + row);
++              const float d = affine[0], bias = affine[1];
++              h[2 * i] =
++                  __floats2half2_rn(fmaf(float(nib[i] & 3U), d, bias),
++                                    fmaf(float((nib[i] >> 8U) & 3U), d, bias));
++              h[2 * i + 1] =
++                  __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
++                                    fmaf(float((nib[i] >> 24U) & 3U), d, bias));
++            } else if constexpr (kIQ2) {
++              Iq2HalfBytesToHalves(nib[i], scale2, bias2, h[2 * i],
++                                   h[2 * i + 1]);
++            } else {
++              CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i],
++                            h[2 * i + 1]);
++            }
++          }
++          __builtin_memcpy(&a_lo[u], &h[0], 32);
++          __builtin_memcpy(&a_hi[u], &h[8], 32);
+         }
+-        __half2 h[16];
+-        uint2 palette[kQ2 && (kPacked || kScaled) ? 2 : 1];
+-        if constexpr (kQ2 && (kPacked || kScaled)) {
+-          // A sixteen-element affine group has only four possible weights.
+-          // Preserve each F32 FMA and F16 rounding, then select its exact
+-          // half bits instead of repeating the affine for every element.
+-#pragma unroll
+-          for (int part = 0; part < 2; ++part) {
+-            const auto* affine = reinterpret_cast<const float*>(s_scale) +
+-                                 2 * (((2 * kb + part) * BM) + row);
+-            const float d = affine[0], bias = affine[1];
+-            palette[part] = make_uint2(
+-                __builtin_bit_cast(std::uint32_t,
+-                                   __floats2half2_rn(fmaf(0.0F, d, bias),
+-                                                     fmaf(1.0F, d, bias))),
+-                __builtin_bit_cast(std::uint32_t,
+-                                   __floats2half2_rn(fmaf(2.0F, d, bias),
+-                                                     fmaf(3.0F, d, bias))));
+-          }
+-        }
+-#pragma unroll
+-        for (int i = 0; i < 8; ++i) {
+-          if constexpr (kQ2 && (kPacked || kScaled)) {
+-            const uint2 values = palette[i / 4];
+-            // Duplicate each two-bit code into the two byte selectors for
+-            // its half; perm indices 0..3 read the second source word.
+-            const auto lo =
+-                (__builtin_amdgcn_perm(nib[i], nib[i], 0x01010000U) << 1U) |
+-                0x01000100U;
+-            const auto hi =
+-                (__builtin_amdgcn_perm(nib[i], nib[i], 0x03030202U) << 1U) |
+-                0x01000100U;
+-            h[2 * i] = __builtin_bit_cast(
+-                __half2, __builtin_amdgcn_perm(values.y, values.x, lo));
+-            h[2 * i + 1] = __builtin_bit_cast(
+-                __half2, __builtin_amdgcn_perm(values.y, values.x, hi));
+-          } else if constexpr (kQ2) {
+-            const auto* affine = reinterpret_cast<const float*>(s_scale) +
+-                                 2 * (((2 * kb + (i / 4)) * BM) + row);
+-            const float d = affine[0], bias = affine[1];
+-            h[2 * i] =
+-                __floats2half2_rn(fmaf(float(nib[i] & 3U), d, bias),
+-                                  fmaf(float((nib[i] >> 8U) & 3U), d, bias));
+-            h[2 * i + 1] =
+-                __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
+-                                  fmaf(float((nib[i] >> 24U) & 3U), d, bias));
+-          } else if constexpr (kIQ2) {
+-            Iq2HalfBytesToHalves(nib[i], scale2, bias2, h[2 * i], h[2 * i + 1]);
+-          } else {
+-            CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i], h[2 * i + 1]);
+-          }
+-        }
+-        __builtin_memcpy(&a_lo[u], &h[0], 32);
+-        __builtin_memcpy(&a_hi[u], &h[8], 32);
+       }
+ #pragma unroll
+       for (int j = 0; j < kTokTiles; ++j) {
+@@ -4855,7 +4885,7 @@
+     if (kb0 + BK < num_kb) {
+       fetch_stage(kb0 + BK);
+     }
+-    compute_stage();
++    compute_stage(kb0);
+     __syncthreads();
+   }
+ 
+@@ -6420,9 +6450,10 @@
+   return hipGetLastError() == hipSuccess;
+ }
+ 
++#include "lie_q2_expert_cache.inc"
++#include "q2_down_half_storage.inc"
+ #include "q2_hc_down_bk256.inc"
+ #include "q2_hc_moe_deferred.inc"
+-#include "q2_down_half_storage.inc"
+ 
+ bool UnquantizedF16Gemm(const void* w, const __half* x, float* out,
+                         std::size_t batch, std::size_t m, std::size_t k,
+--- a/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
++++ b/src/models/qwen38_flash_next/kernels/rocm/kernels.hpp
+@@ -308,6 +308,26 @@
+ 
+ /// Paired IQ2_XXS gate/up from original blocks, with F32 SwiGLU slot output.
+ /// Input token rows are F16, preserving the upstream wide-path boundary.
++// SPDX-License-Identifier: MIT
++bool ConvertExpertCache(const void*, void*, bool, std::uint32_t, std::uint32_t,
++                        std::uint32_t, hipStream_t);
++bool RoutedCachedIQ2Gemm(const void* gate, const void* up, const __half* x,
++                         const std::int32_t* tiles, std::uint32_t n_tiles,
++                         std::uint32_t tile_rows,
++                         const std::int32_t* pad_bounds,
++                         const std::int32_t* rows_token,
++                         const std::int32_t* rows_slot, float* out,
++                         std::size_t m, std::size_t k, hipStream_t stream);
++bool RoutedCachedQ2ScaledGemm(const void*, const __half*, const float*,
++                              const std::int32_t*, std::uint32_t, std::uint32_t,
++                              const std::int32_t*, const std::int32_t*, float*,
++                              std::size_t, std::size_t, hipStream_t);
++bool RoutedCachedQ2ScaledHalfGemm(
++    const void* w, const __half* x, const float* inverse,
++    const std::int32_t* tiles, std::uint32_t n_tiles, std::uint32_t tile_rows,
++    const std::int32_t* bounds, const std::int32_t* slots, __half* out,
++    std::size_t m, std::size_t k, hipStream_t stream);
++
+ bool RoutedGatedIQ2Gemm(const void* gate, const void* up, const __half* x,
+                         const std::int32_t* tiles, std::uint32_t n_tiles,
+                         std::uint32_t tile_rows, const std::int32_t* pad_bounds,
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_expert_cache.inc
+@@ -0,0 +1,212 @@
++// SPDX-License-Identifier: MIT
++// Mirrors exactly the retained prefill operand conversion, not a new
++// quantization. Layout: [expert][K/16][output row][16 half weights].
++template<bool IQ2>
++__global__ void ConvertExpertCacheKernel(const std::uint8_t* encoded,
++                                         __half* output, std::size_t groups,
++                                         std::uint32_t m, std::uint32_t k) {
++  const std::size_t group = std::size_t(blockIdx.x) * blockDim.x + threadIdx.x;
++  if (group >= groups)
++    return;
++  const unsigned col = (group % (k / 4)) * 4;
++  const std::size_t erow = group / (k / 4);
++  const unsigned row = erow % m;
++  const std::size_t expert = erow / m;
++  const auto* block = encoded + erow * ((k + 255) / 256) * (IQ2 ? 66 : 84) +
++                      (col / 256) * (IQ2 ? 66 : 84);
++  __half2 lo, hi;
++  if constexpr (IQ2) {
++    const unsigned sub = (col % 256) / 32;
++    uint2 raw;
++    __half d;
++    __builtin_memcpy(&raw, block + 2 + sub * 8, 8);
++    __builtin_memcpy(&d, block, 2);
++    const unsigned part = (col % 32) / 8;
++    const unsigned code = (raw.x >> (8 * part)) & 255U;
++    const unsigned sign = (raw.y >> (7 * part)) & 127U;
++    const std::uint64_t high =
++        kIq2HalfHighGrid[code] ^ (ksigns64[sign] & 0x8080808080808080ULL);
++    const float scale = __half2float(d) * float(2 * (raw.y >> 28) + 1) * 0.125F;
++    const __half rounded = __float2half_rn(scale);
++    Iq2HalfBytesToHalves(std::uint32_t(high >> ((col & 4) * 8)),
++                         __halves2half2(rounded, rounded),
++                         __float2half2_rn(0.0F), lo, hi);
++  } else {
++    const unsigned q = col % 256;
++    const unsigned sm = block[q / 16];
++    __half2 dm;
++    __builtin_memcpy(&dm, block + 80, 4);
++    const float d = __low2float(dm) * float(sm & 15U);
++    const float bias = -__high2float(dm) * float(sm >> 4U);
++    const unsigned offset = (q / 128) * 32 + q % 32;
++    const unsigned shift = 2 * ((q % 128) / 32);
++    float values[4];
++#pragma unroll
++    for (unsigned i = 0; i < 4; ++i)
++      values[i] = fmaf(float((block[16 + offset + i] >> shift) & 3U), d, bias);
++    lo = __floats2half2_rn(values[0], values[1]);
++    hi = __floats2half2_rn(values[2], values[3]);
++  }
++  auto* dst = output + expert * m * k + ((col / 16) * m + row) * 16 + col % 16;
++  *reinterpret_cast<uint2*>(dst) = make_uint2(__builtin_bit_cast(unsigned, lo),
++                                              __builtin_bit_cast(unsigned, hi));
++}
++
++bool ConvertExpertCache(const void* encoded, void* output, bool iq2,
++                        std::uint32_t experts, std::uint32_t m, std::uint32_t k,
++                        hipStream_t stream) {
++  if (!encoded || !output || !experts || !m || !k || k % 64 || (iq2 && k % 256))
++    return false;
++  const std::size_t groups = std::size_t(experts) * m * (k / 4);
++  const dim3 grid((groups + 255) / 256);
++  if (iq2)
++    hipLaunchKernelGGL((ConvertExpertCacheKernel<true>), grid, dim3(256), 0,
++                       stream, static_cast<const std::uint8_t*>(encoded),
++                       static_cast<__half*>(output), groups, m, k);
++  else
++    hipLaunchKernelGGL((ConvertExpertCacheKernel<false>), grid, dim3(256), 0,
++                       stream, static_cast<const std::uint8_t*>(encoded),
++                       static_cast<__half*>(output), groups, m, k);
++  return hipGetLastError() == hipSuccess;
++}
++
++template<int BN, bool kPacked = false>
++void LaunchCachedIQ2(const void* gate, const void* up, const __half* x,
++                     const std::int32_t* tiles, std::uint32_t n_tiles,
++                     const std::int32_t* bounds, const std::int32_t* rows_token,
++                     const std::int32_t* rows_slot, float* out, std::size_t m,
++                     std::size_t k, hipStream_t stream) {
++  const dim3 grid(static_cast<unsigned>((m + 63) / 64), n_tiles);
++  hipLaunchKernelGGL((RoutedF16GEMMKernel<WeightType::kIQ2_XXS, 128, BN, 2,
++                                          true, kPacked, false, true>),
++                     grid, dim3(kThreads), 0, stream, gate, x, tiles, bounds,
++                     rows_token, rows_slot, nullptr, out, nullptr, m, k, up);
++}
++
++template<bool kPacked>
++bool RoutedCachedIQ2GemmImpl(const void* gate, const void* up, const __half* x,
++                             const std::int32_t* tiles, std::uint32_t n_tiles,
++                             std::uint32_t tile_rows,
++                             const std::int32_t* bounds,
++                             const std::int32_t* rows_token,
++                             const std::int32_t* rows_slot, float* out,
++                             std::size_t m, std::size_t k, hipStream_t stream) {
++  if (!gate || !up || !x || !out || !tiles || !bounds || !rows_token ||
++      !rows_slot || !m || !k || k % 256 || !n_tiles)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchCachedIQ2<16, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                   rows_token, rows_slot, out, m, k, stream);
++      break;
++    case 48:
++      LaunchCachedIQ2<48, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                   rows_token, rows_slot, out, m, k, stream);
++      break;
++    case 64:
++      LaunchCachedIQ2<64, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                   rows_token, rows_slot, out, m, k, stream);
++      break;
++    case 128:
++      LaunchCachedIQ2<128, kPacked>(gate, up, x, tiles, n_tiles, bounds,
++                                    rows_token, rows_slot, out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return true;
++}
++
++bool RoutedCachedIQ2Gemm(const void* gate, const void* up, const __half* x,
++                         const std::int32_t* tiles, std::uint32_t n_tiles,
++                         std::uint32_t tile_rows, const std::int32_t* bounds,
++                         const std::int32_t* rows_token,
++                         const std::int32_t* rows_slot, float* out,
++                         std::size_t m, std::size_t k, hipStream_t stream) {
++  return RoutedCachedIQ2GemmImpl<false>(gate, up, x, tiles, n_tiles, tile_rows,
++                                        bounds, rows_token, rows_slot, out, m,
++                                        k, stream);
++}
++template<int BN>
++void LaunchCachedQ2Scaled(const void* w, const __half* x, const float* inverse,
++                          const std::int32_t* tiles, std::uint32_t n_tiles,
++                          const std::int32_t* bounds, const std::int32_t* slots,
++                          float* out, std::size_t m, std::size_t k,
++                          hipStream_t stream) {
++  hipLaunchKernelGGL((RoutedF16GEMMKernel<WeightType::kQ2_K, 128, BN, 2, false,
++                                          false, true, true>),
++                     dim3(static_cast<unsigned>((m + 127) / 128), n_tiles),
++                     dim3(256), 0, stream, w, x, tiles, bounds, slots, slots,
++                     nullptr, out, nullptr, m, k, inverse);
++}
++
++bool RoutedCachedQ2ScaledGemm(const void* w, const __half* x,
++                              const float* inverse, const std::int32_t* tiles,
++                              std::uint32_t n_tiles, std::uint32_t tile_rows,
++                              const std::int32_t* bounds,
++                              const std::int32_t* slots, float* out,
++                              std::size_t m, std::size_t k,
++                              hipStream_t stream) {
++  if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
++      !n_tiles || k != 640)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchCachedQ2Scaled<16>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                               out, m, k, stream);
++      break;
++    case 48:
++      LaunchCachedQ2Scaled<48>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                               out, m, k, stream);
++      break;
++    case 64:
++      LaunchCachedQ2Scaled<64>(w, x, inverse, tiles, n_tiles, bounds, slots,
++                               out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return hipGetLastError() == hipSuccess;
++}
++template<int BN>
++void LaunchCachedQ2HalfStorage(const void* w, const __half* x,
++                               const float* inverse, const std::int32_t* tiles,
++                               std::uint32_t n_tiles,
++                               const std::int32_t* bounds,
++                               const std::int32_t* slots, __half* out,
++                               std::size_t m, std::size_t k,
++                               hipStream_t stream) {
++  hipLaunchKernelGGL((RoutedQ2HalfStorageKernel<WeightType::kQ2_K, 128, BN, 2,
++                                                false, false, true, true>),
++                     dim3(static_cast<unsigned>((m + 127) / 128), n_tiles),
++                     dim3(256), 0, stream, w, x, tiles, bounds, slots, slots,
++                     nullptr, reinterpret_cast<float*>(out), nullptr, m, k,
++                     inverse);
++}
++
++bool RoutedCachedQ2ScaledHalfGemm(
++    const void* w, const __half* x, const float* inverse,
++    const std::int32_t* tiles, std::uint32_t n_tiles, std::uint32_t tile_rows,
++    const std::int32_t* bounds, const std::int32_t* slots, __half* out,
++    std::size_t m, std::size_t k, hipStream_t stream) {
++  if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
++      !n_tiles || k != 640)
++    return false;
++  switch (tile_rows) {
++    case 16:
++      LaunchCachedQ2HalfStorage<16>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
++      break;
++    case 48:
++      LaunchCachedQ2HalfStorage<48>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
++      break;
++    case 64:
++      LaunchCachedQ2HalfStorage<64>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
++      break;
++    default:
++      return false;
++  }
++  return hipGetLastError() == hipSuccess;
++}
+--- /dev/null
++++ b/src/models/qwen38_flash_next/kernels/rocm/lie_q2_expert_cache_policy.h
+@@ -0,0 +1,53 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef LIE_Q2_EXPERT_CACHE_POLICY_H
++#define LIE_Q2_EXPERT_CACHE_POLICY_H
++#include <stdbool.h>
++#include <stddef.h>
++#include <stdint.h>
++
++#define LIE_Q2_EXPERT_CACHE_BUDGET ((size_t)32 * 1024 * 1024 * 1024)
++#define LIE_Q2_EXPERT_CACHE_RESERVE ((size_t)8 * 1024 * 1024 * 1024)
++#define LIE_Q2_EXPERT_CACHE_TAIL ((size_t)4096)
++
++typedef struct lie_q2_expert_cache_plan {
++  size_t tensor_payload_bytes;
++  size_t tensor_allocation_bytes;
++  size_t layer_allocation_bytes;
++  size_t next_cache_bytes;
++} lie_q2_expert_cache_plan;
++
++/* Fixed experimental coverage: every eighth trunk layer, all its experts.
++ * Admit complete gate/up/down groups. Exhaustion keeps encoded weights.
++ * Own C17 accounting only: no tensor reads, allocation or model forward. */
++static inline int lie_q2_expert_cache_admit(uint32_t layer, uint32_t layers,
++                                            uint32_t experts, uint32_t hidden,
++                                            uint32_t ff, bool supported,
++                                            size_t used, size_t free_bytes,
++                                            lie_q2_expert_cache_plan* out) {
++  if (!out)
++    return -1;
++  *out = (lie_q2_expert_cache_plan){0};
++  if (!supported || layers != 48 || layer >= layers || layer % 8 ||
++      experts != 512 || hidden != 2560 || ff != 640)
++    return 0;
++  if ((size_t)experts > SIZE_MAX / hidden ||
++      (size_t)experts * hidden > SIZE_MAX / ff)
++    return -1;
++  size_t elements = (size_t)experts * hidden * ff;
++  if (elements > (SIZE_MAX - LIE_Q2_EXPERT_CACHE_TAIL) / 2)
++    return -1;
++  size_t allocation = elements * 2 + LIE_Q2_EXPERT_CACHE_TAIL;
++  if (allocation > SIZE_MAX / 3)
++    return -1;
++  size_t total = 3 * allocation;
++  if (used > LIE_Q2_EXPERT_CACHE_BUDGET ||
++      total > LIE_Q2_EXPERT_CACHE_BUDGET - used || total > free_bytes ||
++      free_bytes - total < LIE_Q2_EXPERT_CACHE_RESERVE)
++    return 0;
++  out->tensor_payload_bytes = elements * 2;
++  out->tensor_allocation_bytes = allocation;
++  out->layer_allocation_bytes = total;
++  out->next_cache_bytes = used + total;
++  return 1;
++}
++#endif
+--- a/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
++++ b/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc
+@@ -5,7 +5,7 @@
+ // Existing F32 specializations remain available as literal controls.
+ 
+ template<WeightType kType, int BM, int BN, int BK, bool kPair = false,
+-         bool kPacked = false, bool kScaled = false>
++         bool kPacked = false, bool kScaled = false, bool kMirror = false>
+ __launch_bounds__(256) __global__ void RoutedQ2HalfStorageKernel(
+     const void* __restrict__ w,
+     const std::conditional_t<kType == WeightType::kQ2_K && !kScaled, float,
+@@ -42,9 +42,9 @@
+   // lane) covers all bank groups; the activation plane is
+   // [kb][16-element quarter][token][16 B] so a fragment read is 256
+   // contiguous bytes; the epilogue reuses it all.
+-  constexpr int kCodeBytes = BM * kChunks * 16;
++  constexpr int kCodeBytes = kMirror ? 0 : BM * kChunks * 16;
+   constexpr int kHighBytes = (kQ5 || kQ5K) ? BK * BM * 4 : 0;
+-  constexpr int kScaleBytes = (kQ2 ? 4 : 1) * BK * BM * 4;
++  constexpr int kScaleBytes = kMirror ? 0 : (kQ2 ? 4 : 1) * BK * BM * 4;
+   // One slot of padding per activation quarter plane: the eight chunks of
+   // a token then land on eight bank groups when they are written.
+   constexpr int kActStride = BN + 1;
+@@ -159,92 +159,95 @@
+   };
+ 
+   const auto fetch_stage = [&](int kb0) {
+-#pragma unroll
+-    for (int u = 0; u < kWaveRowTiles; ++u) {
+-      if constexpr (kQ5) {
+-        const int kb = kb0 + f_c;
+-        const auto* words = reinterpret_cast<const uint2*>(f_ptr[u]) + (kb * 3);
+-        const uint2 w0 = words[0];
+-        const uint2 w1 = words[1];
+-        const uint2 w2 = words[2];
+-        f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
+-        f_high[u] = w0.y;
+-        f_dm[u] = w0.x;
+-      } else if constexpr (kIQ2) {
+-        const int sb32 = kb0 + f_c;
+-        const auto* block = f_ptr[u] + (sb32 / 8) * 66;
+-        // SPDX-License-Identifier: MIT
+-        // Keep only the original group/header live across current-stage WMMA.
+-        // No codebook/sign lookup or conversion waits on these loads here.
+-        __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
+-        __builtin_memcpy(&f_iq2_d[u], block, 2);
+-      } else if constexpr (kQ2) {
+-        // Each Q2_K superblock stores 256 codes with independent affine
+-        // scales every 16 elements. The input's logical K may end halfway
+-        // through the last block; row storage remains padded to 256.
+-        const int sb32 = kb0 + f_c;
+-        const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
+-        const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
+-        __builtin_memcpy(&f_codes[u], codes, 16);
+-        __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
+-        __builtin_memcpy(&f_dm[u], blk + 80, 4);
+-        f_high[u] = blk[2 * (sb32 % 8)] |
+-                    (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
+-        const unsigned shift = 2U * unsigned(sb32 % 4);
+-        const auto unpack = [shift](uint4 v) {
+-          return make_uint4(
+-              (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
+-              (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
+-        };
+-        f_codes[u] = unpack(f_codes[u]);
+-        f_codes_hi[u] = unpack(f_codes_hi[u]);
+-      } else if constexpr (kQ8) {
+-        // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
+-        const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
+-        f_dm[u] = *reinterpret_cast<const std::uint16_t*>(blk);
+-        __builtin_memcpy(&f_codes[u], blk + 2, 16);
+-        __builtin_memcpy(&f_codes_hi[u], blk + 18, 16);
+-      } else {
+-        constexpr int kBlockChunks = kQ5K ? 11 : 9;
+-        constexpr int kCodeChunk = kQ5K ? 3 : 1;
+-        const int block = kb0 / 8;
+-        const auto* blk =
+-            reinterpret_cast<const uint4*>(f_ptr[u]) + (block * kBlockChunks);
+-        // The K sweep enters a new superblock every eight Q8-sized blocks.
+-        if (kb0 % 8 == 0) {
+-          f_header[u] = blk[0];
++    if constexpr (!kMirror) {
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        if constexpr (kQ5) {
++          const int kb = kb0 + f_c;
++          const auto* words =
++              reinterpret_cast<const uint2*>(f_ptr[u]) + (kb * 3);
++          const uint2 w0 = words[0];
++          const uint2 w1 = words[1];
++          const uint2 w2 = words[2];
++          f_codes[u] = make_uint4(w1.x, w1.y, w2.x, w2.y);
++          f_high[u] = w0.y;
++          f_dm[u] = w0.x;
++        } else if constexpr (kIQ2) {
++          const int sb32 = kb0 + f_c;
++          const auto* block = f_ptr[u] + (sb32 / 8) * 66;
++          // SPDX-License-Identifier: MIT
++          // Keep only the original group/header live across current-stage WMMA.
++          // No codebook/sign lookup or conversion waits on these loads here.
++          __builtin_memcpy(&f_iq2_group[u], block + 2 + (sb32 % 8) * 8, 8);
++          __builtin_memcpy(&f_iq2_d[u], block, 2);
++        } else if constexpr (kQ2) {
++          // Each Q2_K superblock stores 256 codes with independent affine
++          // scales every 16 elements. The input's logical K may end halfway
++          // through the last block; row storage remains padded to 256.
++          const int sb32 = kb0 + f_c;
++          const auto* blk = f_ptr[u] + ((sb32 / 8) * 84);
++          const auto* codes = blk + 16 + ((sb32 % 8) / 4) * 32;
++          __builtin_memcpy(&f_codes[u], codes, 16);
++          __builtin_memcpy(&f_codes_hi[u], codes + 16, 16);
++          __builtin_memcpy(&f_dm[u], blk + 80, 4);
++          f_high[u] = blk[2 * (sb32 % 8)] |
++                      (std::uint32_t(blk[2 * (sb32 % 8) + 1]) << 8U);
++          const unsigned shift = 2U * unsigned(sb32 % 4);
++          const auto unpack = [shift](uint4 v) {
++            return make_uint4(
++                (v.x >> shift) & 0x03030303U, (v.y >> shift) & 0x03030303U,
++                (v.z >> shift) & 0x03030303U, (v.w >> shift) & 0x03030303U);
++          };
++          f_codes[u] = unpack(f_codes[u]);
++          f_codes_hi[u] = unpack(f_codes_hi[u]);
++        } else if constexpr (kQ8) {
++          // block_q8_0 is 34 bytes, so the code loads are 2-byte aligned.
++          const auto* blk = f_ptr[u] + ((kb0 + f_c) * 34);
++          f_dm[u] = *reinterpret_cast<const std::uint16_t*>(blk);
++          __builtin_memcpy(&f_codes[u], blk + 2, 16);
++          __builtin_memcpy(&f_codes_hi[u], blk + 18, 16);
++        } else {
++          constexpr int kBlockChunks = kQ5K ? 11 : 9;
++          constexpr int kCodeChunk = kQ5K ? 3 : 1;
++          const int block = kb0 / 8;
++          const auto* blk =
++              reinterpret_cast<const uint4*>(f_ptr[u]) + (block * kBlockChunks);
++          // The K sweep enters a new superblock every eight Q8-sized blocks.
++          if (kb0 % 8 == 0) {
++            f_header[u] = blk[0];
++            if constexpr (kPair) {
++#pragma unroll
++              for (int group = 0; group < 4; ++group)
++                code_cache[u][group] = blk[kCodeChunk + group * 2 + f_c];
++            }
++            if constexpr (kQ5K) {
++              f_qh[u][0] = blk[1];
++              f_qh[u][1] = blk[2];
++            }
++          }
++          const int sb32 = (kb0 % 8) + f_c;
+           if constexpr (kPair) {
+-#pragma unroll
+-            for (int group = 0; group < 4; ++group)
+-              code_cache[u][group] = blk[kCodeChunk + group * 2 + f_c];
+-          }
++            const int group = sb32 / 2;
++            f_codes[u] = group == 0   ? code_cache[u][0]
++                         : group == 1 ? code_cache[u][1]
++                         : group == 2 ? code_cache[u][2]
++                                      : code_cache[u][3];
++          } else {
++            f_codes[u] = blk[kCodeChunk + (sb32 / 2) * 2 + f_c];
++          }
++          f_sb32[u] = sb32;
+           if constexpr (kQ5K) {
+-            f_qh[u][0] = blk[1];
+-            f_qh[u][1] = blk[2];
+-          }
+-        }
+-        const int sb32 = (kb0 % 8) + f_c;
+-        if constexpr (kPair) {
+-          const int group = sb32 / 2;
+-          f_codes[u] = group == 0   ? code_cache[u][0]
+-                       : group == 1 ? code_cache[u][1]
+-                       : group == 2 ? code_cache[u][2]
+-                                    : code_cache[u][3];
+-        } else {
+-          f_codes[u] = blk[kCodeChunk + (sb32 / 2) * 2 + f_c];
+-        }
+-        f_sb32[u] = sb32;
+-        if constexpr (kQ5K) {
+-          // Bit sb32 of the 32 high-bit bytes, packed as the Q5_1 word.
+-          const std::uint32_t qh[8] = {f_qh[u][0].x, f_qh[u][0].y, f_qh[u][0].z,
+-                                       f_qh[u][0].w, f_qh[u][1].x, f_qh[u][1].y,
+-                                       f_qh[u][1].z, f_qh[u][1].w};
+-          std::uint32_t high = 0;
+-#pragma unroll
+-          for (int i = 0; i < 8; ++i) {
+-            high |= GatherBit(qh[i], sb32) << (4 * i);
+-          }
+-          f_high[u] = high;
++            // Bit sb32 of the 32 high-bit bytes, packed as the Q5_1 word.
++            const std::uint32_t qh[8] = {
++                f_qh[u][0].x, f_qh[u][0].y, f_qh[u][0].z, f_qh[u][0].w,
++                f_qh[u][1].x, f_qh[u][1].y, f_qh[u][1].z, f_qh[u][1].w};
++            std::uint32_t high = 0;
++#pragma unroll
++            for (int i = 0; i < 8; ++i) {
++              high |= GatherBit(qh[i], sb32) << (4 * i);
++            }
++            f_high[u] = high;
++          }
+         }
+       }
+     }
+@@ -290,98 +293,101 @@
+   };
+ 
+   const auto commit_stage = [&]() {
+-#pragma unroll
+-    for (int u = 0; u < kWaveRowTiles; ++u) {
+-      const int row = (tid >> 1) + (u * 128);
+-      std::uint32_t scale_bias = 0;
+-      if constexpr (kIQ2) {
+-        const uint2 group = f_iq2_group[u];
+-        const __half d = f_iq2_d[u];
+-        // SPDX-License-Identifier: MIT
+-        // Each lane retains its original ten-byte prefetch and scale owner.
+-        // Four lanes transpose decode ownership: each writes one eight-value
+-        // slice for each peer's group, preserving every compact LDS byte.
+-        const int part = lane_id & 3;
+-#pragma unroll
+-        for (int owner = 0; owner < 4; ++owner) {
+-          const int peer_lane = (lane_id & ~3) + owner;
+-          const int peer_tid = (tid & ~3) + owner;
+-          const std::uint32_t indices = __shfl(group.x, peer_lane, 32);
+-          const std::uint32_t signs = __shfl(group.y, peer_lane, 32);
+-          const unsigned code = (indices >> (8 * part)) & 255U;
+-          const unsigned sign = (signs >> (7 * part)) & 127U;
+-          const uint2 magnitude =
+-              reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
+-          const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
+-          const uint2 decoded =
+-              make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
+-                         magnitude.y ^ (mask.y & 0x80808080U));
+-          const int peer_row = (peer_tid >> 1) + (u * 128);
+-          const int chunk = 2 * (peer_tid & 1) + (part >> 1);
+-          reinterpret_cast<uint2*>(
+-              s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
+-        }
+-        const float scale =
+-            __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
+-        const std::uint32_t dm =
+-            __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
+-        scale_bias = f_live[u] ? dm : 0U;
+-      } else if constexpr (kSigned || kQ2) {
+-        s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
+-        s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
+-        scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
+-      } else {
+-        s_codes[swizzle(row, f_c)] = f_codes[u];
+-      }
+-      if constexpr (kQ5K) {
+-        s_high[(f_c * BM) + row] = f_high[u];
+-      }
+-      if constexpr (kQ2) {
+-        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
+-#pragma unroll
+-        for (int part = 0; part < 2; ++part) {
+-          const unsigned sm = (f_high[u] >> (8 * part)) & 0xFFU;
+-          const float d = f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
+-          const float b =
+-              f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
+-          // Keep the affine in F32. Rounding its coefficients separately
+-          // to F16 amplifies cancellation in small routed outputs.
+-          auto* affine = reinterpret_cast<float*>(s_scale) +
+-                         2 * (((2 * f_c + part) * BM) + row);
+-          affine[0] = d;
+-          affine[1] = b;
+-        }
+-      } else if constexpr (kSigned) {
+-      } else if constexpr (kQ5) {
+-        s_high[(f_c * BM) + row] = f_high[u];
+-        const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
+-        const float d = f_live[u] ? __low2float(dm) : 0.0F;
+-        const float mn = f_live[u] ? __high2float(dm) : 0.0F;
+-        scale_bias =
+-            __builtin_bit_cast(std::uint32_t, __floats2half2_rn(d, mn));
+-      } else {
+-        const int sb32 = f_sb32[u];
+-        std::uint32_t sc = 0;
+-        std::uint32_t mn = 0;
+-        if (sb32 < 4) {
+-          sc = HeaderByte(f_header[u], 4 + sb32) & 0x3FU;
+-          mn = HeaderByte(f_header[u], 8 + sb32) & 0x3FU;
++    if constexpr (!kMirror) {
++#pragma unroll
++      for (int u = 0; u < kWaveRowTiles; ++u) {
++        const int row = (tid >> 1) + (u * 128);
++        std::uint32_t scale_bias = 0;
++        if constexpr (kIQ2) {
++          const uint2 group = f_iq2_group[u];
++          const __half d = f_iq2_d[u];
++          // SPDX-License-Identifier: MIT
++          // Each lane retains its original ten-byte prefetch and scale owner.
++          // Four lanes transpose decode ownership: each writes one eight-value
++          // slice for each peer's group, preserving every compact LDS byte.
++          const int part = lane_id & 3;
++#pragma unroll
++          for (int owner = 0; owner < 4; ++owner) {
++            const int peer_lane = (lane_id & ~3) + owner;
++            const int peer_tid = (tid & ~3) + owner;
++            const std::uint32_t indices = __shfl(group.x, peer_lane, 32);
++            const std::uint32_t signs = __shfl(group.y, peer_lane, 32);
++            const unsigned code = (indices >> (8 * part)) & 255U;
++            const unsigned sign = (signs >> (7 * part)) & 127U;
++            const uint2 magnitude =
++                reinterpret_cast<const uint2*>(kIq2HalfHighGrid)[code];
++            const uint2 mask = reinterpret_cast<const uint2*>(ksigns64)[sign];
++            const uint2 decoded =
++                make_uint2(magnitude.x ^ (mask.x & 0x80808080U),
++                           magnitude.y ^ (mask.y & 0x80808080U));
++            const int peer_row = (peer_tid >> 1) + (u * 128);
++            const int chunk = 2 * (peer_tid & 1) + (part >> 1);
++            reinterpret_cast<uint2*>(
++                s_codes + swizzle(peer_row, chunk))[part & 1] = decoded;
++          }
++          const float scale =
++              __half2float(d) * float(2 * (group.y >> 28) + 1) * 0.125F;
++          const std::uint32_t dm =
++              __builtin_bit_cast(std::uint16_t, __float2half_rn(scale));
++          scale_bias = f_live[u] ? dm : 0U;
++        } else if constexpr (kSigned || kQ2) {
++          s_codes[swizzle(row, 2 * f_c)] = f_codes[u];
++          s_codes[swizzle(row, (2 * f_c) + 1)] = f_codes_hi[u];
++          scale_bias = f_live[u] ? f_dm[u] : 0U;  // half2 (d, 0)
+         } else {
+-          sc = (HeaderByte(f_header[u], 8 + sb32) & 0x0FU) |
+-               ((HeaderByte(f_header[u], sb32) >> 6U) << 4U);
+-          mn = (HeaderByte(f_header[u], 8 + sb32) >> 4U) |
+-               ((HeaderByte(f_header[u], 4 + sb32) >> 6U) << 4U);
+-        }
+-        const __half2 dm = __builtin_bit_cast(__half2, f_header[u].x);
+-        const float scale =
+-            f_live[u] ? __low2float(dm) * static_cast<float>(sc) : 0.0F;
+-        const float offset =
+-            f_live[u] ? __high2float(dm) * static_cast<float>(mn) : 0.0F;
+-        scale_bias = __builtin_bit_cast(std::uint32_t,
+-                                        __floats2half2_rn(scale, -offset));
+-      }
+-      if constexpr (!kQ2)
+-        s_scale[(f_c * BM) + row] = scale_bias;
++          s_codes[swizzle(row, f_c)] = f_codes[u];
++        }
++        if constexpr (kQ5K) {
++          s_high[(f_c * BM) + row] = f_high[u];
++        }
++        if constexpr (kQ2) {
++          const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++#pragma unroll
++          for (int part = 0; part < 2; ++part) {
++            const unsigned sm = (f_high[u] >> (8 * part)) & 0xFFU;
++            const float d =
++                f_live[u] ? __low2float(dm) * float(sm & 15U) : 0.0F;
++            const float b =
++                f_live[u] ? -__high2float(dm) * float(sm >> 4U) : 0.0F;
++            // Keep the affine in F32. Rounding its coefficients separately
++            // to F16 amplifies cancellation in small routed outputs.
++            auto* affine = reinterpret_cast<float*>(s_scale) +
++                           2 * (((2 * f_c + part) * BM) + row);
++            affine[0] = d;
++            affine[1] = b;
++          }
++        } else if constexpr (kSigned) {
++        } else if constexpr (kQ5) {
++          s_high[(f_c * BM) + row] = f_high[u];
++          const __half2 dm = __builtin_bit_cast(__half2, f_dm[u]);
++          const float d = f_live[u] ? __low2float(dm) : 0.0F;
++          const float mn = f_live[u] ? __high2float(dm) : 0.0F;
++          scale_bias =
++              __builtin_bit_cast(std::uint32_t, __floats2half2_rn(d, mn));
++        } else {
++          const int sb32 = f_sb32[u];
++          std::uint32_t sc = 0;
++          std::uint32_t mn = 0;
++          if (sb32 < 4) {
++            sc = HeaderByte(f_header[u], 4 + sb32) & 0x3FU;
++            mn = HeaderByte(f_header[u], 8 + sb32) & 0x3FU;
++          } else {
++            sc = (HeaderByte(f_header[u], 8 + sb32) & 0x0FU) |
++                 ((HeaderByte(f_header[u], sb32) >> 6U) << 4U);
++            mn = (HeaderByte(f_header[u], 8 + sb32) >> 4U) |
++                 ((HeaderByte(f_header[u], 4 + sb32) >> 6U) << 4U);
++          }
++          const __half2 dm = __builtin_bit_cast(__half2, f_header[u].x);
++          const float scale =
++              f_live[u] ? __low2float(dm) * static_cast<float>(sc) : 0.0F;
++          const float offset =
++              f_live[u] ? __high2float(dm) * static_cast<float>(mn) : 0.0F;
++          scale_bias = __builtin_bit_cast(std::uint32_t,
++                                          __floats2half2_rn(scale, -offset));
++        }
++        if constexpr (!kQ2)
++          s_scale[(f_c * BM) + row] = scale_bias;
++      }
+     }
+ #pragma unroll
+     for (int i = 0; i < kActFetch; ++i) {
+@@ -407,9 +413,9 @@
+ 
+   const __half2 magic = __floats2half2_rn(kSigned ? -1152.0F : -1024.0F,
+                                           kSigned ? -1152.0F : -1024.0F);
+-  const auto compute_stage = [&]() {
++  const auto compute_stage = [&](int kb0) {
+     uint4 raw[kWaveRowTiles][BK];
+-    if constexpr (!kSigned && !kQ2) {
++    if constexpr (!kMirror && !kSigned && !kQ2) {
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+         const int row = (wave_id * 16) + (u * 128) + sub_lane;
+@@ -426,109 +432,133 @@
+ #pragma unroll
+       for (int u = 0; u < kWaveRowTiles; ++u) {
+         const int row = (wave_id * 16) + (u * 128) + sub_lane;
+-        const __half2 sb =
+-            kQ2 ? __float2half2_rn(0.0F)
+-                : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
+-        const __half2 scale2 = __low2half2(sb);
+-        const __half2 bias2 = __high2half2(sb);
+-        std::uint32_t nib[8];
+-        if constexpr (kSigned || kQ2) {
+-          // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
+-          // flipping the sign bit carries q + 128, which the 1152 magic
+-          // takes back out.
+-          const uint4 c0 = s_codes[swizzle(row, 2 * kb)];
+-          const uint4 c1 = s_codes[swizzle(row, (2 * kb) + 1)];
+-          const std::uint32_t words[8] = {c0.x, c0.y, c0.z, c0.w,
+-                                          c1.x, c1.y, c1.z, c1.w};
++        // SPDX-License-Identifier: MIT
++        if constexpr (kMirror) {
++          static_assert(kIQ2 || (kQ2 && kScaled));
++          const int logical_row = r_block + (kPair ? row % kRows : row);
++          const void* cached = w;
++          if constexpr (kPair) {
++            if (row >= kRows)
++              cached = w_up;
++          }
++          if (logical_row < m_i) {
++            const auto* weights = static_cast<const __half*>(cached) +
++                                  std::size_t(expert) * m * k;
++            const std::size_t offset =
++                (std::size_t(kb0 + kb) * 2 * m + logical_row) * 16;
++            __builtin_memcpy(&a_lo[u], weights + offset, 32);
++            __builtin_memcpy(&a_hi[u], weights + offset + m * 16, 32);
++          } else {
++            a_lo[u] = v16h{};
++            a_hi[u] = v16h{};
++          }
++        } else {
++          const __half2 sb =
++              kQ2 ? __float2half2_rn(0.0F)
++                  : __builtin_bit_cast(__half2, s_scale[(kb * BM) + row]);
++          const __half2 scale2 = __low2half2(sb);
++          const __half2 bias2 = __high2half2(sb);
++          std::uint32_t nib[8];
++          if constexpr (kSigned || kQ2) {
++            // Q8_0: the block's 32 signed bytes are chunks 2 kb and 2 kb + 1;
++            // flipping the sign bit carries q + 128, which the 1152 magic
++            // takes back out.
++            const uint4 c0 = s_codes[swizzle(row, 2 * kb)];
++            const uint4 c1 = s_codes[swizzle(row, (2 * kb) + 1)];
++            const std::uint32_t words[8] = {c0.x, c0.y, c0.z, c0.w,
++                                            c1.x, c1.y, c1.z, c1.w};
++#pragma unroll
++            for (int i = 0; i < 8; ++i) {
++              nib[i] = (kSigned && !kIQ2) ? words[i] ^ 0x80808080U : words[i];
++            }
++          } else if constexpr (kQ5) {
++            // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
++            // the low nibbles, 16-31 the high, plus bit j of the high-bit
++            // word.
++            const uint4 r = raw[u][kb];
++            const std::uint32_t high = s_high[(kb * BM) + row];
++            const std::uint32_t words[4] = {r.x, r.y, r.z, r.w};
++#pragma unroll
++            for (int i = 0; i < 4; ++i) {
++              nib[i] = (words[i] & 0x0F0F0F0FU) |
++                       SpreadHighBits((high >> (4 * i)) & 0xFU);
++              nib[4 + i] = ((words[i] >> 4U) & 0x0F0F0F0FU) |
++                           SpreadHighBits((high >> (16 + 4 * i)) & 0xFU);
++            }
++          } else {
++            // Q4_K / Q5_K: elements 0-15 of K block kb0 + kb are the low
++            // (kb = 0) or high (kb = 1) nibbles of chunk 0, elements 16-31
++            // of chunk 1; Q5_K adds bit j of the staged high-bit word.
++            const unsigned shift = 4U * static_cast<unsigned>(kb);
++            const std::uint32_t words[8] = {
++                raw[u][0].x, raw[u][0].y, raw[u][0].z, raw[u][0].w,
++                raw[u][1].x, raw[u][1].y, raw[u][1].z, raw[u][1].w};
++            const std::uint32_t high = kQ5K ? s_high[(kb * BM) + row] : 0U;
++#pragma unroll
++            for (int i = 0; i < 8; ++i) {
++              nib[i] = (words[i] >> shift) & 0x0F0F0F0FU;
++              if constexpr (kQ5K) {
++                nib[i] |= SpreadHighBits((high >> (4 * i)) & 0xFU);
++              }
++            }
++          }
++          __half2 h[16];
++          uint2 palette[kQ2 && (kPacked || kScaled) ? 2 : 1];
++          if constexpr (kQ2 && (kPacked || kScaled)) {
++            // A sixteen-element affine group has only four possible weights.
++            // Preserve each F32 FMA and F16 rounding, then select its exact
++            // half bits instead of repeating the affine for every element.
++#pragma unroll
++            for (int part = 0; part < 2; ++part) {
++              const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                   2 * (((2 * kb + part) * BM) + row);
++              const float d = affine[0], bias = affine[1];
++              palette[part] = make_uint2(
++                  __builtin_bit_cast(std::uint32_t,
++                                     __floats2half2_rn(fmaf(0.0F, d, bias),
++                                                       fmaf(1.0F, d, bias))),
++                  __builtin_bit_cast(std::uint32_t,
++                                     __floats2half2_rn(fmaf(2.0F, d, bias),
++                                                       fmaf(3.0F, d, bias))));
++            }
++          }
+ #pragma unroll
+           for (int i = 0; i < 8; ++i) {
+-            nib[i] = (kSigned && !kIQ2) ? words[i] ^ 0x80808080U : words[i];
+-          }
+-        } else if constexpr (kQ5) {
+-          // Q5_1: K block kb's 16 bytes are chunk kb; elements 0-15 take
+-          // the low nibbles, 16-31 the high, plus bit j of the high-bit
+-          // word.
+-          const uint4 r = raw[u][kb];
+-          const std::uint32_t high = s_high[(kb * BM) + row];
+-          const std::uint32_t words[4] = {r.x, r.y, r.z, r.w};
+-#pragma unroll
+-          for (int i = 0; i < 4; ++i) {
+-            nib[i] = (words[i] & 0x0F0F0F0FU) |
+-                     SpreadHighBits((high >> (4 * i)) & 0xFU);
+-            nib[4 + i] = ((words[i] >> 4U) & 0x0F0F0F0FU) |
+-                         SpreadHighBits((high >> (16 + 4 * i)) & 0xFU);
+-          }
+-        } else {
+-          // Q4_K / Q5_K: elements 0-15 of K block kb0 + kb are the low
+-          // (kb = 0) or high (kb = 1) nibbles of chunk 0, elements 16-31
+-          // of chunk 1; Q5_K adds bit j of the staged high-bit word.
+-          const unsigned shift = 4U * static_cast<unsigned>(kb);
+-          const std::uint32_t words[8] = {raw[u][0].x, raw[u][0].y, raw[u][0].z,
+-                                          raw[u][0].w, raw[u][1].x, raw[u][1].y,
+-                                          raw[u][1].z, raw[u][1].w};
+-          const std::uint32_t high = kQ5K ? s_high[(kb * BM) + row] : 0U;
+-#pragma unroll
+-          for (int i = 0; i < 8; ++i) {
+-            nib[i] = (words[i] >> shift) & 0x0F0F0F0FU;
+-            if constexpr (kQ5K) {
+-              nib[i] |= SpreadHighBits((high >> (4 * i)) & 0xFU);
+-            }
+-          }
+-        }
+-        __half2 h[16];
+-        uint2 palette[kQ2 && (kPacked || kScaled) ? 2 : 1];
+-        if constexpr (kQ2 && (kPacked || kScaled)) {
+-          // A sixteen-element affine group has only four possible weights.
+-          // Preserve each F32 FMA and F16 rounding, then select its exact
+-          // half bits instead of repeating the affine for every element.
+-#pragma unroll
+-          for (int part = 0; part < 2; ++part) {
+-            const auto* affine = reinterpret_cast<const float*>(s_scale) +
+-                                 2 * (((2 * kb + part) * BM) + row);
+-            const float d = affine[0], bias = affine[1];
+-            palette[part] = make_uint2(
+-                __builtin_bit_cast(std::uint32_t,
+-                                   __floats2half2_rn(fmaf(0.0F, d, bias),
+-                                                     fmaf(1.0F, d, bias))),
+-                __builtin_bit_cast(std::uint32_t,
+-                                   __floats2half2_rn(fmaf(2.0F, d, bias),
+-                                                     fmaf(3.0F, d, bias))));
+-          }
+-        }
+-#pragma unroll
+-        for (int i = 0; i < 8; ++i) {
+-          if constexpr (kQ2 && (kPacked || kScaled)) {
+-            const uint2 values = palette[i / 4];
+-            // Duplicate each two-bit code into the two byte selectors for
+-            // its half; perm indices 0..3 read the second source word.
+-            const auto lo =
+-                (__builtin_amdgcn_perm(nib[i], nib[i], 0x01010000U) << 1U) |
+-                0x01000100U;
+-            const auto hi =
+-                (__builtin_amdgcn_perm(nib[i], nib[i], 0x03030202U) << 1U) |
+-                0x01000100U;
+-            h[2 * i] = __builtin_bit_cast(
+-                __half2, __builtin_amdgcn_perm(values.y, values.x, lo));
+-            h[2 * i + 1] = __builtin_bit_cast(
+-                __half2, __builtin_amdgcn_perm(values.y, values.x, hi));
+-          } else if constexpr (kQ2) {
+-            const auto* affine = reinterpret_cast<const float*>(s_scale) +
+-                                 2 * (((2 * kb + (i / 4)) * BM) + row);
+-            const float d = affine[0], bias = affine[1];
+-            h[2 * i] =
+-                __floats2half2_rn(fmaf(float(nib[i] & 3U), d, bias),
+-                                  fmaf(float((nib[i] >> 8U) & 3U), d, bias));
+-            h[2 * i + 1] =
+-                __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
+-                                  fmaf(float((nib[i] >> 24U) & 3U), d, bias));
+-          } else if constexpr (kIQ2) {
+-            Iq2HalfBytesToHalves(nib[i], scale2, bias2, h[2 * i], h[2 * i + 1]);
+-          } else {
+-            CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i], h[2 * i + 1]);
+-          }
+-        }
+-        __builtin_memcpy(&a_lo[u], &h[0], 32);
+-        __builtin_memcpy(&a_hi[u], &h[8], 32);
++            if constexpr (kQ2 && (kPacked || kScaled)) {
++              const uint2 values = palette[i / 4];
++              // Duplicate each two-bit code into the two byte selectors for
++              // its half; perm indices 0..3 read the second source word.
++              const auto lo =
++                  (__builtin_amdgcn_perm(nib[i], nib[i], 0x01010000U) << 1U) |
++                  0x01000100U;
++              const auto hi =
++                  (__builtin_amdgcn_perm(nib[i], nib[i], 0x03030202U) << 1U) |
++                  0x01000100U;
++              h[2 * i] = __builtin_bit_cast(
++                  __half2, __builtin_amdgcn_perm(values.y, values.x, lo));
++              h[2 * i + 1] = __builtin_bit_cast(
++                  __half2, __builtin_amdgcn_perm(values.y, values.x, hi));
++            } else if constexpr (kQ2) {
++              const auto* affine = reinterpret_cast<const float*>(s_scale) +
++                                   2 * (((2 * kb + (i / 4)) * BM) + row);
++              const float d = affine[0], bias = affine[1];
++              h[2 * i] =
++                  __floats2half2_rn(fmaf(float(nib[i] & 3U), d, bias),
++                                    fmaf(float((nib[i] >> 8U) & 3U), d, bias));
++              h[2 * i + 1] =
++                  __floats2half2_rn(fmaf(float((nib[i] >> 16U) & 3U), d, bias),
++                                    fmaf(float((nib[i] >> 24U) & 3U), d, bias));
++            } else if constexpr (kIQ2) {
++              Iq2HalfBytesToHalves(nib[i], scale2, bias2, h[2 * i],
++                                   h[2 * i + 1]);
++            } else {
++              CodesToHalves(nib[i], magic, scale2, bias2, h[2 * i],
++                            h[2 * i + 1]);
++            }
++          }
++          __builtin_memcpy(&a_lo[u], &h[0], 32);
++          __builtin_memcpy(&a_hi[u], &h[8], 32);
++        }
+       }
+ #pragma unroll
+       for (int j = 0; j < kTokTiles; ++j) {
+@@ -584,7 +614,7 @@
+     if (kb0 + BK < num_kb) {
+       fetch_stage(kb0 + BK);
+     }
+-    compute_stage();
++    compute_stage(kb0);
+     __syncthreads();
+   }
+ 
+@@ -901,38 +931,42 @@
+   }
+ }
+ template<int BN>
+-void LaunchRoutedQ2HalfStorage(const void* w, const __half* x, const float* inverse,
+-                          const std::int32_t* tiles, std::uint32_t n_tiles,
+-                          const std::int32_t* bounds, const std::int32_t* slots,
+-                          __half* out, std::size_t m, std::size_t k,
+-                          hipStream_t stream) {
+-  hipLaunchKernelGGL(
+-      (RoutedQ2HalfStorageKernel<WeightType::kQ2_K, 128, BN, 2, false, false, true>),
+-      dim3(static_cast<unsigned>((m + 127) / 128), n_tiles), dim3(256), 0,
+-      stream, w, x, tiles, bounds, slots, slots, nullptr, reinterpret_cast<float*>(out), nullptr, m, k,
+-      inverse);
++void LaunchRoutedQ2HalfStorage(const void* w, const __half* x,
++                               const float* inverse, const std::int32_t* tiles,
++                               std::uint32_t n_tiles,
++                               const std::int32_t* bounds,
++                               const std::int32_t* slots, __half* out,
++                               std::size_t m, std::size_t k,
++                               hipStream_t stream) {
++  hipLaunchKernelGGL((RoutedQ2HalfStorageKernel<WeightType::kQ2_K, 128, BN, 2,
++                                                false, false, true>),
++                     dim3(static_cast<unsigned>((m + 127) / 128), n_tiles),
++                     dim3(256), 0, stream, w, x, tiles, bounds, slots, slots,
++                     nullptr, reinterpret_cast<float*>(out), nullptr, m, k,
++                     inverse);
+ }
+ 
+-bool RoutedQ2ScaledHalfGemm(const void* w, const __half* x, const float* inverse,
+-                        const std::int32_t* tiles, std::uint32_t n_tiles,
+-                        std::uint32_t tile_rows, const std::int32_t* bounds,
+-                        const std::int32_t* slots, __half* out, std::size_t m,
+-                        std::size_t k, hipStream_t stream) {
++bool RoutedQ2ScaledHalfGemm(const void* w, const __half* x,
++                            const float* inverse, const std::int32_t* tiles,
++                            std::uint32_t n_tiles, std::uint32_t tile_rows,
++                            const std::int32_t* bounds,
++                            const std::int32_t* slots, __half* out,
++                            std::size_t m, std::size_t k, hipStream_t stream) {
+   if (!w || !x || !inverse || !tiles || !bounds || !slots || !out || !m ||
+       !n_tiles || k != 640)
+     return false;
+   switch (tile_rows) {
+     case 16:
+-      LaunchRoutedQ2HalfStorage<16>(w, x, inverse, tiles, n_tiles, bounds, slots,
+-                               out, m, k, stream);
++      LaunchRoutedQ2HalfStorage<16>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
+       break;
+     case 48:
+-      LaunchRoutedQ2HalfStorage<48>(w, x, inverse, tiles, n_tiles, bounds, slots,
+-                               out, m, k, stream);
++      LaunchRoutedQ2HalfStorage<48>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
+       break;
+     case 64:
+-      LaunchRoutedQ2HalfStorage<64>(w, x, inverse, tiles, n_tiles, bounds, slots,
+-                               out, m, k, stream);
++      LaunchRoutedQ2HalfStorage<64>(w, x, inverse, tiles, n_tiles, bounds,
++                                    slots, out, m, k, stream);
+       break;
+     default:
+       return false;
+@@ -1092,14 +1126,14 @@
+ }
+ 
+ bool HcCombineMoeHalfDeferredNorm(float* res, const __half* expert_out,
+-                              const float* weights, const float* shared_out,
+-                              const float* gate, std::uint32_t gate_stride,
+-                              std::uint32_t used, const float* inject,
+-                              std::uint32_t inject_parts, const float* gamma,
+-                              float* norm_scales, std::uint32_t n_tokens,
+-                              std::uint32_t hidden, std::uint32_t streams,
+-                              float eps, hipStream_t stream,
+-                              __half* norm_half) {
++                                  const float* weights, const float* shared_out,
++                                  const float* gate, std::uint32_t gate_stride,
++                                  std::uint32_t used, const float* inject,
++                                  std::uint32_t inject_parts,
++                                  const float* gamma, float* norm_scales,
++                                  std::uint32_t n_tokens, std::uint32_t hidden,
++                                  std::uint32_t streams, float eps,
++                                  hipStream_t stream, __half* norm_half) {
+   if (gamma == nullptr || norm_half == nullptr)
+     return false;
+   if (n_tokens < 16 || hidden != 2560 || streams != 4 || used == 0 ||

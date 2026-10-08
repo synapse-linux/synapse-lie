@@ -1,0 +1,51 @@
+{
+  "schema": "synapse-lie.q2-hc-inject-reuse-draft.v3",
+  "parent_manifest": "config/q2-ssm-fixed-bounds-source.json",
+  "parent_manifest_sha256": "dd1e671a1bb521b51fb0df6989b926052d3145c835a9e86e29ffdcd7bd4d060a",
+  "parent_provider": ".deps/gufo-q2-ssm-fixed-bounds-run",
+  "parent_files_verified": 1027,
+  "parent_numerical_sha256": "4d25f28f1cead5bcd1873b001037e301dc1545a4c80614e0ff1231872337c77c",
+  "parent_deferred_sha256": "63711baeb52e92de971467c9826743eb659062ac9f8553ab917c9ead58f955e5",
+  "include": "experiments/q2-hc-inject-reuse-draft-v3.inc",
+  "include_sha256": "bad84e0d80fca74da3bbeb8e28fe445134988a1fab9699820bb08de4e2319765",
+  "generator_sha256": "29cdc63693e1919e8f97a96a96250ce8f9d89d5d021b63c067f916d7314fa2f9",
+  "compiler_probe": "evidence/q2-hc-inject-reuse-draft-preparation/probe-v3.hip",
+  "compiler_probe_sha256": "8c9096b7985bf5258223813559c74f67d6c6c36779c4937b3b44eb6bf1aed984",
+  "fixed_geometry": {
+    "hidden": 2560,
+    "streams": 4,
+    "rank": 320
+  },
+  "proposed_workspace": {
+    "source": "down_e",
+    "bytes_at_2048": 20971520,
+    "allocation_added": false,
+    "executor_adopted": false
+  },
+  "contract": "Reuse each normalized float4 already read by HC mix to compute four injection dots. Preserve first MUL then15 FMA per dot and original wave/block/chunk reduction in second kernel. No reassociation or atomic summation. Rounded F32 dot storage replaces a second normalized read.",
+  "gates": [
+    "Complete ordinary/raw-Q8/deferred mix, half/Q8 and injection output equality including tails",
+    "Complete alternating mix/inject cycle with rotated HC weights beyond32MiB",
+    "Prove old down_e reader complete, separate workspace and new MoE writer ordered",
+    "Original fixed2048/tg128 candidate-only model test after fresh .157 admission"
+  ],
+  "gpu_run": false,
+  "production_provider": false,
+  "numerical_acceptance": false,
+  "performance_measured": false,
+  "goal_met": false,
+  "initial_manifest_sha256": "ed604296f7338e63dca4dd74029c8d49662f7cb13293c749d3f78af98aca4f01",
+  "initial_include_sha256": "7e00f69bd88d4dcae7b6ee98109c81a9e910f473143329066147f48a6977d708",
+  "initial_compile_attempted": false,
+  "correction": "Source inspection excluded two duplicate parent dispatchers before any compiler invocation",
+  "previous_manifest_sha256": "54fb3791c2f2bcc6736fd836069e5547effec1a52b3744260e9293cc3a091607",
+  "previous_include_sha256": "2f5965d4be9bdcaf63bb8ecf06153dbfd1a20c2dc41cc7b8ad1646316af0c304",
+  "new_mechanism": "One exact F32 coefficient tile per CTA in dead projection LDS tail; reuse across all128 token rows without changing dot/reduction order",
+  "coefficient_tile_bytes": 4096,
+  "gate_transpose_bytes": 16640,
+  "existing_lds_bytes": 24576,
+  "extra_lds_allocation_bytes": 0,
+  "extra_block_barriers": 0,
+  "coefficient_publication": "The first existing gate-publication barrier follows all coefficient stores and precedes every dot read",
+  "projection_stage_retirement": "The final existing K-loop barrier precedes all coefficient stores"
+}

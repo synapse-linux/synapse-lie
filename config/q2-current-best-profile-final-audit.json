@@ -1,0 +1,38 @@
+{
+  "schema": "synapse-lie.q2-current-best-profile-final.v1",
+  "plan_sha256": "15316f0c4edb8759829c839bd1ac78a31654911560f700c023e1be3efe859042",
+  "results_sha256": "efb16d4015e3fce00af978374573b17aa4bbc3b2250007bf126eb459651b2f7f",
+  "release_sha256": "c8a42fec09697e22beb28f8f209c6ea328c2f19e99133e9db10d705015afc49e",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 31,
+  "frozen_fixtures_verified": 72,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1026,
+  "historical_and_current_libraries_verified": 51,
+  "retired_identities": 987,
+  "retired_groups": 785,
+  "figures": {
+    "docs/figures/q2-current-best-profile-stages.svg": "56ccf3dc0a47d40d598b1b524e51f72dd2adfa0e0c427390b314c0184fd440e7",
+    "docs/figures/q2-current-best-profile-stages.png": "83df3abdd674bd966c5912a9772a7c7baf2d055be9cf5f1b5e863236c17c04e9",
+    "docs/figures/q2-current-best-profile-stages.csv": "206dd9bb96e04be819e46dcf2698f2610576135ce8aeb961d8dc0d07ccc31144",
+    "docs/figures/q2-current-best-profile-stages-kernels.csv": "6157d860bcd9c4125b921b0217f974701db334559a6972c035053730e70f4d84",
+    "docs/figures/q2-current-best-profile-stages-routing.csv": "a132da7b404d31cbd8194d1e566a8f051f67ae4c36dd80d8b1a6eab7c8e34321"
+  },
+  "gpu_build_commands": 0,
+  "controls_rerun": false,
+  "headline_eligible": false,
+  "independent_quality": false,
+  "goal_met": false
+}

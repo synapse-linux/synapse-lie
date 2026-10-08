@@ -1,0 +1,74 @@
+{
+  "at": "2026-10-03T20:34:18.137404+00:00",
+  "state": "Q2_HC_LIBRARY_RAGGED_PREPARED_NO_REMOTE_JOB",
+  "owner": "synapse-lie-q2",
+  "base_checkpoint": "0aa6f2a34b9514d49b7798290753b9870e0bf769",
+  "previous_goal_turn": "Progress: original C17 UD baseline and HC component measured, verified, reported and checkpointed",
+  "source_variant": "hc-library-ragged",
+  "component": "hc-library-ragged-bench",
+  "gpu_reserved": false,
+  "remote_workload_scheduled": false,
+  "restart_scheduled": false,
+  "model_arm_admitted": false,
+  "core_campaign": "gpu-vision-bec-r1",
+  "core_observation": {
+    "at": "2026-10-03T20:19:09.401329+00:00",
+    "latest_arm": "mtp-ssd-write",
+    "terminal_at": "2026-10-03T20:16:49.902239+00:00",
+    "exit_code": 1,
+    "observed_runner_identities_present": false,
+    "enclosing_handover_received": false
+  },
+  "core_dependency": "Require verified enclosing campaign release; no admission from an idle gap or individual arm ending",
+  "protocol": {
+    "host": "17 CTest cases in Debug and ASan/UBSan on .157 before component",
+    "independent_case_shapes": [
+      96,
+      97,
+      129,
+      502,
+      2042,
+      2047,
+      2048
+    ],
+    "tiny_input_shape": 2042,
+    "ordinary_and_moe_cases": 16,
+    "relative_rms_limit": 2e-05,
+    "error_over_peak_limit": 2e-05,
+    "position_shapes": [
+      97,
+      2042,
+      2047,
+      2048
+    ],
+    "timed_shapes": [
+      502,
+      2042,
+      2047,
+      2048
+    ],
+    "timed_paths": [
+      "ordinary",
+      "moe"
+    ],
+    "pairs_per_path_and_shape": 5,
+    "launches_per_arm": 16,
+    "rotating_weight_bytes": 104857600,
+    "full_output_files_if_supported": 40,
+    "full_output_bytes_if_supported": 62054400,
+    "timing": "Same process, original norm/narrowing in both arms; full producer plus consumer GPU-event timing, warmed plan/allocations, alternating order/allocation, 100MiB rotated F16 weights",
+    "component_timeout_seconds": 300,
+    "numerical_failures": "Preserve exit1, full output hashes and position drift; continue performance but never mark rejected arithmetic accepted",
+    "model_gate": "Require supported geometry and useful full-cycle benefit before a separately admitted original-C17 Q2/UD model comparison; existing numerical rejection remains visible",
+    "machine": ".157 only, fresh original four leases, existing fan82/CPU98 inclusive/exposed GPU bounds",
+    "local155_workload": false,
+    "algorithm_refusal_scope": "Original sixteen-result heuristic list plus algorithm7526 zero-workspace support; refusal is not proof that every library algorithm is unsupported."
+  },
+  "numerical_pass": null,
+  "performance_pass": null,
+  "promoted": false,
+  "goal_met": false,
+  "core_retained_ownership_message": "Core explicitly retains gpu-vision-bec-r1 for four remaining SSD arms and reactive qualification after private-probe corrections; promises verified release after collection/retirement.",
+  "outgoing_thread_delivery": false,
+  "coordination_fallback": "run/q2-hc-library-ragged-ready.json"
+}

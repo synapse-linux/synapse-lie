@@ -1,0 +1,954 @@
+{
+  "scope": "Nine .157 arms: two host fixtures, four HC components and three original-weight C1 pp2048/tg128 arms; no full-model teacher, statistical parity or long-context qualification",
+  "promotion": false,
+  "goal_met": false,
+  "selected_development_candidate": "hc-decode16",
+  "runs": {
+    "q2-hc-decode-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": null,
+      "binary_sha256_after": null,
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode-host-r1/results.tar.gz",
+        "sha256": "659d9bdc7d0ffd9b98de1badaf095549de2e1a1a3a4d409f3b83bf6d2077a752",
+        "verified_artifacts": 7,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 77750
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 71750
+      },
+      "result_sha256": "bb9c80198aba49bef9b074c55dafc942caf8e9cae3309551dccfe02014c2613e",
+      "transport": {
+        "mode": "cpu",
+        "source_variant": "qualified",
+        "source_path": ".deps/gufo-q2",
+        "rebuild_mmq": false,
+        "label": "q2-hc-decode-host-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode-host-r1",
+        "capsule_sha256": "beeaf809a445a1305a2920d0048aaa13e7d5c527b606f497ab6725aa8ee296d4",
+        "started_at": "2026-10-02T21:19:59.504851+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:20:26.608271+00:00"
+      }
+    },
+    "q2-hc-decode-micro-ref-r1": {
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "b6f0ca4b6cdba04f6f3ec4dbfca88dd92bbf1cfb71a60bf4aa28a543ad13055c",
+      "binary_sha256_after": "b6f0ca4b6cdba04f6f3ec4dbfca88dd92bbf1cfb71a60bf4aa28a543ad13055c",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode-micro-ref-r1/results.tar.gz",
+        "sha256": "31153029b02c30805e7904cdf6af1ac558d40da1c95a05643354e82328a17830",
+        "verified_artifacts": 15,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 80875
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 71375
+      },
+      "result_sha256": "0b098aaf4c70a803a202f20c0a5642a7b45f20bdb6ebaa2fd0d5285acb6b30c8",
+      "transport": {
+        "mode": "hc-bench",
+        "source_variant": "hc-moe-fused",
+        "source_path": ".deps/gufo-q2-bench-hc-moe-fused",
+        "rebuild_mmq": false,
+        "label": "q2-hc-decode-micro-ref-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode-micro-ref-r1",
+        "capsule_sha256": "c8c1767491bf9d2d62b6ac6aaa8515d73626f169c7e16958e5030796e2d6e850",
+        "started_at": "2026-10-02T21:21:03.846229+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:21:22.023391+00:00"
+      }
+    },
+    "q2-hc-decode8-micro-r1": {
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "1070e9adf188477099af92a56c4d1402e80131b80f20666424b9fe3c82dd4b03",
+      "binary_sha256_after": "1070e9adf188477099af92a56c4d1402e80131b80f20666424b9fe3c82dd4b03",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode8-micro-r1/results.tar.gz",
+        "sha256": "e47a6baae8be48c5346c60f0b13efe215b37a8e3bfc0d4da6bfa28c1e440f31e",
+        "verified_artifacts": 15,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 79750
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 71500
+      },
+      "result_sha256": "4931b962242364634fa7174f82e02f2506ffaabd657e4ee7d41f58ef5485ae1f",
+      "transport": {
+        "mode": "hc-bench",
+        "source_variant": "hc-decode8",
+        "source_path": ".deps/gufo-q2-bench-hc-decode8",
+        "rebuild_mmq": false,
+        "label": "q2-hc-decode8-micro-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode8-micro-r1",
+        "capsule_sha256": "b08ec5ae8d6bc0016ad06b57a972bb386709b8b15dd308715c683115a9e8aacb",
+        "started_at": "2026-10-02T21:21:46.334610+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:22:04.188093+00:00"
+      }
+    },
+    "q2-hc-decode16-micro-r1": {
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "b5f4ef954943a8bac69e7b98907143e4f0d95489f477677de29c85f59d730253",
+      "binary_sha256_after": "b5f4ef954943a8bac69e7b98907143e4f0d95489f477677de29c85f59d730253",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode16-micro-r1/results.tar.gz",
+        "sha256": "4763e101d0c6b1b78b24eefa6f28ee75c0f02367b17f3803ed43b21adfaa116a",
+        "verified_artifacts": 15,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 79375
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 49000,
+        "k10temp": 76125
+      },
+      "result_sha256": "4e1a98403bc8b532100287ea75828de57d90980c12259c60b77b4d0f41b7e324",
+      "transport": {
+        "mode": "hc-bench",
+        "source_variant": "hc-decode16",
+        "source_path": ".deps/gufo-q2-bench-hc-decode16",
+        "rebuild_mmq": false,
+        "label": "q2-hc-decode16-micro-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode16-micro-r1",
+        "capsule_sha256": "7c75038b94325412eb032fee7065e49e06fd23335bea9919a99210198e904e05",
+        "started_at": "2026-10-02T21:23:38.845974+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:23:56.295983+00:00"
+      }
+    },
+    "q2-hc-decode-model-ref-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "binary_sha256": "3bd9ed7b1b47a86055d00c7323e1e6b655de74b47e1944c74a545ccb628e3dd6",
+      "binary_sha256_after": "3bd9ed7b1b47a86055d00c7323e1e6b655de74b47e1944c74a545ccb628e3dd6",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode-model-ref-r1/results.tar.gz",
+        "sha256": "2860f8c74efb079ab0b49b133836261702f8a8dd7b2c838a1f7238eb871dbbd1",
+        "verified_artifacts": 26,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 92250
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 83875
+      },
+      "result_sha256": "af40c18cd39608d6247780c0df625c57e229aa2ca08e1db23755c1fe2bcff83f",
+      "transport": {
+        "mode": "q2-bench2k",
+        "source_variant": "hc-moe-fused",
+        "source_path": ".deps/gufo-q2-bench-hc-moe-fused",
+        "rebuild_mmq": true,
+        "label": "q2-hc-decode-model-ref-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode-model-ref-r1",
+        "capsule_sha256": "9a012254f6eabe43e84325d844d3bda829df95bce2a584f8c857c82ac4c725fc",
+        "started_at": "2026-10-02T21:26:26.268319+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:30:46.934975+00:00"
+      }
+    },
+    "q2-hc-decode16-model-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "binary_sha256": "d99a125a8a7feda16d041c2d6a31d2cd9ea8debc5f052e4b696d4eb4c4275d5f",
+      "binary_sha256_after": "d99a125a8a7feda16d041c2d6a31d2cd9ea8debc5f052e4b696d4eb4c4275d5f",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode16-model-r1/results.tar.gz",
+        "sha256": "4568133f00f8a5a5ee21acbc8c1c12a14da504cf6d79c1ddaa466a0ebc86d47e",
+        "verified_artifacts": 26,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 92375
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 81000,
+        "k10temp": 82000
+      },
+      "result_sha256": "6fe80cb7f9ccd921d7d92cce0c33f9c2a61abf69b877c8815aa0bf18b0975cd8",
+      "transport": {
+        "mode": "q2-bench2k",
+        "source_variant": "hc-decode16",
+        "source_path": ".deps/gufo-q2-bench-hc-decode16",
+        "rebuild_mmq": true,
+        "label": "q2-hc-decode16-model-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode16-model-r1",
+        "capsule_sha256": "b84603e34101a4972de67a7d22a035fc4703844dea69d926028dfd33b3a798b0",
+        "started_at": "2026-10-02T21:31:55.511697+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:36:14.584636+00:00"
+      }
+    },
+    "q2-hc-decode-ud-r1": {
+      "state": "MODEL_SAMPLES_COMPLETE_NOT_COMPARISON_VERDICT",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": true,
+      "binary_sha256": "6fc28f1e8e225dd359c3f9f7e05208d9cb1f0aba7b4f9193b16cf547d975df67",
+      "binary_sha256_after": "6fc28f1e8e225dd359c3f9f7e05208d9cb1f0aba7b4f9193b16cf547d975df67",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode-ud-r1/results.tar.gz",
+        "sha256": "c1aaacd33067515efbaa3307ba2322eef6f8c10ee6d102c76f8edfd734dc457f",
+        "verified_artifacts": 26,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 83750
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 82000,
+        "k10temp": 83750
+      },
+      "result_sha256": "c94b768d7b0b4a8fc06fac95b6eaf478f380986c06b1b22694a4ab0d6f1949bb",
+      "transport": {
+        "mode": "ud-bench2k",
+        "source_variant": "qualified",
+        "source_path": ".deps/gufo-base",
+        "rebuild_mmq": true,
+        "label": "q2-hc-decode-ud-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode-ud-r1",
+        "capsule_sha256": "225e23710073ffc5a062a86bec02488362293a0de852769c7116cee495d1069e",
+        "started_at": "2026-10-02T21:37:50.559532+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:41:37.022988+00:00"
+      }
+    },
+    "q2-hc-decode32-host-r1": {
+      "state": "CPU_FIXTURES_PASS_NO_MODEL_INFERENCE",
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": null,
+      "binary_sha256_after": null,
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode32-host-r1/results.tar.gz",
+        "sha256": "d17e0bedf73e73826edefceb4e6e4c5d4aac58a3a89a9b60c25e42240142c516",
+        "verified_artifacts": 7,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 51000,
+        "k10temp": 79125
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 73500
+      },
+      "result_sha256": "23c86badf2235cc8ec1c12a25caaee8621fc7b91028e888ea35eab111c2d5be2",
+      "transport": {
+        "mode": "cpu",
+        "source_variant": "qualified",
+        "source_path": ".deps/gufo-q2",
+        "rebuild_mmq": false,
+        "label": "q2-hc-decode32-host-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode32-host-r1",
+        "capsule_sha256": "ad5aea56c2ca9066ccb9a6e3de6eb62db94ee1662bc9a2632a389bbd7ddbabfc",
+        "started_at": "2026-10-02T21:42:29.973582+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:42:58.273892+00:00"
+      }
+    },
+    "q2-hc-decode32-micro-r1": {
+      "state": "SYNTHETIC_HC_MICROBENCH_COMPLETE_NOT_MODEL_THROUGHPUT",
+      "command_exits": [
+        0,
+        0,
+        0
+      ],
+      "model_access": false,
+      "binary_sha256": "deac322c06cdf92714496f678ab0448b4ca867f9ae8a72d3e846d9516d079cf7",
+      "binary_sha256_after": "deac322c06cdf92714496f678ab0448b4ca867f9ae8a72d3e846d9516d079cf7",
+      "collection": {
+        "collected": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/worktrees/antirez-compat-audit/evidence/q2-hc-decode32-micro-r1/results.tar.gz",
+        "sha256": "3de667b4dda45b4dc86d9e0d8ca5b4e503b1f22fb47d8e2e4f3cdb0e39d58a9b",
+        "verified_artifacts": 15,
+        "existing_archive": false
+      },
+      "temperature_max_mc": {
+        "amdgpu": 50000,
+        "k10temp": 81125
+      },
+      "final_command_temperature_max_mc": {
+        "amdgpu": 48000,
+        "k10temp": 71625
+      },
+      "result_sha256": "dbcb870d679b2ee686ad0303fb9d7459807bee466d303746fbae1300438aa3d3",
+      "transport": {
+        "mode": "hc-bench",
+        "source_variant": "hc-decode32",
+        "source_path": ".deps/gufo-q2-bench-hc-decode32",
+        "rebuild_mmq": false,
+        "label": "q2-hc-decode32-micro-r1",
+        "remote": "/home/paperboy/workspace/projects/synapse-linux/synapse-lie/run/q2-hc-decode32-micro-r1",
+        "capsule_sha256": "d3583ff26e5ffa5a19f73cfc4302bab5a407318ff79d025bdd2b7fe97ac76237",
+        "started_at": "2026-10-02T21:44:32.537073+00:00",
+        "exit_code": 0,
+        "finished_at": "2026-10-02T21:44:51.802558+00:00"
+      }
+    }
+  },
+  "closure": {
+    "at": "2026-10-02T21:48:33.547032+00:00",
+    "state": "Q2_HC_DECODE_WINDOW_RELEASED",
+    "runners": [
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2695646,
+        "absent": true,
+        "finished_at": "2026-10-02T21:20:26.602449+00:00"
+      },
+      {
+        "label": "q2-hc-decode-micro-ref-r1",
+        "pid": 2696642,
+        "absent": true,
+        "finished_at": "2026-10-02T21:21:22.025072+00:00"
+      },
+      {
+        "label": "q2-hc-decode8-micro-r1",
+        "pid": 2697137,
+        "absent": true,
+        "finished_at": "2026-10-02T21:22:04.187492+00:00"
+      },
+      {
+        "label": "q2-hc-decode16-micro-r1",
+        "pid": 2697924,
+        "absent": true,
+        "finished_at": "2026-10-02T21:23:56.264677+00:00"
+      },
+      {
+        "label": "q2-hc-decode-model-ref-r1",
+        "pid": 2698992,
+        "absent": true,
+        "finished_at": "2026-10-02T21:30:46.930137+00:00"
+      },
+      {
+        "label": "q2-hc-decode16-model-r1",
+        "pid": 2701113,
+        "absent": true,
+        "finished_at": "2026-10-02T21:36:14.391436+00:00"
+      },
+      {
+        "label": "q2-hc-decode-ud-r1",
+        "pid": 2703375,
+        "absent": true,
+        "finished_at": "2026-10-02T21:41:37.022409+00:00"
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705408,
+        "absent": true,
+        "finished_at": "2026-10-02T21:42:58.266310+00:00"
+      },
+      {
+        "label": "q2-hc-decode32-micro-r1",
+        "pid": 2706647,
+        "absent": true,
+        "finished_at": "2026-10-02T21:44:51.643835+00:00"
+      }
+    ],
+    "commands": [
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2695647,
+        "start_ticks": 154139471,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2695720,
+        "start_ticks": 154139524,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2695797,
+        "start_ticks": 154139976,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2696052,
+        "start_ticks": 154140630,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2696128,
+        "start_ticks": 154140682,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-host-r1",
+        "pid": 2696214,
+        "start_ticks": 154141435,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-micro-ref-r1",
+        "pid": 2696643,
+        "start_ticks": 154145914,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-micro-ref-r1",
+        "pid": 2696844,
+        "start_ticks": 154146117,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-micro-ref-r1",
+        "pid": 2696974,
+        "start_ticks": 154147528,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode8-micro-r1",
+        "pid": 2697138,
+        "start_ticks": 154150137,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode8-micro-r1",
+        "pid": 2697333,
+        "start_ticks": 154150340,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode8-micro-r1",
+        "pid": 2697465,
+        "start_ticks": 154151745,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-micro-r1",
+        "pid": 2697925,
+        "start_ticks": 154161395,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-micro-r1",
+        "pid": 2698148,
+        "start_ticks": 154161598,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-micro-r1",
+        "pid": 2698256,
+        "start_ticks": 154162953,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-model-ref-r1",
+        "pid": 2698999,
+        "start_ticks": 154178255,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-model-ref-r1",
+        "pid": 2699194,
+        "start_ticks": 154178457,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-model-ref-r1",
+        "pid": 2700256,
+        "start_ticks": 154193985,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-model-ref-r1",
+        "pid": 2700265,
+        "start_ticks": 154194038,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-model-r1",
+        "pid": 2701114,
+        "start_ticks": 154211044,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-model-r1",
+        "pid": 2701343,
+        "start_ticks": 154211247,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-model-r1",
+        "pid": 2702408,
+        "start_ticks": 154226825,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode16-model-r1",
+        "pid": 2702413,
+        "start_ticks": 154226877,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-ud-r1",
+        "pid": 2703376,
+        "start_ticks": 154246612,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-ud-r1",
+        "pid": 2703571,
+        "start_ticks": 154246815,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-ud-r1",
+        "pid": 2704498,
+        "start_ticks": 154258087,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode-ud-r1",
+        "pid": 2704503,
+        "start_ticks": 154258140,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705409,
+        "start_ticks": 154274587,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705479,
+        "start_ticks": 154274689,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705549,
+        "start_ticks": 154275142,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705804,
+        "start_ticks": 154275796,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705874,
+        "start_ticks": 154275849,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-host-r1",
+        "pid": 2705951,
+        "start_ticks": 154276602,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-micro-r1",
+        "pid": 2706648,
+        "start_ticks": 154286832,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-micro-r1",
+        "pid": 2706844,
+        "start_ticks": 154287035,
+        "exit_code": 0,
+        "absent": true
+      },
+      {
+        "label": "q2-hc-decode32-micro-r1",
+        "pid": 2706980,
+        "start_ticks": 154288439,
+        "exit_code": 0,
+        "absent": true
+      }
+    ],
+    "live_owned": [],
+    "kfd": [],
+    "leases": [
+      {
+        "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+        "device": 52,
+        "inode": 3232146,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+        "device": 52,
+        "inode": 3206482,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+        "device": 52,
+        "inode": 3228451,
+        "free_verified_ex_nb": true
+      },
+      {
+        "path": "/tmp/synapse-lie-ds4-gpu.lock",
+        "device": 55,
+        "inode": 45067,
+        "free_verified_ex_nb": true
+      }
+    ],
+    "observer": {
+      "pid": 2708025,
+      "state": "R",
+      "group": 2708022,
+      "session": 2708022,
+      "start_ticks": 154310780
+    },
+    "models": [
+      {
+        "path": "/home/paperboy/ds4-launcher/models/gguf/Qwen3.8-Flash-Next-Q2.gguf",
+        "bytes": 147207127040,
+        "device": 52,
+        "inode": 3116203,
+        "mtime_ns": 1789830972390000000,
+        "ctime_ns": 1790245042601989314
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "device": 52,
+        "inode": 3206497,
+        "mtime_ns": 1790711324843554872,
+        "ctime_ns": 1790711324862554699
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "device": 52,
+        "inode": 3228516,
+        "mtime_ns": 1790736177583897747,
+        "ctime_ns": 1790736200535707812
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "device": 52,
+        "inode": 3211726,
+        "mtime_ns": 1790722377225361874,
+        "ctime_ns": 1790722399329150549
+      },
+      {
+        "path": "/home/paperboy/ds4-tests/gufo-qwen38-38bb39ee/model/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "device": 52,
+        "inode": 3207513,
+        "mtime_ns": 1790713947624076845,
+        "ctime_ns": 1790713953424001688
+      }
+    ],
+    "result_sha256": {
+      "q2-hc-decode-host-r1": "bb9c80198aba49bef9b074c55dafc942caf8e9cae3309551dccfe02014c2613e",
+      "q2-hc-decode-micro-ref-r1": "0b098aaf4c70a803a202f20c0a5642a7b45f20bdb6ebaa2fd0d5285acb6b30c8",
+      "q2-hc-decode8-micro-r1": "4931b962242364634fa7174f82e02f2506ffaabd657e4ee7d41f58ef5485ae1f",
+      "q2-hc-decode16-micro-r1": "4e1a98403bc8b532100287ea75828de57d90980c12259c60b77b4d0f41b7e324",
+      "q2-hc-decode-model-ref-r1": "af40c18cd39608d6247780c0df625c57e229aa2ca08e1db23755c1fe2bcff83f",
+      "q2-hc-decode16-model-r1": "6fe80cb7f9ccd921d7d92cce0c33f9c2a61abf69b877c8815aa0bf18b0975cd8",
+      "q2-hc-decode-ud-r1": "c94b768d7b0b4a8fc06fac95b6eaf478f380986c06b1b22694a4ab0d6f1949bb",
+      "q2-hc-decode32-host-r1": "23c86badf2235cc8ec1c12a25caaee8621fc7b91028e888ea35eab111c2d5be2",
+      "q2-hc-decode32-micro-r1": "dbcb870d679b2ee686ad0303fb9d7459807bee466d303746fbae1300438aa3d3"
+    },
+    "thermal": {
+      "/sys/class/hwmon/hwmon4/temp1_input": "47000",
+      "/sys/class/hwmon/hwmon2/temp1_input": "47000",
+      "/sys/class/hwmon/hwmon0/temp1_input": "47000",
+      "/sys/class/hwmon/hwmon5/temp1_input": "49000",
+      "/sys/class/hwmon/hwmon3/temp1_input": "47625",
+      "/sys/class/hwmon/hwmon1/temp6_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+      "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp8_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp9_input": "42850",
+      "/sys/class/hwmon/hwmon1/temp2_input": "53850"
+    }
+  },
+  "retirement": {
+    "at": "2026-10-02T21:49:31.927845+00:00",
+    "expected": {
+      "pid": 2708025,
+      "state": "R",
+      "group": 2708022,
+      "session": 2708022,
+      "start_ticks": 154310780
+    },
+    "live": [],
+    "kfd": [],
+    "observer_retired": true
+  },
+  "checks": {
+    "q2-hc-decode8-analysis": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-hc.py",
+        "--reference",
+        "evidence/q2-hc-decode-micro-ref-r1",
+        "--candidate",
+        "evidence/q2-hc-decode8-micro-r1",
+        "--output",
+        "config/q2-hc-decode8-results.json"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode16-analysis-r2": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-hc.py",
+        "--reference",
+        "evidence/q2-hc-decode-micro-ref-r1",
+        "--candidate",
+        "evidence/q2-hc-decode16-micro-r1",
+        "--output",
+        "config/q2-hc-decode16-results.json"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode16-model-analysis": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-hc.py",
+        "--reference",
+        "evidence/q2-hc-decode-micro-ref-r1",
+        "--candidate",
+        "evidence/q2-hc-decode16-micro-r1",
+        "--models",
+        "evidence/q2-hc-decode-model-ref-r1",
+        "evidence/q2-hc-decode16-model-r1",
+        "evidence/q2-hc-decode-ud-r1",
+        "--output",
+        "config/q2-hc-decode16-results.json"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode32-analysis": {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-hc.py",
+        "--reference",
+        "evidence/q2-hc-decode-micro-ref-r1",
+        "--candidate",
+        "evidence/q2-hc-decode32-micro-r1",
+        "--output",
+        "config/q2-hc-decode32-results.json"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode8-plot": {
+      "argv": [
+        "python3",
+        "tools/plot-q2-hc.py",
+        "--report",
+        "config/q2-hc-decode8-results.json",
+        "--output",
+        "docs/figures/q2-hc-decode8",
+        "--candidate-label",
+        "Eight waves"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode16-plot": {
+      "argv": [
+        "python3",
+        "tools/plot-q2-hc.py",
+        "--report",
+        "config/q2-hc-decode16-results.json",
+        "--output",
+        "docs/figures/q2-hc-decode16",
+        "--candidate-label",
+        "Sixteen waves"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode32-plot": {
+      "argv": [
+        "python3",
+        "tools/plot-q2-hc.py",
+        "--report",
+        "config/q2-hc-decode32-results.json",
+        "--output",
+        "docs/figures/q2-hc-decode32",
+        "--candidate-label",
+        "32 waves"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode-close": {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "paperboy@192.168.5.157",
+        "python3 -"
+      ],
+      "exit_code": 0
+    },
+    "q2-hc-decode-retirement": {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "paperboy@192.168.5.157",
+        "python3 -"
+      ],
+      "exit_code": 0
+    }
+  },
+  "retained_local_validation_failures": [
+    {
+      "argv": [
+        "python3",
+        "tools/analyze-q2-hc.py",
+        "--reference",
+        "evidence/q2-hc-decode-micro-ref-r1",
+        "--candidate",
+        "evidence/q2-hc-decode16-micro-r1",
+        "--output",
+        "config/q2-hc-decode16-results.json"
+      ],
+      "exit_code": 1
+    },
+    {
+      "exit_code": 1,
+      "error": "AssertionError: expected prior CTest summary wording with zero-failure clause",
+      "actual": "100% tests passed out of 12",
+      "scope": "Local report validation only; all original CPU/GPU commands completed successfully"
+    }
+  ],
+  "source_sha256": {
+    "tools/q2-remote.py": "4cd0826f6ed983c99ba5acabb451986459137349ba37e7636ea044c215ce3e09",
+    "tools/prepare-q2-hc-decode-waves.py": "bfed7e562f176d4791bc1a6e3fd39b6795a392e339cade84a24301ec221139a2",
+    "tools/analyze-q2-hc.py": "e2e9f0e50245f08c07907b4a93a07920165dc4750f2a6aa0075a135d45d84645",
+    "tools/plot-q2-hc.py": "0bedbedd4ce4ba00231d947fca9baa567ad080fc3fac3a77abb25c9bdb668c0b",
+    "tests/q2_remote_test.py": "a571209a0b160d4e1ffbd83e531570d748c92adf8d2544316e788709fbc9ae0f"
+  },
+  "figure_sha256": {
+    "docs/figures/q2-hc-decode8.svg": "5ad754599a50551a9c1371d7d32153f2114e7a30c1235b9462d4483a1ffc6c89",
+    "docs/figures/q2-hc-decode8.png": "72e04ccad9cc5393b1714b7df0c16cbefe795a05d8d497fd68debc8ecbe7cb26",
+    "docs/figures/q2-hc-decode8.csv": "fa9bc63c51828d88fa0f07211e149449584afe61f28845dccdc0b252b867805c",
+    "docs/figures/q2-hc-decode8.samples.csv": "c586c175bc3cab579da43c4f38d11a33605785b375121dc71d2ce86e7b2c7790",
+    "docs/figures/q2-hc-decode16.svg": "bf570a99d4452f1ff3d1dbc99a64733e1f92feb3576d42330fae1a6be0850f06",
+    "docs/figures/q2-hc-decode16.png": "85cf211a886356a71ace37275d19082f0aa20e547b582dbb864a20787a922d36",
+    "docs/figures/q2-hc-decode16.csv": "b4e089be9176a9249c09dcddfc47b533f5015091fb7afc3403aebf829a15b39b",
+    "docs/figures/q2-hc-decode16.samples.csv": "251d4c186fb7797e12034e8b3b4588daddc7bb250f2569d77810be72939acf56",
+    "docs/figures/q2-hc-decode32.svg": "d448203e060f78a3dd8fc8959216a49505cf8f2197e081804f433a3a23d6a3f3",
+    "docs/figures/q2-hc-decode32.png": "23af54d411020e8ace59cdd486dd07ec9f6b5e76cd011f3c8f77aeb8cd1ed2d9",
+    "docs/figures/q2-hc-decode32.csv": "d558a2f563c7836002da2f9833a9f0c56db5caad8731b604599500080830dabc",
+    "docs/figures/q2-hc-decode32.samples.csv": "b5eccc23c9961a66012cabb57872a5e8926695ad8ad33da526526d30bd8d9d5b"
+  },
+  "total_artifacts": 152,
+  "total_commands": 36
+}

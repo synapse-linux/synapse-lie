@@ -1,0 +1,149 @@
+{
+  "schema": "synapse-lie.q2-target-priorities.v1",
+  "evidence": {
+    "config/q2-ssm-fixed-bounds-model-results.json": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-current-best-profile-results.json": "efb16d4015e3fce00af978374573b17aa4bbc3b2250007bf126eb459651b2f7f",
+    "config/q2-down-register-palette-source.json": "9c5ee4e6c0f576f3c79d58af616ce543451a27d149494da2b431745c04d6227d",
+    "config/q2-down-register-palette-static.json": "d49286ce9663013ca27dbbce58dde13813ef7cb1c14f0e2cb7a752fb992f1c42",
+    "config/q2-down-register-palette-host-results.json": "70e44bfe406f8accc7897f7bfde24e304d731f976beb136929985a7f021ee854",
+    "config/q2-down-register-palette-network-failure.json": "f4f747d2292d85fdbfa8e254ef8eaf27087f3107985fc2707161ab88d84a51bf",
+    "config/q2-hc-inject-reuse-draft-v2.json": "54fb3791c2f2bcc6736fd836069e5547effec1a52b3744260e9293cc3a091607",
+    "config/q2-hc-inject-reuse-draft-static.json": "cfdc653426c407756f2d5213b9fbd185c50cd22addce71c7fb34a85d849c7a09",
+    "tools/q2-down-register-palette-phase.py": "be1712d96bbbefa9c8a2b7354086974e2336014fb9e7fe1bdcf25e96c9f2a671",
+    "tests/q2_down_register_palette_phase_test.py": "775e7e370395598245c36370b55308e304e9d2ff05c4fcbadce7410dbec212e3",
+    "tools/freeze-q2-down-register-palette-plan-v2.py": "e375349b37a61c869298928a6126ce7f8a730435562c9977cd291d204eac778f",
+    "tools/prepare-q2-down-register-palette-window-v2.py": "1740441d0abe1e2df3c956b475e476aa1f323d523df1ede2fb0c0e1329147028",
+    "tools/analyze-q2-hc-inject-reuse-draft.py": "b42cf184782fc9deb3c6dde1dde7e6caf08fe7f03683931e9c2a8a4d1a05b00a"
+  },
+  "fixed_comparison": {
+    "prompt_tokens": 2048,
+    "output_tokens": 128,
+    "timed_decode_calls": 127,
+    "saved_q2_pp": 1443.672867,
+    "retained_pp": 1585.308983,
+    "retained_tg": 25.16079073,
+    "ud_pp": 1685.777092,
+    "ud_tg": 24.34174251,
+    "needed_pp_increase_percent": 6.3374465216160525,
+    "needed_prefill_reduction_ms": 76.99173596475516
+  },
+  "profile_scope": "Saved1571 provider, exact2048 workload; historical attribution, not fresh1585 measurement",
+  "priority_basis": "Measured stage cost, specific removable work, isolation and static resource cost; no numerical probability or forecast",
+  "priorities": [
+    {
+      "rank": 1,
+      "variant": "down-register-palette",
+      "historical_stage_ms": 161.55806,
+      "mechanism": "Elide wave-private Q2 weight/affine LDS stage, form exact half palette once",
+      "prepared": "Isolated1028-file production provider and123-pair/70-timing guarded fixture",
+      "static_lds_bytes": [
+        18560,
+        8320
+      ],
+      "static_vgpr": [
+        96,
+        102
+      ],
+      "private_bytes": 0,
+      "risks": "More static instructions and VGPRs; reduced LDS did not help the completed IQ2 trial",
+      "runtime_result": null
+    },
+    {
+      "rank": 2,
+      "variant": "hc-inject-reuse-draft-v2",
+      "historical_inject_ms": 39.548835,
+      "historical_inject_calls": 96,
+      "mechanism": "Compute the original ordered injection dot while mix already holds normalized values; retain second-stage reduction",
+      "prepared": "Three private compiler probes; no production selector or GPU fixture yet",
+      "proposed_dead_workspace_bytes": 20971520,
+      "persistent_allocation_added": false,
+      "static_producer_vgpr": [
+        242,
+        242
+      ],
+      "static_producer_lds_bytes": [
+        24576,
+        24576
+      ],
+      "private_bytes": 0,
+      "risks": "Producer instructions/SGPRs increase; extra dot traffic and weights can offset the removed pass; lifetime needs executor qualification",
+      "runtime_result": null
+    }
+  ],
+  "budget_limits": {
+    "down_required_saved_fraction_if_alone": 0.4765576905587698,
+    "injection_full_removal_ms": 39.548835,
+    "launch_gap_ms": 5.09046,
+    "caveat": "Diagnostic region time is not removable in full. Fusion moves required arithmetic and adds dot storage. Budget arithmetic predicts no model speed."
+  },
+  "preparation_command_exits": {
+    "admission-command.json": 255,
+    "admission-publish-command.json": 1,
+    "assembly-command.json": 0,
+    "component-launch-command.json": 255,
+    "connectivity-audit-2-command.json": 255,
+    "connectivity-audit-3-command.json": 255,
+    "connectivity-audit-command.json": 255,
+    "core-handover-admit-command.json": 0,
+    "core-handover-command.json": 0,
+    "fixture-device-command.json": 0,
+    "fixture-host-command.json": 0,
+    "freeze-plan-command.json": 0,
+    "generation-command.json": 0,
+    "hc-inject-draft-generation-command.json": 0,
+    "hc-inject-draft-static-audit-command.json": 0,
+    "hc-inject-draft-v2-assembly-command.json": 0,
+    "hc-inject-draft-v2-generation-command.json": 0,
+    "helper-transfer-command.json": 0,
+    "host-collect-command.json": 0,
+    "host-launch-command.json": 0,
+    "staging-command.json": 0,
+    "static-audit-command.json": 0
+  },
+  "classified_failures": {
+    "admission-command.json": 255,
+    "admission-publish-command.json": 1,
+    "component-launch-command.json": 255,
+    "connectivity-audit-2-command.json": 255,
+    "connectivity-audit-3-command.json": 255,
+    "connectivity-audit-command.json": 255
+  },
+  "last_connectivity": {
+    "argv": [
+      "ssh",
+      "-F",
+      "/dev/null",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=10",
+      "paperboy@192.168.5.157",
+      "true"
+    ],
+    "started_at": "2026-10-06T03:55:40.706390+00:00",
+    "finished_at": "2026-10-06T03:55:43.783898+00:00",
+    "exit_code": 255
+  },
+  "host_r1_passed": {
+    "debug": 33,
+    "asan_ubsan": 33
+  },
+  "current_host_r2_required": {
+    "debug": 34,
+    "asan_ubsan": 34,
+    "executed": false,
+    "reason": "New phase validation and five refusal/sequencing cases changed host scope"
+  },
+  "blocked_runtime": "SSH .157 unreachable before remote connection; no new admission, model run or GPU build",
+  "last_verified_release_sha256": "57b67078e073f09c2aeb73b2ed2f6c288781131029c8267b840d6bcc77b2f04b",
+  "fresh_global_closure_claimed": false,
+  "gpu_reserved": false,
+  "controls_rerun": false,
+  "deferred": [
+    "Full context curve and Q4",
+    "Already rejected IQ2 tail16/register-stage and compact SSM LDS reruns"
+  ],
+  "independent_quality_qualification": false,
+  "goal_met": false
+}

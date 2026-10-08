@@ -1,0 +1,546 @@
+{
+  "schema": "synapse-lie.c17-history-host-qualification.v1",
+  "at_utc": "2026-10-05T06:36:43.908304+00:00",
+  "baseline_checkpoint": "8d43fdfe36e12a36914fcb0e4cbac210a974830b",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Executed host history/penalty/state and pristine/ON/OFF numerical/grammar/MTP fixtures. NOT-INFERENCE; no model forward, original-weight GPU continuation, memory fit or performance qualification.",
+  "implementation": [
+    "Model-neutral C17 ABI1 owns bounded prompt-tail history, sorted unique penalties, generated-token frequency/presence counts and repetition flags. Caller owns growth, budgets and disposal; C creates no threads/device calls or retained input pointers.",
+    "Reset counts prompt only for repetition; accept counts all committed generated tokens even outside the window. Overflow, invalid input, budget and growth refusal preserve logical state. Independent copy does not change RNG or grammar.",
+    "Single-token acceptance stages no scratch. Bulk generation stages at most input count; repetition-only input stages the retained tail. In-place heapsort needs no libc sort allocation outside caller budgets.",
+    "Exact pinned history recipe wires provider construction/reset/acceptance/free-distribution bookkeeping. Transient C++ glue grows live vector entries and shrinks unpublished scratch; ON/OFF layouts stay equal. OFF preserves pinned bookkeeping.",
+    "Provider grammar is staged before C acceptance and published after success; deferred draws/RNG keep existing ownership. Free penalty construction does not acquire random entropy. Six owned sampling files and the additional history recipe are receipt-verified.",
+    "No new runtime thread, Python product/default CTest dependency, model payload or DS4 prefix-format change. Grammar/masking and compact speculative distributions remain delegated."
+  ],
+  "coverage": [
+    "14400 independent FIFO/count oracle transitions cover generated/repetition flags, windows0/1/2/8/64/129, empty/single/8/32/33/257-token batches, prompt-tail reset and clone independence.",
+    "Growth/refusal fixtures cover reset/accept/copy failure without publishing, budget caps, smaller reset windows, overlapping/invalid input, UINT32_MAX generated count overflow and repetition-only eviction at the unique-token cap.",
+    "1728 complete history transitions over48 profiles compare all entries, flags, RNG/deferred draws, cloned state, resets, free and compact distributions byte-exactly with pristine Gufo and OFF; grammar-refused batches preserve state.",
+    "1200 existing complete numerical cases,1200 bias cases,24 full-vocabulary cases and nine upstream logit/grammar/MTP fixtures pass; these are synthetic host rows, not model inference.",
+    "Final17 Debug,17 ASan/UBSan/LeakSanitizer shared-contract checks,15 sanitizer reference-project checks and33 C++ public headers pass. All test assertions and leak detection stay active.",
+    "Strict C17 warning-as-error syntax passes; object imports are only stack protector and memcpy/memmove, with no allocator/sort/thread/device symbol."
+  ],
+  "sources": [
+    {
+      "path": "include/lie/sampling_history.h",
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "adapters/gufo-state/history-sampling-edits.json",
+      "sha256": "7487f5b2b087e54b64ee564131870daad4441572aa80d2440c2476080c631608"
+    },
+    {
+      "path": "adapters/gufo-state/dense-sampling-edits.json",
+      "sha256": "b64b16d475b24beeb06609ea28b13411f71a9ce562d242a9566fe85c281ba037"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "src/sampling.c",
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "8a002ad1e7769cb3f92149076a6089079d8fe8efd302683939055244314b25aa"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "sha256": "97dc92ab55ed6333048a0a5fe9d39a504ab1a075667bc411c9b96e419f8a444d"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "sha256": "fe303c5b20893a49e3e8e8761710b87e2c579ad54bc0dfee55292a7782bc88d8"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "sha256": "248cc0754509efc61ccca0fd04cab389f85fd0f95cd84317dcae9c97e7ebe1ac"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "ab722f7a24d29447686df15b65adfa0e50ef914e4f7867b4e932d226c9a4991f"
+    },
+    {
+      "path": "tests/test_sampling_history.c",
+      "sha256": "99f28e2b25173760a2c9319c6143078605bbfc5339e15b0e4f3f0fc496f0e6c8"
+    },
+    {
+      "path": "tests/sampling/history.cpp",
+      "sha256": "c1cc3735260f313ba3151d9949665cf546bf153870f6a9d0f92ced9bf473d8b5"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "sha256": "cc8562f1c31796d8fa87cf32031e82d9e0c4768b56a42248a1c707b5d207104f"
+    },
+    {
+      "path": "tests/sampling/compare.cmake",
+      "sha256": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "sha256": "05c295f41a9058b0d7efb9da9cd2b0d39b3247d71795866384a370feb869f945"
+    },
+    {
+      "path": "tests/test_gufo_sampling.cpp",
+      "sha256": "9ad9b3d0ea876e71808d085f2e41682dd92968b5faacf4a8d7cb7547f31cbff5"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/sampling-history-debug-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 69.75,
+      "result_sha256": "3de5aa3a50bf94110598bce3974b03f6026da6273007e0f74e76c73804a75cd7",
+      "log_sha256": "512ba346d9df5fd4267284be2006307a4260bc9556e36450f35193dd03a940a6",
+      "temperature_log_sha256": "6b0610d202185d4ba2e874e3f795ada3874b49dfe2b097188fd610a96bda0b9e"
+    },
+    {
+      "directory": "evidence/sampling-history-asan-build-r3",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 69.625,
+      "result_sha256": "379b881f125e1b076af7959e0bea5f27c056d4f695899993f47341c9d7eb858c",
+      "log_sha256": "bddc7fb3d2b385771c1e8ea71f66cb524b7eabe96ca8c9ec4a931d2536528a2a",
+      "temperature_log_sha256": "2834f2489dcf75af15a37783df3bd573fcc190c851d015d41d9e6dc66c05d462"
+    },
+    {
+      "directory": "evidence/sampling-history-reference-configure-r3",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/sampling-history-host",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 73.875,
+      "result_sha256": "05bae256ffdf91e4dc03f67f76a793cfb17b10f65341dbbd7f436ef81f9485f0",
+      "log_sha256": "298a197cc9241ca4adf3a4fa9f78a01e1df0574dd9fb1ae7a890b5ee1b846c62",
+      "temperature_log_sha256": "fce125fe3209936c5ea6e03fd8f7b0ee9dd04bc0e8215452f4e939fd1a979913"
+    },
+    {
+      "directory": "evidence/sampling-history-reference-build-r4",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/sampling-history-host",
+        "-j2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 77.875,
+      "result_sha256": "850f8114caf351070494fc0c5393e763f58a4ca20fb0de5fb06287bcf7ab0808",
+      "log_sha256": "a3f5b8dd7d384c7c14a47fd6423544a04182a33b71de155d8b7a5925990f43dc",
+      "temperature_log_sha256": "a53728ade0e9290ae8f7976b520933d6d5d3fbd126c2259892fe4130e31b090f"
+    },
+    {
+      "directory": "evidence/sampling-history-debug-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "-R",
+        "^(c17-(sampling-history|dense-sampling)-contract|native-provider-verification|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 17,
+      "cpu_max_c": 61.125,
+      "result_sha256": "eed4918f22a4d1c98c17ab3cb850bc77b13f1b96188e76a16c70d407c0bf180c",
+      "log_sha256": "c2d2c6b5b3432ea2c02cdcd71f22c605f0ce770a85677c5e19d78b3af79e56c4",
+      "temperature_log_sha256": "f42839d34d6d18ce22435d00504b6f3b87e695d9ee741f95ed2346a83a2ac229"
+    },
+    {
+      "directory": "evidence/sampling-history-asan-test-r2",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "-R",
+        "^(c17-(sampling-history|dense-sampling)-contract|native-provider-verification|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 17,
+      "cpu_max_c": 60.5,
+      "result_sha256": "5ce12771df8deb069744267ba048c45e4c65b4cadcac82b7c7b1ab4ac9d88832",
+      "log_sha256": "0b9a49606583f00bc6457f8142a42f7dad66ebe3e87100456209738eb2bdf71c",
+      "temperature_log_sha256": "7e41706b09f5c80353933ea6e2b5a6068f5cfbef49050b2c74ac298626dd9753"
+    },
+    {
+      "directory": "evidence/sampling-history-reference-test-r3",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/sampling-history-host",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 15,
+      "cpu_max_c": 90.875,
+      "result_sha256": "f249010e1f134035a80e6fdeea316e8b290abae78d08a95cf0ce63a4b7f7bd6f",
+      "log_sha256": "e70af3d412c5572d906d26cee67d88d09db2d5bbd73245e6489bbe0e68cacd96",
+      "temperature_log_sha256": "078afcb762e1ecbc04892b1e0791343a6be57125629c804d2483084dc76dba71"
+    },
+    {
+      "directory": "evidence/sampling-history-public-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-fsyntax-only",
+        "-Iinclude",
+        "evidence/sampling-history-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 78.25,
+      "result_sha256": "4f462c10f111d85e4c402f7af5f0fb2935df867a264eead77935c9b1273aca1a",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "e857add20813dea5e4e63352aacf014a0dcb68e3608dca0bce7cf929a04eab1a"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/sampling-history-host/libreference.a",
+      "sha256": "a8cad13a21af061e0a86c7b209e64d96af72a4d2ebfd2b090c82b0bd6f896105"
+    },
+    {
+      "path": "build/sampling-history-host/reference-history",
+      "sha256": "441eeb0c4fda270753f585c2fc00bfbc7fa91fbeb8e5d819577223b9691be60a"
+    },
+    {
+      "path": "build/sampling-history-host/reference-probe",
+      "sha256": "b30b1404878ca32b47c8c4ddb5012df23fcc5270591f34e1fc1f9f1f9c90a43a"
+    },
+    {
+      "path": "build/sampling-history-host/libcandidate.a",
+      "sha256": "8eeaba162acabbdb718e1b9f2af5888ef53087c1fc7d55c6dd0705a71c1b5824"
+    },
+    {
+      "path": "build/sampling-history-host/candidate-history",
+      "sha256": "2f774d38750b7f7838d2e0f198fc45d409c6d826f66eaf165afcc9fb95e06818"
+    },
+    {
+      "path": "build/sampling-history-host/candidate-probe",
+      "sha256": "3c7296f50a48f6d8218691ce68b40fd9c032f192eaca4260bf6a207a2d8dbdb2"
+    },
+    {
+      "path": "build/sampling-history-host/libfallback.a",
+      "sha256": "7830c8c38e228c74e57fa2f290791e03f3e9a76beb8c9d0d252ba7510632d4e1"
+    },
+    {
+      "path": "build/sampling-history-host/fallback-history",
+      "sha256": "2b6c9b0841e2db2bd311940dc119f4c5f52eeefc70a725e314d59eb07462a50f"
+    },
+    {
+      "path": "build/sampling-history-host/fallback-probe",
+      "sha256": "f783835a5caefbf76da186fa955ccd50e077acbaa01ad6a30b2f81a0678cc3ba"
+    },
+    {
+      "path": "build/context-debug/liblie_sampling.a",
+      "sha256": "6b88c4659454a0c784717b0d1653762bcad4f5063648637123c886e96824f9b3"
+    },
+    {
+      "path": "build/context-debug/test-sampling-history",
+      "sha256": "7b41613deea58965b52cb2e8de09b9babe3c4b643609ea37c680a27f3bcb2b5c"
+    },
+    {
+      "path": "build/tool-http-asan/liblie_sampling.a",
+      "sha256": "447ec9b86d7f87a27a75531a5cd84a1ed2a696f4b22b3a7bde4e1974811e7c71"
+    },
+    {
+      "path": "build/tool-http-asan/test-sampling-history",
+      "sha256": "ef3a2b9dfe90d6cd437fc117e869179e9f69dfaf539af1b243c0f1a4459ca716"
+    }
+  ],
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "all_exit_codes_zero": true,
+      "files": [
+        {
+          "path": "build/sampling-history-host/parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/parity/CANDIDATE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/sampling-history-host/parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/parity/FALLBACK.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/sampling-history-host/parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/parity/REFERENCE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "all_exit_codes_zero": true,
+      "files": [
+        {
+          "path": "build/sampling-history-host/biased-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/biased-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/biased-parity/CANDIDATE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/sampling-history-host/biased-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/biased-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/biased-parity/REFERENCE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "files": [
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/CANDIDATE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/FALLBACK.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/vocabulary-parity/REFERENCE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "all_exit_codes_zero": true,
+      "files": [
+        {
+          "path": "build/sampling-history-host/history-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/CANDIDATE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/FALLBACK.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/sampling-history-host/history-parity/REFERENCE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    }
+  ],
+  "previous_qsort_host_witnesses_unchanged": true,
+  "strict_boundary": {
+    "directory": "evidence/sampling-history-c17-symbols-r1",
+    "result_sha256": "dc3008be6f0df0d542592fc20b4f85589f7ef6080b22532a74878cbb7f60d992",
+    "log_sha256": "0f7f93684da1ff37e33384a5a1934cd5c4c883a99a1e21636c84330db9058b23",
+    "strict_compile_result_sha256": "6a9714bc998a2ebd68da49241a157bc653c04e5b2d346727f5edaa922fcec55f"
+  },
+  "retained_failed_checks": [
+    {
+      "directory": "evidence/sampling-history-reference-test-r1",
+      "argv": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ctest",
+        "--test-dir",
+        "build/sampling-history-host",
+        "--output-on-failure",
+        "-j1"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "test_count": null,
+      "cpu_max_c": 88.25,
+      "result_sha256": "cc540b26a4714e411a18f50361938fb0dc7b1d0d8b8270ba45a7e60275f07868",
+      "log_sha256": "7a0c327dcb94e74bae0659c35d7e2e0d63123f1afabcfd3d21b34b2b681fa751",
+      "temperature_log_sha256": "c975cebca61e812a8b670d7f4a45e59431247ff7a1bc31ffd15943fd1eb40ae1"
+    }
+  ],
+  "failure_resolution": [
+    "Initial reference-project command exits8. Fourteen checks fail because LeakSanitizer cannot work under sandbox ptrace; the same sanitizer settings pass outside that context.",
+    "The new history probe initially requests an unsupported boolean root schema and aborts before finishing. Correcting it to a supported strict object schema preserves the intended grammar-refused-batch assertion. Original fixture/stderr/full failed witnesses remain under the failed command directory.",
+    "The intermediate qsort build passes all15 host checks. Replacing libc sort with owned in-place heapsort preserves all complete witness hashes while removing indirect allocation from this module.",
+    "The older closed-stderr sanitizer abort is retained in steering-live-host-2026-10-05.json and remains unexplained; this slice makes no fix claim."
+  ],
+  "local_cpu_max_c": 90.875,
+  "thermal_policy": {
+    "cpu_ceiling_c": 98,
+    "nvme_ceiling_c": 85,
+    "gpu": "observe-only",
+    "tuning": false
+  },
+  "latest_readonly_gpu_witness": {
+    "path": "evidence/context-steering-availability-r18.json",
+    "sha256": "478199337498b766f0b383bfd22ed7372eaa46ac544417192eaed93c9ea70b8d",
+    "at_utc": "2026-10-05T06:24:10.934843+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "external_pid": 29223,
+    "router_pid": 29377,
+    "cpu_c": 91.625,
+    "available_ram_bytes": 86383816704,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "limits": [
+    "Original-weight new-history AR/MTP/grammar/vision and retained-correction continuation, allocation-exact memory, fault handling and matched cost remain unqualified on .161.",
+    "Provider vectors/deep-copy storage, entropy initialization, deferred draws, grammar algorithms/masking and compact speculative residual construction remain transitional; this is not an autonomous model executor.",
+    "Caller growth bounds include unpublished bulk scratch. Source/host tests do not establish GPU memory fit or a throughput benefit.",
+    "No remote GPU build/run, heavyweight model hash, conversion, service mutation, foreign signal, waiter, standing lease, dependency installation or publication."
+  ],
+  "owned_open_task_count": 6,
+  "all_goal_requirements_verified": false
+}

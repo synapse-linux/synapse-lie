@@ -1,0 +1,56 @@
+{
+  "schema": "synapse-lie.ds4-sampling-point-supervisor-validation.v1",
+  "date_utc": "2026-10-04",
+  "parent_source_checkpoint": "848ddc7",
+  "scope": "CPU_ONLY_OPTIONAL_POINT_PROFILE_PROTOCOL_NOT_MODEL_INFERENCE",
+  "tests_passed": 78,
+  "source_sha256": {
+    "tools/strix-point-campaign.py": "5350a435d6744339da14889de80abe2fb50b1ae771c52a7b798c8b905edb527f",
+    "tests/test_strix_point_campaign.py": "fdcfd15990815c4c74a4404f9bd75203a1768d607e9b249731facd092370aa22"
+  },
+  "run": {
+    "evidence_directory": "evidence/ds4-profile-point-fixtures-r1",
+    "result": {
+      "argv": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_strix_point*.py",
+        "-v"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 49.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 54.75
+      },
+      "elapsed_s": 1.0563407819718122
+    },
+    "command_log_sha256": "e069a5e04b9299c592ec5f1afabe151bc417aca883c48cb55bd43fc50fc5c838",
+    "temperatures_log_sha256": "86ee9b3e2b033aa54ec50553ed655435a546a68a6ad2e62fbd4b209778e744e5"
+  },
+  "cpu_peak_c": 54.75,
+  "coverage": [
+    "Complete typed seven-control DS4 profile; bounded numeric values and reproducible positive-temperature seed.",
+    "Invalid or null campaign controls refuse before model verification or container launch.",
+    "AR/MTP invocation forwards every declared native flag and records normalized settings.",
+    "Identity drift in candidate filters or seed, invalid types and explicitly null result settings are refused.",
+    "Historical absent generation/five-control identities retain disabled filters.",
+    "Existing ownership, progress, cache and OpenAI protocol CPU fixtures remain passing."
+  ],
+  "qualification_status": "GPU_PENDING",
+  "product_runtime_dependencies_added": [],
+  "not_claimed": [
+    "Actual model inference, GPU numerical equivalence or throughput.",
+    "New MTP gate acceptance or physical 1M fixed-output completion."
+  ],
+  "protocol": "docs/development/protocols/DS4-SAMPLING-GPU-PROTOCOL.md"
+}

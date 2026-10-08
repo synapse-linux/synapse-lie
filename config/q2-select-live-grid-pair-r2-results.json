@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.q2-select-live-grid-pair-disposition.v1",
+  "state": "COMPLETE",
+  "plan_sha256": "d4790ef79e64a0dbccd21e85cf380f2e7c640bb486268104b9686e8dc592b9a4",
+  "raw_result_sha256": "d3a3d4c5140a4e1685f46fdc8d1b11d668b125d7b20448a1e95d83d88e1d954d",
+  "remote_and_local_artifact_sha256_equal": true,
+  "raw_artifact_count": 21,
+  "admission_sha256": "a2cd2f145b4dd1959b5c9f97954e458f4f566a16bb53a68ef131fd168109b9de",
+  "release_sha256": "d14805883aaba480fcd51be1ae0b9efb38786076f7f4be3da8681447f7fa0d68",
+  "order": [
+    "retained",
+    "live-grid",
+    "live-grid",
+    "retained"
+  ],
+  "rows": [
+    {
+      "index": 0,
+      "arm": "retained",
+      "prefill_tokens": 32711,
+      "prefill_ms": 22930.424038,
+      "prefill_tps": 1426.532712425717,
+      "output_sha256": "1470734c1f81509f859e8e04d25aab032eb294e0458b476507a7af8190e45a7e",
+      "gpu_busy_samples": 13,
+      "gpu_clock_median_mhz": 2705,
+      "gpu_temp_max_c": 90.0
+    },
+    {
+      "index": 1,
+      "arm": "live-grid",
+      "prefill_tokens": 32711,
+      "prefill_ms": 22830.222449,
+      "prefill_tps": 1432.7937484215267,
+      "output_sha256": "abe23eeb455e718a89755da1d29188b57dd38f19ce0a0e0c1cecf2c80db9090f",
+      "gpu_busy_samples": 13,
+      "gpu_clock_median_mhz": 2683,
+      "gpu_temp_max_c": 92.0
+    },
+    {
+      "index": 2,
+      "arm": "live-grid",
+      "prefill_tokens": 32711,
+      "prefill_ms": 22870.521471,
+      "prefill_tps": 1430.269092966586,
+      "output_sha256": "4d1306380563f8117f23e9dee5597805c7a8fc362bee59d04bc06004e127a826",
+      "gpu_busy_samples": 13,
+      "gpu_clock_median_mhz": 2671,
+      "gpu_temp_max_c": 94.0
+    },
+    {
+      "index": 3,
+      "arm": "retained",
+      "prefill_tokens": 32711,
+      "prefill_ms": 22988.948086,
+      "prefill_tps": 1422.901120905163,
+      "output_sha256": "c3bb01cacf5cc897dc186c71e83d1986f6ea4b7f2cb8fec3afac39481b2f237e",
+      "gpu_busy_samples": 13,
+      "gpu_clock_median_mhz": 2673,
+      "gpu_temp_max_c": 94.0
+    }
+  ],
+  "mean_control_prefill_tps": 1424.7169166654398,
+  "mean_candidate_prefill_tps": 1431.5314206940564,
+  "candidate_rate_change_percent": 0.4783058268561735,
+  "mean_control_prefill_ms": 22959.686062,
+  "mean_candidate_prefill_ms": 22850.37196,
+  "candidate_prefill_time_change_ms": -109.31410200000028,
+  "all_four_outputs_exact": true,
+  "all_original_inputs_and_zero_prefix_hits_verified": true,
+  "scope": "original 32711-token cold request after three original preparation requests, capacity 133760, chunk 2048, C1 AR; no 128K model measurement",
+  "decision": "Do not promote for target: a 0.478% 32K gain is small relative to the original 128K gap and does not establish long-context benefit."
+}

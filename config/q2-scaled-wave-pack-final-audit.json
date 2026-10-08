@@ -1,0 +1,59 @@
+{
+  "schema": "synapse-lie.q2-scaled-wave-pack-final.v1",
+  "plan_sha256": "5f800d2adb1a6c34290688730037790f51ccae0fb6b2b4dcc9b059e83092b649",
+  "model_result_sha256": "ee9e46c0ca12e7b3bf1724b016afc15ba5970322a5122bd8c54478473a103aa3",
+  "component_result_sha256": "3738b7f8d118e648ce4146d474dea7078125c01c82b672bc2d5457a6d5656bb7",
+  "signed_zero_diagnosis_sha256": "e6b6edc2cdd683dfb9f21a19d20d45d4ad1ae2aa5271c64e0dd5d3b7ee0c5412",
+  "release_sha256": "6abd77bc99a836750801e741cdbc313e047be39d7080b2ab7e5f3493abfefa35",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0
+  ],
+  "standard_artifacts_verified": 141,
+  "complete_output_arrays_verified": 104,
+  "frozen_fixtures_verified": 77,
+  "frozen_manifests_verified": 4,
+  "provider_files_verified": 1027,
+  "retired_identities": 1035,
+  "retired_groups": 824,
+  "figures": {
+    "docs/figures/q2-scaled-wave-pack-component.csv": "a6f501969a3f07b9060b0323505c987d70e42718561bcf32ec8072b6d1a12186",
+    "docs/figures/q2-scaled-wave-pack-component.svg": "fa701b4e38b8c472614b464fc74086968e941a6a42db2add2a5f041c3dc99337",
+    "docs/figures/q2-scaled-wave-pack-component.png": "d7d5b1d880adbef650f181eea10ccfbeda6f20f55a394fa759bbf8aa31de2fce",
+    "docs/figures/q2-scaled-wave-pack-model-wrapped.csv": "0d4677fd8036ab2c57e5414a9c677404925f75d8698865bc5ac6198da7e69926",
+    "docs/figures/q2-scaled-wave-pack-model-wrapped.svg": "7a4ed9dccffcd44acdeb42567c6fb2d907fff6115f9b82f6254e67ebeab0b8b1",
+    "docs/figures/q2-scaled-wave-pack-model-wrapped.png": "1951f7b15facf9fe868ff910cc1458456a04370167ad5e9951412780920f9c44"
+  },
+  "preserved_nonzero_exits": {
+    "shared-format-command.json": 1,
+    "changed-format-command.json": 1,
+    "staging-command.json": 1,
+    "component-command.json": 1
+  },
+  "all52_component_pairs_exact": true,
+  "independent_scalar_oracle_pass": false,
+  "reported_oracle_failures_signed_zero_only": true,
+  "production_packing_oracle_pass": true,
+  "all28_timings_retained": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false
+}

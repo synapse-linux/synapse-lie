@@ -1,0 +1,354 @@
+{
+  "at": "2026-10-02T15:30:30.921227+00:00",
+  "state": "Q2_HC_MOE_WINDOW_RELEASED",
+  "runners": [
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562467,
+      "absent": true,
+      "finished_at": "2026-10-02T15:01:30.680651+00:00"
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2563127,
+      "absent": true,
+      "finished_at": "2026-10-02T15:05:35.013624+00:00"
+    },
+    {
+      "label": "q2-hc-moe-micro-r1",
+      "pid": 2565013,
+      "absent": true,
+      "finished_at": "2026-10-02T15:07:15.057799+00:00"
+    },
+    {
+      "label": "q2-hc-moe-reference-r1",
+      "pid": 2565750,
+      "absent": true,
+      "finished_at": "2026-10-02T15:12:56.423085+00:00"
+    },
+    {
+      "label": "q2-hc-moe-model-r1",
+      "pid": 2568091,
+      "absent": true,
+      "finished_at": "2026-10-02T15:18:55.459452+00:00"
+    },
+    {
+      "label": "q2-hc-moe-ud-r1",
+      "pid": 2570044,
+      "absent": true,
+      "finished_at": "2026-10-02T15:23:10.227631+00:00"
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2572272,
+      "absent": true,
+      "finished_at": "2026-10-02T15:28:14.357938+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562468,
+      "start_ticks": 151866078,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562513,
+      "start_ticks": 151866131,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562560,
+      "start_ticks": 151866534,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562647,
+      "start_ticks": 151867188,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562685,
+      "start_ticks": 151867240,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-host-r2",
+      "pid": 2562738,
+      "start_ticks": 151867843,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2563130,
+      "start_ticks": 151875080,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2563367,
+      "start_ticks": 151875282,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2564487,
+      "start_ticks": 151890810,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2564492,
+      "start_ticks": 151890862,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2564645,
+      "start_ticks": 151892768,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2564646,
+      "start_ticks": 151892821,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ref-profile-r1",
+      "pid": 2564647,
+      "start_ticks": 151892873,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-micro-r1",
+      "pid": 2565014,
+      "start_ticks": 151901222,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-micro-r1",
+      "pid": 2565216,
+      "start_ticks": 151901375,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-micro-r1",
+      "pid": 2565324,
+      "start_ticks": 151902729,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-reference-r1",
+      "pid": 2565752,
+      "start_ticks": 151911203,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-reference-r1",
+      "pid": 2565926,
+      "start_ticks": 151911406,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-reference-r1",
+      "pid": 2567122,
+      "start_ticks": 151926934,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-reference-r1",
+      "pid": 2567127,
+      "start_ticks": 151926987,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-model-r1",
+      "pid": 2568092,
+      "start_ticks": 151947252,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-model-r1",
+      "pid": 2568267,
+      "start_ticks": 151947405,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-model-r1",
+      "pid": 2569381,
+      "start_ticks": 151962883,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-model-r1",
+      "pid": 2569386,
+      "start_ticks": 151962935,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ud-r1",
+      "pid": 2570048,
+      "start_ticks": 151976240,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ud-r1",
+      "pid": 2570231,
+      "start_ticks": 151976393,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ud-r1",
+      "pid": 2571141,
+      "start_ticks": 151987564,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-ud-r1",
+      "pid": 2571146,
+      "start_ticks": 151987616,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2572301,
+      "start_ticks": 152011113,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2572485,
+      "start_ticks": 152011316,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2573551,
+      "start_ticks": 152026844,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2573556,
+      "start_ticks": 152026896,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2573688,
+      "start_ticks": 152028703,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2573689,
+      "start_ticks": 152028756,
+      "exit_code": 0,
+      "absent": true
+    },
+    {
+      "label": "q2-hc-moe-profile-r1",
+      "pid": 2573690,
+      "start_ticks": 152028808,
+      "exit_code": 0,
+      "absent": true
+    }
+  ],
+  "live_owned": [],
+  "kfd": [],
+  "leases": [
+    {
+      "path": "/home/paperboy/workspace/projects/cachyos/ai/ds4-gufo/qualification/.pipeline.lock",
+      "device": 52,
+      "inode": 3232146,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/download-gufo-native/download.lock",
+      "device": 52,
+      "inode": 3206482,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/home/paperboy/.local/state/ds4-kernel-work/20260927T161150Z-qwen-hip-prefill/.qualification.lock",
+      "device": 52,
+      "inode": 3228451,
+      "free_verified_ex_nb": true
+    },
+    {
+      "path": "/tmp/synapse-lie-ds4-gpu.lock",
+      "device": 55,
+      "inode": 45067,
+      "free_verified_ex_nb": true
+    }
+  ],
+  "observer": {
+    "pid": 2574356,
+    "state": "R",
+    "group": 2574353,
+    "session": 2574353,
+    "start_ticks": 152042517
+  },
+  "result_sha256": {
+    "q2-hc-moe-host-r2": "f090c98763e5ebb3048ae6a554fbb8dc0da068c23f421988e1b72374319704a6",
+    "q2-hc-moe-ref-profile-r1": "7100c4848b85661b1c814ce5f2eb4e5bbc688a6d704bd81cfbf394bbd18fbc86",
+    "q2-hc-moe-micro-r1": "c7a82bf01e33a8f161094cc27912d5a657556f83492cfaa9730a1a0d24aa86e1",
+    "q2-hc-moe-reference-r1": "9a1f5ee4e5a4d86f9a17942af531204ffd552a893fd7fcb189a3d4fdf480ee73",
+    "q2-hc-moe-model-r1": "7af5ae3df0491496ef5506ce7ecbfbd4e5657939aa7557afd08d6b4ddb0677e0",
+    "q2-hc-moe-ud-r1": "c169d0291efdb891470c030c766d74b2c0c69dbc1a43eca662ca2a6f834991ce",
+    "q2-hc-moe-profile-r1": "5a7910e1eaecab008d1b672f1a4e576587b3a8fa45cc9284113aa34631501f04"
+  },
+  "thermal": {
+    "/sys/class/hwmon/hwmon4/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon2/temp1_input": "45000",
+    "/sys/class/hwmon/hwmon0/temp1_input": "46000",
+    "/sys/class/hwmon/hwmon5/temp1_input": "47000",
+    "/sys/class/hwmon/hwmon3/temp1_input": "46125",
+    "/sys/class/hwmon/hwmon1/temp6_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp3_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp7_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp4_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp8_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp1_input": "42850",
+    "/sys/class/hwmon/hwmon1/temp9_input": "41850",
+    "/sys/class/hwmon/hwmon1/temp2_input": "52850"
+  }
+}

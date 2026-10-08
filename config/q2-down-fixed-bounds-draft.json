@@ -1,0 +1,31 @@
+{
+  "schema": "synapse-lie.q2-down-fixed-bounds-draft.v1",
+  "parent_manifest": "config/q2-iq2-fixed-bounds-source.json",
+  "parent_manifest_sha256": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+  "donor": ".deps/gufo-q2-iq2-fixed-bounds-run/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc",
+  "donor_sha256": "07314a9dd06c99bb09f6a121bc290967e23bc5a0df34e59f9ace35af38bcafde",
+  "include": "experiments/q2-down-fixed-bounds-draft.inc",
+  "include_sha256": "84a8d77b052479c636d82ec24208eaa70207eafacf794e21e790c63aece88962",
+  "generator": "tools/prepare-q2-down-fixed-bounds-draft.py",
+  "generator_sha256": "a3731f734eacb3f34062dfa336f169060c815cf45f5bd55fff797e74eada8cc0",
+  "shape": {
+    "m": 2560,
+    "k": 640,
+    "BM": 128,
+    "BN": [
+      16,
+      48,
+      64
+    ],
+    "grid_rows": 20,
+    "output_alignment": 16
+  },
+  "proof": "20 row blocks times128 rows cover2560 exactly; WMMA row groups and eight-half stores stay inside each128-row block. Ten K64 stages exactly cover640; quantized row stride remains ceil(640/256)*84=252 bytes.",
+  "arithmetic_changed": false,
+  "routing_or_ragged_token_bounds_changed": false,
+  "provider_created": false,
+  "runtime_selector": false,
+  "GPU_admission": false,
+  "model_run": false,
+  "performance_claim": false
+}

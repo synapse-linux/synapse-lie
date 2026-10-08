@@ -1,0 +1,81 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+"""Export the complete Q2/UD HTTP curve with physical counts and durations."""
+import argparse
+import csv
+import json
+import os
+from pathlib import Path
+import tempfile
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('report', type=Path)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    report = json.loads(args.report.read_text())
+    assert report['schema'] in ('synapse-lie.q2-ud-canonical-comparison.v1',
+                               'synapse-lie.q2-iq2-canonical-comparison.v1',
+                               'synapse-lie.q2-ple-canonical-comparison.v1',
+                               'synapse-lie.q2-iq2-mixed-canonical-comparison.v1')
+    ple = report['schema'] == 'synapse-lie.q2-ple-canonical-comparison.v1'
+    mixed = report['schema'] == 'synapse-lie.q2-iq2-mixed-canonical-comparison.v1'
+    iq2 = ple or mixed or report['schema'] == 'synapse-lie.q2-iq2-canonical-comparison.v1'
+    variants = ([('baseline','#606878','Q2 baseline')] if iq2 else []) + [
+        ('q2','#007f8b','Q2 ordered IQ2 + mixed tiles' if mixed else 'Q2 ordered IQ2 + PLE' if ple else 'Q2 ordered IQ2' if iq2 else 'Q2'),
+        ('ud','#d66a28','UD')]
+    if iq2 and 'baseline_repeat' in report['models']:
+        variants[0] = ('baseline','#a2a7b0','Q2 control before')
+        variants.insert(1, ('baseline_repeat','#606878','Q2 control after'))
+    assert set(report['models']) == {k for k,_,_ in variants}
+    args.output.mkdir(parents=True, exist_ok=False)
+    cache = tempfile.TemporaryDirectory(prefix='q2-curve-mpl-')
+    os.environ.setdefault('MPLCONFIGDIR', cache.name)
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    fields = ['variant', 'depth', 'cached_prompt_tokens', 'prefill_tokens', 'completion_tokens',
+              'prefill_calls', 'decode_calls', 'prefill_seconds', 'decode_seconds',
+              'cache_capture_ms', 'cache_restore_ms', 'ssd_read_ms', 'request_wall_ms',
+              'prefill_tokens_per_second', 'decode_tokens_per_second', 'completion_sha256']
+    with (args.output/'samples.csv').open('w', newline='') as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator='\n')
+        writer.writeheader()
+        for variant, group in report['models'].items():
+            for row in group['rows']:
+                out = {k:row[k] for k in fields if k in row}
+                out.update(variant=variant, prefill_seconds=row['prefill_ms']/1000,
+                           decode_seconds=row['decode_ms']/1000)
+                writer.writerow(out)
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5.5))
+    labels = ['0', '4K', '8K', '12K', '16K', '32K', '64K', '128K']
+    for ax, metric, title in zip(axes, ('prefill_tokens_per_second', 'decode_tokens_per_second'),
+                               ('New-turn prefill', 'Completed AR decode')):
+        for variant, color, label in variants:
+            rows = report['models'][variant]['rows']
+            ax.plot(range(8), [r[metric] for r in rows], 'o-', color=color, label=label)
+        ax.set(title=title, xlabel='Cached-prefix target', ylabel='tokens / second',
+               xticks=range(8), xticklabels=labels)
+        ax.grid(alpha=.2)
+        ax.legend(frameon=False)
+    title = 'Q2 / UD: Gufo prose workload over C17 HTTP'
+    if iq2 and not report['matched_history']:
+        title = 'Diagnostic only: Q2 request/output history differs'
+    fig.suptitle(title, fontsize=16)
+    note = ('One sample per arm/depth after model warmup; filesystem residency uncontrolled. Counts and durations in CSV.\n'
+            'LIE executor-call timers; numerical acceptance remains open.' if iq2 else
+            'One warmed sample per depth; actual counts and durations in CSV. LIE executor-call timers; numerical acceptance remains open.')
+    fig.text(.06, .04, 'C1 AR, thinking/MTP off; approximately 2048 new tokens + 128 outputs; capacity 133760.\n'+note,
+             fontsize=9)
+    fig.subplots_adjust(top=.85, bottom=.22, wspace=.25)
+    fig.savefig(args.output/'curve.png', dpi=170)
+    fig.savefig(args.output/'curve.svg')
+    svg = args.output/'curve.svg'
+    svg.write_text('\n'.join(x.rstrip() for x in svg.read_text().splitlines())+'\n')
+    cache.cleanup()
+    print(json.dumps({'rows':8*len(variants),'output':str(args.output)}))
+
+
+if __name__ == '__main__':
+    main()

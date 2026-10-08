@@ -1,0 +1,232 @@
+{
+  "schema": "synapse-lie.q2-native-legacy-curve-equivalence.v1",
+  "old": "evidence/q2-iq2-mixed-curve-before-r1",
+  "native": "evidence/q2-native-scale-before-r1",
+  "old_artifacts_verified": 30,
+  "native_artifacts_verified": 17,
+  "requests": 20,
+  "pairs": [
+    {
+      "index": 0,
+      "phase": "calibration-overhead",
+      "depth": 0,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "12c155573bbf7f0fa9725ed75c7d52a1f9311c1a17cff4f3a9f4a843652f5da8",
+      "completion_sha256": "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969"
+    },
+    {
+      "index": 1,
+      "phase": "calibration-probe",
+      "depth": 0,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "3bb4960cf759888cd81f74027f84fdec73516711f437d606406357a80d1bdc32",
+      "completion_sha256": "5bf13d90a021b827bdd64e04d422df4bb0850352dccf9d2f1b45c761ea8ed909"
+    },
+    {
+      "index": 2,
+      "phase": "warmup",
+      "depth": 0,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "8b2ff2fb4611d25f5664f010407b929ceccb8f332cdb260bbd3639cf2f1c9e0a",
+      "completion_sha256": "4d3be4a72595e6a58af54a4f154bff029de1326460decebf6390fcab5c903aed"
+    },
+    {
+      "index": 3,
+      "phase": "measured",
+      "depth": 0,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "d5d62d066aa0c992fd623ad85507cbecea73528fb7804cdcb5526b702cd06928",
+      "completion_sha256": "8b7c62fd2312c51a7284a2292a0ce32490cf97c26522cb7f0f65c5e0037d3bb1"
+    },
+    {
+      "index": 4,
+      "phase": "prefix",
+      "depth": 4096,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "a811abc9a56b24d79de0274a763f4ac58883b5a2ab765a96ca875f5fb4fa4537",
+      "completion_sha256": "4f8ef929a399f1f625e8e7089f52469a177f72e1eedbb9e74f65ada86aef278e"
+    },
+    {
+      "index": 5,
+      "phase": "measured",
+      "depth": 4096,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "0bb61701c53bc986cf091bed471a201a35a1e7054ce97474d3cbd2a2417d1304",
+      "completion_sha256": "c6689151effa686471e711afe77a493f49b80eb5ce4aa39a24413ae2a13f8647"
+    },
+    {
+      "index": 6,
+      "phase": "prefix",
+      "depth": 8192,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "8f7a19365fcea49b23e8a99b45d7e59e36940563dbdf180eeb8bac696365ec87",
+      "completion_sha256": "4f8ef929a399f1f625e8e7089f52469a177f72e1eedbb9e74f65ada86aef278e"
+    },
+    {
+      "index": 7,
+      "phase": "measured",
+      "depth": 8192,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "8c4aca6259268e0df93c7f6099fa4237e8e31fbbb907fa6e6a21740619a620a3",
+      "completion_sha256": "77381f271529bf9ff18734a210a65485fb0ec1d17047cd3aa2297b1f9fcaaef3"
+    },
+    {
+      "index": 8,
+      "phase": "prefix",
+      "depth": 8192,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "1636192cfad15d5cd889dda5a5ecb2f2e4e957845cc1a78e4c79bf1bd2f3f196",
+      "completion_sha256": "4f8ef929a399f1f625e8e7089f52469a177f72e1eedbb9e74f65ada86aef278e"
+    },
+    {
+      "index": 9,
+      "phase": "measured",
+      "depth": 8192,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "5b7d451d24dd6eedda421cd6586b4461b05d7b39dda46f6fc85c867f936c2769",
+      "completion_sha256": "2389663aafe0657c3fd28632f9197bb5bd5eb09aaa4fd5d473036d72f3d9325b"
+    },
+    {
+      "index": 10,
+      "phase": "prefix",
+      "depth": 12288,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "1ffca6a495253fa573df7ad532f2d4ff8de6815d60494f326453e76772b2aa5a",
+      "completion_sha256": "e4ddfbe70c497433c771bba2188c80f97a09b42e1c7ba3c9cb7b648d81bd76f2"
+    },
+    {
+      "index": 11,
+      "phase": "measured",
+      "depth": 12288,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "0dae8e626e36811b7012a3d45c51fa47d7c8a2408b34b678173f045c9d8791d1",
+      "completion_sha256": "e7cac829a2823be860358adaa5260957ddce7a8ff14205fe759804b5a8d14087"
+    },
+    {
+      "index": 12,
+      "phase": "prefix",
+      "depth": 16384,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "7b820249270c3fb49577842d179659078793859305c7c13a048fefecb5d3d9e0",
+      "completion_sha256": "e4ddfbe70c497433c771bba2188c80f97a09b42e1c7ba3c9cb7b648d81bd76f2"
+    },
+    {
+      "index": 13,
+      "phase": "measured",
+      "depth": 16384,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "9d8f9062f904ad0659982c90c4de152190dbf7123d63390464fa23c9209e5276",
+      "completion_sha256": "48e96719af8f4814fb572bc8e039580180f57a64b22ddc374f8318ebcd4a37e3"
+    },
+    {
+      "index": 14,
+      "phase": "prefix",
+      "depth": 32768,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "5322cbc206881d7a8406bfe11ba4de4209edbd701525247fa22e6c656ce95f32",
+      "completion_sha256": "53d74ba464655eb670c44c5cc0039f2a7a0debd272c8a0e700de01636a4a1c88"
+    },
+    {
+      "index": 15,
+      "phase": "measured",
+      "depth": 32768,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "92fc9db746ccefc0f0736116e74c46f514ba009f02d7fc89db56b8fb320f86e2",
+      "completion_sha256": "36cfb862970c7ab7c5e00a9b89fa7a2a2556d612f4543e771206508d7d04d003"
+    },
+    {
+      "index": 16,
+      "phase": "prefix",
+      "depth": 65536,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "bd2b3b1d18bde4210810dbefbdf89bdd4c709bc08e7e3e337e0a9621705f8952",
+      "completion_sha256": "53d74ba464655eb670c44c5cc0039f2a7a0debd272c8a0e700de01636a4a1c88"
+    },
+    {
+      "index": 17,
+      "phase": "measured",
+      "depth": 65536,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "d48bada5b908c6afecba00f85fd1ca525ad9394e399ce93dc5e8074eb51bcb5e",
+      "completion_sha256": "d3dfeb59043c134d6b95a48cc49a611edcf1a1143dfbfdcdb017893e021a3e41"
+    },
+    {
+      "index": 18,
+      "phase": "prefix",
+      "depth": 131072,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "3b5eb7c2984389a875ee59a1b7af76ede0d0ce9affbcbf9ca8e7779536847d45",
+      "completion_sha256": "53d74ba464655eb670c44c5cc0039f2a7a0debd272c8a0e700de01636a4a1c88"
+    },
+    {
+      "index": 19,
+      "phase": "measured",
+      "depth": 131072,
+      "request_equal": true,
+      "completion_equal": true,
+      "finish_equal": true,
+      "counts_equal": true,
+      "semantic_request_sha256": "3c9f1d8fd961e987262e408c4104bf7550361921091f450dd5112e8e81ad9486",
+      "completion_sha256": "c5f994182f860476c931f70e088e1b1f645d43ce38603092675ea0edf1a5b11a"
+    }
+  ],
+  "all_histories_equal": true,
+  "scope": "Read-only replay of real retained model evidence; no Python requests generated; no performance or independent numerical equivalence claim"
+}

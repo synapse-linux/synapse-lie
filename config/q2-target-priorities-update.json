@@ -1,0 +1,74 @@
+{
+  "schema": "synapse-lie.q2-target-priorities-update.v1",
+  "previous_priority_audit_sha256": "e078536aa3f52c712dc5b752ffc5f1c23c0f0f4f8bc84d9ad5dd135806111716",
+  "model_result_sha256": "c57ca6f884082d490473e1fe0aa726b8abbabd145c8f26350b837a1165b6a563",
+  "component_result_sha256": "1a6a3d7bb6d79adbf937d7860644cea99e52d2b9d249aa150ca21c1ce8bb9732",
+  "final_audit_sha256": "dcfa5ba6eafc99fa3f790ef6286962efa760c83d3dabf0c7deeef9419fbc3497",
+  "release_sha256": "e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db",
+  "supplemental_closure_sha256": "c9c4adbe8ecb8ef6977dbd579020b9025e1256f1c77b4c3c7b22a35282e5309d",
+  "retained_variant": "ssm-fixed-bounds",
+  "retained_pp": 1585.308983,
+  "retained_tg": 25.16079073,
+  "fixed_ud_pp": 1685.777092,
+  "needed_pp_increase_percent": 6.3374465216160525,
+  "down_trial_pp": 1579.532131,
+  "down_trial_nominal_pp_change_percent": -0.36439912105133976,
+  "down_trial_all21_parent_files_exact": true,
+  "down_trial_promoted": false,
+  "component_timing_valid": false,
+  "component_timing_failure": "70/70 HIP elapsed samples are zero; no timing inference",
+  "next_mechanism": "HC mix/injection normalized-input reuse, from retained1585",
+  "next_static_manifest": "config/q2-hc-inject-reuse-draft-static.json",
+  "next_static_manifest_sha256": "cfdc653426c407756f2d5213b9fbd185c50cd22addce71c7fb34a85d849c7a09",
+  "next_qualification": "New guarded full-cycle raw/raw-Q8/deferred mix plus original injection reduction; keep complete outputs and independently validate timing. Then candidate-only original2048 model if device safe.",
+  "next_persistent_allocation_added": false,
+  "next_proposed_borrowed_workspace_bytes": 20971520,
+  "remaining_expert_fusion": "Whole-row640 producer scale ownership, not replicated conversion in20 down consumers",
+  "remaining_expert_fusion_audit_sha256": "ede2b4e253c0b4117c68b9ad8fe0849042417aba59e01c20cb4376c5b037f105",
+  "budget": "Historical injection39.548835ms cannot alone close76.991736ms; compute/traffic moved into mix must be measured as a full cycle",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "host_debug": 34,
+  "host_asan_ubsan": 34,
+  "focused_ctest_passed": 1,
+  "GPU_reserved": false,
+  "controls_rerun": false,
+  "full_curve": false,
+  "Q4": false,
+  "figures_visually_reviewed": [
+    "docs/figures/q2-down-register-palette-component.png",
+    "docs/figures/q2-down-register-palette-model.png"
+  ],
+  "thermal_max_c": {
+    "q2-down-register-palette-host-r2": {
+      "amdgpu": 38.0,
+      "k10temp": 64.625
+    },
+    "q2-down-register-palette-component-r2": {
+      "amdgpu": 38.0,
+      "k10temp": 68.75
+    },
+    "q2-down-register-palette-model-r2": {
+      "amdgpu": 74.0,
+      "k10temp": 84.375
+    }
+  },
+  "qualified_source_or_model_changed": false,
+  "remote_cleanup": false,
+  "independent_quality": false,
+  "goal_met": false
+}

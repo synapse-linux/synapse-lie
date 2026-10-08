@@ -1,0 +1,53 @@
+{
+  "schema": "synapse-lie.q2-producer-fusion-boundary.v1",
+  "parent_manifest_sha256": "ffd3d89a9b5134c9954dad52d000c4b4d5d5f602f3dc5d42b026bf8b36740380",
+  "parent_prefill_tok_s": 1580.226725,
+  "inspected_source": {
+    ".deps/gufo-q2-down-register-scatter-pair-run/src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp": "615ebe04a51de3bdfb8635ac6e4d9138178563dd3911b7703a400b67ce2207e4",
+    ".deps/gufo-q2-down-register-scatter-pair-run/src/models/qwen38_flash_next/kernels/rocm/executor.cpp": "21060c653310f5cb7fcfd214890b3cc699f9f8b8b6403365996cf888e134239b",
+    ".deps/gufo-q2-down-register-scatter-pair-run/src/models/qwen38_flash_next/kernels/rocm/q2_scaled_input.inc": "b442b8349504307aae51569f75cba5864fd508e2cf7e49bdc5a99ef1a193cdc2",
+    ".deps/gufo-q2-down-register-scatter-pair-run/src/models/qwen38_flash_next/kernels/rocm/q2_down_half_storage.inc": "07314a9dd06c99bb09f6a121bc290967e23bc5a0df34e59f9ace35af38bcafde"
+  },
+  "fixed_shape": {
+    "tokens": 2048,
+    "used": 10,
+    "expert_ff": 640,
+    "hidden": 2560,
+    "gate_columns_per_cta": 64,
+    "gate_ctas_per_complete_row": 10,
+    "down_output_rows_per_cta": 128,
+    "down_ctas_per_complete_output": 20
+  },
+  "logical_payload_bytes": {
+    "gate_f32_write": 52428800,
+    "pack_f32_read": 52428800,
+    "pack_half_write": 26214400,
+    "down_half_reads_all_output_tiles": 524288000,
+    "baseline_total": 655360000,
+    "direct_f32_down_total": 1101004800,
+    "direct_f32_extra_per_layer": 445644800,
+    "direct_f32_extra_across48_layers": 21390950400,
+    "producer_fusion_potential_removed_write_read": 104857600
+  },
+  "storage_sketches": {
+    "simultaneous_pair_rows": 1280,
+    "simultaneous_bn128_stage_bytes": 108672,
+    "sequential_bn16_stage_plus_complete_row_bytes": 52352
+  },
+  "findings": [
+    "Current whole-row power-of-two scale depends on all ten64-column producer CTAs. Fusing the existing pack into one producer epilogue needs cross-CTA coordination or a different ownership layout.",
+    "Reading F32 and packing independently inside all20 down output tiles increases unpadded logical payload demand625 to1050MiB/layer. Cache and routing padding are not modeled; this is not measured DRAM traffic.",
+    "A last-producer counter design could remove a launch but still reads/writes the F32 intermediate and adds global publication/reset costs. It does not remove the requested buffer pass.",
+    "Per64-column scales need rescaling or restored partial accumulation in down; rounding at subnormal boundaries must be qualified. They do not preserve the original whole-row contract by algebra alone.",
+    "A simultaneous full640-column pair needs a new1280-row physical tile; the existing template admits only BM128/256. Sequential64-column computation at BN16 reduces activation reuse across tokens versus the current64/128 paths. Neither is implemented or measured."
+  ],
+  "next_boundary": "Design whole-row ownership or a precision-preserving compact producer representation before replacing the current half consumer. Keep full fusion open; do not promote the direct F32 consumer from source traffic arithmetic.",
+  "padded_route_demand_modeled": false,
+  "cache_hits_measured": false,
+  "hardware_transactions_measured": false,
+  "rejected_all_fusion": false,
+  "gpu_run": false,
+  "model_inference": false,
+  "performance_gain": false,
+  "goal_met": false
+}

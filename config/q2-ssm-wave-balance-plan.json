@@ -1,0 +1,24 @@
+{
+  "schema": "synapse-lie.q2-ssm-wave-balance-window-plan.v1",
+  "label": "q2-ssm-wave-balance-component-r1",
+  "source_commit": "abd983fdc063b0dfaa8ffc8d5edfee7675980687",
+  "previous_release": "q2-q5-model-shared-down-r1/release.json",
+  "previous_release_sha256": "5a6cc85fc1720422f2fb85de8ba0f606fc5f08acc695754255953b36d3177409",
+  "staged_sha256": {
+    "q2_ssm_wave_balance_check": "283d731773ec19ba031a292a70a5da529308f8a3681508e12859f4141e202d50",
+    "q2-ssm-wave-balance-window.py": "78abf2cebc795d120826a806641a861a3e2860c19eafcba7b5dfe37267104a5a",
+    "q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "fixture.hip": "cb9f320e96a9ba3d383778934e2af24c06bd89b0bd840617da4ab811fba34891",
+    "kernel.inc": "caa6ed0fe648986142f3cf30d2773f9052f7859b1d6f834d6c67e6d6cb5fdaef",
+    "oracle.inc": "29609c9f4e94d84907e3c975902fe5ab60ec8fb87e96b1ac23b983b22b1a58d0",
+    "source-manifest.json": "96baa2400827e8e505e3f9dd91f91079fdd1df3da411cb948eacd8b51391044a",
+    "static-report.json": "ed4599f5ba70c216dc2abc9747f1c5a8dc88384604224c3a31f46e306cf5a9c8"
+  },
+  "component_only": true,
+  "original_model_inference": false,
+  "model_access": false,
+  "remote_build": false,
+  "remote_cleanup": false,
+  "timeout_seconds": 300,
+  "scope": "One native Q8 SSM projection/convolution comparison at original2048 rows, same tile and arithmetic, five guarded shapes, three rotating weight sets; no model or control rerun."
+}

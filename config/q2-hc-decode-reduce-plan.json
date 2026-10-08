@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-03T18:11:50.503041+00:00",
+  "state": "Q2_HC_DECODE_REDUCTION_PREPARED_NO_REMOTE_JOB",
+  "owner": "synapse-lie-q2",
+  "gpu_reserved": false,
+  "remote_workload_scheduled": false,
+  "restart_scheduled": false,
+  "previous_goal_turn": "Progress: checkpoint e6f425e corrected Argmax overhead and verified model/baseline replay",
+  "source_variant": "hc-decode-reduce",
+  "base_checkpoint": "e6f425ebb4274bb58c5e3797784b462e6e3630f4",
+  "changes": "HC scalar down reduction only: XOR16 immediate and four DPP steps, exact descending sum tree, unchanged FMA/load loop and 16-wave launch",
+  "static": {
+    "reference_instructions": 123,
+    "candidate_instructions": 91,
+    "vgpr": 13,
+    "sgpr": 12,
+    "lds_bytes": 64,
+    "private_bytes": 0,
+    "source_files_reconstructed": 1020
+  },
+  "protocol": {
+    "host": "17 tests Debug and ASan/UBSan on .157 before GPU work",
+    "component": "hc-decode-reduce-bench",
+    "independent_cases": 11,
+    "relative_rms_limit": 2e-05,
+    "error_over_peak_limit": 2e-05,
+    "exact_patterns": [
+      "ordinary",
+      "tiny",
+      "alternating",
+      "signed zero",
+      "F16 subnormal weights",
+      "F32 subnormal inputs"
+    ],
+    "rotation_matrices": 16,
+    "rotating_weight_bytes": 104857600,
+    "pairs": 5,
+    "launches_per_arm": 128,
+    "full_saved_pairs": 27,
+    "output_files": 65,
+    "sampling": "Same process and same allocations; five alternating-order HIP-event pairs; warm and output checks outside timers",
+    "model_gate": "Require exact original-control replay and useful component gain before explicitly admitting a fresh complete-model arm; existing model numerical rejection remains",
+    "numerical_failures": "Retain actual exit1 and performance evidence; never change tolerance or golden",
+    "machine": ".157 only, original four leases, unchanged fan82/CPU98 policy and exposed GPU limits"
+  },
+  "core_ownership": "Core explicitly retains the .157 window while fixing MTP/cache sidecar geometry and rerunning its gates; wait for verified handover, not just an idle gap",
+  "core_live_observation": {
+    "registry_last_start": "2026-10-03T18:00:58.962169+00:00",
+    "pid": 3183085,
+    "pid_present": true,
+    "kfd": [
+      3183100
+    ],
+    "later_core_message": "Servers/helpers retired but core explicitly retains the window for its correction"
+  },
+  "coordination": "Outgoing MCP transport fails; main-repository run/q2-hc-decode-reduce-ready.json is the agreed fallback",
+  "numerical_pass": null,
+  "performance_pass": null,
+  "promoted": false,
+  "goal_met": false
+}

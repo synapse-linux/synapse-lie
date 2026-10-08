@@ -1,0 +1,20 @@
+{
+  "schema": "synapse-lie.q2-curve256-binaries.v1",
+  "providers": {
+    "q2-curve256": {
+      "label": "q2-iq2-fixed-bounds-model-r1",
+      "receipt_sha256": "fd35331efd3aa215920c96d54f91a04a411af5d8b7271cfbcc8d31961aa00991",
+      "mode": "q2-counting-iq2-fixed-bounds"
+    },
+    "ud-curve256": {
+      "label": "q2-native-row-ud-r1",
+      "receipt_sha256": "2bad4849defac0cde84cb4ab6de44a6fe7a5b4cb0c48b2647ed140185a9de0e0",
+      "mode": "ud-curve"
+    }
+  },
+  "native_bench": {
+    "label": "q2-native-row-ud-r1",
+    "receipt_sha256": "2bad4849defac0cde84cb4ab6de44a6fe7a5b4cb0c48b2647ed140185a9de0e0",
+    "binary_sha256": "87d856cf454d5114f93d7d4260d54b58f6e92800f70e4013a505aa16973560c9"
+  }
+}

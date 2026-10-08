@@ -1,0 +1,53 @@
+{
+  "schema": "synapse-lie.q2-decode-down-rows-build.v1",
+  "provider_manifest_sha256": "e53280b48151f5a3a5d7a163944e90320d8e856fd249239df2a2b8c5253d1ea9",
+  "provider_files_verified": 1032,
+  "component_result_sha256": "b16719d8f3739499636a8fd4820983c4d12c542681ae56bb52642724ffec74a9",
+  "core_manifest": "config/q2-curve128-source.json",
+  "core_manifest_sha256": "dbe8e6aafad31ee89bf770d8fcbecbfdfb5de7431794182f24bb8a7afcfd5005",
+  "core_files_verified": 333,
+  "core_changed_files": [],
+  "server": ".deps/build-decode-down-rows/cmake/curve/core/synapse-lie-server",
+  "server_sha256": "f8a5210cc0b2244a8767b6d98042d61f412fc137ba03d410853f3a5104fa781b",
+  "build_recipe_sha256": "455ad1d40d26542cc8bd991b00fc50d86e2c2e73be78a48c91088bdd83ee76ec",
+  "commands_sha256": "7ee019d74f054ecf29bb1d73c9781cb13dbf0cf5f203fc3711fb7288bcf8dc9f",
+  "configure_and_build_exits": [
+    0,
+    0,
+    0
+  ],
+  "mmq_archive": ".deps/build-hc-scalar-matched/cmake/hip/qwen/libgufo_qwen38_flash_next_mmq.a",
+  "mmq_archive_sha256": "5daa0088a8f461ef1908ec6bb1e1a9d1239ed1745ae81b5f49e1219f728f8d91",
+  "mmq_source_unchanged_from_qualified_model": true,
+  "remote_build": false,
+  "native_model_run": false,
+  "scope": "Adds only four-row Q2_K scalar down outside prefill.922 common device functions exact; new production kernel matches measured component. Original128K model pending.",
+  "build_type": "RelWithDebInfo",
+  "saved_build_type": "RelWithDebInfo",
+  "device_audit_sha256": "8a11f2e7802573e6ce8c179463fed522532fd1d92719688ed0b82ad298eff1fe",
+  "common_device_functions": 922,
+  "byte_exact_device_functions": 922,
+  "common_function_size_changes": 0,
+  "common_function_resource_changes": 0,
+  "remaining_differences": [],
+  "new_device_function": {
+    "sha256": "eb134f2cb51582ffe4d709aa50f2007061ce043319c0bfd4516e280b01f3ae85",
+    "bytes": 2928,
+    "bundle": "2",
+    "resources": {
+      "num_vgpr": 78,
+      "num_agpr": 0,
+      "private_seg_size": 0
+    }
+  },
+  "new_file_compile_options": [
+    "-std=gnu++17",
+    "-fPIC",
+    "-DGGML_HIP_NO_VMM",
+    "-Wno-unused-value"
+  ],
+  "final_formatted_build_command_sha256": "6fa85ef6a663cef86c5d685ebfeeca27313a78a80d3ed73b39271720f26bedde",
+  "new_precision_boundary": false,
+  "exact_component_replay": false,
+  "component_independent_FP64_pass": true
+}

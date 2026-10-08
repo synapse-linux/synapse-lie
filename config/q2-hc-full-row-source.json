@@ -1,0 +1,20 @@
+{
+  "scope": "Prepared full-row HC source; exactness and performance unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-hc-full-row",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "candidate_sha256": "dc94fbb95cdd4e9d3ddd58c12f2dbdb689854e4f2945da9169a812571a7c3445",
+  "patch_sha256": "c611583f6dd0b6d9ca5480fbc9f61f83488bc5c9b99abacad06455705875baf0",
+  "dispatch": "Original F16 HC down M320/K10240, n>=96; BM320/BN32/BK2/WM4/WN2, 256 threads",
+  "arithmetic": "Original half weights and narrowed inputs, both ordered K16 chains, final F32 low+high sum unchanged",
+  "mechanism": "Stage inputs once for all output rows; five result row tiles per wave with bounded unpaired epilogue",
+  "tradeoff": "At n2048 logical input staging falls fivefold, weight staging rises fourfold, block count 80 to 64, LDS 24576 to 45056 bytes; no physical traffic or speed claim",
+  "unchanged": "Paired HC up, scalar decode, routed IQ2/Q2, PLE, original model files and public ABI",
+  "numerical_limits_changed": false,
+  "model_conversion": false,
+  "promoted": false
+}

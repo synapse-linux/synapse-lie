@@ -1,0 +1,13 @@
+event,mode,rep,first_access_observation,order_position,seconds,tokens_per_second,good,flow_status,prepared,consumed,prepare_ns,consume_ns,consumer_wait_ns,peak_owned_slots
+prefill,native,0,True,0,11.063920509,740.424697858,True,0,0,0,0,0,0,0
+prefill,prepared_serial,0,True,1,6.309856219,1298.28631837,True,0,4,4,229465448,6080378631,150,1
+prefill,lookahead,0,True,2,6.178434228,1325.90227519,True,0,4,4,231257324,6121688857,56667163,2
+prefill,native,1,False,0,6.178840351,1325.81512624,True,0,0,0,0,0,0,0
+prefill,lookahead,1,False,1,6.179219524,1325.73377078,True,0,4,4,240567011,6116821631,62327806,2
+prefill,prepared_serial,1,False,2,6.300106077,1300.29556644,True,0,4,4,211007682,6089092005,620,1
+prefill,prepared_serial,2,False,0,6.322731681,1295.64251866,True,0,4,4,208545188,6114180375,270,1
+prefill,native,2,False,1,6.186755476,1324.11892336,True,0,0,0,0,0,0,0
+prefill,lookahead,2,False,2,6.188770215,1323.68785969,True,0,4,4,228295942,6131010730,57694207,2
+prefill,lookahead,3,False,0,6.151201485,1331.77234073,True,0,4,4,229745594,6096739824,54394263,2
+prefill,prepared_serial,3,False,1,6.355993012,1288.86233584,True,0,4,4,228013621,6127971641,180,1
+prefill,native,3,False,2,6.202078734,1320.84746927,True,0,0,0,0,0,0,0

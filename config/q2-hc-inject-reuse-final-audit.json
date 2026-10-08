@@ -1,0 +1,72 @@
+{
+  "schema": "synapse-lie.q2-hc-inject-reuse-final-audit.v1",
+  "files": {
+    "config/q2-hc-inject-reuse-component-results.json": "7de64669912ab66e75153425fe303eca0b6a787431ff33d4aa4cd4c06408a976",
+    "config/q2-hc-inject-reuse-plan.json": "b966b69b51263442172aa426170092ddc03c16fd5594aa7022d11a1284043836",
+    "config/q2-hc-inject-reuse-window-release.json": "dcb9d12ad196f37fe25b3c8a392735823f028bca953059f2148f0068b708e63e",
+    "config/q2-hc-inject-reuse-difference-audit.json": "600588ffbff9f6ea9a6b6948af4a7cafe9e1f52142adcf36111e29a95769db84",
+    "docs/figures/q2-hc-inject-reuse.csv": "47cd0d83b063365cf796b03bc2cd49828f64d93ec8c5b170d8c68bc7198dd5bb",
+    "config/q2-hc-inject-reuse-host-results.json": "71c28ff16410424a7c864dad9e89a001d1969cae581dc247278b52939718a01f",
+    "config/q2-fixed-prefill-reference.json": "7f58a7fa19b53338c96f575667f0d853b61d3e8f6af4864319a7a1445b2474d1",
+    "config/q2-ssm-fixed-bounds-model-results.json": "f11b8e3e7663ce78de183032a924358e8429ea953a66cc0dd86849359852acdd",
+    "config/q2-hc-inject-reuse-numerical-differences.json": "7e0959dbe5894ea638c6210f0110236b705b1e8aa892f763103ae250277b412d",
+    "docs/figures/q2-hc-inject-reuse.svg": "053adc7e568cdd485c49fa23ec5949ed13745584b62d29a14bbb3fd7fe72c999",
+    "docs/figures/q2-hc-inject-reuse.png": "8c2eac8578cd635a05759946ea482341a7a2798da90df998ee7f27b6083411ac",
+    "docs/Q2-HC-INJECTION-REUSE-RESULTS.md": "771341c038cc254ca9eb916fc1ea481bb1cafef358073b49b60d6471d141c2e4"
+  },
+  "commands": {
+    "component-analysis": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/component-analysis-command.json",
+      "sha256": "615adc8f6ab883f7b8cb0d5f0a7f03a97191e3413816a9497c7fbcdf414fa18b",
+      "exit_code": 0
+    },
+    "difference-audit": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/difference-audit-command.json",
+      "sha256": "4a7d2e3cfa34869015ac15818f92ec13b1f96bc02b66fa350f84e33ff809fc75",
+      "exit_code": 0
+    },
+    "component-plot": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/component-plot-command.json",
+      "sha256": "b5ed91744806d1405fcb4ee6be6107ad636c91a69574dead9f1592692a72555a",
+      "exit_code": 1
+    },
+    "component-plot-r2": {
+      "path": "evidence/q2-hc-inject-reuse-component-preparation/component-plot-r2-command.json",
+      "sha256": "f20e0563bfc1729f9bbd8542e7fbe42e619e7e52d03746a0a86362a537464245",
+      "exit_code": 0
+    }
+  },
+  "component_exits": [
+    0,
+    0,
+    1
+  ],
+  "component_artifacts": 124,
+  "host_debug": 35,
+  "host_asan_ubsan": 35,
+  "retired_identities": 1377,
+  "retired_groups": 1102,
+  "original_leases_unchanged_free": 4,
+  "release_at": "2026-10-06T06:15:12.481241+00:00",
+  "release_sha256": "dcb9d12ad196f37fe25b3c8a392735823f028bca953059f2148f0068b708e63e",
+  "retained_PP": 1585.308983,
+  "retained_TG": 25.16079073,
+  "fixed_UD_PP": 1685.777092,
+  "required_PP_increase_percent": 6.3374465216160525,
+  "required_prefill_saving_ms": 76.99173599999986,
+  "numerical_acceptance": false,
+  "independent_quality": false,
+  "controls_rerun": false,
+  "borrowed_executor_scratch_qualified": false,
+  "new_model_rate": null,
+  "public_C17_contracts_changed": false,
+  "source_provider_changed": false,
+  "Q4_run": false,
+  "full_curve_run": false,
+  "goal_met": false,
+  "GPU_reserved": false,
+  "current_job": false,
+  "waiter": false,
+  "restart_scheduled": false,
+  "remote_cleanup": false
+}

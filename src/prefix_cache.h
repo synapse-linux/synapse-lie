@@ -17,6 +17,8 @@ typedef struct {
 void lie_prefix_cache_init(lie_prefix_cache *,uint64_t budget);
 void lie_prefix_cache_clear(lie_prefix_cache *);
 lie_state *lie_prefix_cache_match_text(lie_prefix_cache *,const char *,size_t,uint32_t,const lie_cache_metadata **);
+lie_state *lie_prefix_cache_match_text_scope(lie_prefix_cache *,const char *,size_t,uint32_t,
+                                            const unsigned char scope[32],const lie_cache_metadata **);
 lie_status lie_prefix_cache_capture_ex(lie_prefix_cache *,lie_sequence *,const int32_t *,size_t,
                                       const lie_cache_metadata *,lie_error *);
 /* A generated frontier may keep the longest reusable prompt prefix. Refuse

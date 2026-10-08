@@ -1,0 +1,18 @@
+{
+  "scope": "Prepared source; GPU exactness and performance unproven",
+  "pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "base": ".deps/gufo-q2-bench-hc-up-chains",
+  "candidate": ".deps/gufo-q2-bench-staged-palette",
+  "changed_files": [
+    "src/models/qwen38_flash_next/kernels/rocm/kernels.hip.cpp"
+  ],
+  "base_sha256": "a5ccc81f7762beae74cf0bbb06e6aeebd44edf1c804c1473b63619af023a6cd5",
+  "candidate_sha256": "d5c954439dc92049e5684e8339d7bee1436cba8e254fb36aa6cf1e7df1832877",
+  "patch_sha256": "77ff9827569b7a50bc6292651c2e93d27c958027e649a712d11d551396b3e02e",
+  "mechanism": "Packed-Q2 producer stores four F16 palette values in the former F32 scale/bias slot; consumers load the same bits instead of computing the palette twice",
+  "arithmetic": "Original F32 coefficient rounding, four F32 affine FMAs and F16 rounding; both activation planes, WMMA order and residual correction unchanged",
+  "unchanged": "Original encoded models, LDS byte count/layout, token tiles, raw-F32-input control, IQ2, HC, scalar decode, PLE and public ABI",
+  "qualification": "Exact complete operator and saved model output replay required, plus independent FP64 checks at unchanged limits",
+  "model_conversion": false,
+  "persistent_decoded_weight_cache": false
+}

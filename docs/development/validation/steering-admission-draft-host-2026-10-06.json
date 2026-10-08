@@ -1,0 +1,152 @@
+{
+  "schema": "synapse-lie.steering-admission-host.v1",
+  "state": "HOST_ONLY_PREPARED_NOT_GPU_QUALIFIED",
+  "at_utc": "2026-10-06T04:29:39.590162+00:00",
+  "product_code_checkpoint": "2077700583a7a129d17b36dbf7aa2ffbbdd7c994",
+  "scope": "Optional qualification helper. Host tests use fabricated JSON and owned malformed binary32 files only; no CPU model forward, real-model admission or performance evidence. Products/default CTest remain Python-free.",
+  "bindings": [
+    {
+      "path": "tools/strix-point-steering-admission-gate.py",
+      "bytes": 13205,
+      "sha256": "526d0013ee82c3058570b547c7b5640887049dae431cd49c4aa619fb05d77280"
+    },
+    {
+      "path": "tools/strix-point-steering-restart-gate.py",
+      "bytes": 16382,
+      "sha256": "27a66bf7a5c1296b2f9d6b4b87bd228d062f4baceae66befd0b2aaf0251d461c"
+    },
+    {
+      "path": "tools/strix-point-campaign.py",
+      "bytes": 110414,
+      "sha256": "0aa8d03a000a723c08afcc18d3b1f822a61b46853958e196f15739ccc2addada"
+    },
+    {
+      "path": "tools/strix-point-launch.py",
+      "bytes": 7178,
+      "sha256": "333cd3db7d2e39b588e2636fe58d1de47ccd3e01526bf2e3bb009749abe431dc"
+    },
+    {
+      "path": "tools/strix-point-bench-collect.py",
+      "bytes": 10060,
+      "sha256": "6d357843ec38ba23a50abb0d03640f94b32238987293cad805b2d6b1603a4cfe"
+    },
+    {
+      "path": "tests/test_strix_point_steering_admission.py",
+      "bytes": 12607,
+      "sha256": "05f35f04ad7c968eca7ff02ef4f57965e1529e7d4fe09a2a0dc240ad22be5566"
+    },
+    {
+      "path": "tests/test_strix_point_campaign.py",
+      "bytes": 86950,
+      "sha256": "30cdcdfb407cd29a61a66e70a997566cc68e2f03798e287f858df8555e89b371"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/plan.json",
+      "bytes": 961,
+      "sha256": "0b69c6fb8b41ec3a2840dc2b502d07c3989bfa2e2ecd26848141f573318b3edf"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/result.json",
+      "bytes": 457,
+      "sha256": "39e0883495c6fc88929c71e52e32170bf871e93860781dd8407d7639aba22ca9"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/command.log",
+      "bytes": 2367,
+      "sha256": "658979088595956cd886e6f4833ab0e1c501965d1d782153b2887b49f02a436e"
+    },
+    {
+      "path": "evidence/steering-admission-host-r2/temperatures.jsonl",
+      "bytes": 1827,
+      "sha256": "c508e122ba369ebf0c736b8964c9fc6a6d2129f50ace0ff5e22abbb6e6728df0"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/plan.json",
+      "bytes": 951,
+      "sha256": "fd901346129aa7659b79d96ee1172bd1963b394ea1ad33c35a9d07e53d7b140d"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/result.json",
+      "bytes": 449,
+      "sha256": "d339f8f0c2f0b77a9bdb9c4d98fa7e1055a0a1b954d6978f9a2c1840038548ed"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/command.log",
+      "bytes": 8515,
+      "sha256": "05bb05d2b20e92e8435ac5779012e2aeb9118ee9834cb82013b1ab800858d768"
+    },
+    {
+      "path": "evidence/steering-admission-campaign-host-r1/temperatures.jsonl",
+      "bytes": 1829,
+      "sha256": "ac4a2b00f595381b1d02adad4aad3b44a2e4e83d5604f6dd1239c2bb23d80f34"
+    }
+  ],
+  "host_gate_tests": 16,
+  "campaign_tests": 61,
+  "actual_test_exit_codes": [
+    0,
+    0
+  ],
+  "compiled_provider_files_unchanged": 83,
+  "CPU_peak_C": 46.0,
+  "positive_phases": [
+    "absent",
+    "zero",
+    "recovery"
+  ],
+  "refusal_cases": [
+    "empty",
+    "truncated",
+    "oversized",
+    "nan-first",
+    "nan-last",
+    "snan-middle",
+    "positive-infinity",
+    "negative-infinity",
+    "directory",
+    "symlink",
+    "fifo",
+    "missing"
+  ],
+  "expected_native_exit_codes_per_mode": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0
+  ],
+  "confirmed_output_tokens": 32,
+  "runtime_ABI_format_dependency_or_inference_threads_changed": false,
+  "GPU_activity": false,
+  "all_six_owned_tasks_open": true,
+  "Terminal_Bench": "Stopped/closed/deferred until modifications and qualification finish; no reservation.",
+  "MTP_acceptance_scope": "Requires positive real drafting, integer counters and 0 <= accepted <= drafted. Zero accepted is valid; no accepted-burst qualification. Exact confirmed output comparison remains mandatory.",
+  "retained_GPU_gate_failure": {
+    "label": "context-r23-steering-mtp-r1",
+    "QA_source_commit": "05cf887470b4e31fa825c3e667af53eb9d5e2564",
+    "native_processes": [
+      {
+        "phase": "absent",
+        "actual_exit_code": 0,
+        "drafted": 6,
+        "accepted": 0
+      }
+    ],
+    "actual_wrapper_supervisor_child_exit_codes": [
+      1,
+      1,
+      1
+    ],
+    "reason": "Superfluous positive-acceptance requirement for bank refusal and zero-scale equivalence. Raw evidence retained unchanged; no completed original MTP campaign claim."
+  }
+}

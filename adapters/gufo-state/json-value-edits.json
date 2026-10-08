@@ -1,0 +1,17 @@
+{
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "purpose": "Default-ON C17 authoritative typed JSON strings, ordered key/value and array storage; private C++ facade only. Original complete OFF Value retained.",
+  "license": "MIT",
+  "edits": [
+    {
+      "path": "src/core/json.hpp",
+      "old": "class Value {\n",
+      "new": "#if LIE_C17_SAMPLING\n} // namespace gufo::json\n#include \"gufo_json_value.hpp\"\nnamespace gufo::json {\n#else\nclass Value {\n"
+    },
+    {
+      "path": "src/core/json.hpp",
+      "old": "  Object obj_;\n};\n",
+      "new": "  Object obj_;\n};\n#endif\n"
+    }
+  ]
+}

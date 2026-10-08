@@ -1,0 +1,2445 @@
+{
+  "schema": "synapse-lie.prefill-mtp-original-point.v1",
+  "at_utc": "2026-10-07T10:14:40.931340+00:00",
+  "state": "SELECTED_ORIGINAL_MTP_LIVE_RAM_SSD_AND_SERIAL_PARITY_PASSED",
+  "scope": "Original Q4/Q8 PP8192/TG32/context16384/capacity8192: MTP live C2, RAM/SSD C1, complete outputs equal same-runtime AR. Functional only.",
+  "compiled_source_commit": "cb75a48fad340a3b25fadd0e6ed5c45b1fa2edcf",
+  "native_client_code_checkpoint": "4b0cb6753439113572ee70e2734a05884f269283",
+  "engine_code_checkpoint": "d6431db85d3119e112ffd01c557aaacd6d7c2714",
+  "qualification_runner_commit": "a11dedd2a42fa93c32ab937b7d3cb1f45a1b80ab",
+  "qualified_HIP_build": {
+    "path": "docs/development/validation/prefill-probe-point-build-2026-10-07.json",
+    "bytes": 34873,
+    "sha256": "18aa7aa8984f8b0efbba9a626ac85d01931fdec4b1023f1ddfa3d12c4179cc7f"
+  },
+  "host": "192.168.5.161",
+  "runtime_build_id": "rocm10-point-modern-r50-runtime",
+  "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "bundle_sha256": "01876f3815c57b8a6d3ae2b4dca058d46cd6e6f390505680328d3b43bdef28dc",
+  "binaries": {
+    "runtime/bin/lie-attention-qualify": "fc3e6c43146a9f848c771c9bd8316c899a9e7c8f3bfe0865202926003790f7ff",
+    "runtime/bin/lie-hip-probe": "5796ce10e4a7c3db0f1f2ee5f8ab3cdbb331003f81d98d8e3fecfae5545178f7",
+    "runtime/bin/lie-sampling-capture": "1aa28036bfcd3f32ea175cdff802b9ef42c04d2735850594b275fa4739f30f98",
+    "runtime/bin/synapse-lie-bench": "55be2fa14c58b3aec424beb2db2edc3034adc24cb387c2efecaba473f238e941",
+    "runtime/bin/synapse-lie-bench-gufo-reference": "d7de70509bf740c6a9d61710dd453140a1de20ac2fbdbd836312923404d0d4f2",
+    "runtime/bin/synapse-lie-server": "3460428bdb129a33f0a2a7dc20e121dd61c4813807f27928dae425f9abbce455"
+  },
+  "qualification_runner_sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99",
+  "model_plan": {
+    "schema": "synapse-lie.model-source.v1",
+    "repository": "unsloth/Qwen3.8-Flash-Next-GGUF",
+    "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee",
+    "total_bytes": 111334654784,
+    "files": [
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+        "bytes": 10946624,
+        "sha256": "4448186216b3af4cc558bbce2c3213f01608f8f8b2e5267a9767971dd3ec8082",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+        "bytes": 49859583136,
+        "sha256": "3f342f1c1580473f1ee94ddd5b28206e8c07a70fa1a366f59d1d6c922919a6c9",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+        "bytes": 49376141504,
+        "sha256": "56758f40269cad5cd9b0d3d6fbae0f40f6d5be6de49e4ab392dbe83157d9cbd3",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf"
+      },
+      {
+        "name": "Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+        "bytes": 12087983520,
+        "sha256": "753bda48b98ba4f1636134a90a967de1b2d3908a236c026e464777342e53510a",
+        "url": "https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF/resolve/38bb39ee97821de2c9009abb7e93950eec396e66/UD-Q4_K_XL/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf"
+      }
+    ],
+    "verification": "Independent official repository metadata agrees with historical SHA-256; target payloads not downloaded or hashed",
+    "metadata_receipt": "evidence/strix-point-model-metadata-r1",
+    "metadata_sha256": "1866707f788ee7c6df4b6c94c8a3d82abc7cc377bdc5f22bdd4f7707b46c144b"
+  },
+  "serial_reference_receipt": {
+    "path": "docs/development/validation/prefill-cache-original-point-2026-10-07.json",
+    "bytes": 70731,
+    "sha256": "1a8346fbede5a1c3f6561e58a094dad84a64d77fda603ddd2585b74088c8ee43"
+  },
+  "original_model_stat_witnesses": [
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf",
+      "bytes": 10946624,
+      "device": 66307,
+      "inode": 106208485,
+      "mtime_ns": 1790931367673069984,
+      "ctime_ns": 1790931367683069853
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00002-of-00004.gguf",
+      "bytes": 49859583136,
+      "device": 66307,
+      "inode": 106208488,
+      "mtime_ns": 1790937784808778309,
+      "ctime_ns": 1790937784821778100
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00003-of-00004.gguf",
+      "bytes": 49376141504,
+      "device": 66307,
+      "inode": 106208496,
+      "mtime_ns": 1790938850707596045,
+      "ctime_ns": 1790938850734595610
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-ud-38bb39ee/Qwen3.8-Flash-Next-UD-Q4_K_XL-00004-of-00004.gguf",
+      "bytes": 12087983520,
+      "device": 66307,
+      "inode": 106208547,
+      "mtime_ns": 1790939114356256438,
+      "ctime_ns": 1790939114403255588
+    },
+    {
+      "path": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-mtp-q8-r1/mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+      "bytes": 2786568256,
+      "device": 66307,
+      "inode": 106208849,
+      "mtime_ns": 1791070802706679643,
+      "ctime_ns": 1791070802734679677
+    }
+  ],
+  "predictor_plan": {
+    "schema": "synapse-lie.model-source.v1",
+    "source": "read-only original predictor on .157",
+    "target": "pop@192.168.5.161",
+    "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-mtp-q8-r1",
+    "total_bytes": 2786568256,
+    "files": [
+      {
+        "name": "mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+        "bytes": 2786568256,
+        "sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6"
+      }
+    ],
+    "verification": "Destination receiver hashes all copied bytes against historical pinned SHA-256"
+  },
+  "native_functional_witnesses": {
+    "live": [
+      {
+        "event": "prefill_transition",
+        "scope": "direct-c-core-inflight-owner-queued-admission",
+        "elapsed_ns": 47379,
+        "queued_after_changes": 1,
+        "prefill_started_before": 5,
+        "prefill_started_after": 5,
+        "prefill_returned_before": 4,
+        "prefill_returned_after": 4,
+        "same_owner_call_observed": true,
+        "immutable_admissions": true,
+        "initial_core": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "current_core": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 3
+        },
+        "active_job": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "queued_job": {
+          "chunk_tokens": 8192,
+          "capacity_tokens": 8192,
+          "revision": 2
+        }
+      },
+      {
+        "event": "prefill_live_result",
+        "active_job": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "peer_job": {
+          "chunk_tokens": 8192,
+          "capacity_tokens": 8192,
+          "revision": 2
+        },
+        "active_prefill_calls": 4,
+        "peer_prefill_calls": 1,
+        "peer_prompt_tokens": 8192,
+        "peer_output_tokens": 32,
+        "peer_output_ids": [
+          16,
+          21,
+          8120,
+          2919,
+          11,
+          23312,
+          321,
+          4649,
+          6440,
+          13,
+          10643,
+          10258,
+          7189,
+          220,
+          17,
+          23,
+          22980,
+          11,
+          41054,
+          14542,
+          25605,
+          321,
+          35551,
+          264,
+          569,
+          3286,
+          13,
+          561,
+          1830,
+          72346,
+          40016,
+          11
+        ],
+        "complete_peer_output_equal": true
+      },
+      {
+        "event": "reactive",
+        "scope": "direct-c-core-held-loan-peer-cancel",
+        "synthetic": false,
+        "peer_output_tokens": 32,
+        "held_output_tokens": 8,
+        "held_borrowed_tokens": 3,
+        "held_output_blocked": 1,
+        "completed_delta": 1,
+        "cancelled_delta": 1,
+        "decode_batches_delta": 0,
+        "mtp_drafted_delta": 33,
+        "mtp_accepted_delta": 33
+      },
+      {
+        "event": "prefill_cancel",
+        "same_owner_call_observed": true,
+        "cancel_during_prefill_delta": 1,
+        "cancelled_delta": 1,
+        "failed_delta": 0,
+        "output_tokens": 0,
+        "completed_prefill_calls": 1,
+        "completed_prefill_tokens": 0,
+        "retired": true
+      },
+      {
+        "event": "prefill_probe_complete",
+        "mode": "live",
+        "synthetic": false,
+        "prompt_tokens": 8192,
+        "output_tokens": 32,
+        "baseline_output_ids": [
+          16,
+          21,
+          8120,
+          2919,
+          11,
+          23312,
+          321,
+          4649,
+          6440,
+          13,
+          10643,
+          10258,
+          7189,
+          220,
+          17,
+          23,
+          22980,
+          11,
+          41054,
+          14542,
+          25605,
+          321,
+          35551,
+          264,
+          569,
+          3286,
+          13,
+          561,
+          1830,
+          72346,
+          40016,
+          11
+        ]
+      }
+    ],
+    "ram": [
+      {
+        "event": "prefill_cache_step",
+        "stage": "initial-cold",
+        "storage": "ram",
+        "step": 0,
+        "cached_tokens": 0,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 4,
+        "ssd_writes": 0,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "initial-hot",
+        "storage": "ram",
+        "step": 1,
+        "cached_tokens": 8192,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 0,
+        "ssd_writes": 0,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "changed-cold",
+        "storage": "ram",
+        "step": 2,
+        "cached_tokens": 0,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 1,
+        "ssd_writes": 0,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 8192,
+          "capacity_tokens": 8192,
+          "revision": 2
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "changed-hot",
+        "storage": "ram",
+        "step": 3,
+        "cached_tokens": 8192,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 0,
+        "ssd_writes": 0,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 8192,
+          "capacity_tokens": 8192,
+          "revision": 2
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "initial-restored-hot",
+        "storage": "ram",
+        "step": 4,
+        "cached_tokens": 8192,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 0,
+        "ssd_writes": 0,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 3
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_probe_complete",
+        "mode": "ram",
+        "synthetic": false,
+        "prompt_tokens": 8192,
+        "output_tokens": 32,
+        "baseline_output_ids": [
+          16,
+          21,
+          8120,
+          2919,
+          11,
+          23312,
+          321,
+          4649,
+          6440,
+          13,
+          10643,
+          10258,
+          7189,
+          220,
+          17,
+          23,
+          22980,
+          11,
+          41054,
+          14542,
+          25605,
+          321,
+          35551,
+          264,
+          569,
+          3286,
+          13,
+          561,
+          1830,
+          72346,
+          40016,
+          11
+        ]
+      }
+    ],
+    "ssd": [
+      {
+        "event": "prefill_cache_step",
+        "stage": "initial-cold",
+        "storage": "ssd",
+        "step": 0,
+        "cached_tokens": 0,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 4,
+        "ssd_writes": 1,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "initial-hot",
+        "storage": "ssd",
+        "step": 1,
+        "cached_tokens": 8192,
+        "ssd_cached_tokens": 8192,
+        "prefill_calls": 0,
+        "ssd_writes": 1,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 1
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "changed-cold",
+        "storage": "ssd",
+        "step": 2,
+        "cached_tokens": 0,
+        "ssd_cached_tokens": 0,
+        "prefill_calls": 1,
+        "ssd_writes": 2,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 8192,
+          "capacity_tokens": 8192,
+          "revision": 2
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "changed-hot",
+        "storage": "ssd",
+        "step": 3,
+        "cached_tokens": 8192,
+        "ssd_cached_tokens": 8192,
+        "prefill_calls": 0,
+        "ssd_writes": 2,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 8192,
+          "capacity_tokens": 8192,
+          "revision": 2
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_cache_step",
+        "stage": "initial-restored-hot",
+        "storage": "ssd",
+        "step": 4,
+        "cached_tokens": 8192,
+        "ssd_cached_tokens": 8192,
+        "prefill_calls": 0,
+        "ssd_writes": 2,
+        "ssd_errors": 0,
+        "ssd_pending": 0,
+        "selection": {
+          "chunk_tokens": 2048,
+          "capacity_tokens": 8192,
+          "revision": 3
+        },
+        "verified": true
+      },
+      {
+        "event": "prefill_probe_complete",
+        "mode": "ssd",
+        "synthetic": false,
+        "prompt_tokens": 8192,
+        "output_tokens": 32,
+        "baseline_output_ids": [
+          16,
+          21,
+          8120,
+          2919,
+          11,
+          23312,
+          321,
+          4649,
+          6440,
+          13,
+          10643,
+          10258,
+          7189,
+          220,
+          17,
+          23,
+          22980,
+          11,
+          41054,
+          14542,
+          25605,
+          321,
+          35551,
+          264,
+          569,
+          3286,
+          13,
+          561,
+          1830,
+          72346,
+          40016,
+          11
+        ]
+      },
+      {
+        "event": "ssd_drained",
+        "writes": 2,
+        "errors": 0,
+        "disk_bytes": 798115386,
+        "evictions": 0,
+        "skipped": 0,
+        "allocated_bytes": 798126080,
+        "entries": 2,
+        "write_ns": 757963555,
+        "pending": 0
+      }
+    ]
+  },
+  "independent_saved_data_review": {
+    "schema": "synapse-lie.prefill-cache-original-saved-review.v1",
+    "at_utc": "2026-10-07T10:14:25.676736+00:00",
+    "actual_exit_code": 0,
+    "state": "SELECTED_ORIGINAL_MTP_RAM_SSD_PREFILL_NAMESPACE_PASSED",
+    "scope": "Original Q4/Q8 MTP PP8192/TG32/C1, context16384/capacity8192, separate RAM/SSD five-stage namespace probes; functional only.",
+    "arms": [
+      {
+        "mode": "ram",
+        "stages": [
+          "initial-cold",
+          "initial-hot",
+          "changed-cold",
+          "changed-hot",
+          "initial-restored-hot"
+        ],
+        "full_prompt_cached_tokens": [
+          0,
+          8192,
+          0,
+          8192,
+          8192
+        ],
+        "prefill_calls": [
+          4,
+          0,
+          1,
+          0,
+          0
+        ],
+        "confirmed_output_ids": [
+          16,
+          21,
+          8120,
+          2919,
+          11,
+          23312,
+          321,
+          4649,
+          6440,
+          13,
+          10643,
+          10258,
+          7189,
+          220,
+          17,
+          23,
+          22980,
+          11,
+          41054,
+          14542,
+          25605,
+          321,
+          35551,
+          264,
+          569,
+          3286,
+          13,
+          561,
+          1830,
+          72346,
+          40016,
+          11
+        ],
+        "physical_input_ids_sha256": "429faeaec7f01cde93511a5b81ab8946c388a3215d737a4f88e8d8d8141db394",
+        "all_five_complete_outputs_equal": true,
+        "SSD_full_reads_with_RAM_disabled": false,
+        "DS4_format_utility_retained": true,
+        "serial_AR_complete_output_equal": true,
+        "MTP_saved_job_accepted_tokens": 117,
+        "checkpoint_compression_build_capability": true,
+        "actual_RAM_compressed_captures": 0,
+        "high_ratio_compression_qualified": false,
+        "packing_scope": "Exact DS4/KVC payload remains raw; generic aligned-state packing is not applied.",
+        "sampled_temperature_peaks_C": {
+          "nvme": 69.85,
+          "amdgpu": 78.0,
+          "k10temp": 74.25
+        },
+        "sampled_peak_gtt_bytes": 93014470656,
+        "sampled_minimum_available_ram_bytes": 28063473664,
+        "telemetry_samples": 125
+      },
+      {
+        "mode": "ssd",
+        "stages": [
+          "initial-cold",
+          "initial-hot",
+          "changed-cold",
+          "changed-hot",
+          "initial-restored-hot"
+        ],
+        "full_prompt_cached_tokens": [
+          0,
+          8192,
+          0,
+          8192,
+          8192
+        ],
+        "prefill_calls": [
+          4,
+          0,
+          1,
+          0,
+          0
+        ],
+        "confirmed_output_ids": [
+          16,
+          21,
+          8120,
+          2919,
+          11,
+          23312,
+          321,
+          4649,
+          6440,
+          13,
+          10643,
+          10258,
+          7189,
+          220,
+          17,
+          23,
+          22980,
+          11,
+          41054,
+          14542,
+          25605,
+          321,
+          35551,
+          264,
+          569,
+          3286,
+          13,
+          561,
+          1830,
+          72346,
+          40016,
+          11
+        ],
+        "physical_input_ids_sha256": "429faeaec7f01cde93511a5b81ab8946c388a3215d737a4f88e8d8d8141db394",
+        "all_five_complete_outputs_equal": true,
+        "SSD_full_reads_with_RAM_disabled": true,
+        "DS4_format_utility_retained": true,
+        "serial_AR_complete_output_equal": true,
+        "MTP_saved_job_accepted_tokens": 117,
+        "checkpoint_compression_build_capability": true,
+        "actual_RAM_compressed_captures": 0,
+        "high_ratio_compression_qualified": false,
+        "packing_scope": "Exact DS4/KVC payload remains raw; generic aligned-state packing is not applied.",
+        "sampled_temperature_peaks_C": {
+          "nvme": 65.85,
+          "amdgpu": 80.0,
+          "k10temp": 75.0
+        },
+        "sampled_peak_gtt_bytes": 93014618112,
+        "sampled_minimum_available_ram_bytes": 28761731072,
+        "telemetry_samples": 237
+      }
+    ],
+    "all_ten_complete_outputs_equal": true,
+    "unchanged_models_across_both_windows": true,
+    "MTP_broader_quality_fault_performance_qualified": false,
+    "new_GPU_or_model_run": false,
+    "open_task_numbers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "goal_complete": false
+  },
+  "independent_live_review": {
+    "schema": "synapse-lie.prefill-live-saved-review.v1",
+    "at_utc": "2026-10-07T10:02:53.933733+00:00",
+    "actual_exit_code": 0,
+    "state": "SELECTED_ORIGINAL_MTP_LIVE_PREFILL_PASSED",
+    "scope": "Original Q4/Q8 MTP PP8192/TG32/C2 live selection/credit/loan/cancellation and C1 recovery; functional only.",
+    "source_commit": "cb75a48fad340a3b25fadd0e6ed5c45b1fa2edcf",
+    "physical_input_ids_sha256": "429faeaec7f01cde93511a5b81ab8946c388a3215d737a4f88e8d8d8141db394",
+    "confirmed_output_ids": [
+      16,
+      21,
+      8120,
+      2919,
+      11,
+      23312,
+      321,
+      4649,
+      6440,
+      13,
+      10643,
+      10258,
+      7189,
+      220,
+      17,
+      23,
+      22980,
+      11,
+      41054,
+      14542,
+      25605,
+      321,
+      35551,
+      264,
+      569,
+      3286,
+      13,
+      561,
+      1830,
+      72346,
+      40016,
+      11
+    ],
+    "active_prefill_calls": 4,
+    "peer_prefill_calls": 1,
+    "same_inflight_call_immutable_admissions_verified": true,
+    "full_peer_baseline_fresh_output_equal": true,
+    "borrowed_credit_peer_progress_verified": true,
+    "prefill_cancel_zero_output_recovery_verified": true,
+    "sampled_temperature_peaks_C": {
+      "nvme": 62.85,
+      "amdgpu": 76.0,
+      "k10temp": 75.0
+    },
+    "sampled_peak_gtt_bytes": 93895573504,
+    "sampled_minimum_available_ram_bytes": 28160978944,
+    "telemetry_samples": 155,
+    "model_stats_unchanged": true,
+    "strict_process_service_lease_closure_verified": true,
+    "serial_AR_complete_output_equal": true,
+    "MTP_saved_job_accepted_tokens": 48,
+    "RAM_SSD_broader_quality_performance_qualified": false,
+    "new_GPU_or_model_run": false,
+    "open_task_numbers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "goal_complete": false
+  },
+  "offline_review_guard": {
+    "argv": [
+      "python3",
+      "-B",
+      "evidence/verify-context-r53-cache.py"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 45.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 48.375
+    },
+    "elapsed_s": 1.1291770236566663
+  },
+  "offline_live_review_guard": {
+    "argv": [
+      "python3",
+      "-B",
+      "evidence/verify-context-r53-live.py"
+    ],
+    "child_exit_code": 0,
+    "exit_code": 0,
+    "reason": null,
+    "peak_c": {
+      "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+      "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+      "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+      "/sys/class/hwmon/hwmon8/temp1_input": 48.0
+    },
+    "elapsed_s": 1.1330121010541916
+  },
+  "readiness_and_source_continuity": {
+    "at_utc": "2026-10-07T09:57:33.287074+00:00",
+    "previous_goal_turn": "PROGRESS: original RAM/SSD five-stage namespace tests qualified, exact ten outputs equal; collection/review/postseal/closure0, checkpointa11dedd2.",
+    "current_head": "a11dedd2a42fa93c32ab937b7d3cb1f45a1b80ab",
+    "compiled_source": "cb75a48fad340a3b25fadd0e6ed5c45b1fa2edcf",
+    "native_client_code": "4b0cb6753439113572ee70e2734a05884f269283",
+    "engine_code": "d6431db85d3119e112ffd01c557aaacd6d7c2714",
+    "runner_sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99",
+    "tokens_file": "evidence/context-r48-prefill-tokens.json",
+    "tokens_sha256": "b40fb1c3c5723c0e457c64125cd4505ca61a5a98bfd763811a7692ad07b70732",
+    "serial_reference_receipt": "docs/development/validation/prefill-cache-original-point-2026-10-07.json",
+    "serial_reference_receipt_sha256": "1a8346fbede5a1c3f6561e58a094dad84a64d77fda603ddd2585b74088c8ee43",
+    "settings": {
+      "context": 16384,
+      "chunk": 2048,
+      "users": 1,
+      "tg": 32,
+      "warmups": 0,
+      "repetitions": 1
+    },
+    "prefill_capacity": 8192,
+    "modes": [
+      {
+        "mode": "live",
+        "label": "context-r53-prefill-live-mtp-r1",
+        "manifest_sha256": "134da0f0e3b1c2910b5a2ab86e6f2a8a0363c51c9b5401c328878b98687087a1"
+      },
+      {
+        "mode": "ram",
+        "label": "context-r53-prefill-ram-mtp-r1",
+        "manifest_sha256": "d7cc7bd83e446450dd5fd757eed1c7bcc54f631823c54147f990825e384d4a99"
+      },
+      {
+        "mode": "ssd",
+        "label": "context-r53-prefill-ssd-mtp-r1",
+        "manifest_sha256": "d18d385dc87ba37d058f71bd0e4622ed1951d4e9100f0b5d04b17588fa13e319"
+      }
+    ],
+    "predictor_plan": {
+      "schema": "synapse-lie.model-source.v1",
+      "source": "read-only original predictor on .157",
+      "target": "pop@192.168.5.161",
+      "destination": "/home/pop/workspace/synapse-lie/models/qwen38-flash-next-mtp-q8-r1",
+      "total_bytes": 2786568256,
+      "files": [
+        {
+          "name": "mtp-Qwen3.8-Flash-Next-shared-Q8_0.gguf",
+          "bytes": 2786568256,
+          "sha256": "5ff54097406a905cf3a724c709124ceb0e3e10235ee862298969e91c96fa96e6"
+        }
+      ],
+      "verification": "Destination receiver hashes all copied bytes against historical pinned SHA-256"
+    },
+    "prepared_not_admitted": true,
+    "remote_running_job_lease_window_waiter_reservation": false,
+    "open_task_numbers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "goal_complete": false,
+    "publication": false
+  },
+  "fresh_global_preflights": {
+    "live": {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161",
+        "python3 -B -"
+      ],
+      "actual_exit_code": 0,
+      "program_sha256": "db49ebdc0d18346e48ace68082c30d7cf6843523bb3f7b2abd8af34d38be0c32",
+      "stdout": "{\"at_utc\": \"2026-10-07T09:59:00.151516+00:00\", \"state\": \"READ_ONLY_NOT_ADMITTED\", \"boot_id\": \"c82c90ed-7f94-4212-bc52-681c63eac395\", \"runner_sha256\": \"6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322\", \"service\": {\"MainPID\": \"283108\", \"ActiveState\": \"active\", \"SubState\": \"running\"}, \"router_start_ticks\": 23551349, \"original_lease\": {\"path\": \"/home/pop/workspace/synapse-lie/campaign.lock\", \"device\": 66307, \"inode\": 105946405, \"free_briefly\": true, \"released\": true}, \"observation\": {\"at\": \"2026-10-07T09:59:00.036278+00:00\", \"kfd\": [{\"pid\": 283108, \"start_ticks\": 23551349, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"dri\": [{\"pid\": 283108, \"start_ticks\": 23551349, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"denied_fd\": 366, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"value_c\": 39.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"value_c\": 31.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"value_c\": 36.0, \"limit_c\": 98, \"guarded\": false}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"value_c\": 36.625, \"limit_c\": 98, \"guarded\": true}], \"memory\": {\"MemTotal\": 132542648320, \"MemAvailable\": 122095202304, \"SwapTotal\": 21474828288, \"SwapFree\": 20441718784}, \"kernel_kfd\": [283108], \"gpu\": {\"gpu_busy_percent\": 0, \"mem_info_gtt_total\": 120259084288, \"mem_info_gtt_used\": 18636800, \"mem_info_vram_total\": 2147483648, \"mem_info_vram_used\": 151183360}}, \"foreign_compute_clients\": [], \"guarded_hot\": [], \"http8000_listeners\": [], \"pinned_image\": {\"exit_code\": 0, \"id\": \"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\", \"stderr\": \"\"}, \"free_disk_bytes\": 562823499776, \"exclusive_job_prepared\": true, \"GPU_build_run_or_service_mutation\": false, \"standing_lease_waiter_reservation\": false}\n",
+      "stderr": "",
+      "result": {
+        "at_utc": "2026-10-07T09:59:00.151516+00:00",
+        "state": "READ_ONLY_NOT_ADMITTED",
+        "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+        "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+        "service": {
+          "MainPID": "283108",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "router_start_ticks": 23551349,
+        "original_lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66307,
+          "inode": 105946405,
+          "free_briefly": true,
+          "released": true
+        },
+        "observation": {
+          "at": "2026-10-07T09:59:00.036278+00:00",
+          "kfd": [
+            {
+              "pid": 283108,
+              "start_ticks": 23551349,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 283108,
+              "start_ticks": 23551349,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 366,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 39.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 31.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 36.0,
+              "limit_c": 98,
+              "guarded": false
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 36.625,
+              "limit_c": 98,
+              "guarded": true
+            }
+          ],
+          "memory": {
+            "MemTotal": 132542648320,
+            "MemAvailable": 122095202304,
+            "SwapTotal": 21474828288,
+            "SwapFree": 20441718784
+          },
+          "kernel_kfd": [
+            283108
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 120259084288,
+            "mem_info_gtt_used": 18636800,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151183360
+          }
+        },
+        "foreign_compute_clients": [],
+        "guarded_hot": [],
+        "http8000_listeners": [],
+        "pinned_image": {
+          "exit_code": 0,
+          "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+          "stderr": ""
+        },
+        "free_disk_bytes": 562823499776,
+        "exclusive_job_prepared": true,
+        "GPU_build_run_or_service_mutation": false,
+        "standing_lease_waiter_reservation": false
+      }
+    },
+    "ram": {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161",
+        "python3 -B -"
+      ],
+      "actual_exit_code": 0,
+      "program_sha256": "7c62c32e45da1e314689ea4135c58cc9e0e8ac385c312f5e4c4ded54cd5e7ea4",
+      "stdout": "{\"at_utc\": \"2026-10-07T10:02:57.508806+00:00\", \"state\": \"READ_ONLY_NOT_ADMITTED\", \"boot_id\": \"c82c90ed-7f94-4212-bc52-681c63eac395\", \"runner_sha256\": \"6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322\", \"service\": {\"MainPID\": \"284690\", \"ActiveState\": \"active\", \"SubState\": \"running\"}, \"router_start_ticks\": 23625809, \"original_lease\": {\"path\": \"/home/pop/workspace/synapse-lie/campaign.lock\", \"device\": 66307, \"inode\": 105946405, \"free_briefly\": true, \"released\": true}, \"observation\": {\"at\": \"2026-10-07T10:02:57.435113+00:00\", \"kfd\": [{\"pid\": 284690, \"start_ticks\": 23625809, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"dri\": [{\"pid\": 284690, \"start_ticks\": 23625809, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"denied_fd\": 404, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"value_c\": 36.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"value_c\": 42.0, \"limit_c\": 98, \"guarded\": false}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"value_c\": 42.5, \"limit_c\": 98, \"guarded\": true}], \"memory\": {\"MemTotal\": 132542648320, \"MemAvailable\": 122239541248, \"SwapTotal\": 21474828288, \"SwapFree\": 20326387712}, \"kernel_kfd\": [284690], \"gpu\": {\"gpu_busy_percent\": 0, \"mem_info_gtt_total\": 120259084288, \"mem_info_gtt_used\": 18636800, \"mem_info_vram_total\": 2147483648, \"mem_info_vram_used\": 151187456}}, \"foreign_compute_clients\": [], \"guarded_hot\": [], \"http8000_listeners\": [], \"pinned_image\": {\"exit_code\": 0, \"id\": \"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\", \"stderr\": \"\"}, \"free_disk_bytes\": 562822578176, \"exclusive_job_prepared\": true, \"GPU_build_run_or_service_mutation\": false, \"standing_lease_waiter_reservation\": false}\n",
+      "stderr": "",
+      "result": {
+        "at_utc": "2026-10-07T10:02:57.508806+00:00",
+        "state": "READ_ONLY_NOT_ADMITTED",
+        "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+        "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+        "service": {
+          "MainPID": "284690",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "router_start_ticks": 23625809,
+        "original_lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66307,
+          "inode": 105946405,
+          "free_briefly": true,
+          "released": true
+        },
+        "observation": {
+          "at": "2026-10-07T10:02:57.435113+00:00",
+          "kfd": [
+            {
+              "pid": 284690,
+              "start_ticks": 23625809,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 284690,
+              "start_ticks": 23625809,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 404,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 36.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 42.0,
+              "limit_c": 98,
+              "guarded": false
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 42.5,
+              "limit_c": 98,
+              "guarded": true
+            }
+          ],
+          "memory": {
+            "MemTotal": 132542648320,
+            "MemAvailable": 122239541248,
+            "SwapTotal": 21474828288,
+            "SwapFree": 20326387712
+          },
+          "kernel_kfd": [
+            284690
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 120259084288,
+            "mem_info_gtt_used": 18636800,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151187456
+          }
+        },
+        "foreign_compute_clients": [],
+        "guarded_hot": [],
+        "http8000_listeners": [],
+        "pinned_image": {
+          "exit_code": 0,
+          "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+          "stderr": ""
+        },
+        "free_disk_bytes": 562822578176,
+        "exclusive_job_prepared": true,
+        "GPU_build_run_or_service_mutation": false,
+        "standing_lease_waiter_reservation": false
+      }
+    },
+    "ssd": {
+      "argv": [
+        "ssh",
+        "-F",
+        "/dev/null",
+        "-o",
+        "BatchMode=yes",
+        "-o",
+        "ConnectTimeout=8",
+        "pop@192.168.5.161",
+        "python3 -B -"
+      ],
+      "actual_exit_code": 0,
+      "program_sha256": "b8cd0d602090e0b43cd49d1c2418c97090a899f93882f21255cf98ac6746583e",
+      "stdout": "{\"at_utc\": \"2026-10-07T10:07:21.794382+00:00\", \"state\": \"READ_ONLY_NOT_ADMITTED\", \"boot_id\": \"c82c90ed-7f94-4212-bc52-681c63eac395\", \"runner_sha256\": \"6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322\", \"service\": {\"MainPID\": \"286141\", \"ActiveState\": \"active\", \"SubState\": \"running\"}, \"router_start_ticks\": 23647532, \"original_lease\": {\"path\": \"/home/pop/workspace/synapse-lie/campaign.lock\", \"device\": 66307, \"inode\": 105946405, \"free_briefly\": true, \"released\": true}, \"observation\": {\"at\": \"2026-10-07T10:07:21.685478+00:00\", \"kfd\": [{\"pid\": 286141, \"start_ticks\": 23647532, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"dri\": [{\"pid\": 286141, \"start_ticks\": 23647532, \"cgroup\": \"0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\\n\", \"devices\": [\"/dev/dri/renderD128\", \"/dev/kfd\"]}], \"denied_fd\": 390, \"temperatures\": [{\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp1_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp2_input\", \"value_c\": 35.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon3/temp3_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp1_input\", \"value_c\": 33.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp2_input\", \"value_c\": 32.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"nvme\", \"path\": \"/sys/class/hwmon/hwmon4/temp3_input\", \"value_c\": 33.85, \"limit_c\": 85.0, \"guarded\": true}, {\"name\": \"amdgpu\", \"path\": \"/sys/class/hwmon/hwmon5/temp1_input\", \"value_c\": 39.0, \"limit_c\": 98, \"guarded\": false}, {\"name\": \"k10temp\", \"path\": \"/sys/class/hwmon/hwmon6/temp1_input\", \"value_c\": 40.5, \"limit_c\": 98, \"guarded\": true}], \"memory\": {\"MemTotal\": 132542648320, \"MemAvailable\": 122213158912, \"SwapTotal\": 21474828288, \"SwapFree\": 20334264320}, \"kernel_kfd\": [286141], \"gpu\": {\"gpu_busy_percent\": 0, \"mem_info_gtt_total\": 120259084288, \"mem_info_gtt_used\": 18636800, \"mem_info_vram_total\": 2147483648, \"mem_info_vram_used\": 151187456}}, \"foreign_compute_clients\": [], \"guarded_hot\": [], \"http8000_listeners\": [], \"pinned_image\": {\"exit_code\": 0, \"id\": \"sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e\", \"stderr\": \"\"}, \"free_disk_bytes\": 562821701632, \"exclusive_job_prepared\": true, \"GPU_build_run_or_service_mutation\": false, \"standing_lease_waiter_reservation\": false}\n",
+      "stderr": "",
+      "result": {
+        "at_utc": "2026-10-07T10:07:21.794382+00:00",
+        "state": "READ_ONLY_NOT_ADMITTED",
+        "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+        "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+        "service": {
+          "MainPID": "286141",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "router_start_ticks": 23647532,
+        "original_lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66307,
+          "inode": 105946405,
+          "free_briefly": true,
+          "released": true
+        },
+        "observation": {
+          "at": "2026-10-07T10:07:21.685478+00:00",
+          "kfd": [
+            {
+              "pid": 286141,
+              "start_ticks": 23647532,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 286141,
+              "start_ticks": 23647532,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 390,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 35.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 39.0,
+              "limit_c": 98,
+              "guarded": false
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 40.5,
+              "limit_c": 98,
+              "guarded": true
+            }
+          ],
+          "memory": {
+            "MemTotal": 132542648320,
+            "MemAvailable": 122213158912,
+            "SwapTotal": 21474828288,
+            "SwapFree": 20334264320
+          },
+          "kernel_kfd": [
+            286141
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 120259084288,
+            "mem_info_gtt_used": 18636800,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151187456
+          }
+        },
+        "foreign_compute_clients": [],
+        "guarded_hot": [],
+        "http8000_listeners": [],
+        "pinned_image": {
+          "exit_code": 0,
+          "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+          "stderr": ""
+        },
+        "free_disk_bytes": 562821701632,
+        "exclusive_job_prepared": true,
+        "GPU_build_run_or_service_mutation": false,
+        "standing_lease_waiter_reservation": false
+      }
+    }
+  },
+  "peer_coordination": {
+    "recorded_at_utc": "2026-10-07 09:58:57 UTC",
+    "scope": "Fresh explicit per-owner .161 non-use; information only, no grant/ACK/window/reservation",
+    "Point": {
+      "thread_id": "01a0fb73-1367-7313-b771-6e721a4155bc",
+      "explicit_non_use": true,
+      "snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0fb73-1367-7313-b771-6e721a4155bc\",\"kind\":\"codex\",\"title\":\"Analizza il progetto\",\"preview\":\"in questo nuovo fork mi serve che fai il porting da strix halo a strix point del modello ud e fai i test su pop@192.168.5.161\",\"status\":{\"type\":\"idle\"},\"cwd\":\"/home/paperboy/.codex/worktrees/4d2b/synapse-lie\",\"createdAt\":1790925017,\"updatedAt\":1791367002},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0fb73-1367-7313-b771-6e721a4155bc\\\",\\\"rolloutOrdinal\\\":44082,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a115cb-2938-7bf1-928d-56f574c87ad3\",\"status\":\"completed\",\"error\":null,\"startedAt\":1791366998,\"completedAt\":1791367002,\"durationMs\":4481,\"items\":[{\"type\":\"functionCallOutput\",\"id\":\"fco_01a115cb-2939-7041-9706-c1dd4cf4f3cc\",\"name\":\"send_message_to_thread\",\"namespace\":\"codex_tui\",\"codexDelegation\":{\"sourceThreadId\":\"01a0f71e-b42a-7f80-b04b-780e3c4bd45c\",\"input\":\"Root fresh own-state: r52 RAM/SSD strict closure09:49:51, tuttihandle/review/postseal0, checkpointa11dedd2 clean. Nessun job/build/client/handle/lease/window/waiter/prenotazione .161/.157/.158/TB. Preparo r53 original MTP live/RAM/SSD PP8192/TG32/context16384/chunk2048/cap8192, nuovo bundle-r50; liveC2/cacheC1. Confronto fulloutput con AR r52; predictorQ8 gi\u00e0 qualified. Dichiara solo tuo uso/non-uso .161 attuale e piani/identit\u00e0: non chiedo permesso/ACK/grant/finestra/stop. Separate fresh global+originallease per gate, CPU98/NVMe85/lower/GPUobserve. Bench/TB ultimi.\"},\"output\":{\"text\":\"<codex_delegation>\\n  <source_thread_id>01a0f71e-b42a-7f80-b04b-780e3c4bd45c</source_thread_id>\\n  <input>Root fresh own-state: r52 RAM/SSD strict closure09:49:51, tuttihandle/review/postseal0, checkpointa11dedd2 clean. Nessun job/build/client/handle/lease/window/waiter/prenotazione .161/.157/.158/TB. Preparo r53 original MTP live/RAM/SSD PP8192/TG32/context16384/chunk2048/cap8192, nuovo bundle-r50; liveC2/cacheC1. Confronto fulloutput con AR r52; predictorQ8 gi\u00e0 qualified. Dichiara solo tuo uso/non-uso .161 attuale e piani/identit\u00e0: non chiedo permesso/ACK/grant/finestra/stop. Separate fresh global+originallease per gate, CPU98/NVMe85/lower/GPUobserve. Bench/TB ultimi.</input>\\n</codex_delegation>\",\"truncated\":false}},{\"type\":\"reasoning\",\"id\":\"rs_0f592e27abe2f96a016ac617589af887d29573b4acca13340a\",\"summary\":[],\"content\":[]},{\"type\":\"agentMessage\",\"id\":\"msg_0f592e27abe2f96a016ac61758c65487d2bda467ffacbba370\",\"text\":\"Confermo dal mio scope: nessun job, client, build, handle, lease, finestra, waiter o prenotazione attuale o pianificata su `.161`; nessuna identit\u00e0 remota da segnalare. Non uso `.157`/`.158` e non ho avviato attivit\u00e0 remote. Le prove MTP richiedono le preflight globali e le lease originali separate indicate.\",\"phase\":\"final_answer\"}]}]}"
+            }
+          ],
+          "isError": false
+        }
+      }
+    },
+    "DGX": {
+      "thread_id": "01a0fb43-105f-7bc3-98b8-84d12528db0d",
+      "explicit_non_use": true,
+      "reply": "DGX checkpoint locale 7ebc17b5 clean: originali operatori CUDA grammar e owner C17 reactive; solo sorgente, nessun build/test/SAN/SDK/GPU/modello/perf. Ora collegamento locale controller/core/client; test raggruppati dopo blocchi. Stato proprio attuale: nessun job/build/client/handle/lease/window/waiter/prenotazione/piano remoto su .161/.157/.158/TB. Ricevuta chiusura r52; nessun grant/ACK richiesto.",
+      "snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0fb43-105f-7bc3-98b8-84d12528db0d\",\"status\":{\"type\":\"active\",\"activeFlags\":[]}},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0fb43-105f-7bc3-98b8-84d12528db0d\\\",\\\"rolloutOrdinal\\\":90000,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a115a0-fcab-7051-b165-72c345537039\",\"status\":\"inProgress\",\"error\":null,\"items\":[{\"type\":\"agentMessage\",\"id\":\"msg_0f592e27abe2f96a016ac61759e64487d2b1f7cda4ee7bfde8\",\"text\":\"Nel riferimento originale la grammatica pota i draft prima del forward, applica la maschera prima del sampling e avanza solo sui token accettati dopo il commit. Sto collegando questi tre punti nel core condiviso, preservando il comportamento per cui un errore di grammatica nel decode termina la sola richiesta coinvolta.\",\"phase\":\"commentary\"}],\"truncated\":true}],\"truncated\":true}"
+            }
+          ],
+          "isError": false
+        }
+      }
+    },
+    "Q2": {
+      "thread_id": "01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3",
+      "explicit_non_use": true,
+      "reply": "Q2 own-state ora: nessun job/build/client/handle/lease/window/waiter/prenotazione n\u00e9 piano su .161/.158/TB. Su .157 solo nostra finestra q2-q5-model-shared-down-r1 ammessa09:54:55 UTC, binario originale bench2k Q8 poi Q5 in corso, SSH session2902; rilascio e notifica seguiranno. Nessun uso .161 pianificato.",
+      "snapshot": {
+        "status": "fulfilled",
+        "value": {
+          "content": [
+            {
+              "type": "text",
+              "text": "{\"schemaVersion\":1,\"thread\":{\"id\":\"01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3\",\"status\":{\"type\":\"active\",\"activeFlags\":[]}},\"page\":{\"order\":\"newest_first\",\"limit\":1,\"hasMore\":true,\"nextCursor\":\"{\\\"requestedThreadId\\\":\\\"01a0f9e0-98e7-7ff2-8bd1-b4ce767f18a3\\\",\\\"rolloutOrdinal\\\":104633,\\\"includeAnchor\\\":false,\\\"scope\\\":{\\\"kind\\\":\\\"turns\\\"}}\"},\"turns\":[{\"id\":\"01a115c1-9d68-7ae1-b552-610bc920413e\",\"status\":\"inProgress\",\"error\":null,\"items\":[{\"type\":\"agentMessage\",\"id\":\"msg_0f592e27abe2f96a016ac61748113087d29480f61b26a8244c\",\"text\":\"La finestra \u00e8 attiva e il primo braccio sta ancora eseguendo. Il runner scrive progressivamente stdout, stderr e identit\u00e0 del processo nella directory persistente della .157; attendo la conclusione prima di confrontare i risultati, cos\u00ec posso prima raccogliere le evidenze e chiudere correttamente la finestra.\",\"phase\":\"commentary\"}],\"truncated\":true}],\"truncated\":true}"
+            }
+          ],
+          "isError": false
+        }
+      }
+    },
+    "root_non_use": [
+      ".157",
+      ".158",
+      "Terminal Bench"
+    ],
+    "separate_admission_per_mode": "Each gate requires fresh global preflight and original66307/105946405 EX|NB lease, repeated resources/thermal checks",
+    "prepared_only": [
+      "context-r53-prefill-live-mtp-r1",
+      "context-r53-prefill-ram-mtp-r1",
+      "context-r53-prefill-ssd-mtp-r1"
+    ],
+    "publication": false
+  },
+  "live_owner_observation_files": [
+    "evidence/context-r53-before-live-r1.json",
+    "evidence/context-r53-live-live-r1.json",
+    "evidence/context-r53-live-live-r2.json",
+    "evidence/context-r53-ram-live-r1.json",
+    "evidence/context-r53-ram-live-r2.json",
+    "evidence/context-r53-ram-live-r3.json",
+    "evidence/context-r53-ssd-live-r1.json"
+  ],
+  "combined_sampled_temperature_peaks_C": {
+    "nvme": 69.85,
+    "amdgpu": 80.0,
+    "k10temp": 75.0
+  },
+  "process_service_lease_closures": [
+    {
+      "mode": "live",
+      "supervisor": {
+        "pid": 283499,
+        "start_ticks": 23609913
+      },
+      "client": {
+        "pid": 283602,
+        "start_ticks": 23610026
+      },
+      "container": "5f3d96cb9f154f1daf05265e0232d525dafea6147a0cf23140f7fe560378bb55",
+      "container_init": {
+        "pid": 283824,
+        "start_ticks": 23610040,
+        "source": "evidence/context-r53-live-live-r1.json"
+      },
+      "lease_released_at_utc": "2026-10-07T10:01:41.646961+00:00",
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "native_child_exit_code": 0,
+      "idle_container_init_cleanup_exit_code": 143,
+      "strict_closure_actual_exit_code": 0,
+      "strict_closure": {
+        "at_utc": "2026-10-07T10:02:20.351837+00:00",
+        "state": "FRESH_MTP_PREFILL_CLOSURE_NO_STANDING_RESERVATION",
+        "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+        "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+        "service": {
+          "MainPID": "284690",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "router_start_ticks": 23625809,
+        "original_lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66307,
+          "inode": 105946405,
+          "free_briefly": true,
+          "released": true
+        },
+        "observation": {
+          "at": "2026-10-07T10:02:20.269684+00:00",
+          "kfd": [
+            {
+              "pid": 284690,
+              "start_ticks": 23625809,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 284690,
+              "start_ticks": 23625809,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 400,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 31.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 44.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 31.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 31.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 44.0,
+              "limit_c": 98,
+              "guarded": false
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 45.5,
+              "limit_c": 98,
+              "guarded": true
+            }
+          ],
+          "memory": {
+            "MemTotal": 132542648320,
+            "MemAvailable": 122280439808,
+            "SwapTotal": 21474828288,
+            "SwapFree": 20323938304
+          },
+          "kernel_kfd": [
+            284690
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 120259084288,
+            "mem_info_gtt_used": 18636800,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151187456
+          }
+        },
+        "foreign_compute_clients": [],
+        "guarded_hot": [],
+        "http8000_listeners": [],
+        "pinned_image": {
+          "exit_code": 0,
+          "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+          "stderr": ""
+        },
+        "free_disk_bytes": 562822594560,
+        "r50_bundle_present": true,
+        "GPU_build_run_or_service_mutation": false,
+        "standing_lease_waiter_reservation": false,
+        "owned_supervisor_identity_absent": true,
+        "owned_client_identity_absent": true,
+        "owned_container_init_identity": {
+          "pid": 283824,
+          "start_ticks": 23610040,
+          "source": "evidence/context-r53-live-live-r1.json"
+        },
+        "owned_container_init_identity_recorded": true,
+        "owned_container_init_identity_absent": true,
+        "owned_container_absent": {
+          "exit_code": 1,
+          "stdout": "[]\n",
+          "stderr": "error: no such object: 5f3d96cb9f154f1daf05265e0232d525dafea6147a0cf23140f7fe560378bb55\n"
+        },
+        "owned_container_listing": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    },
+    {
+      "mode": "ram",
+      "supervisor": {
+        "pid": 284950,
+        "start_ticks": 23634755
+      },
+      "client": {
+        "pid": 285051,
+        "start_ticks": 23634886
+      },
+      "container": "a380096c12ebc0689b473e03a1e5e99f4ae1640709bc6cbd8487676ec8101981",
+      "container_init": {
+        "pid": 285311,
+        "start_ticks": 23634901,
+        "source": "evidence/context-r53-ram-live-r1.json"
+      },
+      "lease_released_at_utc": "2026-10-07T10:05:18.881534+00:00",
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "native_child_exit_code": 0,
+      "idle_container_init_cleanup_exit_code": 143,
+      "strict_closure_actual_exit_code": 0,
+      "strict_closure": {
+        "at_utc": "2026-10-07T10:06:30.920929+00:00",
+        "state": "FRESH_MTP_PREFILL_CLOSURE_NO_STANDING_RESERVATION",
+        "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+        "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+        "service": {
+          "MainPID": "286141",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "router_start_ticks": 23647532,
+        "original_lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66307,
+          "inode": 105946405,
+          "free_briefly": true,
+          "released": true
+        },
+        "observation": {
+          "at": "2026-10-07T10:06:30.800041+00:00",
+          "kfd": [
+            {
+              "pid": 286141,
+              "start_ticks": 23647532,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 286141,
+              "start_ticks": 23647532,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 390,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 35.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 41.0,
+              "limit_c": 98,
+              "guarded": false
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 42.25,
+              "limit_c": 98,
+              "guarded": true
+            }
+          ],
+          "memory": {
+            "MemTotal": 132542648320,
+            "MemAvailable": 122253664256,
+            "SwapTotal": 21474828288,
+            "SwapFree": 20334002176
+          },
+          "kernel_kfd": [
+            286141
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 120259084288,
+            "mem_info_gtt_used": 18636800,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151187456
+          }
+        },
+        "foreign_compute_clients": [],
+        "guarded_hot": [],
+        "http8000_listeners": [],
+        "pinned_image": {
+          "exit_code": 0,
+          "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+          "stderr": ""
+        },
+        "free_disk_bytes": 562821726208,
+        "r50_bundle_present": true,
+        "GPU_build_run_or_service_mutation": false,
+        "standing_lease_waiter_reservation": false,
+        "owned_supervisor_identity_absent": true,
+        "owned_client_identity_absent": true,
+        "owned_container_init_identity": {
+          "pid": 285311,
+          "start_ticks": 23634901,
+          "source": "evidence/context-r53-ram-live-r1.json"
+        },
+        "owned_container_init_identity_recorded": true,
+        "owned_container_init_identity_absent": true,
+        "owned_container_absent": {
+          "exit_code": 1,
+          "stdout": "[]\n",
+          "stderr": "error: no such object: a380096c12ebc0689b473e03a1e5e99f4ae1640709bc6cbd8487676ec8101981\n"
+        },
+        "owned_container_listing": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    },
+    {
+      "mode": "ssd",
+      "supervisor": {
+        "pid": 286435,
+        "start_ticks": 23660112
+      },
+      "client": {
+        "pid": 286538,
+        "start_ticks": 23660225
+      },
+      "container": "3df8d23ea1455836ffe63ed8db3f07fe97f8590b6be4a0f3b77f4dcd951311e1",
+      "container_init": {
+        "pid": 286814,
+        "start_ticks": 23660240,
+        "source": "evidence/context-r53-ssd-live-r1.json"
+      },
+      "lease_released_at_utc": "2026-10-07T10:11:54.732115+00:00",
+      "controller_exit_code": 0,
+      "supervisor_exit_code": 0,
+      "native_child_exit_code": 0,
+      "idle_container_init_cleanup_exit_code": 143,
+      "strict_closure_actual_exit_code": 0,
+      "strict_closure": {
+        "at_utc": "2026-10-07T10:13:30.174656+00:00",
+        "state": "FRESH_MTP_PREFILL_CLOSURE_NO_STANDING_RESERVATION",
+        "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+        "runner_sha256": "6fe39c48ce53e4dde3276b387c0a1a9dd38640794991e74c9ba3c72257816322",
+        "service": {
+          "MainPID": "287677",
+          "ActiveState": "active",
+          "SubState": "running"
+        },
+        "router_start_ticks": 23687119,
+        "original_lease": {
+          "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+          "device": 66307,
+          "inode": 105946405,
+          "free_briefly": true,
+          "released": true
+        },
+        "observation": {
+          "at": "2026-10-07T10:13:30.099219+00:00",
+          "kfd": [
+            {
+              "pid": 287677,
+              "start_ticks": 23687119,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "dri": [
+            {
+              "pid": 287677,
+              "start_ticks": 23687119,
+              "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/llama-router.service\n",
+              "devices": [
+                "/dev/dri/renderD128",
+                "/dev/kfd"
+              ]
+            }
+          ],
+          "denied_fd": 386,
+          "temperatures": [
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp1_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp2_input",
+              "value_c": 37.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon3/temp3_input",
+              "value_c": 33.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp1_input",
+              "value_c": 34.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp2_input",
+              "value_c": 32.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "nvme",
+              "path": "/sys/class/hwmon/hwmon4/temp3_input",
+              "value_c": 34.85,
+              "limit_c": 85.0,
+              "guarded": true
+            },
+            {
+              "name": "amdgpu",
+              "path": "/sys/class/hwmon/hwmon5/temp1_input",
+              "value_c": 41.0,
+              "limit_c": 98,
+              "guarded": false
+            },
+            {
+              "name": "k10temp",
+              "path": "/sys/class/hwmon/hwmon6/temp1_input",
+              "value_c": 41.75,
+              "limit_c": 98,
+              "guarded": true
+            }
+          ],
+          "memory": {
+            "MemTotal": 132542648320,
+            "MemAvailable": 122303950848,
+            "SwapTotal": 21474828288,
+            "SwapFree": 20334772224
+          },
+          "kernel_kfd": [
+            287677
+          ],
+          "gpu": {
+            "gpu_busy_percent": 0,
+            "mem_info_gtt_total": 120259084288,
+            "mem_info_gtt_used": 18636800,
+            "mem_info_vram_total": 2147483648,
+            "mem_info_vram_used": 151183360
+          }
+        },
+        "foreign_compute_clients": [],
+        "guarded_hot": [],
+        "http8000_listeners": [],
+        "pinned_image": {
+          "exit_code": 0,
+          "id": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+          "stderr": ""
+        },
+        "free_disk_bytes": 562022465536,
+        "r50_bundle_present": true,
+        "GPU_build_run_or_service_mutation": false,
+        "standing_lease_waiter_reservation": false,
+        "owned_supervisor_identity_absent": true,
+        "owned_client_identity_absent": true,
+        "owned_container_init_identity": {
+          "pid": 286814,
+          "start_ticks": 23660240,
+          "source": "evidence/context-r53-ssd-live-r1.json"
+        },
+        "owned_container_init_identity_recorded": true,
+        "owned_container_init_identity_absent": true,
+        "owned_container_absent": {
+          "exit_code": 1,
+          "stdout": "[]\n",
+          "stderr": "error: no such object: 3df8d23ea1455836ffe63ed8db3f07fe97f8590b6be4a0f3b77f4dcd951311e1\n"
+        },
+        "owned_container_listing": {
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    }
+  ],
+  "packing_scope": "Exact DS4 payload is preserved raw in RAM/SSD. Generic aligned-state compression capability is ON; zero actual RAM packs. High-ratio packing is not qualified.",
+  "new_GPU_build_model_run_for_sealing": false,
+  "Python_product_dependency_added": false,
+  "no_standing_remote_job_lease_window_waiter_reservation_handle_after_closure": true,
+  "resource_scope": "Separate original-weight C1 probes sampled at1Hz; no allocator-exact fit or matched latency/throughput conclusion.",
+  "selected_MTP_live_cache_serial_parity_verified": true,
+  "broader_MTP_probabilities_vision_quality_fault_performance_qualified": false,
+  "next_gate": "Broader original MTP numerical probability/filter/grammar/controller and steering/long-context quality/fault/resources; matched benchmarks then Terminal Bench last.",
+  "open_task_numbers": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "goal_complete": false,
+  "publication": false,
+  "portable_raw_archive": {
+    "path": "raw/prefill-mtp-original-point-2026-10-07.tar.gz",
+    "bytes": 463856,
+    "sha256": "b568b2ce78564594c2ea391a1e1643fd753266dd5dd493dc39020fabefd7616d",
+    "members": 107
+  },
+  "raw_artifacts": {
+    "docs/development/validation/prefill-cache-original-point-2026-10-07.json": {
+      "bytes": 70731,
+      "sha256": "1a8346fbede5a1c3f6561e58a094dad84a64d77fda603ddd2585b74088c8ee43"
+    },
+    "docs/development/validation/prefill-probe-point-build-2026-10-07.json": {
+      "bytes": 34873,
+      "sha256": "18aa7aa8984f8b0efbba9a626ac85d01931fdec4b1023f1ddfa3d12c4179cc7f"
+    },
+    "evidence/context-r53-before-live-r1.json": {
+      "bytes": 6794,
+      "sha256": "e4df6454c2d10c646b758609db2f68f15e8d9173f2abd8895b37a953c76dfd74"
+    },
+    "evidence/context-r53-before-live-r1.py": {
+      "bytes": 4589,
+      "sha256": "c2c2ecdea1cfff45f1282ffffb925ff4d05e898e352b2dc4c759c20014c395db"
+    },
+    "evidence/context-r53-before-ram-r1.json": {
+      "bytes": 6790,
+      "sha256": "7c3385b153460837078abd43d5e2bcbe673cfca3213102330ef5e6207ceea29d"
+    },
+    "evidence/context-r53-before-ram-r1.py": {
+      "bytes": 4586,
+      "sha256": "7e8d28cda05d5b6a9e5ae9d2e246948b6d4adc8818c75f4ce9a13b3a5b34a704"
+    },
+    "evidence/context-r53-before-ssd-r1.json": {
+      "bytes": 6790,
+      "sha256": "a6cd48b86f5faf3c91d46a9106923872356728d05bafdce44617b4b7d67fc980"
+    },
+    "evidence/context-r53-before-ssd-r1.py": {
+      "bytes": 4586,
+      "sha256": "ac7ce68a88f409ae472d4592ae88f755c913988d957344c00359efb12813d3b9"
+    },
+    "evidence/context-r53-cache-proof.json": {
+      "bytes": 4040,
+      "sha256": "118ee6a7c1f440943e6d8e3e6ca4d8f82bcc47e24f4f9857ff9e166a58bc82d1"
+    },
+    "evidence/context-r53-live-closure-r1.json": {
+      "bytes": 8058,
+      "sha256": "bd7631abae869711cef40b338f7a2d56c0f40c43741cc37a3236dca9f9782546"
+    },
+    "evidence/context-r53-live-closure-r1.py": {
+      "bytes": 6909,
+      "sha256": "5af3cd746e756e55ef29e60d3a2055a52373b75ce0ddb725f0e1b82c265d1d74"
+    },
+    "evidence/context-r53-live-live-r1.json": {
+      "bytes": 13339,
+      "sha256": "9ccfcaf87e1e7e95424930a8df1287593a9853343a618a4db9a4d65a30c9195d"
+    },
+    "evidence/context-r53-live-live-r2.json": {
+      "bytes": 192819,
+      "sha256": "bbedb4664ffbcc7a73fab2bef9db3f2b4bf06210e515b871437fa93d2dbb2bc9"
+    },
+    "evidence/context-r53-live-proof.json": {
+      "bytes": 1663,
+      "sha256": "2b8ec75f2eb6c542144920e09da7495b0aa51a99a758ec8bcd8fefb2766b2202"
+    },
+    "evidence/context-r53-live-review-guard/command.log": {
+      "bytes": 1433,
+      "sha256": "a4f0abae69b78bdff68f47e552003967ebf8c980e3e81249d1e41faffdfed688"
+    },
+    "evidence/context-r53-live-review-guard/plan.json": {
+      "bytes": 902,
+      "sha256": "3a379b23ebb26c323f114678a15cadde8d2cf82406c62d139c889e80db2a0345"
+    },
+    "evidence/context-r53-live-review-guard/result.json": {
+      "bytes": 398,
+      "sha256": "d798cbba2e1d3043039e132aa1c10f2f7a58871b3a8bdbd042cca80d4a006116"
+    },
+    "evidence/context-r53-live-review-guard/temperatures.jsonl": {
+      "bytes": 1829,
+      "sha256": "a34c14941c3b6aa11c7c0a64545ae26587fc8d6c08e9095fbc53fdd1b2241265"
+    },
+    "evidence/context-r53-peer-coordination.json": {
+      "bytes": 7231,
+      "sha256": "21cae39a58eef17c0e1997d44fda935f6b430881b92a2edaf71506b80dfe1fcc"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1-manifest.json": {
+      "bytes": 7103,
+      "sha256": "134da0f0e3b1c2910b5a2ab86e6f2a8a0363c51c9b5401c328878b98687087a1"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/collection.json": {
+      "bytes": 5853,
+      "sha256": "3b2b71e6f67e032c4ce33759b464e472bdde417da7e9e21d0cad4050f6ba742b"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/controller-result.json": {
+      "bytes": 977,
+      "sha256": "b3476ea04ff0a3f2828eb1f7d18d3cbb4ca8ff72040e29b436fbdaf264c58674"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/controller-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/controller-stdout.log": {
+      "bytes": 100553,
+      "sha256": "6e91982bb6bb14a7bcc2110cb159f1fae77f3de28f9723a88ec267eb2a91797e"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/distrobox-create.log": {
+      "bytes": 287,
+      "sha256": "64180f6ddb64538e93362f5650e42c0d5f30bb5c4c7e485b496a5e131fb74a7e"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/manifest.json": {
+      "bytes": 7103,
+      "sha256": "134da0f0e3b1c2910b5a2ab86e6f2a8a0363c51c9b5401c328878b98687087a1"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/measurements.jsonl": {
+      "bytes": 43953,
+      "sha256": "627568974f229670bcbf3e49b35da3c517aa8ff3b90eb17c84329670b9068551"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/plan.json": {
+      "bytes": 959,
+      "sha256": "5eadd72c025844bc37688c125c7290a86da77a4ace8d4febf3abb2b3cbd1d93b"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/preparation.json": {
+      "bytes": 1314,
+      "sha256": "f1a9837605d9e59149825289a70d2d464e5301da71381f2aa4917862b57485db"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/result.json": {
+      "bytes": 105591,
+      "sha256": "b15a76f574e4f2c478b1cf09c414512f67bcb0ca0edcc2c05ea3e8976f3712c6"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/runner.py": {
+      "bytes": 148778,
+      "sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/stdout.log": {
+      "bytes": 71015,
+      "sha256": "32d8873e0efb93437fffd72d8effb1531f8c84814feb159029543b5bbbd57a0f"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/telemetry.jsonl": {
+      "bytes": 271779,
+      "sha256": "8c4e46c24730a8091aa7fb9f94c4d00d613d5fc63e3aeda2c57ca76018517ca0"
+    },
+    "evidence/context-r53-prefill-live-mtp-r1/tokens.json": {
+      "bytes": 36606,
+      "sha256": "b40fb1c3c5723c0e457c64125cd4505ca61a5a98bfd763811a7692ad07b70732"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1-manifest.json": {
+      "bytes": 7100,
+      "sha256": "d7cc7bd83e446450dd5fd757eed1c7bcc54f631823c54147f990825e384d4a99"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/collection.json": {
+      "bytes": 5837,
+      "sha256": "d1abf39bcf9d1a00af713c327b5b980ffac62ea3f3989b72dc9e13c5faa85491"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/controller-result.json": {
+      "bytes": 973,
+      "sha256": "bc74c8c414b9bc0f26e4791d701a18faf3b4ad18eb1ff4dc3c65aeba3f9634c0"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/controller-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/controller-stdout.log": {
+      "bytes": 101471,
+      "sha256": "740f9c1ddcd3a85a0e68f6870989a2b2fa198896681eb4c6f04d9792213b35d7"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/distrobox-create.log": {
+      "bytes": 284,
+      "sha256": "590610e6994398ef1f5f499c9e4985236e7578e65ba197855e551bff1bd6e970"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/manifest.json": {
+      "bytes": 7100,
+      "sha256": "d7cc7bd83e446450dd5fd757eed1c7bcc54f631823c54147f990825e384d4a99"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/measurements.jsonl": {
+      "bytes": 49148,
+      "sha256": "4097a3f86846aa43ac6646761566c67fce4a3bf149696867e08a1b6ed06f3d09"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/plan.json": {
+      "bytes": 955,
+      "sha256": "eba2e24f7701b05535f61f9e35b407d9b2a05ae750eddde7cf7bf553a95dc318"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/preparation.json": {
+      "bytes": 1312,
+      "sha256": "73b0f011f6a9f89665bdc9349c8c2053b03b6708214d0465c7868e1cf2b24b9e"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/result.json": {
+      "bytes": 106629,
+      "sha256": "1cd0e0487e1677b099bc0aa602c2239c893dacb5a98425ab717ee18d386e6b38"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/runner.py": {
+      "bytes": 148778,
+      "sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/stdout.log": {
+      "bytes": 71488,
+      "sha256": "eac4e03b780872fae7e55306a9320e839adffbfa494b9b5f78aa1d37db91152b"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/telemetry.jsonl": {
+      "bytes": 207132,
+      "sha256": "ca9bc54a964f8c312b23de7ebfc48b7b07f6f88290fe297b7d25b0e848ae44ef"
+    },
+    "evidence/context-r53-prefill-ram-mtp-r1/tokens.json": {
+      "bytes": 36606,
+      "sha256": "b40fb1c3c5723c0e457c64125cd4505ca61a5a98bfd763811a7692ad07b70732"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1-manifest.json": {
+      "bytes": 7100,
+      "sha256": "d18d385dc87ba37d058f71bd0e4622ed1951d4e9100f0b5d04b17588fa13e319"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/collection.json": {
+      "bytes": 5837,
+      "sha256": "4fd4ea01ed6a64111e624c44ba442482bf0d8492ac45c60c5782e28ea690f8b2"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/controller-result.json": {
+      "bytes": 973,
+      "sha256": "144dd14ae48d0320274bcec9e7a0766bf1731197aa61fd0a6ec93c97d0789990"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/controller-stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/controller-stdout.log": {
+      "bytes": 101151,
+      "sha256": "43d75080c41a05662c6c729b275775869167dbca3a782d94b3739fce719a6114"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/distrobox-create.log": {
+      "bytes": 284,
+      "sha256": "5e1da50c75f7c2b66db47832e30aca32f0c01b90dcc00e4695ba8514b984cd8b"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/distrobox.stderr.log": {
+      "bytes": 1073,
+      "sha256": "d609060a24587af5187fe19013f2e434c3ca19a13684375134a8f521532df227"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/distrobox.stdout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/manifest.json": {
+      "bytes": 7100,
+      "sha256": "d18d385dc87ba37d058f71bd0e4622ed1951d4e9100f0b5d04b17588fa13e319"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/measurements.jsonl": {
+      "bytes": 49325,
+      "sha256": "d26f747593601f0a58ce5b76802f9358abbe8e12fcf0dd38885ae946d2c143b5"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/plan.json": {
+      "bytes": 955,
+      "sha256": "94e5ac572a181142c896bd69441a54293ecf02d0e76a3b0adc3c501ddd098b9f"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/preparation.json": {
+      "bytes": 1312,
+      "sha256": "ec25384d33ffa206f4752fe99e540ba4ffc635564556d69fce2bbd252cafa18a"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/result.json": {
+      "bytes": 106369,
+      "sha256": "5515da0109c755171c4af8b919caea2f2b4f74507fe8b5ce3539dd0f96b134c9"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/runner.py": {
+      "bytes": 148778,
+      "sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/stderr.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/stdout.log": {
+      "bytes": 71002,
+      "sha256": "485f3196b8c3282156baaab0912e17cf3328b499db47171e8127a309b1b17724"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/telemetry.jsonl": {
+      "bytes": 428132,
+      "sha256": "42d25d23a120aed6e2cb7cf7b7893d2a16425fe9369717e4256f7894df93e012"
+    },
+    "evidence/context-r53-prefill-ssd-mtp-r1/tokens.json": {
+      "bytes": 36606,
+      "sha256": "b40fb1c3c5723c0e457c64125cd4505ca61a5a98bfd763811a7692ad07b70732"
+    },
+    "evidence/context-r53-ram-closure-r1.json": {
+      "bytes": 8058,
+      "sha256": "b9d1b3dbf0d002ef9eca316812883342d5461da8b445ac77d2d2b149d0bec629"
+    },
+    "evidence/context-r53-ram-closure-r1.py": {
+      "bytes": 6904,
+      "sha256": "d97e5fd4975f37cbc3cb79476d3a7c0d051412e7d275a21509392f8e303291ad"
+    },
+    "evidence/context-r53-ram-live-r1.json": {
+      "bytes": 5928,
+      "sha256": "bcb1c78c328ff261f4eb74bf0830644824ae2edd3821cf2087b5191b4c9576bd"
+    },
+    "evidence/context-r53-ram-live-r2.json": {
+      "bytes": 198071,
+      "sha256": "bab4938f6ec3ac3d9f7a337535b0452c4783b647c570c38317ce7636b59ace23"
+    },
+    "evidence/context-r53-ram-live-r3.json": {
+      "bytes": 219710,
+      "sha256": "03af2e4dc3223ee4f8e0c9a018a6121b42c7d842968fb2d762890dd2b78909b3"
+    },
+    "evidence/context-r53-readiness.json": {
+      "bytes": 2440,
+      "sha256": "2aee298c61da4a0dc8813c6e4364772c8a967fcabf638f8164e5e5b4794f8e3b"
+    },
+    "evidence/context-r53-review-guard/command.log": {
+      "bytes": 2854,
+      "sha256": "eea15219971790a163e4e095555d0b698f9be1270fb8fdfac0089cae24e5e7b8"
+    },
+    "evidence/context-r53-review-guard/plan.json": {
+      "bytes": 902,
+      "sha256": "487837d1dc140c8bf62ab4aba2d4c36fc37ba8288cfa7ca07a2c7822699d11cb"
+    },
+    "evidence/context-r53-review-guard/result.json": {
+      "bytes": 401,
+      "sha256": "0a23c6c85d9552677de422a45480b63781a69415df0a82b17c77f60bf0bf31e7"
+    },
+    "evidence/context-r53-review-guard/temperatures.jsonl": {
+      "bytes": 1832,
+      "sha256": "0157ac03325660109f54ecb4aab0afa0347f10fd07da82afad68974ad734864c"
+    },
+    "evidence/context-r53-ssd-closure-r1.json": {
+      "bytes": 8058,
+      "sha256": "383698c1b3259060bae328cdea127fb81b993571aa957694d683c2e892fe16bc"
+    },
+    "evidence/context-r53-ssd-closure-r1.py": {
+      "bytes": 6904,
+      "sha256": "8c2f8838b4cbbca11cd927663a193bd0a726472ad43eb8ba27c839524e12788f"
+    },
+    "evidence/context-r53-ssd-live-r1.json": {
+      "bytes": 13339,
+      "sha256": "e92b72cbd0eefdd9e7e5b5907ae4767abbfff6bf1908b5baab754333c924c9d4"
+    },
+    "evidence/launch-context-r53-live.py": {
+      "bytes": 3428,
+      "sha256": "e40d2676e860a0e58b844a24379e8782d8b7d840ba05983e62dc3bd6f708f545"
+    },
+    "evidence/launch-context-r53-ram.py": {
+      "bytes": 3424,
+      "sha256": "2836df9553657f0d8a7ebd34c7cccf4cbb80d815a17ee3117362e33fa0e7eac2"
+    },
+    "evidence/launch-context-r53-ssd.py": {
+      "bytes": 3424,
+      "sha256": "580629c49ffc456c8dbc5b2e9b5094383ff19c7c1f93dde6cd990306278ad732"
+    },
+    "evidence/observe-context-r53-live.py": {
+      "bytes": 3760,
+      "sha256": "80a822e9f788275d68f769c7a9a61eb80dca388d7463552887802c9bd27eb5a0"
+    },
+    "evidence/observe-context-r53-ram.py": {
+      "bytes": 3759,
+      "sha256": "55a37be0e42e0099e2c9815015a4934afe875f5c488dd2877bd0bfbf216b4c21"
+    },
+    "evidence/observe-context-r53-ssd.py": {
+      "bytes": 3759,
+      "sha256": "16f43b23c41779b362789709a2d08658748722de53a2fe9f408050ab3519e94c"
+    },
+    "evidence/prepare-context-r53-live.py": {
+      "bytes": 2346,
+      "sha256": "fd7366dbd09c3142fa2da1d7aad3f66a16fd92fc4246ce6c15ffbe7b11208a67"
+    },
+    "evidence/prepare-context-r53-ram.py": {
+      "bytes": 2345,
+      "sha256": "29a9d00e42b9e33af9cc7f61217852df4696d77b25d42b332a5c6e704440f2a2"
+    },
+    "evidence/prepare-context-r53-ssd.py": {
+      "bytes": 2345,
+      "sha256": "e6b3268208f2adf9833a18ff6a5569caf01d70061fbe43a9346130b2ebea013d"
+    },
+    "evidence/seal-context-r53-mtp.py": {
+      "bytes": 8640,
+      "sha256": "3d01c095fda9004a91552918ebda6c60f998e8027a7335cd3c7770186d6edfa8"
+    },
+    "evidence/verify-context-r53-cache.py": {
+      "bytes": 10895,
+      "sha256": "bccd0174eae91b09c9cccc8cea2914e4b1c840b93dc670f68ca23eedad7d2f8f"
+    },
+    "evidence/verify-context-r53-live.py": {
+      "bytes": 10161,
+      "sha256": "af2c835478397990f6c3d3b448a2c59d3f5598cf238b683eec764a6a5e68629d"
+    },
+    "include/lie/prefill.h": {
+      "bytes": 1364,
+      "sha256": "926ad3334ef151ae97be015ebe6646a647c25d3959589c0cc3c8a9f6b4e9e6fc"
+    },
+    "src/prefix_cache.c": {
+      "bytes": 15259,
+      "sha256": "1235393923a2ef47be879988a12ea87a865f8ce65481b4467c4d2ba61a257f9f"
+    },
+    "src/state_compression.c": {
+      "bytes": 7831,
+      "sha256": "c34f76d7dc635df75c8223c001205f124f91f25994f87f0fba565551c0845ac6"
+    },
+    "src/state_kvc.c": {
+      "bytes": 11695,
+      "sha256": "1c08676efef6b5337b7a83aa6e6e83ecac5a146bcd0ed1a03593b8784a2a5a2a"
+    },
+    "src/worker.c": {
+      "bytes": 85879,
+      "sha256": "e6a584f4b1c1c64418611e3681680497ec1bc1ef2fd469cdb2752c90939be11a"
+    },
+    "tools/core-bench.c": {
+      "bytes": 67966,
+      "sha256": "e1f05a0ca0d4b67d859658ab5aa99c73f884c5e91916d4abef5f0f0d00c33168"
+    },
+    "tools/strix-point-bench-collect.py": {
+      "bytes": 14640,
+      "sha256": "ed9a494cbb513ac86adf8497adb0290b1c0eec76afd6bd1791bbd835c481163e"
+    },
+    "tools/strix-point-campaign.py": {
+      "bytes": 148778,
+      "sha256": "7f2b3d42adb93c401f3dffe29d2a18d0fd3e5bb5f5d76c8f7a543b39337ede99"
+    },
+    "tools/thermal-run.py": {
+      "bytes": 5743,
+      "sha256": "17c0582bc6c6a15ba53fee2824b407cc62f46f5c3d2c6723e52317bf6f88f670"
+    }
+  },
+  "portable_sealing": {
+    "actual_exit_code": 0,
+    "guard": {
+      "argv": [
+        "python3",
+        "-B",
+        "evidence/seal-context-r53-mtp.py"
+      ],
+      "child_exit_code": 0,
+      "exit_code": 0,
+      "reason": null,
+      "peak_c": {
+        "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+        "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+        "/sys/class/hwmon/hwmon7/temp1_input": 46.0,
+        "/sys/class/hwmon/hwmon8/temp1_input": 48.75
+      },
+      "elapsed_s": 1.1333764903247356
+    },
+    "finished_guard_files": {
+      "evidence/context-r53-sealing-guard/command.log": {
+        "bytes": 342,
+        "sha256": "1980ebbc0ad8a9d86e29d219b1797620746d74d9ec6f968060d773b03ab20362"
+      },
+      "evidence/context-r53-sealing-guard/plan.json": {
+        "bytes": 898,
+        "sha256": "341aea23e828d9b4cecfbfc9b05a28c1bbe981f70534abc7fe23d0e38dd2c08e"
+      },
+      "evidence/context-r53-sealing-guard/result.json": {
+        "bytes": 396,
+        "sha256": "cc2ce41dff44897b39768c68592591824d8ec52f1cfbf7583ca2ec1373bddade"
+      },
+      "evidence/context-r53-sealing-guard/temperatures.jsonl": {
+        "bytes": 1830,
+        "sha256": "95c34c93e766a5f205d3a786b77a5b152b070e301aac41455e0253e15f17be65"
+      }
+    },
+    "active_guard_excluded_from_archive": true
+  }
+}

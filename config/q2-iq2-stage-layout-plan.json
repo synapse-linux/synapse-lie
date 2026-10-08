@@ -1,0 +1,59 @@
+{
+  "schema": "synapse-lie.q2-iq2-stage-layout-plan.v1",
+  "previous_release": "config/q2-long-profile128-window-release.json",
+  "previous_release_sha256": "f960565737549f74bd095402f217083207c3cca2ac2220b1042caac3703c7320",
+  "host": "q2-iq2-stage-layout-host-r2",
+  "host_result_sha256": "fb3faaa9773cb35fa83ed7572a6011a3598c2692d05bb08e0898074e809e203a",
+  "host_source_capsule_sha256": "256b511c34d52ddac1cb18aff942ae43e5d68d7e9aa2c0617a6a9af0d1e86e45",
+  "host_collection_sha256": "e2255dc3dbf7cdcff2141fa90836fe8078dce172d91505d30fe343e61e8ccb67",
+  "host_test_counts": {
+    "debug": 44,
+    "asan_ubsan": 44
+  },
+  "fixtures": {
+    "CMakeLists.txt": "9277be36d1091207c01525a2baf74f1935772f8e2dff4d256e4e812f75c1e0b9",
+    "cmake/hip/CMakeLists.txt": "7ef28711dae66a0a30e81377dc015ab00b4ae82ae443657ae6d1473e9785eb97",
+    "experiments/iq2_stage_layout.c": "04db56eaf5dce20f01317af168328b8b186f0bfa0bd7be6c5a8907e880ba49e9",
+    "experiments/iq2_stage_layout.h": "59b407a29fc0c825169dcacb8dd8dc592d216630cfd7f5477403bff1de164a74",
+    "experiments/q2-iq2-stage-layout.patch": "533d7e0d61a555ebf74583e2f3255b4e0c2667f130d6cb324a3a9503a6db25d0",
+    "experiments/q2_iq2_tail16_routes.inc": "6df4b69994da8a2077dfa6d1b0b0e6066d5d77d15928ad104d6a6cf35ee49ed4",
+    "tests/q2_iq2_stage_layout.hip": "336b033a221342b35b4d122d6130fd9e74fd8997ea9e898d1ef3a964bc5d474e",
+    "tests/iq2_stage_layout.c": "fd47a6d713118b77d8a6e2d45b4317056e5b6a35d9f70e9e9e1a6851418b3d6c",
+    "tests/q2_remote_test.py": "3b46922cccd76546d9834b00eed93ab3e19940bf465f69ade3120f5215120307",
+    "tools/q2-remote.py": "857b2a6ec5e81ad463f6d37a574069e5f6eb52d70d09520945db9391d5415604",
+    "tools/q2-runner.py": "96c3af18cd7bb0e41dbb54016641a5eeed58b4705805acce4ba336df4301884e",
+    "tools/q2_process.py": "32d2f266a2c9c4472929874003c4f9914c19233349f50388b14db1087762d0e9",
+    "tools/q2_thermal.py": "360e248137d3c51dccacdce5f5c708f44a3f5bfba08f2bb3ee7bdeb3480fcae9",
+    "tools/q2_window_registry.py": "fcf4446b230453ef5c6b272ef4487e9440f3afbe41829b78d81a7eca5ea896c0",
+    "tools/q2-iq2-stage-layout-window.py": "b8328b23bacb23cc31843a89c114f3b42d97e3ddcf5854e296500b78118c1862",
+    "tools/q2-iq2-stage-layout-phase.py": "ce23e44dad8781670d8e76d7cae0060a4fd8eccae94110b8397c6ad6bda4576e",
+    "tools/q2-iq2-stage-layout-preflight.py": "9b28fa976f5f1124c52536253732f935bece68bb61f3e5139cf0f5dc03a69b0b",
+    "tools/freeze-q2-iq2-stage-layout-plan.py": "d59497201ef105ba7aa8f3a609084d22ab4cd8c414eb64dfa78e550b08104011",
+    "tools/prepare-q2-iq2-stage-layout.py": "da55fd69febd33a0a97fa74d4ffbd2fe4e45201fa35210c6f30e1d4c4e80b4d5",
+    "tools/analyze-q2-iq2-stage-layout-static.py": "64b2dde19d46d5c6244891d36094d49cfcbf7ce0a7ce84175b458a25b6438472",
+    "config/q2-iq2-stage-layout-source.json": "2f77b55941a01619dfb8275f4eb9053db2f9121ac487fb7a0694d19114164e19",
+    "config/q2-iq2-stage-layout-static.json": "6439645dfe438193edff852d64f86ad3d940e59651ee970ce834caa1f36da100",
+    "config/q2-iq2-fixed-bounds-source.json": "2e81463dbbe134190c300f2b008684d584f0d75f60f36f16eb25b765c2c4b45c",
+    "config/q2-current-routing-v2-results.json": "ccd2e21c6fde161dbc70b7f7692dbc460eb64da115eadac572ae2169d59b2496"
+  },
+  "components": [
+    {
+      "label": "q2-iq2-stage-layout-component-r1",
+      "mode": "iq2-stage-layout-check",
+      "variant": "iq2-stage-layout"
+    }
+  ],
+  "arms": [],
+  "admission_path": "config/q2-iq2-stage-layout-window-admission.json",
+  "release_path": "config/q2-iq2-stage-layout-window-release.json",
+  "window_helper": "tools/q2-iq2-stage-layout-window.py",
+  "window_helper_sha256": "b8328b23bacb23cc31843a89c114f3b42d97e3ddcf5854e296500b78118c1862",
+  "phase_helper": "tools/q2-iq2-stage-layout-phase.py",
+  "phase_helper_sha256": "ce23e44dad8781670d8e76d7cae0060a4fd8eccae94110b8397c6ad6bda4576e",
+  "preflight_helper": "tools/q2-iq2-stage-layout-preflight.py",
+  "preflight_helper_sha256": "9b28fa976f5f1124c52536253732f935bece68bb61f3e5139cf0f5dc03a69b0b",
+  "scope": "One private gfx1151 IQ2 stage-pair layout gate/up component only. Check guarded byte-exact whole outputs and immutable inputs against the retained 128/64-token producer on edge and saved 2048-token routed counts. Three rotating weight sets and interleaved completed timings. No original-weight model inference, saved control rebuild, Q4, full curve, dependency installation, host tuning or remote cleanup. Collect all results and release before performance analysis.",
+  "gpu_admitted": false,
+  "model_inference": false,
+  "production_dispatch_changed": false
+}

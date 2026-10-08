@@ -1,0 +1,1652 @@
+{
+  "schema": "synapse-lie.c17-grammar-uset-host-qualification.v1",
+  "at_utc": "2026-10-05T12:41:14.150548+00:00",
+  "baseline_checkpoint": "65d7edb5485fe8f0c3a9dafb291a2c7926ca704d",
+  "source_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "scope": "Executed reusable model-neutral C17 Unicode-set registry/full-set identity/range translation/input lifetime port through public ICU C API, with complete pristine/ON/OFF host witnesses. NOT-INFERENCE. ICU actual set/property/conversion algorithms and C/C++ dependency remain external; no new original-weight GPU/fault/fit/allocation-exact/performance qualification.",
+  "implementation": [
+    "C17 Unicode-contextABI1 owns compiler/context, insertion-ordered private full-set copies, scalar-range translation, linked temporary handles and replacement UTF8/UTF16 input storage. Full identity includes string members; scalar publication removes surrogate ranges. Sealed programs own runtime storage independently. Public headers expose no ICU/provider types.",
+    "Input16384bytes/explicitNUL/U+FFFDreplacement/disjointbuffersandlength preserve pinned behavior. Input/capacity/overlap refusal preserves destination/length. Class32768budget and compiler/parser bounds refuse explicitly. Borrowed compiler allows expressions/queries/sealing; only context publishes classes. Construction is synchronous and caller-serialized, with no retained input.",
+    "Paired owned allocator hooks/defaultmallocfree cover context/handles/registry/range/input/compiler storage; parser description separately supplies AST allocator. Every123tracked allocation point including startup, registry growth and parsing is refused without leaks/published outputs. Successful compiler/registry entries may remain after a refused operation. ICU internal allocators and complete internal OOM detection are not covered.",
+    "Provider C++ glue retains context RAII, synchronous borrowed input, enum and error translation. Existing3compiler/2parser source edits retain defaultON/OFF.32-file private source/header/glue inventory and changed recipes require matching sealed provider/application rebuild. No new inference worker/event/RNG/device/HTTP operation or DS4 RAM/SSD framing/identity change.",
+    "Public ICU APIs preserve actual third-party property/set/conversion behavior; installedICU78.3 is recorded by CMake and imports. ICU C/C++ implementation is not rewritten or removed. LIE_UNICODE_ICU defaultsON; OFF omits standalone module for minimalcore and C17 provider runtime requiresON. Product/defaultCTest are Python-free.",
+    "Previously concatenated private provider compiler/parser source path is corrected. Source-list-only host regression checks32existing paths, accepts a CPU checkout without optionalpin and explicitly refuses reproduced old combined filename exit1. No HIP discovery/build/model execution is performed by this source-list test."
+  ],
+  "coverage": [
+    "84explicit language oracle checks, published-copy/context-release independence, two scalar-identical metadata-distinct string sets, purestring/empty/surrogate publication, invalidABI/hooks/classbudget/property/input/versionbuffers and destination/length overlap/capacity preservation.",
+    "1181953 complete UTF8 conversion outputs: every1112064Unicode scalar encoding, all256singlebyte and65536two-byte strings, empty input and4096deterministic arbitrary strings.38 complete full-set mutation/identity operations include properties, strings, complements, unions, surrogate filtering and scalar membership probes.",
+    "All11prior complete numerical/bias/vocabulary/history/distribution/byte/numeric/Unicode/vocabularygrammar/compiler/parser witness hashes remain unchanged. Their full persisted output files and exit/stderr witnesses are compared; no corpus or intermediate witness shortened.",
+    "Final26Debug+26ASan/UBSan/LeakSanitizer+25referenceproject+5minimalcoreOFF checks pass. Changed source-list test is rechecked once in all3rootbuilds; additional no-pin/reproduced-path regression passes.42publicC++headers and strictC17 warning-as-error/symbol checks pass. Imports onlylibc/stackprotector/ownedCregex/publicICUCsymbols; no projectC++mangling/thread/device import.",
+    "Own requestedpayload fixture peak15042bytes excludes allocatorheaders, ICU/provider/process/GPU allocations. LocalCPUmax89.875C; no thermal/clock/service/dependency tuning. No speedup, GPU numerical/fault/fit or actual whole-provider allocation claim."
+  ],
+  "sources": [
+    {
+      "path": "src/sampling.c",
+      "sha256": "f2faac79a00fb7b74217283ae3782041c46af9fcce4d64f796b5015f6e0b1439"
+    },
+    {
+      "path": "include/lie/sampling.h",
+      "sha256": "8196861ddbd9ffc2696170561def1b3e53b94182953487b5819fc848dbd15d09"
+    },
+    {
+      "path": "adapters/gufo_sampling.hpp",
+      "sha256": "a80a797acabcf4b0647de55bdd95bba93f8f85d5ccb98f8d47f62c1f7a6dae2d"
+    },
+    {
+      "path": "src/sampling_history.c",
+      "sha256": "e66e74c690d274804e17b3127ddb0bf5837c7f3403a76e2980b99e1a13578398"
+    },
+    {
+      "path": "include/lie/sampling_history.h",
+      "sha256": "281311d757079302b9aef0f2833e26fdd59a6ac604d7ec079dd14a21988b1597"
+    },
+    {
+      "path": "adapters/gufo_history.hpp",
+      "sha256": "2ea84ec1d0ed3367da9105132e0e2cb532d5df5dd132f830834455a8d9fd2998"
+    },
+    {
+      "path": "src/sampling_distribution.c",
+      "sha256": "9e459e1c14dc20c44a132a57401e84120a70495c28b963b33667d57f9ec0592b"
+    },
+    {
+      "path": "include/lie/sampling_distribution.h",
+      "sha256": "1e80e4a6d3404804f44d32588bde6fc2e5231e9d9e726da2697dbbbf9c9c9555"
+    },
+    {
+      "path": "adapters/gufo_distribution.hpp",
+      "sha256": "7b0370bf509a1a99370b48877fb7e3b8a4d060bf6c8fcdc037a090a72ef6169d"
+    },
+    {
+      "path": "src/grammar.c",
+      "sha256": "0b1d86bb54b11fe505b12eb5b762825eddaa5ee5c1b5c83867596a94ec5b5d86"
+    },
+    {
+      "path": "include/lie/grammar.h",
+      "sha256": "c1bba1c2e8f682c949fa5426a0b3ac80ca2bd95db02aba58a8b6ad3cf932cf2a"
+    },
+    {
+      "path": "adapters/gufo_grammar.hpp",
+      "sha256": "12882adaa7f88301b3d979932e72a8538d4d57c858f00633b2ff92992f213f10"
+    },
+    {
+      "path": "src/grammar_number.c",
+      "sha256": "1d0aa31ef73b2f8b81d61de0f2d931d09c54cdf5c4aef996489546b9e200b95d"
+    },
+    {
+      "path": "include/lie/grammar_number.h",
+      "sha256": "894708afc6b7c57d756f04814666fd74278e55366dfd58d4957a34fa52f4048d"
+    },
+    {
+      "path": "adapters/gufo_grammar_number.hpp",
+      "sha256": "ceb9b43371f7c2369fcf220a7bbdfaa12b2b39366cc51904ea70cc7c9f5eae65"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-number-edits.json",
+      "sha256": "c1129f9699244a01375a6835eb612ab8b63269c030009309c91c01b951b02828"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-runtime-edits.json",
+      "sha256": "0578cd14a9bdc3fb588a9fc186880d8f3156e2ac4484103a27d361cf18fcddf5"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "5dd3da839ce50b49f1bc62f63e66b2d0d33fbb5786c26efa57e1e1e96c9932eb"
+    },
+    {
+      "path": "cmake/gufo-runtime/CMakeLists.txt",
+      "sha256": "f777e1e65907d35756c61cf086b3be52bdfcd5465443a1cbd49c730ad3f306b8"
+    },
+    {
+      "path": "cmake/provider/Build.cmake",
+      "sha256": "94f32fe6893ed3cc9655c92872e833b238a9c00a661a8800af81f5de7f47852c"
+    },
+    {
+      "path": "cmake/provider/Verify.cmake",
+      "sha256": "96a863903a76fd73d3bdcd2dc560935f5f9cca1dc884ec202752efe58b453b71"
+    },
+    {
+      "path": "cmake/provider/Source.cmake",
+      "sha256": "bb5083477e36b70ea2dad7736e1c4930c7f40196f6b84c59cbcdfe72560874c8"
+    },
+    {
+      "path": "tests/test_grammar_number.c",
+      "sha256": "d801e3c6c501d7884da5204d60bf571bfd961d83729b56ca5350047f2389460b"
+    },
+    {
+      "path": "tests/sampling/number.cpp",
+      "sha256": "64a02b18488d599dc218ad8d48649dee30bacef2176112bcd67c4e46f95ba2c7"
+    },
+    {
+      "path": "tests/sampling/CMakeLists.txt",
+      "sha256": "ef7f53043adbb00cf2e79ab04fa4c41e47e8336bbb93a12cc69255c2fc772b44"
+    },
+    {
+      "path": "tests/sampling/compare.cmake",
+      "sha256": "428f94fee2bda8705208cd929d4b95a76eb3d601fe57eddac4e855be33eb16db"
+    },
+    {
+      "path": "tests/provider_contract.cmake",
+      "sha256": "3992f2595eba78ce525a6da4598f08d25670565fc78b5c519593857e5997eff3"
+    },
+    {
+      "path": "third_party/gufo-source.json",
+      "sha256": "8891dc1d32fdebbeba4a0fe13e3a13c5a9d7cdb95483c6b0edec7897a074db51"
+    },
+    {
+      "path": "third_party/gufo-NOTICE",
+      "sha256": "772eac8c15f69e62af97be7f12d60d24970dd1d7cf2cf2171c40cd2f7c812364"
+    },
+    {
+      "path": "third_party/gufo-LICENSE",
+      "sha256": "dc53ee4f56ce33a1587e64df04b0d9ace8abd3e875e2b00f6f9f292405bf1001"
+    },
+    {
+      "path": "src/grammar_regex.c",
+      "sha256": "c0907831e823ba7a4adf8e02b9d9a806fe7300305980cd5da45f5301f1f9976f"
+    },
+    {
+      "path": "include/lie/grammar_regex.h",
+      "sha256": "dc7c470ca1d4ef4980208a5f4da6e4b67c355bf3177724d47ac677a6d2c1562c"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex.hpp",
+      "sha256": "45828984d95b4be1b7dd869793576b08c8f7e709ed3dc5931332c43f39ad434f"
+    },
+    {
+      "path": "src/grammar_string.c",
+      "sha256": "d9f1000350ac35e900807977aeec8af69e808633481068fcbdbf0705ef8c10ef"
+    },
+    {
+      "path": "include/lie/grammar_string.h",
+      "sha256": "e122f37df0d485ee3acc31f7871ca4410eb2f399e097c4f73dd5ca6b75b06ac9"
+    },
+    {
+      "path": "adapters/gufo_grammar_string.hpp",
+      "sha256": "81608a7cdd2a98d5fd960ebf12a2a9eb7875dfb77607ef7b8f570a877bbca5e2"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-regex-edits.json",
+      "sha256": "a951736f465f7a4937c1b16f4af2a9c39c7aacb8d0813647e913e3fca1549b50"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-string-edits.json",
+      "sha256": "0486e534da0ce05a36a994c684bf75fd9d4bfe8f3048edf79ecdcbb52f319cbd"
+    },
+    {
+      "path": "tests/test_grammar_unicode.c",
+      "sha256": "3679c7a8603a1127e25f1e2173091b6c890d209940ba4f43c3d601253917b8b0"
+    },
+    {
+      "path": "tests/sampling/unicode.cpp",
+      "sha256": "6bcd80115ea2b3967df27dbe7e723e302546072c8533dc5690e8b72877a87589"
+    },
+    {
+      "path": "src/grammar_vocabulary.c",
+      "sha256": "c06c8711ad7a1d5916a5b983b1e7d433a0a9c3e97748a870fed3308da1970e9b"
+    },
+    {
+      "path": "include/lie/grammar_vocabulary.h",
+      "sha256": "30bfe3435e21af1ad40d4c295fa8c2a670e5893958a36f8a60d04dafabd1f619"
+    },
+    {
+      "path": "adapters/gufo_grammar_vocabulary.hpp",
+      "sha256": "6a0fdeaf7e8d0fe8427cd30e71b50ac044a0225d2e1fcd8a714d17ec0ec9ea7d"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-vocabulary-edits.json",
+      "sha256": "ef713c9363bbb6c66b34f2aaeb44ba56f7795d6b08cf397323bd9ac254e71885"
+    },
+    {
+      "path": "tests/test_grammar_vocabulary.c",
+      "sha256": "17dbda0a1e0d49e7e125cc43986595195440954bd254fbeeb4eb33484a2fe502"
+    },
+    {
+      "path": "tests/sampling/grammar_vocabulary.cpp",
+      "sha256": "a90a3f1bd332e701c5cc3a5960ae7d6de3236e27efcfcd7d09a950525811e154"
+    },
+    {
+      "path": "tests/sampling/vocabulary_layout.cpp",
+      "sha256": "4be8ef4994fc9835c7d2d582a83fcc41aed60592aebbedc91224e6618cec5b82"
+    },
+    {
+      "path": "src/grammar_regex_compile.c",
+      "sha256": "35fc72306f922f28e5be23dfcb8a890e4176c265f395c471e7ad80a6c97788fb"
+    },
+    {
+      "path": "include/lie/grammar_regex_compile.h",
+      "sha256": "e4f77df63c3f9cf4101778258aff38ee8f63f81718ba1d74d63b90897a80e838"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_compile.hpp",
+      "sha256": "c8c7190ba2be8997270a3701fad4c0b2804b23e7283497b212b6b233886ca249"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-compiler-edits.json",
+      "sha256": "9a7f03b9166a61d0282a258debed3e1b47c6136b3dff844b9b37d41c10febfe0"
+    },
+    {
+      "path": "tests/test_grammar_compiler.c",
+      "sha256": "df8beaf8ad016ca2d01d7cc13cc598218246ccce555bcd9af9c0494ad8c0d034"
+    },
+    {
+      "path": "tests/sampling/compiler.cpp",
+      "sha256": "5eeeae0760393fd2902f0c78c8e6ad66ba657410cc39ad47b46fd908ac428de6"
+    },
+    {
+      "path": "src/grammar_regex_parse.c",
+      "sha256": "bf44aa90b933250256ca58511d9d36d306763614b339f568b3994111c9f0e112"
+    },
+    {
+      "path": "include/lie/grammar_regex_parse.h",
+      "sha256": "973c6273c11a1ad28287f8e25a185d92df86036d3346e3aea41a5191256065e8"
+    },
+    {
+      "path": "adapters/gufo_grammar_regex_parse.hpp",
+      "sha256": "930b4e20b6f1294ec499639eb3c26997779af50924fd829e9685ec9bfae67b96"
+    },
+    {
+      "path": "adapters/gufo-state/grammar-parser-edits.json",
+      "sha256": "8c46d45a4203a8ba63ef41ed408d2696ae915dafe1d925230c73c07895b66d3a"
+    },
+    {
+      "path": "tests/test_grammar_parser.c",
+      "sha256": "3a48d8b73d0479ed0c1d396000dad77f1728936fb309e0edf1097a81476efa0d"
+    },
+    {
+      "path": "tests/sampling/parser.cpp",
+      "sha256": "1b350b4580111e596eebd235c883b9815b034ba6a3e030a8fc54296d43afcc7f"
+    },
+    {
+      "path": "src/grammar_unicode.c",
+      "sha256": "b2c97a0309e83ee9d7ca79c0fb4ce14e0f15c2e1ee400616602d37e9c1b71a23"
+    },
+    {
+      "path": "include/lie/grammar_unicode.h",
+      "sha256": "9c715179a3377435329f6851235ea72d87d150d6c6ca7728caec7bcd0dea8f86"
+    },
+    {
+      "path": "tests/test_grammar_uset.c",
+      "sha256": "8aab26b573971b78e8378082864533ab914cf4937bab345c3cf313f40ad511ed"
+    },
+    {
+      "path": "tests/sampling/uset.cpp",
+      "sha256": "831c715a5a885c35ef0730b8ad8740ee010c04057e69d238ad4b79459f323d95"
+    },
+    {
+      "path": "tests/provider_sources.cmake",
+      "sha256": "3d3724096895e8bb98affd124e30a10a147298a47b192ec08d41cbcd1a64c033"
+    },
+    {
+      "path": "README.md",
+      "sha256": "8d6afcaeeb441e4ded9adcbf228d0f37648e000d6234b52a9c1176b18dbcd370"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "1a1e7446a44dee53fb9d26f6043e5b95f5991b839a979930d43b249f48e7ac25"
+    },
+    {
+      "path": "docs/PROGRESS.md",
+      "sha256": "3e0005b92e119f77fc9ffe1d6ad1e6adfed8ceb2561e1a427192ec3751555069"
+    },
+    {
+      "path": "docs/COORDINATION.md",
+      "sha256": "418fe82fe47ea4bb66999fb716ff4b4a0c38fb570096606051eb94fe0e0f5b71"
+    },
+    {
+      "path": "docs/BACKEND.md",
+      "sha256": "4b77ede8c4c22532aedbb1bf15ded7dd35b5d203925f9084ca4cebccd763ac91"
+    },
+    {
+      "path": "docs/development/C17-SAMPLING.md",
+      "sha256": "e9888e855f43348193ee5128d553cd37db35da6c659d0db899888ac5574d1018"
+    },
+    {
+      "path": "docs/guides/BUILD.md",
+      "sha256": "f12e2c8f57fbb08c003420612f16cb8a2081bc3d792e8bc8ed13fde6b7dcd81b"
+    },
+    {
+      "path": "docs/reference/ABI.md",
+      "sha256": "3622fb7db3ba5e3cc309548c59a1a1ae5788d3e88cf66cd8715adc4404082ac0"
+    },
+    {
+      "path": "docs/reference/STATE.md",
+      "sha256": "0ece19bc20a8e9f38a794af78fffc688010a65f99d7b94a037ebc9146d9e0d12"
+    },
+    {
+      "path": "docs/reference/METRICS.md",
+      "sha256": "2a5c351049c2ea6fc7c6d0a57638c438308323dfabced0d281d0e58ba6934c02"
+    }
+  ],
+  "checks": [
+    {
+      "directory": "evidence/grammar-uset-debug-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/context-debug",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_UNICODE_ICU=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 69.125,
+      "result_sha256": "7070c137a47c0a85bd4ebd4a322a6968f6886076445807066ba7795b5c4f9d47",
+      "log_sha256": "bd66970d787e22e112ad12fdc4ab3315ff44153cf4e66ae744c386b43557df7b",
+      "temperature_log_sha256": "88b681c3a77954f056651bac1f40c4cda419827195a604a3f83c9fc92110a874"
+    },
+    {
+      "directory": "evidence/grammar-uset-asan-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/tool-http-asan",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_UNICODE_ICU=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 69.125,
+      "result_sha256": "d081584133dcc30f95a48640e4a88f32db85876b5950f8fdb19fad11f23f985d",
+      "log_sha256": "c3fc212d8055878d32b7185183102cab7daac8ce85ded2fd7a1a170b6618fb18",
+      "temperature_log_sha256": "6df51e2823d8e822215f51386d49b17fbbe95b646e8a92894dc8318d52fd2b44"
+    },
+    {
+      "directory": "evidence/grammar-uset-reference-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        "tests/sampling",
+        "-B",
+        "build/grammar-uset-host",
+        "-G",
+        "Ninja",
+        "-DLIE_SANITIZERS=ON",
+        "-DLIE_SAMPLING_PERFORMANCE=OFF"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 76.0,
+      "result_sha256": "16ab4247ebf379795b5b5ed5ca8d1b1bfe615304f835cd752146fa28251a7d82",
+      "log_sha256": "c6278ec462cbea8ef33b7d6dc7c8ed3e5799602bf61a4a1ab3a49d6d920bbe52",
+      "temperature_log_sha256": "7abaf87fc2ba8b156173887eaf8e0e54bbb5ee0c107a32915cc66a2dbbd14692"
+    },
+    {
+      "directory": "evidence/grammar-uset-debug-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 86.875,
+      "result_sha256": "25d9660ee8c80f5973d2409577e43666b8bb084a9bd24c4e06734ba46dacb841",
+      "log_sha256": "4bb581933cdf9b66d76cc39eadc84eb229b19e91dd26f6fd82cb02cc44a36a19",
+      "temperature_log_sha256": "5dc44ff3c2f1e85dcbe865087f35068b27b426584563881f380885a0e5f99df1"
+    },
+    {
+      "directory": "evidence/grammar-uset-asan-build-r2",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 86.875,
+      "result_sha256": "0aab21e55fb1dae45ce84e4a730c82b92610d330b120f2e9fba548c75698787d",
+      "log_sha256": "b019ffa61c11fb7c69a8b4a83d920508f4fcaf8cffaee3e8e77826b59fd5a9ca",
+      "temperature_log_sha256": "eb37ebdd7e710514a7a4670b9840f398572f3b13257c83524a46bf4ec86434b0"
+    },
+    {
+      "directory": "evidence/grammar-uset-reference-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-uset-host",
+        "-j",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 85.375,
+      "result_sha256": "dc4c5f662cc107c339577a4d64918c4d7e1bf5ac9f024c4846cdff6b18712519",
+      "log_sha256": "f35bcba7876f46d7890789faee7af32abf283513703fe09845d8356ab5377789",
+      "temperature_log_sha256": "394859bd6c1c432d15957171750329d55f8492b33368ac05486625840b3a6c30"
+    },
+    {
+      "directory": "evidence/grammar-uset-debug-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^(c17-(uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 26,
+      "cpu_max_c": 84.25,
+      "result_sha256": "d1f0e1a6a8ed71bcc351a9adbb1c05f00b71012bc9cd0ce97e2c1b668228fb1d",
+      "log_sha256": "cdb6665d51709c5ee9dea39faf539347b920630b08d04bfe55a6f01b97e37990",
+      "temperature_log_sha256": "a7ff95c51a3961a7dcbd03c6ba48aa3ef51fb9771f7c3d4307effb664a69beb9"
+    },
+    {
+      "directory": "evidence/grammar-uset-asan-test-r2",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^(c17-(uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 26,
+      "cpu_max_c": 85.375,
+      "result_sha256": "aa90cc6f1fc2257a9ff6495aaa240f8c2dcb56098cbfa686fb3986676d25f0de",
+      "log_sha256": "394b85baa2ee496a1c53aa7f21dfe291e128b8c1c645e8e64f37290f690bd7ca",
+      "temperature_log_sha256": "608a6c651bdcc0af88cbbdc9e2ee8bd43f8f727aa22e6f2ba767d2e0cbcdbd03"
+    },
+    {
+      "directory": "evidence/grammar-uset-reference-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/grammar-uset-host",
+        "--output-on-failure",
+        "-V"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 25,
+      "cpu_max_c": 89.875,
+      "result_sha256": "9034e8b6f85a3bfa6631f8dba2578fcb23831fb2fdb272bb5fd7b62b6e10aab7",
+      "log_sha256": "f05f94cd044f6156d2159c0fd6da85470e4211a024db53372aa0a6df5b987f3f",
+      "temperature_log_sha256": "4d2f83cdfc4de843b58b9a82133d845eab76ef924db0e81c0182964ce9557fb6"
+    },
+    {
+      "directory": "evidence/grammar-uset-off-configure-r1",
+      "argv": [
+        "cmake",
+        "-S",
+        ".",
+        "-B",
+        "build/grammar-uset-off-core",
+        "-G",
+        "Ninja",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DLIE_CORE_ONLY=ON",
+        "-DLIE_GUFO_RUNTIME=OFF",
+        "-DLIE_UNICODE_ICU=OFF",
+        "-DLIE_LEGACY_PYTHON_TESTS=OFF",
+        "-DLIE_SANITIZERS=ON"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 53.625,
+      "result_sha256": "bc95185ef909dae286503f37001ae9ebf85d942abd80b87e005c207c50434430",
+      "log_sha256": "4a90791c3ccb5e05674159b6e91150ae510b1714436e940de251604525c8bfa7",
+      "temperature_log_sha256": "d5e85db5a128219fca0306da4acce2b8e454ead605773d5536ccecc656dcc0c5"
+    },
+    {
+      "directory": "evidence/grammar-uset-off-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/grammar-uset-off-core",
+        "-j",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 76.375,
+      "result_sha256": "88d02363cab65bf3a117cd5571145b09560be4d96e73d705a544338192032f92",
+      "log_sha256": "a2f35203154da6091c3bf1e29247efc44ffa0a7e24ed5a6f562189e71e241fcd",
+      "temperature_log_sha256": "95bad0f7172e27e7650a2ccc99155dad80ae235901d0b080554988e397ece9d8"
+    },
+    {
+      "directory": "evidence/grammar-uset-off-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/grammar-uset-off-core",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^(c17-(parser|compiler)-grammar-contract|native-provider-(verification|source-paths)|core-semantic-events)$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 5,
+      "cpu_max_c": 55.75,
+      "result_sha256": "a24299e22fadcbdbd8157374fec4db39358f7f23a5e9f8d4089be8a82080f574",
+      "log_sha256": "dd41dbc087cbe49221643d3a0c79746b7363ae5430b6aae6a62af36c84846297",
+      "temperature_log_sha256": "d66ee6b497dd95912b21f4961b728271cd3a9ea5adbd3d641002c72f5e38c20f"
+    },
+    {
+      "directory": "evidence/grammar-uset-debug-source-check-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^native-provider-source-paths$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 52.125,
+      "result_sha256": "ce3e1c5a5df18afdec1901030d6f38e6bd6040a5d1e354e42c215b9737d779a7",
+      "log_sha256": "d04ee3f41d05278275d12e8aafa3692276e333b7a16618f0aabc0ffd15e1b036",
+      "temperature_log_sha256": "cc110f219a88a9ee2cfb3c43455a746789b1d868e1df49a20b043c812d695939"
+    },
+    {
+      "directory": "evidence/grammar-uset-asan-source-check-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^native-provider-source-paths$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 52.125,
+      "result_sha256": "31e8148345581eade24db0e443858cfe29ab4101fe23853f9f45f615fde360d6",
+      "log_sha256": "3500ea1028f781ef973bc476207a87a6bdd9c660fd9d1f7ea6f0d57e9ac5dbfd",
+      "temperature_log_sha256": "10e1d04935a7afc6aec2b6a60458f7ccc260a51687861958a554fd5b54176a73"
+    },
+    {
+      "directory": "evidence/grammar-uset-off-source-check-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/grammar-uset-off-core",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^native-provider-source-paths$"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": 1,
+      "cpu_max_c": 52.125,
+      "result_sha256": "fe8f8d89a705685870693fb9b3dfe873f20eaaaf966d78dd9f7843f127ae51d8",
+      "log_sha256": "3883ef5968ba144df4556b57bed9799a030c005d67270fe88ed16b769e563e62",
+      "temperature_log_sha256": "dec7e7cf038d7cbc0e3f13b6bd3786b29a3dd879c1de1a79e715a86c3da427f8"
+    },
+    {
+      "directory": "evidence/grammar-uset-no-pin-sourcepaths-r1",
+      "argv": [
+        "cmake",
+        "-P",
+        "evidence/grammar-uset-no-pin-fixture-r1.cmake"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 50.875,
+      "result_sha256": "0e364b0a1a8cd9f6295d8bae972d7df0f241d8b78adee3ef11da2bbf01039778",
+      "log_sha256": "f26c6df1675c6ec84fb1d70d7c7832fb53c42340f37fe1e01d894c3107ebd9a3",
+      "temperature_log_sha256": "e8c3656ff052aab1d85fc0850d37fca7210dcdfd994fc62b5b774782bd528c6e"
+    },
+    {
+      "directory": "evidence/grammar-uset-c17-final-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/grammar_unicode.c",
+        "-o",
+        "evidence/grammar-uset-final-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 53.625,
+      "result_sha256": "a77d62cfdb3b77577546e2dadf63873502c2ac7020e849a1811f6e0e6c860489",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "f72ca0b4f3d5b9f72a50af9c53c33e27f9b7eee0fd9ebf98c4e364cad683de83"
+    },
+    {
+      "directory": "evidence/grammar-uset-c17-symbols-r1",
+      "argv": [
+        "nm",
+        "-u",
+        "evidence/grammar-uset-final-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 65.875,
+      "result_sha256": "6b7d08e2770df0be3d8dc0b0910ec71905f880d644bd8b6882fa7a0e72f5cb2e",
+      "log_sha256": "31f451abc6d8eaaaf34d16590370233997046a4e80263e8ff5bcff758a8e9be6",
+      "temperature_log_sha256": "c7fb4230033ff942d59185a3bdae2667851241d70bbf8c8dab0b25ab53248bbd"
+    },
+    {
+      "directory": "evidence/grammar-uset-cxx-headers-r1",
+      "argv": [
+        "c++",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-fsyntax-only",
+        "evidence/grammar-uset-public-headers-r1.cpp"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 53.625,
+      "result_sha256": "a5b22806495eebe3ce5d8e2494c3c92c67cb1841da8086c24f43d0976470def4",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "605266b46d40a547e9c292f4fcd54847d8b419063ad446dafe27b2e97705f60e"
+    }
+  ],
+  "preliminary_successes": [
+    {
+      "directory": "evidence/grammar-uset-c17-strict-r1",
+      "argv": [
+        "cc",
+        "-std=c17",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Werror",
+        "-Iinclude",
+        "-c",
+        "src/grammar_unicode.c",
+        "-o",
+        "evidence/grammar-uset-r1.o"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 55.5,
+      "result_sha256": "6f75f1907bb388a86ee3b213054ab93469d304b4efe966f44a6bdd391bcef780",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "1fdffab32aab0bf6a56668dffcf289ddda21d1e09ce4acd1972af423c54569b9"
+    },
+    {
+      "directory": "evidence/grammar-uset-debug-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/context-debug",
+        "-j",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 67.25,
+      "result_sha256": "f3118e787793b4a35f25ade0b1f1cbb5889df37bab93326e30737c161dc9aee0",
+      "log_sha256": "b0fcec8d46fd35a0e9f70dd7c097d3d389344c40f4096e31e964f1edd3c2dbd6",
+      "temperature_log_sha256": "1c044b28ce4ceda66d06b1405f69ee2dfc45e28e9c7ad0298c1d7d3723bf690a"
+    },
+    {
+      "directory": "evidence/grammar-uset-asan-build-r1",
+      "argv": [
+        "cmake",
+        "--build",
+        "build/tool-http-asan",
+        "-j",
+        "2"
+      ],
+      "exit_code": 0,
+      "child_exit_code": 0,
+      "test_count": null,
+      "cpu_max_c": 67.25,
+      "result_sha256": "2a1026cc07ed7d2e9c42085caee6a6c07ec377c7a03eb1bf312ee6518cf3f88f",
+      "log_sha256": "bb7ca4547396e79ef3a24f9e1d59be8850bad7b7cc99b328b625d0c2ab0c3f79",
+      "temperature_log_sha256": "0f0690611bbebd6ec2a3d5f9b64a24e4d99f376e7a15e27c6aba40ef26703943"
+    }
+  ],
+  "failed_checks": [
+    {
+      "directory": "evidence/grammar-uset-debug-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/context-debug",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^(c17-(uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "test_count": null,
+      "cpu_max_c": 87.25,
+      "result_sha256": "39ebc6459b7fbfe0385ba3f3887a4a8d423381105c22cb5f5bf6d34a89ad8cbe",
+      "log_sha256": "fb79ac8d5505acf04bc3b5aad098110b01d9c0040fb5c13423137f938f499d9f",
+      "temperature_log_sha256": "a03b8e09fbdd0726850b22ae19791153118e4baef740fbc0eafdf52f556e66be"
+    },
+    {
+      "directory": "evidence/grammar-uset-asan-test-r1",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build/tool-http-asan",
+        "--output-on-failure",
+        "-V",
+        "-R",
+        "^(c17-(uset-grammar|parser-grammar|compiler-grammar|vocabulary-grammar|unicode-grammar|number-grammar|byte-grammar|sampling-history|sampling-distribution|dense-sampling)-contract|native-provider-(verification|source-paths)|openai-headless-controls-state|core-semantic-events|mtp-(model-neutral-reactive|ssd-prefix-reactive)|openai-generation-state(-mtp)?-http|semantic(-mtp)?-http-contract|chat-parser-wire|tool-protocol|inference-reactive-contract|worker-executor-contract|reactive-flow|executor-c-layout)$"
+      ],
+      "exit_code": 8,
+      "child_exit_code": 8,
+      "test_count": null,
+      "cpu_max_c": 88.0,
+      "result_sha256": "b57091bb6ac191fd24be15096caa1c927dab573fe68020b8246e0564ecce3c4c",
+      "log_sha256": "1cf44d56042d85e8dce136fef83ea262fd51fccc8f0437b931a230a3eff45cca",
+      "temperature_log_sha256": "b2aab692df00eda541c83f0307ab62324ed1e183d1f4af5cb036762d456aec59"
+    }
+  ],
+  "complete_witnesses": [
+    {
+      "suite": "parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/CANDIDATE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/FALLBACK.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/parity/REFERENCE.txt",
+          "sha256": "34b53e96fafc09e72f53ec9161d9148e9c9f7a5ad1caf900e0ddc7fac7429331"
+        }
+      ]
+    },
+    {
+      "suite": "biased-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/biased-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/biased-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/biased-parity/CANDIDATE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        },
+        {
+          "path": "build/grammar-uset-host/biased-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/biased-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/biased-parity/REFERENCE.txt",
+          "sha256": "d4c212748174ae443b31b7e5845e84df7f82e53202da325cf1b5e7fe7a0967e2"
+        }
+      ]
+    },
+    {
+      "suite": "vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/CANDIDATE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/FALLBACK.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/vocabulary-parity/REFERENCE.txt",
+          "sha256": "7ccd4efdd4713c92546aeda1f2660fdcf253f241b68dab4a1f85f3a9d34867da"
+        }
+      ]
+    },
+    {
+      "suite": "history-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/history-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/CANDIDATE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/FALLBACK.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/history-parity/REFERENCE.txt",
+          "sha256": "4c1e91d604b67e930501b964f7aef9e400d5e8e0dc8cfac1018442694e9330bb"
+        }
+      ]
+    },
+    {
+      "suite": "distribution-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/distribution-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/CANDIDATE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/FALLBACK.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/distribution-parity/REFERENCE.txt",
+          "sha256": "cd82ac249c21e1e4e4bedd971adc489d5aee956d889b2e4d0e4359acd06a3f04"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/grammar-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/CANDIDATE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/FALLBACK.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-parity/REFERENCE.txt",
+          "sha256": "ce21eb28176a63e8e07df8fc89418330bb2e900bac6418c782b9663a4b7c4af6"
+        }
+      ]
+    },
+    {
+      "suite": "number-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/number-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/CANDIDATE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/FALLBACK.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/number-parity/REFERENCE.txt",
+          "sha256": "666e2f722db3fdd095e2bbdb78e5bfdb0f27dd29e2a4d4253929451a119ffe11"
+        }
+      ]
+    },
+    {
+      "suite": "unicode-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/unicode-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/CANDIDATE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/FALLBACK.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/unicode-parity/REFERENCE.txt",
+          "sha256": "78e0b481dfc42bb4fb829b066f025bc48f3efe8d3f0a43f3545c3a0ab8ee1c43"
+        }
+      ]
+    },
+    {
+      "suite": "grammar-vocabulary-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/CANDIDATE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/FALLBACK.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/grammar-vocabulary-parity/REFERENCE.txt",
+          "sha256": "2939fb6cf646de685fe2e423591dad2488a6a2f2acd89bb7adf5e0238b413364"
+        }
+      ]
+    },
+    {
+      "suite": "compiler-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/compiler-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/CANDIDATE.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/FALLBACK.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/compiler-parity/REFERENCE.txt",
+          "sha256": "e986c4f8a136cea84d3472370468003ed0ad50bfba40916e666c343c5321f68b"
+        }
+      ]
+    },
+    {
+      "suite": "parser-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": true,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/parser-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/CANDIDATE.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/FALLBACK.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/parser-parity/REFERENCE.txt",
+          "sha256": "1c1161994964a9dd173b4bbeb22f8ddc2fb67d36a131f773e6cb669d75e42328"
+        }
+      ]
+    },
+    {
+      "suite": "uset-parity",
+      "all_exit_codes_zero": true,
+      "all_text_witnesses_identical": true,
+      "previous_witness_hash_unchanged": null,
+      "files": [
+        {
+          "path": "build/grammar-uset-host/uset-parity/CANDIDATE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/CANDIDATE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/CANDIDATE.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/FALLBACK.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/FALLBACK.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/FALLBACK.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/REFERENCE.exit",
+          "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/REFERENCE.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build/grammar-uset-host/uset-parity/REFERENCE.txt",
+          "sha256": "f16955bbfbbaab31871d25fdc7e9ac61df9d63c2eb16971b54293c3990b776f7"
+        }
+      ]
+    }
+  ],
+  "binaries": [
+    {
+      "path": "build/grammar-uset-host/reference-logit",
+      "sha256": "b29baf12bab30f96fd4dd173ca2293a92c7ef2616f91681ec8d1d4a5096010a1"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-grammar",
+      "sha256": "04e5000c44ade44bb83e0bcb5713c3e9d5a7d39b98c8ebd397842b74958aa774"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-mtp",
+      "sha256": "899211df7a3ae3250453a2af912b2a00ec4345c46a3111a8c3e1e5d1ce1179f1"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-probe",
+      "sha256": "dc393a3b9610fb68e3c017e68eeddde33ab95542660b1694099e8afd8435fd1c"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-history",
+      "sha256": "42a352a89b2c83f25bfbb136b0059e4869e9bfcc105d9c9d153ca7bc8a4c9f95"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-distribution",
+      "sha256": "adcd629cc214f78000ffbe384f94a382f3d1f4da18a3902507fcd823e2d0e2a0"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-vocabulary",
+      "sha256": "2732b27840bf930036902a864da9ae93d4abd5715c4da7be9c741c54028189a2"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-grammar-probe",
+      "sha256": "7309d33983b131e62a58db7cf48d3bc2076a493e87227e0317fce5a3a7e6a244"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-number-probe",
+      "sha256": "6803698d4745ca1615a20b31d01e0b80ac1ecd540cb4159228448af9baaa3859"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-unicode-probe",
+      "sha256": "3f9754d05840da5da15a4b45cb6ca149554b734bb25bdf4cadf5f9a17703544e"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-grammar-vocabulary",
+      "sha256": "3dc5df0cf854bff7aca2b1d20db002fe0a332caaf8a2fd165aca3cdad07bec59"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-compiler-probe",
+      "sha256": "479acd73569450165a2f086c588fe6fbffb6f613815ddaedaab0b249ac3c31a5"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-parser-probe",
+      "sha256": "be6c1504c70c18163692e746ec340e6e0367e1a39300439f39542fc4d0e54f91"
+    },
+    {
+      "path": "build/grammar-uset-host/reference-uset-probe",
+      "sha256": "7f95be547d5787d3b47f14181318a0e446b4025d4f9468b2e273ea51a73275a2"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-logit",
+      "sha256": "ebe6bf5031a2d7729e9bac7810ca29c24f0991d6cea4b9ccb832a76dc615363e"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-grammar",
+      "sha256": "4e3799fd05e19403bf772216ee4e02959ecc6813046540e02186d26387726cf7"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-mtp",
+      "sha256": "328c48b44011a310e944c57a31053a52d5670d14c8af0001d7714bacaf685641"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-probe",
+      "sha256": "c5202bfb62aad5735b12de3eee4c63c1911de9cfc434b3d5aff5bef19543bf9d"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-history",
+      "sha256": "773851e9e6ee43ef76d18d0f2628858ed8186199f64a8360ea835b3c58c107d9"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-distribution",
+      "sha256": "0cd920b1a588cb5af9552658f79e7214e95eb0ce01fa93a4e2668dacaf600570"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-vocabulary",
+      "sha256": "ce191e7f7cb60af9e7cded02769800c88847e6363b32b22019bd8de8a9ee7947"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-grammar-probe",
+      "sha256": "fe3e5c5d31a0f6abb2160f4b3b7d1bf8d33419abab7186790bfe53dd03ac7ea2"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-number-probe",
+      "sha256": "bcf60886e7594adc622c3d5554a00a1b35c7fa431e1977b3d8f80638396a05fa"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-unicode-probe",
+      "sha256": "d5c8ee11f5e712e10576c29b12b95dc73fa9246b5fea3ecf2e53310996095cf1"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-grammar-vocabulary",
+      "sha256": "991ac2d1e808b72ac2e2cf947ee27b7bfdedf5653500d69efd3f12cb2cc1e276"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-compiler-probe",
+      "sha256": "9a54a573e6b436f53cd43de46f769ee0d185f5bc0dc4ec701e56bfdda00348e1"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-parser-probe",
+      "sha256": "17bdfdc6adc190a503b33b3708c337dc7315496e66bb3f84890fc1bd6c402178"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-uset-probe",
+      "sha256": "d13205b41c460ba83fbdbb948a3adb484b9bcf0a5edb3f2e7a532f9b327a549f"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-logit",
+      "sha256": "7905f2621511543db66980ab086d5ff35e3c7cb38ce10bb2dc8cb48d0067b3c3"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-grammar",
+      "sha256": "3d05840d33d776e4589873bc70c22a5d7aacdbfa33141526d936106a39e3cbe7"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-mtp",
+      "sha256": "c4a365e0df2a9565399c9397d2fd39f5137f1b0665cf54cb6f20449cf5e0f391"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-probe",
+      "sha256": "ab31a1a545c43617dca806e929a7cb78eb75accde45154e7d557ded5431e5788"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-history",
+      "sha256": "45423bd7f71bec45692314a29303696559dd564f16ca1c01710c4d4c767caa94"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-distribution",
+      "sha256": "b64cb289a127713d4dd9ae91dc46c9b3871f9ee84324ad1c5b0362af12a86eb6"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-vocabulary",
+      "sha256": "21c0cc37d70dd6aee12ad20ff6e83beeb34436f242e50014c5b1b3ca8659626d"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-grammar-probe",
+      "sha256": "4c34a4ef77b386c26745ab3262f17d231f84c5ffa5c350b0d08f41d0da2fb50e"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-number-probe",
+      "sha256": "52e3fd12ab75a2aca7bac74e124688ffc46f25ab8c98ed2bb9a35c25fdae3cea"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-unicode-probe",
+      "sha256": "7930dff0827f494838e5acdb35a7f5cd95ec04fdcd36af6237e5814fc862b1b8"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-grammar-vocabulary",
+      "sha256": "80376e0c64137e56229b16dfe8926fd3068a6f76fb77d0cc2a33371908c77bbe"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-compiler-probe",
+      "sha256": "788520ea6b1fd682f2e53dc94947862dd1f97047d8e6f8adc76d0cf417355e2b"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-parser-probe",
+      "sha256": "6821c19607ad1f5f128950191a3a50794a8c626eda7e325b0acbf6633b04f237"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-uset-probe",
+      "sha256": "7f95be547d5787d3b47f14181318a0e446b4025d4f9468b2e273ea51a73275a2"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-controls",
+      "sha256": "c3dae4bba0e69d42db758743f54e3d84fe617da710575ef18e9ddb6918dacbbe"
+    },
+    {
+      "path": "build/grammar-uset-host/candidate-vocabulary-layout",
+      "sha256": "e869c78ab53f57abce7da7b3c15ad6da56ba27d50a067b4296ae2a4e766632d6"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-controls",
+      "sha256": "68830096eed319660d61a9a8ad4d48a4153521475f3a4cb5189bdd3c331c27fc"
+    },
+    {
+      "path": "build/grammar-uset-host/fallback-vocabulary-layout",
+      "sha256": "8ebb1e0ce6132dc173e9a90c1c129ec2863e754b75e45225667f7a4eddb29fd6"
+    },
+    {
+      "path": "build/context-debug/test-grammar-uset",
+      "sha256": "94d7bb472c68d51a8e52e5c3bfdcffff39e66df50b7be68918b7b625cb36f75a"
+    },
+    {
+      "path": "build/tool-http-asan/test-grammar-uset",
+      "sha256": "05072a17d810fe7345b254cc51e2b33aa683d14da138d41f0a76bf50204a7f65"
+    }
+  ],
+  "build_inputs": [
+    {
+      "path": "build/grammar-uset-host/variant-files.json",
+      "sha256": "0386e1bdfa784ebf571ac87d003cb09a4454da0e4e43b5ac125d2af3b5d61992"
+    },
+    {
+      "path": "build/grammar-uset-host/CMakeCache.txt",
+      "sha256": "55d63a27da690d660e520a9116c1d899510bf4db5bf0b4363e73ac3b8c3a3a6b"
+    },
+    {
+      "path": "build/context-debug/CMakeCache.txt",
+      "sha256": "a4c52aaa58794d9a03a7d7d23d9c8b91d711b4e77f932dc2228f5f776833a946"
+    },
+    {
+      "path": "build/tool-http-asan/CMakeCache.txt",
+      "sha256": "112a38a54938a6fe8cc569395cc2d074939df9ae255ff77a4308ce480cd80639"
+    },
+    {
+      "path": "build/grammar-uset-off-core/CMakeCache.txt",
+      "sha256": "2d86fe096f6b4a8d767e08f681ea38a3282459d341fef5165457bafd07d090e8"
+    }
+  ],
+  "strict_imports": [
+    "__stack_chk_fail",
+    "free",
+    "lie_regex_boundary",
+    "lie_regex_chars",
+    "lie_regex_class_add",
+    "lie_regex_compiler_bases",
+    "lie_regex_compiler_create",
+    "lie_regex_compiler_description_init",
+    "lie_regex_compiler_release",
+    "lie_regex_parse_utf16",
+    "malloc",
+    "memcpy",
+    "memset",
+    "strcpy",
+    "u_getUnicodeVersion_78",
+    "u_getVersion_78",
+    "u_strFromUTF8WithSub_78",
+    "u_versionToString_78",
+    "uset_addAll_78",
+    "uset_addRange_78",
+    "uset_charAt_78",
+    "uset_cloneAsThawed_78",
+    "uset_close_78",
+    "uset_complement_78",
+    "uset_equals_78",
+    "uset_getItem_78",
+    "uset_getRangeCount_78",
+    "uset_isEmpty_78",
+    "uset_openPatternOptions_78",
+    "uset_open_78",
+    "uset_removeRange_78",
+    "uset_size_78"
+  ],
+  "retained_discovery_record": {
+    "path": "evidence/grammar-uset-discovery-r1.json",
+    "sha256": "38da1d20cfab3954b230d381bf81c5837b319f890edc5d7e4fa541a31caf83f1"
+  },
+  "source_list_regression_files": [
+    {
+      "path": "evidence/grammar-uset-no-pin-fixture-r1/bad.exit",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "evidence/grammar-uset-no-pin-fixture-r1/bad.stderr",
+      "sha256": "4c006a8d9670ab4b8c07216a737c6cee99ed46c8695e2788c0b9dc99f8dac4fe"
+    },
+    {
+      "path": "evidence/grammar-uset-no-pin-fixture-r1/bad.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/grammar-uset-no-pin-fixture-r1/good.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "evidence/grammar-uset-no-pin-fixture-r1/good.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/grammar-uset-no-pin-fixture-r1/good.stdout",
+      "sha256": "da4d1a471338a3a70db115d155056eefccd1aa5d11522207ff77d4d5192810bf"
+    }
+  ],
+  "failures_and_limits": [
+    "InitialDebug and sanitizer new fixture failed at an incorrectly admitted isolated-surrogate regex. Final fixture explicitly checks pinned refusal and uses supported braced surrogate range for the empty scalar class; no implementation assertion/refusal weakened.",
+    "Older native-bench closed-stderr signal6 remains unresolved. New host qualification does not extend frozen original-weight GPU receipts.",
+    "ICU internal allocations/OOM and algorithm/database ownership remain external and unqualified by own allocator hooks."
+  ],
+  "local_cpu_max_c": 89.875,
+  "gpu_visible_devices": "Masked for every host build/test via optional thermal runner.",
+  "latest_remote_readonly_witness": {
+    "path": "evidence/context-steering-availability-r38.json",
+    "sha256": "f2eff2f6cfb09640c4374d5b934a434877baae587152ecc6f58cc73d53ae4680",
+    "at_utc": "2026-10-05T12:32:52.025592+00:00",
+    "kernel_kfd": [
+      29223,
+      29377
+    ],
+    "process_identity": [
+      {
+        "pid": 29223,
+        "comm": "python",
+        "exe": "/usr/bin/python3.12",
+        "cwd": "/home/pop/javaspec-lora-gemma4",
+        "workload_markers": [
+          "scripts/train_lora.py",
+          "/home/pop/hf-cache/models--google--gemma-4-E4B-it/snapshots/ee0ef6023621cff504d758262d4e04895a5af4a2"
+        ]
+      },
+      {
+        "pid": 29377,
+        "comm": "llama-server",
+        "exe": "/home/pop/.local/opt/llama.cpp-b10242-rocm72/llama-server",
+        "cwd": "/home/pop",
+        "workload_markers": []
+      }
+    ],
+    "gpu": {
+      "gpu_busy_percent": 100,
+      "mem_info_gtt_total": 120259084288,
+      "mem_info_gtt_used": 32597467136,
+      "mem_info_vram_total": 2147483648,
+      "mem_info_vram_used": 172175360
+    },
+    "cpu_c": 87.625,
+    "available_ram_bytes": 85902475264,
+    "lease": {
+      "path": "/home/pop/workspace/synapse-lie/campaign.lock",
+      "device": 66307,
+      "inode": 105946405,
+      "uid": 1000,
+      "free_ex_nonblock": true
+    },
+    "boot_id": "c82c90ed-7f94-4212-bc52-681c63eac395",
+    "filesystem": {
+      "exit_code": 0,
+      "uuid": "720d3f3a-db4b-4287-bf9c-77cc76bcb7cb",
+      "device": 66307
+    },
+    "original_model_stats_unchanged": true,
+    "gpu_admission": false
+  },
+  "remote_mutations": [],
+  "primary_api_references": [
+    "https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/uset_8h.html",
+    "https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ustring_8h.html",
+    "https://unicode-org.github.io/icu/userguide/strings/utf-8.html"
+  ],
+  "publication": false,
+  "goal_complete": false,
+  "unqualified": [
+    "JSONSchema compiler and provider snapshot marshalling extraction.",
+    "Actual ICU internal allocation faults; complete independent C property/set/conversion implementation or dependency removal.",
+    "New original-weight AR/MTP/tool/grammar continuation, fault/fit and numericalGPU gates on.161 after fresh admission.",
+    "Actual allocation-exact provider resources and matched PP/TG/TTFT/cache costs; no speedup claim.",
+    "Complete autonomous C17 model executor."
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "synapse-lie.q2-down-register-palette-final.v1",
+  "plan_sha256": "83bd662250d2f4de56d4a779d82799e80883965a80f67b9104725695f83703bf",
+  "model_result_sha256": "c57ca6f884082d490473e1fe0aa726b8abbabd145c8f26350b837a1165b6a563",
+  "component_result_sha256": "1a6a3d7bb6d79adbf937d7860644cea99e52d2b9d249aa150ca21c1ce8bb9732",
+  "release_sha256": "e64145d666ce7ebcd470a7587a54979d6b11c8c909b073cc639c3d8071a652db",
+  "runtime_command_exits": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "artifacts_verified": 37,
+  "host_reused": false,
+  "frozen_fixtures_verified": 122,
+  "frozen_manifests_verified": 13,
+  "provider_files_verified": 1028,
+  "retired_identities": 1351,
+  "retired_groups": 1081,
+  "thermal_max_c": {
+    "q2-down-register-palette-host-r2": {
+      "amdgpu": 38.0,
+      "k10temp": 64.625
+    },
+    "q2-down-register-palette-component-r2": {
+      "amdgpu": 38.0,
+      "k10temp": 68.75
+    },
+    "q2-down-register-palette-model-r2": {
+      "amdgpu": 74.0,
+      "k10temp": 84.375
+    }
+  },
+  "classified_preparation_failures": {
+    "admission-command.json": 255,
+    "admission-publish-command.json": 1,
+    "component-launch-command.json": 255,
+    "connectivity-audit-command.json": 255,
+    "connectivity-audit-2-command.json": 255,
+    "connectivity-audit-3-command.json": 255,
+    "component-analysis-command.json": 1,
+    "component-analysis-v2-command.json": 1,
+    "model-launch-command.json": 1,
+    "registry-focused-ctest-command.json": 1
+  },
+  "component_parent_exact": true,
+  "component_timing_valid": false,
+  "analysis_correction_manifest_sha256": "ceb481e5e4fb1a404dbee006ddf8bee7b3725ab3d4c94b4ecdfc1ebc73417e7a",
+  "phase_correction_manifest_sha256": "b64111baa4b27523a6a587c4b155667b7be179f9aa069a021175161ad6442833",
+  "focused_registry_ctest_passed": true,
+  "parent_model_checks": {
+    "input_exact": true,
+    "output_tokens_exact": true,
+    "changed_files": [],
+    "max_matched_history_kl": 0.0
+  },
+  "within_arm_exact": true,
+  "figures": {
+    "docs/figures/q2-down-register-palette-component.csv": "dc391bce12d5767a3fe39771d8027b47a41a85bcdb96906295579dc40837b989",
+    "docs/figures/q2-down-register-palette-component.svg": "ef48cda66962093c1ac09f8506571b70a78ae34b20423c27953183e8335ae3fe",
+    "docs/figures/q2-down-register-palette-component.png": "713801e6fef41cc8f961227866dc860e237484c692d5ecca9fb2b5ca1da91217",
+    "docs/figures/q2-down-register-palette-model.csv": "ff4ce1035bc9c8c9d214a43fa7b60f762c8d1580c4b91b3b92842cb61a8332c2",
+    "docs/figures/q2-down-register-palette-model.svg": "eac1be9797b5a54fd9a3c620e8fec35559399466ffd52b4c9e09a4d7e5754451",
+    "docs/figures/q2-down-register-palette-model.png": "e1b2a0c4347cc8cc36dbe6dc02dbab9ed3203e6bf754350f95787d4ef48491be"
+  },
+  "raw_model_reanalysis": true,
+  "controls_rerun": false,
+  "full_curve": false,
+  "independent_quality": false,
+  "goal_met": false
+}

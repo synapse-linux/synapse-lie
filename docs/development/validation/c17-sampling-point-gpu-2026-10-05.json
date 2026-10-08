@@ -1,0 +1,427 @@
+{
+  "schema": "synapse-lie.c17-integrated-point-original-qualification.v1",
+  "at_utc": "2026-10-05T16:36:30.917392+00:00",
+  "source_commit": "1bff953c779b7ccdbef387020f9362fa9fd725a7",
+  "upstream_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+  "host_receipt": {
+    "path": "docs/development/validation/c17-schema-transform-host-2026-10-05.json",
+    "sha256": "81b26a60627a23b581671174d56810c19a00187149ecb24a20ceddf6048ff331"
+  },
+  "target": "pop@192.168.5.161",
+  "gpu_target": "gfx1150",
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "scope": "Original-weight integrated C17 grammar/history/distribution OpenAI wire/lifecycle gates and seeded native generation profiles. Not full model/grammar quality, independent GPU probability proof, allocation-exact cost, fault qualification or matched Gufo performance.",
+  "source_capsule": {
+    "path": "evidence/context-r15-source-seal.json",
+    "sha256": "f2e4b0f8c0ec23916715ce093974851bb487082245b30f168d3c7f406486ecd0"
+  },
+  "source_capsule_audit": {
+    "path": "evidence/context-r15-source-seal-audit.json",
+    "sha256": "02557bc476fa14489c0f7bfdcadb5bc421c25d75da633bd26a37409a3fe25a9e"
+  },
+  "bundle": {
+    "path": "evidence/context-r15-bundle-result.json",
+    "sha256": "5aefdd63f1bc733c5079a172379a35b3c9e7644a5da2d343d615d6fea1f013a3"
+  },
+  "fixes": [
+    "Add private adapters include directory to lie_gufo for transitive C17 distribution/history bridge headers.",
+    "Value-initialize the entire live steering policy snapshot before setting its ABI and size; preserve strict GCC warnings."
+  ],
+  "unfinished_values_draft_included": false,
+  "unfinished_values_git_stash": "eb10d1d6edd299a21311eadc6787c8e016cc269e",
+  "runs": [
+    {
+      "label": "context-r15-openai-auto-ar-r1",
+      "kind": "http",
+      "mode": "ar",
+      "started_at": "2026-10-05T16:18:06.564374+00:00",
+      "ended_at": "2026-10-05T16:21:53.622211+00:00",
+      "result": {
+        "path": "evidence/context-r15-openai-auto-ar-r1/result.json",
+        "sha256": "03a15048827bd2140beaea47c7beb659c294a86d6535f1e94ead668862da72dd"
+      },
+      "collection": {
+        "path": "evidence/context-r15-openai-auto-ar-r1/collection.json",
+        "sha256": "e9dc369491bf9c847e9b60c15e08db58c973bcf27df569944231cb5d892f91da"
+      },
+      "exit_code": 0,
+      "peak_c": {
+        "nvme": 65.85,
+        "amdgpu": 66.0,
+        "k10temp": 62.75
+      },
+      "gtt_peak_bytes": 90559934464,
+      "observed_process_threads_max": 44,
+      "artifacts_sha_verified": 17,
+      "model_stats_unchanged": true,
+      "owned_children_retired": true,
+      "router_restored": true,
+      "original_lease_released": true,
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "http_result": {
+        "path": "evidence/context-r15-openai-auto-ar-r1/http-result.json",
+        "sha256": "0f159d0cf126291b4f05cd2bb62b02e41c1dc9f8756690408b0943791b858afe"
+      }
+    },
+    {
+      "label": "context-r15-openai-auto-mtp-r1",
+      "kind": "http",
+      "mode": "mtp",
+      "started_at": "2026-10-05T16:22:22.434810+00:00",
+      "ended_at": "2026-10-05T16:25:17.828961+00:00",
+      "result": {
+        "path": "evidence/context-r15-openai-auto-mtp-r1/result.json",
+        "sha256": "a4a1571ee88aaa76e4b0394f70d4d9db3ba05816357ee512fa35f8b07a8d4b86"
+      },
+      "collection": {
+        "path": "evidence/context-r15-openai-auto-mtp-r1/collection.json",
+        "sha256": "9df19ad95a9ff1e874093d332cf4f411cd0312534971890805a46a86ecc61491"
+      },
+      "exit_code": 0,
+      "peak_c": {
+        "nvme": 67.85,
+        "amdgpu": 71.0,
+        "k10temp": 71.125
+      },
+      "gtt_peak_bytes": 94725414912,
+      "observed_process_threads_max": 44,
+      "artifacts_sha_verified": 17,
+      "model_stats_unchanged": true,
+      "owned_children_retired": true,
+      "router_restored": true,
+      "original_lease_released": true,
+      "checks": 37,
+      "passed": [
+        "models",
+        "chat_json",
+        "chat_sse",
+        "responses_json",
+        "responses_sse",
+        "chat_function_json",
+        "chat_function_sse",
+        "chat_tool_result",
+        "responses_function_json",
+        "responses_function_sse",
+        "responses_tool_replay",
+        "responses_tool_result",
+        "allowed_tools",
+        "chat_choices_json",
+        "chat_choices_sse",
+        "chat_seed_replay",
+        "chat_logprobs",
+        "chat_logprobs_sse",
+        "chat_bias_positive",
+        "chat_bias_negative",
+        "chat_stop_json",
+        "chat_stop_sse",
+        "chat_json_object",
+        "responses_json_object",
+        "chat_json_schema",
+        "responses_json_schema",
+        "chat_store_crud",
+        "responses_background_disconnect",
+        "responses_cursor_replay",
+        "responses_input_pagination",
+        "responses_cancel_after_output",
+        "responses_delete",
+        "responses_truncation",
+        "unsupported_fields",
+        "models_context_output_limits",
+        "chat_automatic_output",
+        "responses_automatic_output"
+      ],
+      "http_result": {
+        "path": "evidence/context-r15-openai-auto-mtp-r1/http-result.json",
+        "sha256": "b116ecc9b148eb42b9c03fe2fdbb127912e0a1142246aa16042a49bf13875bf2"
+      }
+    },
+    {
+      "label": "context-r15-profile-greedy-ar-r1",
+      "kind": "native",
+      "mode": "ar",
+      "started_at": "2026-10-05T16:27:02.155200+00:00",
+      "ended_at": "2026-10-05T16:28:26.337773+00:00",
+      "result": {
+        "path": "evidence/context-r15-profile-greedy-ar-r1/result.json",
+        "sha256": "b17a44b234f024f2bdb963cf1e7e09bd83f807508212e2d32634aa408f8ba732"
+      },
+      "collection": {
+        "path": "evidence/context-r15-profile-greedy-ar-r1/collection.json",
+        "sha256": "9c2610755d8fbc90436a6a99e1b388299f0f2b9b9e7d661187f857194280eb1a"
+      },
+      "exit_code": 0,
+      "peak_c": {
+        "nvme": 66.85,
+        "amdgpu": 68.0,
+        "k10temp": 68.0
+      },
+      "gtt_peak_bytes": 85438636032,
+      "observed_process_threads_max": 44,
+      "artifacts_sha_verified": 11,
+      "model_stats_unchanged": true,
+      "owned_children_retired": true,
+      "router_restored": true,
+      "original_lease_released": true,
+      "profile": "greedy",
+      "generation": {
+        "temperature": 0,
+        "top_p": 1,
+        "top_k": 0,
+        "min_p": 0,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+        "seed": 123
+      },
+      "repetitions": 2,
+      "pp": 1500,
+      "tg": 128,
+      "eos_policy": "ignore",
+      "complete_same_seed_output_ids_exact": true,
+      "measurements": {
+        "path": "evidence/context-r15-profile-greedy-ar-r1/measurements.jsonl",
+        "sha256": "23492f8798b0bf81e40b2f15f8b351e53be4877315dc9dd5ef8ac47266465014"
+      },
+      "prefill_tps": [
+        460.45133141132476,
+        461.022454708743
+      ],
+      "decode_tps": [
+        10.58690518415292,
+        10.57338757098643
+      ],
+      "mtp_drafted_tokens": 0,
+      "mtp_accepted_tokens": 0
+    },
+    {
+      "label": "context-r15-profile-ds4-ar-r1",
+      "kind": "native",
+      "mode": "ar",
+      "started_at": "2026-10-05T16:29:52.897360+00:00",
+      "ended_at": "2026-10-05T16:31:18.479851+00:00",
+      "result": {
+        "path": "evidence/context-r15-profile-ds4-ar-r1/result.json",
+        "sha256": "485c6580716cb2ad2d483d5b99086926131ef3efb7f757b813180655e9492d57"
+      },
+      "collection": {
+        "path": "evidence/context-r15-profile-ds4-ar-r1/collection.json",
+        "sha256": "7a81ba2ecc1208035cb6a9fc2e7f88e162afcc3c0713bafd596e97f5423f23b4"
+      },
+      "exit_code": 0,
+      "peak_c": {
+        "nvme": 66.85,
+        "amdgpu": 67.0,
+        "k10temp": 67.625
+      },
+      "gtt_peak_bytes": 85438636032,
+      "observed_process_threads_max": 44,
+      "artifacts_sha_verified": 11,
+      "model_stats_unchanged": true,
+      "owned_children_retired": true,
+      "router_restored": true,
+      "original_lease_released": true,
+      "profile": "ds4",
+      "generation": {
+        "temperature": 1,
+        "top_p": 1,
+        "top_k": 0,
+        "min_p": 0.05,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+        "seed": 123
+      },
+      "repetitions": 2,
+      "pp": 1500,
+      "tg": 128,
+      "eos_policy": "ignore",
+      "complete_same_seed_output_ids_exact": true,
+      "measurements": {
+        "path": "evidence/context-r15-profile-ds4-ar-r1/measurements.jsonl",
+        "sha256": "9374c1f7a60846e9fcb9cbe0f01083510a203edebfb9675564cf6fc5df835f77"
+      },
+      "prefill_tps": [
+        461.6210725354162,
+        462.1389614923062
+      ],
+      "decode_tps": [
+        10.314182510036787,
+        10.4343048893575
+      ],
+      "mtp_drafted_tokens": 0,
+      "mtp_accepted_tokens": 0
+    },
+    {
+      "label": "context-r15-profile-ds4-mtp-r1",
+      "kind": "native",
+      "mode": "mtp",
+      "started_at": "2026-10-05T16:33:55.715606+00:00",
+      "ended_at": "2026-10-05T16:35:14.603561+00:00",
+      "result": {
+        "path": "evidence/context-r15-profile-ds4-mtp-r1/result.json",
+        "sha256": "da402ea9d382ba8e3ad3c0fad8ba883bfd3f70dcb29e4e5f6d719e53f413b42c"
+      },
+      "collection": {
+        "path": "evidence/context-r15-profile-ds4-mtp-r1/collection.json",
+        "sha256": "5f8d31c939b9b987da184c16f895a8186e06bdce2ff85460641974b6930e9c8a"
+      },
+      "exit_code": 0,
+      "peak_c": {
+        "nvme": 67.85,
+        "amdgpu": 68.0,
+        "k10temp": 66.375
+      },
+      "gtt_peak_bytes": 88391565312,
+      "observed_process_threads_max": 44,
+      "artifacts_sha_verified": 11,
+      "model_stats_unchanged": true,
+      "owned_children_retired": true,
+      "router_restored": true,
+      "original_lease_released": true,
+      "profile": "ds4",
+      "generation": {
+        "temperature": 1,
+        "top_p": 1,
+        "top_k": 0,
+        "min_p": 0.05,
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+        "seed": 123
+      },
+      "repetitions": 2,
+      "pp": 1500,
+      "tg": 128,
+      "eos_policy": "ignore",
+      "complete_same_seed_output_ids_exact": true,
+      "measurements": {
+        "path": "evidence/context-r15-profile-ds4-mtp-r1/measurements.jsonl",
+        "sha256": "915efb09a5d7b50a1c80b95527fa9f796fdc6796e65f6959d14a0ae0e12f0508"
+      },
+      "prefill_tps": [
+        449.433316452558,
+        456.5368529417469
+      ],
+      "decode_tps": [
+        12.634046722467229,
+        12.660266175995684
+      ],
+      "mtp_drafted_tokens": 228,
+      "mtp_accepted_tokens": 124
+    }
+  ],
+  "failed_builds": [
+    {
+      "label": "context-r13-build-r1",
+      "result": {
+        "path": "evidence/context-r13-build-r1/result.json",
+        "sha256": "6f6fd3a2434184dfe7b96a812b259ae35a47c14cc3ead430ef12271b15a3eb37"
+      },
+      "collection": {
+        "path": "evidence/context-r13-build-r1/collection.json",
+        "sha256": "491bd9f15d48b1dbbf760337f032c9690627d5bae0b677574d19b600918b4753"
+      },
+      "compiler_collection": {
+        "path": "evidence/context-r13-build-r1/compile-evidence/collection.json",
+        "sha256": "963188ce6282c04e3f6c1b93512605e488dcaa97b0fcfae9800cb59eff0803e2"
+      },
+      "child_exit_code": 1,
+      "restored_and_retired": true
+    },
+    {
+      "label": "context-r14-build-r1",
+      "result": {
+        "path": "evidence/context-r14-build-r1/result.json",
+        "sha256": "0ba115fbf6d2f1c19b95bf43a3c498ca1faaeefe12d58a3869678eccb462f964"
+      },
+      "collection": {
+        "path": "evidence/context-r14-build-r1/collection.json",
+        "sha256": "8a40505afa34538998da3b8c479be23f844890636429041875cadfacbbb11e6f"
+      },
+      "compiler_collection": {
+        "path": "evidence/context-r14-build-r1/compile-evidence/collection.json",
+        "sha256": "54d99a32dd83ac69a688f24ee3e556a6ca6b43d7d47d048a5293e3b514a4c5eb"
+      },
+      "child_exit_code": 1,
+      "restored_and_retired": true
+    }
+  ],
+  "host_fix_checks": [
+    {
+      "label": "point-adapter-include-debug-r1",
+      "result": {
+        "path": "evidence/point-adapter-include-debug-r1/result.json",
+        "sha256": "fde36e2456a758e29a0d07cd1558404fd68c9e7e69fb37275ac6401f9a53526c"
+      },
+      "exit_code": 0
+    },
+    {
+      "label": "point-adapter-include-asan-r1",
+      "result": {
+        "path": "evidence/point-adapter-include-asan-r1/result.json",
+        "sha256": "0f2f1b4d795339be4f5542c2660352f82b8c7cdc3a8672e56fbd689731899f43"
+      },
+      "exit_code": 0
+    },
+    {
+      "label": "point-adapter-full-syntax-r1",
+      "result": {
+        "path": "evidence/point-adapter-full-syntax-r1/result.json",
+        "sha256": "6070424f74a013d218ea88c5091ccc6808726a79bf4c019fe61060f913f40da6"
+      },
+      "exit_code": 1
+    },
+    {
+      "label": "point-adapter-full-syntax-r2",
+      "result": {
+        "path": "evidence/point-adapter-full-syntax-r2/result.json",
+        "sha256": "2814a699fdd977a2af0d4a1a7ca37bee1fef357d0988f755fec741d6bdd64bdd"
+      },
+      "exit_code": 0
+    }
+  ],
+  "pending": [
+    "Unchanged Terminal Bench Mini smoke, then complete Core19; no task reward exists.",
+    "Physical PP1048448 plus TG128 with ignore-EOS and separate long-context recall.",
+    "Matched Gufo/Halogen depth through1M and C1/2/4/6/8, complete cold-work/TTFT/resources/graphs.",
+    "Nonzero original-weight directional steering, graph/invalidation, mixed-history cache lookup, AR/MTP/vision RAM/SSD quality/cost.",
+    "Broader original-weight exact-target MTP/filter probability and tool-transition proof plus matched profile cost.",
+    "Remaining schema visiting/finite values/private composition extraction, individual grammar branch coverage, GPU faults and allocation-exact resource/cost gates."
+  ]
+}

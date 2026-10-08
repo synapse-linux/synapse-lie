@@ -1,0 +1,387 @@
+{
+  "schema": "synapse-lie.fixed-eos-host-validation.v1",
+  "date_utc": "2026-10-04",
+  "scope": "HOST_CONTRACT_SYNTHETIC_FIXTURES_AND_HEADER_COMPILATION_NOT_MODEL_GPU_OR_PERFORMANCE",
+  "branch": "feature/context-million-openai",
+  "parent_checkpoint": "85fe153fc9870c1ed988208ee6d25c1dde246bd2",
+  "request_abi": 7,
+  "executor_abi": 3,
+  "generation_abi": 3,
+  "source_files_sha256": {
+    "adapters/gufo.cpp": "23acf6d5c55caddc9e93d485abed058d704cf172077b4e51ff1ddf92119cb2fd",
+    "include/lie/core.h": "48950f3a15c3f2ce538f3c5253cd33423a0897a66812c653961da8cd4a79ca9f",
+    "include/lie/executor.h": "b383e011e374f46f0de752e679d568c2844ca5850504eef59b47ee80c6e62dfd",
+    "src/core_input.c": "f93dfea46367daaa2de8a923dd255d93144434430eeda49ee2d725d32776aa8c",
+    "src/executor_unavailable.c": "312393508ce60c0560500db1ed64ba4a46391482d1b6aeb54e4031d488fa2802",
+    "src/worker.c": "d4a3be9352c0fdfd0e0e80d9ed731ecc5b3d5c57fd8fea74acb795cb5db68383",
+    "tests/bench_executor.c": "eb027d3b2bfe9b00b7772e9c51149c337415038da4830aa2bdee4fb2541fd501",
+    "tests/fake_executor.c": "f05a4b28b6c6fd8401dbfcf0f2c125b08e7734960bdea83b74cadd87fb257d85",
+    "tests/test_core.c": "08a2d12e5f11ed7046c911e0178ed2a655ebaa2b45c18cd14bbcd0bff1835e35",
+    "tests/test_native_bench.c": "9eade0f3189601ea18f916506679103b9af2858207f8a363b392436cb18ba8d6",
+    "tests/test_strix_point_campaign.py": "cb54278e698d31d30977c137d76164a58dfe407782cbb0075e9661b51ccfbff5",
+    "tools/core-bench.c": "9076eb774b16e7882e9576fe5a3c863e2577fcb8a6c3c3580f6be5447243507a",
+    "tools/native/report.c": "92ee93d3fce7a8c616eb3b64f27b7dc94c4abcc4af0830b571611134aac74ec9",
+    "tools/strix-point-campaign.py": "8c7782883cd6188dbddb6a91828198fee0dd474d1ecf6f4e2751795107c76e58"
+  },
+  "method_reference": {
+    "official_gufo_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "file": "src/cli/bench/bench.cpp",
+    "sha256": "3426f550eb95efd5198938339464079baaa4b798a99f806f9d2278b4d2d737cd",
+    "lines": [
+      1104,
+      1105
+    ],
+    "stop_at_eos": false,
+    "implementation_copied": false,
+    "derived_file_manifest": "evidence/ds4-filters-derived-files.json",
+    "derived_file_manifest_sha256": "e4b7ef042d5f6148b7ee1a9f3da8c323fdee5955339df2dbff1ca05b35246fe2"
+  },
+  "contract": {
+    "native_core_flag": "--ignore-eos",
+    "default_policy": "stop",
+    "result_identity": "eos_policy",
+    "accepted_values": [
+      "stop",
+      "ignore"
+    ],
+    "missing_historical_field": "stop",
+    "eos_is_masked": false,
+    "replacement_draw": false,
+    "full_budget_and_length_finish_required": true,
+    "http_flag_exposed": false,
+    "constraint_or_chat_or_vision_ignore_refused": true,
+    "policy_selected_before_prefill_or_restore_or_sampling": true,
+    "policy_violation_poisons_model_and_suppresses_shared_result": true,
+    "new_threads": 0,
+    "new_product_dependencies": []
+  },
+  "oracles": [
+    "Immutable request copy survives caller policy mutation after admission",
+    "Old ABI, invalid policy, chat/tool/constraint/stop-string combination refuse before sequence creation",
+    "Direct provider setter refuses late or invalid mutation",
+    "EOS token 255 remains output ID 7, with zero text bytes; raw AR and MTP C2 cohorts complete TG16",
+    "Malformed policy and short fixed-budget output refuse reports",
+    "Paired reports refuse different policies even when full output IDs agree; missing historical policy normalizes to stop",
+    "A provider policy violation produces failed child/footer exit 1; no successful fallback or retry",
+    "Optional GPU supervisor forwards and witnesses policy in AR and MTP, still refuses short output and mismatched/null/typed-wrong policy"
+  ],
+  "checks": [
+    {
+      "directory": "evidence/eos-policy-debug-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 72.625
+        },
+        "elapsed_s": 5.170478945598006
+      },
+      "log_sha256": "b7e2337afb832fbc77c077d103f58a7021a7e5f961abf7843e12ceeda667d13a",
+      "temperature_log_sha256": "08c529695eafde25fe4cadd31ebda0fe3d82ca1b05676b81287f4f9bcffc04c7"
+    },
+    {
+      "directory": "evidence/eos-policy-debug-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.75
+        },
+        "elapsed_s": 1.1056816643103957
+      },
+      "log_sha256": "d010e7471b840a3ef0d95d419a794d5af9fe939b683671146d110131a433ea39",
+      "temperature_log_sha256": "ddeb968bb4d0643da58096c87e714bea47f9647054ea47abd2d1eec944a43b00"
+    },
+    {
+      "directory": "evidence/eos-policy-debug-build-r3",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/context-debug",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 71.125
+        },
+        "elapsed_s": 2.1026161471381783
+      },
+      "log_sha256": "c1c4f72e7d291c012cb9f6cca5bc89948c4f663600893cee53c1dff669f49880",
+      "temperature_log_sha256": "5da5d4a0637afe5ffb7469098b808386bf3f8b0bc6e838ef4f70067ede50ea79"
+    },
+    {
+      "directory": "evidence/eos-policy-debug-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|inference-reactive-contract|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 83.5
+        },
+        "elapsed_s": 20.930192228406668
+      },
+      "log_sha256": "a08d29820437e1546d8972ff7b8b69d00ac18c2c030bd66960e51704e9a7c762",
+      "temperature_log_sha256": "dada63ed81b476f06949c06264c75c457c55c7ecec2388314109370261f3dbd9",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "directory": "evidence/eos-policy-debug-test-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/context-debug",
+          "--output-on-failure",
+          "-R",
+          "^(core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|inference-reactive-contract|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.25
+        },
+        "elapsed_s": 20.9620214458555
+      },
+      "log_sha256": "838fda1c51e9526e9b2ca79b6f4c9bec5242094d9d4e6fae255697227bfffb9a",
+      "temperature_log_sha256": "cf5b64711335150b0abe042d61fc2c6324926c067e840a52f891d47c38546afe",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "directory": "evidence/eos-policy-asan-build-r1",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 34.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 34.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 52.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 77.375
+        },
+        "elapsed_s": 8.20703169517219
+      },
+      "log_sha256": "24c0479d02a8739bd4b2b68d45b413db717352f5234ce0be628885552c96e786",
+      "temperature_log_sha256": "216643c2e001aeee1109bd482f99be66c366cc8154d8503c94780845407db485"
+    },
+    {
+      "directory": "evidence/eos-policy-asan-build-r2",
+      "result": {
+        "argv": [
+          "cmake",
+          "--build",
+          "build/tool-http-asan",
+          "-j2"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 71.125
+        },
+        "elapsed_s": 3.11304918769747
+      },
+      "log_sha256": "dc8801db7cbb4077d9d26992f7f22758529f9b7ba788ae9704947f8c4708b0e0",
+      "temperature_log_sha256": "e5582906c05e5d3d961cd5c625890fd7d7dc4004c62d631217bb6d33293751b3"
+    },
+    {
+      "directory": "evidence/eos-policy-asan-test-r1",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "--output-on-failure",
+          "-R",
+          "^(core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|inference-reactive-contract|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 51.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 82.625
+        },
+        "elapsed_s": 20.932365817949176
+      },
+      "log_sha256": "4b25a3182b0e114980f442548863e4d88381505585eda065fa76d4b8ff9cea36",
+      "temperature_log_sha256": "6f43f80158d16a38f65a6f235c8eeea54362ff76d5c9626172e6896b4c8b240c",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "directory": "evidence/eos-policy-asan-test-r2",
+      "result": {
+        "argv": [
+          "ctest",
+          "--test-dir",
+          "build/tool-http-asan",
+          "--output-on-failure",
+          "-R",
+          "^(core-headless-lifecycle|context-million-admission-lifecycle|core-semantic-events|inference-reactive-contract|openai-headless-controls-state|openai-generation-state(-mtp)?-http|native-benchmark-contract)$"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 58.75
+        },
+        "elapsed_s": 20.915525317192078
+      },
+      "log_sha256": "bf7b0807de3aec30733c0f5ece0c74f2e13975273c36d7e52530188215dca283",
+      "temperature_log_sha256": "b2c69217f12a9c0444406b3d4bdaec5e9edf5bea4fa50ec1c17b7b5306c44ac8",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "directory": "evidence/eos-policy-point-fixtures-r1",
+      "result": {
+        "argv": [
+          "python3",
+          "tests/test_strix_point_campaign.py"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 66.75
+        },
+        "elapsed_s": 1.0831253565847874
+      },
+      "log_sha256": "30904a3015d530eb19e6df2b818d0bb00799da80952c15e1d2e8db376e49499d",
+      "temperature_log_sha256": "f4b4e81ed79b8e8b721675a9971a35ff4dfa708507ae96df1bbf9f318bf852d4",
+      "passed": 56,
+      "total": 56,
+      "synthetic_supervisor": true
+    },
+    {
+      "directory": "evidence/eos-policy-adapter-headers-r1",
+      "result": {
+        "argv": [
+          "c++",
+          "-std=c++20",
+          "-fsyntax-only",
+          "-DLIE_GUFO_ADAPTER_OPT_IN=1",
+          "-DLIE_GUFO_STATE_ACCESS=1",
+          "-DLIE_DS4_RUNTIME_CACHE=1",
+          "-DLIE_C17_SAMPLING=1",
+          "-DLIE_MTP=1",
+          "-DLIE_VISION=1",
+          "-D__HIP_PLATFORM_AMD__=1",
+          "-Iinclude",
+          "-Iadapters",
+          "-I.deps/ds4-filters-source-check-r1",
+          "-I/opt/rocm/include",
+          "adapters/gufo.cpp"
+        ],
+        "child_exit_code": 0,
+        "exit_code": 0,
+        "reason": null,
+        "peak_c": {
+          "/sys/class/hwmon/hwmon6/temp1_input": 33.85,
+          "/sys/class/hwmon/hwmon6/temp2_input": 33.85,
+          "/sys/class/hwmon/hwmon7/temp1_input": 50.0,
+          "/sys/class/hwmon/hwmon8/temp1_input": 62.625
+        },
+        "elapsed_s": 2.2128767389804125
+      },
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "temperature_log_sha256": "d7dff3ee77eaa5633ec5fec6b0bcf9d528e7bb0d221521dd9ebf92c209d7a738"
+    }
+  ],
+  "cpu_peak_c": 83.5,
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak": true
+  },
+  "point_read_only_availability": {
+    "file": "evidence/eos-policy-point-availability-r1.json",
+    "sha256": "0fb0e5c0ff8c9cd6dc96012f5840ee9213bdb8d789767d274a8ce1548fe96481",
+    "observation": {
+      "at_utc": "2026-10-04T21:08:01.329742+00:00",
+      "host": "192.168.5.161",
+      "read_only": true,
+      "gpu_admission": false,
+      "process": {
+        "pid": 19916,
+        "start_ticks": 1073961,
+        "state": "R",
+        "exe": "/usr/bin/python3.12",
+        "cwd": "/home/pop/javaspec-lora-gemma4"
+      }
+    }
+  },
+  "retained_non_test_failure": {
+    "file": "evidence/eos-policy-doc-patch-r1.json",
+    "sha256": "d85639d95ff8254e1c952801d042a112a4c02c72e4dcfcb10607c56de358b670",
+    "operation": "apply_patch",
+    "numeric_command_exit_code": null
+  },
+  "original_weight_fixed_tg128_qualified": false,
+  "physical_1m_prior_eos43_failure_unchanged": true,
+  "remaining_gates": [
+    "Fresh .161 admission, new pinned runtime build, short AR/MTP EOS gates",
+    "Full physical PP1048448/TG128 with explicitly declared ignore policy, closure and original model witnesses",
+    "Separate long-context quality and native EOS serving/evaluation gates; matched method performance"
+  ]
+}

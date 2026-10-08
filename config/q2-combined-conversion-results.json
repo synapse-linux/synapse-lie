@@ -1,0 +1,88 @@
+[
+  {
+    "label": "q2-combined-retained-narrow-r1",
+    "summary": [
+      {
+        "event": "narrow_summary",
+        "conversion_cases": 192,
+        "special_input_values": 321536,
+        "consumer_shapes": 2
+      }
+    ],
+    "consumer_checks": [
+      {
+        "event": "narrow_consumer_check",
+        "m": 320,
+        "k": 10240,
+        "n": 2048,
+        "copies": 4,
+        "exact_values": 2621440,
+        "oracle_samples": 128,
+        "relative_rms": 3.45786215135e-06,
+        "error_over_peak": 3.7631135343e-06
+      },
+      {
+        "event": "narrow_consumer_check",
+        "m": 513,
+        "k": 2560,
+        "n": 2048,
+        "copies": 4,
+        "exact_values": 4202496,
+        "oracle_samples": 128,
+        "relative_rms": 6.81815592194e-07,
+        "error_over_peak": 1.16149066983e-06
+      }
+    ],
+    "command_exits": [
+      0,
+      0,
+      0
+    ],
+    "converted_cases": 192,
+    "artifacts_verified": 4,
+    "scope": "Exact conversion/consumer GPU checks; no combined model benefit yet"
+  },
+  {
+    "label": "q2-combined-scaled-narrow-r1",
+    "summary": [
+      {
+        "event": "narrow_summary",
+        "conversion_cases": 192,
+        "special_input_values": 321536,
+        "consumer_shapes": 2
+      }
+    ],
+    "consumer_checks": [
+      {
+        "event": "narrow_consumer_check",
+        "m": 320,
+        "k": 10240,
+        "n": 2048,
+        "copies": 4,
+        "exact_values": 2621440,
+        "oracle_samples": 128,
+        "relative_rms": 3.45786215135e-06,
+        "error_over_peak": 3.7631135343e-06
+      },
+      {
+        "event": "narrow_consumer_check",
+        "m": 513,
+        "k": 2560,
+        "n": 2048,
+        "copies": 4,
+        "exact_values": 4202496,
+        "oracle_samples": 128,
+        "relative_rms": 6.81815592194e-07,
+        "error_over_peak": 1.16149066983e-06
+      }
+    ],
+    "command_exits": [
+      0,
+      0,
+      0
+    ],
+    "converted_cases": 192,
+    "artifacts_verified": 4,
+    "scope": "Exact conversion/consumer GPU checks; no combined model benefit yet"
+  }
+]
