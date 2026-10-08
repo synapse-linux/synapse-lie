@@ -1,11 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-2026-10-08: the requested four-point Promessi sposi probe is prepared under
-plandfeed916. Retained b701e948; chunk2048 and exact2048/4096/6144/8192;
-fresh full-prefill, capacity133760, TG128, warm1+measured1, current IOMMUoff.
-Five orchestration CPU fixtures pass on .157 at12:57:28 and verify exits0
-at12:58:28. Core and GLM give specific current non-use. Admission remains
-a separate fresh five-lease check; no inference is claimed at preparation.
+2026-10-08 13:03 UTC: Q2 Promessi sposi probe COMPLETE and RELEASED.
+Exact2048/4096/6144/8192 raw-token prefixes, chunk2048, one warmup
+and one measured sample per point. All8 samples emit128 tokens; all4
+complete-prefill/phase accounting checks pass. Retained b701e948 binary,
+IOMMUoff, capacity133760. At2K/8K measured PP1612.737061/1511.433870
+and TG28.006495/27.949875 token/s. [Full tables and graph](Q2-PROMESSI-SHORT.md). All37 artifacts/60290707bytes
+hash-verify13:02:59; release2b93980e and independent13:03:01 closure
+verify7 retired identities/6 groups, empty KFD, five free original
+leases and unchanged model stats. Q2 OWN ALL hosts NONE.
 
 2026-10-08 12:45 UTC: the owner stopped the remaining IOMMU-off curves.
 Q2 and UD chunk2K are complete through128K; Q2 chunk4K has13 measured
