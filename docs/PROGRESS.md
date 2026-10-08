@@ -1,6 +1,12 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+The next `.161` recall cohort is now active at target 523776, YaRN4/capacity
+1048576, on the same frozen r70 runtime. Its first verified supervisor/init
+observation precedes model loading; a later actual native GPU witness confirms
+inference is running. No 512K result is inferred. The separately
+prepared 100-pair conciseness inputs have no GPU admission or learned bank yet.
+
 ## Current r70 YaRN4 near-256K recall passes — 2026-10-08 UTC
 
 Both cold Chat SSE turns pass at physical inputs 261630/261738 on `.161`,

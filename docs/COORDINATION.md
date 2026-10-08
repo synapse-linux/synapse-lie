@@ -1,5 +1,25 @@
 # DS4 / synapse-lie coordination
 
+## Active current-r70 YaRN4 near-512K recall — 2026-10-08
+
+Four proposal-specific Point/DGX/Q2/GLM non-use declarations and fresh global
+03:05:55 UTC checks admit `recall-yarn4-523776-s77-ar-20261008-r1`, manifest
+`72a47288`, on `.161`. Actual boot/filesystem identities match the frozen plan;
+the original lease is unchanged. Source remains `4c703b3d`/r70, checkpoint
+`6f1bc9d3`. Target 523776/capacity 1048576, YaRN4, seed 77, chunk 256, C1 and
+cold AR/cache-off questions are unchanged. Request/load/container bounds are
+3600/900/18990 seconds, rather than expected durations.
+
+At 03:06:36, exact supervisor 128106/start 4485741 owns original lease FD3;
+init 128334/start 4485866 and container `2413f9f6` are alive. This first read
+precedes model admission and contains no native GPU owner or saved reply.
+At 03:08:47, the same exact supervisor/init and lease remain live; native
+GPU owner 129537/start 4491771 is observed in that full cgroup, with four
+wire rows saved and the actual server/client running.
+The window remains exclusive through collection/hash and whole-container
+strong closure. Root uses no other host; Q2's separate `.157` window remains
+exclusive. No future grant or quality result is inferred.
+
 ## Current r70 YaRN4 near-256K recall verified and retired — 2026-10-08
 
 Four specific Point/DGX/Q2/GLM current non-use declarations and fresh global
