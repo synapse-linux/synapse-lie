@@ -17,11 +17,13 @@ projector files. Their original-weight and combined GPU qualification is pending
 
 ## Start the server
 
-After the GPU build, set the path to your first shard:
+After `make strix-halo`, set the path to your first shard. Examples below use
+`build/strix-halo/`; substitute `build/strix-point/` after `make strix-point`,
+or `build/release/` after the advanced CMake recipe.
 
 ```sh
 LIE_MODEL=/path/to/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf
-build/release/synapse-lie-server \
+build/strix-halo/synapse-lie-server \
   --model "$LIE_MODEL" --model-id qwen3.8-flash-next \
   --host 127.0.0.1 --port 8000 --context 262144 --max-active 1
 ```
@@ -54,8 +56,7 @@ To prepare a direction from your own paired prompts, use the native
 `lie-steering-build` target from the [GPU build](BUILD.md#gpu-inference-build):
 
 ```sh
-cmake --build build/release --target lie-steering-build -j2
-build/release/lie-steering-build --model "$LIE_MODEL" \
+build/strix-halo/lie-steering-build --model "$LIE_MODEL" \
   --target-prompts target.txt --contrast-prompts contrast.txt \
   --output-dir learned-direction --components ffn
 ```
@@ -74,7 +75,7 @@ See [capture and learning details](../development/STEERING.md#native-bank-builde
 Load a prepared bank with the server:
 
 ```sh
-build/release/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
+build/strix-halo/synapse-lie-server --model "$LIE_MODEL" --port 8000 \
   --dir-steering-file /path/to/directions.f32 \
   --dir-steering-ffn 1 --dir-steering-attn 0
 ```
@@ -177,7 +178,7 @@ parts are available with explicit vision admission; see the
 Configure both sidecars to use MTP verification on image-bearing requests:
 
 ```sh
-build/release/synapse-lie-server \
+build/strix-halo/synapse-lie-server \
   --model /models/target-00001-of-00004.gguf \
   --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
   --model-vision /models/projector.gguf \
@@ -194,7 +195,7 @@ that state. Prefix restore starts with the new request's sampler.
 The direct shared-core client accepts the same combination:
 
 ```sh
-build/release/synapse-lie-bench --suite core \
+build/strix-halo/synapse-lie-bench --suite core \
   --model /models/target-00001-of-00004.gguf \
   --model-mtp /models/predictor.gguf --mtp-draft-tokens 0 \
   --model-vision /models/projector.gguf --image-file image.png \

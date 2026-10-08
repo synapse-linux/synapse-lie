@@ -14,6 +14,12 @@ foreach(arch IN ITEMS gfx1150 gfx1151)
   file(WRITE "${TEST_DIR}/CMakeCache.txt"
     "CMAKE_HIP_ARCHITECTURES:STRING=${arch}\nLIE_HIP_ARCHITECTURE:STRING=${arch}\n")
   lie_verify_hip_target("${TEST_DIR}" "${arch}")
+  execute_process(COMMAND "${CMAKE_COMMAND}" "-DGUFO_BUILD=${TEST_DIR}" "-DLIE_HIP_ARCHITECTURE=${arch}"
+    -P "${CMAKE_CURRENT_LIST_DIR}/../cmake/provider/Target.cmake"
+    RESULT_VARIABLE cli_match OUTPUT_QUIET ERROR_QUIET)
+  if(NOT cli_match EQUAL 0)
+    message(FATAL_ERROR "Matching provider was refused by the standalone target verifier")
+  endif()
   if(arch STREQUAL "gfx1150")
     set(other gfx1151)
   else()
@@ -23,6 +29,12 @@ foreach(arch IN ITEMS gfx1150 gfx1151)
     -P "${CMAKE_CURRENT_LIST_FILE}" RESULT_VARIABLE mismatch OUTPUT_QUIET ERROR_QUIET)
   if(mismatch EQUAL 0)
     message(FATAL_ERROR "Cross-target provider was accepted")
+  endif()
+  execute_process(COMMAND "${CMAKE_COMMAND}" "-DGUFO_BUILD=${TEST_DIR}" "-DLIE_HIP_ARCHITECTURE=${other}"
+    -P "${CMAKE_CURRENT_LIST_DIR}/../cmake/provider/Target.cmake"
+    RESULT_VARIABLE cli_mismatch OUTPUT_QUIET ERROR_QUIET)
+  if(cli_mismatch EQUAL 0)
+    message(FATAL_ERROR "Cross-target provider was accepted by the standalone target verifier")
   endif()
 endforeach()
 file(REMOVE_RECURSE "${TEST_DIR}")

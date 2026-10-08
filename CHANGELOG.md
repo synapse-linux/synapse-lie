@@ -7,6 +7,10 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Build the GPU server and tools with `make strix-halo` or `make strix-point`.
+  These native CMake entry points fetch the pinned provider, reuse verified
+  builds and require no Python interpreter.
+
 - Current r70 Strix Point recall passes both cold, cache-off YaRN4 turns near
   one million physical tokens. The model/platform table includes prefill,
   decode, TTFT and full durations, with independently verified raw evidence.

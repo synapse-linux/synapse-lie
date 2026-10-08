@@ -16,6 +16,7 @@ manager. Package names vary; CMake checks the dependencies below.
 | Dependency | Used by | Required when |
 | --- | --- | --- |
 | C17 compiler, CMake ≥ 3.21, Threads and libm | Shared engine and tools. | Always. |
+| Make and Ninja | Single-command GPU build. | `make strix-halo` or `make strix-point`. |
 | OpenSSL Crypto | State identity, integrity and KVC interchange. | Always. |
 | Zstandard | Lossless checkpoint blocks. | `LIE_CHECKPOINT_COMPRESSION=ON` (default). |
 | pkg-config, json-c and llhttp (`libllhttp.pc`) | HTTP parsing, protocol and tools. | Full build. |
@@ -35,6 +36,31 @@ a static library. Configure `-DLIE_SYSTEM_LIBUV=ON` to use system libuv ≥ 1.52
 Other dependencies remain system libraries. See [provenance](../../third_party/README.md).
 
 ## GPU inference build
+
+With the dependencies above installed, run from the repository root:
+
+```sh
+make strix-halo
+```
+
+Use `make strix-point` for `gfx1150`. These targets fetch and verify the pinned
+provider source, compile the default state-access HIP provider and build the
+server, benchmark, report, monitor, KVC tool and steering preparation tool.
+Executables are in `build/strix-halo/` or `build/strix-point/`. They need no
+Python interpreter. The command does not download weights, install packages or
+start a server.
+
+Application compilation uses two jobs by default; `make strix-halo JOBS=4`
+changes it. Provider compilation uses one job. Repeating the command reuses
+the provider only after verifying source, build options, archives and GPU
+target. A changed provider gets a new build directory; old build and failure
+logs remain intact in `build/` and `evidence/`. Run logs and actual child exit
+codes are in `evidence/strix-halo-build/` or `evidence/strix-point-build/`.
+
+The normal build omits the separate Gufo comparison executable. To build that
+control or select other CMake options, use the advanced recipe below.
+
+### Advanced CMake build and comparison control
 
 Run from the repository root. Choose unused labels when preserving an existing
 build; the source fetcher refuses to replace an existing source directory.

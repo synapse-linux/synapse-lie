@@ -15,6 +15,29 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Single-command native GPU build — 2026-10-08 UTC
+
+`make strix-halo` and `make strix-point` select gfx1151 and gfx1150 and drive
+the existing pinned-source, provider and product CMake recipes without Python.
+The standard build emits six user programs in `build/<target>/`, keeps the
+separate Gufo OFF control in the advanced recipe, and reuses a provider only
+after independent source/archive/options and target checks. A changed provider
+gets a new immutable build directory; original failure logs and exit codes
+remain under `evidence/<target>-build/`. README and usage commands use the
+actual standard output paths.
+
+The HOST build-entry fixture runs the actual Makefile and CMake driver with
+isolated synthetic provider scripts and a no-language Ninja project. It checks
+first build, reuse, preserved drift rebuilds, both architecture selections,
+wrong-target and invalid parallelism refusals, and retained configure failures.
+The standalone HIP target verifier now invokes its check in script mode;
+matching and mismatching target receipts are tested. This is orchestration
+evidence, not a new coherent HIP compile or original-weight GPU qualification.
+Focused CTest passes 4/4: build entry, source paths, provider verification and
+HIP target verification. Debug configuration disables Python discovery.
+No GPU window is opened. The separate incremental DS4 walk port remains in
+progress and is excluded from this build-entry checkpoint.
+
 ## Current r70 Strix Halo functional qualification closed — 2026-10-08 UTC
 
 The owner's `.157` authorization is used for one new exact window,

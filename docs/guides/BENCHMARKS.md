@@ -10,6 +10,10 @@ protocol; `http-multi` implements prepared-session HTTP cohorts. Execution,
 reports and graphs are native C and require no Python. The results page
 identifies the measurements already qualified on GPU.
 
+Commands use `build/strix-halo/`, produced by `make strix-halo`. Substitute
+`build/strix-point/` after `make strix-point`. The separate Gufo comparison
+executable uses `build/release/` from the [advanced build recipe](BUILD.md#advanced-cmake-build-and-comparison-control).
+
 ## Choose the measurement
 
 | Suite | Use it to measure | Timing scope |
@@ -62,7 +66,7 @@ Use an already running, authorized HTTP server. For the README server example:
 
 ```sh
 mkdir -p results
-build/release/synapse-lie-bench --suite http-curve \
+build/strix-halo/synapse-lie-bench --suite http-curve \
   --url http://127.0.0.1:8000/v1 --model qwen3.8-flash-next \
   --depths 0,4096,8192,12288,16384,32768,65536,131072 \
   --pp 2048 --tg 128 --context-capacity 262144 \
@@ -95,7 +99,7 @@ That profile adds Gufo's neutral top-k/min-p/repetition controls. Compare native
 curve files offline:
 
 ```sh
-build/release/synapse-lie-bench --suite report results/lie-curve.jsonl \
+build/strix-halo/synapse-lie-bench --suite report results/lie-curve.jsonl \
   --compare results/gufo-curve.jsonl --output results/curve-comparison \
   --label LIE --reference-label Gufo
 ```
@@ -125,7 +129,7 @@ benchmark refuses to overwrite results. On the shared `.157` host, runs must
 first follow the [coordination protocol](../COORDINATION.md).
 
 ```sh
-LIE_BENCH=build/release/synapse-lie-bench
+LIE_BENCH=build/strix-halo/synapse-lie-bench
 LIE_MODEL=/path/to/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf
 mkdir -p results
 
@@ -359,7 +363,7 @@ cat > results/steering-plan.json <<'JSON'
   {"position":1500,"ffn":0,"attention":0.25}
 ]
 JSON
-build/release/synapse-lie-bench --suite core \
+build/strix-halo/synapse-lie-bench --suite core \
   --model "$LIE_MODEL" --tokens-file prompt-1500.json \
   --context 4096 --tg 128 --ignore-eos --users 2 --repetitions 3 \
   --dir-steering-file /path/to/directions.f32 \

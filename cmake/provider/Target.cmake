@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.21)
 # The provider archives must have one recorded target matching the actual GPU.
 function(lie_verify_hip_target build target)
   if(NOT target MATCHES "^gfx115[01]$")
@@ -25,3 +26,6 @@ function(lie_verify_hip_target build target)
     endif()
   endforeach()
 endfunction()
+if(CMAKE_SCRIPT_MODE_FILE STREQUAL CMAKE_CURRENT_LIST_FILE)
+  lie_verify_hip_target("${GUFO_BUILD}" "${LIE_HIP_ARCHITECTURE}")
+endif()

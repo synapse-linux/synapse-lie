@@ -111,7 +111,7 @@ explicit positive output budgets remain exact.
 
 | Component | Requirement |
 | --- | --- |
-| System | Linux, a C17 compiler, CMake 3.21 or newer, and pkg-config. |
+| System | Linux, a C17 compiler, Make, Ninja, CMake 3.21 or newer, and pkg-config. |
 | C libraries | OpenSSL Crypto, json-c, llhttp, libcurl and libpng development files; Zstandard for the default checkpoint build. |
 | Event loop | **libuv 1.52.1 is included** and linked statically. A system-library option is available. |
 | GPU backend | AMD Strix Halo or Strix Point, C++20, ROCm/HIP, hipBLAS, hipBLASLt, rocBLAS, hipCUB/rocPRIM, ICU, PNG and JPEG. |
@@ -125,23 +125,14 @@ Build, server, benchmarks, graphs and the default tests run without Python.
 From a fresh checkout, with the dependencies above installed:
 
 ```sh
-cmake -P cmake/provider/Fetch.cmake
-lie_target_arch=gfx1151 # Strix Halo; use gfx1150 for Strix Point.
-cmake -DLABEL=qwen-hip -DLIE_HIP_ARCHITECTURE="$lie_target_arch" -P cmake/provider/Build.cmake
-cmake -DLABEL=qwen-reference-hip -DLIE_C17_SAMPLING=OFF \
-  -DLIE_HIP_ARCHITECTURE="$lie_target_arch" -P cmake/provider/Build.cmake
-cmake -S . -B build/release -DCMAKE_BUILD_TYPE=Release \
-  -DBUILD_TESTING=OFF -DLIE_GUFO_RUNTIME=ON -DLIE_GUFO_STATE_ACCESS=ON \
-  -DLIE_HIP_ARCHITECTURE="$lie_target_arch" \
-  -DGUFO_SOURCE="$PWD/.deps/gufo-state-access-qwen-hip" \
-  -DGUFO_BUILD="$PWD/build/qwen-hip" \
-  -DGUFO_REFERENCE_BUILD="$PWD/build/qwen-reference-hip"
-cmake --build build/release -j2
+make strix-halo
 ```
 
-The helpers fetch a pinned upstream source and build the HIP provider. They do
-not download model weights. See [build instructions](docs/guides/BUILD.md) for a
-CPU-only development build, sanitizer checks and the system-libuv option.
+The programs are in `build/strix-halo/`. Use `make strix-point` for Strix Point;
+its programs are in `build/strix-point/`. The command fetches the pinned provider
+source, builds the HIP backend and LIE, and reuses a verified provider on repeat
+builds. It does not download model weights. See [build instructions](docs/guides/BUILD.md)
+for dependencies, advanced options, the Gufo comparison control and CPU tests.
 
 ## Run
 
@@ -150,7 +141,7 @@ Download all four **UD-Q4_K_XL** GGUF shards from the
 into one directory, then pass the first shard:
 
 ```sh
-build/release/synapse-lie-server \
+build/strix-halo/synapse-lie-server \
   --model /path/to/Qwen3.8-Flash-Next-UD-Q4_K_XL-00001-of-00004.gguf \
   --model-id qwen3.8-flash-next \
   --host 127.0.0.1 --port 8000 --context 262144 --max-active 1
