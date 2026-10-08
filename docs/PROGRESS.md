@@ -15,6 +15,31 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Native C17 advancing walk — 2026-10-08 UTC
+
+The current `synapse-lie-bench` now selects `--suite ds4-walk` explicitly.
+It tokenizes one raw UTF-8 corpus, records the used physical IDs once and
+advances contiguous frontiers with appended-token PP accounting. Prefix state
+is captured before TG within 1 GiB; larger/unsupported state uses replay.
+Checkpoint and pristine-sequence restore/replay have separate monotonic
+durations outside PP/TG. Mutating transfer failures terminate the run.
+The report verifies prefix hashes, phase bounds and restore chronology;
+CSV/JSON summarize phase durations and SVG/PNG use separate PP/TG scales.
+The [usage guide](guides/BENCHMARKS.md#incremental-raw-corpus-walk) has current
+options. The earlier Q2 page now labels its distinct historical CLI and binary.
+
+Focused Debug and unsuppressed ASan/UBSan/LeakSanitizer groups pass 3/3 each:
+the new walk contract, existing native benchmark and state components.
+Snapshot/replay, warmups, EOS, bounded replay, capture/restore failures,
+malformed evidence and incompatible RoPE/measurement comparisons are covered.
+The 511-frontier/1M boundary is synthetic accounting, not inference.
+Direct reference header syntax also passes against independently fetched
+pinned Gufo; it refuses scaled RoPE. The [HOST receipt and portable logs](development/validation/ds4-walk-native-host-2026-10-08.json)
+preserve actual failures and final exits. Peak CPU across these builds/checks
+is 74 C; no thermal guard trips. No GPU/model or remote operation runs.
+The selected Q2/IQ2 format port, coherent HIP build and current-weight walk
+qualification remain pending before consolidation into `develop`.
+
 ## Single-command native GPU build — 2026-10-08 UTC
 
 `make strix-halo` and `make strix-point` select gfx1151 and gfx1150 and drive

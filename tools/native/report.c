@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include <limits.h>
 #include <math.h>
+#include <openssl/evp.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -119,6 +120,7 @@ static bool direct_phase_bounds(json_object *id, json_object *row) {
       goto bad;                                                                \
     }                                                                          \
   } while (0)
+#include "report_walk.inc"
 static json_object *direct(json_object *rows, nb_error *e) {
   json_object *id = json_object_array_get_idx(rows, 0),
               *out = json_object_new_object(),
@@ -130,6 +132,9 @@ static json_object *direct(json_object *rows, nb_error *e) {
   json_object_object_add(out, "loading", select_rows(rows, "model_loaded"));
   int64_t chunk,capacity;
   CHECK(repetition_config(id)&&prefill_config(id,true,&chunk,&capacity), "Invalid direct benchmark identity");
+  CHECK(!nb_get(id,"measurement_contract")||eqs(id,"measurement_contract",direct_contract(id)),
+        "Invalid direct measurement contract");
+  bool walk=eqs(id,"suite","ds4-walk");
   size_t reps =
       (size_t)(nb_number(id, "warmups") + nb_number(id, "repetitions"));
   CHECK(json_object_array_length(samples) ==
@@ -137,9 +142,10 @@ static json_object *direct(json_object *rows, nb_error *e) {
         "Unbound or missing direct samples");
   CHECK(json_object_array_length(input) || eqs(id, "suite", "loading"),
         "No direct workload inputs");
+  if(walk&&!walk_evidence(rows,id,input,reps,e))goto bad;
   for (size_t p = 0; p < json_object_array_length(input); p++) {
     json_object *in = json_object_array_get_idx(input, p);
-    CHECK(ids(in) && nb_count(in, "users", 1, 8, NULL) &&
+    CHECK((walk||ids(in)) && nb_count(in, "users", 1, 8, NULL) &&
               nb_count(in, "depth", 0, 1048576, NULL) &&
               nb_count(in, "context_capacity", 1, 2097152, NULL) &&
               nb_count(in, "point", 0, 65535, NULL),
@@ -233,6 +239,17 @@ static json_object *direct(json_object *rows, nb_error *e) {
                            metric(group, "prefill_ns", 1e-9, true));
     json_object_object_add(point, "decode_seconds",
                            metric(group, "decode_ns", 1e-9, true));
+    if(walk){
+      json_object_object_add(point,"checkpoint_seconds",metric(group,"checkpoint_ns",1e-9,true));
+      json_object *restores=json_object_new_array();
+      for(size_t j=0;j<json_object_array_length(rows);++j){
+        json_object *r=json_object_array_get_idx(rows,j);
+        if(eqs(r,"event","walk_restore")&&nb_same(r,in,"point")&&nb_number(r,"rep")>=nb_number(id,"warmups"))
+          json_object_array_add(restores,json_object_get(r));
+      }
+      json_object_object_add(point,"restore_seconds",metric(restores,"elapsed_ns",1e-9,false));
+      json_object_put(restores);
+    }
     json_object_object_del(point, "_rows");
   }
   json_object_put(input);
@@ -958,6 +975,10 @@ static json_object *comparison(json_object *a, json_object *b, bool cache_build,
   CHECK(nb_same(ai, bi, "schema") && nb_same(ai, bi, "synthetic") &&
             nb_same(ai, bi, "suite"),
         "Comparison scope or provider-kind mismatch");
+  CHECK(!eqs(ai,"schema","synapse-lie.bench.v1")||!strcmp(direct_contract(ai),direct_contract(bi)),
+        "Comparison measurement contract mismatch");
+  CHECK(!eqs(ai,"suite","ds4-walk")||nb_same(ai,bi,"rope_scaling"),
+        "DS4 walk comparison RoPE profiles differ");
   bool iscore = eqs(ai, "suite", "core"),
        http = eqs(ai, "schema", "synapse-lie.http-bench.v1");
   CHECK(!cache_build || iscore, "Cache build comparison requires core results");
@@ -1113,7 +1134,8 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
   bool iscore = eqs(nb_get(a, "identity"), "suite", "core"),
        http = nb_get(a, "cases") != NULL,
        ssd = eqs(a, "schema", "synapse-lie.http-ssd-bench.v1"),
-       loading = eqs(nb_get(a, "identity"), "suite", "loading");
+       loading = eqs(nb_get(a, "identity"), "suite", "loading"),
+       walk = eqs(nb_get(a,"identity"),"suite","ds4-walk");
   if (ssd)
     fputs("case,api,stream,users,samples,metric,n,p50,p95,p99,min,max\n", f);
   else if (http)
@@ -1131,11 +1153,14 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
           f);
   else if (loading)
     fputs("label,context_capacity,users,model_load_seconds\n", f);
-  else
+  else {
     fputs("label,depth,users,context_capacity,prompt_tokens,repetitions,full_"
           "output_budget,pp_median_tps,pp_min_tps,pp_max_tps,tg_median_tps,tg_"
-          "min_tps,tg_max_tps,pp_median_s,pp_min_s,pp_max_s,tg_median_s,tg_min_s,tg_max_s\n",
+          "min_tps,tg_max_tps,pp_median_s,pp_min_s,pp_max_s,tg_median_s,tg_min_s,tg_max_s",
           f);
+    if(walk)fputs(",measurement_contract,new_prefill_tokens,checkpoint_median_s,restore_median_s",f);
+    fputc('\n',f);
+  }
   json_object *series[] = {a, b};
   const char *labels[] = {label, ref};
   for (unsigned s = 0; s < (b ? 2u : 1u); s++) {
@@ -1198,6 +1223,12 @@ static bool export_csv(const char *dir, json_object *a, json_object *b,
         for (unsigned k = 0; k < 2; k++)
           for (unsigned j = 0; j < 3; j++)
             csv_stat(f, r, k ? "decode_seconds" : "prefill_seconds", stats[j], 1);
+        if(walk){
+          fputc(',',f);csv_string(f,direct_contract(nb_get(series[s],"identity")));
+          fprintf(f,",%" PRId64,nb_number(r,"prompt_tokens")-nb_number(r,"depth"));
+          csv_stat(f,r,"checkpoint_seconds","median",1);
+          csv_stat(f,r,"restore_seconds","median",1);
+        }
       }
       fputc('\n', f);
     }
@@ -1275,6 +1306,8 @@ static bool export_graph(const char *dir, json_object *a, json_object *b,
                         : loading ? "OS file cache uncontrolled"
                         : iscore || eqs(nb_get(a, "identity"), "suite", "multi")
                             ? "Concurrent users"
+                        : eqs(nb_get(a, "identity"), "suite", "ds4-walk")
+                            ? "Physical frontier (incremental prefill)"
                         : eqs(nb_get(a, "identity"), "suite", "fresh")
                             ? "Full prompt tokens"
                             : "Reused prefix tokens";
@@ -1339,7 +1372,7 @@ static bool export_graph(const char *dir, json_object *a, json_object *b,
           snprintf(tick, sizeof(tick), "model load");
         else
           snprintf(tick, sizeof(tick), "%" PRId64 " tokens",
-                   nb_number(r, eqs(nb_get(data, "identity"), "suite", "fresh")
+                   nb_number(r, (eqs(nb_get(data, "identity"), "suite", "fresh")||eqs(nb_get(data,"identity"),"suite","ds4-walk"))
                                     ? "prompt_tokens"
                                     : "depth"));
         v->ticks[i] = strdup(tick);

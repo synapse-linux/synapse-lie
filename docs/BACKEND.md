@@ -116,9 +116,19 @@ The 13 generated WMMA comparisons are component evidence, distinct from model
 long-context or task quality. No matched performance gain is inferred.
 
 Strix Point integration is merged into `develop` at `30598a3`; current context
-and OpenAI work remains on `feature/context-million-openai`. Recorded GPU
+and OpenAI work is being consolidated on `feature/integrate-antirez-qwen`.
+The production source preceding the context branch's last documentation commit
+is present there; selected final documentation is carried across separately.
+`develop` has not yet received that consolidated head. Recorded GPU
 results belong to their stated source and binary identities. They do not
 automatically qualify a later runtime or another model/platform.
+
+The native C17 `ds4-walk` source transfer now passes focused Debug and
+unsuppressed sanitizer checks, with [current usage](guides/BENCHMARKS.md#incremental-raw-corpus-walk)
+and [HOST evidence](development/validation/ds4-walk-native-host-2026-10-08.json).
+Selected Q2/IQ2 numerical-format integration into the current provider and
+combined HIP/weight qualification remain pending. This source consolidation
+does not close the full context, quality or comparative-performance queue.
 
 This is the work queue owned by this thread. Separate DGX Spark/CUDA,
 Antirez weight-format/quantization and Strix Point port tasks stay with their

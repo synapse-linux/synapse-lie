@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <exception>
 #include <memory>
+#include <string_view>
 #include <vector>
 
 #ifndef LIE_BENCH_WIDTH
@@ -45,6 +46,11 @@ extern "C" lie_status lie_sequence_configure_prefill(lie_sequence *,uint32_t,
     return LIE_UNSUPPORTED;
 }
 extern "C" lie_status lie_backend_open(const char *path,const lie_model_options *o,lie_model **out,lie_error *e) {
+    if(!path||!o||!out||o->abi_version!=LIE_EXECUTOR_ABI||o->struct_bytes!=sizeof(*o))return LIE_INVALID;
+    if(o->rope_profile!=LIE_ROPE_NATIVE){
+        if(e)std::snprintf(e->message,sizeof(e->message),"scaled RoPE is not available in this direct reference");
+        return LIE_UNSUPPORTED;
+    }
     const auto status = lie_gufo_device_validate(e);
     if (status != LIE_OK) return status;
     return protect(e,[&] { qfn::ModelOptions options;options.max_context=o->context_tokens;
@@ -79,6 +85,16 @@ extern "C" lie_status lie_model_chat_tokens(lie_model *m,const lie_chat_message 
         if(!ids)return fail(e,error.c_str());
         *needed=ids->size();if(*needed>cap)return LIE_BUFFER_SMALL;
         std::copy(ids->begin(),ids->end(),out);return LIE_OK; });
+}
+extern "C" lie_status lie_model_tokenize(lie_model *m,const char *text,size_t bytes,
+    int32_t *out,size_t capacity,size_t *required,lie_error *e) {
+    if(!m||!text||!required||(!out&&capacity)||bytes>LIE_CHAT_BODY_BYTES)return LIE_INVALID;
+    return protect(e,[&] {
+        auto tokens=m->model->Tokenize(std::string_view(text,bytes));
+        *required=tokens.size();if(tokens.size()>capacity)return LIE_BUFFER_SMALL;
+        if(!tokens.empty())std::copy(tokens.begin(),tokens.end(),out);
+        return LIE_OK;
+    });
 }
 extern "C" lie_status lie_sequence_create(lie_model *m,lie_sequence **out,lie_error *e) {
     return protect(e,[&] { auto s=std::make_unique<lie_sequence>();s->model=m->model;

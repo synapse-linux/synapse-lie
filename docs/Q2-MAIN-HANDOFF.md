@@ -9,6 +9,15 @@ overwrite current sampling, KVC, MTP, vision, steering or reactive scheduling.
 
 ## Native benchmark transfer
 
+The current C17 integration now implements the method in
+[`tools/walk-bench.inc`](../tools/walk-bench.inc), selected with `--suite ds4-walk`.
+Use the [current CLI](guides/BENCHMARKS.md#incremental-raw-corpus-walk) rather
+than the capsule's options below. Focused Debug and unsuppressed sanitizer
+checks pass in the [HOST receipt](development/validation/ds4-walk-native-host-2026-10-08.json).
+Numerical-format transfer and current-provider GPU qualification are separate
+remaining gates. The following chain preserves the historical implementation
+and provenance; it is not a production build input.
+
 The DS4 advancing-walk implementation is the tracked
 [`ds4-walk-bench.patch`](../experiments/ds4-walk-bench.patch), applied by
 [`prepare-ds4-walk-bench.py`](../tools/prepare-ds4-walk-bench.py) to the

@@ -57,7 +57,7 @@ lie_status lie_backend_open(const char *p,const lie_model_options *o,lie_model *
     if(!strcmp(p,":load-failure:")){snprintf(e->message,sizeof(e->message),"synthetic model allocation failure");return LIE_BACKEND_FAILED;}
     (void)e; *m=calloc(1,sizeof(**m)); if (!*m) return LIE_BACKEND_FAILED;
     (*m)->context=o->context_tokens;(*m)->width=1;(*m)->chunk=o->prefill_chunk_tokens;(*m)->domain=atomic_fetch_add(&domain_counter,1);
-    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:",":progress-fixture:",":progress-failure:",":progress-timeout:",":eos-policy-fault:"};
+    const char *names[]={":fixture:",":eos:",":nan:",":drift:",":failure:",":frontier:",":render-bound:",":sampling:",":progress-fixture:",":progress-failure:",":progress-timeout:",":eos-policy-fault:",":snapshot-limit:",":capture-failure:",":restore-failure:"};
     for (unsigned i=0;i<sizeof(names)/sizeof(*names);++i) if (!strcmp(p,names[i])) { (*m)->mode=(int)i; return LIE_OK; }
     free(*m); *m=NULL; return LIE_INVALID;
 }
@@ -173,10 +173,12 @@ lie_status lie_sequence_state_describe(lie_sequence *s,const lie_state_layout *f
     out->model_data[1]=s->m->drafts;if(from&&from->model_data[1]!=out->model_data[1])return LIE_INVALID;
     uint64_t shape=out->token_count;if(!lie_state_add(out,LIE_STATE_TOKENS,0,LIE_STATE_I32,1,&shape))return LIE_INVALID;
     shape=256;if(!lie_state_add(out,LIE_STATE_LOGITS,0,LIE_STATE_F32,1,&shape))return LIE_INVALID;
+    if(s->m->mode==12){shape=UINT64_C(1073741824);if(!lie_state_add(out,LIE_STATE_MODEL_COMPONENT,0,LIE_STATE_U8,1,&shape))return LIE_INVALID;}
     unsigned char zero[32]={0};if(memcmp(s->scope,zero,32)){shape=32;if(!lie_state_add(out,LIE_STATE_CACHE_SCOPE,0,LIE_STATE_U8,1,&shape))return LIE_INVALID;}
     return LIE_OK;
 }
 lie_status lie_sequence_state_read(lie_sequence *s,const lie_state_layout *l,void *p,size_t n,lie_error *e){
+    if(s->m->mode==13){snprintf(e->message,sizeof(e->message),"synthetic checkpoint transfer failure");return LIE_BACKEND_FAILED;}
     uint64_t bytes;if(!lie_state_validate(l,&bytes)||bytes!=n)return LIE_INVALID;
     if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     memcpy((char*)p+l->sections[0].offset,s->prompt,l->sections[0].bytes);
@@ -187,7 +189,9 @@ lie_status lie_sequence_state_write(lie_sequence *s,const lie_state_layout *l,co
     (void)e;uint64_t bytes;if(!lie_state_validate(l,&bytes)||bytes!=n||s->position)return LIE_INVALID;
     if(atomic_load(&s->cancelled))return LIE_CANCELLED;
     if(l->section_count==3&&memcmp((const char*)p+l->sections[2].offset,s->scope,32))return LIE_INVALID;
-    memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;s->step=l->model_data[0];return LIE_OK;
+    memcpy(s->prompt,(const char*)p+l->sections[0].offset,l->sections[0].bytes);s->position=l->token_count;s->step=l->model_data[0];
+    if(s->m->mode==14){snprintf(e->message,sizeof(e->message),"synthetic mutating restore failure; no retry");return LIE_BACKEND_FAILED;}
+    return LIE_OK;
 }
 
 lie_status lie_model_chat_anchor(lie_model *m,const int32_t *t,size_t n,size_t *out,lie_error *e){

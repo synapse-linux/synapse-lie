@@ -7,6 +7,11 @@ stable release is declared. Detailed validation history is in
 
 ## Unreleased
 
+- Native C17 `ds4-walk` benchmark for contiguous raw-corpus frontiers, with
+  appended-token prefill accounting and separate checkpoint/restore timings.
+  Snapshot and replay use the current state API; reports refuse incompatible
+  measurement contracts and RoPE profiles. CSV, JSON, SVG and PNG need no Python.
+
 - Build the GPU server and tools with `make strix-halo` or `make strix-point`.
   These native CMake entry points fetch the pinned provider, reuse verified
   builds and require no Python interpreter.

@@ -94,7 +94,8 @@ and the core report's prefill-dispatch fields.
   cover original-weight AR/MTP histories longer than fresh tokenization.
 - `synapse-lie-bench` for prefill, generation, context-depth and concurrency
   measurements, including separate prefill/decode durations, with CSV, JSON,
-  SVG and PNG exports, reproducible shared-core sampling controls and optional
+  SVG and PNG exports, an [incremental raw-corpus walk](docs/guides/BENCHMARKS.md#incremental-raw-corpus-walk),
+  reproducible shared-core sampling controls and optional
   live prefill progress on stderr. Its native
   [long-context recall preset](docs/guides/BENCHMARKS.md#long-context-recall-and-continuation)
   records exact retrieval and continuation results.

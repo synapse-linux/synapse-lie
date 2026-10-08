@@ -1,8 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
-# Native benchmark: DS4 walk
+# Historical Q2 qualification: DS4 walk
 
-The default direct `synapse-lie-bench` mode follows the measurement loop in
+The current C17 executable selects `--suite ds4-walk` explicitly; its
+[current commands and measurement contract](guides/BENCHMARKS.md#incremental-raw-corpus-walk)
+use `--corpus`, `--context` and `--restore auto|replay`. This page retains the
+earlier isolated Q2 binary's CLI and GPU evidence. Its capsule and archives
+are not the build inputs or qualification receipt for the current runtime.
+
+That historical binary's default direct mode follows the measurement loop in
 [`antirez/ds4` `ds4_bench.c` at `0aaea5a`](https://github.com/antirez/ds4/blob/0aaea5a238fb41a35106a551e73c8409dfb751ac/ds4_bench.c).
 It loads one model and tokenizes one raw-text corpus before timing. For each
 walk it creates one logical sequence and advances the same token prefix by a
@@ -22,7 +28,7 @@ greedy token. A run with fewer than the requested output tokens is flagged and
 cannot enter the matched TG128 comparison. These backend differences remain
 visible and should not be described as byte-for-byte DS4 execution.
 
-The default is one walk with no warmup. `--warmups 1` runs an entire untimed
+The default is one walk with no warmup. `--warmups 1` runs an entire unscored
 qualification walk before the measured walk; it does not reset the sequence
 at every context point. For a fixed four-point check:
 

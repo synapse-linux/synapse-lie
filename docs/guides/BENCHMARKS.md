@@ -21,6 +21,7 @@ executable uses `build/release/` from the [advanced build recipe](BUILD.md#advan
 | `single` | Prefill and generation after an occupied prefix, through 128K by default. | New suffix prefill and decode, separately; excludes prefix construction. |
 | `multi` | Decode throughput at 1, 2, 4, 6 and 8 simultaneous sequences. | All rows are prefilled before timed decoding; aggregate cohort decode rate. |
 | `fresh` | The cost of processing a complete new prompt. | Full prompt prefill from an empty sequence, then decode. |
+| `ds4-walk` | Incremental prefill as one raw-text prefix grows. | Newly appended PP tokens and TG; checkpoint and restore/replay have separate durations. |
 | `core` | The shared C engine, including admission and cache behavior. | Per-job TTFT, executed prefill, decode and output over cohort wall time. |
 | `http` | Client-visible API latency and replayable conversation workloads. | HTTP request wall time and reported executor timings. |
 | `http --preset long-context-recall` | Exact recovery of independent key/value bindings at start, middle and end, including continuation. | Actual prompt/output usage and per-turn exact-match results; separate from throughput workloads. |
@@ -35,9 +36,51 @@ Decode rate and total output divided by request wall time are different metrics.
 The core report rejects missing executed-phase time, inconsistent call counts
 and phase times beyond the job's wall time before publishing graphs or a summary.
 
+## Incremental raw-corpus walk
+
+Use `ds4-walk` to measure a fixed number of new prefill tokens at increasing
+physical context sizes. It tokenizes one UTF-8 text file without a chat template,
+then advances through contiguous frontiers. For a short check:
+
+```sh
+build/strix-halo/synapse-lie-bench --suite ds4-walk \
+  --model /path/to/first-model-shard.gguf --corpus /path/to/corpus.txt \
+  --pp 2048 --sizes 2048,4096,6144,8192 --context 262144 \
+  --prefill-chunk 2048 --tg 128 --warmups 0 --repetitions 3 \
+  --restore auto --output results/walk.jsonl --graphs results/walk
+```
+
+Create `results/` first. Without `--sizes`, frontiers advance by `--pp` through
+128K; the default is one walk with no warmup. Each frontier must be exactly
+one `--pp` step beyond the previous one. The context must also leave room for
+the requested output. `--context` admits up to 1,048,576 tokens with an explicit
+`--rope-scaling native|yarn2|yarn4` profile; see [context profiles](CONTEXT.md).
+For example, a 2K walk can reach 1,046,528 prompt tokens with a 1M capacity.
+The corpus must tokenize to at least the last frontier and fit the 8 MiB input
+bound. Configuration limits alone do not qualify model quality or memory fit.
+
+The PP numerator is always the newly appended step, rather than the complete
+prefix. Before TG, `--restore auto` captures prefix state within a 1 GiB budget;
+unsupported or larger state uses replay. `--restore replay` forces replay.
+Before advancing, the benchmark creates a pristine physical sequence, restores
+or replays the prior prefix, and verifies its logits hash. Checkpoint creation
+and restoration remain outside PP/TG timers. Transfer failures terminate the
+run. JSONL retains their methods, bytes and monotonic intervals; JSON summarizes
+phase durations and CSV adds new PP tokens, checkpoint seconds and restore seconds. The first frontier
+has no restore measurement. PP and TG graphs use separate vertical scales.
+
+This suite is C1 greedy AR. Reactive execution uses the shared C17 flow and
+inference dispatch; the direct Gufo control uses its native API and replay.
+The current control refuses scaled RoPE. A comparison requires matching
+measurement contract, profile, physical prefixes, chunk, capacity and output
+budget. Natural EOS remains visible; shortened output cannot enter a matched
+TG comparison. `fresh` measures full prefill and answers a different question.
+The [earlier Q2 walk](../DS4-WALK-BENCH.md) is historical evidence for its own
+binary, not GPU qualification of this port.
+
 ## Reading prefill dispatch
 
-Direct `single`, `multi` and `fresh` suites accept `--prefill-chunk N` (1–32,768;
+Direct `single`, `multi`, `fresh` and `ds4-walk` suites accept `--prefill-chunk N` (1–32,768;
 default 2,048). `--suite core` also accepts `--prefill-capacity N` to reserve a
 larger provider capacity than its selected chunk. `--chunk` remains a CLI alias.
 JSONL identities and summaries report both values; comparative reports require
