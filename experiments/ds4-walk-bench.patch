@@ -1,0 +1,519 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -424,6 +424,12 @@
+   add_executable(test-synthetic-lie-bench tools/lie-bench.c tools/core-bench.c tools/state-bench.c tests/bench_executor.c)
+   target_include_directories(test-synthetic-lie-bench PRIVATE include)
+   target_link_libraries(test-synthetic-lie-bench PRIVATE lie_core lie_bench_native PkgConfig::JSON OpenSSL::Crypto m)
++  find_package(Python3 REQUIRED COMPONENTS Interpreter)
++  add_test(NAME ds4-walk-accounting COMMAND ${Python3_EXECUTABLE}
++    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_lie_bench.py
++    $<TARGET_FILE:test-synthetic-lie-bench>
++    SimplifiedBenchmark.test_default_ds4_walk_advances_one_corpus_and_excludes_restore)
++  set_tests_properties(ds4-walk-accounting PROPERTIES TIMEOUT 30)
+   function(lie_feature_http name)
+     add_executable(test-${name}-http tests/test_feature_http.c)
+     target_link_libraries(test-${name}-http PRIVATE lie_bench_native)
+--- a/tools/lie-bench.c
++++ b/tools/lie-bench.c
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: MIT */
+ /* Simplified Gufo-style workloads over completed GPU executor calls. */
+ #include "lie/executor.h"
++#include "lie/state.h"
+ #include "native/bench_native.h"
+ #include "lie/inference.h"
+ #include <errno.h>
+@@ -46,19 +47,22 @@
+     }
+     free(copy);return ok&&*count>0;
+ }
+-struct config {const char *model,*output,*suite,*graphs,*compare,*execution,*prompt_file;bool sizes_set,depths_set,counting;unsigned chunk,context_override,pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
++struct config {const char *model,*output,*suite,*graphs,*compare,*execution,*prompt_file,*restore;bool sizes_set,depths_set,counting,users_set;unsigned chunk,context_override,pp,tg,repetitions,warmups,depths[MAX_POINTS],depth_count,users[MAX_POINTS],user_count,sizes[MAX_POINTS],size_count,context;};
+ static json_object *identity(const struct config *c) {
+     json_object *j=event("identity");str(j,"schema","synapse-lie.bench.v1");str(j,"program","synapse-lie-bench");str(j,"build_id",LIE_BUILD_ID);
+     str(j,"engine",lie_backend_name());str(j,"source_pin",lie_backend_source_pin());str(j,"ownership",lie_backend_ownership());
+     str(j,"dense_sampling",lie_backend_dense_sampling());
+     json_object_object_add(j,"synthetic",json_object_new_boolean(lie_backend_is_synthetic()));
++    bool walk=!strcmp(c->suite,"ds4-walk");
+     str(j,"suite",c->suite);str(j,"mode","ar");num(j,"pp_target",!strcmp(c->suite,"fresh")?0:c->pp);num(j,"output_limit",c->tg);num(j,"repetitions",c->repetitions);num(j,"warmups",c->warmups);
+-    str(j,"scope",!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"simplified direct executor; physical-prefix reuse, not HTTP conversation/cache restore or independent kernels");
++    str(j,"scope",walk?"one advancing logical sequence per walk; completed incremental prefill; frontier state restored outside timing":!strcmp(c->suite,"fresh")?"full prompt from empty sequence; completed chunked prefill; no prefix cache":"deprecated direct executor suite pending review");
++    str(j,"suite_status",walk?"main":"deprecated-pending-review");
+     num(j,"prefill_chunk",c->chunk?c->chunk:c->pp);
+     str(j,"prompt_contract",c->counting?"exact-counting-chat-v1":"exact-token-prefix-v1");
+     str(j,"prompt_preset",c->counting?"q2-counting":"none");
+     str(j,"prompt_file",c->prompt_file?c->prompt_file:"");
+-    str(j,"measurement_contract",!strcmp(c->suite,"fresh")?"full-prefill-v1":"incremental-prefill-v1");
++    str(j,"measurement_contract",walk?"ds4-walk-v1":!strcmp(c->suite,"fresh")?"full-prefill-v1":"incremental-prefill-v1");
++    if(walk){str(j,"restore_policy",c->restore);num(j,"snapshot_limit_bytes",INT64_C(1073741824));}
+     str(j,"decode_contract","completed-forward-per-emitted-token-v1");
+     str(j,"timing_clock","CLOCK_MONOTONIC");
+     str(j,"wall_clock_scope","CLOCK_REALTIME for telemetry correlation only; durations use monotonic phase bounds");
+@@ -132,8 +136,9 @@
+ }
+ #endif
+ struct witness {char pp[65],tg[65];int32_t *ids;unsigned count,stop;bool set;};
+-static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned users,unsigned point,unsigned rep,bool warmup,const struct config *c,unsigned vocab,struct witness *w,FILE *f,lie_error *e) {
++static bool sample(lie_model *m,const struct prompt *p,unsigned depth,unsigned users,unsigned point,unsigned rep,bool warmup,const struct config *c,unsigned vocab,struct witness *w,FILE *f,lie_error *e,lie_sequence **walk_sequence,bool restore_after) {
+     lie_sequence *seq[MAX_USERS]={0};unsigned handles=users;
++    bool walk=walk_sequence!=NULL;lie_state *snapshot=NULL;const char *restore_mode="none";uint64_t snapshot_bytes=0;
+ #ifndef LIE_BENCH_REFERENCE
+     lie_flow *flows[MAX_USERS]={0};struct dispatch_counts stats={0};
+     bool reactive=!strcmp(c->execution,"reactive");
+@@ -148,13 +153,28 @@
+     if(!sample_begin||!wall_begin){snprintf(e->message,sizeof(e->message),"benchmark clock unavailable");goto done;}
+     json_object *begin=event("sample_begin");num(begin,"point",point);num(begin,"rep",rep);num(begin,"depth",depth);num(begin,"users",users);num(begin,"warmup",warmup);
+     num(begin,"monotonic_ns",(int64_t)sample_begin);num(begin,"wall_time_ns",(int64_t)wall_begin);if(!emit(f,begin))goto done;
+-    for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,c->chunk,e))goto done;
++    if(walk){
++        if(users!=1||!strcmp(c->execution,"reactive")){snprintf(e->message,sizeof(e->message),"ds4 walk requires one serial user");goto done;}
++        seq[0]=*walk_sequence;
++        if(!seq[0]){if(depth||lie_sequence_create(m,&seq[0],e)!=LIE_OK)goto done;*walk_sequence=seq[0];}
++    }else for(unsigned i=0;i<handles;++i)if(lie_sequence_create(m,&seq[i],e)!=LIE_OK||!prefill(seq[i],p,0,depth,c->chunk,e))goto done;
+     uint64_t pp_begin=ns();
+     for(unsigned i=0;i<handles;++i)if(!prefill(seq[i],p,depth,p->n,c->chunk,e))goto done;
+     uint64_t pp_end=ns();
+     if(!pp_begin||pp_end<=pp_begin){snprintf(e->message,sizeof(e->message),"invalid prefill clock interval");goto done;}
+     uint64_t pp_ns=pp_end-pp_begin;
+     if(!frontier(seq[0],logits,vocab,pp_hash,e))goto done;
++    if(walk&&restore_after){
++        restore_mode="replay";
++        if(strcmp(c->restore,"replay")&&lie_backend_prefix_state_supported()){
++            lie_state_layout layout;uint64_t planned=0;
++            if(lie_state_plan(seq[0],&layout,&planned,e)!=LIE_OK)goto done;
++            if(planned<=UINT64_C(1073741824)){
++                if(lie_state_capture(seq[0],&layout,UINT64_C(1073741824),&snapshot,e)!=LIE_OK)goto done;
++                snapshot_bytes=lie_state_bytes(snapshot);restore_mode="snapshot";
++            }
++        }
++    }
+ #ifndef LIE_BENCH_REFERENCE
+     if(reactive)for(unsigned i=0;i<users;++i){lie_flow_options o={1,1,4096};if(lie_flow_create(&o,&flows[i])!=LIE_FLOW_OK||lie_flow_request(flows[i],1)!=LIE_FLOW_OK)goto done;}
+ #endif
+@@ -197,13 +217,59 @@
+     if(reactive){num(j,"decode_single_calls",stats.single);num(j,"decode_batches",stats.batches);num(j,"decode_batch_rows",stats.rows);}
+ #endif
+     num(j,"full_output_budget",counts[0]==c->tg);ok=emit(f,j);
++    if(walk){
++        json_object *mode=event("frontier_restore");num(mode,"point",point);num(mode,"rep",rep);
++        str(mode,"mode",restore_mode);num(mode,"snapshot_bytes",(int64_t)snapshot_bytes);
++        ok=ok&&emit(f,mode);
++        if(ok&&restore_after){
++            if(lie_sequence_close(&seq[0],e)!=LIE_OK)ok=false;
++            *walk_sequence=NULL;
++            if(ok&&lie_sequence_create(m,&seq[0],e)!=LIE_OK)ok=false;
++            if(ok&&snapshot){if(lie_state_restore(seq[0],snapshot,e)!=LIE_OK)ok=false;}
++            else if(ok&&!prefill(seq[0],p,0,p->n,c->chunk,e))ok=false;
++            if(ok)*walk_sequence=seq[0];
++        }
++    }
+     fprintf(stderr,"point=%u depth=%u users=%u warmup=%u output=%u completed\n",point,depth,users,warmup,counts[0]);
+ done:
+ #ifndef LIE_BENCH_REFERENCE
+     for(unsigned i=0;i<users;++i)if(flows[i]){(void)lie_flow_cancel(flows[i]);if(lie_flow_destroy(&flows[i])!=LIE_FLOW_OK)ok=false;}
+ #endif
+-    for(unsigned i=0;i<handles;++i)if(seq[i]&&lie_sequence_close(&seq[i],e)!=LIE_OK)ok=false;
++    if(walk){if(!ok&&seq[0]){(void)lie_sequence_close(&seq[0],e);*walk_sequence=NULL;}}
++    else for(unsigned i=0;i<handles;++i)if(seq[i]&&lie_sequence_close(&seq[i],e)!=LIE_OK)ok=false;
++    lie_state_destroy(&snapshot);
+     free(output);free(logits);return ok;
++}
++static bool run_walk(lie_model **model,lie_model_info *info,struct prompt *corpus,
++                     const struct config *c,FILE *f,lie_error *e) {
++    unsigned context=c->context_override?c->context_override:133760;
++    unsigned points=c->size_count,max=c->sizes[points-1];
++    if((uint64_t)max+c->tg>context){snprintf(e->message,sizeof(e->message),"walk exceeds context capacity");return false;}
++    if(!open_model(c,context,1,model,info,f,e)||!exact_corpus(*model,c,max,corpus,f,e))return false;
++    struct witness *w=calloc(points,sizeof(*w));bool ok=w!=NULL;
++    if(!ok){snprintf(e->message,sizeof(e->message),"walk witness allocation failed");return false;}
++    for(unsigned point=0;ok&&point<points;++point){
++        unsigned target=c->sizes[point],previous=point?c->sizes[point-1]:0;
++        w[point].ids=calloc(c->tg,sizeof(int32_t));if(!w[point].ids){ok=false;break;}
++        char digest[65];ok=hash(corpus->ids,target*sizeof(*corpus->ids),digest);
++        if(!ok)break;
++        json_object *j=event("input");num(j,"point",point);num(j,"depth",previous);num(j,"users",1);
++        num(j,"target_prompt_tokens",target);num(j,"context_capacity",context);num(j,"prompt_tokens",target);
++        str(j,"physical_ids_sha256",digest);json_object_object_add(j,"physical_ids",ids_json(corpus->ids,target));ok=emit(f,j);
++    }
++    for(unsigned rep=0;ok&&rep<c->warmups+c->repetitions;++rep){
++        lie_sequence *sequence=NULL;
++        for(unsigned point=0;ok&&point<points;++point){
++            unsigned previous=point?c->sizes[point-1]:0;
++            struct prompt prefix={corpus->ids,c->sizes[point]};
++            ok=sample(*model,&prefix,previous,1,point,rep,rep<c->warmups,c,info->vocab_tokens,
++                      &w[point],f,e,&sequence,point+1<points);
++        }
++        if(sequence&&lie_sequence_close(&sequence,e)!=LIE_OK)ok=false;
++    }
++    for(unsigned point=0;point<points;++point)free(w[point].ids);
++    free(w);if(!ok&&!e->message[0])snprintf(e->message,sizeof(e->message),"ds4 walk failed");
++    return ok;
+ }
+ int main(int argc,char **argv) {
+ #ifndef LIE_BENCH_REFERENCE
+@@ -220,19 +286,22 @@
+         if(!strcmp(argv[i+1],"report"))return nb_report_main(argc,argv);
+     }
+     _Static_assert(sizeof(float)==4&&FLT_RADIX==2&&FLT_MANT_DIG==24,"float32 required");
+-    struct config c={.suite="fresh",.execution="reactive",.pp=2048,.tg=128,.repetitions=1,.warmups=1,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
++    struct config c={.suite="ds4-walk",.execution="reactive",.restore="snapshot-auto",.pp=2048,.tg=128,.repetitions=1,.warmups=0,.depths={0,4096,8192,12288,16384,32768,65536,131072},.depth_count=8,.users={1,2,4,6,8},.user_count=5,.sizes={1500,8000,8192,32768,131072,258794},.size_count=6};
++    bool execution_set=false,warmups_set=false,restore_set=false;
+     for(int i=1;i<argc;++i){
+         if(!strcmp(argv[i],"--help")) {
+             puts("Usage: synapse-lie-bench --model FIRST-SHARD --output NEW-JSONL "
+-                 "[--suite single|multi|loading|memory|fresh]\n"
++                 "[--suite ds4-walk|fresh|single|multi|loading|memory]\n"
+                  "  [--depths ALIGNED-PREFIX-TOKENS,... (single suite only)]\n"
+                  "  (--prompt-file TEXT | --prompt-preset q2-counting)\n"
+                  "  [--sizes EXACT-TOKENS,...] [--users 1,2,4,6,8]\n"
+                  "  [--prefill-chunk 2048|4096|8192] [--context-capacity N]\n"
+-                 "Default suite fresh: time the entire prompt from an empty sequence, including every chunk.\n"
+-                 "Default sizes: every chunk multiple through 131072. All sizes/depths must align.\n"
+-                 "Explicit suite single: incremental PP at reused depth; not a full-prefill curve.\n"
+-                 "  [--pp 2048] [--tg 128] [--warmups 1] [--repetitions 1]\n"
++                 "Default ds4-walk: one advancing logical session, 2K steps to 128K, TG128; no warmup.\n"
++                 "The timer encloses only each new step; state restore/replay is outside it.\n"
++                 "Use --sizes as a contiguous step grid; --pp sets the step size.\n"
++                 "  [--restore snapshot-auto|replay] (DS4 walk only; 1 GiB snapshot limit)\n"
++                 "Other direct suites are deprecated pending review; select them explicitly.\n"
++                 "  [--pp 2048] [--tg 128] [--warmups 0] [--repetitions 1]\n"
+                  "  [--execution reactive|serial] [--graphs DIRECTORY] [--compare REFERENCE-JSONL]\n"
+                  "--build-info opens no model. Direct suites: AR, greedy, thinking off; MTP unavailable.\n"
+                  "Direct GPU executor timings; no HTTP, cold-file claim or exact allocation peak.\n"
+@@ -245,16 +314,17 @@
+                  "Reports: --suite report --help (native CSV/JSON/SVG/PNG; no Python).");
+             return 0;
+         }
+-        if(!strcmp(argv[i],"--build-info"))return emit(stdout,identity(&c))?0:1;
++        if(!strcmp(argv[i],"--build-info")){c.execution="serial";c.chunk=c.pp;return emit(stdout,identity(&c))?0:1;}
+         if(i+1==argc)goto usage;
+         const char *key=argv[i],*value=argv[++i];
+         if(!strcmp(key,"--model"))c.model=value;else if(!strcmp(key,"--output"))c.output=value;else if(!strcmp(key,"--suite"))c.suite=value;
+         else if(!strcmp(key,"--graphs"))c.graphs=value;else if(!strcmp(key,"--compare"))c.compare=value;
++        else if(!strcmp(key,"--restore")){c.restore=value;restore_set=true;}
+         else if(!strcmp(key,"--execution")){
+ #ifdef LIE_BENCH_REFERENCE
+             goto usage;
+ #else
+-            c.execution=value;
++            c.execution=value;execution_set=true;
+ #endif
+         }
+         else if(!strcmp(key,"--prompt-preset")){if(strcmp(value,"q2-counting"))goto usage;c.counting=true;}
+@@ -263,20 +333,26 @@
+         else if(!strcmp(key,"--context-capacity")){if(!integer(value,MAX_CONTEXT,&c.context_override)||!c.context_override)goto usage;}
+         else if(!strcmp(key,"--depths")){c.depths_set=true;if(!list(value,131072,c.depths,&c.depth_count))goto usage;}
+         else if(!strcmp(key,"--sizes")){c.sizes_set=true;if(!list(value,MAX_CONTEXT,c.sizes,&c.size_count))goto usage;for(unsigned k=0;k<c.size_count;++k)if(c.sizes[k]<128)goto usage;}
+-        else if(!strcmp(key,"--users")){if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;}
++        else if(!strcmp(key,"--users")){c.users_set=true;if(!list(value,MAX_USERS,c.users,&c.user_count))goto usage;for(unsigned k=0;k<c.user_count;++k)if(!c.users[k])goto usage;}
+         else if(!strcmp(key,"--pp")){if(!integer(value,8192,&c.pp)||!c.pp)goto usage;}
+         else if(!strcmp(key,"--tg")){if(!integer(value,MAX_OUTPUT,&c.tg)||!c.tg)goto usage;}
+-        else if(!strcmp(key,"--warmups")){if(!integer(value,10,&c.warmups))goto usage;}
++        else if(!strcmp(key,"--warmups")){if(!integer(value,10,&c.warmups))goto usage;warmups_set=true;}
+         else if(!strcmp(key,"--repetitions")){if(!integer(value,100,&c.repetitions)||!c.repetitions)goto usage;}
+         else goto usage;
+     }
+-    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")&&strcmp(c.suite,"fresh")))goto usage;
++    if(!strcmp(c.suite,"ds4-walk")){
++        if(!execution_set)c.execution="serial";
++        if(c.counting||c.users_set||strcmp(c.execution,"serial")||
++           (strcmp(c.restore,"snapshot-auto")&&strcmp(c.restore,"replay")))goto usage;
++    }else {if(restore_set)goto usage;if(!warmups_set)c.warmups=1;}
++    if((strcmp(c.execution,"reactive")&&strcmp(c.execution,"serial"))||!c.model||!*c.model||!c.output||!*c.output||(c.compare&&!c.graphs)||(strcmp(c.suite,"single")&&strcmp(c.suite,"multi")&&strcmp(c.suite,"loading")&&strcmp(c.suite,"memory")&&strcmp(c.suite,"fresh")&&strcmp(c.suite,"ds4-walk")))goto usage;
+     if(!exact_grid(&c)){fputs("Exact prompts require one prompt source and a chunk-aligned grid for the selected suite; chunk must be 2048, 4096 or 8192.\n",stderr);return 2;}
+-    if(!strcmp(c.suite,"fresh"))for(unsigned k=0;k<c.size_count;++k)if((uint64_t)c.sizes[k]+c.tg>MAX_CONTEXT)goto usage;
++    if(!strcmp(c.suite,"fresh")||!strcmp(c.suite,"ds4-walk"))for(unsigned k=0;k<c.size_count;++k)if((uint64_t)c.sizes[k]+c.tg>MAX_CONTEXT)goto usage;
+     struct sigaction sa={0};sa.sa_handler=stop;sigemptyset(&sa.sa_mask);if(sigaction(SIGINT,&sa,NULL)||sigaction(SIGTERM,&sa,NULL))return 1;
+     int fd=open(c.output,O_WRONLY|O_CREAT|O_EXCL|O_CLOEXEC|O_NOFOLLOW,0600);if(fd<0){perror("exclusive output");return 1;}FILE *f=fdopen(fd,"w");if(!f){close(fd);return 1;}
+     struct prompt corpus={0};lie_model *m=NULL;lie_model_info info={0};lie_error e={{0}};int code=1;
+     if(!emit(f,identity(&c)))goto done;
++    if(!strcmp(c.suite,"ds4-walk")){if(run_walk(&m,&info,&corpus,&c,f,&e))code=0;goto done;}
+     unsigned points=!strcmp(c.suite,"fresh")?c.size_count:!strcmp(c.suite,"multi")?c.user_count:!strcmp(c.suite,"memory")?2:!strcmp(c.suite,"loading")?1:c.depth_count;
+     unsigned corpus_needed=c.pp;
+     if(!strcmp(c.suite,"fresh"))corpus_needed=c.sizes[c.size_count-1];
+@@ -296,7 +372,7 @@
+             if(corpus.n<depth+pp){snprintf(e.message,sizeof(e.message),"Corpus has %zu tokens; need %u",corpus.n,depth+pp);goto done;}
+             struct prompt p={corpus.ids,depth+pp};struct witness w={.ids=calloc(c.tg,sizeof(int32_t))};bool ok=w.ids!=NULL;
+             if(ok){char digest[65];ok=hash(p.ids,p.n*sizeof(*p.ids),digest);json_object *j=event("input");num(j,"point",point);num(j,"depth",depth);num(j,"users",users);num(j,"target_prompt_tokens",depth+pp);num(j,"context_capacity",context);num(j,"prompt_tokens",(int64_t)p.n);str(j,"physical_ids_sha256",digest);json_object_object_add(j,"physical_ids",ids_json(p.ids,p.n));ok=ok&&emit(f,j);}
+-            for(unsigned rep=0;ok&&rep<c.warmups+c.repetitions;++rep)ok=sample(m,&p,depth,users,point,rep,rep<c.warmups,&c,info.vocab_tokens,&w,f,&e);
++            for(unsigned rep=0;ok&&rep<c.warmups+c.repetitions;++rep)ok=sample(m,&p,depth,users,point,rep,rep<c.warmups,&c,info.vocab_tokens,&w,f,&e,NULL,false);
+             free(w.ids);if(!ok)goto done;
+         }
+         if(strcmp(c.suite,"single")&&strcmp(c.suite,"fresh")&&lie_model_close(&m,&e)!=LIE_OK)goto done;
+--- a/tools/q2_exact_prompt.inc
++++ b/tools/q2_exact_prompt.inc
+@@ -68,16 +68,17 @@
+ }
+ 
+ static bool exact_grid(struct config *c) {
++    bool walk = !strcmp(c->suite, "ds4-walk");
+     if (!c->chunk) c->chunk = c->pp;
+     if (c->chunk != 2048 && c->chunk != 4096 && c->chunk != 8192) return false;
+     if (strcmp(c->suite, "fresh") && c->pp % c->chunk) return false;
+     if (!strcmp(c->suite, "loading")) return true;
+     if (c->counting ? c->prompt_file != NULL : (!c->prompt_file || !*c->prompt_file)) return false;
+-    if ((!strcmp(c->suite, "fresh") && c->depths_set) ||
+-        (strcmp(c->suite, "fresh") && c->sizes_set)) return false;
++    if (((!strcmp(c->suite, "fresh") || walk) && c->depths_set) ||
++        (strcmp(c->suite, "fresh") && !walk && c->sizes_set)) return false;
+     if (!c->sizes_set) {
+         c->size_count = 0;
+-        for (unsigned n = c->chunk; n <= 131072; n += c->chunk)
++        for (unsigned n = walk ? c->pp : c->chunk; n <= 131072; n += walk ? c->pp : c->chunk)
+             c->sizes[c->size_count++] = n;
+     }
+     if (!c->depths_set) {
+@@ -88,6 +89,8 @@
+     for (unsigned i = 0; !strcmp(c->suite, "fresh") && i < c->size_count; ++i)
+         if (c->sizes[i] % c->chunk || !c->sizes[i] ||
+             (i && c->sizes[i] <= c->sizes[i-1])) return false;
++    for (unsigned i = 0; walk && i < c->size_count; ++i)
++        if (c->sizes[i] != (i + 1u) * c->pp || c->sizes[i] % c->chunk) return false;
+     for (unsigned i = 0; !strcmp(c->suite, "single") && i < c->depth_count; ++i)
+         if (c->depths[i] % c->chunk ||
+             (i && c->depths[i] <= c->depths[i-1])) return false;
+--- a/tools/native/report.c
++++ b/tools/native/report.c
+@@ -113,13 +113,15 @@
+               *out = json_object_new_object(),
+               *points = json_object_new_array(),
+               *input = select_rows(rows, "input"),
+-              *samples = select_rows(rows, "sample");
++              *samples = select_rows(rows, "sample"),
++              *restores = select_rows(rows, "frontier_restore");
+   nb_add(out, "identity", id);
+   json_object_object_add(out, "configurations", points);
+   json_object_object_add(out, "loading", select_rows(rows, "model_loaded"));
+   CHECK(repetition_config(id), "Invalid direct benchmark identity");
+   if (nb_get(id, "measurement_contract"))
+-    CHECK(eqs(id, "measurement_contract", eqs(id, "suite", "fresh") ?
++    CHECK(eqs(id, "measurement_contract", eqs(id, "suite", "ds4-walk") ?
++              "ds4-walk-v1" : eqs(id, "suite", "fresh") ?
+               "full-prefill-v1" : "incremental-prefill-v1"),
+           "Measurement contract and suite disagree");
+   size_t reps =
+@@ -127,6 +129,9 @@
+   CHECK(json_object_array_length(samples) ==
+             json_object_array_length(input) * reps,
+         "Unbound or missing direct samples");
++  if (eqs(id, "suite", "ds4-walk"))
++    CHECK(json_object_array_length(restores) == json_object_array_length(samples),
++          "Missing DS4 frontier restore records");
+   CHECK(json_object_array_length(input) || eqs(id, "suite", "loading"),
+         "No direct workload inputs");
+   for (size_t p = 0; p < json_object_array_length(input); p++) {
+@@ -146,6 +151,21 @@
+     }
+     if (eqs(id, "suite", "fresh"))
+       CHECK(nb_number(in, "depth") == 0, "Full prefill must start at zero depth");
++    if (eqs(id, "suite", "ds4-walk")) {
++      int64_t step = nb_number(id, "pp_target");
++      CHECK(step > 0 && nb_number(in, "prompt_tokens") == (int64_t)(p + 1) * step &&
++            nb_number(in, "depth") == (int64_t)p * step &&
++            nb_number(in, "users") == 1,
++            "DS4 walk frontiers must advance by one exact step");
++      if (p) {
++        json_object *before = json_object_array_get_idx(input, p - 1);
++        json_object *old_ids = nb_get(before, "physical_ids"), *new_ids = nb_get(in, "physical_ids");
++        for (size_t k = 0; k < json_object_array_length(old_ids); ++k)
++          CHECK(json_object_get_int(json_object_array_get_idx(old_ids, k)) ==
++                json_object_get_int(json_object_array_get_idx(new_ids, k)),
++                "DS4 walk corpus prefix changed");
++      }
++    }
+     CHECK(nb_number(in, "depth") < nb_number(in, "prompt_tokens") &&
+               nb_number(in, "prompt_tokens") + nb_number(id, "output_limit") <=
+                   nb_number(in, "context_capacity"),
+@@ -172,6 +192,17 @@
+     json_object *first = json_object_array_get_idx(group, 0);
+     for (size_t j = 0; j < reps; j++) {
+       json_object *r = json_object_array_get_idx(group, j);
++      if (eqs(id, "suite", "ds4-walk")) {
++        json_object *restore = json_object_array_get_idx(
++            restores, j * json_object_array_length(input) + p);
++        CHECK(nb_number(restore, "point") == (int64_t)p &&
++              nb_number(restore, "rep") == (int64_t)j &&
++              (p + 1 == json_object_array_length(input) ?
++                eqs(restore, "mode", "none") :
++                (eqs(restore, "mode", "snapshot") || eqs(restore, "mode", "replay"))) &&
++              nonnegative(restore, "snapshot_bytes"),
++              "DS4 frontier restore order or mode differs");
++      }
+       int64_t users = nb_number(in, "users"),
+               pp = nb_number(in, "prompt_tokens") - nb_number(in, "depth"),
+               tg = nb_number(r, "output_tokens_per_user");
+@@ -241,11 +272,13 @@
+   }
+   json_object_put(input);
+   json_object_put(samples);
++  json_object_put(restores);
+   return out;
+ bad:
+   json_object_put(out);
+   json_object_put(input);
+   json_object_put(samples);
++  json_object_put(restores);
+   return NULL;
+ }
+ static const char *policy_keys[] = {"cache_min_tokens", "cache_cold_max_tokens",
+@@ -1136,6 +1169,8 @@
+                         : loading ? "OS file cache uncontrolled"
+                         : iscore || eqs(nb_get(a, "identity"), "suite", "multi")
+                             ? "Concurrent users"
++                        : eqs(nb_get(a, "identity"), "suite", "ds4-walk")
++                            ? "Context tokens; incremental DS4 walk"
+                         : eqs(nb_get(a, "identity"), "suite", "fresh")
+                             ? "Full prompt tokens"
+                             : "Reused prefix tokens";
+@@ -1200,7 +1235,8 @@
+           snprintf(tick, sizeof(tick), "model load");
+         else
+           snprintf(tick, sizeof(tick), "%" PRId64 " tokens",
+-                   nb_number(r, eqs(nb_get(data, "identity"), "suite", "fresh")
++                   nb_number(r, eqs(nb_get(data, "identity"), "suite", "fresh") ||
++                                    eqs(nb_get(data, "identity"), "suite", "ds4-walk")
+                                     ? "prompt_tokens"
+                                     : "depth"));
+         v->ticks[i] = strdup(tick);
+--- a/tools/bench-report.py
++++ b/tools/bench-report.py
+@@ -122,11 +122,11 @@
+     else:
+         fig,axes=plt.subplots(1,2,figsize=(12,4.8),layout='constrained')
+         for name,data in [(label,result)]+([(reference_label,reference)] if reference else []):
+-            rows=data['configurations'];x=[r['users'] if suite=='multi' else r['prompt_tokens'] if suite=='fresh' else r['depth'] for r in rows]
++            rows=data['configurations'];x=[r['users'] if suite=='multi' else r['prompt_tokens'] if suite in ('fresh','ds4-walk') else r['depth'] for r in rows]
+             for ax,key,title in [(axes[0],'prefill_tps','Aggregate new prefill tokens/s'),(axes[1],'decode_tps','Aggregate confirmed decode tokens/s')]:
+                 values=[r[key] for r in rows];y=[v['median'] for v in values]
+                 ax.errorbar(x,y,yerr=[[v['median']-v['min'] for v in values],[v['max']-v['median'] for v in values]],marker='o',capsize=4,label=name)
+-                ax.set_ylabel(title);ax.set_xlabel('Users' if suite=='multi' else 'Full physical prompt tokens' if suite=='fresh' else 'Reused physical prefix tokens');ax.grid(alpha=.25);ax.legend()
++                ax.set_ylabel(title);ax.set_xlabel('Users' if suite=='multi' else 'Context tokens, incremental DS4 walk' if suite=='ds4-walk' else 'Full physical prompt tokens' if suite=='fresh' else 'Reused physical prefix tokens');ax.grid(alpha=.25);ax.legend()
+                 for xx,yy,r in zip(x,y,rows):
+                     if not r['full_output_budget']:ax.annotate('early EOS',(xx,yy),fontsize=8)
+         # Apply the common zero baseline only after every series has autoscaled.
+--- a/tests/test_lie_bench.py
++++ b/tests/test_lie_bench.py
+@@ -4,6 +4,7 @@
+ import copy
+ import importlib.util
+ import json
++import os
+ from pathlib import Path
+ import runpy
+ import subprocess
+@@ -25,13 +26,66 @@
+             return result,[json.loads(x) for x in out.read_text().splitlines()]
+ 
+     def test_depth_is_reused_not_pp_numerator(self):
+-        result,rows=self.run_case('--depths','0,4096,131072','--repetitions','2')
++        result,rows=self.run_case('--suite','single','--depths','0,4096,131072','--repetitions','2')
+         self.assertEqual(len(result['configurations']),3)
+         for r in [x for x in rows if x['event']=='sample']:
+             self.assertLessEqual(abs(r['prefill_tokens_per_user']-2048),32)
+             self.assertEqual(r['cache_tokens'],r['depth'])
+             self.assertEqual(r['output_tokens_per_user'],128)
+         self.assertEqual(result['configurations'][-1]['depth'],131072)
++
++    def test_default_ds4_walk_advances_one_corpus_and_excludes_restore(self):
++        with tempfile.TemporaryDirectory(prefix='lie-ds4-walk-') as tmp:
++            text=Path(tmp)/'book.txt';text.write_text('a'*32768)
++            output=Path(tmp)/'walk.jsonl';trace=Path(tmp)/'calls.txt';graphs=Path(tmp)/'graphs'
++            env=dict(os.environ,LIE_BENCH_TEST_TRACE=str(trace))
++            p=subprocess.run([BINARY,'--model',':fixture:','--output',str(output),
++                              '--prompt-file',str(text),'--sizes','2048,4096,6144,8192',
++                              '--warmups','1','--repetitions','1','--tg','8',
++                              '--graphs',str(graphs)],
++                             env=env,capture_output=True,text=True,timeout=15)
++            self.assertEqual(p.returncode,0,p.stderr)
++            rows=[json.loads(line) for line in output.read_text().splitlines()]
++            self.assertEqual(rows[0]['suite'],'ds4-walk')
++            self.assertEqual(rows[0]['measurement_contract'],'ds4-walk-v1')
++            samples=[r for r in rows if r['event']=='sample']
++            self.assertEqual(len(samples),8)
++            self.assertEqual([(r['rep'],r['point'],r['depth'],r['prefill_tokens_per_user']) for r in samples],
++                             [(rep,point,point*2048,2048) for rep in range(2) for point in range(4)])
++            restores=[r for r in rows if r['event']=='frontier_restore']
++            self.assertEqual([r['mode'] for r in restores],(['snapshot']*3+['none'])*2)
++            calls=[tuple(map(int,line.split())) for line in trace.read_text().splitlines()]
++            self.assertEqual(len(calls),8)
++            for call,sample in zip(calls,samples):
++                sequence,start,end,begin,finish=call
++                self.assertEqual((start,end),(sample['depth'],sample['prompt_tokens']))
++                self.assertGreater(sequence,0)
++                self.assertLessEqual(sample['prefill_begin_monotonic_ns'],begin)
++                self.assertLessEqual(finish,sample['prefill_end_monotonic_ns'])
++            result=REPORT['read_result'](output)
++            self.assertEqual(len(result['configurations']),4)
++            self.assertGreater((graphs/'benchmark.png').stat().st_size,0)
++
++            replay_output=Path(tmp)/'replay.jsonl';replay_trace=Path(tmp)/'replay-calls.txt'
++            env['LIE_BENCH_TEST_TRACE']=str(replay_trace)
++            p=subprocess.run([BINARY,'--model',':fixture:','--output',str(replay_output),
++                              '--prompt-file',str(text),'--sizes','2048,4096,6144,8192',
++                              '--warmups','0','--repetitions','1','--tg','8',
++                              '--restore','replay'],
++                             env=env,capture_output=True,text=True,timeout=15)
++            self.assertEqual(p.returncode,0,p.stderr)
++            replay_rows=[json.loads(line) for line in replay_output.read_text().splitlines()]
++            self.assertEqual([r['mode'] for r in replay_rows if r['event']=='frontier_restore'],
++                             ['replay']*3+['none'])
++            replay_samples=[r for r in replay_rows if r['event']=='sample']
++            replay_calls=[tuple(map(int,line.split())) for line in replay_trace.read_text().splitlines()]
++            self.assertEqual(len(replay_calls),10)
++            for sample in replay_samples:
++                in_window=[call for call in replay_calls if
++                           sample['prefill_begin_monotonic_ns']<=call[3] and
++                           call[4]<=sample['prefill_end_monotonic_ns']]
++                self.assertEqual(len(in_window),1)
++                self.assertEqual(in_window[0][1:3],(sample['depth'],sample['prompt_tokens']))
+ 
+     def test_fresh_full_prompt_counts_and_comparison_keys(self):
+         result,rows=self.run_case('--suite','fresh','--sizes','8192,32768,131072,258794','--tg','16','--warmups','0')
+@@ -83,7 +137,7 @@
+             self.assertEqual(p.returncode,1);self.assertEqual(out.read_text(),'preserve\n')
+ 
+     def test_report_rejects_incomplete_or_corrupt_counts(self):
+-        result,rows=self.run_case('--depths','0')
++        result,rows=self.run_case('--suite','single','--depths','0')
+         with tempfile.TemporaryDirectory(prefix='lie-report-invalid-') as tmp:
+             path=Path(tmp)/'bad.jsonl'
+             for change in ['incomplete','count','time']:
+@@ -96,7 +150,7 @@
+                 with self.assertRaises(ValueError):REPORT['read_result'](path)
+ 
+     def test_mismatched_comparison_refused(self):
+-        result,_=self.run_case('--depths','0');other=copy.deepcopy(result)
++        result,_=self.run_case('--suite','single','--depths','0');other=copy.deepcopy(result)
+         other['configurations'][0]['physical_ids_sha256']='different'
+         with self.assertRaises(ValueError):REPORT['compare'](result,other)
+ 
+@@ -104,7 +158,7 @@
+     def test_cli_graph_export_with_space_in_path(self):
+         with tempfile.TemporaryDirectory(prefix='lie-graphs-') as tmp:
+             out=Path(tmp)/'rows.jsonl';graphs=Path(tmp)/'graphs with spaces'
+-            p=subprocess.run([BINARY,'--model',':fixture:','--output',str(out),'--depths','0','--graphs',str(graphs)],capture_output=True,text=True,timeout=15)
++            p=subprocess.run([BINARY,'--model',':fixture:','--output',str(out),'--suite','single','--depths','0','--graphs',str(graphs)],capture_output=True,text=True,timeout=15)
+             self.assertEqual(p.returncode,0,p.stderr)
+             for name in ['summary.json','summary.csv','benchmark.svg','benchmark.png']:
+                 self.assertGreater((graphs/name).stat().st_size,0)
+--- a/tests/test_native_bench.c
++++ b/tests/test_native_bench.c
+@@ -531,10 +531,17 @@
+   core_sampling_contract(argv[2], tokens, output);
+   path(output, "direct.jsonl");
+   path(graphs, "direct-graphs");
++  char prompt[2400];
++  path(prompt, "prompt.txt");
++  FILE *prompt_file = fopen(prompt, "w");
++  require(prompt_file != NULL, "direct prompt open");
++  for (unsigned i = 0; i < 8192; ++i)
++    require(fputc('a', prompt_file) != EOF, "direct prompt write");
++  require(!fclose(prompt_file), "direct prompt close");
+   char *direct[] = {
+       argv[2],   "--suite",  "multi", "--model",   ":fixture:", "--users",
+       "1,2,4,8", "--tg",     "8",     "--warmups", "0",         "--repetitions",
+-      "2",       "--output", output,  "--graphs",  graphs,      NULL};
++      "2",       "--output", output,  "--graphs",  graphs,      "--prompt-file", prompt, NULL};
+   run(direct, 0);
+   graph_files("direct-graphs");
+   json_object *rows = read_json("direct.jsonl", true);

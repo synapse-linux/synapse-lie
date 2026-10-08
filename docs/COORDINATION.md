@@ -1,5 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 Q2 DS4-walk `.157` PREPARED: plan462194c8 follows the
+13:03 UTC Q2 Promessi release2b93980e on bootbe3e89fd with IOMMU off.
+Local-only GPU binary24b19cb7 uses byte-verified retained numerical archives;
+focused Debug and ASan/UBSan CPU CTests pass. Five staged inputs on `.157`
+hash-verify, including the original Promessi corpus. The bounded workload is
+Q2, one 2K→4K→6K→8K advancing walk, TG128, no warmup; model load, state
+capture/restore and replay are outside PP timing. Core/GLM plan-specific
+non-use declarations, fresh five-original-lease verification, admission,
+run, collection and release are still required. Q2 currently owns no GPU
+window or lease; this preparation grants no future admission.
+
 2026-10-08 13:03 UTC: Q2 Promessi sposi probe COMPLETE and RELEASED.
 Exact2048/4096/6144/8192 raw-token prefixes, chunk2048, one warmup
 and one measured sample per point. All8 samples emit128 tokens; all4

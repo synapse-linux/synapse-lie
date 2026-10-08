@@ -1,5 +1,13 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+`synapse-lie-bench` now defaults to the advancing [DS4 benchmark walk](docs/DS4-WALK-BENCH.md):
+one tokenized corpus, one logical sequence per walk, fixed context steps,
+and prefill time/count for only the newly appended tokens. The previous
+full-prefill mode is explicitly selectable as `--suite fresh` and deprecated
+pending review; its existing results remain separate historical evidence.
+The bounded Q2 four-point GPU check on `.157` is staged under the
+[frozen plan](config/q2-ds4-walk-promessi-plan.json).
+
 2026-10-08 13:03 UTC: Q2 Promessi sposi probe COMPLETE and RELEASED.
 Exact2048/4096/6144/8192 raw-token prefixes, chunk2048, one warmup
 and one measured sample per point. All8 samples emit128 tokens; all4

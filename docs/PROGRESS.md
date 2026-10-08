@@ -1,5 +1,14 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08: `synapse-lie-bench` defaults to the advancing
+[DS4-style walk](DS4-WALK-BENCH.md). Local Debug and ASan/UBSan focused CTests
+pass the exact-step, timer, snapshot and replay fixture. A local GPU-linked
+binary reuses the unchanged qualified numerical archives. The `.157` Q2
+four-frontier run is staged under its [frozen plan](../config/q2-ds4-walk-promessi-plan.json);
+no real-model results are claimed until admission, execution, collection and
+release complete. The prior [full-prefill results](Q2-PROMESSI-SHORT.md)
+remain a distinct timing contract.
+
 2026-10-08 13:03 UTC: Q2 Promessi sposi probe COMPLETE and RELEASED.
 Exact2048/4096/6144/8192 raw-token prefixes, chunk2048, one warmup
 and one measured sample per point. All8 samples emit128 tokens; all4
