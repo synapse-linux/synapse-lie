@@ -27,6 +27,14 @@ All four peers receive actual admission identities. Root owns this `.161`
 scope; all other hosts and Terminal Bench are NONE. Collection, final exits and
 strong closure are pending; there is no lease waiter or future reservation.
 
+The 11:35:06 UTC read-only saved-wire observation sees the first scored response
+complete at physical786430/TG38 with an exact answer and natural stop. The
+second cold turn continues in the same original server/container/window.
+Full independent cohort review and all closure/release obligations remain
+pending. Near1M inputs and private operations are prepared locally only;
+their launcher requires verified current collection/closure/four releases and
+archive postcheck before fresh specific peer/global/in-lease admission.
+
 ## Corrected held-out cohort collected and strongly closed — 2026-10-08
 
 The owner's explicit `procedi` resumes the prepared GPU qualification. After

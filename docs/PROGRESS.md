@@ -31,6 +31,18 @@ speedup. Source and native runtime remain unchanged. Root owns only this `.161`
 scope through collection/oracle/strong closure and four-peer release; Terminal
 Bench and future windows remain unadmitted.
 
+At 11:35:06 UTC the first complete saved response matches its exact oracle at
+786,430 physical prompt tokens and stops naturally after 38 output tokens.
+Its completed-call rates are PP 198.139 tok/s and TG 8.409 tok/s; observed TTFT
+is 3,970.928 s and total request time is 3,975.378 s. The second cold turn is
+still running. These are preliminary single-request quality-workload timings;
+full independent wire review, collection and retirement remain pending.
+The near-1M target 1,048,064 has locally prepared frozen inputs, admission,
+closure and offline-review recipes. Both local preparation guards exit0 at
+CPU 48.125 C. No remote staging or next-window admission has occurred; its
+launcher requires the current run's collection, strong closure, four releases
+and successful archive postcheck first.
+
 ## Complete steering cohort fails quality; retention and closure pass — 2026-10-08 UTC
 
 Checkpoint `6deadec6` retains the failed first run and its HOST-qualified
