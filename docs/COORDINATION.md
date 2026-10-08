@@ -1,6 +1,6 @@
 # DS4 / synapse-lie coordination
 
-## Active current-r70 YaRN4 near-256K recall — 2026-10-08
+## Current r70 YaRN4 near-256K recall verified and retired — 2026-10-08
 
 Four specific Point/DGX/Q2/GLM current non-use declarations and fresh global
 02:13:21 UTC/in-lease checks admit `recall-yarn4-261632-s77-ar-20261008-r1`,
@@ -12,9 +12,19 @@ Actual supervisor 103258/start 4170328 owns original lease FD3; init 103484/star
 and container `dcdca466` are witnessed alive. The first two reads precede native
 inference. At 02:17:38, the original GPU owner 105251/start 4182273 is observed in
 that complete cgroup, with the server/client running and four wire rows saved.
-The window remains exclusive through collection/hash checks and whole-container
-strong closure. Root uses no other host. No future grant or later result is
-inferred; this active job is not qualified until terminal evidence and closure.
+Both cold turns now pass independent saved-SSE reconstruction at physical
+261630/261738 tokens. Controller/native/collector/review/strong-closure exits
+are 0; 18 collected hashes and four model stats verify.
+
+Lease release at 02:55:35.911271 UTC and strong closure at 02:56:25.339602 UTC
+prove supervisor 103258/start 4170328, launcher 103356/start 4170421,
+init 103484/start 4170461 and GPU 105251/start 4182273 absent. The whole recorded
+container/cgroup is absent in two complete scans. Router 127684 is restored;
+original lease 66308/105946405 is unchanged/free. Foreign compute, guarded hot
+sensors and HTTP8000 are empty. All four peers receive verified release. The
+[receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+retains actual witnesses and 55 portable members. Root owns no remote job,
+handle, lease, window, waiter or reservation. This grants no subsequent window.
 
 ## Current r70 YaRN4 128K recall verified and retired — 2026-10-08
 

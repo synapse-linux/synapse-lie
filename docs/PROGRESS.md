@@ -1,6 +1,25 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
+## Current r70 YaRN4 near-256K recall passes — 2026-10-08 UTC
+
+Both cold Chat SSE turns pass at physical inputs 261630/261738 on `.161`,
+with full history retained, seed 77, chunk 256, C1, cache off and natural
+outputs 38/74. Independent saved-wire reconstruction confirms both exact
+answers and actual executor phases. Prefill is 224.678/223.663 tok/s; decode
+is 9.670/9.684 tok/s. The [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
+includes PP/TG durations, TTFT and complete wall time.
+
+Controller/native/collector/strong-closure/review exits are 0. All 18 artifact
+hashes and four model stats verify. The lease releases at 02:55:35 UTC; strong
+closure at 02:56:25 proves all four observed identities and the whole container
+retired, router restored and unchanged original lease free. All four peers
+receive verified release. The [receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)
+retains 55 portable members and 2028 thermal samples: CPU 82.875/GPU 83/NVMe
+65.85 C. Capacity 1048576 is configured; physical 512K–1M, other seeds/profiles,
+MTP and matched comparisons remain pending. All six root tasks stay open;
+Terminal Bench stays last. Root has no remote job or standing reservation.
+
 ## Steering response supervision passes HOST checks — 2026-10-08 UTC
 
 The optional qualification helper runs absent-bank and admitted-bank servers

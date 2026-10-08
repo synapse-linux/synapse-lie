@@ -90,8 +90,11 @@ physical inputs and capacity 1048576
 The same runtime/profile passes a separate 128K cohort, physical inputs
 131070/131178, with independently verified answers, all 18 hashes and complete
 closure ([receipt](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)).
+The separate near-256K cohort also passes both turns at physical 261630/261738,
+with the same independent wire/phase/hash and whole-container closure checks
+([receipt](development/validation/recall-yarn4-near256k-ar-point-2026-10-08.json)).
 Earlier tool and native-RoPE recall results retain their frozen r68 identity;
-the short scaled control does not qualify the long-input ladder or those tools
+these selected scaled cohorts do not qualify the complete long-input ladder or those tools
 on this later runtime.
 
 Strix Point integration is merged into `develop` at `30598a3`; current context

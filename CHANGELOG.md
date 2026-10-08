@@ -31,7 +31,7 @@ stable release is declared. Detailed validation history is in
   exact-answer checking, memory admission and failed-artifact retention.
   Original-weight native 8K, 128K and near-256K AR checks, seed 77, pass both cold turns
   at each size. Separate current-runtime YaRN4 controls pass both turns
-  at 8K and 128K physical inputs, with 1M configured capacity and independent
+  at 8K, 128K and near-256K physical inputs, with 1M configured capacity and independent
   saved-wire/closure verification; larger inputs remain pending. Native products remain
   Python-free.
 
