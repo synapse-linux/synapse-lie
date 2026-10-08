@@ -1,0 +1,328 @@
+{
+  "schema": "synapse-lie.steering-quality-checker-host.v1",
+  "state": "HOST_HELD_OUT_CHECKER_AND_NATIVE_HTTP_CLIENT_VERIFIED_NOT_INFERENCE",
+  "at_utc": "2026-10-08T02:03:28.085838+00:00",
+  "scope": "Strict review of synthetic saved-SSE responses and applied-plan snapshots; original weights and real GPU steering are not executed.",
+  "native_runtime_sources_byte_equal_to": "4c703b3d604c6c877d6a2214d7aee0b15a013f61",
+  "tests": {
+    "debug": 13,
+    "unsuppressed_native_asan_ubsan_lsan": 13,
+    "native_HTTP_samples_per_mode": 70,
+    "own_native_children_per_mode": 2,
+    "focused_CTest_per_mode": 1
+  },
+  "corpus": {
+    "training_pairs": 100,
+    "held_out_questions": 10,
+    "sha256": "602354e607a5738958b12f01913473aac6dd4e8ec08cef7f1dfd9023084b14a4"
+  },
+  "predeclared_scales": [
+    -1,
+    -0.5,
+    0,
+    0.5,
+    1,
+    2
+  ],
+  "acceptance": "All70 arithmetic answers and natural stops;10 absent/zero text/count matches;median length ratios<=0.8 at-1 and>=1.2 at+2, with8/10 expected-sign cases each.",
+  "actual_exit_codes": {
+    "steering-quality-host-debug-r1": 1,
+    "steering-quality-host-debug-r2": 0,
+    "steering-quality-host-debug-r3": 0,
+    "steering-quality-host-asan-r1": 0,
+    "steering-quality-host-asan-r2": 0,
+    "steering-quality-native-ctest-debug-r1": 0,
+    "steering-quality-native-ctest-asan-r1": 0,
+    "steering-quality-host-public-seal-guard-r1": 1
+  },
+  "preserved_initial_failure": {
+    "actual_exit_code": 1,
+    "source_and_dataset_preserved": true,
+    "causes": [
+      "Duplicate minute-conversion training question was refused before review.",
+      "Sandbox refused private loopback socket creation."
+    ],
+    "correction": "Use100 unique questions; run own-loopback fixtures outside sandbox. No parser or quality criterion was weakened.",
+    "original_model_quality_or_GPU_failure": false
+  },
+  "preserved_sealing_failure": {
+    "actual_exit_code": 1,
+    "cause": "Broad suffix test mistook successful native CTest debug-r1 for the earlier failed Python checking group.",
+    "same_successful_native_and_checker_results_reused": true
+  },
+  "native_fixture_binaries": {
+    "context-debug": {
+      "path": "build/context-debug/synapse-lie-bench",
+      "sha256": "c02b6ff0741d34f7020a854298061a04d5bde9441c0b2f72d6c6aab456c016e5"
+    },
+    "tool-http-asan": {
+      "path": "build/tool-http-asan/synapse-lie-bench",
+      "sha256": "94c884edbf71c9cc345b8ce6e560ea02d653987640cbd82627b0e58df650c301"
+    }
+  },
+  "local_peak_C_by_sensor_path": {
+    "/sys/class/hwmon/hwmon6/temp1_input": 32.85,
+    "/sys/class/hwmon/hwmon6/temp2_input": 32.85,
+    "/sys/class/hwmon/hwmon7/temp1_input": 47.0,
+    "/sys/class/hwmon/hwmon8/temp1_input": 53.375
+  },
+  "product_default_or_CMake_Python_dependency_added": false,
+  "original_weight_quality_or_matched_performance_qualified": false,
+  "GPU_remote_model_or_service_mutation": false,
+  "new_build_directories": [],
+  "pending": [
+    "Supervised original-weight campaign integration.",
+    "Successful100-pair original FFN training and independent bank reconstruction.",
+    "Original held-out answer/parity/response-length observations.",
+    "General quality, othermodels, MTP, graph/correction/fault/vision and matched cost."
+  ],
+  "roadmap": {
+    "open_items": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "terminal_bench_last": true,
+    "full_goal_complete": false
+  },
+  "raw": {
+    "path": "docs/development/validation/raw/steering-quality-checker-host-2026-10-08.tar.gz",
+    "bytes": 120184,
+    "sha256": "300888d0788fde2a37a04b5c018b5c800f571ea6ee993e38faaa11a505b12696",
+    "regular_members": 57,
+    "members": {
+      "tools/strix-point-steering-quality-gate.py": {
+        "bytes": 22189,
+        "sha256": "d548a4cac15cb79e4f936f0d29808b80cf837d38efa773ad4be53f77b3027321"
+      },
+      "tools/strix-point-steering-build-gate.py": {
+        "bytes": 19154,
+        "sha256": "218a71af2eca71709a9cf00ff55ad3eb1190d1909a3857ebed358d964d8d6f3f"
+      },
+      "tests/test_strix_point_steering_quality.py": {
+        "bytes": 15002,
+        "sha256": "3c5761cfdb5f6b36910603f33cd6c492e71acc835f6b1dada2088c0d94c1d521"
+      },
+      "tests/fixtures/steering-conciseness-v1.json": {
+        "bytes": 6482,
+        "sha256": "602354e607a5738958b12f01913473aac6dd4e8ec08cef7f1dfd9023084b14a4"
+      },
+      "docs/development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md": {
+        "bytes": 4095,
+        "sha256": "b8b49b8f4b763f0fe565e44202463f2d80ab5aae2f05037db266646750dff32b"
+      },
+      "LICENSE": {
+        "bytes": 1081,
+        "sha256": "7ea461cf01583ff889f2c0705702f4e97bc1751fd96d5381895754638dc1263d"
+      },
+      "CMakeLists.txt": {
+        "bytes": 64606,
+        "sha256": "c1afb2ed50cfefe213609352769c3af0205e5def6bcbbe6e27ac43c11d6f49f2"
+      },
+      "tools/native/bench_native.h": {
+        "bytes": 4853,
+        "sha256": "c023ddb467541fa2e44fe3fac7fc35e0cf31414540352e77cfcec4b38da1f122"
+      },
+      "tools/native/common.c": {
+        "bytes": 10089,
+        "sha256": "dfd7bede2784325becece676fec662c67747bc8faeb98b6d9985a10bb7613b8d"
+      },
+      "tools/native/gufo_workload.c": {
+        "bytes": 7371,
+        "sha256": "07fc9acbf762b68b58c7765fc50f3d89098ffebd9c7624ecfdc70ee945751412"
+      },
+      "tools/native/http_bench.c": {
+        "bytes": 25053,
+        "sha256": "0e701baa3561254ca8e9a4146449d1fae1a183b7948eccdabbd3dc66296722a9"
+      },
+      "tools/native/http_curve.c": {
+        "bytes": 39235,
+        "sha256": "5801d1d05e4c9497a0f0fd212f4db6a329e20cc75c4d460d9d838e249e760209"
+      },
+      "tools/native/http_multi.c": {
+        "bytes": 37572,
+        "sha256": "17b0380348b2953206964f2bc1d8898ace3ac492d9ef6843a41c34d493f00931"
+      },
+      "tools/native/http_transport.c": {
+        "bytes": 29515,
+        "sha256": "c9cb36aeaf6871c5c629d99a5ec2e49c3393663827e7ab5d7c0c197ce43e057c"
+      },
+      "tools/native/plot.c": {
+        "bytes": 11891,
+        "sha256": "1976d583dd9bf167227ae54520cb7e95074982f452885c3a76ef842168a1efc5"
+      },
+      "tools/native/recall.c": {
+        "bytes": 11520,
+        "sha256": "ae154a585d3d81a533fc31f8c144fdeacef64c76ef8a9922dff2cad3ae11775c"
+      },
+      "tools/native/report.c": {
+        "bytes": 71158,
+        "sha256": "fb19f6124ddeda1a29a6f0ba1e64e1b60e204cdcf59aae3fbfea921fafe337a5"
+      },
+      "tools/native/report_main.c": {
+        "bytes": 169,
+        "sha256": "3556dc0d4023e93aa4fa2dd1489644d4cc29280e626432d59177c9f67aa3302b"
+      },
+      "tools/native/ssd_bench.c": {
+        "bytes": 34372,
+        "sha256": "fe9b45bf922981897ae623ebdb2025ae6ac1270fc29dbf323060691e96515a77"
+      },
+      "evidence/steering-quality-host-debug-r1/command.log": {
+        "bytes": 49800,
+        "sha256": "6e087e509a413517cd688099b9950b48c37478bc5efec73469a42487ec4ebdeb"
+      },
+      "evidence/steering-quality-host-debug-r1/plan.json": {
+        "bytes": 1085,
+        "sha256": "5fbe5a1897598ce3a1b3ea34ae6a083f834043264018fad0859d821e62bdd406"
+      },
+      "evidence/steering-quality-host-debug-r1/result.json": {
+        "bytes": 582,
+        "sha256": "44b265cd0858090504ae14f7191fc23ab5d59126eda760e398485e002f27d824"
+      },
+      "evidence/steering-quality-host-debug-r1/steering-conciseness-v1.json": {
+        "bytes": 6472,
+        "sha256": "f2f18dfd66a3275d0739725910f5b2701ef9d730566ad616bdcb2fa3ffd9cf99"
+      },
+      "evidence/steering-quality-host-debug-r1/strix-point-steering-quality-gate.py": {
+        "bytes": 21513,
+        "sha256": "41a8e2052e05aa1e2a22db3b7df9a91ca0ae50171f4be25efea488a84906fa40"
+      },
+      "evidence/steering-quality-host-debug-r1/temperatures.jsonl": {
+        "bytes": 1831,
+        "sha256": "0ab6c89afbafe972d23783bd1e19ea65c70000b14fa98a130789f3d9fd8c8dbb"
+      },
+      "evidence/steering-quality-host-debug-r1/test_strix_point_steering_quality.py": {
+        "bytes": 14356,
+        "sha256": "89adb64fcdc6b0822bbe4d3a4f6d75e140372179f0cf0ba9232c2cc9be604ca7"
+      },
+      "evidence/steering-quality-host-debug-r2/command.log": {
+        "bytes": 111,
+        "sha256": "824f8f74d0c34b1e4887b5a448e027b1fd8dd2ef56b296f27ea9bf731949dd53"
+      },
+      "evidence/steering-quality-host-debug-r2/plan.json": {
+        "bytes": 1091,
+        "sha256": "7115902fd04f4630553d1a5b5b43f3149f1fb8169ff1c231a5598fc9443cca2c"
+      },
+      "evidence/steering-quality-host-debug-r2/result.json": {
+        "bytes": 583,
+        "sha256": "32a7cce4d550d196c539b41904e0554f63ce9909d6e4115f8a1940144a86edce"
+      },
+      "evidence/steering-quality-host-debug-r2/temperatures.jsonl": {
+        "bytes": 1831,
+        "sha256": "3078b2416cf7a0510c524b33afdbdb0af9dbbf4f8465f7ac192c4de412c1ebfc"
+      },
+      "evidence/steering-quality-host-debug-r3/command.log": {
+        "bytes": 112,
+        "sha256": "70e8242ddd249412e8db682021f9f32891a4d21cf2d15197c5171901a236c3a1"
+      },
+      "evidence/steering-quality-host-debug-r3/plan.json": {
+        "bytes": 1091,
+        "sha256": "fe8c8d34d46f903ede9094126da4812c9c2ccf74f400d1406624477b40b13e18"
+      },
+      "evidence/steering-quality-host-debug-r3/result.json": {
+        "bytes": 581,
+        "sha256": "3be13221fbcf7e30d18d326e8daf1dcf8a1f505cee9a720e31f52d2de48e3046"
+      },
+      "evidence/steering-quality-host-debug-r3/temperatures.jsonl": {
+        "bytes": 1828,
+        "sha256": "28bb1d19df319e98696688701cf46b982e3a13ef1c4bdf767204412793e1eca4"
+      },
+      "evidence/steering-quality-host-asan-r1/command.log": {
+        "bytes": 111,
+        "sha256": "ca86b58679f6c6a0ea1dd0b0f4670566c78a5238f90b0b5cb88bec3525b2fd4a"
+      },
+      "evidence/steering-quality-host-asan-r1/plan.json": {
+        "bytes": 1200,
+        "sha256": "3b2b317c75fadbf43e2b0fb369fad3593a5425d78c22ed6796eef6ceb8fd918b"
+      },
+      "evidence/steering-quality-host-asan-r1/result.json": {
+        "bytes": 690,
+        "sha256": "036e720380331fdc909c12df31cbc3370b3b27762fd33b0dae79b7700d372de2"
+      },
+      "evidence/steering-quality-host-asan-r1/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "734269ff1a8c832f5df9ddb06ab46f9976e155e40baeca88921fc6bdb260cf0b"
+      },
+      "evidence/steering-quality-host-asan-r2/command.log": {
+        "bytes": 112,
+        "sha256": "91677c05354240eec2b9d3863ece3b807f556528e32037a38be756c8181d0ce7"
+      },
+      "evidence/steering-quality-host-asan-r2/plan.json": {
+        "bytes": 1200,
+        "sha256": "d20cb9cfd3c4b2b6b6a8debed0f3a2d3ff893ec1d3b990d60ba153cb0d9ea0b9"
+      },
+      "evidence/steering-quality-host-asan-r2/result.json": {
+        "bytes": 691,
+        "sha256": "48988f9626cbf58be8dae2d01e5a333d22895fbb8f4e05f6c44238438dd49f8b"
+      },
+      "evidence/steering-quality-host-asan-r2/temperatures.jsonl": {
+        "bytes": 1829,
+        "sha256": "ab4578dbf3a846f4f96febad4f59e4082150cdbe8e9d415b631ad8f3d69f8a06"
+      },
+      "evidence/steering-quality-native-ctest-debug-r1/command.log": {
+        "bytes": 303,
+        "sha256": "ae5ca145430b53e96b30291880f8182e479fc961d4a9f160773ab6a4d7a598d9"
+      },
+      "evidence/steering-quality-native-ctest-debug-r1/plan.json": {
+        "bytes": 970,
+        "sha256": "0ec45fe6bebaefce45e970e85ee64224aa9e39ee473a5ddf6f2482821f84d34f"
+      },
+      "evidence/steering-quality-native-ctest-debug-r1/result.json": {
+        "bytes": 462,
+        "sha256": "ac69f4f8a81a968a70e6c1b98dae4655e3be6a74495bb132f8e2d29d1da02f1f"
+      },
+      "evidence/steering-quality-native-ctest-debug-r1/temperatures.jsonl": {
+        "bytes": 9116,
+        "sha256": "91a2964537f2c9a1336375ff4e7a6b9a49186099cb22783d152cbc21b27906b4"
+      },
+      "evidence/steering-quality-native-ctest-asan-r1/command.log": {
+        "bytes": 304,
+        "sha256": "0ccbc2af914767fb61f59b0446f6f58ab17a11b61ce275aaace8898273d2a379"
+      },
+      "evidence/steering-quality-native-ctest-asan-r1/plan.json": {
+        "bytes": 1090,
+        "sha256": "304298dcc8f8fc8d346d81cff3a21db9f188635e3a2691cd095d9f3fb51f9913"
+      },
+      "evidence/steering-quality-native-ctest-asan-r1/result.json": {
+        "bytes": 581,
+        "sha256": "6d2d60e4dc880760d44ec07a19ebe9b260172aca796ce69bf2b144e8f60a3295"
+      },
+      "evidence/steering-quality-native-ctest-asan-r1/temperatures.jsonl": {
+        "bytes": 9738,
+        "sha256": "477031315267a97a93b8dbb27a294af24ba75f523ed404696bc6e9362bd480a8"
+      },
+      "evidence/steering-quality-host-public-seal-guard-r1/command.log": {
+        "bytes": 416,
+        "sha256": "85d16769410eb481b07494a6555386aec5f9f09b5097b65c4cb7ead02abdc99e"
+      },
+      "evidence/steering-quality-host-public-seal-guard-r1/plan.json": {
+        "bytes": 908,
+        "sha256": "24e8b59f90865e6bf150d763ad30bdf18b0f4d1a650b24a6df18cdc7314ba405"
+      },
+      "evidence/steering-quality-host-public-seal-guard-r1/result.json": {
+        "bytes": 405,
+        "sha256": "ca62e2a0b90a579f2a94bfd3cd10f9eb754e8082d1700ea8ec7aec78d6aa7d0b"
+      },
+      "evidence/steering-quality-host-public-seal-guard-r1/temperatures.jsonl": {
+        "bytes": 1827,
+        "sha256": "2d778bdbb6e05ffd26dd602b9d3b2f04caaa7830468728b40429704ab6a58779"
+      },
+      "evidence/seal-steering-quality-host-r1.py": {
+        "bytes": 6115,
+        "sha256": "b82969fdf77bbda69ba6763f1e153a29c66ecd594a4d4978926632cb3c75b098"
+      },
+      "evidence/seal-steering-quality-host-r2.py": {
+        "bytes": 6546,
+        "sha256": "942fe3be8a14c2b73863a20972227077aa594c48f45e93a3c77d5cb507c46772"
+      },
+      "evidence/prepare-steering-quality-host-seal-r2.py": {
+        "bytes": 1361,
+        "sha256": "e56ce6d8c9d9a79e0db06048d42e989b58a07e09dc021f5204ebf619f3ccb9f3"
+      }
+    }
+  },
+  "actual_exit_code": 0
+}

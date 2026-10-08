@@ -87,6 +87,9 @@ Held-out learned direction quality remains unqualified. The current r70 runtime
 also passes both cold turns of the YaRN4 short recall control, with 8190/8298
 physical inputs and capacity 1048576
 ([receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)).
+The same runtime/profile passes a separate 128K cohort, physical inputs
+131070/131178, with independently verified answers, all 18 hashes and complete
+closure ([receipt](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)).
 Earlier tool and native-RoPE recall results retain their frozen r68 identity;
 the short scaled control does not qualify the long-input ladder or those tools
 on this later runtime.
@@ -376,7 +379,10 @@ none of the six items.
    The newer r70 runtime also passes its own
    [YaRN4 short control](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json),
    seed 77, capacity 1048576 and physical inputs 8190/8298. Both saved SSE answers and
-   complete closure verify. Other seeds, longer YaRN inputs, 512K–1M inputs
+   complete closure verify. A separate
+   [YaRN4 128K cohort](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+   also passes both answers at physical inputs 131070/131178 with complete saved-wire,
+   collection and whole-container closure. Other seeds, longer YaRN inputs, 512K–1M inputs
    and MTP remain pending; the historical native results keep their r68 binding.
    The historical `1bff953` `.161` run completes all
    **1,048,448 physical prefill tokens and 128 output tokens**
@@ -473,6 +479,10 @@ none of the six items.
    Its analytic 100-pair native fixture passes in Debug and sanitizer modes;
    both frozen original reviews match exactly
    ([HOST receipt](development/validation/steering-build-scaled-review-host-2026-10-08.json)).
+   The [held-out response protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
+   and independent checker now pass HOST/native-client fixtures
+   ([receipt](development/validation/steering-quality-checker-host-2026-10-08.json));
+   campaign integration and original learned-bank response execution remain pending.
    Learned direction quality, independent graph/
    correction/fault, vision and matched cost remain open.
    Separate `modern-core-steering-admission` windows now qualify original-model

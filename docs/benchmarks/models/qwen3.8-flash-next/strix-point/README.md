@@ -297,26 +297,31 @@ not establish latency distributions, thread-role attribution or reactive speedup
 Thread counts were not recorded in the 8K window. The
 [recall protocol](../../../../development/protocols/LONG-CONTEXT-RECALL-GPU-PROTOCOL.md)
 defines the remaining three-seed native/YaRN ladder through 1M. The newer
-YaRN4 short control is below; other seeds, longer scaled inputs, 512K–1M,
+YaRN4 8K and 128K controls are below; other seeds, longer scaled inputs, 512K–1M,
 MTP quality and matched comparisons remain pending.
 
 ### YaRN4 short recall control: current r70 runtime
 
-The separate `4c703b3d`/r70 run uses the same seed 77 questions, cold two-turn
-workload and chunk 256, with YaRN4 and capacity 1,048,576. The **actual input is
-about 8K**, so this qualifies the short scaled control before the long-input
-ladder. It does not establish 1M recall or compare scaling/runtime performance.
+The separate `4c703b3d`/r70 runs use the same seed 77 questions, cold two-turn
+workload and chunk 256, with YaRN4 and capacity 1,048,576. Actual inputs cover
+8K and 128K. They do not establish 1M recall or compare scaling/runtime performance.
 
-| Turn | Physical input | Output | Prefill tok/s (s) | Decode tok/s (s) | TTFT s | Wall s | Recall |
+| Target / turn | Physical input | Output | Prefill tok/s (s) | Decode tok/s (s) | TTFT s | Wall s | Recall |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| Middle | 8,190 | 38 | 268.409 (30.513) | 10.348 (3.672) | 32.293 | 35.919 | Pass |
-| Start/end | 8,298 | 74 | 264.892 (31.326) | 10.361 (7.143) | 33.118 | 40.212 | Pass |
+| 8K / middle | 8,190 | 38 | 268.409 (30.513) | 10.348 (3.672) | 32.293 | 35.919 | Pass |
+| 8K / start/end | 8,298 | 74 | 264.892 (31.326) | 10.361 (7.143) | 33.118 | 40.212 | Pass |
+| 128K / middle | 131,070 | 38 | 236.240 (554.818) | 10.002 (3.799) | 556.617 | 560.362 | Pass |
+| 128K / start/end | 131,178 | 74 | 235.401 (557.254) | 10.010 (7.393) | 559.038 | 566.381 | Pass |
 
 Both outputs stop naturally. The [receipt and complete raw data](../../../../development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
 bind independent saved-SSE answers, full continuation, all 18 collected hashes
 and actual process/container/service/lease closure. The 151 thermal samples peak
-CPU 74.125/GPU 74/NVMe 63.85 C; GPU is observed only. No matched-performance graph
-is produced from these two different quality turns.
+CPU 74.125/GPU 74/NVMe 63.85 C. The
+[128K receipt and complete raw data](../../../../development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+retain the same independent answers and closure checks, with 47 portable members.
+Its 988 thermal samples peak CPU 79.5/GPU 80/NVMe 65.85 C; GPU is observed only.
+Neither cohort provides a matched fixed-output performance graph. Runtime/profile
+identities remain explicit; historical r68 native-RoPE rows are not r70 qualification.
 
 ## Modern C17 core MTP vs AR on the GPU
 

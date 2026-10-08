@@ -56,6 +56,14 @@ quality evidence. The native builder is now integrated as described below.
 Coherent HIP compilation and the first original short-prompt capture cohort
 pass; learned-bank quality and matched cost remain pending.
 
+The [held-out response protocol](protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
+defines 100 unique training pairs, ten disjoint arithmetic problems, absent/zero
+controls and six FFN scales. Its independent full-SSE checker and real native
+HTTP client pass synthetic HOST fixtures in normal and sanitizer modes
+([receipt](validation/steering-quality-checker-host-2026-10-08.json)).
+Original-weight execution and supervised campaign integration remain pending.
+Answer preservation and response length are separate from general quality.
+
 ## Native bank builder
 
 `lie-steering-build` is a C17 diagnostic client over the same model-neutral

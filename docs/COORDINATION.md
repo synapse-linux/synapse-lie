@@ -1,5 +1,22 @@
 # DS4 / synapse-lie coordination
 
+## Current r70 YaRN4 128K recall verified and retired — 2026-10-08
+
+All four specific peer non-use declarations and fresh global/in-lease checks
+admit `recall-yarn4-131072-s77-ar-20261008-r1`, manifest `77f53a53`, on `.161`.
+Both cold turns pass with independently reconstructed saved SSE. All process,
+collector and closure exits are 0; 18 collected hashes and four model stats
+reverify. Actual supervisor/init/GPU identities were observed during inference.
+
+Lease release at 01:47:02.167403 UTC and strong closure at 01:50:48.200241 UTC verify
+supervisor 90550, launcher 90646, init 90775 and GPU 91894 retired by exact start
+identity. Entire container/cgroup is absent in two complete process scans;
+router 102819 is restored and the original 66308/105946405 lease is unchanged/free.
+All four peers receive verified release. The
+[receipt](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+contains actual witnesses and 47 portable members. Root owns no remote job,
+handle, lease, window, waiter or reservation. This grants no subsequent window.
+
 ## Current r70 YaRN4 short control verified and retired — 2026-10-08
 
 Specific Point/DGX/Q2/GLM non-use declarations and fresh global/in-lease checks

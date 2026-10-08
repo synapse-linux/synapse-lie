@@ -19,6 +19,8 @@ stable release is declared. Detailed validation history is in
   including four final one-token chunks. Their raw captures and both banks
   match byte for byte. The optional checking route now admits 128 pairs and
   reads raw activations by row, with 100-pair fixture and mutation checks.
+  A held-out arithmetic/conciseness protocol and independent saved-SSE checker
+  now have native-client HOST coverage; original response execution remains pending.
   Learned response quality and wider runtime
   qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
 
@@ -26,9 +28,9 @@ stable release is declared. Detailed validation history is in
   separate context/RoPE/seed cohorts through 1M, with complete continuation,
   exact-answer checking, memory admission and failed-artifact retention.
   Original-weight native 8K, 128K and near-256K AR checks, seed 77, pass both cold turns
-  at each size. A separate current-runtime YaRN4 short control passes both turns
-  with 1M configured capacity and approximately 8K physical input; the long-input
-  ladder remains pending. Native products remain
+  at each size. Separate current-runtime YaRN4 controls pass both turns
+  at 8K and 128K physical inputs, with 1M configured capacity and independent
+  saved-wire/closure verification; larger inputs remain pending. Native products remain
   Python-free.
 
 - Responses now accepts `seed`, `frequency_penalty` and `presence_penalty`

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Development progress
 
-## YaRN4 short recall and streamed steering review pass — 2026-10-08 UTC
+## YaRN4 8K/128K recall and streamed steering review pass — 2026-10-08 UTC
 
 The current `4c703b3d`/r70 runtime passes both cold Chat SSE turns with YaRN4,
 capacity 1048576, seed 77, chunk 256, C1, cache off and actual inputs 8190/8298.
@@ -12,7 +12,15 @@ are 0; 18 artifact hashes and four model stats verify. CPU/GPU/NVMe peaks are
 four observed identities and the full container/cgroup; router restored and
 original lease free. The [receipt](development/validation/recall-yarn4-8k-ar-point-2026-10-08.json)
 and [same platform table](benchmarks/models/qwen3.8-flash-next/strix-point/README.md#yarn4-short-recall-control-current-r70-runtime)
-retain complete PP/TG/TTFT/wall values. This is a short-input control, not 1M recall.
+retain complete PP/TG/TTFT/wall values. The separate
+[128K cohort](development/validation/recall-yarn4-128k-ar-point-2026-10-08.json)
+also passes both exact answers with physical inputs 131070/131178, prefill
+236.240/235.401 tok/s and natural outputs 38/74. Its 18 collected hashes, saved
+SSE/full continuation and strong closure verify; CPU/GPU/NVMe peaks are 79.5/80/65.85 C.
+Lease release at 01:47:02 and strong closure at 01:50:48 retire all four observed
+identities and the entire container/cgroup. All four peers receive verified
+release. The same platform table contains all four current-runtime rows;
+larger inputs, other seeds and profiles remain pending.
 
 The optional steering reviewer now admits 128 pairs/512 MiB and streams hashed
 raw rows through one stable descriptor. Twenty-one checks per Debug/sanitizer
@@ -25,6 +33,17 @@ the actual CTests pass with exit 0 and the corrected sealer uses the same result
 Native products/source, ABI/state/metrics and Python-free default build remain
 unchanged. All six root tasks stay open; Terminal Bench remains last. Root owns
 no remote job/handle/lease/reservation; longer inputs and learned quality remain open.
+
+The [held-out steering protocol](development/protocols/STEERING-QUALITY-GPU-PROTOCOL.md)
+now has a bounded saved-SSE checker and native HTTP request cohorts: 100 unique
+paired training questions, ten disjoint evaluation questions, absent/zero
+controls and six FFN scales. Thirteen HOST tests per Debug/sanitizer mode include
+70 complete synthetic responses through the real C client, actual-plan schema
+refusals and quality failures distinct from missing evidence. The
+[HOST receipt](development/validation/steering-quality-checker-host-2026-10-08.json)
+retains the initial duplicate-dataset/sandbox failure. Original learned-bank
+execution and supervised campaign integration remain pending; these fixtures
+qualify checking code, not response quality on a model.
 
 ## Original multi-chunk and one-token-tail capture passes — 2026-10-08 UTC
 
