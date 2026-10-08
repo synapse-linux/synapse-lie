@@ -75,8 +75,11 @@ The current control refuses scaled RoPE. A comparison requires matching
 measurement contract, profile, physical prefixes, chunk, capacity and output
 budget. Natural EOS remains visible; shortened output cannot enter a matched
 TG comparison. `fresh` measures full prefill and answers a different question.
-The [earlier Q2 walk](../DS4-WALK-BENCH.md) is historical evidence for its own
-binary, not GPU qualification of this port.
+The current port passes
+[original Q2 and UD-Q4 checks at 2K/4K/6K/8K](../benchmarks/models/qwen3.8-flash-next/strix-halo/README.md#current-q2-and-native-walk-qualification--october-8):
+snapshot/replay and the original-sampler control retain identical logits hashes
+and output IDs. Longer walks and matched performance remain separate gates.
+The [earlier Q2 walk](../DS4-WALK-BENCH.md) retains its own binary identity.
 
 ## Reading prefill dispatch
 

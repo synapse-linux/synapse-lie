@@ -13,6 +13,9 @@ architectural destination.
 
 **Development status:** text inference is tested with Qwen3.8 Flash Next
 (Unsloth UD-Q4_K_XL) on AMD Strix Halo (`gfx1151`) and Strix Point (`gfx1150`).
+Original Q2/IQ2 weights also pass the current Strix Halo
+[functional checks](docs/benchmarks/models/qwen3.8-flash-next/strix-halo/README.md#current-q2-and-native-walk-qualification--october-8),
+including incremental prefill, state restoration and two-user batch output parity.
 The HTTP server supports native contexts up to 262,144 tokens and up to eight
 active sequences.
 Explicit [YaRN profiles](docs/guides/CONTEXT.md) extend the configured limit to

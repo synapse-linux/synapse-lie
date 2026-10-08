@@ -15,6 +15,39 @@ The near-1M cohort now passes complete independent saved-wire review and
 whole-container retirement. Root owns no remote window; no future window is reserved.
 All six root tasks remain open; Terminal Bench stays last.
 
+## Current Q2/walk original-weight integration gate passed — 2026-10-08 UTC
+
+The combined `9e95e4c4` source, with production code unchanged from
+`f902ad45`, passes all fourteen native commands in
+`halo-develop-q2-functional-20261008-r2`, manifest `49cea499`.
+Four specific declarations and the 20:12:17.829905 UTC fresh observation
+precede original five-FD admission. Controller31728 and supervisor17633 finish0.
+The prepared r1 is superseded before staging or GPU work; its files remain.
+
+Independent offline review passes0: original Q2 and UD-Q4 walks at
+2K/4K/6K/8K have identical physical inputs, PP/TG logits hashes and output IDs
+under snapshot/replay and matched original sampling. All twenty samples
+produce TG128. Restores use pristine sequences and remain outside timed PP/TG.
+Current Q2 core C2 at 8K matches the walk C1 continuation with 128 real batch
+calls. UD-Q4 direct/core C1/C2 output parity also passes; greedy MTP emits the
+same 32 IDs with 28 draft and 12 accepted tokens. The held-output peer-progress
+and cancellation probe and thirteen generated GPU component cases pass.
+
+Original lease descriptors close at 20:20:37.061544 UTC. Collection and strong
+closure at 20:21:09.657704 UTC verify 104 artifacts, 27 identity records,
+15 whole groups in two scans, empty KFD, eight unchanged model stats and all
+five original leases free and released. All four final notices are delivered.
+CPU/GPU/NVMe peaks are 87.75/89/72.85 C; no CPU or SSD guard trips.
+The [receipt and independently rehashed 176-member archive](development/validation/develop-q2-halo-functional-2026-10-08.json)
+preserve the complete commands, raw corpus, outputs, phase measurements,
+build bindings and actual exits.
+
+This passes the selected current-provider format/walk gate required for the
+final `develop` integration. It does not promote the optimized historical Q2
+capsule or erase its C2+ failure. Matched performance and the six broader
+roadmap tasks remain open. Root owns no remote job, handle, GPU client, lease,
+waiter, reservation or future grant.
+
 ## Combined Q2/walk Halo HIP build verified and closed — 2026-10-08 UTC
 
 The exact compile-only window `halo-develop-q2-build-20261008-r1`, manifest

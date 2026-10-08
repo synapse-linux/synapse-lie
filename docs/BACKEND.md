@@ -115,15 +115,14 @@ core C1/C2 output parity, real batch dispatch and borrowed-output peer progress.
 The 13 generated WMMA comparisons are component evidence, distinct from model
 long-context or task quality. No matched performance gain is inferred.
 
-Strix Point integration is merged into `develop` at `30598a3`. The complete
-OpenAI/reactive, million-context, C17 sampling, native Gufo-curve and selected
-Q2 branch heads are now ancestors of `feature/integrate-antirez-qwen` at
-`78e5833e`. Documentation conflicts retain current deadlines and qualifications;
+Strix Point integration entered `develop` at `30598a3`. The source consolidation
+at `78e5833e` also includes the complete OpenAI/reactive, million-context,
+C17 sampling, native Gufo-curve and selected Q2 branch heads.
+Documentation conflicts retain current deadlines and qualifications;
 historical Q2 experiments stay outside canonical product inputs. These final
 history merges change no production source compared with the selected-format
 checkpoint `f902ad45`.
-`develop` has not yet received that consolidated head. Recorded GPU
-results belong to their stated source and binary identities. They do not
+Recorded GPU results belong to their stated source and binary identities. They do not
 automatically qualify a later runtime or another model/platform.
 
 The native C17 `ds4-walk` source transfer now passes focused Debug and
@@ -134,9 +133,18 @@ patch-equivalence, synthetic metadata and [HOST/sanitizer checks](development/va
 The [combined gfx1151 HIP build](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
 now passes for primary C17 sampling and its matched OFF control, both with
 the selected Q2 formats ON, and seven linked consumers. All 3,015 frozen source
-files, original model stats and whole-window closure verify. Original-weight
-qualification of this composition remains pending. This source consolidation
-does not close the full context, quality or comparative-performance queue.
+files, original model stats and whole-window closure verify. The matching
+[original-weight functional gate](development/validation/develop-q2-halo-functional-2026-10-08.json)
+now passes all fourteen commands and independent review on Strix Halo.
+Q2 and UD-Q4 advancing walks have identical logits hashes and output IDs under
+snapshot/replay and the matched original-sampler control at 2K/4K/6K/8K.
+Current Q2 core C2 also matches the 8K C1 continuation with 128 real batch calls;
+UD-Q4 core C1/C2 and greedy MTP match the direct AR output. MTP drafts 28 tokens
+and accepts 12. Borrowed-output peer progress and cancellation pass.
+These selected checks close the new walk/format integration gate; the historical
+Q2 capsule's divergent outputs remain source-bound evidence.
+This source consolidation does not close the full context, quality or
+comparative-performance queue.
 
 This is the work queue owned by this thread. Separate DGX Spark/CUDA,
 Antirez weight-format/quantization and Strix Point port tasks stay with their

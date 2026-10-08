@@ -12,6 +12,11 @@ stable release is declared. Detailed validation history is in
   `LIE_QWEN_Q2_FORMATS` is default ON; provider/client selections and provenance
   must match. The stored MXFP4 predictor remains unsupported for execution.
 
+- Current Strix Halo Q2/UD-Q4 functional qualification passes advancing-walk
+  snapshot/replay and original-sampler parity at 2K/4K/6K/8K. The selected Q2
+  two-user batch matches C1 at 8K; UD-Q4 AR/MTP and reactive output ownership
+  checks also pass. This is separate from comparative performance qualification.
+
 - Native C17 `ds4-walk` benchmark for contiguous raw-corpus frontiers, with
   appended-token prefill accounting and separate checkpoint/restore timings.
   Snapshot and replay use the current state API; reports refuse incompatible

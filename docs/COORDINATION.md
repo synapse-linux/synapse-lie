@@ -1,5 +1,36 @@
 # DS4 / synapse-lie coordination
 
+## Current Q2/walk functional window verified and released — 2026-10-08
+
+Four actual specific declarations cover
+`halo-develop-q2-functional-20261008-r2`, manifest `49cea499`, through
+staging, fourteen serial commands, collection, independent oracle, whole-group
+closure, the five original FD releases and four final notices. The r1 plan is
+superseded before any staging or admission. Fresh global observation at
+20:12:17.829905 UTC and the repeated in-lease check bind the `9e95e4c4`
+compiled inputs, seven binaries, original model stats and boot/filesystem.
+Supervisor17633/start4998355 holds unchanged FD3..7.
+
+All fourteen commands and original controller31728 finish0. Independent
+local review finishes0, covering generated components, original Q2/UD-Q4
+walk snapshot/replay/reference parity, current Q2 C2 output equality at 8K,
+UD-Q4 C1/C2/MTP equality and actual reactive peer progress/cancellation.
+The original descriptors close at 20:20:37.061544 UTC. Registry release is
+20:20:37.063963 UTC, receipt SHA `cc67e1a3`.
+
+Collection/strong closure at 20:21:09.657704 UTC, SHA `e617614f`, verifies
+104 artifacts, 27 identity records and 15 complete groups absent in two scans,
+empty KFD, all eight original model stats and five unchanged leases acquired
+nonblocking, verified free and released. All four final notices are delivered.
+CPU/GPU/NVMe peaks are 87.75/89/72.85 C, with CPU98 and lower SSD bounds.
+
+The [portable functional receipt](development/validation/develop-q2-halo-functional-2026-10-08.json)
+contains actual exits and full hashes. Root owns no job, handle, GPU client,
+lease, waiter, reservation or future grant on any host. Later users need their
+own exact proposal and fresh admission. This window runs no HTTP service,
+Terminal Bench, dependency installation, tuning, model conversion or payload
+hash. Diagnostic timings are not comparative performance qualification.
+
 ## Combined Q2/walk Halo compile window verified and closed — 2026-10-08
 
 Four new exact declarations cover `halo-develop-q2-build-20261008-r1`, manifest

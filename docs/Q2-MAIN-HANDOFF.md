@@ -19,8 +19,13 @@ provider's [exact recipe](../adapters/gufo-state/qwen-q2-format-edits.json),
 selected by default-ON `LIE_QWEN_Q2_FORMATS`. Its 15 files and 38 hunks match
 `patches/gufo-q2.patch` independently in pristine and current-feature composition.
 The [current-provider HIP build](development/validation/develop-q2-halo-hip-build-2026-10-08.json)
-now passes both sampler variants and seven consumers on gfx1151. Original-weight
-qualification remains a separate gate. The following chain preserves the historical implementation
+now passes both sampler variants and seven consumers on gfx1151. Its matching
+[original-weight gate](development/validation/develop-q2-halo-functional-2026-10-08.json)
+passes Q2/UD-Q4 snapshot, replay and original-sampler output/logit parity at
+2K/4K/6K/8K. Current Q2 core C2 matches C1 at 8K with 128 real batch calls;
+UD-Q4 AR/MTP regression and the reactive loan/cancellation probe also pass.
+This qualifies the selected current composition, not the optimized capsule or
+its broader performance/quality claims. The following chain preserves the historical implementation
 and provenance; it is not a production build input.
 
 The DS4 advancing-walk implementation is the tracked
