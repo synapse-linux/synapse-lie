@@ -1,5 +1,41 @@
 # DS4 / synapse-lie coordination
 
+## Corrected held-out cohort collected and strongly closed — 2026-10-08
+
+The owner's explicit `procedi` resumes the prepared GPU qualification. After
+fully retiring the first run, root checkpoints its actual failure and the
+HOST-qualified response-store correction at `6deadec6`. New job
+`steering-conciseness-quality-point-20261008-r2`, manifest `bfdb4a39`, retains
+the original r70 binaries, model, learned bank and complete frozen quality
+criteria. Response retention is 256 MiB. No future run is admitted.
+
+All four peers renew exact-scope non-use through both serial servers, collection,
+independent review, complete cgroup closure and four-peer release. The fresh
+09:59:16 UTC global observation verifies pinned boot/filesystem, original lease
+66308/105946405, all eleven staged identities, bundle/image, memory admission,
+router191210 and absence of foreign compute, hot guarded sensors or HTTP8000.
+The direct launch succeeds; controller32304 is the original handle.
+
+At 10:09:47 UTC supervisor191867/start6966148 holds the unchanged lease at FD3.
+Init192114/start6966274 and full container
+`c28f19b477193d01ae630393a1ad16f6b3cbc43ee7c9f6ad38945030aca69292`
+are observed live. Second serial GPU owner194646/start6986172 occupies that full
+cgroup; CPU/GPU/NVMe readings are 65.625/65/38.85 C. All seventy responses then
+complete, with native clients0 but original controller/supervisor/container1
+and retained `QUALITY_FAILED`. Full saved-wire and stored-policy review exits0;
+31/70 arithmetic answers are correct and absent/zero parity passes10/10.
+
+Release at 10:17:42.215872 UTC and strong closure at 10:18:37.539933 retire all
+seven actual identities, the complete container/cgroup in two full scans and
+all five recorded ports. All 38 artifact hashes and four model stats match.
+The unchanged original lease is free/released, router202966 is active and no
+foreign compute or hot guarded sensor remains. All four peers receive verified
+release. The [complete receipt](development/validation/steering-conciseness-quality-point-2026-10-08.json)
+retains 82 portable members with a successful independent postcheck. Root owns
+no remote job, handle, lease, window, waiter, reservation or future grant. The
+786K recipes remain local and unadmitted. Historical failures and automatic
+review rejections below remain unchanged. Terminal Bench stays last.
+
 ## Held-out steering test fails before full collection; .161 retired — 2026-10-08
 
 After the summary of completed work, remaining GPU checks and the automatic

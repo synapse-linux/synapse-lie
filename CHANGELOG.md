@@ -40,8 +40,11 @@ stable release is declared. Detailed validation history is in
   partial wire and full process retirement are independently verified. The
   qualification supervisor now reserves 256 MiB for stored responses, with
   native synthetic-server coverage of the old limit and the complete cohort.
-  Learned response quality and wider runtime
-  qualification remain pending. Runtime `.f32` and DS4 cache formats are unchanged.
+  The unchanged complete original cohort now retains all seventy responses and
+  independently verified applied policies, with complete process closure.
+  Its quality gate fails: baseline arithmetic is 6/10 and negative-scale outputs
+  truncate. Full observations and actual failed exits are retained; wider runtime
+  qualification remains pending. Runtime `.f32` and DS4 cache formats are unchanged.
 
 - Optional Strix Point recall coordination now runs the native benchmark on
   separate context/RoPE/seed cohorts through 1M, with complete continuation,

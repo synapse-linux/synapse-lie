@@ -123,9 +123,11 @@ of that integration, then qualify the combined runtime on `.161`, run matched
 benchmarks and run Terminal Bench last. Qualification-only client preparation
 belongs to that final validation phase; do not turn it into another intermediate
 implementation campaign.
-GPU qualification uses `.161` with fresh admission. The owner's latest request
-defers further GPU/test campaigns until all remaining functional implementation
-is finished. The old prepared r37 MTP manifest remains unlaunched. Subsequent
+GPU qualification uses `.161` with fresh admission. The earlier request
+deferred further GPU/test campaigns until functional integration was finished;
+the owner subsequently resumes final qualification explicitly with `procedi`.
+This permits the recorded current runs, with new specific admission each time.
+The old prepared r37 MTP manifest remains unlaunched. Subsequent
 final-phase r47 qualification uses a newly bound manifest and the current r45
 runtime; its selected MTP-enabled HTTP controls pass as recorded below. Peer
 non-use replies grant no future admission. No intermediate remote campaign,
@@ -533,8 +535,17 @@ none of the six items.
    eviction. Thirteen supervision/seventeen profile checks and one CTest pass
    per Debug/unsuppressed sanitizer mode
    ([HOST receipt](development/validation/steering-quality-response-capacity-host-2026-10-08.json)).
-   This changes no native source or quality criterion; a new original run
-   requires new helper hashes and fresh separate admission.
+   This changes no native source or quality criterion. A separately admitted
+   original repeat now completes all seventy responses and actual stored
+   steering policies, with both native clients0
+   ([complete receipt](development/validation/steering-conciseness-quality-point-2026-10-08.json)).
+   Its original controller/container exit1 and quality fails: 31/70 arithmetic
+   answers, fifty natural stops and absent/zero parity10/10. Each negative scale
+   truncates all ten outputs. The frozen response-length effect is not evaluated
+   after its arithmetic/natural-stop prerequisites fail. Collection, independent
+   full-wire review, whole-container/seven-identity closure, all four releases
+   and portable archive postcheck pass0. This qualifies retention, observable
+   policy application and retirement; learned response quality remains failed.
    The optional response collector now retains both phases' full/partial wire
    with frozen-input checks, bounded transfer and complete local rehash. Twelve
    [HOST checks](development/validation/steering-quality-collection-host-r2-2026-10-08.json)

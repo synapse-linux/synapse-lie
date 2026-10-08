@@ -4,12 +4,42 @@
 The current r70 `.161` recall ladder passes both cold turns through near-512K
 physical inputs with YaRN4 and seed 77. Original 100-pair FFN learning also
 passes complete capture, independent bank reconstruction and strong closure.
-The subsequent held-out steering run saves 68/70 responses, then the bank
-client fails with HTTP429. Its complete quality gate remains unqualified;
-partial reconstruction, collection, whole-container retirement and four-peer
-release pass. Root owns no remote job or future reservation. Larger recall
+The first held-out steering run saves 68/70 responses before HTTP429. After
+correcting response retention, the unchanged complete cohort finishes: all
+seventy wire responses and stored policies independently verify, but quality
+fails. Baseline arithmetic is 6/10; twenty negative-scale outputs truncate.
+Collection, whole-container retirement, four-peer release and portable evidence
+verification pass. Root owns no remote job or future reservation. Larger recall
 inputs and wider gates remain pending.
 All six root tasks remain open; Terminal Bench stays last.
+
+## Complete steering cohort fails quality; retention and closure pass — 2026-10-08 UTC
+
+Checkpoint `6deadec6` retains the failed first run and its HOST-qualified
+response-storage correction. The new manifest `bfdb4a39` freezes the same r70
+model, 100-pair FFN bank, questions, scales, seed and output budget. Only the
+optional supervisor's response store changes from 64 to 256 MiB.
+
+Four current specific non-use declarations and the 09:59:16 UTC global check
+admit `steering-conciseness-quality-point-20261008-r2`. Original controller32304
+finishes with exit1 and `QUALITY_FAILED`. Both native clients and owned server
+retirements exit0. All seventy responses and actual stored application policies
+independently verify; 31 arithmetic answers are correct and fifty outputs stop
+naturally. Absent-bank/zero text and physical-count parity passes 10/10. Both
+negative scales truncate all ten outputs. The frozen length-effect gate is not
+evaluated after failed arithmetic/natural-stop prerequisites.
+
+The [complete failed-quality receipt](development/validation/steering-conciseness-quality-point-2026-10-08.json)
+retains 82 verified portable members, separate from the earlier incomplete run.
+Collection, independent review, strong closure and archive postcheck exit0.
+Release at 10:17:42 UTC and closure at 10:18:37 retire all seven actual identities,
+the complete container/cgroup and five ports. All 38 collected hashes and four
+model stats match; original lease is free, router202966 restored and all four
+peers receive release. Native CPU/GPU/NVMe peaks are 69.875/75/66.85 C across 872
+samples. Local review/seal CPU peaks at 52.25 C. Source, quality criteria and
+bank are unchanged. No matched performance, general quality or reactive speedup
+is inferred. Separate 786K recall preparation performs no remote operation or
+future reservation. Terminal Bench stays last.
 
 ## Response storage corrected for the frozen steering cohort — 2026-10-08 UTC
 
