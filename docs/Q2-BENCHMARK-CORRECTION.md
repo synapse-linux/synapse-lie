@@ -38,6 +38,10 @@ changed together. No measured attribution of that difference exists yet.
   The 128K point with chunk2K therefore performs 64 consecutive prefill calls
   inside one start/end timestamp interval. This differs from the 64 independent
   prompt lengths in the complete 2K grid.
+- Complete the matching UD model curve with chunk2048 as well. The earlier
+  interpretation of the owner's "UD only for 2K" as a single 2048-token point
+  did not cover that comparison. Scope is112 Q2 points plus64 UD points, using
+  the same retained native executable and identical physical inputs at each N.
 - Fix context allocation at 133760 for the curve, C1, greedy AR, MTP off,
   no prefix-cache restore. Keep IOMMU enabled and the retained numerical
   provider unchanged. Chunk size is the tested variable.
@@ -48,6 +52,9 @@ changed together. No measured attribution of that difference exists yet.
 - Record executable/provider hashes, exact input IDs, allocated capacity,
   warmup count, every measured repetition and actual completed phase counts.
   The focused discrepancy check uses one warmup and three measured repetitions.
+  The complete curves use the documented native default of one warmup and one
+  measured repetition per point. Keep the diagnostic repetitions in their own
+  files; do not mix them into this fresh full-curve campaign.
   Historical qualified binaries and reference values are preserved.
 
 The `single` suite remains an explicitly selected incremental diagnostic.

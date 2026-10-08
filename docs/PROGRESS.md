@@ -1,5 +1,15 @@
 <!-- SPDX-License-Identifier: MIT -->
 
+2026-10-08 owner requests the missing complete curves. The focused 2K/8K
+diagnostics and isolated UD2048 point did not complete that work. Prepare
+all112 Q2 points (chunk2K/4K/8K) and64 UD points (chunk2K), through131072 exact
+physical counting tokens, same retained native executableb701e948, full
+prefill from empty state, capacity133760, TG128, C1reactive greedy AR, IOMMUon.
+Use the already documented full-curve default warm1+measured1. Await the
+admitted GLM c4eff4bd window's collection/release/strong closure before freezing
+the predecessor and requesting specific non-use ACKs. No new GPU admission
+or completed curve is claimed at this preparation stage.
+
 2026-10-08 requested UD2K comparison completes on .157 with the same native
 executableb701e948 and exact2048 physical counting IDs as saved Q2. No Q2
 rerun or model conversion: chunk2048/capacity133760/warm1+reps3/TG128,
