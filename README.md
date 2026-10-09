@@ -26,7 +26,7 @@ performed for the site.
 
 `pi.html` contains the tested Pi profile and `clients.html` describes Codex
 and Claude Code protocol gaps. The model page links official Unsloth GGUF,
-MTP and vision files and labels the narrower Antirez Q2 functional scope.
+model-specific MTP and vision files and labels the narrower Antirez Q2 functional scope.
 `actuator.html` includes response examples from a local no-model CPU HTTP
 fixture and distinguishes per-request PP/TG from Actuator's aggregate counters.
 A local Codex CLI 0.159.3 probe used

@@ -253,3 +253,14 @@
 .docs-footnote a{color:#126e6a;font-weight:700}
 @media(max-width:1000px){.docs-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.docs-nav{padding:13px 22px}.docs-nav a{font-size:13px;padding:8px 10px}.docs-home{padding-top:52px}.docs-card-grid{grid-template-columns:1fr}.docs-card-grid a{min-height:150px}}
+
+/* Model-specific optional files remain readable on narrow screens. */
+.model-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1.5rem 0}
+.model-profile{border:1px solid #cbdad4;border-radius:12px;background:#fff;padding:1.3rem;min-width:0}
+.model-profile h3{margin:.25rem 0 1.2rem;font-size:1.45rem;line-height:1.25}
+.model-profile-tag{margin:0;color:#00877d;font-size:.82rem;font-weight:750;letter-spacing:.02em}
+.model-component{border-top:1px solid #dae4df;padding:1rem 0 .15rem}
+.model-component strong{color:#123f3a}
+.model-component p{margin:.4rem 0 .8rem}
+.model-profile-status{border-top:1px solid #dae4df;margin:.5rem 0 0;padding-top:1rem;font-size:.94rem}
+@media(max-width:760px){.model-profile-grid{grid-template-columns:1fr}.model-profile{padding:1rem}}
