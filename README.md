@@ -7,21 +7,29 @@ This is the static site published from `gh-pages` at
 ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
-`manual.html` is the task-led usage guide for `synapse-lie-server` and
-`synapse-lie-bench`. The commands and capability bounds were checked against
+`docs.html` is the seven-section documentation entry point: Quickstart
+(`manual.html`), Models (`models.html`), Agent setup (`agents.html` with the
+separate `pi.html` and `clients.html` guides), lie-server (`server.html`),
+Actuator (`actuator.html`), OpenAI API (`openai-api.html`) and lie-bench
+(`bench.html`). Server and benchmark option tables live with their respective
+programs. The benchmark's `--graphs` option is the normal way to export a
+measurement; its `report` suite is identified as an offline re-export
+utility. `reference.html` and `cli-options.html` now redirect old links to the
+appropriate reference.
+
+Commands and capability bounds were checked against
 `develop` at `9e793a64d725394ee5763b03dd1f143a4a2d8a6c`, especially
 `docs/guides/USAGE.md`, `docs/guides/BENCHMARKS.md`, `docs/guides/BUILD.md`
 and the CLI parsers. The normal GPU path is now `make strix-halo` and
 `build/strix-halo/` on develop. No new original-weight qualification run was
 performed for the site.
 
-The guide links separate references: `pi.html` contains the tested Pi profile;
-`clients.html` describes the Codex and Claude Code protocol gaps;
-`openai-api.html` lists the `/v1` model API; `actuator.html` documents the
-management listener, response shapes and error statuses. `reference.html`
-explains when to use each benchmark suite and which executable owns its
-settings. `cli-options.html` keeps the searchable flag inventory, including
-`ds4-walk` and `http-curve`. A local Codex CLI 0.159.3 probe used
+`pi.html` contains the tested Pi profile and `clients.html` describes Codex
+and Claude Code protocol gaps. The model page links official Unsloth GGUF,
+MTP and vision files and labels the narrower Antirez Q2 functional scope.
+`actuator.html` includes response examples from a local no-model CPU HTTP
+fixture and distinguishes per-request PP/TG from Actuator's aggregate counters.
+A local Codex CLI 0.159.3 probe used
 an isolated configuration and ephemeral loopback mock only. It confirmed
 provider selection and `/v1/responses` routing, but exposed unsupported
 `reasoning`, `reasoning.encrypted_content`, `prompt_cache_key` and

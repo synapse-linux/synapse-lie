@@ -14,7 +14,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="index.html#top" aria-label="Synapse LIE home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>synapse<span class="brand-dot">.</span>lie</span></a>
-      <nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="manual.html">Manual</a><a href="openai-api.html">APIs</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav>
+      <nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="docs.html">Documentation</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav>
     </header>
     <main id="main">
       <section class="manual-hero client-hero" aria-labelledby="clients-title"><div class="manual-hero-inner">
@@ -24,6 +24,7 @@
         <div class="manual-hero-links"><a href="#pi">Set up Pi <span aria-hidden="true">↓</span></a><a href="clients.html">Codex &amp; Claude Code <span aria-hidden="true">↗</span></a></div>
         <div class="manual-version"><span>Based on develop</span><strong>9e793a64</strong><span>Example API: port 8000</span></div>
       </div></section>
+      <nav class="docs-nav" aria-label="Documentation sections"><a href="manual.html">Quickstart</a><a href="models.html">Models</a><a href="agents.html" aria-current="page">Agent setup</a><a href="server.html">lie-server</a><a href="actuator.html">/actuator</a><a href="openai-api.html">OpenAI API</a><a href="bench.html">lie-bench</a></nav>
       <div class="manual-layout">
         <aside class="manual-sidebar" aria-label="Client guide contents"><p>Pi setup</p><nav aria-label="Pi guide sections"><a href="#pi">Set up Pi</a><a href="#network">Address &amp; access</a><a href="openai-api.html">OpenAI API</a><a href="clients.html">Codex &amp; Claude Code</a></nav><a class="manual-sidebar-source" href="openai-api.html">API route reference ↗</a></aside>
         <div class="manual-content">
@@ -65,7 +66,7 @@ env PI_CODING_AGENT_DIR="$PI_LIE_PROFILE" PI_OFFLINE=1 PI_TELEMETRY=0 \
 
           <section class="manual-section" id="network"><p class="manual-kicker">Connect across machines</p><h2>Address and access</h2>
             <p>For a remote client, start LIE with <code>--host 0.0.0.0 --port 8000</code> and use <code>http://SERVER-IP:8000/v1</code> in OpenAI clients. The management port is separate and defaults to <code>127.0.0.1:19880</code>. LIE has no built-in TLS or access control, so keep port 8000 on a trusted network or behind a configured proxy. Readiness is available at <code>http://127.0.0.1:19880/actuator/health/readiness</code> on the server host.</p>
-            <p>For model discovery and Chat Completions routes, see the <a href="openai-api.html">OpenAI API reference</a>. The <a href="clients.html">Codex and Claude Code guide</a> explains their separate protocol status. For server flags, use the <a href="cli-options.html">CLI flag index</a>.</p>
+            <p>For model discovery and Chat Completions routes, see the <a href="openai-api.html">OpenAI API reference</a>. The <a href="clients.html">Codex and Claude Code guide</a> explains their separate protocol status. For server flags, use the <a href="server.html#options">lie-server option reference</a>.</p>
           </section>
         </div>
       </div>

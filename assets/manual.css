@@ -234,3 +234,22 @@
 .manual-diagnostic{padding:18px 21px 20px;border-top:1px solid #d2ded5}
 .manual-diagnostic .code-block{margin:20px 0;border-radius:7px}
 .manual-content .manual-diagnostic p{font-size:16px;margin:0 0 15px}
+
+/* Seven task-based documentation sections. */
+.docs-nav{max-width:1300px;margin:auto;padding:18px clamp(22px,5vw,80px);display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;border-bottom:1px solid #d5e0d9}
+.docs-nav a{flex:0 0 auto;padding:10px 12px;border:1px solid #cddbd2;border-radius:7px;background:#fff;color:#35564e;font-size:14px;font-weight:650;text-decoration:none;white-space:nowrap}
+.docs-nav a:hover,.docs-nav a:focus-visible{border-color:#439e82;color:#126b5f}
+.docs-nav a[aria-current="page"]{background:#dff0d2;border-color:#9fcb9d;color:#234e38}
+.docs-home{max-width:1270px;margin:auto;padding:75px clamp(22px,5vw,80px) 105px}
+.docs-home h2{font-size:clamp(38px,4vw,58px);letter-spacing:-.055em;margin:0 0 29px}
+.docs-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.docs-card-grid a{position:relative;display:block;min-height:215px;padding:26px;border:1px solid #d3dfd6;background:#fff;border-radius:10px;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
+.docs-card-grid a:hover{transform:translateY(-3px);border-color:#68ab95;box-shadow:0 12px 30px rgba(16,27,40,.09)}
+.docs-card-grid span{display:block;color:#168676;font-size:14px;font-weight:750;margin-bottom:16px}
+.docs-card-grid strong{display:block;color:#153e36;font-size:23px;letter-spacing:-.035em;line-height:1.2}
+.docs-card-grid p{color:#50685e;font-size:15px;line-height:1.55;max-width:35ch;margin:12px 0 0}
+.docs-card-grid b{position:absolute;right:24px;top:25px;color:#168676;font-size:22px}
+.docs-footnote{color:#4c6358;font-size:15px;line-height:1.65;margin-top:30px;max-width:75ch}
+.docs-footnote a{color:#126e6a;font-weight:700}
+@media(max-width:1000px){.docs-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.docs-nav{padding:13px 22px}.docs-nav a{font-size:13px;padding:8px 10px}.docs-home{padding-top:52px}.docs-card-grid{grid-template-columns:1fr}.docs-card-grid a{min-height:150px}}
