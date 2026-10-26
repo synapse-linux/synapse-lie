@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "product": "lie-agent",
+  "version": "0.1.0-alpha.1",
+  "documentation_date": "2026-10-26",
+  "status": "private_alpha_integrated_locally_distribution_pending",
+  "local_integration_commit": "05f380c9f977be71f487d98fd023518c4b183b38",
+  "qualified_runtime_tree": "f7236a64e53f2211b2ff40c9bf22a4534fbe2c51",
+  "public_source_integration": false,
+  "public_package_download": false,
+  "operational_installation_complete": false,
+  "platform": "Linux x86_64",
+  "GPU": "gfx1150",
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "profile": {
+    "context": 8192,
+    "chunk": 2048,
+    "max_output": 1024,
+    "concurrency": 1,
+    "MTP": false,
+    "vision": false
+  },
+  "runtime_image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+  "bare_host_gap": "ICU77 absent on the unmodified Pop!_OS test host",
+  "optional_runtimes": {
+    "node": "22.23.0",
+    "tmux_minimum": "3.2",
+    "mDNS_SDK_ABI": 1
+  },
+  "qualified_gates": {
+    "G01": true,
+    "G02": true,
+    "G03": true,
+    "G04": true,
+    "G05": true,
+    "G06": true,
+    "G07": true,
+    "G08": true,
+    "G09": true
+  },
+  "artifacts": [
+    {
+      "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-lie-agent-base.tar.gz",
+      "bytes": 13762152,
+      "sha256": "9c46b7daf359cc2fced7a04b63b9790042e8fb6e02e92162712c9712591cba91"
+    },
+    {
+      "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-lie-agent-codemode.tar.gz",
+      "bytes": 699694,
+      "sha256": "05732c46d4a5a74e3d2dfb1df8090abb61c1c9eab23a85dde8697d9f2de026ce"
+    },
+    {
+      "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-lie-agent-extensions.tar.gz",
+      "bytes": 8030,
+      "sha256": "a3c466fc1b561f4cb06730984e9973fdb6a105bd4dcf3a979899d061e5abb42c"
+    }
+  ],
+  "qualification_sha256": "3638ab0053d0f5d6069416bb3a842a44124b1698a4806a6358d2a5e9b9f410fc",
+  "strict_original_weight_cases": 8,
+  "case_scope": "Two controlled C17 tasks, individual/CodeMode strategies, native/HTTP. Not a broad coding ranking.",
+  "outside_scope": [
+    "Exact tokenizer preflight",
+    "Real-model compaction quality",
+    "Physical VT",
+    "Last-global-SSH logout",
+    "Physical persistent-media power loss",
+    "Arbitrary model/GPU/runtime ABI",
+    "Published-version downgrade"
+  ],
+  "later_roadmap": [
+    "Advanced gRPC control",
+    "Continuous mDNS and connected-agent registry",
+    "Numerical checkpoints and session branches",
+    "LSP/browser/GUI and further ecosystem integrations"
+  ],
+  "MCP_server": false
+}

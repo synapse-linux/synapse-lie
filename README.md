@@ -8,8 +8,8 @@ ECharts, with no remote fonts, build step or CDN. Relative links work under the
 `/synapse-lie/` project path.
 
 `docs.html` is the seven-section documentation entry point: Quickstart
-(`manual.html`), Models (`models.html`), Agent setup (`agents.html` with the
-separate `pi.html` and `clients.html` guides), lie-server (`server.html`),
+(`manual.html`), Models (`models.html`), Agents (`agents.html` with the dedicated `lie-agent.html`,
+`pi.html` and `clients.html` guides), lie-server (`server.html`),
 Actuator (`actuator.html`), OpenAI API (`openai-api.html`) and lie-bench
 (`bench.html`). Server and benchmark option tables live with their respective
 programs. The benchmark's `--graphs` option is the normal way to export a
@@ -131,3 +131,24 @@ GitHub Pages uses **Settings → Pages → Deploy from a branch → gh-pages →
 No custom domain is configured. GitHub's
 [branch-publishing instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 describe the repository setting.
+
+## lie-agent documentation update — October 26, 2026
+
+`lie-agent.html` documents the private 0.1.0-alpha.1 integrated locally at
+`05f380c9f977be71f487d98fd023518c4b183b38`: persistent project sessions,
+HTTP/direct inference, C-owned tools/recovery, TypeScript, MCP client, CodeMode,
+finite discovery and SSE. `data/lie-agent-alpha1.json` is a curated public
+support/artifact record derived from the integration audit. No raw private
+evidence, credentials, models or package payloads are published by this change.
+The site states explicitly that source integration and packages remain private
+and operational installation/distribution are pending.
+
+The agent support scope is Linux x86_64/gfx1150 and the exact image/model
+profile in that record. Bare-host Pop!_OS lacks ICU77; eight small C17 cases
+are not a broad coding ranking. Engine/client guides retain their existing
+`9e793a64` baseline. This documentation update does not rerun their probes
+or present old engine acceptance as current alpha qualification.
+
+The repository documentation was independently organized into user task
+guides, topic-specific contract references and dated validation history.
+The site remains static HTML/CSS with its existing local chart assets.

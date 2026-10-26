@@ -139,7 +139,7 @@ sudo apt install build-essential cmake ninja-build pkg-config git \
           </div>
 
           <div class="build-steps">
-            <p class="build-disclaimer">The one-command entry point is committed on <code>feature/integrate-antirez-qwen</code> at <code>d415d8df</code>. It does not install packages, download model weights or start a server. A successful build alone does not qualify model output or performance. The <a href="https://github.com/synapse-linux/synapse-lie/blob/feature/integrate-antirez-qwen/docs/guides/BUILD.md">build guide</a> covers supported ROCm setups and advanced options.</p>
+            <p class="build-disclaimer">The one-command entry point is present on the published <code>develop</code> baseline <code>9e793a64</code>. It does not install packages, download model weights or start a server. A successful build alone does not qualify model output or performance. The <a href="https://github.com/synapse-linux/synapse-lie/blob/develop/docs/guides/BUILD.md">build guide</a> covers supported ROCm setups and advanced options.</p>
             <details class="advanced-build"><summary>Advanced: build only the C17 server without a model executor <span aria-hidden="true">↓</span></summary><p>This is useful for interface and build checks; it is not a GPU inference build.</p><div class="code-block code-block-light"><div class="code-top"><span>No Python required</span><button class="copy-button" type="button" aria-label="Copy native server build commands">Copy</button></div><pre><code>cmake -S . -B build/native -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Python3=ON
 cmake --build build/native --parallel
@@ -147,6 +147,11 @@ build/native/synapse-lie-server --build-info</code></pre></div></details>
           </div>
         </div>
       </section>
+      <section class="read-section" id="lie-agent"><div class="section-shell">
+        <p class="eyebrow">Terminal agent · Private alpha</p><h2>Return to the project. Find your session.</h2>
+        <p>lie-agent combines a C17 coding loop with persistent tmux sessions, explicit tool permissions, trusted TypeScript plugins, MCP client and CodeMode. Its first alpha is qualified in the recorded runtime/model scope; distribution remains pending.</p>
+        <p><a href="lie-agent.html">Read the lie-agent guide ↗</a> · <a href="lie-agent.html#support">Check support and availability ↗</a></p>
+      </div></section>
     </main>
 
     <footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Local inference in the <a href="https://synapse-linux.github.io/">Synapse Linux</a> ecosystem, with the method beside the measurement.</p></div><div class="footer-links"><a href="#top">Back to top ↑</a><a href="docs.html">Documentation ↗</a><a href="manual.html">Quickstart ↗</a><a href="bench.html">lie-bench ↗</a><a href="https://synapse-linux.github.io/">Synapse Linux ↗</a><a href="https://github.com/synapse-linux/synapse-lie">Source ↗</a><a href="data/catalog.json">Data catalog ↗</a></div><p class="footer-legal">Development preview · First-party site code MIT · Qualified CSV provenance in the site README.</p></footer>
