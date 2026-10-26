@@ -3,7 +3,7 @@
   "product": "lie-agent",
   "version": "0.1.0-alpha.1",
   "documentation_date": "2026-10-26",
-  "status": "private_alpha_integrated_locally_distribution_pending",
+  "status": "historical_qualified_candidate_new_build_variants_require_target_acceptance",
   "local_integration_commit": "05f380c9f977be71f487d98fd023518c4b183b38",
   "qualified_runtime_tree": "f7236a64e53f2211b2ff40c9bf22a4534fbe2c51",
   "public_source_integration": false,
@@ -11,7 +11,6 @@
   "operational_installation_complete": false,
   "platform": "Linux x86_64",
   "GPU": "gfx1150",
-  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
   "profile": {
     "context": 8192,
     "chunk": 2048,
@@ -73,5 +72,16 @@
     "Numerical checkpoints and session branches",
     "LSP/browser/GUI and further ecosystem integrations"
   ],
-  "MCP_server": false
+  "MCP_server": false,
+  "qualification_model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "model_catalog": "data/model-support.json",
+  "artifact_scope": "Retained runtime-switching candidate; these hashes do not describe new compile-time REMOTE/NATIVE artifacts.",
+  "current_build_contract": {
+    "selection": "compile_time",
+    "cmake": "LIE_AGENT_BACKEND=REMOTE|NATIVE",
+    "runtime_switch": false,
+    "new_variant_target_qualification_complete": false
+  },
+  "model": "Qwen3.8-Flash-Next UD-Q4_K_XL",
+  "model_scope": "previous_candidate_qualification_only"
 }

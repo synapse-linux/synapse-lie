@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "documentation_date": "2026-10-26",
+  "source_review": "local develop f9b76a9eef02048943e714b01b2fb41905870d80",
+  "source_publication_pending": true,
+  "scope": "Engine runtime support, offline recipes and agent qualification are separate.",
+  "models": [
+    {
+      "model": "Qwen3.8-Flash-Next",
+      "format": "UD-Q4_K_XL",
+      "kind": "runtime",
+      "status": "Original-weight tests",
+      "detail": "Functional and benchmark records on Strix Halo (gfx1151) and Strix Point (gfx1150). Keep the four GGUF shards together.",
+      "agent": "The previous lie-agent alpha was tested with this exact format on gfx1150; its recorded profile is below.",
+      "source": "docs/guides/LIE-AGENT-ALPHA1.md"
+    },
+    {
+      "model": "Qwen3.8-Flash-Next",
+      "format": "Antirez Q2 / IQ2",
+      "kind": "runtime",
+      "status": "Original-weight tests",
+      "detail": "Integrated Q2 execution and retained AR/MTP development qualifications. Performance candidates and their numerical profiles have separate acceptance gates.",
+      "agent": "No matching lie-agent task qualification.",
+      "source": "docs/development/MTP-GUFO-COMPATIBILITY-2026-10-18.md"
+    },
+    {
+      "model": "GLM53",
+      "format": "Recorded Q2 profile",
+      "kind": "runtime",
+      "status": "Integrated, limited",
+      "detail": "Optional LIE_GLM53_RUNTIME provider is integrated into the shared core and both engine clients. Bounded original-weight C1 and Low-reasoning Chat HTTP witnesses pass.",
+      "agent": "Tools and multi-message chat are refused by the current provider; this is not a lie-agent coding profile.",
+      "source": "docs/GLM53-CORE-INTEGRATION.md"
+    },
+    {
+      "model": "Qwen3.6-35B-A3B",
+      "format": "IQ2_XXS / Q2_K / Q8_0 recipe",
+      "kind": "recipe",
+      "status": "Conversion recipe",
+      "detail": "Routed-expert conversion policy, calibration checks and retained Hugging Face staging metadata. These records do not establish publication or native inference compatibility.",
+      "agent": "Native inference support is not qualified. A remote server has its own model support.",
+      "source": "docs/development/QWEN36-ANTIREZ-QUANT.md"
+    },
+    {
+      "model": "Gemma 4 26B-A4B-it",
+      "format": "Routed-expert recipe",
+      "kind": "recipe",
+      "status": "Conversion recipe",
+      "detail": "Offline quantization recipe preserving fixed tensors. The current Qwen-specific adapter does not provide a Gemma loader or numerical executor.",
+      "agent": "No native Gemma inference support. A remote server has its own model support.",
+      "source": "docs/development/GEMMA4-ROUTED-QUANT.md"
+    }
+  ],
+  "remote_agent": "A tool-capable Chat Completions endpoint; supported families and templates are determined by that server. No arbitrary-provider qualification is claimed."
+}

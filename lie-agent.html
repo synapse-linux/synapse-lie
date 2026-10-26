@@ -1,73 +1,70 @@
 <!doctype html>
 <!-- SPDX-License-Identifier: MIT -->
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#101b28">
-<meta name="description" content="Private lie-agent alpha: C17 coding tools, persistent tmux sessions, HTTP/direct inference, TypeScript plugins, MCP client and CodeMode."><title>lie-agent — Synapse LIE</title>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/manual.css"></head>
-<body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="index.html#top" aria-label="Synapse LIE home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>synapse<span class="brand-dot">.</span>lie</span></a><nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="docs.html">Documentation</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav></header>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101b28"><meta name="description" content="A terminal coding agent with persistent project sessions, controlled tools and durable recovery.">
+<title>lie-agent — Synapse LIE</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/manual.css">
+<script src="assets/docs.js" defer></script>
+</head>
+<body class="docs-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><a class="brand" href="index.html#top" aria-label="Synapse LIE home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>synapse<span class="brand-dot">.</span>lie</span></a><nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="docs.html">Documentation</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav></header>
+<nav class="docs-nav" aria-label="Documentation"><a href="manual.html">Quickstart</a><a href="models.html">Models</a><a href="lie-agent.html" aria-current="page">lie-agent</a><a href="agents.html">Clients</a><a href="server.html">Server</a><a href="actuator.html">Monitor</a><a href="openai-api.html">API</a><a href="bench.html">Benchmark</a></nav>
 <main id="main">
-<section class="manual-hero client-hero" aria-labelledby="title"><div class="manual-hero-inner">
-<p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> lie-agent · Private alpha</p>
-<h1 id="title">A coding session.<br><span>Still there when you return.</span></h1>
-<p>A C17 terminal agent with project sessions in tmux, direct LIE or HTTP inference, explicit tool permissions and a durable record of effects.</p>
-<div class="manual-hero-links"><a href="#start">Start a session <span aria-hidden="true">↓</span></a><a href="#support">Support and availability <span aria-hidden="true">↓</span></a></div>
-<div class="manual-version"><span>Private release candidate</span><strong>0.1.0-alpha.1</strong><span>Local integration: 05f380c9f</span></div></div></section>
-<nav class="docs-nav" aria-label="Documentation sections"><a href="manual.html">Quickstart</a><a href="models.html">Models</a><a href="agents.html" aria-current="page">Agents</a><a href="server.html">lie-server</a><a href="actuator.html">/actuator</a><a href="openai-api.html">OpenAI API</a><a href="bench.html">lie-bench</a></nav>
-<div class="manual-layout"><aside class="manual-sidebar"><p>lie-agent guide</p><nav>
-<a href="#availability">Availability</a><a href="#start">Start a session</a><a href="#sessions">Return to your project</a><a href="#inference">HTTP or direct</a><a href="#tools">Tools and recovery</a><a href="#extensions">Extensions</a><a href="#context">Context and events</a><a href="#support">Qualified support</a><a href="#later">Later work</a>
-</nav><a class="manual-sidebar-source" href="data/lie-agent-alpha1.json">Machine-readable support ↗</a></aside><div class="manual-content">
-<section class="manual-intro" id="availability"><p class="manual-kicker">Current status</p><h2>Qualified privately. Distribution pending.</h2>
-<p>The first alpha is integrated in the local development tree at <code>05f380c9f</code>. Its three component archives have passed the recorded target and recovery tests. Public packages, publication of that source integration and an installation intended for use remain pending.</p>
-<p>The commands below apply to a compatible private build with its external dependencies available. There is no public alpha download on this page. Existing server/client documentation retains its own recorded source baseline.</p></section>
-<section class="manual-section" id="start"><p class="manual-kicker">Start</p><h2>Open a project session.</h2>
-<p>Run these commands from your project with <code>lie-agent</code> and tmux≥3.2 available. Supply the complete Chat Completions URL and the model ID actually served there.</p>
-<div class="code-block"><div class="code-top"><span>Private installed build</span></div><pre><code>cd /absolute/project
+<section class="manual-hero" aria-labelledby="title"><div class="manual-hero-inner">
+<p class="eyebrow">Synapse LIE / Documentation</p><h1 id="title">lie-agent</h1><p class="release-status">Private alpha · Source and package publication pending</p><p>A terminal coding agent with persistent project sessions, controlled tools and durable recovery.</p>
+</div></section>
+<div class="manual-layout">
+<aside class="manual-sidebar"><details class="page-contents" open><summary>On this page</summary><nav aria-label="On this page"><a href="#start">Start a session</a><a href="#sessions">Project sessions</a><a href="#inference">Build variant</a><a href="#tools">Tools and recovery</a><a href="#extensions">Extensions</a><a href="#context">Context and events</a><a href="#availability">Availability</a><a href="#support">Validation</a><a href="#later">Roadmap</a></nav></details></aside>
+<div class="manual-content">
+<section class="manual-section" id="start"><h2>Start a project session</h2>
+<p>Use a REMOTE build and a configured tool-capable server. Both <code>lie-agent</code> and tmux ≥3.2 must be available.</p><div class="code-block"><div class="code-top"><span>REMOTE build</span></div><pre><code>cd /absolute/project
 lie-agent new --name review \
   --endpoint http://127.0.0.1:8000/v1/chat/completions \
-  --model configured-model</code></pre></div>
-<p><code>LIE_AGENT_ENDPOINT</code> and <code>LIE_AGENT_MODEL</code> provide defaults. Credentials come from <code>LIE_API_KEY</code> or the variable named by <code>--api-key-env</code>. Interactive CLI text is deterministic US English.</p></section>
-<section class="manual-section" id="sessions"><p class="manual-kicker">Persistence</p><h2>Close the terminal. Return to the project.</h2>
-<p>Closing the terminal or detaching with <code>Ctrl-b d</code> leaves the owner and current work running in tmux. Return to the same project and run <code>lie-agent</code>: the selector lists live and stopped sessions and shows activity separately from attached terminals. Git worktrees have separate project identities.</p>
-<div class="code-block"><div class="code-top"><span>Session control</span></div><pre><code>lie-agent
+  --model configured-model</code></pre></div><p><code>LIE_AGENT_ENDPOINT</code> and <code>LIE_AGENT_MODEL</code> supply defaults. Read an API key from <code>LIE_API_KEY</code> or the variable named by <code>--api-key-env</code>.</p>
+</section>
+<section class="manual-section" id="sessions"><h2>Return to your project</h2>
+<p>Close the terminal or detach with <code>Ctrl-b d</code>. The owner and current work continue in tmux. Return to the same folder and run <code>lie-agent</code> to select a live or stopped session. Git worktrees have separate identities.</p><div class="code-block"><div class="code-top"><span>Session commands</span></div><pre><code>lie-agent
 lie-agent sessions
 lie-agent attach SESSION_ID
 lie-agent stop SESSION_ID
-lie-agent resume SESSION_ID</code></pre></div>
-<p><code>attach</code> reconnects to a verified live owner. <code>resume</code> starts a new owner from durable history after the previous one has stopped; interrupted tools are not replayed automatically. <code>stop</code> and <code>/exit</code> request shutdown. A retained close can keep the owner alive until retirement succeeds.</p>
-<p>The first client controls input; additional clients observe. <code>attach --take-control</code> transfers control explicitly. With an enclosing personal tmux session, the client uses a dedicated window.</p></section>
-<section class="manual-section" id="inference"><p class="manual-kicker">Inference</p><h2>One C contract, two connections.</h2>
-<p>HTTP and direct LIE implement the same backend function table. HTTP uses a configured tool-capable Chat Completions endpoint. Direct mode keeps the model in a session-owned LIE host, using the opt-in transitional Gufo C++/HIP provider. It needs a matching provider build and an absolute model path.</p>
-<div class="code-block"><div class="code-top"><span>Direct private build</span></div><pre><code>lie-agent new --backend native --model configured-model \
-  --model-path /absolute/models/model.gguf --context 8192 --chunk 2048</code></pre></div>
-<p>Model loading begins when work starts; merely opening the selector does not load weights. The native model stays resident between messages and terminal detachments. A build without a provider refuses direct mode explicitly.</p>
-<p>Finite mDNS scans can discover LIE endpoints when the SDK feature is enabled. Selection still requires application readiness and model checks; an announcement is not a connected or ready engine. Manual HTTP endpoints remain available.</p></section>
-<section class="manual-section" id="tools"><p class="manual-kicker">Effects</p><h2>Make each operation accountable.</h2>
-<p>Native tools read, list and search files, inspect Git, apply content-checked patches and run bounded noninteractive commands. Reads are available by default. <code>--allow-write</code> grants patches and <code>--allow-command</code> grants commands for that invocation. Project text and plugins do not grant permission.</p>
-<p>The C core validates each call and journals dispatch and outcome. After an interrupted operation, <code>effects SESSION_ID</code> inspects uncertainty and <code>reconcile SESSION_ID --report FILE</code> records an explicit resolution. Reconnection or a restored backup never means the external effect did not happen.</p>
-<p>The default state root is <code>$XDG_STATE_HOME/synapse/lie-agent</code> or <code>$HOME/.local/state/synapse/lie-agent</code>; <code>--state-dir</code> chooses a private absolute root. Session removal and retention explicitly reclaim settled ownerless state. Update/rollback uses offline state backups and versioned directories; switching a binary does not downgrade its database.</p></section>
-<section class="manual-section" id="extensions"><p class="manual-kicker">Extensions</p><h2>TypeScript, MCP and CodeMode.</h2>
-<h3>Trusted TypeScript plugins</h3><p>An external Node 22.23.0 runner loads explicitly installed plugins with typed tools, prompt/context contributions and request/tool hooks. The C core reapplies policy after hook rewrites. Process separation manages lifecycle and faults; trusted plugins are not isolated from the user's OS access.</p>
-<h3>MCP client</h3><p>Configured stdio or Streamable HTTP peers expose tools, resources and prompts. The qualified profiles are <code>2025-11-25</code> and <code>2026-07-28</code>. Credentials stay outside model prompts and journals. lie-agent is not an MCP server; interactive OAuth and other unqualified MCP extensions remain later work.</p>
-<h3>CodeMode</h3><p>The optional pinned Pi codemode 1.4.0 / QuickJS-WASI 3.6.2 component executes JavaScript composition of the common tool registry. A private profile can select <code>root_tools=codemode</code>; every nested C/TypeScript/MCP call retains its own C authorization and durable effect.</p>
-<p>Workers have a 32 MiB VM heap, a 60 second deadline and 64 attempted calls. Node/WASM overhead is additional. Worker retirement is observed before releasing the execution slot, and scripts are not automatically replayed after a crash.</p></section>
-<section class="manual-section" id="context"><p class="manual-kicker">Context and observation</p><h2>Keep history and expose current state.</h2>
-<p>Inherited and scoped project instructions, plugin contributions and tool results enter a budgeted context. Preflight token counts are explicitly estimated. Recoverable compaction keeps original records; summary requests share the run budget. Real-model summary quality and exact tokenizer preflight remain unqualified.</p>
-<p><code>--jsonl</code> emits structured events. <code>--observe</code> optionally enables authenticated loopback SSE with snapshots, bounded replay and an owner-specific credential. Slow observers do not retain model loans. This observation API is separate from the model endpoint and MCP.</p></section>
-<section class="manual-section" id="support"><p class="manual-kicker">Acceptance</p><h2>The exact supported alpha scope.</h2>
-<div class="option-table-wrap"><table class="option-table"><thead><tr><th scope="col">Area</th><th scope="col">Qualified scope</th></tr></thead><tbody>
-<tr><th scope="row">Platform/runtime</th><td>Linux x86_64 inside the recorded immutable Fedora43/ROCm image. The full archive needs ICU77; the unmodified Pop!_OS test host lacks it.</td></tr>
-<tr><th scope="row">Original-weight inference</th><td>gfx1150, Qwen3.8-Flash-Next UD-Q4_K_XL; context 8192, chunk 2048, output 1024, C1, noMTP/noVision. Native and HTTP.</td></tr>
-<tr><th scope="row">Persistent terminal</th><td>tmux 3.2 target / 3.8 fixtures; owned terminal/SSH closure and same-owner reattach, plus TERM=linux PTYs. Other activities remained running.</td></tr>
-<tr><th scope="row">Effects/recovery</th><td>Crash, SQLite/schema/concurrency, private tmpfs ENOSPC and rollback to a distinct earlier development binary. No published-version downgrade guarantee.</td></tr>
-<tr><th scope="row">Components</th><td>Base, optional TypeScript extensions and optional CodeMode archives. Runtime libraries, Node, tmux and models remain external.</td></tr>
-</tbody></table></div>
-<p>Eight strict original-weight cases pass: two controlled C17 tasks × individual/CodeMode × native/HTTP, with exact patches and independent compilation/test checks. Current archive consumers and six TERM=linux PTY cases also pass. Earlier failures remain recorded.</p>
-<p>CodeMode used fewer requests/tokens but higher observed wall time in these two fixtures. This is not a broad coding ranking, a general cost saving or an inference-throughput result. Physical VT, last-global-SSH logout and physical persistent-media power loss are outside this acceptance.</p>
-<p>The <a href="data/lie-agent-alpha1.json">support record</a> includes the immutable image identity and SHA256 for the three private archives. It is metadata, not a public package download.</p></section>
-<section class="manual-section" id="later"><p class="manual-kicker">Roadmap</p><h2>First alpha and later work have separate gates.</h2>
-<p>LA01–LA10 are implemented for the alpha; LA11 is qualified in the declared scope. LA12 retains the passed private pilot and pending distribution/operational installation. LA13–LA16 cover advanced gRPC control, continuous discovery and connected-agent liveness, numerical checkpoints/session branches and further ecosystem features such as LSP, browser and GUI.</p>
-<p>The autonomous numerical backend remains a separate LIE roadmap. The initial direct adapter is transitional. lie-agent as an MCP server is excluded from the current plan.</p></section>
-</div></div>
-</main>
-<footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Project sessions, explicit effects and durable history.</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="agents.html">Agents ↗</a><a href="docs.html">Documentation ↗</a><a href="data/lie-agent-alpha1.json">Alpha support record ↗</a></div><p class="footer-legal">Documentation updated October 26, 2026 · Private alpha · First-party site code MIT.</p></footer>
+lie-agent resume SESSION_ID</code></pre></div><p><code>attach</code> reconnects to a live owner. <code>resume</code> creates an owner from durable history after shutdown. Interrupted tools require recovery; they are not replayed automatically. Session activity and attached terminals are shown separately.</p>
+</section>
+<section class="manual-section" id="inference"><h2>Choose the backend at compilation</h2>
+<p>REMOTE and NATIVE are separate binaries using the same C function-table contract. The build setting is <code>LIE_AGENT_BACKEND</code>; it is not a runtime selector.</p>
+<div class="model-profile-grid"><article class="model-profile"><h3>REMOTE</h3><p>The agent uses a configured HTTP Chat Completions endpoint. Model support belongs to that server. No inference core or GPU provider is linked into the agent.</p><div class="code-block"><div class="code-top"><span>Build remote</span></div><pre><code>cmake -S . -B build/agent-remote -G Ninja \
+  -DLIE_AGENT_ONLY=ON -DLIE_AGENT_BACKEND=REMOTE
+cmake --build build/agent-remote</code></pre></div></article><article class="model-profile"><h3>NATIVE</h3><p>The agent links the shared LIE core and one explicitly selected provider. Supply an absolute model file path; no inference server is required.</p><div class="code-block"><div class="code-top"><span>Use a provider-linked native build</span></div><pre><code>lie-agent new --model configured-model \
+  --model-path /absolute/models/model.gguf \
+  --context 8192 --chunk 2048</code></pre></div><p>Build with <code>-DLIE_BUILD_AGENT=ON -DLIE_AGENT_BACKEND=NATIVE</code> and the matching provider configuration.</p></article></div>
+<p><code>lie-agent --build-info</code> reports the variant. The runtime <code>--backend</code> option and former environment override are removed. Session continuation requires the matching binary. Model paths, endpoint and generation limits remain settings of the relevant variant.</p>
+<p>Model loading is lazy in a NATIVE session and the model stays resident between messages. <a href="models.html#agent">Check model compatibility</a>. The revised variant artifacts still require target/model requalification; the retained alpha archives below predate this build change.</p>
+</section>
+<section class="manual-section" id="tools"><h2>Tools and recovery</h2>
+<p>Read, list and search files, inspect Git, patch content and run bounded commands. Reads are available by default; <code>--allow-write</code> and <code>--allow-command</code> grant the corresponding effects for that invocation. C validates tool arguments, permissions and durable outcomes.</p>
+<p>Inspect interrupted work with <code>effects SESSION_ID</code>. Record an explicit resolution with <code>reconcile SESSION_ID --report FILE</code> before continuing uncertain effects.</p>
+<p>State lives under <code>$XDG_STATE_HOME/synapse/lie-agent</code> or <code>$HOME/.local/state/synapse/lie-agent</code>. Use <code>--state-dir</code> for a private absolute root. Removal and retention reclaim settled, ownerless state.</p>
+</section>
+<section class="manual-section" id="extensions"><h2>Extensions</h2>
+<div class="extension-list"><article><h3>TypeScript plugins</h3><p>An external Node 22.23.0 runner loads explicitly installed, trusted plugins: tools, typed hooks and context contributions. The C core applies policy after hook rewrites.</p></article><article><h3>MCP client</h3><p>Configured stdio and Streamable HTTP peers expose tools, resources and prompts. Credentials stay outside prompts and journals. MCP server mode is outside the plan.</p></article><article><h3>CodeMode</h3><p>The optional pinned Pi / QuickJS-WASI component composes registry calls in JavaScript. Nested C, TypeScript and MCP calls retain their own permissions and durable effect identities.</p></article></div>
+</section>
+<section class="manual-section" id="context"><h2>Context, discovery and events</h2>
+<p>Project instructions, plugin contributions and tool results enter a budgeted context. Preflight token counts are estimates. Compaction preserves original history; summary requests consume the same run budget.</p><p>Optional finite mDNS scans discover candidate LIE endpoints. Choosing a remote peer requires readiness and model checks. <code>--jsonl</code> emits structured events; <code>--observe</code> enables authenticated loopback SSE with snapshots and bounded replay.</p>
+</section>
+<section class="manual-section" id="availability"><h2>Availability</h2>
+<p>The first private alpha is integrated in the local development tree. Public source integration, package downloads and installation intended for use remain pending.</p><p>The build-time backend correction changes the candidate binaries. Previous archive hashes and original-model test results remain historical evidence; new variants need their own target acceptance.</p>
+</section>
+<section class="manual-section" id="support"><h2>Validation scope</h2>
+<p>The earlier alpha passed controlled tool, recovery and terminal scenarios in its recorded runtime. Model qualification is a specific test result; it is not a model-family restriction.</p><p><a href="models.html#agent">Models and provider requirements</a> · <a href="data/lie-agent-alpha1.json">Previous alpha artifacts and qualification</a></p>
+<details class="evidence-detail"><summary>Recorded target and test limits</summary><p>Linux x86_64, immutable Fedora43/ROCm image, gfx1150 and original Qwen3.8-Flash-Next UD-Q4_K_XL. Eight strict C17 cases: two tasks, individual/CodeMode, native/HTTP. Context 8192, chunk 2048, output 1024, C1, no MTP or vision.</p><p>Owned terminal/SSH closure, same-owner reattach and TERM=linux PTYs passed. Physical VT, last-global-SSH logout and physical persistent-media power loss were outside acceptance. The full archive requires ICU77, absent on the unmodified Pop!_OS host.</p><p>CodeMode used fewer requests/tokens but greater observed wall time in the two fixtures. No general speed or coding-ranking claim follows.</p></details>
+</section>
+<section class="manual-section" id="later"><h2>Later work</h2>
+<p>Advanced gRPC control, continuous discovery and connected-agent liveness, numerical checkpoints, session branches, LSP, browser and GUI are later stages. The autonomous numerical backend has its own roadmap.</p>
+</section>
+
+</div></div></main>
+<footer class="site-footer"><div><span class="footer-brand">synapse<span>.</span>lie</span><p>Private alpha · Source and package publication pending</p></div><div class="footer-links"><a href="#main">Back to top ↑</a><a href="docs.html">Documentation</a><a href="models.html">Model catalog</a></div><p class="footer-legal">First-party site code MIT.</p></footer>
 </body></html>

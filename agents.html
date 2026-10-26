@@ -3,21 +3,22 @@
 <html lang="en">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#101b28">
 <meta name="description" content="lie-agent terminal sessions, tools and extensions, plus separately qualified server-client setup."><title>Agents — Synapse LIE</title>
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/manual.css"></head>
-<body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="index.html#top" aria-label="Synapse LIE home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>synapse<span class="brand-dot">.</span>lie</span></a><nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="docs.html">Documentation</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav></header>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/manual.css"><script src="assets/docs.js" defer></script></head>
+<body class="docs-page"><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><a class="brand" href="index.html#top" aria-label="Synapse LIE home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>synapse<span class="brand-dot">.</span>lie</span></a><nav aria-label="Main navigation"><a href="index.html#benchmarks">Benchmarks</a><a href="index.html#install">Installation</a><a href="docs.html">Documentation</a><a class="nav-source" href="https://github.com/synapse-linux/synapse-lie/tree/develop">Source <span aria-hidden="true">↗</span></a></nav></header>
+<nav class="docs-nav" aria-label="Documentation"><a href="manual.html">Quickstart</a><a href="models.html">Models</a><a href="lie-agent.html">lie-agent</a><a href="agents.html" aria-current="page">Clients</a><a href="server.html">Server</a><a href="actuator.html">Monitor</a><a href="openai-api.html">API</a><a href="bench.html">Benchmark</a></nav>
 <main id="main">
 <section class="manual-hero client-hero" aria-labelledby="title"><div class="manual-hero-inner">
 <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> Agents</p>
-<h1 id="title">Work in a project.<br><span>Keep the session.</span></h1>
-<p>lie-agent combines a C17 coding loop, persistent tmux sessions and direct or HTTP inference. Its first private alpha now has a dedicated guide and an explicit support matrix.</p>
+<h1 id="title">Agents and clients</h1>
+<p>lie-agent combines a C17 coding loop, persistent tmux sessions and direct or HTTP inference. Choose a native or remote build and check the model requirements before starting.</p>
 <div class="manual-hero-links"><a href="lie-agent.html">lie-agent guide <span aria-hidden="true">↗</span></a><a href="#other-clients">Other clients <span aria-hidden="true">↓</span></a></div>
-<div class="manual-version"><span>lie-agent</span><strong>0.1.0-alpha.1</strong><span>Private qualification complete</span></div></div></section>
-<nav class="docs-nav" aria-label="Documentation sections"><a href="manual.html">Quickstart</a><a href="models.html">Models</a><a href="agents.html" aria-current="page">Agents</a><a href="server.html">lie-server</a><a href="actuator.html">/actuator</a><a href="openai-api.html">OpenAI API</a><a href="bench.html">lie-bench</a></nav>
+</div></section>
+
 <section class="docs-home" aria-labelledby="agent-title"><p class="manual-kicker">Synapse terminal agent</p><h2 id="agent-title">One project, its sessions and tools.</h2>
 <div class="docs-card-grid"><a href="lie-agent.html#sessions"><span>Sessions</span><strong>Leave and return</strong><p>Close the terminal, reopen the project and choose a live or stopped session. Attached terminals and active work have separate states.</p><b aria-hidden="true">↗</b></a>
 <a href="lie-agent.html#tools"><span>Effects</span><strong>Read, patch and test</strong><p>C controls tool arguments, permissions and durable outcomes. Interrupted effects require reconciliation before continuation.</p><b aria-hidden="true">↗</b></a>
 <a href="lie-agent.html#extensions"><span>Extensions</span><strong>TypeScript, MCP and CodeMode</strong><p>Trusted plugins and configured MCP peers share the tool registry. JavaScript composition keeps the same C policy.</p><b aria-hidden="true">↗</b></a></div>
-<p class="docs-footnote">The alpha is integrated in the local development tree. Packages and source integration have not yet been published. Read <a href="lie-agent.html#support">availability and support</a> before using a private build.</p></section>
+<p class="docs-footnote">The alpha is integrated in the local development tree. Packages and source integration have not yet been published. Read <a href="lie-agent.html#availability">availability</a> and the <a href="models.html#agent">model requirements</a> before using a private build.</p></section>
 <section class="docs-home" id="other-clients" aria-labelledby="clients-title"><p class="manual-kicker">Server clients</p><h2 id="clients-title">Connect through the model API.</h2>
 <div class="docs-card-grid"><a href="pi.html"><span>Recorded GPU qualification</span><strong>Pi</strong><p>Live model discovery and the recorded read → edit → read path. Its guide retains the source and test scope it qualified.</p><b aria-hidden="true">↗</b></a>
 <a href="clients.html#codex"><span>Protocol compatibility</span><strong>Codex CLI</strong><p>The earlier client probe and rejected Responses fields are recorded separately; no new Codex qualification is implied by the agent release.</p><b aria-hidden="true">↗</b></a>
