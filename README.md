@@ -132,38 +132,38 @@ No custom domain is configured. GitHub's
 [branch-publishing instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 describe the repository setting.
 
-## lie-agent documentation update — October 26, 2026
+## lie-agent documentation — October26,2026
 
-`lie-agent.html` documents the private 0.1.0-alpha.1 integrated locally at
-`05f380c9f977be71f487d98fd023518c4b183b38`: persistent project sessions,
-HTTP/direct inference, C-owned tools/recovery, TypeScript, MCP client, CodeMode,
-finite discovery and SSE. `data/lie-agent-alpha1.json` is a curated public
-support/artifact record derived from the integration audit. No raw private
-evidence, credentials, models or package payloads are published by this change.
-The site states explicitly that source integration and packages remain private
-and operational installation/distribution are pending.
+`lie-agent.html` documents the private0.1.0-alpha.1: C17 project sessions,
+compiled REMOTE/NATIVE inference, controlled tools/recovery, trusted TypeScript,
+MCP client, CodeMode, finite discovery and SSE. The current runtime is20c48f921;
+variant acceptance was integrated locally in develop695acc2a8 and the private
+terminal fix in112c505b2. Public source/tag/package publication remains pending.
 
-The agent support scope is Linux x86_64/gfx1150 and the exact image/model
-profile in that record. Bare-host Pop!_OS lacks ICU77; eight small C17 cases
-are not a broad coding ranking. Engine/client guides retain their existing
-`9e793a64` baseline. This documentation update does not rerun their probes
-or present old engine acceptance as current alpha qualification.
+Both current variants pass8 final-source C17 task cases and7 retained
+single-patch cases under the approved correctness/cost criterion:9 successful
+patches,33 model requests,87,967 prompt/completion tokens. Both real-model tmux
+pilots pass. Six archives pass final consumers and reproduce byte for byte with
+the recorded target zlib1.3. The alpha's native scope is Linuxx86_64/gfx1150 and
+the fixed image/model profile; unmodified Pop!_OS lacks ICU77. These fixtures
+establish no broad coding ranking or general speed gain.
 
-The repository documentation was independently organized into user task
-guides, topic-specific contract references and dated validation history.
-The site remains static HTML/CSS with its existing local chart assets.
+The owner separately authorized private installation. Its current postflight
+passes variant identities, profiles/dependencies, terminal loss, two owned SSH
+closures, same-folder session selection and same-owner reattach. A private
+image-specific terminal helper has9 ticket/ownership tests; portable C archives
+are unchanged. Installation starts no model, preserves the existing service
+and removes its test sessions. Continuous discovery, checkpoints and other
+later features remain excluded. LA13 has started as an isolated31-case C17
+transport probe, outside alpha packages.
 
+`data/lie-agent-variants-20261026.json` records current artifact identities,
+acceptance and installation scope. `data/lie-agent-alpha1.json` preserves the
+historical runtime-switching candidate. No raw private evidence, credentials,
+models or package payloads are published by this documentation update.
+The model catalog separates engine support, recipes and agent qualification;
+Qwen3.6/Gemma4 recipes are not native inference support. Engine/client guides
+retain their own reviewed baselines; this update does not rerun their probes.
 
-## Compiled agent variant acceptance — October26,2026
-
-The REMOTE/NATIVE alpha corrections and acceptance audit are integrated locally
-in develop at `695acc2a8077ad54cd89cc72eb66fce805494986`. Runtime source
-`20c48f921` has8 final-source C17 task successes and7 retained single-patch
-successes. The approved criterion records9 successful patches,33 model requests
-and87,967 observed prompt/completion tokens. Both real-model tmux pilots pass.
-Six private variant archives pass final consumers and reproduce byte for byte
-with the recorded target zlib1.3; native use still requires the pinned image.
-`data/lie-agent-variants-20261026.json` records current identities and limits;
-`data/lie-agent-alpha1.json` preserves the historical runtime-switching artifacts.
-No source/package publication or operational installation follows from this site
-update. LA13 has started as an isolated C17 transport experiment, excluded from alpha.
+The repository documentation separates user task guides, protocol references
+and dated history. The site remains static HTML/CSS with local chart assets.

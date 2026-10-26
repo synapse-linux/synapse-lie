@@ -3,7 +3,7 @@
   "date": "2026-10-26",
   "product": "lie-agent",
   "version": "0.1.0-alpha.1",
-  "status": "qualified_private_variants_delivery_prepared_not_activated",
+  "status": "qualified_private_alpha_installed",
   "runtime_source_commit": "20c48f921959e8dd998f96d417883e1590866bbd",
   "runtime_source_digest": "f70929c25640aa41d8a3161d8cfb8dda44044dba6e3ae599f9751af73a8734a6",
   "target": {
@@ -105,7 +105,7 @@
   ],
   "public_source_integration": false,
   "public_package_download": false,
-  "operational_installation_complete": false,
+  "operational_installation_complete": true,
   "acceptance": {
     "policy": "final",
     "owner_reply": "Valuta correttezza finale e costo",
@@ -142,17 +142,26 @@
       "Host openssl versus image libcrypto mismatch; matched-host wrapper fixed test CLI only",
       "Missing explicit native Zstd header and HIP compiler configuration",
       "Native fixture endpoint composition, extension-context CLI path, notices negative fixture and obsolete resource-driver runtime flag"
-    ]
+    ],
+    "sanitizer_scope": "C agent/core fixture composition with synthetic executors; the external Gufo/HIP numerical provider is not sanitizer-instrumented."
   },
   "private_delivery": {
-    "state": "PREPARED_NOT_INSTALLED",
-    "files": 463,
-    "regular_bytes": 189816572,
-    "review_sha256": "4c761b1c734ac437e622f2dbc47ed2bc41a09db06509a5f8678875cf87a11c47"
+    "state": "QUALIFIED_PRIVATE_INSTALLATION",
+    "original_reviewed_files": 463,
+    "installed_inventory_entries": 468,
+    "installed_regular_bytes": 189842628,
+    "review_sha256": "4c761b1c734ac437e622f2dbc47ed2bc41a09db06509a5f8678875cf87a11c47",
+    "active_test_sessions": 0,
+    "pending_terminal_tickets": 0,
+    "terminal_ticket_tests": 9,
+    "owned_SSH_closure_and_same_folder_selector": true,
+    "model_start_on_install": false,
+    "service_unchanged": true,
+    "portable_archives_and_C_ELF_unchanged": true
   },
   "roadmap": {
     "LA11": "Controlled target qualification complete",
-    "LA12": "Private artifacts/consumer complete; operational installation awaiting its own authorized transition",
+    "LA12": "Private alpha installed under explicit owner authorization; current model/terminal pilots, private postflight and support matrix complete. Public source/tag/package publication remains a separate unauthorized transition.",
     "LA13": "Separate feature/agent-remote-control@8cfcb3e0a: read-only C17 HTTP/2/protobuf-c capability probe;31 normal and31 Clang ASan/UBSan cases; excluded from alpha",
     "LA14-LA16": "Not implemented by this acceptance"
   }

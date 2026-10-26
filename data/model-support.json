@@ -11,7 +11,7 @@
       "kind": "runtime",
       "status": "Original-weight tests",
       "detail": "Functional and benchmark records on Strix Halo (gfx1151) and Strix Point (gfx1150). Keep the four GGUF shards together.",
-      "agent": "The previous lie-agent alpha was tested with this exact format on gfx1150; its recorded profile is below.",
+      "agent": "Both compiled lie-agent variants pass eight final-source task cases with this format on gfx1150; the profile and costs are in the current alpha record.",
       "source": "docs/guides/LIE-AGENT-ALPHA1.md"
     },
     {
@@ -51,5 +51,6 @@
       "source": "docs/development/GEMMA4-ROUTED-QUANT.md"
     }
   ],
-  "remote_agent": "A tool-capable Chat Completions endpoint; supported families and templates are determined by that server. No arbitrary-provider qualification is claimed."
+  "remote_agent": "A tool-capable Chat Completions endpoint; supported families and templates are determined by that server. No arbitrary-provider qualification is claimed.",
+  "agent_source_review": "Runtime20c48f921; private terminal launcher integrated in local develop112c505b2"
 }
