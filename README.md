@@ -152,3 +152,18 @@ or present old engine acceptance as current alpha qualification.
 The repository documentation was independently organized into user task
 guides, topic-specific contract references and dated validation history.
 The site remains static HTML/CSS with its existing local chart assets.
+
+
+## Compiled agent variant acceptance — October26,2026
+
+The REMOTE/NATIVE alpha corrections and acceptance audit are integrated locally
+in develop at `695acc2a8077ad54cd89cc72eb66fce805494986`. Runtime source
+`20c48f921` has8 final-source C17 task successes and7 retained single-patch
+successes. The approved criterion records9 successful patches,33 model requests
+and87,967 observed prompt/completion tokens. Both real-model tmux pilots pass.
+Six private variant archives pass final consumers and reproduce byte for byte
+with the recorded target zlib1.3; native use still requires the pinned image.
+`data/lie-agent-variants-20261026.json` records current identities and limits;
+`data/lie-agent-alpha1.json` preserves the historical runtime-switching artifacts.
+No source/package publication or operational installation follows from this site
+update. LA13 has started as an isolated C17 transport experiment, excluded from alpha.

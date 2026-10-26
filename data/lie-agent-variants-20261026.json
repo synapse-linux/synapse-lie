@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "date": "2026-10-26",
+  "product": "lie-agent",
+  "version": "0.1.0-alpha.1",
+  "status": "qualified_private_variants_delivery_prepared_not_activated",
+  "runtime_source_commit": "20c48f921959e8dd998f96d417883e1590866bbd",
+  "runtime_source_digest": "f70929c25640aa41d8a3161d8cfb8dda44044dba6e3ae599f9751af73a8734a6",
+  "target": {
+    "OS_arch": "Linux x86_64",
+    "GPU": "gfx1150",
+    "image": "sha256:89c6f9da64694da226948bca7b50d5e4e38caab9e138cb5cbe8678b7778cbe7e",
+    "external_provider_receipt_sha256": "cd2d796f4b19bf1e98617c20fd33ad3087d14a98fb2eadefa7b03e59b25c0105",
+    "numerical_provider_rebuilt": false,
+    "model_hash_or_conversion": false,
+    "model": "original Qwen3.8-Flash-Next UD-Q4_K_XL",
+    "profile": {
+      "context": 8192,
+      "chunk": 2048,
+      "max_output": 1024,
+      "max_model_requests_per_case": 8,
+      "deadline_seconds_per_case": 180,
+      "concurrency": 1,
+      "MTP": false,
+      "vision": false,
+      "HTTP_live_cache": "off",
+      "HTTP_RAM_cache_mb": 0
+    }
+  },
+  "artifacts": {
+    "remote": {
+      "schema": 1,
+      "product": "lie-agent",
+      "version": "0.1.0-alpha.1",
+      "qualification_sha256": "1a49c2513aa414cc95e5cdf5c68cda54fb7087eda36b6580799ba4e4c99a373b",
+      "artifacts": [
+        {
+          "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-REMOTE-lie-agent-base.tar.gz",
+          "bytes": 287863,
+          "sha256": "da0965916e1551560b88f6c79de2b3534733ede803d67c0050f69914bb72f374"
+        },
+        {
+          "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-REMOTE-lie-agent-codemode.tar.gz",
+          "bytes": 699691,
+          "sha256": "19f406133587a2418585b899e88630b2e64fd459c100ec1401fb7c44fb5462fa"
+        },
+        {
+          "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-REMOTE-lie-agent-extensions.tar.gz",
+          "bytes": 8003,
+          "sha256": "de62919f1f915158b7b753a35b43085813bd749b55c71046a2e24a7acace1125"
+        }
+      ],
+      "binaries": {
+        "bin/lie-agent": "5cdc8738bc99f396520311d005daa03f7f62f239fa9652626b24b1a36e77b6d4",
+        "bin/lie-agent-child": "59f907b54d18b08c56237d542d0032d148a309bb0de67af1ed0209208f266ae7"
+      },
+      "binary_bytes_unchanged": true,
+      "installed_or_published": false
+    },
+    "native": {
+      "schema": 1,
+      "product": "lie-agent",
+      "version": "0.1.0-alpha.1",
+      "qualification_sha256": "4c360ac19877f7e2c8bb8f978df8e6a35d9bfa2b359e80c987c23f6bebb023c9",
+      "artifacts": [
+        {
+          "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-NATIVE-lie-agent-base.tar.gz",
+          "bytes": 13732166,
+          "sha256": "9a8c43b9e80bc90689437484164385a5ef92a81066215a3b129374c0dd78af47"
+        },
+        {
+          "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-NATIVE-lie-agent-codemode.tar.gz",
+          "bytes": 699694,
+          "sha256": "e616afec8b92676d3f4698dc2cc2747bdb8fc2b84f00fd0b7e890775bf567ff2"
+        },
+        {
+          "file": "lie-agent-0.1.0-alpha.1-Linux-x86_64-NATIVE-lie-agent-extensions.tar.gz",
+          "bytes": 8006,
+          "sha256": "885ea266f061b43e9b7e3b9e90dbaedb33de94924c4eeef7536e2c24b5a1ef8f"
+        }
+      ],
+      "binaries": {
+        "bin/lie-agent": "ee263a5ca805c4408de04d66d92a412a7ccb135b6feddcdf9d9dd3d6bd56e43f",
+        "bin/lie-agent-child": "59f907b54d18b08c56237d542d0032d148a309bb0de67af1ed0209208f266ae7"
+      },
+      "binary_bytes_unchanged": true,
+      "installed_or_published": false
+    }
+  },
+  "real_model_tmux_pilots": {
+    "native": true,
+    "http": true,
+    "tmux": "3.2",
+    "TERM": "linux",
+    "scope": "Owned PTY detach, generation continues with no clients, same PID/nonce reattach, owner stop and retirement; no physical VT or last-global-SSH claim."
+  },
+  "limits": [
+    "No public source push, package publication or tag authorized by this audit",
+    "Native archive requires the pinned image dependencies; unmodified Pop!_OS host lacks ICU77",
+    "Two C17 fixtures, one model/profile/target; no broad coding ranking or general speed gain",
+    "Observed process/stream timing is not isolated model compute or transport timing",
+    "No physical VT, last-global-SSH logout, media power-loss or published-version downgrade qualification",
+    "Exact token preflight and real-model compaction quality remain unqualified",
+    "No automatic cross-build session migration or deterministic numerical checkpoint resume"
+  ],
+  "public_source_integration": false,
+  "public_package_download": false,
+  "operational_installation_complete": false,
+  "acceptance": {
+    "policy": "final",
+    "owner_reply": "Valuta correttezza finale e costo",
+    "accepted_cases": 8,
+    "strict_single_patch_cases": 7,
+    "successful_patches": 9,
+    "model_requests": 33,
+    "prompt_plus_completion_tokens": 87967,
+    "prior_reports_unchanged": true,
+    "model_or_effects_rerun": false
+  },
+  "CPU": {
+    "normal_distinct_passes": {
+      "REMOTE": 73,
+      "NATIVE": 89
+    },
+    "normal_coverage": "Retained distinct passes plus corrected fixture reruns; not a newly claimed single full normal suite run.",
+    "full_Clang_ASan_UBSan_native_composition_baseline_cases": 89,
+    "focused_final_delta_passes": {
+      "REMOTE": 4,
+      "NATIVE": 6,
+      "Clang_ASan_UBSan": 6
+    },
+    "qualification_driver": {
+      "patch_policy_unit_cases": 4,
+      "synthetic_HTTP_normal_cases": 4,
+      "synthetic_HTTP_Clang_ASan_UBSan_cases": 4,
+      "negative_false_completion_and_expired_admission": true,
+      "local_first_synthetic_attempt": "Failed before any HTTP request: inherited large parent instructions exceeded declared context; rerun in isolated /tmp passed.",
+      "model_inference": false
+    },
+    "retained_failures": [
+      "Missing openssl CLI in fixture image",
+      "Host openssl versus image libcrypto mismatch; matched-host wrapper fixed test CLI only",
+      "Missing explicit native Zstd header and HIP compiler configuration",
+      "Native fixture endpoint composition, extension-context CLI path, notices negative fixture and obsolete resource-driver runtime flag"
+    ]
+  },
+  "private_delivery": {
+    "state": "PREPARED_NOT_INSTALLED",
+    "files": 463,
+    "regular_bytes": 189816572,
+    "review_sha256": "4c761b1c734ac437e622f2dbc47ed2bc41a09db06509a5f8678875cf87a11c47"
+  },
+  "roadmap": {
+    "LA11": "Controlled target qualification complete",
+    "LA12": "Private artifacts/consumer complete; operational installation awaiting its own authorized transition",
+    "LA13": "Separate feature/agent-remote-control@8cfcb3e0a: read-only C17 HTTP/2/protobuf-c capability probe;31 normal and31 Clang ASan/UBSan cases; excluded from alpha",
+    "LA14-LA16": "Not implemented by this acceptance"
+  }
+}
