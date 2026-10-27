@@ -182,7 +182,7 @@
 .suite-map-group{margin:36px 0}
 .manual-content .suite-map-group h3{margin:0 0 12px;font-size:21px}
 .suite-map-table{overflow-x:auto;background:#fff;border:1px solid #d5dfd8;border-radius:9px;margin:13px 0 24px}
-.suite-map-table table{width:100%;border-collapse:collapse;font-size:14px}
+.suite-map-table table{width:100%;min-width:0;border-collapse:collapse;font-size:14px}
 .suite-map-table th,.suite-map-table td{text-align:left;vertical-align:top;padding:15px 17px;border-bottom:1px solid #e4eae4;line-height:1.5}
 .suite-map-table tbody tr:last-child th,.suite-map-table tbody tr:last-child td{border-bottom:0}
 .suite-map-table thead th{background:#f0f5ee;color:#48655a;font-size:12px;font-weight:750}
@@ -206,6 +206,7 @@
 .responsibility-map{margin-left:-10px;margin-right:-10px;padding:15px}
 .suite-map-table{margin-left:-8px;margin-right:-8px}
 .suite-map-table table,.suite-map-table tbody,.suite-map-table tr,.suite-map-table tbody th,.suite-map-table tbody td{display:block;width:100%}
+.suite-map-table caption{display:block;width:100%}
 .suite-map-table thead{display:none}
 .suite-map-table tbody tr{padding:11px 15px;border-bottom:1px solid #e4eae4}
 .suite-map-table tbody tr:last-child{border-bottom:0}

@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "date": "2026-10-27",
+  "product": "lie-agent",
+  "version": "0.2.0-dev.20261027",
+  "status": "local_development_candidate_not_installed_or_released",
+  "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+  "qualification_record_sha256": "c7afe8987d5a2907c36ec0cf6c7e0f635e95571cc8d131e93ab341aa4e341c60",
+  "backend_selection": "compile-time REMOTE or NATIVE",
+  "capabilities": {
+    "remote_control": {
+      "stage": "local synthetic qualification",
+      "features": [
+        "authenticated C17 HTTP/2 and Protobuf",
+        "bounded operation retirement",
+        "checkpoint transfer and explicit HTTP restore with durable intents"
+      ]
+    },
+    "application_presence": {
+      "stage": "local synthetic qualification",
+      "features": [
+        "bounded leases and heartbeat",
+        "same-owner reconnect",
+        "read-only generation-protected inventory"
+      ],
+      "agent_identity_verified": false,
+      "model_readiness_inferred": false
+    },
+    "checkpoints_branches_CodeMode": {
+      "stage": "local synthetic qualification",
+      "features": [
+        "journal-bound logical and numerical files",
+        "independent branches",
+        "recorded continuation without automatic effect replay",
+        "explicit local file rebind and offline upgrade/rollback"
+      ]
+    }
+  },
+  "checks": {
+    "GCC_Release": [
+      "REMOTE without numerical provider",
+      "NATIVE and C control server without numerical provider"
+    ],
+    "native_CTest": {
+      "normal_passed": 9,
+      "ASan_UBSan_passed": 9,
+      "leak_detection": true
+    },
+    "REMOTE_archive_equivalence": {
+      "archives": 3,
+      "regular_files": 158,
+      "runtime_files_identical": true,
+      "consumer_tests_rerun": false
+    }
+  },
+  "pending": [
+    "private target build",
+    "original-model REMOTE/NATIVE restore",
+    "target package installation and upgrade/rollback",
+    "SDK continuous watch with add/remove and multiple interfaces",
+    "physical LAN qualification",
+    "authorized integration and distribution"
+  ],
+  "model_qualification_added": false,
+  "installed_alpha_changed": false,
+  "performance_claim": false,
+  "MCP_server_in_scope": false
+}

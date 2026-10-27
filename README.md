@@ -153,9 +153,9 @@ passes variant identities, profiles/dependencies, terminal loss, two owned SSH
 closures, same-folder session selection and same-owner reattach. A private
 image-specific terminal helper has9 ticket/ownership tests; portable C archives
 are unchanged. Installation starts no model, preserves the existing service
-and removes its test sessions. Continuous discovery, checkpoints and other
-later features remain excluded. LA13 has started as an isolated31-case C17
-transport probe, outside alpha packages.
+and removes its test sessions. Continuous discovery, checkpoints and the separate development candidate remain
+excluded from the installed alpha. The October27 development snapshot below
+supersedes the former LA13 transport-probe summary.
 
 `data/lie-agent-variants-20261026.json` records current artifact identities,
 acceptance and installation scope. `data/lie-agent-alpha1.json` preserves the
@@ -167,3 +167,24 @@ retain their own reviewed baselines; this update does not rerun their probes.
 
 The repository documentation separates user task guides, protocol references
 and dated history. The site remains static HTML/CSS with local chart assets.
+
+## lie-agent development snapshot — October27,2026
+
+The development section of lie-agent.html describes source2600833b4 separately
+from the installed private alpha: C17 authenticated remote control, connected-
+agent leases/owner reconnect/inventory, journal-bound numerical checkpoints,
+independent branches and recorded CodeMode continuation. Both build variants
+compile locally with GCC Release without numerical providers. Nine native
+checks pass normally and with ASan/UBSan. All158 regular files in the three
+REMOTE component archives match the previously exercised runtime files;
+consumer evidence is inherited after that comparison rather than rerun.
+
+The capability record is data/lie-agent-development-20261027.json. Target builds,
+original-model acceptance, target package lifecycle, SDK continuous discovery
+and physical LAN remain open. This documentation snapshot changes no installed
+alpha artifact, model support row or benchmark dataset. It publishes no private
+host/path, credential, raw test log, source-transfer payload or package download.
+
+Responsive documentation comparison tables override the global650px minimum so
+the existing stacked layout can fit narrow screens. This shared rule is checked
+on the five affected pages; benchmark data/option tables keep their own styles.
