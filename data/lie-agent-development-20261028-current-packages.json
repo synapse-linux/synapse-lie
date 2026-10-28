@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "product": "lie-agent",
+  "date": "2026-10-28",
+  "status": "private_current_packages_qualified_not_released",
+  "source_commit": "a12cd5b485886524928f15a77dfbc59483b5a11c",
+  "SDK_commit": "57808d0de5291ab514a821becf62b2c1341e28ef",
+  "qualification_record_sha256": "b697c2a7cb7b1fa11b93391b946435ccac835507b3fdfb32b3fc76f302b2a8a5",
+  "lifecycle_record_sha256": "8323182a401f914b811395afa8d550494f9013fda4b3f341bfcd1a50074fd915",
+  "backend_selection": "compile-time REMOTE or NATIVE",
+  "SDK_API11_separate_runtime_required": true,
+  "archives": {
+    "NATIVE": [
+      {
+        "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-NATIVE-lie-agent-base.tar.gz",
+        "bytes": 14298729,
+        "sha256": "d70096422fe80d8fc40cf83d0e6f73c4fe51552b1d7be52b146c04d68373c29b"
+      },
+      {
+        "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-NATIVE-lie-agent-codemode.tar.gz",
+        "bytes": 701493,
+        "sha256": "5428630f7eb6c34f2d653e833986f40f4c3ca3db9f4c014f2427d52ea98a9d00"
+      },
+      {
+        "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-NATIVE-lie-agent-extensions.tar.gz",
+        "bytes": 7987,
+        "sha256": "80a5dbe2b320c40a5f37f9f1fc0bb66679156cee7acd9d48cf324f9f917ee865"
+      }
+    ],
+    "REMOTE": [
+      {
+        "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-REMOTE-lie-agent-base.tar.gz",
+        "bytes": 462688,
+        "sha256": "437558b2de48f63b8604a68d1e0f66368d591fb3c62eb5e172c0cc13759ad944"
+      },
+      {
+        "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-REMOTE-lie-agent-codemode.tar.gz",
+        "bytes": 701493,
+        "sha256": "5428630f7eb6c34f2d653e833986f40f4c3ca3db9f4c014f2427d52ea98a9d00"
+      },
+      {
+        "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-REMOTE-lie-agent-extensions.tar.gz",
+        "bytes": 7987,
+        "sha256": "80a5dbe2b320c40a5f37f9f1fc0bb66679156cee7acd9d48cf324f9f917ee865"
+      }
+    ]
+  },
+  "optional_component_files_identical_between_backends": 142,
+  "NATIVE_provider": "Existing explicitly selected in-process HIP adapter; numeric archives unchanged",
+  "REMOTE_CPU_archived_extensions_CodeMode_tmux": true,
+  "original_prefix_restore": {
+    "profile": {
+      "context": 16384,
+      "chunk": 2048,
+      "C": 1,
+      "max_tokens": 1024,
+      "MTP": false,
+      "vision": false
+    },
+    "NATIVE_checks": 11,
+    "HTTP_checks": 13,
+    "model_requests": 7,
+    "restored_tokens_per_backend": 1414,
+    "replayed_tokens": 0,
+    "fresh_sampler": true,
+    "branch_survives_parent_removal": true,
+    "ordinary_input_does_not_retry_restore": true,
+    "observed_cost_not_benchmark": {
+      "model_requests": 7,
+      "usage_totals": {
+        "prompt_tokens": 10244,
+        "completion_tokens": 160,
+        "reasoning_tokens": 144,
+        "cached_tokens": 2828
+      },
+      "extra_tool_calls": 0
+    }
+  },
+  "current_Native_lifecycle": {
+    "foreground_original_model_workflow": true,
+    "CPU_fixture_assertions": {
+      "original_recipe": {
+        "normal": {
+          "current_checks": 24,
+          "previous_checks": 11,
+          "ASan_UBSan_LSan": false
+        },
+        "asan": {
+          "current_checks": 24,
+          "previous_checks": 11,
+          "ASan_UBSan_LSan": true
+        }
+      },
+      "copied_frontier_recovery": {
+        "normal": {
+          "current_checks": 22,
+          "previous_checks": 11,
+          "ASan_UBSan_LSan": false
+        },
+        "asan": {
+          "current_checks": 22,
+          "previous_checks": 11,
+          "ASan_UBSan_LSan": true
+        }
+      }
+    },
+    "original_current_checks": 25,
+    "actual_previous_writer_checks": 13,
+    "original_model_processes": 4,
+    "valid_first_response_reused_without_regeneration": true,
+    "interruption_after_delivered_results": 1,
+    "recorded_results_replayed": 1,
+    "new_nested_calls_committed": 3,
+    "historical_effect_rows_unchanged": 4,
+    "new_effects": 4,
+    "external_commands_once_each": 2,
+    "clock_random_preserved_by_recorded_continuation": true,
+    "independent_branch": {
+      "restored_tokens": 5578,
+      "replayed_tokens": 0,
+      "fresh_sampler": true,
+      "parent_removed": true,
+      "no_inherited_command_grant_or_CodeMode_execution": true
+    },
+    "final_C17_compile_and_tests_exit_codes": [
+      0,
+      0
+    ],
+    "actual_previous_Native_writer_after_whole_state_rollback": true,
+    "later_external_project_writes_preserved": true,
+    "backup_is_operator_offline_copy": true,
+    "current_profile": {
+      "context": 16384,
+      "chunk": 2048,
+      "C": 1,
+      "max_tokens": 2048,
+      "MTP": false,
+      "vision": false
+    },
+    "previous_profile": {
+      "context": 8192,
+      "chunk": 2048,
+      "C": 1,
+      "max_tokens": 1024,
+      "MTP": false,
+      "vision": false
+    },
+    "observed_functional_cost_not_benchmark": {
+      "prompt_tokens": 17327,
+      "completion_tokens": 2064,
+      "reasoning_tokens": 1690,
+      "cached_tokens": 5578
+    },
+    "additional_continuation_text_recorded_as_cost": true,
+    "current_same_owner_tmux_original_model_not_qualified_by_this_foreground_workflow": true
+  },
+  "current_REMOTE_actual_writer_upgrade": {
+    "cases": 26,
+    "codecs": [
+      "aligned",
+      "kvc"
+    ],
+    "actual_earlier_writer": true,
+    "projects_per_codec": 2,
+    "offline_databases_per_codec": 4,
+    "external_command_invocations_per_codec": 1,
+    "old_writer_refuses_upgraded_payload": true,
+    "whole_state_backup_and_rollback": true,
+    "explicit_file_rebinding": true,
+    "original_model": false,
+    "current_exact_archives_sanitizer_instrumented": false
+  },
+  "REMOTE_upgrade_record_sha256": "741b88077baba13ea130c60047283fd91a2da20ba7a6ccc5cf53062b793c30fa",
+  "model_scope": "Original Qwen3.8 Flash Next UD Q4_K_XL; functional qualification only",
+  "new_broad_model_support_or_performance_claim": false,
+  "installed_alpha_changed": false,
+  "source_merge_or_package_release": false,
+  "remaining": [
+    "Changed SDK native ARM64 and physical-network qualification",
+    "Authorized source integration and distribution acceptance"
+  ],
+  "source_code_raw_evidence_models_or_packages_published": false
+}
