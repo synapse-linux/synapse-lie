@@ -1,0 +1,494 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "product": "lie-agent",
+  "version": "0.2.0-dev.20261027",
+  "status": "private_development_frozen_NATIVE_original_CodeMode_branch_and_actual_previous_writer_lifecycle_not_released",
+  "backend_selection": "compile-time REMOTE or NATIVE",
+  "local_watch": {
+    "source_commit": "51b0a5382f1beaa2df7bf05e072f0686d7f279e2",
+    "SDK_commit": "57808d0de5291ab514a821becf62b2c1341e28ef",
+    "API_major": 1,
+    "watch_namespace": "SYNAPSE_MDNS_1.1",
+    "focused_CTests_passed": 39,
+    "included_ASan_UBSan_passed": 17,
+    "composed_CTests_normal": 18,
+    "composed_CTests_ASan_UBSan": 18,
+    "leak_detection": true,
+    "implicit_connection_selection": false
+  },
+  "private_target_CPU": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "architecture": "Linux x86_64",
+    "normal_CTests": 60,
+    "Clang_ASan_UBSan_CTests": 17,
+    "leak_detection": true,
+    "qualifications": [
+      "authenticated C17 HTTP/2 and Protobuf control",
+      "foreground/tmux application presence, explicit reconnect and inventory",
+      "ALIGNED/KVC checkpoint transfer, import and synthetic restore",
+      "ownership, quotas and retirement"
+    ],
+    "mDNS_enabled": false,
+    "numerical_provider": false,
+    "qualification_sha256": "5d5bfdcba778f01992943b38d18546776bf8d6d29a3b577906da07c37e30d78c"
+  },
+  "private_target_REMOTE_archives": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "variants": [
+      "GCC Release",
+      "Clang ASan/UBSan with leak checking"
+    ],
+    "source_product_CTests_per_variant": 4,
+    "exact_component_archives": 6,
+    "exact_archive_workflows": 8,
+    "archive_workflow_cases": 112,
+    "packaged_VM_host_and_runtime": true,
+    "qualifications": [
+      "recorded CodeMode continuation without historical-effect replay",
+      "foreground and same-owner tmux",
+      "controlled HTTP restore with synthetic ALIGNED/KVC state",
+      "independent descendants surviving ancestor removal"
+    ],
+    "mDNS_enabled": false,
+    "numerical_provider": false,
+    "NATIVE_product_package_qualified": false,
+    "target_upgrade_rollback_qualified": true,
+    "qualification_sha256": "c4ef7857a84fec7c503bed9cd864dab1791adaca67244e43d45818c7a359c284"
+  },
+  "real_Avahi": {
+    "local_in_place_TXT_update_and_removal": true,
+    "local_REMOTE_and_NATIVE_product_remove_reappear": true,
+    "first_physical_direction": "existing target publisher to new local SDK observers",
+    "normal_and_sanitized_observers": true,
+    "new_SDK_execution_on_target": false,
+    "cross_host_in_place_TXT_update": false,
+    "full_bidirectional_LAN_qualified": false,
+    "changed_SDK_ARM64_qualified": false
+  },
+  "remaining": [
+    "current watch/SDK target qualification and full physical LAN",
+    "changed-SDK native ARM64 matrix",
+    "current-source exact numerical NATIVE optional component package lifecycle",
+    "authorized current-source integration and distribution"
+  ],
+  "model_qualification_added": true,
+  "installed_alpha_changed": false,
+  "performance_claim": false,
+  "MCP_server_in_scope": false,
+  "private_target_CPU_upgrade_rollback": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "previous_writer_commit": "ac26e39f0faeaf3642b67daf0e112c2c0a5e9440",
+    "exact_archives": 6,
+    "workflows": 4,
+    "cases": 52,
+    "codecs": [
+      "ALIGNED",
+      "KVC"
+    ],
+    "variants": [
+      "Release",
+      "Clang ASan/UBSan with leak checking"
+    ],
+    "complete_offline_backup": true,
+    "old_writer_refuses_new_payload": true,
+    "whole_backup_rollback": true,
+    "replayed_historical_commands": 0,
+    "databases_per_workflow": 4,
+    "owned_external_commands_per_workflow": 1,
+    "runtime_test_closure": "Existing host curl8.5 DSOs with image OpenSSL3.5.8/nghttp2 1.66/glibc; no dependency installation",
+    "test_dependency_closure_qualified_separately": true,
+    "product_backup_API_added": false,
+    "original_weight_inference": false,
+    "qualification_sha256": "d91749cfc40bb9859a77c8aa805634e0028246f5bc8e23cd85cda318d946a0f1"
+  },
+  "model_catalog_changed": false,
+  "original_model_prefix_restore": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "model": "Qwen3.8 Flash Next UD Q4_K_XL",
+    "model_revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "numerical_provider": "Transitional in-process Gufo HIP adapter atf783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "profile": {
+      "model_id": "agent161-qwen",
+      "context": 16384,
+      "chunk": 2048,
+      "max_tokens": 1024,
+      "MTP": false,
+      "vision": false,
+      "C": 1,
+      "max_turns": 4,
+      "native_runs": 3,
+      "HTTP_runs": 4,
+      "HTTP_live_cache": "off",
+      "HTTP_RAM_cache_mb": 0
+    },
+    "NATIVE_model_runs": 3,
+    "HTTP_model_runs": 4,
+    "NATIVE_checks": 11,
+    "HTTP_checks": 13,
+    "restored_tokens_each": 1414,
+    "replayed_tokens_each": 0,
+    "fresh_sampler": true,
+    "independent_child_file_bytes_each": 163591304,
+    "parent_removal_survives": true,
+    "selection_starts_model": false,
+    "following_input_repeats_restore": false,
+    "HTTP_tmpfs_MiB": 1536,
+    "workspace_quota_GiB": 4,
+    "capture_limit_GiB": 1,
+    "source_and_models_unchanged": true,
+    "service_restored_and_leases_released": true,
+    "qualified_packages": false,
+    "new_watch_or_TMPDIR_fix_included": false,
+    "performance_or_task_quality_qualified": false,
+    "qualification_sha256": "dfadb6507f060d9b92c831fe8f668ab541b08a8c7ec883781489219118889a89"
+  },
+  "local_HTTP_TMPDIR_fix": {
+    "source_commit": "632b008ae922d30291f74254c6960503ab63e8ac",
+    "unset_or_empty": "/tmp",
+    "explicit_unavailable_path": "Capture fails without filesystem fallback or numerical publication; remote retirement remains confirmed",
+    "temporary_file": "Anonymous O_TMPFILE0600",
+    "focused_CTests_normal": 3,
+    "focused_CTests_ASan_UBSan_leaks": 3,
+    "directory_cases_per_build": 5,
+    "target_qualified": false,
+    "qualification_sha256": "83264a02919a9680a1a3a9901a6c48d46dfb9571cf6b539e17850a118bd914da"
+  },
+  "local_current_archives_CPU": {
+    "REMOTE_source_commit": "1f65abdb29590d07b1d2a339f821ce88e697afa7",
+    "NATIVE_consumer_commit": "0260cdeaa75165d22071b3bda0c377cec69591a4",
+    "SDK_commit": "57808d0de5291ab514a821becf62b2c1341e28ef",
+    "components_per_variant": 3,
+    "variants": [
+      "REMOTE Clang Release",
+      "REMOTE Clang ASan/UBSan/leaks",
+      "NATIVE GCC Release without numerical provider",
+      "NATIVE Clang ASan/UBSan/leaks without numerical provider"
+    ],
+    "exact_archives": 12,
+    "REMOTE_logical_and_HTTP_composition_cases": 112,
+    "REMOTE_packaged_TMPDIR_cases": 10,
+    "REMOTE_general_plugin_CodeMode_tmux_consumers": 2,
+    "NATIVE_exact_archive_consumers": 2,
+    "NATIVE_focused_CTests": 4,
+    "external_shared_SDK_required_namespace": "SYNAPSE_MDNS_1.1",
+    "SDK_shared_library_instrumented_by_agent_build": false,
+    "independent_SDK_sanitizer_qualification_separate": true,
+    "NATIVE_checks": "Relocation, CLI/child identity, notices, optional component configuration and unavailable-provider refusal",
+    "NATIVE_original_model_or_upgrade_lifecycle_qualified": false,
+    "target_execution": false,
+    "qualification_sha256": "26e9f83266c038bbc3f738b5326184bde516f82f805c9390579283b97e344702"
+  },
+  "private_target_NATIVE_base_archive": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "provider_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "image": "sha256:f5f7612d555eaea8990cd8dc3956c8741d5ef43b358cac9141c99e600afa98e1",
+    "architecture": "Linux x86_64/gfx1150",
+    "model": "Qwen3.8 Flash Next UD Q4_K_XL",
+    "model_revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "archive": {
+      "name": "lie-agent-0.2.0-dev.20261027-Linux-x86_64-NATIVE-lie-agent-base.tar.gz",
+      "bytes": 14290799,
+      "sha256": "24d81b914a5fe79ad8f47914db79cf73d81bfd8fab1ba6bcd9be100c0b1fcdcc"
+    },
+    "packaged_binaries": {
+      "lie-agent": {
+        "bytes": 50205144,
+        "sha256": "b09adfda75d8befdb99f40f0005d623cb828180e36ff5aae36c668da75ebab0c"
+      },
+      "lie-agent-child": {
+        "bytes": 13928,
+        "sha256": "59f907b54d18b08c56237d542d0032d148a309bb0de67af1ed0209208f266ae7"
+      }
+    },
+    "notices_verified": 113,
+    "ELF_bytes_match_original_model_qualified": true,
+    "profile": {
+      "model_id": "agent161-qwen",
+      "context": 16384,
+      "chunk": 2048,
+      "max_tokens": 1024,
+      "MTP": false,
+      "vision": false,
+      "C": 1,
+      "max_turns": 4,
+      "native_runs": 1,
+      "HTTP_runs": 0,
+      "HTTP_live_cache": "off",
+      "HTTP_RAM_cache_mb": 0,
+      "checkpoint_capture": false
+    },
+    "original_model_runs": 1,
+    "original_model_checks": 15,
+    "observed_reply": "RESTORED",
+    "restored_tokens": 1414,
+    "replayed_tokens": 0,
+    "fresh_sampler": true,
+    "selected_prefix_file_bytes": 163591304,
+    "same_version_complete_offline_backup_and_rollback": true,
+    "three_healthy_databases": true,
+    "historical_external_effects": 0,
+    "different_writer_upgrade_qualified": false,
+    "optional_CodeMode_components_included": false,
+    "current_watch_source_target_qualified": false,
+    "mDNS_enabled": false,
+    "source_models_and_prior_evidence_unchanged": true,
+    "service_restored_and_leases_released": true,
+    "qualified_release_or_installed_alpha": false,
+    "performance_or_task_quality_claim": false,
+    "qualification_sha256": "559c67dac5dbdfd8edcd26188d21009c07d121ba9d87a8b79c909586a323265c"
+  },
+  "private_target_NATIVE_CPU_lifecycle": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "qualification_record_sha256": "6ed8ecd93beb74c47b4b95d73ee963b6148eaf71cf3f3242e3b6ed1f62491c7f",
+    "qualification_documentation_commit": "cb03926acd8c661037991cca7e697e327d6b33b4",
+    "workflows": 2,
+    "workflow_assertions": 46,
+    "assertions_per_workflow": 23,
+    "ASan_UBSan_leak_workflow": true,
+    "intentional_killed_owner_has_no_exit_leak_check": true,
+    "actual_ELFs_not_sanitized": true,
+    "real_Native_ELF_readers": {
+      "previous": {
+        "version": "0.1.0-alpha.1",
+        "sha256": "ee263a5ca805c4408de04d66d92a412a7ccb135b6feddcdf9d9dd3d6bd56e43f",
+        "journal_observed_before_upgrade": 3
+      },
+      "current": {
+        "version": "0.2.0-dev.20261027",
+        "sha256": "b09adfda75d8befdb99f40f0005d623cb828180e36ff5aae36c668da75ebab0c",
+        "journal_max": 7
+      },
+      "use_in_this_test": "Offline public effects reads only. State-changing/model steps use the separately identified CPU synthetic executor from approved source260. Neither real ELF dispatches a model."
+    },
+    "source_journal": 3,
+    "promoted_journal": 7,
+    "CodeMode_schema": 3,
+    "original_effect_rows_preserved": 4,
+    "new_external_commands_each_once": 2,
+    "original_tool_answers": 1,
+    "recorded_results_replayed": 1,
+    "external_effects_replayed": false,
+    "independent_synthetic_prefix_survives_parent_removal": true,
+    "synthetic_restored_tokens": 4,
+    "whole_offline_backup_rollback": true,
+    "later_external_writes_retained": true,
+    "healthy_databases": 26,
+    "all_frozen_source_files_unchanged": 9880,
+    "owned_containers_absent": 7,
+    "original_qualified_state_and_project_unchanged": true,
+    "service_PID_unchanged": true,
+    "new_source_SDK_or_dependency_installation": false,
+    "original_weight_inference": false,
+    "old_model_continued_after_rollback": false,
+    "common_components_extracted_separately_from_approved_archives": true,
+    "Native_base_component_metadata_unchanged": true,
+    "complete_release_or_LA15_qualification": false
+  },
+  "private_target_NATIVE_original_lifecycle": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "qualification_documentation_commit": "ee584d0997cecd6106c2b6cbf969278ba1071ad2",
+    "qualification_record_sha256": "a4eeeadada684912909faf52ae1a1c60d0af364d4b21ce73526bdadeab7388ac",
+    "provider_pin": "f783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "model": {
+      "name": "Qwen3.8 Flash Next UD Q4_K_XL",
+      "revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+      "original_bytes": 111334654784,
+      "shards": 4,
+      "original_files_read_only_and_stat_unchanged": true
+    },
+    "ELFs": {
+      "current": {
+        "version": "0.2.0-dev.20261027",
+        "sha256": "b09adfda75d8befdb99f40f0005d623cb828180e36ff5aae36c668da75ebab0c"
+      },
+      "actual_previous": {
+        "version": "0.1.0-alpha.1",
+        "sha256": "ee263a5ca805c4408de04d66d92a412a7ccb135b6feddcdf9d9dd3d6bd56e43f"
+      }
+    },
+    "profiles": {
+      "current": {
+        "model_id": "agent161-qwen",
+        "context": 16384,
+        "chunk": 2048,
+        "max_tokens": 2048,
+        "max_turns": 4,
+        "MTP": false,
+        "vision": false,
+        "C": 1
+      },
+      "legacy": {
+        "model_id": "agent161-qwen",
+        "context": 8192,
+        "chunk": 2048,
+        "max_tokens": 1024,
+        "max_turns": 4,
+        "MTP": false,
+        "vision": false,
+        "C": 1
+      }
+    },
+    "actual_model_requests": 4,
+    "CodeMode": {
+      "operation": "d1c067240cfc837559717295eef8c91f",
+      "continuation": "dcab01b9fd85bc67ca1ab88b16eca886",
+      "journal": 7,
+      "storage": 3,
+      "recorded_results_replayed": 1,
+      "issued_and_committed_calls": 3,
+      "external_effects_replayed": false,
+      "old_effect_rows_unchanged": 4,
+      "new_effect_rows": 4,
+      "first_and_second_external_commands_each_once": true,
+      "one_original_tool_answer": true,
+      "clock_and_random_value_preserved_across_actual_process_loss": true,
+      "numerical_job_retired_before_VM_dispatch": true,
+      "whole_model_retirement_distinct_from_job_retirement": true,
+      "killed_first_owner_retired_by_own_container_and_verified_empty_KFD": true
+    },
+    "final_C_compile_and_tests_exit_codes": [
+      0,
+      0
+    ],
+    "original_prefix": {
+      "tokens": 5560,
+      "file_bytes": 294225008,
+      "file_sha256": "8d6787aebf99527e17ed315ec0e8f63eeb72d99bcd2833e05d436002af99046a",
+      "explicit_rebind_before_use_of_closed_filesystem_copies": true,
+      "parent_removed_before_child_import": true,
+      "three_private_independent_files": true,
+      "branch_journal": 6,
+      "branch_inherits_effects_CodeMode_intent_or_command_grants": false,
+      "CodeMode_profile_selected_explicitly_for_same_rendered_tool_namespace": true,
+      "no_command_grant_for_branch_model_run": true,
+      "first_input_barrier_before_model": true,
+      "restore_proof": {
+        "source_tokens": 5560,
+        "restored_tokens": 5560,
+        "replayed_tokens": 0,
+        "restore_ns": 17442577,
+        "fresh_sampler": true
+      },
+      "restore_proof_timing_not_a_performance_comparison": true,
+      "future_capture_disabled_for_import": true
+    },
+    "actual_previous_writer": {
+      "old_journal": 3,
+      "candidate_journal": 7,
+      "actual_old_reader_refuses_promoted_state": true,
+      "complete_offline_backup_restored_byte_for_byte_before_reader": true,
+      "actual_old_ELF_runs_original_model_after_rollback": true,
+      "old_model_reply_marker": "ROLLEDBACK",
+      "old_model_has_no_tool_calls_or_repeated_effects": true,
+      "later_external_project_writes_retained": true,
+      "original_backup_still_unchanged": true,
+      "remaining_databases_healthy": 13,
+      "not_a_product_backup_API_or_schema_downgrade": true
+    },
+    "cost": {
+      "actual_model_requests": 4,
+      "prompt_tokens_sum": 17311,
+      "completion_tokens_sum": 2092,
+      "reasoning_tokens_sum": 1723,
+      "cached_tokens_sum": 5560,
+      "first_and_continued_model_responses_not_regenerated_after_recipe_failures": true
+    },
+    "model_calls": [
+      {
+        "phase": "first",
+        "actual_model_requests": 1,
+        "usage": {
+          "prompt_tokens": 3072,
+          "completion_tokens": 1763,
+          "reasoning_tokens": 1586,
+          "cached_tokens": 0,
+          "live_cached_tokens": 0,
+          "ssd_cached_tokens": 0,
+          "count_provenance": "lie_core_observation",
+          "purpose": "agent"
+        },
+        "visible_marker": null,
+        "extra_visible_output": false,
+        "actual_original_provider": true
+      },
+      {
+        "phase": "continue",
+        "actual_model_requests": 1,
+        "usage": {
+          "prompt_tokens": 5560,
+          "completion_tokens": 269,
+          "reasoning_tokens": 86,
+          "cached_tokens": 0,
+          "live_cached_tokens": 0,
+          "ssd_cached_tokens": 0,
+          "count_provenance": "lie_core_observation",
+          "purpose": "agent"
+        },
+        "visible_marker": "DONE",
+        "extra_visible_output": true,
+        "actual_original_provider": true
+      },
+      {
+        "phase": "branch",
+        "actual_model_requests": 1,
+        "usage": {
+          "prompt_tokens": 5850,
+          "completion_tokens": 34,
+          "reasoning_tokens": 30,
+          "cached_tokens": 5560,
+          "live_cached_tokens": 0,
+          "ssd_cached_tokens": 0,
+          "checkpoint_restore": {
+            "source_tokens": 5560,
+            "restored_tokens": 5560,
+            "replayed_tokens": 0,
+            "restore_ns": 17442577,
+            "fresh_sampler": true
+          },
+          "count_provenance": "lie_core_observation",
+          "purpose": "agent"
+        },
+        "visible_marker": "BRANCHED",
+        "extra_visible_output": false,
+        "actual_original_provider": true
+      },
+      {
+        "phase": "legacy",
+        "actual_model_requests": 1,
+        "usage": {
+          "prompt_tokens": 2829,
+          "completion_tokens": 26,
+          "reasoning_tokens": 21,
+          "cached_tokens": 0,
+          "live_cached_tokens": 0,
+          "ssd_cached_tokens": 0,
+          "count_provenance": "lie_core_observation",
+          "purpose": "agent"
+        },
+        "visible_marker": "ROLLEDBACK",
+        "extra_visible_output": false,
+        "actual_original_provider": true
+      }
+    ],
+    "all_source_files_unchanged": 9880,
+    "original_model_files_unchanged": 4,
+    "healthy_databases": 13,
+    "independent_private_numerical_files": 3,
+    "owned_containers_removed": 8,
+    "coordinators_retired": 3,
+    "service_restored_and_existing_leases_reacquired_then_released": true,
+    "original_legacy_session_project_and_installed_alpha_unchanged": true,
+    "old_failed_window_statuses_preserved": [
+      1,
+      1
+    ],
+    "final_window_exit_code": 0,
+    "shared_optional_VM_data_separate_from_base_archive_manifest": true,
+    "same_owner_tmux_original_model_qualified": false,
+    "GPU_mid_kernel_fault_qualified": false,
+    "current_watch_source_target_qualified": false,
+    "performance_or_general_model_quality_claim": false,
+    "release_or_roadmap_complete": false
+  }
+}
