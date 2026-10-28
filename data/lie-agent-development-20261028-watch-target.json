@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "product": "lie-agent",
+  "date": "2026-10-28",
+  "status": "private_development_CPU_and_scoped_physical_LAN_qualified_not_released",
+  "version": "0.2.0-dev.20261027",
+  "source_commit": "a12cd5b485886524928f15a77dfbc59483b5a11c",
+  "qualification_record_sha256": "ab6241254c88d94c4f1da8a4da5230e860578655f29838445ca4bcafbed5c2fd",
+  "inference_backend_selection": "compile-time REMOTE or NATIVE",
+  "numerical_provider_in_these_builds": false,
+  "model_qualification_added": false,
+  "SDK": {
+    "name": "libsynapse-mdns",
+    "commit": "57808d0de5291ab514a821becf62b2c1341e28ef",
+    "API": "1.1",
+    "target_CFLAGS": "-fPIE",
+    "strict_GCC_shared_static_staged_C_Cxx_ABI": true,
+    "no_DSO_RPATH_or_RUNPATH": true,
+    "target_SDK_sanitizer_instrumented": false,
+    "local_test_portability_fix": {
+      "local_commit": "9802bae5fa7ae19c14ff20aeb7bb10b4280ae5be",
+      "implementation_API_ABI_unchanged": true,
+      "local_GCC_Clang_regression_full_GCC_and_SAN_pass": true,
+      "new_fix_source_transferred_to_target": false
+    }
+  },
+  "CPU_target": {
+    "platform": "private Linux x86-64",
+    "tests": {
+      "GCC_Release": {
+        "remote": 5,
+        "native": 6
+      },
+      "Clang_ASan_UBSan_LSan": {
+        "remote": 5,
+        "native": 6
+      }
+    },
+    "consumer_ASan_UBSan_LSan_runtime_symbols_verified": true
+  },
+  "physical_LAN": {
+    "directions": 2,
+    "same_watch_in_place_TXT_update_then_remove": true,
+    "actual_C_REMOTE_NATIVE_and_LIE_publishers": true,
+    "remove_reappear_new_port_remove": true,
+    "stable_service_keys_distinct_endpoint_IDs_and_one_epoch": true,
+    "addresses_verified_against_kernel_interfaces": true,
+    "query_transport_and_address_family_are_distinct": true,
+    "local_sanitized_observer_and_CPU_fixture_publisher": true,
+    "no_sessions_or_inference_connection_changes": true,
+    "no_model_requests": true,
+    "identity_connection_readiness_not_established_by_announcements": true,
+    "all_physical_links_or_IPv6_TCP_dialability_qualified": false
+  },
+  "postflight": {
+    "owned_containers_retired": 32,
+    "owned_coordinators_retired": 12,
+    "source_files_verified": [
+      9880,
+      9895,
+      29
+    ],
+    "services_and_PIDs_unchanged": true,
+    "original_models_GPU_or_installed_alpha_changed": false
+  },
+  "failures_preserved": [
+    "SDK test objects default non-PIE",
+    "recipe DSO RPATH rejected by ABI",
+    "global pkg-config define-prefix relocates Avahi incorrectly",
+    "local r3 recipe preparation assertion",
+    "first product LAN oracle assumes only IPv4; actual peer IPv6 valid"
+  ],
+  "remaining": [
+    "native ARM64 for changed SDK",
+    "current numerical-provider packages and optional-component lifecycle",
+    "authorized source integration and distribution"
+  ],
+  "earlier_original_model_lifecycle_record": "lie-agent-development-20261028-original-lifecycle.json",
+  "source_code_raw_evidence_models_or_packages_published": false
+}
