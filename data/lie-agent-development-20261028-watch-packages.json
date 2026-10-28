@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "product": "lie-agent",
+  "version": "0.2.0-dev.20261027",
+  "status": "current_local_archives_CPU_qualified_not_installed_target_and_model_scope_separate",
+  "backend_selection": "compile-time REMOTE or NATIVE",
+  "local_watch": {
+    "source_commit": "51b0a5382f1beaa2df7bf05e072f0686d7f279e2",
+    "SDK_commit": "57808d0de5291ab514a821becf62b2c1341e28ef",
+    "API_major": 1,
+    "watch_namespace": "SYNAPSE_MDNS_1.1",
+    "focused_CTests_passed": 39,
+    "included_ASan_UBSan_passed": 17,
+    "composed_CTests_normal": 18,
+    "composed_CTests_ASan_UBSan": 18,
+    "leak_detection": true,
+    "implicit_connection_selection": false
+  },
+  "private_target_CPU": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "architecture": "Linux x86_64",
+    "normal_CTests": 60,
+    "Clang_ASan_UBSan_CTests": 17,
+    "leak_detection": true,
+    "qualifications": [
+      "authenticated C17 HTTP/2 and Protobuf control",
+      "foreground/tmux application presence, explicit reconnect and inventory",
+      "ALIGNED/KVC checkpoint transfer, import and synthetic restore",
+      "ownership, quotas and retirement"
+    ],
+    "mDNS_enabled": false,
+    "numerical_provider": false,
+    "qualification_sha256": "5d5bfdcba778f01992943b38d18546776bf8d6d29a3b577906da07c37e30d78c"
+  },
+  "private_target_REMOTE_archives": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "variants": [
+      "GCC Release",
+      "Clang ASan/UBSan with leak checking"
+    ],
+    "source_product_CTests_per_variant": 4,
+    "exact_component_archives": 6,
+    "exact_archive_workflows": 8,
+    "archive_workflow_cases": 112,
+    "packaged_VM_host_and_runtime": true,
+    "qualifications": [
+      "recorded CodeMode continuation without historical-effect replay",
+      "foreground and same-owner tmux",
+      "controlled HTTP restore with synthetic ALIGNED/KVC state",
+      "independent descendants surviving ancestor removal"
+    ],
+    "mDNS_enabled": false,
+    "numerical_provider": false,
+    "NATIVE_product_package_qualified": false,
+    "target_upgrade_rollback_qualified": true,
+    "qualification_sha256": "c4ef7857a84fec7c503bed9cd864dab1791adaca67244e43d45818c7a359c284"
+  },
+  "real_Avahi": {
+    "local_in_place_TXT_update_and_removal": true,
+    "local_REMOTE_and_NATIVE_product_remove_reappear": true,
+    "first_physical_direction": "existing target publisher to new local SDK observers",
+    "normal_and_sanitized_observers": true,
+    "new_SDK_execution_on_target": false,
+    "cross_host_in_place_TXT_update": false,
+    "full_bidirectional_LAN_qualified": false,
+    "changed_SDK_ARM64_qualified": false
+  },
+  "remaining": [
+    "new watch/SDK target build and full physical LAN qualification",
+    "changed-SDK native ARM64 matrix",
+    "current-source target archive qualification, including numerical NATIVE package lifecycle",
+    "authorized current-source integration and distribution"
+  ],
+  "model_qualification_added": false,
+  "installed_alpha_changed": false,
+  "performance_claim": false,
+  "MCP_server_in_scope": false,
+  "private_target_CPU_upgrade_rollback": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "previous_writer_commit": "ac26e39f0faeaf3642b67daf0e112c2c0a5e9440",
+    "exact_archives": 6,
+    "workflows": 4,
+    "cases": 52,
+    "codecs": [
+      "ALIGNED",
+      "KVC"
+    ],
+    "variants": [
+      "Release",
+      "Clang ASan/UBSan with leak checking"
+    ],
+    "complete_offline_backup": true,
+    "old_writer_refuses_new_payload": true,
+    "whole_backup_rollback": true,
+    "replayed_historical_commands": 0,
+    "databases_per_workflow": 4,
+    "owned_external_commands_per_workflow": 1,
+    "runtime_test_closure": "Existing host curl8.5 DSOs with image OpenSSL3.5.8/nghttp2 1.66/glibc; no dependency installation",
+    "test_dependency_closure_qualified_separately": true,
+    "product_backup_API_added": false,
+    "original_weight_inference": false,
+    "qualification_sha256": "d91749cfc40bb9859a77c8aa805634e0028246f5bc8e23cd85cda318d946a0f1"
+  },
+  "model_catalog_changed": false,
+  "original_model_prefix_restore": {
+    "source_commit": "2600833b4c374b7a0dd7366eb45f7280e65c7fbc",
+    "model": "Qwen3.8 Flash Next UD Q4_K_XL",
+    "model_revision": "38bb39ee97821de2c9009abb7e93950eec396e66",
+    "numerical_provider": "Transitional in-process Gufo HIP adapter atf783fedb9bea2ec7de941f6da4e02f4a4596b29e",
+    "profile": {
+      "model_id": "agent161-qwen",
+      "context": 16384,
+      "chunk": 2048,
+      "max_tokens": 1024,
+      "MTP": false,
+      "vision": false,
+      "C": 1,
+      "max_turns": 4,
+      "native_runs": 3,
+      "HTTP_runs": 4,
+      "HTTP_live_cache": "off",
+      "HTTP_RAM_cache_mb": 0
+    },
+    "NATIVE_model_runs": 3,
+    "HTTP_model_runs": 4,
+    "NATIVE_checks": 11,
+    "HTTP_checks": 13,
+    "restored_tokens_each": 1414,
+    "replayed_tokens_each": 0,
+    "fresh_sampler": true,
+    "independent_child_file_bytes_each": 163591304,
+    "parent_removal_survives": true,
+    "selection_starts_model": false,
+    "following_input_repeats_restore": false,
+    "HTTP_tmpfs_MiB": 1536,
+    "workspace_quota_GiB": 4,
+    "capture_limit_GiB": 1,
+    "source_and_models_unchanged": true,
+    "service_restored_and_leases_released": true,
+    "qualified_packages": false,
+    "new_watch_or_TMPDIR_fix_included": false,
+    "performance_or_task_quality_qualified": false,
+    "qualification_sha256": "dfadb6507f060d9b92c831fe8f668ab541b08a8c7ec883781489219118889a89"
+  },
+  "local_HTTP_TMPDIR_fix": {
+    "source_commit": "632b008ae922d30291f74254c6960503ab63e8ac",
+    "unset_or_empty": "/tmp",
+    "explicit_unavailable_path": "Capture fails without filesystem fallback or numerical publication; remote retirement remains confirmed",
+    "temporary_file": "Anonymous O_TMPFILE0600",
+    "focused_CTests_normal": 3,
+    "focused_CTests_ASan_UBSan_leaks": 3,
+    "directory_cases_per_build": 5,
+    "target_qualified": false,
+    "qualification_sha256": "83264a02919a9680a1a3a9901a6c48d46dfb9571cf6b539e17850a118bd914da"
+  },
+  "local_current_archives_CPU": {
+    "REMOTE_source_commit": "1f65abdb29590d07b1d2a339f821ce88e697afa7",
+    "NATIVE_consumer_commit": "0260cdeaa75165d22071b3bda0c377cec69591a4",
+    "SDK_commit": "57808d0de5291ab514a821becf62b2c1341e28ef",
+    "components_per_variant": 3,
+    "variants": [
+      "REMOTE Clang Release",
+      "REMOTE Clang ASan/UBSan/leaks",
+      "NATIVE GCC Release without numerical provider",
+      "NATIVE Clang ASan/UBSan/leaks without numerical provider"
+    ],
+    "exact_archives": 12,
+    "REMOTE_logical_and_HTTP_composition_cases": 112,
+    "REMOTE_packaged_TMPDIR_cases": 10,
+    "REMOTE_general_plugin_CodeMode_tmux_consumers": 2,
+    "NATIVE_exact_archive_consumers": 2,
+    "NATIVE_focused_CTests": 4,
+    "external_shared_SDK_required_namespace": "SYNAPSE_MDNS_1.1",
+    "SDK_shared_library_instrumented_by_agent_build": false,
+    "independent_SDK_sanitizer_qualification_separate": true,
+    "NATIVE_checks": "Relocation, CLI/child identity, notices, optional component configuration and unavailable-provider refusal",
+    "NATIVE_original_model_or_upgrade_lifecycle_qualified": false,
+    "target_execution": false,
+    "qualification_sha256": "26e9f83266c038bbc3f738b5326184bde516f82f805c9390579283b97e344702"
+  }
+}
