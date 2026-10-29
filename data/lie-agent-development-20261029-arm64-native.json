@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "date": "2026-10-29",
+  "product": "libsynapse-mdns continuous-watch SDK dependency",
+  "status": "native_ARM64_CPU_SDK_qualified_physical_LAN_pending",
+  "SDK_commit": "9802bae5fa7ae19c14ff20aeb7bb10b4280ae5be",
+  "qualification_record_sha256": "2eb19fd085977de2e839d5945e8ad3b079abd057175a551008b619a38de1e818",
+  "platform": "NVIDIA DGX Spark, Linux AArch64 little-endian LP64",
+  "API_ABI_major": 1,
+  "SONAME": "libsynapse-mdns.so.1",
+  "versioned_exports": 12,
+  "toolchains": [
+    "GCC 13.3.0",
+    "Clang 18.1.3"
+  ],
+  "commands_passed": 10,
+  "variants": {
+    "gcc": {
+      "libsynapse-mdns.so.1.1.0": {
+        "bytes": 141720,
+        "sha256": "04504de360df64b778b28f7e16ced5cbb8445fcfc2f7b4a7096210d9a8644e8f"
+      },
+      "libsynapse-mdns.a": {
+        "bytes": 173550,
+        "sha256": "f86110c21ffc1440b570db5d641c5464289ac33bb19b50a5508cdaf2b92282c9"
+      },
+      "public-api": {
+        "bytes": 80320,
+        "sha256": "e79ae056d7c2aad5b470a1eac72a9751a829e593e07409e183485d79d784d2f6"
+      },
+      "public-api-static": {
+        "bytes": 149208,
+        "sha256": "e75c56f505a2d34ae59c2a9290e232fce74fc2e128dda8bc70a88b92172fc3f1"
+      },
+      "mdns-fixture": {
+        "bytes": 186672,
+        "sha256": "2b1d4014770405ac3e93173e9f4f98261fa84cefa77e7960923e8974bb2a3aaf"
+      }
+    },
+    "clang": {
+      "libsynapse-mdns.so.1.1.0": {
+        "bytes": 112304,
+        "sha256": "16240e3e2d33ac5ee029a0cf96a0e9bfba6589760941351584833b04c094380e"
+      },
+      "libsynapse-mdns.a": {
+        "bytes": 95102,
+        "sha256": "f30756d4a20253670cfcdc116829468a194655ae556f5f63d6bfe411ea768227"
+      },
+      "public-api": {
+        "bytes": 79536,
+        "sha256": "26b213c075c3fa35b6af986526a88444eb718c5fe9a91f886255efee655de20b"
+      },
+      "public-api-static": {
+        "bytes": 118768,
+        "sha256": "cf84660e295dcf50e7d40eb6f53d4c1e6885c99990699e0aa5769223c5d5f253"
+      },
+      "mdns-fixture": {
+        "bytes": 151624,
+        "sha256": "c95a14a4e7f129ab57340eb2f186e8533453e740a538c3449f46d6b06a3de04a"
+      }
+    },
+    "san": {
+      "libsynapse-mdns.so.1.1.0": {
+        "bytes": 364752,
+        "sha256": "c203e2dd13b517c92bdd0d7f69de3e03f829d4aaf9dc3677884dbfb88af0ce04"
+      },
+      "libsynapse-mdns.a": {
+        "bytes": 440502,
+        "sha256": "7c88d49d129895ed36a30ade298eaf2661d851fb005467eddfae000300263abe"
+      },
+      "public-api": {
+        "bytes": 95504,
+        "sha256": "f084f935e532d189fe79996aeccf03df7d0a57d0c5174cf6ff23c9de2a0bd20f"
+      },
+      "public-api-static": {
+        "bytes": 386424,
+        "sha256": "6d6a79a111eb4a8e6ba83675dfcca50455c805c29bbc3204c1e946fda92c5434"
+      },
+      "mdns-fixture": {
+        "bytes": 550360,
+        "sha256": "51e11dd559a59aa26b9ca181434e014d723dc58f6fce6f433a0b880844f2c4ac"
+      }
+    },
+    "repro": {
+      "libsynapse-mdns.so.1.1.0": {
+        "bytes": 141720,
+        "sha256": "04504de360df64b778b28f7e16ced5cbb8445fcfc2f7b4a7096210d9a8644e8f"
+      },
+      "libsynapse-mdns.a": {
+        "bytes": 173550,
+        "sha256": "f86110c21ffc1440b570db5d641c5464289ac33bb19b50a5508cdaf2b92282c9"
+      }
+    }
+  },
+  "checks": {
+    "strict_GCC_Clang_mock_shared_static_staged_C_CXX": true,
+    "three_native_DGX_artifact_execution_gates": true,
+    "sanitized_producer_and_callers_ASan_UBSan_leaks_enabled": true,
+    "ABI12_exports_SONAME_API1_and_hardening": true,
+    "production_DSO_no_RPATH_RUNPATH": true,
+    "GCC_analyzer_and_genuine_Clang_scan_build": true,
+    "independent_shared_static_reproducibility": true,
+    "private_DESTDIR_installation_only": true,
+    "source_identity_preserved": true,
+    "owned_test_processes_absent": true
+  },
+  "normal_shared_and_static_rebuild_byte_identical": true,
+  "ASan_UBSan_producer_and_callers_leak_checking_enabled": true,
+  "GCC_analyzer_and_genuine_scan_build": true,
+  "matching_official_development_packages_privately_extracted_only": true,
+  "existing_Avahi_and_system_package_state_unchanged": true,
+  "source_files_intact": 30,
+  "owned_test_processes_remaining": 0,
+  "source_code_private_evidence_models_or_packages_published": false,
+  "source_merge_package_release_or_live_installation": false,
+  "installed_private_alpha_changed": false,
+  "general_Armv8_ISA_baseline_LIE_engine_or_model_qualification": false,
+  "remaining": [
+    "Finite physical ARM64-x86 LAN watch/TXT/withdrawal pilot",
+    "Authorized SDK and LIE source integration and distribution acceptance"
+  ]
+}
